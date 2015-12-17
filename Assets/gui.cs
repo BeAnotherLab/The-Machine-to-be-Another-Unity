@@ -11,7 +11,7 @@ public class gui : MonoBehaviour {
 	private float pitch_offset, yaw_offset;
 	private int camera_orientation;	
 	private int camera_id;
-	private
+
 
 	// Use this for initialization
 	void Start () {
@@ -38,9 +38,7 @@ public class gui : MonoBehaviour {
 	public void setCameraID(int id) {
 	}
 
-	public void setCameraOrientation(){
-	
-	}
+
 
 	public void setPitchOffset() {
 	}

@@ -6,6 +6,9 @@ public class webcam : MonoBehaviour {
 	public MeshRenderer[] UseWebcamTexture;
 	WebCamTexture camTex;
 
+	public Quaternion baseRotation;
+	public float tiltAngle;
+
 	// Use this for initialization
 	void Start () {
 		WebCamDevice[] devices = WebCamTexture.devices;
@@ -24,10 +27,16 @@ public class webcam : MonoBehaviour {
 			Debug.Log("hi");
 		}		
 
+		baseRotation = transform.rotation;
+		tiltAngle = 0;
 	}
-	
+
+	public void setCameraOrientation(){
+		tiltAngle += 90;
+	}				
+
 	// Update is called once per frame
-	void Update () {
-	
+	void Update () {		
+		transform.rotation = Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis(camTex.videoRotationAngle, Vector3.up);
 	}
 }
