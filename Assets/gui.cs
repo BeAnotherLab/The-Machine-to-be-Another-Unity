@@ -32,9 +32,7 @@ public class gui : MonoBehaviour {
 	public void setCameraID(int id) {
 	}
 
-	public void setCameraOrientation(){
-	
-	}
+
 
 	public void setPitchOffset() {
 	}
