@@ -3,15 +3,13 @@ using System.Collections;
 
 public class gui : MonoBehaviour {
 	
-	public GameObject panel;
+	public GameObject panel, webCamDisplay;
 	private bool monitorGUIEnabled, oculusGUIEnabled;
-	private float dimLevel;
-	private bool dimmed;
 	private int zoom;
 	private float pitch_offset, yaw_offset;
 	private int camera_orientation;	
 	private int camera_id;
-	private
+
 
 	// Use this for initialization
 	void Start () {
@@ -22,12 +20,8 @@ public class gui : MonoBehaviour {
 		monitorGUIEnabled = !monitorGUIEnabled;
 	}
 
-	public void setDimLevel() {		
-	}
 
-	public void setDimmed() {
-		
-	}
+
 
 	public void setZoom() {
 	}
@@ -57,7 +51,7 @@ public class gui : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		panel.SetActive (monitorGUIEnabled);
-
 	}
 
 }
+ 
