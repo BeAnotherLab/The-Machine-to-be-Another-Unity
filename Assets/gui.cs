@@ -18,21 +18,13 @@ public class gui : MonoBehaviour {
 
 	public void setMonitorGUIEnabled() {
 		monitorGUIEnabled = !monitorGUIEnabled;
-	}
-
-
-
-
-	public void setZoom() {
-	}
+	}		
 
 	public void centerYaw()  {
 	}
 
 	public void setCameraID(int id) {
-	}
-
-
+	}		
 
 	public void setPitchOffset() {
 	}

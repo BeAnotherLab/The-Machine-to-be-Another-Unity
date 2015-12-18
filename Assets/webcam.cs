@@ -9,17 +9,15 @@ public class webcam : MonoBehaviour {
 	private float dimLevel;
 	private bool dimmed;
 	private float dimRate = 0.008f;
-
+	public float zoom = 1;
 	public Quaternion baseRotation;
-	public float tiltAngle;
+	public float tiltAngle = 0;
 
 	// Use this for initialization
 	void Start () {
 		WebCamDevice[] devices = WebCamTexture.devices;
 
-
-	//Debug.Log("Device:" + devices[i].name + " | IS FRONT FACING:" + devices[i].isFrontFacing);
-
+		//Debug.Log("Device:" + devices[i].name + " | IS FRONT FACING:" + devices[i].isFrontFacing);
 
 		camTex = new WebCamTexture(devices[0].name, 10000, 10000, 60);
 		camTex.requestedWidth = 1280;
@@ -30,7 +28,7 @@ public class webcam : MonoBehaviour {
 		UseWebcamTexture.material.shader = Shader.Find ("Sprites/Default");
 
 		baseRotation = transform.rotation;
-		tiltAngle = 0;
+
 	}
 
 	public void setDimmed() {		
@@ -48,10 +46,15 @@ public class webcam : MonoBehaviour {
 	public void setCameraOrientation(){
 		tiltAngle += 90;
 	}				
+		
+	public void setZoom(float value) {
+		zoom = value;
+	}
 
 	// Update is called once per frame
 	void Update () {		
 		transform.rotation = Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis(camTex.videoRotationAngle, Vector3.up);
-		setDimLevel
+		transform.localScale = new Vector3 ((zoom+0.15f)*20, (zoom+0.15f)*20, 0);
+		setDimLevel ();
 	}
 }
