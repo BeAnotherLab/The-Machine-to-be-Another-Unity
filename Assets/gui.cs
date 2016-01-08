@@ -23,9 +23,6 @@ public class gui : MonoBehaviour {
 	public void centerYaw()  {
 	}
 
-	public void setCameraID(int id) {
-	}		
-
 	public void setPitchOffset() {
 	}
 
