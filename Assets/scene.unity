@@ -1807,10 +1807,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1481678849}
   m_HandleRect: {fileID: 1309329709}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: 0.25
+  m_MaxValue: 2
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.25
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -2168,9 +2168,9 @@ Canvas:
   m_GameObject: {fileID: 940146113}
   m_Enabled: 1
   serializedVersion: 2
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 1116724790}
+  m_PlaneDistance: 8
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -2596,7 +2596,7 @@ GameObject:
   - 23: {fileID: 1035839689}
   - 114: {fileID: 1035839688}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Point of View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2614,7 +2614,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseWebcamTexture: {fileID: 1035839689}
-  zoom: 1
+  POVCamera: {fileID: 1116724790}
+  zoom: 1.33
   baseRotation: {x: 0, y: 0, z: 0, w: 0}
   tiltAngle: 0
 --- !u!23 &1035839689
@@ -2669,8 +2670,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1035839687}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 574, y: 267, z: 928}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalPosition: {x: 574, y: 267, z: -1.8999996}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3

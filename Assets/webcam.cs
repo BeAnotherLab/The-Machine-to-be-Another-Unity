@@ -4,6 +4,7 @@ using System.Collections;
 public class webcam : MonoBehaviour {
 
 	public MeshRenderer UseWebcamTexture;
+	public Camera POVCamera;
 	private Shader shader;
 	private WebCamTexture camTex;
 	private float dimLevel;
@@ -17,13 +18,8 @@ public class webcam : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//Debug.Log("Device:" + devices[i].name + " | IS FRONT FACING:" + devices[i].isFrontFacing);
-
 		setCameraID (cameraID);
-
-
-
 		baseRotation = transform.rotation;
-
 	}
 
 	public void setDimmed() {		
@@ -62,7 +58,9 @@ public class webcam : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {		
-		transform.rotation = Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis(camTex.videoRotationAngle, Vector3.up);
+		transform.position = POVCamera.transform.position + POVCamera.transform.forward * 15;
+		//transform.rotation = Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis(camTex.videoRotationAngle, Vector3.up);
+		transform.rotation = POVCamera.transform.rotation;
 		transform.localScale = new Vector3 ((zoom+0.15f)*20, (zoom+0.15f)*20, 0);
 		setDimLevel ();
 	}
