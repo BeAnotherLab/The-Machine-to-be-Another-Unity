@@ -59,8 +59,8 @@ public class webcam : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {		
 		transform.position = POVCamera.transform.position + POVCamera.transform.forward * 15;
-		//transform.rotation = Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis(camTex.videoRotationAngle, Vector3.up);
 		transform.rotation = POVCamera.transform.rotation;
+		transform.rotation *= Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis(camTex.videoRotationAngle, Vector3.up);
 		transform.localScale = new Vector3 ((zoom+0.15f)*20, (zoom+0.15f)*20, 0);
 		setDimLevel ();
 	}
