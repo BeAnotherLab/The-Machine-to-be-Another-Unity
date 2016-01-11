@@ -14,11 +14,13 @@ public class webcam : MonoBehaviour {
 	private float zoom = 18;
 	private int cameraID = 0;
 	private float tiltAngle = 0;
-
+	public float width, height; 
 	// Use this for initialization
 	void Start () {
 		//Debug.Log("Device:" + devices[i].name + " | IS FRONT FACING:" + devices[i].isFrontFacing);
 		setCameraID (cameraID);
+		width = 1920;
+		height = 1080;
 	}
 
 	public void setDimmed() {		
@@ -46,9 +48,9 @@ public class webcam : MonoBehaviour {
 		WebCamDevice[] devices = WebCamTexture.devices;
 		//cameraID = id;
 		if (devices.Length >= id - 1) {
-			camTex = new WebCamTexture (devices [id].name, 10000, 10000, 60);
-			camTex.requestedWidth = 1280;
-			camTex.requestedHeight = 1024;
+			camTex = new WebCamTexture (devices [id].name, (int) width, (int) height, 60);
+			camTex.requestedWidth = (int) width;
+			camTex.requestedHeight = (int) height;
 			UseWebcamTexture.material.mainTexture = camTex;
 			UseWebcamTexture.material.shader = Shader.Find ("Sprites/Default");
 			camTex.Play ();
@@ -60,7 +62,7 @@ public class webcam : MonoBehaviour {
 		transform.position = POVCamera.transform.position + POVCamera.transform.forward * 15;
 		transform.rotation = POVCamera.transform.rotation; //keep webcam feed in front of head
 		transform.rotation *= Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis(camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation
-		transform.localScale = new Vector3 (zoom, zoom, 0);
+		transform.localScale = new Vector3 (width/height*zoom, height/width*zoom, 0);
 		setDimLevel ();
 	}
 }
