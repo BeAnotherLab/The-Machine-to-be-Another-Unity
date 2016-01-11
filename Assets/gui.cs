@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class gui : MonoBehaviour {
 	
-	public GameObject panel, webCamDisplay;
+	public GameObject panel, webCamDisplay, mainCamera;
 	private bool monitorGUIEnabled, oculusGUIEnabled;
 	private int zoom;
 	private float pitch_offset, yaw_offset;
+	private float pitch, yaw;
 	private int camera_orientation;	
 	private int camera_id;
-
+	public Slider pitchSlider, yawSlider, rollSlider, zoomSlider;
 
 	// Use this for initialization
 	void Start () {
@@ -27,17 +29,14 @@ public class gui : MonoBehaviour {
 	}
 
 	public void setYawOffset() {
-	}
-
-	public void setPitch(){
-	}
-
-	public void setYaw() {
-	}
+	}		
 
 	// Update is called once per frame
 	void Update () {
 		panel.SetActive (monitorGUIEnabled);
+		pitchSlider.value = mainCamera.transform.eulerAngles.x;
+		yawSlider.value = mainCamera.transform.eulerAngles.y;
+		rollSlider.value = mainCamera.transform.eulerAngles.z; 		
 	}
 
 }

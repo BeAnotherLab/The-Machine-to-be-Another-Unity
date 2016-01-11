@@ -17,23 +17,20 @@ public class arduinoControl : MonoBehaviour {
 
 	private SerialPort stream;
 
-	void OnGUI() {
-		if (GUI.Button (new Rect (10, 10, 150, 40), "Pitch 0"))
-			WriteToArduino ("Pitch 0");
-		if (GUI.Button (new Rect (10, 60, 150, 40), "Yaw 0"))
-			WriteToArduino ("Yaw 0");
-		if (GUI.Button (new Rect (10, 110, 150, 40), "Pitch 180"))
-			WriteToArduino ("Pitch 180");
-		if (GUI.Button (new Rect (10, 160, 150, 40), "Yaw 180"))
-			WriteToArduino ("Yaw 180");
-	}
-
 	public void Open () {
 		// Opens the serial port
 		stream = new SerialPort(port, baudrate);
 		stream.ReadTimeout = 50;
 		stream.Open();
 		//this.stream.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
+	}
+
+	public void setPitch(float value){
+		WriteToArduino("Pitch " + value);
+	}
+
+	public void setYaw(float value) {
+		WriteToArduino("Yaw " + value);
 	}
 
 	public void WriteToArduino(string message)

@@ -11,7 +11,7 @@ public class webcam : MonoBehaviour {
 	private	bool dimmed = false;
 	private float dimRate = 0.08f;
 	public float range = 20;
-	private float zoom = 18;
+	public float zoom = 18;
 	private int cameraID = 0;
 	private float tiltAngle = 0;
 	public float width, height; 
@@ -42,8 +42,8 @@ public class webcam : MonoBehaviour {
 		
 	public void setZoom(float value) {
 		zoom = value;
-	}
-		
+	}		
+
 	public void setCameraID(int id) {
 		WebCamDevice[] devices = WebCamTexture.devices;
 		//cameraID = id;
