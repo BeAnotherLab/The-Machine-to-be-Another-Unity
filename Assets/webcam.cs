@@ -10,7 +10,8 @@ public class webcam : MonoBehaviour {
 	private float dimLevel = 1;
 	private	bool dimmed = false;
 	private float dimRate = 0.08f;
-	private float zoom = 1;
+	public float range = 20;
+	private float zoom = 18;
 	private int cameraID = 0;
 	private float tiltAngle = 0;
 
@@ -29,9 +30,8 @@ public class webcam : MonoBehaviour {
 		if (dimmed) next = 1;
 		else next = 0;
 		dimLevel += dimRate * (next - dimLevel);	
-		Color c = new Color (dimLevel*255, dimLevel*255, dimLevel*255);
-		c = UseWebcamTexture.material.GetColor ("Tint");
-		UseWebcamTexture.material.SetColor("Tint", c);
+		Color c = new Color (dimLevel*range, dimLevel*range, dimLevel*range);
+		UseWebcamTexture.material.SetColor("_Color", c);
 	}
 
 	public void setCameraOrientation(){

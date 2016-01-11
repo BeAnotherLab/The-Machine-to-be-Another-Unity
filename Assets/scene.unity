@@ -1807,10 +1807,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1481678849}
   m_HandleRect: {fileID: 1309329709}
   m_Direction: 0
-  m_MinValue: 0.25
-  m_MaxValue: 2
+  m_MinValue: 5
+  m_MaxValue: 50
   m_WholeNumbers: 0
-  m_Value: 0.25
+  m_Value: 5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -2615,9 +2615,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UseWebcamTexture: {fileID: 1035839689}
   POVCamera: {fileID: 1116724790}
-  zoom: 1.33
-  baseRotation: {x: 0, y: 0, z: 0, w: 0}
-  tiltAngle: 0
+  range: 1
 --- !u!23 &1035839689
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2628,7 +2626,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a85415d5604e6f34197ea4b771647250, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
