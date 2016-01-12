@@ -13,7 +13,7 @@ public class arduinoControl : MonoBehaviour {
 	public string port = "COM3";
 	/* The baudrate of the serial port. */
 	[Tooltip("The baudrate of the serial port")]
-	public int baudrate = 9600;
+	public int baudrate = 57600;
 
 	private SerialPort stream;
 
@@ -102,6 +102,6 @@ public class arduinoControl : MonoBehaviour {
 	}
 
 	void Update() {
-		
+			
 	}
 }

@@ -9,7 +9,7 @@ Servo yawServo, pitchServo;  // create servo objects
 SerialCommand SCmd;   // The demo SerialCommand object
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(57600);
   while (!Serial);
 
   yawServo.attach(5);  
@@ -26,7 +26,6 @@ void loop () {
   if (Serial.available() > 0)  SCmd.readSerial();   // We don't do much, just process serial commands
 }
 
-
 void pitchCommand() {
   servoCommand(pitchServo); 
    Serial.println("We're in pitchCommand");  
@@ -41,7 +40,6 @@ void servoCommand(Servo servo)
   int aNumber;  
   char *arg; 
 
-  Serial.println("We're in process_command"); 
   arg = SCmd.next(); 
   if (arg != NULL) 
   {
