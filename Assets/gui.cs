@@ -34,9 +34,9 @@ public class gui : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		panel.SetActive (monitorGUIEnabled);
-		pitchSlider.value = mainCamera.transform.eulerAngles.x;
-		yawSlider.value = mainCamera.transform.eulerAngles.y;
-		rollSlider.value = mainCamera.transform.eulerAngles.z; 		
+		//pitchSlider.value = mainCamera.transform.eulerAngles.x;
+		//yawSlider.value = mainCamera.transform.eulerAngles.y;
+		//rollSlider.value = mainCamera.transform.eulerAngles.z; 		
 	}
 
 }

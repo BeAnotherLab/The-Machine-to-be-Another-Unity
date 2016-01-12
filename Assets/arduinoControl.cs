@@ -98,5 +98,10 @@ public class arduinoControl : MonoBehaviour {
 
 	void Start(){
 		Open ();
+
+	}
+
+	void Update() {
+		
 	}
 }
