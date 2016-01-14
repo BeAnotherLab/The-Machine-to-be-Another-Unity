@@ -115,7 +115,7 @@ RectTransform:
   m_Children:
   - {fileID: 2046113543}
   m_Father: {fileID: 1713227103}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 2.9, y: 66.8}
@@ -375,7 +375,7 @@ RectTransform:
   m_Children:
   - {fileID: 381135012}
   m_Father: {fileID: 1713227103}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 155.1}
@@ -932,7 +932,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1713227103}
-  m_RootOrder: 4
+  m_RootOrder: 14
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 43.74, y: 92.3}
@@ -1192,7 +1192,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 428354310}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1035839688}
+        m_MethodName: switchHeadtracking
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &428354310
@@ -1302,7 +1313,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 492500768}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1035839688}
+        m_MethodName: recenterPose
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &492500768
@@ -1544,7 +1566,7 @@ RectTransform:
   - {fileID: 2061203630}
   - {fileID: 941542085}
   m_Father: {fileID: 1713227103}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -1.9935303, y: -213.4}
@@ -2028,7 +2050,7 @@ RectTransform:
   - {fileID: 348344420}
   - {fileID: 168723058}
   m_Father: {fileID: 1713227103}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -1.9935303, y: -109.2}
@@ -2803,7 +2825,7 @@ RectTransform:
   - {fileID: 615699087}
   - {fileID: 1318089359}
   m_Father: {fileID: 1713227103}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -393.5, y: -106.85}
@@ -3111,7 +3133,7 @@ RectTransform:
   m_Children:
   - {fileID: 1409487818}
   m_Father: {fileID: 1713227103}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 67.7, y: 66.8}
@@ -3649,7 +3671,7 @@ RectTransform:
   - {fileID: 895551194}
   - {fileID: 1916738386}
   m_Father: {fileID: 1713227103}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -1.9935303, y: -159.2}
@@ -3943,7 +3965,6 @@ RectTransform:
   - {fileID: 428354308}
   - {fileID: 355870027}
   - {fileID: 492500766}
-  - {fileID: 379977816}
   - {fileID: 2064711378}
   - {fileID: 111548647}
   - {fileID: 1387036481}
@@ -3954,6 +3975,7 @@ RectTransform:
   - {fileID: 1264402057}
   - {fileID: 1819079116}
   - {fileID: 2076877395}
+  - {fileID: 379977816}
   m_Father: {fileID: 940146117}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
@@ -4178,7 +4200,7 @@ RectTransform:
   - {fileID: 1546449262}
   - {fileID: 1291108361}
   m_Father: {fileID: 1713227103}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -393.5, y: -158.8}
@@ -4755,7 +4777,7 @@ RectTransform:
   m_Children:
   - {fileID: 1249369761}
   m_Father: {fileID: 1713227103}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -64.04, y: 66.8}
@@ -4877,7 +4899,7 @@ RectTransform:
   - {fileID: 1869467078}
   - {fileID: 369815575}
   m_Father: {fileID: 1713227103}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -393.5, y: -217.2}

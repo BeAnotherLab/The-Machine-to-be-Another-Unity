@@ -8,6 +8,7 @@ public class webcam : MonoBehaviour {
 	private WebCamTexture camTex;
 	private float dimLevel = 1;
 	private	bool dimmed = false;
+	private bool headtrackingOn = true;
 	private float dimRate = 0.08f;
 	public float range = 20;
 	public float zoom = 18;
@@ -25,6 +26,10 @@ public class webcam : MonoBehaviour {
 
 	public void setDimmed() {		
 		dimmed = !dimmed;
+	}
+
+	public bool isHeadtrackingOn() {
+		return headtrackingOn;
 	}
 
 	private void setDimLevel() {		
@@ -61,10 +66,14 @@ public class webcam : MonoBehaviour {
 		UnityEngine.VR.InputTracking.Recenter();
 	}
 
+	public void switchHeadtracking() {
+		headtrackingOn = !headtrackingOn;
+	}
+
 	// Update is called once per frame
 	void Update () {		
-		transform.position = POVCamera.transform.position + POVCamera.transform.forward * 15;
-		transform.rotation = POVCamera.transform.rotation; //keep webcam feed in front of head
+		transform.position = POVCamera.transform.position + POVCamera.transform.forward * 15; //keep webcam at a certain distance from head.
+		transform.rotation = POVCamera.transform.rotation; //keep webcam feed aligned with head
 		transform.rotation *= Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis(camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation
 		transform.localScale = new Vector3 (width/height*zoom, height/width*zoom, 0);
 		setDimLevel ();
