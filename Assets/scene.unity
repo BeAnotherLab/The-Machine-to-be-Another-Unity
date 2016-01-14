@@ -1995,6 +1995,7 @@ MonoBehaviour:
   mainCamera: {fileID: 1116724786}
   pitchSlider: {fileID: 1264402058}
   yawSlider: {fileID: 1819079117}
+  rollSlider: {fileID: 0}
   zoomSlider: {fileID: 800259593}
 --- !u!1 &941510967
 GameObject:
@@ -2475,7 +2476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   port: COM3
-  baudrate: 9600
+  baudrate: 57600
 --- !u!1 &1116724786
 GameObject:
   m_ObjectHideFlags: 0
@@ -2848,7 +2849,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1966985142}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 360
+  m_MaxValue: 180
   m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
@@ -2856,7 +2857,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1035839693}
         m_MethodName: setPitch
-        m_Mode: 4
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4223,12 +4224,23 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1686466502}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 360
+  m_MaxValue: 180
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1035839693}
+        m_MethodName: setYaw
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &1869467077

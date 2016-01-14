@@ -5,7 +5,6 @@ public class webcam : MonoBehaviour {
 
 	public MeshRenderer UseWebcamTexture;
 	public Camera POVCamera;
-
 	private WebCamTexture camTex;
 	private float dimLevel = 1;
 	private	bool dimmed = false;
@@ -21,6 +20,7 @@ public class webcam : MonoBehaviour {
 		setCameraID (cameraID);
 		width = 1920;
 		height = 1080;
+
 	}
 
 	public void setDimmed() {		
@@ -56,6 +56,10 @@ public class webcam : MonoBehaviour {
 			camTex.Play ();
 		}
 	}		
+
+	public void recenterPose(){
+		UnityEngine.VR.InputTracking.Recenter();
+	}
 
 	// Update is called once per frame
 	void Update () {		
