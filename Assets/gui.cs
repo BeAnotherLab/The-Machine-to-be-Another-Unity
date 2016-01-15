@@ -77,8 +77,8 @@ public class gui : MonoBehaviour {
 		panel.SetActive (monitorGUIEnabled);
 		if (webCamDisplay.GetComponent<webcam>().isHeadtrackingOn ()) {		
 			Vector3 pitchYawRoll = toEulerAngles (mainCamera.transform.rotation);
-			pitchSlider.value = pitchYawRoll.z;
-			yawSlider.value = pitchYawRoll.y;
+			pitchSlider.value = pitchYawRoll.z + 90;
+			yawSlider.value = 90 - pitchYawRoll.y;
 			rollSlider.value = pitchYawRoll.x;
 		}
 				
