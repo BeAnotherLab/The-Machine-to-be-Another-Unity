@@ -16,6 +16,7 @@ public class arduinoControl : MonoBehaviour {
 	public int baudrate = 57600;
 
 	private SerialPort stream;
+	public float pitchOffset, yawOffset;
 
 	public void Open () {
 		// Opens the serial port
@@ -26,11 +27,27 @@ public class arduinoControl : MonoBehaviour {
 	}
 
 	public void setPitch(float value){
-		WriteToArduino("Pitch " + value);
+		float sum;
+		sum = value + pitchOffset;
+		if ((value + pitchOffset) > 180) sum = 179.5f;
+		if ((value + pitchOffset) < 0) sum = 0.5f;
+		WriteToArduino("Pitch " + sum);
 	}
 
 	public void setYaw(float value) {
-		WriteToArduino("Yaw " + value);
+		float sum;
+		sum = value + yawOffset;
+		if ((value + yawOffset) > 180) sum = 179.5f;
+		if ((value + yawOffset) < 0) sum = 0.5f;
+		WriteToArduino("Yaw " + sum);
+	}
+		
+	public void setPitchOffset(float value) {
+		pitchOffset = value;
+	}
+
+	public void setYawOffset(float value) {
+		yawOffset = value;
 	}
 
 	public void WriteToArduino(string message)
