@@ -44,10 +44,12 @@ public class arduinoControl : MonoBehaviour {
 		
 	public void setPitchOffset(float value) {
 		pitchOffset = value;
+		PlayerPrefs.SetFloat ("pitchOffset", pitchOffset);
 	}
 
 	public void setYawOffset(float value) {
 		yawOffset = value;
+		PlayerPrefs.SetFloat ("yawOffset", yawOffset);
 	}
 
 	public void WriteToArduino(string message)
