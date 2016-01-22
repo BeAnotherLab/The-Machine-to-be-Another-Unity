@@ -27,8 +27,7 @@ void loop () {
 }
 
 void pitchCommand() {
-  servoCommand(pitchServo); 
-   Serial.println("We're in pitchCommand");  
+  servoCommand(pitchServo);    
 }
 
 void yawCommand() {
