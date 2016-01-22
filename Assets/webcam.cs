@@ -11,7 +11,8 @@ public class webcam : MonoBehaviour {
 	private bool headtrackingOn = true;
 	private float dimRate = 0.08f;
 	public float range = 20;
-	public float zoom = 18;
+	public float zoom = 39.5f;
+	public float widthHeightRatio = 1.3f;
 	private int cameraID = 0;
 	private float tiltAngle = 0;
 	public float width, height; 
@@ -87,7 +88,8 @@ public class webcam : MonoBehaviour {
 		transform.rotation = POVCamera.transform.rotation; //keep webcam feed aligned with head
 		transform.rotation *= Quaternion.Euler (0, 0, 1) * Quaternion.AngleAxis(-utilities.toEulerAngles(POVCamera.transform.rotation).x, Vector3.forward); //compensate for absence of roll servo
 		transform.rotation *= Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis(camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation
-		transform.localScale = new Vector3 (width/height*zoom, height/width*zoom, 0);
+		//transform.localScale = new Vector3 (width/height*zoom, height/width*zoom, 0);
+		transform.localScale = new Vector3 (widthHeightRatio*zoom, 1/widthHeightRatio*zoom, 0);
 		setDimLevel ();
 	}
 }
