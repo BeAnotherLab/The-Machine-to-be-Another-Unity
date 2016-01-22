@@ -3,7 +3,7 @@ using System.Collections;
 
 public static class utilities {
 
-	public Vector3 toEulerAngles(Quaternion q)
+	public static Vector3 toEulerAngles(Quaternion q)
 	{
 		// Store the Euler angles in radians
 		Vector3 pitchYawRoll = new Vector3();
