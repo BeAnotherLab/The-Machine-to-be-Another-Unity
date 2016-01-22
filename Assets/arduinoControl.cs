@@ -18,6 +18,11 @@ public class arduinoControl : MonoBehaviour {
 	private SerialPort stream;
 	public float pitchOffset, yawOffset;
 
+	void Start(){
+		Open ();
+		getPlayerPrefs ();
+	}
+
 	public void Open () {
 		// Opens the serial port
 		stream = new SerialPort(port, baudrate);
@@ -110,14 +115,14 @@ public class arduinoControl : MonoBehaviour {
 		yield return null;
 	}
 
+	void getPlayerPrefs(){
+		pitchOffset = PlayerPrefs.GetFloat ("pitchOffset");
+		yawOffset = PlayerPrefs.GetFloat ("yawOffset");
+	}
+
 	public void Close()
 	{
 		stream.Close();
-	}
-
-	void Start(){
-		Open ();
-
 	}
 
 	void Update() {

@@ -19,9 +19,17 @@ public class webcam : MonoBehaviour {
 
 	void Start () {
 		//Debug.Log("Device:" + devices[i].name + " | IS FRONT FACING:" + devices[i].isFrontFacing);
+		getPlayerPrefs();
 		setCameraID (cameraID);
+
 		width = 1920;
 		height = 1080;
+	}
+
+	void getPlayerPrefs() {
+		tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
+		zoom = PlayerPrefs.GetFloat ("zoom");
+		cameraID = PlayerPrefs.GetInt ("cameraID");
 	}
 
 	public void setDimmed() {		
