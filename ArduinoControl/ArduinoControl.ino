@@ -3,8 +3,6 @@
 #include <SerialCommand.h>
 #include <Servo.h>
 
-#define arduinoLED 13   // Arduino LED on board
-
 Servo yawServo, pitchServo;  // create servo objects
 SerialCommand SCmd;   // The SerialCommand object
 
@@ -15,11 +13,12 @@ void setup() {
   yawServo.attach(5);  
   pitchServo.attach(6);
 
-  SCmd.addCommand("Pitch",pitchCommand);  // Converts two arguments to integers and echos them back 
-  SCmd.addCommand("Yaw",yawCommand);  // Converts two arguments to integers and echos them back   
+  SCmd.addCommand("Pitch", pitchCommand);
+  SCmd.addCommand("Yaw", yawCommand);  
 
-  pitchServo.write(90);
-  yawServo.write(90);
+  //initialize in center position
+  pitchServo.write(90); 
+  yawServo.write(90); 
 }
 
 void loop () {
@@ -38,29 +37,12 @@ void servoCommand(Servo servo)
 {
   int aNumber;  
   char *arg; 
-
-  arg = SCmd.next(); 
+  
+  arg = SCmd.next(); //get first argument
   if (arg != NULL) 
   {
-    aNumber=atoi(arg);    // Converts a char string to an integer
-    //Serial.print("First argument was: "); 
-    //Serial.println(aNumber); 
+    aNumber=atoi(arg);    // Converts a char string to an integer    
     servo.write(aNumber);
-  } 
-  else {
-    //Serial.println("No arguments"); 
-  }
-
-  arg = SCmd.next(); 
-  if (arg != NULL) 
-  {
-    aNumber=atol(arg); 
-    //Serial.print("Second argument was: "); 
-    //Serial.println(aNumber);     
-  } 
-  else {
-    //Serial.println("No second argument"); 
-  }
-
+  }   
 }
 
