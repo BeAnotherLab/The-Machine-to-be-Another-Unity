@@ -39,7 +39,7 @@ public class gui : MonoBehaviour {
 			pitchSlider.value = pitchYawRoll.z + 90 + webCamDisplay.GetComponent<arduinoControl>().pitchOffset;
 //			pitchOffsetSlider.value = webCamDisplay.GetComponent<arduinoControl>().pitchOffset;
 //			yawOffsetSlider.value = webCamDisplay.GetComponent<arduinoControl>().yawOffset;
-			zoomSlider.value =	webCamDisplay.GetComponent<webcam> ().zoom;
+			zoomSlider.value =	webCamDisplay.GetComponent<webcam>().zoom;
 		}			
 	}
 
