@@ -6,7 +6,7 @@
 #define arduinoLED 13   // Arduino LED on board
 
 Servo yawServo, pitchServo;  // create servo objects
-SerialCommand SCmd;   // The demo SerialCommand object
+SerialCommand SCmd;   // The SerialCommand object
 
 void setup() {
   Serial.begin(57600);
@@ -43,23 +43,23 @@ void servoCommand(Servo servo)
   if (arg != NULL) 
   {
     aNumber=atoi(arg);    // Converts a char string to an integer
-    Serial.print("First argument was: "); 
-    Serial.println(aNumber); 
+    //Serial.print("First argument was: "); 
+    //Serial.println(aNumber); 
     servo.write(aNumber);
   } 
   else {
-    Serial.println("No arguments"); 
+    //Serial.println("No arguments"); 
   }
 
   arg = SCmd.next(); 
   if (arg != NULL) 
   {
     aNumber=atol(arg); 
-    Serial.print("Second argument was: "); 
-    Serial.println(aNumber);     
+    //Serial.print("Second argument was: "); 
+    //Serial.println(aNumber);     
   } 
   else {
-    Serial.println("No second argument"); 
+    //Serial.println("No second argument"); 
   }
 
 }
