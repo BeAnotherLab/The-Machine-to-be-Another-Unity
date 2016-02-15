@@ -25,6 +25,9 @@ public class gui : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetKeyDown("b")){
+			webCamDisplay.GetComponent<webcam>().setDimmed();
+		}
 		if (Input.GetKeyDown("n")){
 			webCamDisplay.GetComponent<webcam>().recenterPose ();
 	    }
