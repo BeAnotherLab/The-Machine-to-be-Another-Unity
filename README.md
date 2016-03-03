@@ -8,6 +8,7 @@ Instructions for installing with the [servo vest](https://github.com/BeAnotherLa
 - Install [Oculus Runtime 0.8.0+](https://developer.oculus.com/downloads/)
 - Clone this repository from GitHub: `git clone https://github.com/BeAnotherLab/The-Machine-to-be-Another-Unity.git`
 - Install Arduino software
-- Upload the [Arduino control sketch](https://raw.githubusercontent.com/BeAnotherLab/The-Machine-to-be-Another-Unity/master/ArduinoControl/ArduinoControl.ino) to the Arduino
-- Open the project from Unity
-- Press play
+- Paste the ArduinoSerialCommand folder to your Arduino library folder
+- Compile and upload the [Arduino control sketch](https://raw.githubusercontent.com/BeAnotherLab/The-Machine-to-be-Another-Unity/master/ArduinoControl/ArduinoControl.ino) to the Arduino
+- Open the project from Unity and run . 
+
