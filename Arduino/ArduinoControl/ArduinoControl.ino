@@ -10,8 +10,8 @@ void setup() {
   Serial.begin(57600);
   while (!Serial);
 
-  yawServo.attach(5);  
-  pitchServo.attach(6);
+  yawServo.attach(9);  
+  pitchServo.attach(10);
 
   SCmd.addCommand("Pitch", pitchCommand);
   SCmd.addCommand("Yaw", yawCommand);  

@@ -5,18 +5,18 @@ public class webcam : MonoBehaviour {
 
 	public MeshRenderer UseWebcamTexture;
 	public Camera POVCamera;
+	public float range = 20;
+	public float zoom = 39.5f;
+	public float widthHeightRatio = 1.3f;
+	public int cameraID = 0;
+	public float width, height; 
+
+	private float tiltAngle = 0;
 	private WebCamTexture camTex;
 	private float dimLevel = 1;
 	private	bool dimmed = false;
 	private bool headtrackingOn = true;
 	private float dimRate = 0.08f;
-	public float range = 20;
-	public float zoom = 39.5f;
-	public float widthHeightRatio = 1.3f;
-	private int cameraID = 0;
-	private float tiltAngle = 0;
-	public float width, height; 
-	// Use this for initialization
 
 	void Start () {
 		//Debug.Log("Device:" + devices[i].name + " | IS FRONT FACING:" + devices[i].isFrontFacing);
@@ -63,7 +63,7 @@ public class webcam : MonoBehaviour {
 	public void setCameraID(int id) {
 		WebCamDevice[] devices = WebCamTexture.devices;
 		//cameraID = id;
-		if (devices.Length >= id - 1) {
+			if (devices.Length >= id - 1) {
 			camTex = new WebCamTexture (devices [id].name, (int) width, (int) height, 60);
 			camTex.requestedWidth = (int) width;
 			camTex.requestedHeight = (int) height;
