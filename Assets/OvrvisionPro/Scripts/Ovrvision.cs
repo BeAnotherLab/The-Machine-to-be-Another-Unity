@@ -25,6 +25,17 @@ public class Ovrvision : MonoBehaviour
 	private System.IntPtr CameraTexLeftPtr = System.IntPtr.Zero;
 	private System.IntPtr CameraTexRightPtr = System.IntPtr.Zero;
 
+	//cam display settings
+	private float dimLevel = 1;
+	private	bool dimmed = false;
+	private bool headtrackingOn = true;
+	private float dimRate = 0.08f;
+	private WebCamTexture camTex;
+	private float tiltAngle = 0;
+
+	public float range = 20;
+	public float zoom = 39.5f;
+
 	//public propaty
 	public int cameraMode = COvrvisionUnity.OV_CAMVR_FULL;
 	public bool useOvrvisionAR = false;
@@ -85,6 +96,7 @@ public class Ovrvision : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
+		getPlayerPrefs ();
 		if (!OvrPro.camStatus)
 			return;
 
@@ -397,5 +409,38 @@ public class Ovrvision : MonoBehaviour
 	{
 		return CameraTexRight;
 	}
+
+
+	void getPlayerPrefs() {
+		tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
+		zoom = PlayerPrefs.GetFloat ("zoom");
+	}
+
+	public void setDimmed() {		
+		dimmed = !dimmed;
+	}
+
+	public bool isHeadtrackingOn() {
+		return headtrackingOn;
+	}
+
+	private void setDimLevel() {		
+		float next;
+		if (dimmed) next = 1;
+		else next = 0;
+		dimLevel += dimRate * (next - dimLevel);	
+		Color c = new Color (dimLevel*range, dimLevel*range, dimLevel*range);
+	}
+
+	public void setCameraOrientation(){
+		tiltAngle += 90;
+		PlayerPrefs.SetFloat ("tiltAngle", tiltAngle);
+	}				
+
+	public void setZoom(float value) {
+		zoom = value;
+		PlayerPrefs.SetFloat ("zoom", zoom);
+	}		
+
 
 }
