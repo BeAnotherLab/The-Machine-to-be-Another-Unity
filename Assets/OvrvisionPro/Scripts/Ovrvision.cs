@@ -414,7 +414,6 @@ public class Ovrvision : MonoBehaviour
 		return CameraTexRight;
 	}
 
-
 	void getPlayerPrefs() {
 		tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
 		zoom = PlayerPrefs.GetFloat ("zoom");
@@ -422,6 +421,8 @@ public class Ovrvision : MonoBehaviour
 
 	public void setDimmed() {		
 		dimmed = !dimmed;
+		CameraLeft.GetComponent<Camera>().enabled = dimmed;
+		CameraRight.GetComponent<Camera>().enabled = dimmed;
 	}
 
 	public bool isHeadtrackingOn() {

@@ -9,7 +9,7 @@ public class gui : MonoBehaviour {
 	private int zoom;
 	private int camera_orientation;	
 	private int camera_id;
-	public Slider pitchSlider, yawSlider, rollSlider, zoomSlider, pitchOffsetSlider, yawOffsetSlider;
+	public Slider pitchSlider, yawSlider, rollSlider;
 
 	// Use this for initialization
 	void Start () {
@@ -19,10 +19,7 @@ public class gui : MonoBehaviour {
 	public void setMonitorGUIEnabled() {
 		monitorGUIEnabled = !monitorGUIEnabled;
 	}		
-
-	public void centerYaw()  {
-	}
-
+		
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown("b")){
@@ -40,7 +37,6 @@ public class gui : MonoBehaviour {
 			rollSlider.value = pitchYawRoll.x;
 			yawSlider.value = 90 - pitchYawRoll.y;
 			pitchSlider.value = pitchYawRoll.z;
-			zoomSlider.value =	webCamDisplay.GetComponent<Ovrvision>().zoom;
 		}			
 	}
 
