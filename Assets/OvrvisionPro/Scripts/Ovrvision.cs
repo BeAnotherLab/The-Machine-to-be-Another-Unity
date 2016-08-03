@@ -430,6 +430,11 @@ public class Ovrvision : MonoBehaviour
 		return headtrackingOn;
 	}
 
+	public void switchHeadTracking() {
+		headtrackingOn = !headtrackingOn;
+	}
+
+
 	private void setDimLevel() {		
 		float next;
 		if (dimmed) next = 1;
