@@ -253,7 +253,8 @@ public class Ovrvision : MonoBehaviour
 		}
 
 		marker.Free();
-
+		CameraPlaneLeft.transform.localRotation = Quaternion.Euler (0, 0, 1) * Quaternion.AngleAxis(-utilities.toEulerAngles(CameraLeft.transform.rotation).x, Vector3.forward); //compensate for absence of roll servo
+		CameraPlaneRight.transform.localRotation = Quaternion.Euler (0, 0, 1) * Quaternion.AngleAxis(-utilities.toEulerAngles(CameraRight.transform.rotation).x, Vector3.forward); //compensate for absence of roll servo
 		return ri;
 	}
 
@@ -423,7 +424,6 @@ public class Ovrvision : MonoBehaviour
 		dimmed = !dimmed;
 		CameraPlaneLeft.SetActive (dimmed);
 		CameraPlaneRight.SetActive (dimmed);
-
 	}
 
 	public bool isHeadtrackingOn() {
@@ -441,12 +441,6 @@ public class Ovrvision : MonoBehaviour
 	public void setCameraOrientation(){
 		tiltAngle += 90;
 		PlayerPrefs.SetFloat ("tiltAngle", tiltAngle);
-	}				
-
-	public void setZoom(float value) {
-		zoom = value;
-		PlayerPrefs.SetFloat ("zoom", zoom);
-	}		
-
+	}						
 
 }
