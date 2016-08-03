@@ -16,11 +16,9 @@ public class arduinoControl : MonoBehaviour {
 	public int baudrate = 57600;
 
 	private SerialPort stream;
-	public float pitchOffset, yawOffset;
 
 	void Start(){
 		Open ();
-		getPlayerPrefs ();
 	}
 
 	public void Open () {
@@ -32,31 +30,21 @@ public class arduinoControl : MonoBehaviour {
 	}
 
 	public void setPitch(float value){
-		float sum;
-		sum = value + pitchOffset;
-		if ((value + pitchOffset) > 180) sum = 179.5f;
-		if ((value + pitchOffset) < 0) sum = 0.5f;
-		WriteToArduino("Pitch " + sum);
+		float ret;
+		ret = value;
+		if (value > 180) ret = 179.5f;
+		if (value < 0) ret = 0.5f;
+		WriteToArduino("Pitch " + ret);
 	}
 
 	public void setYaw(float value) {
-		float sum;
-		sum = value + yawOffset;
-		if ((value + yawOffset) > 180) sum = 179.5f;
-		if ((value + yawOffset) < 0) sum = 0.5f;
-		WriteToArduino("Yaw " + sum);
+		float ret;
+		ret = value;
+		if (value > 180) ret = 179.5f;
+		if (value < 0) ret = 0.5f;
+		WriteToArduino("Yaw " + ret);
 	}
 		
-	public void setPitchOffset(float value) {
-		pitchOffset = value;
-		PlayerPrefs.SetFloat ("pitchOffset", pitchOffset);
-	}
-
-	public void setYawOffset(float value) {
-		yawOffset = value;
-		PlayerPrefs.SetFloat ("yawOffset", yawOffset);
-	}
-
 	public void WriteToArduino(string message)
 	{
 		// Send the request
@@ -114,12 +102,7 @@ public class arduinoControl : MonoBehaviour {
 			fail();
 		yield return null;
 	}
-
-	void getPlayerPrefs(){
-		pitchOffset = PlayerPrefs.GetFloat ("pitchOffset");
-		yawOffset = PlayerPrefs.GetFloat ("yawOffset");
-	}
-
+		
 	public void Close()
 	{
 		stream.Close();

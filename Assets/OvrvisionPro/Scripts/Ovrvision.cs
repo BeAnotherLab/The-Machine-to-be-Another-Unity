@@ -399,6 +399,10 @@ public class Ovrvision : MonoBehaviour
 		}
 	}
 
+	public void recenterPose() {
+		UnityEngine.VR.InputTracking.Recenter ();
+	}
+
 	// get property
 	public Texture2D GetCameraTextureLeft()
 	{
