@@ -421,8 +421,9 @@ public class Ovrvision : MonoBehaviour
 
 	public void setDimmed() {		
 		dimmed = !dimmed;
-		CameraLeft.GetComponent<Camera>().enabled = dimmed;
-		CameraRight.GetComponent<Camera>().enabled = dimmed;
+		CameraPlaneLeft.SetActive (dimmed);
+		CameraPlaneRight.SetActive (dimmed);
+
 	}
 
 	public bool isHeadtrackingOn() {
