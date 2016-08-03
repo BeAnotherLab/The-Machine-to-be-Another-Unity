@@ -26,23 +26,21 @@ public class gui : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown("b")){
-			webCamDisplay.GetComponent<webcam>().setDimmed();
+			webCamDisplay.GetComponent<Ovrvision>().setDimmed();
 		}
 		if (Input.GetKeyDown("n")){
-			webCamDisplay.GetComponent<webcam>().recenterPose ();
+			webCamDisplay.GetComponent<Ovrvision>().recenterPose ();
 	    }
 		else if (Input.GetKeyDown("m")){			
 			setMonitorGUIEnabled ();
 		}
 		panel.SetActive (monitorGUIEnabled);
-		if (webCamDisplay.GetComponent<webcam>().isHeadtrackingOn ()) {		
+		if (webCamDisplay.GetComponent<Ovrvision>().isHeadtrackingOn ()) {		
 			Vector3 pitchYawRoll = utilities.toEulerAngles (mainCamera.transform.rotation);
 			rollSlider.value = pitchYawRoll.x;
-			yawSlider.value = 90 - pitchYawRoll.y + webCamDisplay.GetComponent<arduinoControl>().yawOffset;
-			pitchSlider.value = pitchYawRoll.z + 90 + webCamDisplay.GetComponent<arduinoControl>().pitchOffset;
-//			pitchOffsetSlider.value = webCamDisplay.GetComponent<arduinoControl>().pitchOffset;
-//			yawOffsetSlider.value = webCamDisplay.GetComponent<arduinoControl>().yawOffset;
-			zoomSlider.value =	webCamDisplay.GetComponent<webcam>().zoom;
+			yawSlider.value = 90 - pitchYawRoll.y;
+			pitchSlider.value = pitchYawRoll.z;
+			zoomSlider.value =	webCamDisplay.GetComponent<Ovrvision>().zoom;
 		}			
 	}
 
