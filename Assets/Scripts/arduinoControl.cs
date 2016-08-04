@@ -27,6 +27,8 @@ public class arduinoControl : MonoBehaviour {
 			p = 0;
 		if (p < ports.Length)
 			port = ports[p];
+		if (stream != null)
+			stream.Close ();
 		stream = new SerialPort(port, baudrate);
 		stream.Open();
 	}
