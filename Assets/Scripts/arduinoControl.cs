@@ -2,33 +2,28 @@
  * http://www.alanzucconi.com/?p=2979
  */
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.IO.Ports;
 
 public class arduinoControl : MonoBehaviour {
 
-	/* The serial port where the Arduino is connected. */
-	[Tooltip("The serial port where the Arduino is connected")]
-	public string port = "COM3";
 	/* The baudrate of the serial port. */
 	[Tooltip("The baudrate of the serial port")]
 	public int baudrate = 57600;
-
-	private SerialPort stream;
 	public float pitchOffset, yawOffset;
 
+	private SerialPort stream;
+
 	void Start(){
-		Open ();
-		getPlayerPrefs ();
 	}
 
-	public void Open () {
-		// Opens the serial port
+	public void Open (int p) {
+		string[] ports = SerialPort.GetPortNames ();
+		string port = ports[p];
 		stream = new SerialPort(port, baudrate);
-		stream.ReadTimeout = 50;
 		stream.Open();
-		//this.stream.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
 	}
 
 	public void setPitch(float value){
@@ -47,16 +42,6 @@ public class arduinoControl : MonoBehaviour {
 		WriteToArduino("Yaw " + sum);
 	}
 		
-	public void setPitchOffset(float value) {
-		pitchOffset = value;
-		PlayerPrefs.SetFloat ("pitchOffset", pitchOffset);
-	}
-
-	public void setYawOffset(float value) {
-		yawOffset = value;
-		PlayerPrefs.SetFloat ("yawOffset", yawOffset);
-	}
-
 	public void WriteToArduino(string message)
 	{
 		// Send the request
@@ -76,7 +61,6 @@ public class arduinoControl : MonoBehaviour {
 			return null;
 		}
 	}
-
 
 	public IEnumerator AsynchronousReadFromArduino(Action<string> callback, Action fail = null, float timeout = float.PositiveInfinity)
 	{
