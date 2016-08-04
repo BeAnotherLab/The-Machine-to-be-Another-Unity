@@ -62,8 +62,7 @@ public class webcam : MonoBehaviour {
 
 	public void setCameraID(int id) {
 		WebCamDevice[] devices = WebCamTexture.devices;
-		//cameraID = id;
-			if (devices.Length >= id - 1) {
+				if (devices.Length >= id - 1) {
 			camTex = new WebCamTexture (devices [id].name, (int) width, (int) height, 60);
 			camTex.requestedWidth = (int) width;
 			camTex.requestedHeight = (int) height;
