@@ -30,8 +30,8 @@ public class gui : MonoBehaviour {
 		foreach(WebCamDevice device in devices){
 			cameraDropdown.options.Add (new Dropdown.OptionData () { text = device.name });			
 		}
-		cameraDropdown.value = 1;
-		cameraDropdown.value = 0;
+		//cameraDropdown.value = PlayerPrefs.GetInt ("cameraID");
+
 	}
 
 	private void setSerialPortDropdownOptions() {
@@ -40,9 +40,8 @@ public class gui : MonoBehaviour {
 		foreach (string c in ports) {
 			serialDropdown.options.Add(new Dropdown.OptionData() {text=c});
 		}
-		//necessary to refresh the menu
-		serialDropdown.value = 1;
- 		serialDropdown.value = 0;
+		//serialDropdown.value = PlayerPrefs.GetInt("Serial port");
+
 	}
 
 	// Update is called once per frame
@@ -66,6 +65,10 @@ public class gui : MonoBehaviour {
 //			yawOffsetSlider.value = webCamDisplay.GetComponent<arduinoControl>().yawOffset;
 			zoomSlider.value =	webCamDisplay.GetComponent<webcam>().zoom;
 		}			
+		cameraDropdown.RefreshShownValue();
+		serialDropdown.RefreshShownValue();
+	
+
 	}
 
 }

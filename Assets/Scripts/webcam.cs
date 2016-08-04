@@ -19,10 +19,10 @@ public class webcam : MonoBehaviour {
 	private float dimRate = 0.08f;
 
 	void Start () {
-		//Debug.Log("Device:" + devices[i].name + " | IS FRONT FACING:" + devices[i].isFrontFacing);
-		getPlayerPrefs();
 		width = 1920;
 		height = 1080;
+		getPlayerPrefs();
+		startCamera(PlayerPrefs.GetInt("cameraID"));
 	}
 
 	void getPlayerPrefs() {
@@ -59,16 +59,25 @@ public class webcam : MonoBehaviour {
 	}		
 
 	public void setCameraID(int id) {
-		WebCamDevice[] devices = WebCamTexture.devices;
-		camTex = new WebCamTexture (devices [id].name, (int) width, (int) height, 60);
-		camTex.requestedWidth = (int) width;
-		camTex.requestedHeight = (int) height;
-		UseWebcamTexture.material.mainTexture = camTex;
-		UseWebcamTexture.material.shader = Shader.Find ("Sprites/Default");
-		camTex.Play ();
+		camTex.Pause ();
+		startCamera (id);
 		PlayerPrefs.SetInt ("cameraID", id);
 	}		
 
+	public void startCamera (int id){
+		WebCamDevice[] devices = WebCamTexture.devices;
+		if (devices.Length == 1)
+			id = 0;
+ 		if (id < devices.Length) {
+			camTex = new WebCamTexture (devices [id].name, (int)width, (int)height, 60);
+			camTex.requestedWidth = (int)width;
+			camTex.requestedHeight = (int)height;
+			UseWebcamTexture.material.mainTexture = camTex;
+			UseWebcamTexture.material.shader = Shader.Find ("Sprites/Default");
+			camTex.Play ();
+		}
+
+	}
 	public void recenterPose(){
 		UnityEngine.VR.InputTracking.Recenter();
 	}

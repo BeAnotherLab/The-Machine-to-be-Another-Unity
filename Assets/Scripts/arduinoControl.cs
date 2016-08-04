@@ -17,13 +17,23 @@ public class arduinoControl : MonoBehaviour {
 	private SerialPort stream;
 
 	void Start(){
+		Open (PlayerPrefs.GetInt ("Serial port"));
 	}
 
-	public void Open (int p) {
+	private void Open (int p) {
 		string[] ports = SerialPort.GetPortNames ();
-		string port = ports[p];
+		string port = "";
+		if (ports.Length == 1)
+			p = 0;
+		if (p < ports.Length)
+			port = ports[p];
 		stream = new SerialPort(port, baudrate);
 		stream.Open();
+	}
+
+	public void setSerialPort (int p) {
+		Open (p);
+		PlayerPrefs.SetInt ("Serial port", p);
 	}
 
 	public void setPitch(float value){
