@@ -21,8 +21,6 @@ public class webcam : MonoBehaviour {
 	void Start () {
 		//Debug.Log("Device:" + devices[i].name + " | IS FRONT FACING:" + devices[i].isFrontFacing);
 		getPlayerPrefs();
-		setCameraID (cameraID);
-
 		width = 1920;
 		height = 1080;
 	}
@@ -62,14 +60,12 @@ public class webcam : MonoBehaviour {
 
 	public void setCameraID(int id) {
 		WebCamDevice[] devices = WebCamTexture.devices;
-				if (devices.Length >= id - 1) {
-			camTex = new WebCamTexture (devices [id].name, (int) width, (int) height, 60);
-			camTex.requestedWidth = (int) width;
-			camTex.requestedHeight = (int) height;
-			UseWebcamTexture.material.mainTexture = camTex;
-			UseWebcamTexture.material.shader = Shader.Find ("Sprites/Default");
-			camTex.Play ();
-		}
+		camTex = new WebCamTexture (devices [id].name, (int) width, (int) height, 60);
+		camTex.requestedWidth = (int) width;
+		camTex.requestedHeight = (int) height;
+		UseWebcamTexture.material.mainTexture = camTex;
+		UseWebcamTexture.material.shader = Shader.Find ("Sprites/Default");
+		camTex.Play ();
 		PlayerPrefs.SetInt ("cameraID", id);
 	}		
 

@@ -16,6 +16,7 @@ public class gui : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		monitorGUIEnabled = true;
+		setCameraDropdownOptions ();
 		setSerialPortDropdownOptions();
 	}
 
@@ -24,13 +25,13 @@ public class gui : MonoBehaviour {
 	}		
 
 	private void setCameraDropdownOptions(){
-		/*Dropdown cameraDropdown = GameObject.Find ("Camera dropdown");
 		WebCamDevice[] devices = WebCamTexture.devices;
-		for (int i = 0; i < devices.Length; i++) {
-			options
+		cameraDropdown.options.Clear ();
+		foreach(WebCamDevice device in devices){
+			cameraDropdown.options.Add (new Dropdown.OptionData () { text = device.name });			
 		}
-		cameraDropdown.AddOptions
-		*/
+		cameraDropdown.value = 1;
+		cameraDropdown.value = 0;
 	}
 
 	private void setSerialPortDropdownOptions() {
@@ -40,8 +41,8 @@ public class gui : MonoBehaviour {
 			serialDropdown.options.Add(new Dropdown.OptionData() {text=c});
 		}
 		//necessary to refresh the menu
-		serialDropdown.value = 0;
 		serialDropdown.value = 1;
+ 		serialDropdown.value = 0;
 	}
 
 	// Update is called once per frame
