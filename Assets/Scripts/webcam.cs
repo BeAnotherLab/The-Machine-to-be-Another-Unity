@@ -35,6 +35,10 @@ public class webcam : MonoBehaviour {
 		dimmed = !dimmed;
 	}
 
+	public void setDimmed(bool dim) {		
+		dimmed = dim;
+	}
+
 	public bool isHeadtrackingOn() {
 		return headtrackingOn;
 	}

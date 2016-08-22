@@ -25,14 +25,17 @@ using System.Collections.Generic;
 using System.Text;
 using UnityOSC;
 
+
 public class oscControl : MonoBehaviour {
 	
 	private Dictionary<string, ServerLog> servers;
-
+	public GameObject pointOfView;
+	public GameObject audioManager;
 	// Script initialization
 	void Start() {	
 		OSCHandler.Instance.Init(); //init OSC
 		servers = new Dictionary<string, ServerLog>();
+
 	}
 
 	// NOTE: The received messages at each server are updated here
@@ -55,6 +58,19 @@ public class oscControl : MonoBehaviour {
 				                                    item.Key, // Server name
 				                                    item.Value.packets[lastPacketIndex].Address, // OSC address
 				                                    item.Value.packets[lastPacketIndex].Data[0].ToString())); //First data value
+				if (item.Value.packets [lastPacketIndex].Address == "/ht" && item.Value.packets [lastPacketIndex].Data [0].ToString () == "1") {
+					pointOfView.GetComponent<webcam> ().recenterPose ();
+				} else if (item.Value.packets [lastPacketIndex].Address == "/dimon" && item.Value.packets [lastPacketIndex].Data [0].ToString () == "1") {
+					pointOfView.GetComponent<webcam> ().setDimmed (false);
+				} else if (item.Value.packets [lastPacketIndex].Address == "/dimoff" && item.Value.packets [lastPacketIndex].Data [0].ToString () == "1") {
+					pointOfView.GetComponent<webcam> ().setDimmed (true);
+				} else {
+					for (int i = 0; i < audioManager.GetComponent<AudioPlayer> ().clips.Length; i++) {
+						if (item.Value.packets [lastPacketIndex].Address == "/btn" + i.ToString () && item.Value.packets [lastPacketIndex].Data [0].ToString () == "1") {
+							audioManager.GetComponent<AudioPlayer> ().playSound (i);
+						}
+					}
+				}
 			}
 	    }
 	}
