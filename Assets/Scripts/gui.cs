@@ -32,6 +32,7 @@ public class gui : MonoBehaviour {
 		//cameraDropdown.value = PlayerPrefs.GetInt ("cameraID");
 
 	}
+		
 
 	// Update is called once per frame
 	void Update () {

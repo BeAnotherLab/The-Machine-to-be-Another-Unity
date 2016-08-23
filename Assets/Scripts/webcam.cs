@@ -10,10 +10,9 @@ public class webcam : MonoBehaviour {
 	public float widthHeightRatio = 1.3f;
 	public int cameraID = 0;
 	public float width, height; 
+	public Quaternion otherPose;
+	public Vector3 otherPosition;
 
-
-	private Vector3 otherOrientation;
-	private Vector3 otherPosition;
 	private float tiltAngle = 0;
 	private WebCamTexture camTex;
 	private float dimLevel = 1;
