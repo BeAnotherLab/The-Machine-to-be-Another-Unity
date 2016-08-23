@@ -11,6 +11,9 @@ public class webcam : MonoBehaviour {
 	public int cameraID = 0;
 	public float width, height; 
 
+
+	private Vector3 otherOrientation;
+	private Vector3 otherPosition;
 	private float tiltAngle = 0;
 	private WebCamTexture camTex;
 	private float dimLevel = 1;
@@ -92,7 +95,7 @@ public class webcam : MonoBehaviour {
 		
 	// Update is called once per frame
 	void Update () {		
-		transform.position = POVCamera.transform.position + POVCamera.transform.forward * 15; //keep webcam at a certain distance from head.
+		//transform.position = POVCamera.transform.position + POVCamera.transform.forward * 15; //keep webcam at a certain distance from head.
 		transform.rotation = POVCamera.transform.rotation; //keep webcam feed aligned with head
 		transform.rotation *= Quaternion.Euler (0, 0, 1) * Quaternion.AngleAxis(-utilities.toEulerAngles(POVCamera.transform.rotation).x, Vector3.forward); //compensate for absence of roll servo
 		transform.rotation *= Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis(camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation

@@ -28,14 +28,20 @@ using UnityOSC;
 
 public class oscControl : MonoBehaviour {
 	
-	private Dictionary<string, ServerLog> servers;
 	public GameObject pointOfView;
 	public GameObject audioManager;
-	// Script initialization
-	void Start() {	
-		OSCHandler.Instance.Init(); //init OSC
-		servers = new Dictionary<string, ServerLog>();
+	public Camera mainCamera;
 
+	private string othersIP;
+	private bool repeater;
+
+	private Dictionary<string, ServerLog> servers;
+	private Dictionary<string, ClientLog> clients;
+
+	void Start() {	
+		OSCHandler.Instance.Init("172.26.13.229", 8015); //init OSC
+		servers = new Dictionary<string, ServerLog>();
+		clients = new Dictionary<string, ClientLog>();
 	}
 
 	// NOTE: The received messages at each server are updated here
@@ -58,13 +64,53 @@ public class oscControl : MonoBehaviour {
 				                                    item.Key, // Server name
 				                                    item.Value.packets[lastPacketIndex].Address, // OSC address
 				                                    item.Value.packets[lastPacketIndex].Data[0].ToString())); //First data value
+				//recenter pose command
 				if (item.Value.packets [lastPacketIndex].Address == "/ht" && item.Value.packets [lastPacketIndex].Data [0].ToString () == "1") {
 					pointOfView.GetComponent<webcam> ().recenterPose ();
-				} else if (item.Value.packets [lastPacketIndex].Address == "/dimon" && item.Value.packets [lastPacketIndex].Data [0].ToString () == "1") {
+					if (repeater) {
+						OSCHandler.Instance.SendMessageToClient ("sender", "/ht", 1);
+					}
+				} 
+				//screen on/off command
+				else if (item.Value.packets [lastPacketIndex].Address == "/dimon" && item.Value.packets [lastPacketIndex].Data [0].ToString () == "1") {
 					pointOfView.GetComponent<webcam> ().setDimmed (false);
+					if (repeater) {
+						OSCHandler.Instance.SendMessageToClient ("sender", "/dimon", 1);
+					}
 				} else if (item.Value.packets [lastPacketIndex].Address == "/dimoff" && item.Value.packets [lastPacketIndex].Data [0].ToString () == "1") {
 					pointOfView.GetComponent<webcam> ().setDimmed (true);
-				} else {
+					if (repeater) {
+						OSCHandler.Instance.SendMessageToClient ("sender", "/dimoff", 1);
+					}
+				}
+
+				//pose data
+				else if (item.Value.packets [lastPacketIndex].Address == "pose/x") {
+					pointOfView.GetComponent<webcam> ().otherPose.x = item.Value.packets [lastPacketIndex].Data [0];
+				}
+				else if (item.Value.packets [lastPacketIndex].Address == "pose/y") {
+					pointOfView.GetComponent<webcam> ().otherPose.y = item.Value.packets [lastPacketIndex].Data [0];
+				}
+				else if (item.Value.packets [lastPacketIndex].Address == "pose/z") {
+					pointOfView.GetComponent<webcam> ().otherPose.z = item.Value.packets [lastPacketIndex].Data [0];
+				}
+				else if (item.Value.packets [lastPacketIndex].Address == "pose/w") {
+					pointOfView.GetComponent<webcam> ().otherPose.w = item.Value.packets [lastPacketIndex].Data [0];
+				}
+
+				//position data
+				else if (item.Value.packets [lastPacketIndex].Address == "position/x") {
+					pointOfView.GetComponent<webcam> ().otherPosition.x = item.Value.packets [lastPacketIndex].Data [0];
+				}
+				else if (item.Value.packets [lastPacketIndex].Address == "position/y") {
+					pointOfView.GetComponent<webcam> ().otherPosition.y = item.Value.packets [lastPacketIndex].Data [0];
+				}
+				else if (item.Value.packets [lastPacketIndex].Address == "position/z") {
+					pointOfView.GetComponent<webcam> ().otherPosition.z = item.Value.packets [lastPacketIndex].Data [0];
+				}
+
+				//audio clip trigger command
+				else {
 					for (int i = 0; i < audioManager.GetComponent<AudioPlayer> ().clips.Length; i++) {
 						if (item.Value.packets [lastPacketIndex].Address == "/btn" + i.ToString () && item.Value.packets [lastPacketIndex].Data [0].ToString () == "1") {
 							audioManager.GetComponent<AudioPlayer> ().playSound (i);
@@ -74,4 +120,18 @@ public class oscControl : MonoBehaviour {
 			}
 	    }
 	}
+
+	public void sendHeadTracking () {
+		Quaternion q = mainCamera.transform.rotation;
+		OSCHandler.Instance.SendMessageToClient ("sender", "/pose/x", q.x);
+		OSCHandler.Instance.SendMessageToClient ("sender", "/pose/y", q.y);
+		OSCHandler.Instance.SendMessageToClient ("sender", "/pose/z", q.z);
+		OSCHandler.Instance.SendMessageToClient ("sender", "/pose/w", q.w);
+
+		Vector3 p = mainCamera.transform.position;
+		OSCHandler.Instance.SendMessageToClient ("sender", "/position/x", p.x);
+		OSCHandler.Instance.SendMessageToClient ("sender", "/position/x", p.y);
+		OSCHandler.Instance.SendMessageToClient ("sender", "/position/x", p.z);
+	}
+		
 }

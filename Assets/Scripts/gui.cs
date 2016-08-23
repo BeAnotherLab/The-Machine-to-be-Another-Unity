@@ -11,13 +11,12 @@ public class gui : MonoBehaviour {
 	private int camera_orientation;	
 	private int camera_id;
 	public Slider pitchSlider, yawSlider, rollSlider, zoomSlider;
-	public Dropdown serialDropdown, cameraDropdown;
+	public Dropdown cameraDropdown;
 
 	// Use this for initialization
 	void Start () {
 		monitorGUIEnabled = true;
 		setCameraDropdownOptions ();
-		setSerialPortDropdownOptions();
 	}
 
 	public void setMonitorGUIEnabled() {
@@ -31,16 +30,6 @@ public class gui : MonoBehaviour {
 			cameraDropdown.options.Add (new Dropdown.OptionData () { text = device.name });			
 		}
 		//cameraDropdown.value = PlayerPrefs.GetInt ("cameraID");
-
-	}
-
-	private void setSerialPortDropdownOptions() {
-		string[] ports = SerialPort.GetPortNames ();
-		serialDropdown.options.Clear ();
-		foreach (string c in ports) {
-			serialDropdown.options.Add(new Dropdown.OptionData() {text=c});
-		}
-		//serialDropdown.value = PlayerPrefs.GetInt("Serial port");
 
 	}
 
@@ -59,14 +48,13 @@ public class gui : MonoBehaviour {
 		if (webCamDisplay.GetComponent<webcam>().isHeadtrackingOn ()) {		
 			Vector3 pitchYawRoll = utilities.toEulerAngles (mainCamera.transform.rotation);
 			rollSlider.value = pitchYawRoll.x;
-			yawSlider.value = 90 - pitchYawRoll.y + webCamDisplay.GetComponent<arduinoControl>().yawOffset;
-			pitchSlider.value = pitchYawRoll.z + 90 + webCamDisplay.GetComponent<arduinoControl>().pitchOffset;
+			yawSlider.value = 90 - pitchYawRoll.y;
+			pitchSlider.value = pitchYawRoll.z + 90;
 //			pitchOffsetSlider.value = webCamDisplay.GetComponent<arduinoControl>().pitchOffset;
 //			yawOffsetSlider.value = webCamDisplay.GetComponent<arduinoControl>().yawOffset;
 			zoomSlider.value =	webCamDisplay.GetComponent<webcam>().zoom;
 		}			
 		cameraDropdown.RefreshShownValue();
-		serialDropdown.RefreshShownValue();
 	
 
 	}

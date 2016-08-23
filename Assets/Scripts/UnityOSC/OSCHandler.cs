@@ -89,15 +89,14 @@ public class OSCHandler : MonoBehaviour
 	/// Initializes the OSC Handler.
 	/// Here you can create the OSC servers and clientes.
 	/// </summary>
-	public void Init()
+	public void Init(string address, int port)
 	{
         //Initialize OSC clients (transmitters)
         //Example:		
-
+		CreateClient("sender", IPAddress.Parse(address), port);
         //Initialize OSC servers (listeners)
         //Example:
-
-        CreateServer("TouchOSC", 8015);
+        CreateServer("receiver", port);
 	}
 	
 	#region Properties
