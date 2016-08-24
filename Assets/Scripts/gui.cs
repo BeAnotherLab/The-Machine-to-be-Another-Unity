@@ -29,7 +29,7 @@ public class gui : MonoBehaviour {
 		foreach(WebCamDevice device in devices){
 			cameraDropdown.options.Add (new Dropdown.OptionData () { text = device.name });			
 		}
-		//cameraDropdown.value = PlayerPrefs.GetInt ("cameraID");
+		cameraDropdown.value = PlayerPrefs.GetInt ("cameraID");
 
 	}
 		
@@ -55,7 +55,7 @@ public class gui : MonoBehaviour {
 //			yawOffsetSlider.value = webCamDisplay.GetComponent<arduinoControl>().yawOffset;
 			zoomSlider.value =	webCamDisplay.GetComponent<webcam>().zoom;
 		}			
-		cameraDropdown.RefreshShownValue();
+		//cameraDropdown.RefreshShownValue();
 	
 
 	}
