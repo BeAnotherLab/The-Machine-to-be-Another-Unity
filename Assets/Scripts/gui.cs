@@ -68,8 +68,9 @@ public class gui : MonoBehaviour {
 //			yawOffsetSlider.value = webCamDisplay.GetComponent<arduinoControl>().yawOffset;
 			zoomSlider.value =	webCamDisplay.GetComponent<webcam>().zoom;
 		}			
+		//only from unity 5.3+
 		//cameraDropdown.RefreshShownValue();
-	
+		//serialDropdown.RefreshShownvalue(); 
 
 	}
 

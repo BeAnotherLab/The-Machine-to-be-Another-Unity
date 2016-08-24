@@ -3616,7 +3616,6 @@ MonoBehaviour:
   yawSlider: {fileID: 1819079117}
   rollSlider: {fileID: 2076877396}
   zoomSlider: {fileID: 800259593}
-  serialDropdown: {fileID: 911389405}
   cameraDropdown: {fileID: 549355108}
 --- !u!1 &941542084
 GameObject:
@@ -3835,7 +3834,6 @@ GameObject:
   - 23: {fileID: 1035839689}
   - 114: {fileID: 1035839688}
   - 114: {fileID: 1035839693}
-  - 114: {fileID: 1035839694}
   m_Layer: 0
   m_Name: Point of View
   m_TagString: Untagged
@@ -3934,17 +3932,6 @@ MonoBehaviour:
   baudrate: 57600
   pitchOffset: 0
   yawOffset: 0
---- !u!114 &1035839694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1035839687}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9510bf6c6a6839448ad657fd5bf83376, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1116724786
 GameObject:
   m_ObjectHideFlags: 0
@@ -4885,6 +4872,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointOfView: {fileID: 1035839687}
   audioManager: {fileID: 369592213}
+  mainCamera: {fileID: 0}
 --- !u!1 &1518103804
 GameObject:
   m_ObjectHideFlags: 0

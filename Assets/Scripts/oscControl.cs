@@ -52,7 +52,9 @@ public class oscControl : MonoBehaviour {
 		OSCHandler.Instance.UpdateLogs();
 		servers = OSCHandler.Instance.Servers;
 
-	    foreach( KeyValuePair<string, ServerLog> item in servers )
+		sendHeadTracking ();
+	    
+		foreach( KeyValuePair<string, ServerLog> item in servers )
 		{
 			// If we have received at least one packet,
 			// show the last received from the log in the Debug console
