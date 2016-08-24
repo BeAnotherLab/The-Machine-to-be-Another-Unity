@@ -86,27 +86,27 @@ public class oscControl : MonoBehaviour {
 
 				//pose data
 				else if (item.Value.packets [lastPacketIndex].Address == "pose/x") {
-					pointOfView.GetComponent<webcam> ().otherPose.x = item.Value.packets [lastPacketIndex].Data [0];
+					pointOfView.GetComponent<webcam> ().otherPose.x = (float) item.Value.packets [lastPacketIndex].Data [0];
 				}
 				else if (item.Value.packets [lastPacketIndex].Address == "pose/y") {
-					pointOfView.GetComponent<webcam> ().otherPose.y = item.Value.packets [lastPacketIndex].Data [0];
+					pointOfView.GetComponent<webcam> ().otherPose.y = (float) item.Value.packets [lastPacketIndex].Data [0];
 				}
 				else if (item.Value.packets [lastPacketIndex].Address == "pose/z") {
-					pointOfView.GetComponent<webcam> ().otherPose.z = item.Value.packets [lastPacketIndex].Data [0];
+					pointOfView.GetComponent<webcam> ().otherPose.z = (float) item.Value.packets [lastPacketIndex].Data [0];
 				}
 				else if (item.Value.packets [lastPacketIndex].Address == "pose/w") {
-					pointOfView.GetComponent<webcam> ().otherPose.w = item.Value.packets [lastPacketIndex].Data [0];
+					pointOfView.GetComponent<webcam> ().otherPose.w = (float) item.Value.packets [lastPacketIndex].Data [0];
 				}
 
 				//position data
 				else if (item.Value.packets [lastPacketIndex].Address == "position/x") {
-					pointOfView.GetComponent<webcam> ().otherPosition.x = item.Value.packets [lastPacketIndex].Data [0];
+					pointOfView.GetComponent<webcam> ().otherPosition.x = (float) item.Value.packets [lastPacketIndex].Data [0];
 				}
 				else if (item.Value.packets [lastPacketIndex].Address == "position/y") {
-					pointOfView.GetComponent<webcam> ().otherPosition.y = item.Value.packets [lastPacketIndex].Data [0];
+					pointOfView.GetComponent<webcam> ().otherPosition.y = (float) item.Value.packets [lastPacketIndex].Data [0];
 				}
 				else if (item.Value.packets [lastPacketIndex].Address == "position/z") {
-					pointOfView.GetComponent<webcam> ().otherPosition.z = item.Value.packets [lastPacketIndex].Data [0];
+					pointOfView.GetComponent<webcam> ().otherPosition.z = (float) item.Value.packets [lastPacketIndex].Data [0];
 				}
 
 				//audio clip trigger command
