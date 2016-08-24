@@ -8,7 +8,7 @@ public class webcam : MonoBehaviour {
 	public float range = 20;
 	public float zoom = 39.5f;
 	public float widthHeightRatio = 1.3f;
-	public int cameraID = 0;
+	public int cameraID = 1;
 	public float width, height; 
 	public Quaternion otherPose;
 	public Vector3 otherPosition;
@@ -30,6 +30,11 @@ public class webcam : MonoBehaviour {
 	void getPlayerPrefs() {
 		tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
 		zoom = PlayerPrefs.GetFloat ("zoom");
+        if (zoom == 0)
+        {
+            zoom = 39.5f;
+            PlayerPrefs.SetFloat("zoom", 39.5f);
+        }
 		cameraID = PlayerPrefs.GetInt ("cameraID");
 	}
 
