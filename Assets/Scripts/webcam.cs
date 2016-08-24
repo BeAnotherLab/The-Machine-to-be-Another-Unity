@@ -26,6 +26,8 @@ public class webcam : MonoBehaviour {
 		height = 1080;
 		getPlayerPrefs();
 		startCamera(PlayerPrefs.GetInt("cameraID"));
+		otherPose = new Quaternion ();
+		otherPosition = new Vector3 ();
 	}
 
 	void getPlayerPrefs() {
@@ -37,6 +39,13 @@ public class webcam : MonoBehaviour {
             PlayerPrefs.SetFloat("zoom", 39.5f);
         }
 		cameraID = PlayerPrefs.GetInt ("cameraID");
+	}
+
+	public void setOtherPose (float x, float y, float z, float w){
+		otherPose.x = x;
+		otherPose.y = y;
+		otherPose.z = z;
+		otherPose.w = w;
 	}
 
 	public void setDimmed() {		
