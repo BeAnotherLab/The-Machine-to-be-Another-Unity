@@ -94,26 +94,20 @@ public class oscControl : MonoBehaviour {
 					pointOfView.GetComponent<webcam> ().setOtherPose((float) item.Value.packets [i].Data [0], 0, 0, 0);
 					Debug.Log ("poseX end");
 				}
-				else if (item.Value.packets [i].Address == "/pose/y") {
-					pointOfView.GetComponent<webcam> ().otherPose.y = (float) item.Value.packets [i].Data [0];
-					int x = 4;
-				}
-				else if (item.Value.packets [i].Address == "/pose/z") {
-					pointOfView.GetComponent<webcam> ().otherPose.z = (float) item.Value.packets [i].Data [0];
-				}
-				else if (item.Value.packets [i].Address == "/pose/w") {
-					pointOfView.GetComponent<webcam> ().otherPose.w = (float) item.Value.packets [i].Data [0];
+				else if (item.Value.packets [i].Address == "/pose") {
+					pointOfView.GetComponent<webcam> ().otherPose = new Quaternion (
+						item.Value.packets [i].Data [0],
+						item.Value.packets [i].Data [1],
+						item.Value.packets [i].Data [2],
+						item.Value.packets [i].Data [3]);
 				}
 
 				//position data
-				else if (item.Value.packets [i].Address == "/position/x") {
-					pointOfView.GetComponent<webcam> ().otherPosition.x = (float) item.Value.packets [i].Data [0];
-				}
-				else if (item.Value.packets [i].Address == "/position/y") {
-					pointOfView.GetComponent<webcam> ().otherPosition.y = (float) item.Value.packets [i].Data [0];
-				}
-				else if (item.Value.packets [i].Address == "/position/z") {
-					pointOfView.GetComponent<webcam> ().otherPosition.z = (float) item.Value.packets [i].Data [0];
+				else if (item.Value.packets [i].Address == "/position") {
+					pointOfView.GetComponent<webcam> ().otherPosition = new Vector3 (
+						item.Value.packets [i].Data [0],
+						item.Value.packets [i].Data [1],
+						item.Value.packets [i].Data [2]);
 				}
 
 				//audio clip trigger command
@@ -130,15 +124,14 @@ public class oscControl : MonoBehaviour {
 
 	public void sendHeadTracking () {
 		Quaternion q = mainCamera.transform.rotation;
-		OSCHandler.Instance.SendMessageToClient ("sender", "/pose/x", q.x);
-		OSCHandler.Instance.SendMessageToClient ("sender", "/pose/y", q.y);
-		OSCHandler.Instance.SendMessageToClient ("sender", "/pose/z", q.z);
-		OSCHandler.Instance.SendMessageToClient ("sender", "/pose/w", q.w);
+		List<object> pose = new List<object> ();
+		pose.AddRange(new object[]{q.x, q.y, q.z, q.w});
+		OSCHandler.Instance.SendMessageToClient ("sender", "/pose", pose);
 
 		Vector3 p = mainCamera.transform.position;
-		OSCHandler.Instance.SendMessageToClient ("sender", "/position/x", p.x);
-		OSCHandler.Instance.SendMessageToClient ("sender", "/position/y", p.y);
-		OSCHandler.Instance.SendMessageToClient ("sender", "/position/z", p.z);
+		List<object> position = new List<object> ();
+		position.AddRange (new object[]{p.x, p.y, p.z});
+		OSCHandler.Instance.SendMessageToClient ("sender", "/position", position);
 	}
 		
 }
