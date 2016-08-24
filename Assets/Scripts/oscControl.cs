@@ -96,18 +96,18 @@ public class oscControl : MonoBehaviour {
 				}
 				else if (item.Value.packets [i].Address == "/pose") {
 					pointOfView.GetComponent<webcam> ().otherPose = new Quaternion (
-						item.Value.packets [i].Data [0],
-						item.Value.packets [i].Data [1],
-						item.Value.packets [i].Data [2],
-						item.Value.packets [i].Data [3]);
+						(float) item.Value.packets [i].Data [0],
+						(float) item.Value.packets [i].Data [1],
+						(float) item.Value.packets [i].Data [2],
+						(float) item.Value.packets [i].Data [3]);
 				}
 
 				//position data
 				else if (item.Value.packets [i].Address == "/position") {
 					pointOfView.GetComponent<webcam> ().otherPosition = new Vector3 (
-						item.Value.packets [i].Data [0],
-						item.Value.packets [i].Data [1],
-						item.Value.packets [i].Data [2]);
+						(float) item.Value.packets [i].Data [0],
+						(float) item.Value.packets [i].Data [1],
+						(float) item.Value.packets [i].Data [2]);
 				}
 
 				//audio clip trigger command
