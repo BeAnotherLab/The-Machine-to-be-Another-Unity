@@ -41,13 +41,6 @@ public class webcam : MonoBehaviour {
 		cameraID = PlayerPrefs.GetInt ("cameraID");
 	}
 
-	public void setOtherPose (float x, float y, float z, float w){
-		otherPose.x = x;
-		otherPose.y = y;
-		otherPose.z = z;
-		otherPose.w = w;
-	}
-
 	public void setDimmed() {		
 		dimmed = !dimmed;
 	}
@@ -117,7 +110,7 @@ public class webcam : MonoBehaviour {
 			//transform.localScale = new Vector3 (width/height*zoom, height/width*zoom, 0);
 			transform.localScale = new Vector3 (widthHeightRatio * zoom, 1 / widthHeightRatio * zoom, 0);
 		} else {
-			transform.position = otherPosition + otherPose * Vector3.forward * 15; //keep webcam at a certain distance from head.
+			transform.position = otherPosition; //+ otherPose * Vector3.forward * 15; //keep webcam at a certain distance from head.
 			transform.rotation = otherPose; //keep webcam feed aligned with head
 			//transform.rotation *= Quaternion.Euler (0, 0, 1) * Quaternion.AngleAxis (-utilities.toEulerAngles (POVCamera.transform.rotation).x, Vector3.forward); //compensate for absence of roll servo
 			transform.rotation *= Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis (camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation

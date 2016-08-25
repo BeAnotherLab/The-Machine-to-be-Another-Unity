@@ -62,11 +62,6 @@ public class oscControl : MonoBehaviour {
 
 			if(item.Value.log.Count > 0) 
 			{
-				UnityEngine.Debug.Log ( i.ToString());
-				//UnityEngine.Debug.Log(String.Format("SERVER: {0} ADDRESS: {1} VALUE 0: {2}", 
-				  //                                  item.Key, // Server name
-				    //                                item.Value.packets[i].Address, // OSC address
-				      //                              item.Value.packets[i].Data[0].ToString())); //First data value
 				//recenter pose command
 				if (item.Value.packets [i].Address == "/ht" && item.Value.packets [i].Data [0].ToString () == "1") {
 					pointOfView.GetComponent<webcam> ().recenterPose ();
@@ -89,11 +84,6 @@ public class oscControl : MonoBehaviour {
 				}
 
 				//pose data
-				else if (item.Value.packets [i].Address == "/pose/x") {
-					Debug.Log ("poseX start");
-					pointOfView.GetComponent<webcam> ().setOtherPose((float) item.Value.packets [i].Data [0], 0, 0, 0);
-					Debug.Log ("poseX end");
-				}
 				else if (item.Value.packets [i].Address == "/pose") {
 					pointOfView.GetComponent<webcam> ().otherPose = new Quaternion (
 						(float) item.Value.packets [i].Data [0],

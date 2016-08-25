@@ -1145,7 +1145,6 @@ MonoBehaviour:
   - {fileID: 1518103805}
   - {fileID: 288395132}
   music: {fileID: 2019913579}
-  somethingIsPlaying: 0
 --- !u!224 &369592215
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2712,15 +2711,11 @@ MonoBehaviour:
   panel: {fileID: 1713227102}
   webCamDisplay: {fileID: 1035839687}
   mainCamera: {fileID: 1116724786}
-  monitorGUIEnabled: 0
-  oculusGUIEnabled: 0
-  zoom: 0
-  camera_orientation: 0
-  camera_id: 0
   pitchSlider: {fileID: 1264402058}
   yawSlider: {fileID: 1819079117}
   rollSlider: {fileID: 2076877396}
   zoomSlider: {fileID: 800259593}
+  serialDropdown: {fileID: 0}
   cameraDropdown: {fileID: 549355108}
 --- !u!1 &941542084
 GameObject:
@@ -2964,14 +2959,8 @@ MonoBehaviour:
   cameraID: 0
   width: 0
   height: 0
-  otherOrientation: {x: 0, y: 0, z: 0}
+  otherPose: {x: 0, y: 0, z: 0, w: 0}
   otherPosition: {x: 0, y: 0, z: 0}
-  tiltAngle: 0
-  camTex: {fileID: 0}
-  dimLevel: 1
-  dimmed: 0
-  headtrackingOn: 1
-  dimRate: 0.08
 --- !u!23 &1035839689
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3042,6 +3031,7 @@ GameObject:
   - 92: {fileID: 1116724789}
   - 124: {fileID: 1116724788}
   - 81: {fileID: 1116724787}
+  - 114: {fileID: 1116724792}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3117,6 +3107,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &1116724792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1116724786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e933e81d3c20c74ea6fdc708a67e3a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  queueAhead: 1
+  usePositionTracking: 1
+  resetTrackerOnLoad: 1
 --- !u!1 &1232067783
 GameObject:
   m_ObjectHideFlags: 0
@@ -3821,8 +3825,6 @@ MonoBehaviour:
   pointOfView: {fileID: 1035839687}
   audioManager: {fileID: 369592213}
   mainCamera: {fileID: 1116724790}
-  othersIP: 
-  passAlong: 0
 --- !u!1 &1518103804
 GameObject:
   m_ObjectHideFlags: 0

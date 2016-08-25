@@ -8,12 +8,15 @@ public class gui : MonoBehaviour {
 	public GameObject panel, webCamDisplay, mainCamera;
 	public Slider pitchSlider, yawSlider, rollSlider, zoomSlider;
 	public Dropdown serialDropdown, cameraDropdown;
+	public Text FPS;
 
 	private bool twoWaySwap = true;
 	private bool monitorGUIEnabled, oculusGUIEnabled;
 	private int zoom;
 	private int camera_orientation;	
 	private int camera_id;
+	private float deltaTime = 0.0f;
+
 	// Use this for initialization
 	void Start () {
 		monitorGUIEnabled = true;
@@ -47,6 +50,15 @@ public class gui : MonoBehaviour {
 	}
 		
 
+	void showFPS() {
+		deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
+		int w = Screen.width, h = Screen.height;
+		float msec = deltaTime * 1000.0f;
+		float fps = 1.0f / deltaTime;
+		string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
+		FPS.text = text;
+	}
+
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown("b")){
@@ -72,6 +84,7 @@ public class gui : MonoBehaviour {
 		//cameraDropdown.RefreshShownValue();
 		//serialDropdown.RefreshShownvalue(); 
 
+		showFPS ();
 	}
 
 }
