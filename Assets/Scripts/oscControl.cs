@@ -23,6 +23,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
 using UnityOSC;
 
 
@@ -32,14 +33,21 @@ public class oscControl : MonoBehaviour {
 	public GameObject audioManager;
 	public Camera mainCamera;
 
-	private string othersIP;
-	private bool repeater;
+	private string othersIP = "";
+	private bool repeater = false;
 
 	private Dictionary<string, ServerLog> servers;
 	private Dictionary<string, ClientLog> clients;
 
 	void Start() {	
-		OSCHandler.Instance.Init("172.26.13.193", 8015); //init OSC
+		othersIP = PlayerPrefs.GetString ("othersIP");
+		if (othersIP != "") initOSC();
+		if (PlayerPrefs.GetInt ("repeater") == 0) repeater = false;
+		if (PlayerPrefs.GetInt ("repeater") == 1) repeater = true;
+	}
+
+	private void initOSC (){
+		OSCHandler.Instance.Init(othersIP, 8015); //init OSC
 		servers = new Dictionary<string, ServerLog>();
 		clients = new Dictionary<string, ClientLog>();
 	}
@@ -123,5 +131,15 @@ public class oscControl : MonoBehaviour {
 		position.AddRange (new object[]{p.x, p.y, p.z});
 		OSCHandler.Instance.SendMessageToClient ("sender", "/position", position);
 	}
-		
+
+	public void toggleRepeater(bool r) {
+		repeater = r;
+		if (r) PlayerPrefs.SetInt ("repeater", 1);
+		else   PlayerPrefs.SetInt ("repeater", 0);
+	}
+
+	public void setOthersIP (string ip){
+		othersIP = ip;
+		PlayerPrefs.SetString("othersIP", ip);
+	}
 }

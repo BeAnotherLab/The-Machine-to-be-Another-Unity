@@ -9,6 +9,7 @@ public class gui : MonoBehaviour {
 	public Slider pitchSlider, yawSlider, rollSlider, zoomSlider;
 	public Dropdown serialDropdown, cameraDropdown;
 	public Text FPS;
+	public InputField IP;
 
 	private bool twoWaySwap = true;
 	private bool monitorGUIEnabled, oculusGUIEnabled;
@@ -19,6 +20,7 @@ public class gui : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		setIPInputField ();
 		monitorGUIEnabled = true;
 		setCameraDropdownOptions ();
 		setSerialPortDropdownOptions();
@@ -39,6 +41,10 @@ public class gui : MonoBehaviour {
 		}
 	}
 
+	private void setIPInputField() {
+		IP.text = PlayerPrefs.GetString ("othersIP");
+	}
+
 	private void setCameraDropdownOptions(){
 		WebCamDevice[] devices = WebCamTexture.devices;
 		cameraDropdown.options.Clear ();
@@ -46,7 +52,6 @@ public class gui : MonoBehaviour {
 			cameraDropdown.options.Add (new Dropdown.OptionData () { text = device.name });			
 		}
 		cameraDropdown.value = PlayerPrefs.GetInt ("cameraID");
-
 	}
 		
 
