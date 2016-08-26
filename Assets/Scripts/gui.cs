@@ -7,7 +7,7 @@ public class gui : MonoBehaviour {
 	
 	public GameObject panel, webCamDisplay, mainCamera;
 	public Slider pitchSlider, yawSlider, rollSlider, zoomSlider;
-	public Dropdown serialDropdown, cameraDropdown;
+	//public Dropdown serialDropdown, cameraDropdown;
 	public Text FPS;
 	public InputField IP;
 
@@ -23,14 +23,14 @@ public class gui : MonoBehaviour {
 		setIPInputField ();
 		monitorGUIEnabled = true;
 		setCameraDropdownOptions ();
-		setSerialPortDropdownOptions();
+		//setSerialPortDropdownOptions();
 	}
 
 	public void setMonitorGUIEnabled() {
 		monitorGUIEnabled = !monitorGUIEnabled;
 	}		
 
-	private void setSerialPortDropdownOptions() {
+/*	private void setSerialPortDropdownOptions() {
 		if (!twoWaySwap) {
 			string[] ports = SerialPort.GetPortNames ();
 			serialDropdown.options.Clear ();
@@ -40,18 +40,18 @@ public class gui : MonoBehaviour {
 			serialDropdown.value = PlayerPrefs.GetInt ("Serial port");
 		}
 	}
-
+    */
 	private void setIPInputField() {
 		IP.text = PlayerPrefs.GetString ("othersIP");
 	}
 
 	private void setCameraDropdownOptions(){
 		WebCamDevice[] devices = WebCamTexture.devices;
-		cameraDropdown.options.Clear ();
+		//cameraDropdown.options.Clear ();
 		foreach(WebCamDevice device in devices){
-			cameraDropdown.options.Add (new Dropdown.OptionData () { text = device.name });			
+			//cameraDropdown.options.Add (new Dropdown.OptionData () { text = device.name });			
 		}
-		cameraDropdown.value = PlayerPrefs.GetInt ("cameraID");
+		//cameraDropdown.value = PlayerPrefs.GetInt ("cameraID");
 	}
 		
 

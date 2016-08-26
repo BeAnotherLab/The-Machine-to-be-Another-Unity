@@ -220,7 +220,7 @@ public class COvrvisionUnity
 			ovTrackRender(useOvrvisionTrack_Calib, false);
 
 		//ovGetCamImageForUnityNative(leftPtr, rightPtr);
-		GL.IssuePluginEvent(ovGetCamImageForUnityNativeGLCall(leftPtr, rightPtr), 1);
+		//GL.IssuePluginEvent(ovGetCamImageForUnityNativeGLCall(leftPtr, rightPtr), 1);
 	}
 
 	//For get pixel
