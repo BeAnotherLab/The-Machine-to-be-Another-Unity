@@ -9,9 +9,9 @@ public class gui : MonoBehaviour {
 	public Slider pitchSlider, yawSlider, rollSlider, zoomSlider;
 	public Dropdown serialDropdown, cameraDropdown;
 	public Text FPS;
-	public InputField IP;
+	public InputField IP = null;
 
-	private bool twoWaySwap = true;
+	private bool twoWaySwap = false;
 	private bool monitorGUIEnabled, oculusGUIEnabled;
 	private int zoom;
 	private int camera_orientation;	
@@ -20,7 +20,7 @@ public class gui : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		setIPInputField ();
+		if (twoWaySwap) setIPInputField ();
 		monitorGUIEnabled = true;
 		setCameraDropdownOptions ();
 		setSerialPortDropdownOptions();
@@ -42,7 +42,7 @@ public class gui : MonoBehaviour {
 	}
 
 	private void setIPInputField() {
-		IP.text = PlayerPrefs.GetString ("othersIP");
+        if (IP.text != null)	IP.text = PlayerPrefs.GetString ("othersIP");
 	}
 
 	private void setCameraDropdownOptions(){
