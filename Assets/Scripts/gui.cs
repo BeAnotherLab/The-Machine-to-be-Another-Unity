@@ -20,10 +20,10 @@ public class gui : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		if (twoWaySwap) setIPInputField ();
+		if (!twoWaySwap) setSerialPortDropdownOptions();
+       if (twoWaySwap) setIPInputField ();
 		monitorGUIEnabled = true;
 		setCameraDropdownOptions ();
-		setSerialPortDropdownOptions();
 	}
 
 	public void setMonitorGUIEnabled() {
@@ -47,11 +47,14 @@ public class gui : MonoBehaviour {
 
 	private void setCameraDropdownOptions(){
 		WebCamDevice[] devices = WebCamTexture.devices;
-		cameraDropdown.options.Clear ();
-		foreach(WebCamDevice device in devices){
+        cameraDropdown.options.Clear();
+        
+        foreach (WebCamDevice device in devices){
 			cameraDropdown.options.Add (new Dropdown.OptionData () { text = device.name });			
 		}
-		cameraDropdown.value = PlayerPrefs.GetInt ("cameraID");
+        cameraDropdown.value = 0;
+        cameraDropdown.value = 1;
+        cameraDropdown.value = PlayerPrefs.GetInt ("cameraID");
 	}
 		
 
@@ -86,7 +89,7 @@ public class gui : MonoBehaviour {
 			zoomSlider.value =	webCamDisplay.GetComponent<webcam>().zoom;
 		}			
 		//only from unity 5.3+
-		//cameraDropdown.RefreshShownValue();
+		cameraDropdown.RefreshShownValue();
 		//serialDropdown.RefreshShownvalue(); 
 
 		showFPS ();
