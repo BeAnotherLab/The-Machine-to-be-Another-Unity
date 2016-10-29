@@ -125,12 +125,12 @@ public class oscControl : MonoBehaviour {
 		List<object> pose = new List<object> ();
 		pose.AddRange(new object[]{q.x, q.y, q.z, q.w});
 		OSCHandler.Instance.SendMessageToClient ("sender", "/pose", pose);
-		/*
+
 		Vector3 p = mainCamera.transform.position;
 		List<object> position = new List<object> ();
 		position.AddRange (new object[]{p.x, p.y, p.z});
 		OSCHandler.Instance.SendMessageToClient ("sender", "/position", position);
-*/	
+
 }
 
 	public void toggleRepeater(bool r) {

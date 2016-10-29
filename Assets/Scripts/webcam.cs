@@ -13,7 +13,7 @@ public class webcam : MonoBehaviour {
 	public Quaternion otherPose;
 	public Quaternion nextOtherPose;
 	public Vector3 otherPosition;
-	public float turningRate = 30f;
+	public float turningRate = 90f;
 
 	private float tiltAngle = 0;
 	private WebCamTexture camTex;
