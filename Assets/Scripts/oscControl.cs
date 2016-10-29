@@ -93,11 +93,11 @@ public class oscControl : MonoBehaviour {
 
 				//pose data
 				else if (item.Value.packets [i].Address == "/pose") {
-					pointOfView.GetComponent<webcam> ().otherPose = new Quaternion (
-						(float) item.Value.packets [i].Data [0],
-						(float) item.Value.packets [i].Data [1],
-						(float) item.Value.packets [i].Data [2],
-						(float) item.Value.packets [i].Data [3]);
+					pointOfView.GetComponent<webcam> ().nextOtherPose = new Quaternion (
+						(float)item.Value.packets [i].Data [0],
+						(float)item.Value.packets [i].Data [1],
+						(float)item.Value.packets [i].Data [2],
+						(float)item.Value.packets [i].Data [3]);
 				}
 
 				//position data
@@ -125,12 +125,13 @@ public class oscControl : MonoBehaviour {
 		List<object> pose = new List<object> ();
 		pose.AddRange(new object[]{q.x, q.y, q.z, q.w});
 		OSCHandler.Instance.SendMessageToClient ("sender", "/pose", pose);
-
+		/*
 		Vector3 p = mainCamera.transform.position;
 		List<object> position = new List<object> ();
 		position.AddRange (new object[]{p.x, p.y, p.z});
 		OSCHandler.Instance.SendMessageToClient ("sender", "/position", position);
-	}
+*/	
+}
 
 	public void toggleRepeater(bool r) {
 		repeater = r;

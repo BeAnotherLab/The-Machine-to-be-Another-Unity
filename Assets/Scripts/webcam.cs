@@ -11,7 +11,9 @@ public class webcam : MonoBehaviour {
 	public int cameraID = 1;
 	public float width, height; 
 	public Quaternion otherPose;
+	public Quaternion nextOtherPose;
 	public Vector3 otherPosition;
+	public float turningRate = 30f;
 
 	private float tiltAngle = 0;
 	private WebCamTexture camTex;
@@ -97,11 +99,14 @@ public class webcam : MonoBehaviour {
 	}
 
 	public void switchHeadtracking() {
-		headtrackingOn = !headtrackingOn;
+		headtrackingOn = !headtrackingOn;		
 	}
 		
 	// Update is called once per frame
-	void Update () {		
+	void Update () {	
+		// Turn towards our target rotation.
+		otherPose = Quaternion.RotateTowards(otherPose, nextOtherPose, turningRate * Time.deltaTime);
+
 		if (!twoWaySwap) {
 			transform.position = POVCamera.transform.position + POVCamera.transform.forward * 15; //keep webcam at a certain distance from head.
 			transform.rotation = POVCamera.transform.rotation; //keep webcam feed aligned with head
