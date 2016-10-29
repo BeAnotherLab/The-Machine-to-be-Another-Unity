@@ -52,7 +52,7 @@ namespace UnityOSC
 		private int _localPort;
 		private Thread _receiverThread;
 		private OSCPacket _lastReceivedPacket;
-		private int _sleepMilliseconds = 10;
+		private int _sleepMilliseconds = 0;
 		#endregion
 		
 		#region Properties
