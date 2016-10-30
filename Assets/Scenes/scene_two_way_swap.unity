@@ -1851,57 +1851,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 504911944}
---- !u!1 &509514481
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 509514483}
-  - 114: {fileID: 509514482}
-  m_Layer: 0
-  m_Name: OSC
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &509514482
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 509514481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b64988e220a2942f9856e0017b596ba8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _port: 8015
-  _mode: 0
-  _multicastAddress: 224.1.1.1
-  _filterDuplicates: 1
-  _addTimeTagsToBundledMessages: 0
-  _openOnAwake: 1
-  _dirtyMappings: 1
-  _mappings: []
-  _settingsFoldout: 0
-  _mappingsFoldout: 0
-  _messagesFoldout: 0
---- !u!4 &509514483
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 509514481}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -299.09042, y: -70.68156, z: -144.75}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
 --- !u!1 &549355106
 GameObject:
   m_ObjectHideFlags: 0
@@ -2942,6 +2891,7 @@ MonoBehaviour:
   FPS: {fileID: 1754385142}
   IP: {fileID: 1797232241}
   repeater: {fileID: 934075288}
+  oscIn: {fileID: 0}
   osc: {fileID: 1492380352}
 --- !u!1 &941542084
 GameObject:
@@ -3375,7 +3325,6 @@ GameObject:
   - 33: {fileID: 1035839691}
   - 23: {fileID: 1035839689}
   - 114: {fileID: 1035839688}
-  - 114: {fileID: 1035839690}
   m_Layer: 0
   m_Name: Point of View
   m_TagString: Untagged
@@ -3436,18 +3385,6 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!114 &1035839690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1035839687}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 393b9d4449a1145d0b25de38444f2360, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  oscIn: {fileID: 509514482}
 --- !u!33 &1035839691
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4393,7 +4330,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1492380350}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 667b1118f3365d046b0e6de43764f510, type: 3}
   m_Name: 
@@ -4402,7 +4339,9 @@ MonoBehaviour:
   audioManager: {fileID: 369592213}
   mainCamera: {fileID: 1116724790}
   gui: {fileID: 0}
-  repeater: 0
+  repeater: 1
+  oscOut: {fileID: 0}
+  oscIn: {fileID: 0}
 --- !u!1 &1518103804
 GameObject:
   m_ObjectHideFlags: 0
@@ -5052,6 +4991,17 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1492380352}
+        m_MethodName: setOthersIP
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
         m_MethodName: setOthersIP
         m_Mode: 0
         m_Arguments:

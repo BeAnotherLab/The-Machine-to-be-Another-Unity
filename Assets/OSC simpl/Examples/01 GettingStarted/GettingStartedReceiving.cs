@@ -18,7 +18,7 @@ namespace OscSimpl.Examples
 		void Start()
 		{
 			// Ensure that we have a OscIn component.
-			if( !oscIn ) oscIn = gameObject.AddComponent<OscIn>();
+			//if( !oscIn ) oscIn = gameObject.AddComponent<OscIn>();
 
 			// Start receiving from unicast and broadcast sources on port 7000.
 			oscIn.Open(8015);
@@ -49,7 +49,7 @@ namespace OscSimpl.Examples
 
 			// For mapped methods, simply pass them to Unmap.
 	//		oscIn.Unmap( OnTest1 );
-			oscIn.Unmap( OnTest3 );
+//			oscIn.Unmap( OnTest3 );
 
 			// For mapped delegates, pass the address. Note that this will cause all mappings 
 			// made to that address to be unmapped.
@@ -63,10 +63,13 @@ namespace OscSimpl.Examples
 		}
 
 
-		void OnTest3( OscMessage message )
+		void receiveHeadTracking( OscMessage message )
 		{
 			// Get string arguments at index 0 and 1 safely.
-			float x, y, z, w;
+			float x = 0;
+			float y = 0;
+			float z = 0;
+			float w = 0;
 
 			if( message.TryGet( 0, out x ) && message.TryGet( 1, out y ) && message.TryGet( 2, out z ) &&  message.TryGet( 3, out w ) ){
 				

@@ -34,95 +34,41 @@ public class oscControl : MonoBehaviour {
 	public Camera mainCamera;
 	public GameObject gui;
 	public bool repeater;
+	public OscOut oscOut;
+	public OscIn oscIn;
 
 	private string othersIP = "";
 
-	private Dictionary<string, ServerLog> servers;
-	private Dictionary<string, ClientLog> clients;
+	//private Dictionary<string, ServerLog> servers;
+	//private Dictionary<string, ClientLog> clients;
 
 	void Start() {	
 		othersIP = PlayerPrefs.GetString ("othersIP");
 		if (othersIP != "") initOSC();
 		if (PlayerPrefs.GetInt ("repeater") == 0) repeater = false;
 		if (PlayerPrefs.GetInt ("repeater") == 1) repeater = true;
+		oscIn.Map( "/pose", receiveHeadTracking );
+
 	}
 
 	private void initOSC (){
-		OSCHandler.Instance.Init(othersIP, 8015); //init OSC
-		servers = new Dictionary<string, ServerLog>();
-		clients = new Dictionary<string, ClientLog>();
-	}
+		othersIP = PlayerPrefs.GetString ("othersIP");
+		if( !oscOut ) oscOut = gameObject.AddComponent<OscOut>();
+		if( !oscIn ) oscIn = gameObject.AddComponent<OscIn>();
 
-	// NOTE: The received messages at each server are updated here
-    // Hence, this update depends on your application architecture
+		oscOut.Open( 8015, othersIP);
+		oscIn.Open(8015);
+	}
+		
     // How many frames per second or Update() calls per frame?
 	void Update() {
-		
-		OSCHandler.Instance.UpdateLogs();
-		servers = OSCHandler.Instance.Servers;
-
 		sendHeadTracking ();
 
-		foreach( KeyValuePair<string, ServerLog> item in servers )
-		{
-			// If we have received at least one packet
-			// process the last one
-			int i = item.Value.packets.Count - 1;
 
-			if(item.Value.log.Count > 0) 
-			{
-				//recenter pose command
-				if (item.Value.packets [i].Address == "/ht" && item.Value.packets [i].Data [0].ToString () == "1") {
-					pointOfView.GetComponent<webcam> ().recenterPose ();
-					if (repeater) {
-						OSCHandler.Instance.SendMessageToClient ("sender", "/ht", 1);
-					}
-				} 
-
-				//screen on/off command
-				else if (item.Value.packets [i].Address == "/dimon" && item.Value.packets [i].Data [0].ToString () == "1") {
-					pointOfView.GetComponent<webcam> ().setDimmed (false);
-					if (repeater) {
-						OSCHandler.Instance.SendMessageToClient ("sender", "/dimon", 1);
-					}
-				} else if (item.Value.packets [i].Address == "/dimoff" && item.Value.packets [i].Data [0].ToString () == "1") {
-					pointOfView.GetComponent<webcam> ().setDimmed (true);
-					if (repeater) {
-						OSCHandler.Instance.SendMessageToClient ("sender", "/dimoff", 1);
-					}
-				}
-
-				//pose data
-				else if (item.Value.packets [i].Address == "/pose") {
-					pointOfView.GetComponent<webcam> ().nextOtherPose = new Quaternion (
-						(float)item.Value.packets [i].Data [0],
-						(float)item.Value.packets [i].Data [1],
-						(float)item.Value.packets [i].Data [2],
-						(float)item.Value.packets [i].Data [3]);
-				}
-
-				//position data
-				else if (item.Value.packets [i].Address == "/position") {
-					pointOfView.GetComponent<webcam> ().otherPosition = new Vector3 (
-						(float) item.Value.packets [i].Data [0],
-						(float) item.Value.packets [i].Data [1],
-						(float) item.Value.packets [i].Data [2]);
-				}
-
-				//audio clip trigger command
-				else {
-					for (int j = 0; j < audioManager.GetComponent<AudioPlayer> ().clips.Length; j++) {
-						if (item.Value.packets[i].Address == "/btn" + j.ToString () && item.Value.packets[i].Data [0].ToString () == "1") {
-							audioManager.GetComponent<AudioPlayer> ().playSound (j);
-						}
-					}
-				}
-			}
-	    }
 	}
 
 	public void sendHeadTracking () {
-		Quaternion q = mainCamera.transform.rotation;
+		/*Quaternion q = mainCamera.transform.rotation;
 		List<object> pose = new List<object> ();
 		pose.AddRange(new object[]{q.x, q.y, q.z, q.w});
 		OSCHandler.Instance.SendMessageToClient ("sender", "/pose", pose);
@@ -131,8 +77,8 @@ public class oscControl : MonoBehaviour {
 		List<object> position = new List<object> ();
 		position.AddRange (new object[]{p.x, p.y, p.z});
 		OSCHandler.Instance.SendMessageToClient ("sender", "/position", position);
-
-}
+		*/
+	}
 
 	public void toggleRepeater(bool r) {
 		repeater = r;
@@ -144,4 +90,25 @@ public class oscControl : MonoBehaviour {
 		othersIP = ip;
 		PlayerPrefs.SetString("othersIP", ip);
 	}
+
+
+
+	void receiveHeadTracking( OscMessage message )
+	{
+		// Get string arguments at index 0 and 1 safely.
+		float x = 0;
+		float y = 0;
+		float z = 0;
+		float w = 0;
+
+		if( message.TryGet( 0, out x ) && message.TryGet( 1, out y ) && message.TryGet( 2, out z ) &&  message.TryGet( 3, out w ) ){
+
+			Debug.Log( "Chino receive: " + x + " " + y + " " + z + " " + w );
+		}
+
+		//Quaternion orientation = new Quaternion(x, y, z, w);
+		//transform.rotation = orientation;
+
+	}
+
 }
