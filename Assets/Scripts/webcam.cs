@@ -114,7 +114,7 @@ public class webcam : MonoBehaviour {
 			transform.rotation *= Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis (camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation
 			//transform.localScale = new Vector3 (width/height*zoom, height/width*zoom, 0);
 			//Arthurs: transform.localScale = new Vector3 (widthHeightRatio * zoom, 1 / widthHeightRatio * zoom, 1 * zoom);
-			transform.localScale = new Vector3 (1, 1, -1); 
+			transform.localScale = new Vector3 (0.9, 1, -1); 
 		} else {
 			transform.position = otherPosition + otherPose * Vector3.forward * 15; //keep webcam at a certain distance from head.
 			transform.rotation = otherPose; //keep webcam feed aligned with head
@@ -122,7 +122,7 @@ public class webcam : MonoBehaviour {
 			transform.rotation *= Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis (camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation
 			//transform.localScale = new Vector3 (width/height*zoom, height/width*zoom, 0);
 			//Arthurs: transform.localScale = new Vector3 (widthHeightRatio * zoom, 1 / widthHeightRatio * zoom, 1 * zoom); 
-			transform.localScale = new Vector3 (1, 1, -1); 
+			transform.localScale = new Vector3 (0.9, 1, -1); 
 		}
 		setDimLevel ();
 	}
