@@ -24,7 +24,6 @@ public class gui : MonoBehaviour {
 	void Start () {
 		setIPInputField ();
 		monitorGUIEnabled = true;
-		setRepeaterToggle ();
 		setCameraDropdownOptions ();
 		setSerialPortDropdownOptions();
 	}
@@ -72,6 +71,7 @@ public class gui : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		setRepeaterToggle ();
 
 		if (Input.GetKeyDown("b")){
 			webCamDisplay.GetComponent<webcam>().setDimmed();
