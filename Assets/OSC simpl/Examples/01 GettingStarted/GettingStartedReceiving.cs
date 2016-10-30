@@ -13,7 +13,7 @@ namespace OscSimpl.Examples
 	{
 		public OscIn oscIn;
 
-		public Transform screen;
+
 
 		void Start()
 		{
@@ -21,7 +21,7 @@ namespace OscSimpl.Examples
 			if( !oscIn ) oscIn = gameObject.AddComponent<OscIn>();
 
 			// Start receiving from unicast and broadcast sources on port 7000.
-			oscIn.Open( 8015 );
+			oscIn.Open(8015);
 		}
 
 
@@ -31,7 +31,7 @@ namespace OscSimpl.Examples
 
 			// 1) For messages with one argument, simply provide the address and
 			// a method with one argument. In this case, OnTest1 takes a float argument.
-			oscIn.Map( "/test1", OnTest1 );
+			//oscIn.Map( "/test1", OnTest1 );
 
 			// 2) The same can be achieved using a delgate.
 			//oscIn.Map( "/test2", delegate( float value ){ Debug.Log( "Received: " + value ); });
@@ -48,7 +48,7 @@ namespace OscSimpl.Examples
 			// If you want to stop receiving messages you have to "unmap".
 
 			// For mapped methods, simply pass them to Unmap.
-			oscIn.Unmap( OnTest1 );
+	//		oscIn.Unmap( OnTest1 );
 			oscIn.Unmap( OnTest3 );
 
 			// For mapped delegates, pass the address. Note that this will cause all mappings 
@@ -69,11 +69,13 @@ namespace OscSimpl.Examples
 			float x, y, z, w;
 
 			if( message.TryGet( 0, out x ) && message.TryGet( 1, out y ) && message.TryGet( 2, out z ) &&  message.TryGet( 3, out w ) ){
-				screen.rotation.eulerAngles (z, y, z, w);
-				Debug.Log( "Receiveddd: " + x + " " + y + " " + z + " " + w );
+				
+				Debug.Log( "Chino receive: " + x + " " + y + " " + z + " " + w );
 			}
 
-			//Quaternion orientation = new Quaternion(x, y, z, w);
+			Quaternion orientation = new Quaternion(x, y, z, w);
+			transform.rotation = orientation;
+
 
 			// If you wish to mess with the arguments yourself, you can.
 			//foreach( object a in message.args ) if( a is string ) Debug.Log( "Received: " + a );
