@@ -89,7 +89,7 @@ public class webcam : MonoBehaviour {
 			camTex.requestedWidth = (int)width;
 			camTex.requestedHeight = (int)height;
 			UseWebcamTexture.material.mainTexture = camTex;
-			UseWebcamTexture.material.shader = Shader.Find ("Sprites/Default");
+			//UseWebcamTexture.material.shader = Shader.Find ("Sprites/Default");
 			camTex.Play ();
 		}
 

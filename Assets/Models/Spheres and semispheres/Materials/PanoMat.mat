@@ -8,7 +8,7 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: PanoMat
   m_Shader: {fileID: 4800000, guid: 1ca6555d94ddb204c87e9fe549085b3c, type: 3}
-  m_ShaderKeywords: ALPHAPACK_NONE STEREO_NONE
+  m_ShaderKeywords: ALPHAPACK_NONE APPLY_GAMMA STEREO_NONE
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -81,7 +81,7 @@ Material:
       second: 0
     - first:
         name: _ApplyGamma
-      second: 0
+      second: 1
     - first:
         name: _BumpScale
       second: 1
