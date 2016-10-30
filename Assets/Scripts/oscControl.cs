@@ -32,9 +32,10 @@ public class oscControl : MonoBehaviour {
 	public GameObject pointOfView;
 	public GameObject audioManager;
 	public Camera mainCamera;
+	public GameObject gui;
+	public bool repeater;
 
 	private string othersIP = "";
-	private bool repeater = false;
 
 	private Dictionary<string, ServerLog> servers;
 	private Dictionary<string, ClientLog> clients;
