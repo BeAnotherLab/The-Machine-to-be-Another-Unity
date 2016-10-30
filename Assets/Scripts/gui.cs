@@ -9,9 +9,11 @@ public class gui : MonoBehaviour {
 	public Slider pitchSlider, yawSlider, rollSlider, zoomSlider;
 	public Dropdown serialDropdown, cameraDropdown;
 	public Text FPS;
-	public InputField IP = null;
+	public InputField IP;
+	public Toggle repeater;
+	public oscControl osc;
 
-	private bool twoWaySwap = false;
+	private bool twoWaySwap = true;
 	private bool monitorGUIEnabled, oculusGUIEnabled;
 	private int zoom;
 	private int camera_orientation;	
@@ -57,6 +59,9 @@ public class gui : MonoBehaviour {
         cameraDropdown.value = PlayerPrefs.GetInt ("cameraID");
 	}
 		
+	private void setRepeaterToggle () {
+		repeater.isOn = osc.repeater;
+	}
 
 	void showFPS() {
 		deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
@@ -69,6 +74,8 @@ public class gui : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		setRepeaterToggle ();
+
 		if (Input.GetKeyDown("b")){
 			webCamDisplay.GetComponent<webcam>().setDimmed();
 		}

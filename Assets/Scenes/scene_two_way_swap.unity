@@ -1142,13 +1142,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clips:
   - {fileID: 894504685}
-  - {fileID: 338856560}
-  - {fileID: 266130855}
-  - {fileID: 914244634}
-  - {fileID: 597707842}
   - {fileID: 1894609674}
   - {fileID: 1518103805}
   - {fileID: 288395132}
+  - {fileID: 266130855}
+  - {fileID: 338856560}
+  - {fileID: 914244634}
+  - {fileID: 597707842}
   music: {fileID: 2019913579}
 --- !u!224 &369592215
 RectTransform:
@@ -2890,6 +2890,8 @@ MonoBehaviour:
   cameraDropdown: {fileID: 549355108}
   FPS: {fileID: 1754385142}
   IP: {fileID: 1797232241}
+  repeater: {fileID: 934075288}
+  osc: {fileID: 1492380352}
 --- !u!1 &941542084
 GameObject:
   m_ObjectHideFlags: 0
@@ -3352,7 +3354,7 @@ MonoBehaviour:
   otherPose: {x: 0, y: 0, z: 0, w: 0}
   nextOtherPose: {x: 0, y: 0, z: 0, w: 0}
   otherPosition: {x: 0, y: 0, z: 0}
-  turningRate: 9010
+  turningRate: 90
 --- !u!23 &1035839689
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4347,6 +4349,8 @@ MonoBehaviour:
   pointOfView: {fileID: 1035839687}
   audioManager: {fileID: 369592213}
   mainCamera: {fileID: 1116724790}
+  gui: {fileID: 0}
+  repeater: 0
 --- !u!1 &1518103804
 GameObject:
   m_ObjectHideFlags: 0
@@ -4517,9 +4521,32 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "control\n'b' to dim webcam on/off\n'n' to reset yaw\n'm' to show/hide menu\n\naudio\n'q'
-    welcome\n'w' look at your hands\n'e' move slowly\n'r' look straight\n't' look
-    around\n'y' standby \n'u' shake hands\n'i' goodbye"
+  m_Text: 'control
+
+    ''b'' to dim webcam on/off
+
+    ''n'' to reset yaw
+
+    ''m'' to show/hide menu
+
+
+    audio
+
+    ''q'' welcome
+
+    ''w'' standby
+
+    ''e'' shake hands
+
+    ''r'' goodbye
+
+    ''t'' move slowly
+
+    ''y'' look hands
+
+    ''u'' look straight
+
+    ''i'' look around'
 --- !u!222 &1534634795
 CanvasRenderer:
   m_ObjectHideFlags: 0
