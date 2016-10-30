@@ -7,8 +7,8 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: PanoMat
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
+  m_Shader: {fileID: 4800000, guid: 1ca6555d94ddb204c87e9fe549085b3c, type: 3}
+  m_ShaderKeywords: ALPHAPACK_NONE STEREO_NONE
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -71,7 +71,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - first:
+        name: AlphaPack
+      second: 0
+    - first:
         name: PixelSnap
+      second: 0
+    - first:
+        name: Stereo
+      second: 0
+    - first:
+        name: _ApplyGamma
       second: 0
     - first:
         name: _BumpScale
