@@ -7,7 +7,7 @@ public class webcam : MonoBehaviour {
 	public Camera POVCamera;
 	public float range = 20;
 	public float zoom = 39.5f;
-	public float widthHeightRatio = 1.3f;
+	public float widthHeightRatio = 1.25f;
 	public int cameraID = 1;
 	public float width, height; 
 	public Quaternion otherPose;
@@ -17,7 +17,7 @@ public class webcam : MonoBehaviour {
 
 	private float tiltAngle = 0;
 	private WebCamTexture camTex;
-	private float dimLevel = 1;
+	public float dimLevel = 1;
 	private	bool dimmed = false;
 	private bool headtrackingOn = true;
 	private float dimRate = 0.08f;
@@ -113,14 +113,16 @@ public class webcam : MonoBehaviour {
 			transform.rotation *= Quaternion.Euler (0, 0, 1) * Quaternion.AngleAxis (-utilities.toEulerAngles (POVCamera.transform.rotation).x, Vector3.forward); //compensate for absence of roll servo
 			transform.rotation *= Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis (camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation
 			//transform.localScale = new Vector3 (width/height*zoom, height/width*zoom, 0);
-			transform.localScale = new Vector3 (widthHeightRatio * zoom, 1 / widthHeightRatio * zoom, 0);
+			//Arthurs: transform.localScale = new Vector3 (widthHeightRatio * zoom, 1 / widthHeightRatio * zoom, 1 * zoom);
+			transform.localScale = new Vector3 (1, 1, -1); 
 		} else {
 			transform.position = otherPosition + otherPose * Vector3.forward * 15; //keep webcam at a certain distance from head.
 			transform.rotation = otherPose; //keep webcam feed aligned with head
 			//transform.rotation *= Quaternion.Euler (0, 0, 1) * Quaternion.AngleAxis (-utilities.toEulerAngles (POVCamera.transform.rotation).x, Vector3.forward); //compensate for absence of roll servo
 			transform.rotation *= Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis (camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation
 			//transform.localScale = new Vector3 (width/height*zoom, height/width*zoom, 0);
-			transform.localScale = new Vector3 (widthHeightRatio * zoom, 1 / widthHeightRatio * zoom, 0);
+			//Arthurs: transform.localScale = new Vector3 (widthHeightRatio * zoom, 1 / widthHeightRatio * zoom, 1 * zoom); 
+			transform.localScale = new Vector3 (1, 1, -1); 
 		}
 		setDimLevel ();
 	}
