@@ -21,7 +21,7 @@ public class webcam : MonoBehaviour {
 	private	bool dimmed = false;
 	private bool headtrackingOn = true;
 	private float dimRate = 0.08f;
-	private bool twoWaySwap = false;
+	private bool twoWaySwap = true;
 
 	void Start () {
 		width = 1920;
