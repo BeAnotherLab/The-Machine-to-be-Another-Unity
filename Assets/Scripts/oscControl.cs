@@ -77,13 +77,13 @@ public class oscControl : MonoBehaviour {
 		message.Add(q.z);
 		message.Add(q.w);
 		oscOut.Send (message);
-
+		/*
 		Vector3 p = mainCamera.transform.position;
 		message = new OscMessage ("/position");
 		message.Add(p.x);
 		message.Add(p.y);
 		message.Add(p.z);
-		oscOut.Send (message);
+		oscOut.Send (message);*/
 	}
 
 	public void toggleRepeater(bool r) {
@@ -144,6 +144,7 @@ public class oscControl : MonoBehaviour {
 				
 			if (message.address == "/btn" + i.ToString ()){
 				if (message.TryGet(0, out x)) {
+					
 					if (x == 1f) audioManager.GetComponent<AudioPlayer> ().playSound (i);
 					if (repeater) {
 						oscOut.Send("/btn" + i.ToString(), x);
