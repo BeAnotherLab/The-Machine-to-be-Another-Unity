@@ -70,16 +70,25 @@ public class oscControl : MonoBehaviour {
 	}
 
 	public void sendHeadTracking () {
-		/*Quaternion q = mainCamera.transform.rotation;
-		List<object> pose = new List<object> ();
-		pose.AddRange(new object[]{q.x, q.y, q.z, q.w});
-		OSCHandler.Instance.SendMessageToClient ("sender", "/pose", pose);
+		Quaternion q = mainCamera.transform.rotation;
+		OscMessage message = new OscMessage ("/pose");
+		message.args [0] = q.x;
+		message.args [1] = q.y;
+		message.args [2] = q.z;
+		message.args [3] = q.w;
+		oscOut.send (message);
 
 		Vector3 p = mainCamera.transform.position;
+		message = new OscMessage ("/position");
+		message.args [0] = p.x;
+		message.args [1] = p.y;
+		message.args [2] = p.z;
+		oscOut.send (message);
+
 		List<object> position = new List<object> ();
 		position.AddRange (new object[]{p.x, p.y, p.z});
 		OSCHandler.Instance.SendMessageToClient ("sender", "/position", position);
-		*/
+
 	}
 
 	public void toggleRepeater(bool r) {
