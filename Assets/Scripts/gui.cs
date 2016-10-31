@@ -10,10 +10,9 @@ namespace OscSimpl.Examples
 		public GameObject panel, webCamDisplay, mainCamera;
 		public Slider pitchSlider, yawSlider, rollSlider, zoomSlider;
 		public Dropdown serialDropdown, cameraDropdown;
-		public Text FPS;
+		public Text FPS;	
 		public InputField IP;
 		public Toggle repeater;
-		public OscIn oscIn;
 		public oscControl osc;
 
 		private bool twoWaySwap = true;
@@ -29,12 +28,6 @@ namespace OscSimpl.Examples
 
 			if (!twoWaySwap) setSerialPortDropdownOptions();
 			if (twoWaySwap) {
-				// Ensure that we have a OscIn component.
-				if( !oscIn ) oscIn = gameObject.AddComponent<OscIn>();
-
-				// Start receiving from unicast and broadcast sources on port 7000.
-				oscIn.Open(8015);
-
 				setIPInputField ();
 			}
 			monitorGUIEnabled = true;

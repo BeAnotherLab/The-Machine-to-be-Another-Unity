@@ -59,9 +59,11 @@ public class AudioPlayer : MonoBehaviour {
 	}
 
 	public void playSound(int id){
-		if (!somethingIsPlaying)
+		if (!somethingIsPlaying) {
+			Debug.Log ("playing sound" + id.ToString ());
 			clips [id].Play ();
-			music.volume = 0.45f;	
+			music.volume = 0.45f;
+		}
 	}
 
 	/*
