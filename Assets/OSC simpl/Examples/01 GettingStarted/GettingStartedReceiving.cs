@@ -14,14 +14,13 @@ namespace OscSimpl.Examples
 		public OscIn oscIn;
 
 
-
 		void Start()
 		{
 			// Ensure that we have a OscIn component.
-			//if( !oscIn ) oscIn = gameObject.AddComponent<OscIn>();
+			if( !oscIn ) oscIn = gameObject.AddComponent<OscIn>();
 
 			// Start receiving from unicast and broadcast sources on port 7000.
-			oscIn.Open(8015);
+			oscIn.Open( 7000 );
 		}
 
 
@@ -31,15 +30,15 @@ namespace OscSimpl.Examples
 
 			// 1) For messages with one argument, simply provide the address and
 			// a method with one argument. In this case, OnTest1 takes a float argument.
-			//oscIn.Map( "/test1", OnTest1 );
+			oscIn.Map( "/test1", OnTest1 );
 
 			// 2) The same can be achieved using a delgate.
-			//oscIn.Map( "/test2", delegate( float value ){ Debug.Log( "Received: " + value ); });
+			oscIn.Map( "/test2", delegate( float value ){ Debug.Log( "Received: " + value ); });
 
 			// 3) For messages with multiple arguments, provide the address and a method
 			// that takes a OscMessage object argument, then process the message manually.
 			// See the OnTest3 method.
-			oscIn.Map( "/pose", OnTest3 );
+			oscIn.Map( "/test3", OnTest3 );
 		}
 
 
@@ -48,8 +47,8 @@ namespace OscSimpl.Examples
 			// If you want to stop receiving messages you have to "unmap".
 
 			// For mapped methods, simply pass them to Unmap.
-	//		oscIn.Unmap( OnTest1 );
-//			oscIn.Unmap( OnTest3 );
+			oscIn.Unmap( OnTest1 );
+			oscIn.Unmap( OnTest3 );
 
 			// For mapped delegates, pass the address. Note that this will cause all mappings 
 			// made to that address to be unmapped.
@@ -59,29 +58,20 @@ namespace OscSimpl.Examples
 		
 		void OnTest1( float value )
 		{
-	//		Debug.Log( "Received: " + value );
+			Debug.Log( "Received: " + value );
 		}
 
 
-		void receiveHeadTracking( OscMessage message )
+		void OnTest3( OscMessage message )
 		{
 			// Get string arguments at index 0 and 1 safely.
-			float x = 0;
-			float y = 0;
-			float z = 0;
-			float w = 0;
-
-			if( message.TryGet( 0, out x ) && message.TryGet( 1, out y ) && message.TryGet( 2, out z ) &&  message.TryGet( 3, out w ) ){
-				
-				Debug.Log( "Chino receive: " + x + " " + y + " " + z + " " + w );
+			string text0, text1;
+			if( message.TryGet( 0, out text0 ) && message.TryGet( 1, out text1 ) ){
+				Debug.Log( "Received: " + text0 + " " + text1 );
 			}
 
-			Quaternion orientation = new Quaternion(x, y, z, w);
-			transform.rotation = orientation;
-
-
 			// If you wish to mess with the arguments yourself, you can.
-			//foreach( object a in message.args ) if( a is string ) Debug.Log( "Received: " + a );
+			foreach( object a in message.args ) if( a is string ) Debug.Log( "Received: " + a );
 
 			// NEVER DO THIS AT HOME
 			// Never cast directly, without ensuring that index is inside bounds and encapsulating

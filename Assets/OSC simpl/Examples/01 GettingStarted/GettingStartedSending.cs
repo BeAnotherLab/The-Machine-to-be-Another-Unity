@@ -14,19 +14,15 @@ namespace OscSimpl.Examples
 	public class GettingStartedSending : MonoBehaviour
 	{
 		public OscOut oscOut;
-		private string othersIP;
+
 
 		void Start()
 		{
-			if (PlayerPrefs.GetString ("othersIP") != "") {
-				
-			}
-
 			// Ensure that we have a OscOut component.
-			//if( !oscOut ) oscOut = gameObject.AddComponent<OscOut>();
+			if( !oscOut ) oscOut = gameObject.AddComponent<OscOut>();
 
 			// Prepare for sending messages to applications on this device on port 7000.
-			oscOut.Open( 8015, othersIP);
+			oscOut.Open( 7000 );
 
 			// Or, to a target IP Address (Unicast).
 			//oscOut.Open( 7000, "192.168.1.101" );
@@ -53,12 +49,6 @@ namespace OscSimpl.Examples
 			message.Add( "World" );
 			message.args[0] = "Hello"; // Let's say we want overwrite the first argument
 			oscOut.Send( message );
-		}
-
-
-		public void setOthersIP (string ip){
-			othersIP = ip;
-			PlayerPrefs.SetString("othersIP", ip);
 		}
 	}
 }

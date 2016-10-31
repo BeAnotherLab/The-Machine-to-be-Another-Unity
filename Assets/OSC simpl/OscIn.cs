@@ -29,7 +29,7 @@ public class OscIn : MonoBehaviour
 	/// To set, call the Open method.
 	/// </summary>
 	public int port { get { return _port; } }
-	[SerializeField] int _port = 8015;
+	[SerializeField] int _port = 7000;
 
 	/// <summary>
 	/// Gets the transmission mode (read only). Can either be UnicastBroadcast or Multicast.

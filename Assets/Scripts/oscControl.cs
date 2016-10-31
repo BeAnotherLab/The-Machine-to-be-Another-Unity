@@ -24,91 +24,117 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Net;
-using UnityOSC;
-
-
-public class oscControl : MonoBehaviour {
 	
-	public GameObject pointOfView;
-	public GameObject audioManager;
-	public Camera mainCamera;
-	public GameObject gui;
-	public bool repeater;
-	public OscOut oscOut;
-	public OscIn oscIn;
-
-	private string othersIP = "";
-
-	//private Dictionary<string, ServerLog> servers;
-	//private Dictionary<string, ClientLog> clients;
-
-	void Start() {	
-		othersIP = PlayerPrefs.GetString ("othersIP");
-		if (othersIP != "") initOSC();
-		if (PlayerPrefs.GetInt ("repeater") == 0) repeater = false;
-		if (PlayerPrefs.GetInt ("repeater") == 1) repeater = true;
-		oscIn.Map( "/pose", receiveHeadTracking );
-
-	}
-
-	private void initOSC (){
-		othersIP = PlayerPrefs.GetString ("othersIP");
-		if( !oscOut ) oscOut = gameObject.AddComponent<OscOut>();
-		if( !oscIn ) oscIn = gameObject.AddComponent<OscIn>();
-
-		oscOut.Open( 8015, othersIP);
-		oscIn.Open(8015);
-	}
+namespace OscSimpl.Examples{
+	public class oscControl : MonoBehaviour {
 		
-    // How many frames per second or Update() calls per frame?
-	void Update() {
-		sendHeadTracking ();
+		public GameObject pointOfView;
+		public GameObject audioManager;
+		public Camera mainCamera;
+		public GameObject gui;
+		public bool repeater;
+		public OscOut oscOut;
+		public OscIn oscIn;
 
+		private string othersIP = "";
 
-	}
+		//private Dictionary<string, ServerLog> servers;
+		//private Dictionary<string, ClientLog> clients;
 
-	public void sendHeadTracking () {
-		/*Quaternion q = mainCamera.transform.rotation;
-		List<object> pose = new List<object> ();
-		pose.AddRange(new object[]{q.x, q.y, q.z, q.w});
-		OSCHandler.Instance.SendMessageToClient ("sender", "/pose", pose);
+		void Start() {	
+			othersIP = PlayerPrefs.GetString ("othersIP");
+			if (othersIP != "") initOSC();
+			if (PlayerPrefs.GetInt ("repeater") == 0) repeater = false;
+			if (PlayerPrefs.GetInt ("repeater") == 1) repeater = true;
+			oscIn.Map( "/pose", receiveHeadTracking );
+			oscIn.Map( "/dimon", receiveDim );
+			oscIn.Map( "/dimoff", receiveDim );
+			oscIn.Map( "/ht", receiveCalibrate );
 
-		Vector3 p = mainCamera.transform.position;
-		List<object> position = new List<object> ();
-		position.AddRange (new object[]{p.x, p.y, p.z});
-		OSCHandler.Instance.SendMessageToClient ("sender", "/position", position);
-		*/
-	}
+			for (int i = 0; i < 8; i++) {
+				oscIn.Map ("/btn" + i.ToString, receiveBtn); 
+			}
 
-	public void toggleRepeater(bool r) {
-		repeater = r;
-		if (r) PlayerPrefs.SetInt ("repeater", 1);
-		else   PlayerPrefs.SetInt ("repeater", 0);
-	}
-
-	public void setOthersIP (string ip){
-		othersIP = ip;
-		PlayerPrefs.SetString("othersIP", ip);
-	}
-
-
-
-	void receiveHeadTracking( OscMessage message )
-	{
-		// Get string arguments at index 0 and 1 safely.
-		float x = 0;
-		float y = 0;
-		float z = 0;
-		float w = 0;
-
-		if( message.TryGet( 0, out x ) && message.TryGet( 1, out y ) && message.TryGet( 2, out z ) &&  message.TryGet( 3, out w ) ){
-
-			Debug.Log( "Chino receive: " + x + " " + y + " " + z + " " + w );
 		}
 
-		//Quaternion orientation = new Quaternion(x, y, z, w);
-		//transform.rotation = orientation;
+		private void initOSC (){
+			othersIP = PlayerPrefs.GetString ("othersIP");
+			if( !oscOut ) oscOut = gameObject.AddComponent<OscOut>();
+			if( !oscIn ) oscIn = gameObject.AddComponent<OscIn>();
 
+			oscOut.Open( 8015, othersIP);
+			oscIn.Open(8015);
+		}
+			
+	    // How many frames per second or Update() calls per frame?
+		void Update() {
+			sendHeadTracking ();
+
+
+		}
+
+		public void sendHeadTracking () {
+			/*Quaternion q = mainCamera.transform.rotation;
+			List<object> pose = new List<object> ();
+			pose.AddRange(new object[]{q.x, q.y, q.z, q.w});
+			OSCHandler.Instance.SendMessageToClient ("sender", "/pose", pose);
+
+			Vector3 p = mainCamera.transform.position;
+			List<object> position = new List<object> ();
+			position.AddRange (new object[]{p.x, p.y, p.z});
+			OSCHandler.Instance.SendMessageToClient ("sender", "/position", position);
+			*/
+		}
+
+		public void toggleRepeater(bool r) {
+			repeater = r;
+			if (r) PlayerPrefs.SetInt ("repeater", 1);
+			else   PlayerPrefs.SetInt ("repeater", 0);
+		}
+
+		public void setOthersIP (string ip){
+			othersIP = ip;
+			PlayerPrefs.SetString("othersIP", ip);
+		}
+
+
+
+		void receiveHeadTracking( OscMessage message )
+		{
+			// Get string arguments at index 0 and 1 safely.
+			float x = 0;
+			float y = 0;
+			float z = 0;
+			float w = 0;
+
+			if( message.TryGet( 0, out x ) && message.TryGet( 1, out y ) && message.TryGet( 2, out z ) &&  message.TryGet( 3, out w ) ){
+
+				Debug.Log( "Chino receive: " + x + " " + y + " " + z + " " + w );
+			}
+
+			//Quaternion orientation = new Quaternion(x, y, z, w);
+			//transform.rotation = orientation;
+
+		}
+
+		void receiveDim( OSCMessage message ) {
+			if (message.Address = "/dimon") {
+				float x = 3;
+				if (message.TryGet (0, out x)) {
+					if (x == "0")
+						pointOfView.GetComponent<webcam> ().setDimmed (false);
+					if (x == "1")
+						pointOfView.GetComponent<webcam> ().setDimmed (true);
+				}
+			
+			}
+		}
+
+		void receiveBtn( OSCMessage message ){
+			for (int i = 0; i < 8; i++) {
+
+			}
+		}
+			
 	}
-
 }
