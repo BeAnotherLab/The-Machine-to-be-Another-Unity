@@ -12,8 +12,8 @@ namespace OscSimpl.Examples
 	public class GettingStartedReceiving : MonoBehaviour
 	{
 		public OscIn oscIn;
-
-
+		public Transform screen;
+		public float speed;
 
 		void Start()
 		{
@@ -66,16 +66,35 @@ namespace OscSimpl.Examples
 		void OnTest3( OscMessage message )
 		{
 			// Get string arguments at index 0 and 1 safely.
-			float x, y, z, w;
+			float x = 0, y = 0, z = 0, w = 0;
 
-			if( message.TryGet( 0, out x ) && message.TryGet( 1, out y ) && message.TryGet( 2, out z ) &&  message.TryGet( 3, out w ) ){
-				
-				Debug.Log( "Chino receive: " + x + " " + y + " " + z + " " + w );
+			if (message.TryGet (0, out x) && message.TryGet (1, out y) && message.TryGet (2, out z) && message.TryGet (3, out w)) {
+				//Debug.Log ("Chino receive: " + x + " " + y + " " + z + " " + w);
 			}
 
-			Quaternion orientation = new Quaternion(x, y, z, w);
-			transform.rotation = orientation;
+			Quaternion orientation = new Quaternion (x, y, z, w);
+			Vector3 orientationInAngles = new Vector3 (x, y, z);
+			orientationInAngles = orientation.eulerAngles;
+			Vector3 orientationMapped = new Vector3 (x, y, z);
 
+			Debug.Log ("Euler orientation: " + orientationInAngles);
+
+
+			//angle mapping
+			if (orientationInAngles.y < 180)
+				orientationMapped.x = orientationInAngles.y + 180;
+			else if (orientationInAngles.y > 180)
+				orientationMapped.x =  orientationInAngles.y - 180;
+
+			if (orientationInAngles.x < 180)
+				orientationMapped.y = orientationInAngles.x + 180;
+			else if (orientationInAngles.x > 180)
+				orientationMapped.y =  orientationInAngles.x - 180;
+			
+			screen.transform.position = new Vector3((orientationMapped.x-180)*speed, (180-orientationMapped.y)*speed, 300); //((orientationInAngles.x/360) - 0.5f) * speed, 1);
+			//GameObject.GetComponent<webcam> ().rece = ;
+
+			Debug.Log (screen.transform.position.x);
 
 			// If you wish to mess with the arguments yourself, you can.
 			//foreach( object a in message.args ) if( a is string ) Debug.Log( "Received: " + a );
