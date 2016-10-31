@@ -60,9 +60,8 @@ namespace OscSimpl.Examples
 	        foreach (WebCamDevice device in devices){
 				cameraDropdown.options.Add (new Dropdown.OptionData () { text = device.name });			
 			}
-	        cameraDropdown.value = 0;
-	        cameraDropdown.value = 1;
 	        cameraDropdown.value = PlayerPrefs.GetInt ("cameraID");
+			cameraDropdown.RefreshShownValue();
 		}
 			
 		private void setRepeaterToggle () {
