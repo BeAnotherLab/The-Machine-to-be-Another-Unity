@@ -84,11 +84,7 @@ public class oscControl : MonoBehaviour {
 		message.args [1] = p.y;
 		message.args [2] = p.z;
 		oscOut.send (message);
-
-		List<object> position = new List<object> ();
-		position.AddRange (new object[]{p.x, p.y, p.z});
-		OSCHandler.Instance.SendMessageToClient ("sender", "/position", position);
-
+	
 	}
 
 	public void toggleRepeater(bool r) {
@@ -158,4 +154,5 @@ public class oscControl : MonoBehaviour {
 			}
 		}	
 	}
+
 }
