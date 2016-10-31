@@ -122,14 +122,16 @@ public class oscControl : MonoBehaviour {
 	}
 
 	void receiveDimOn(float value) {
-		if (value == 1f) pointOfView.GetComponent<webcam> ().setDimmed (false);
-		oscOut.Send ("/dimon", 1f);
+		if (value == 1f) {
+			pointOfView.GetComponent<webcam> ().setDimmed (false);
+			if (repeater)	oscOut.Send ("/dimon", 1f);
+		}
 	}
 
 	void receiveDimOff(float value) {
 		if (value == 1f) {
 			pointOfView.GetComponent<webcam> ().setDimmed (true);
-			oscOut.Send ("/dimoff", 1f);
+			if (repeater) oscOut.Send ("/dimoff", 1f);
 		}
 	}
 
