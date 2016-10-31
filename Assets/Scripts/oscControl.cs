@@ -67,8 +67,6 @@ public class oscControl : MonoBehaviour {
 		
 	void Update() {
 		sendHeadTracking ();
-
-
 	}
 
 	public void sendHeadTracking () {
@@ -129,20 +127,18 @@ public class oscControl : MonoBehaviour {
 	}
 
 	void receiveDimOff(float value) {
-		if (value == 0f) {
+		if (value == 1f) {
 			pointOfView.GetComponent<webcam> ().setDimmed (true);
-			oscOut.Send ("/dimoff", 0f);
+			oscOut.Send ("/dimoff", 1f);
 		}
 	}
 
 	void receiveBtn( OscMessage message ){
 		for (int i = 0; i < 8; i++) {
 			float x = 3;
-
+				
 			if (message.address == "/btn" + i.ToString ()){
-				Debug.Log ("");
 				if (message.TryGet(0, out x)) {
-					Debug.Log ("value : " + x);
 					if (x == 1f) audioManager.GetComponent<AudioPlayer> ().playSound (i);
 					if (repeater) {
 						oscOut.Send("/btn" + i.ToString(), x);
