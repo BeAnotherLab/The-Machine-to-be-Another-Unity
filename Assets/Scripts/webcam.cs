@@ -14,6 +14,7 @@ public class webcam : MonoBehaviour {
 	public Quaternion nextOtherPose;
 	public Vector3 otherPosition;
 	public float turningRate = 90f;
+	public bool twoWaySwap;
 
 	private float tiltAngle = 0;
 	private WebCamTexture camTex;
@@ -21,7 +22,6 @@ public class webcam : MonoBehaviour {
 	private	bool dimmed = false;
 	private bool headtrackingOn = true;
 	private float dimRate = 0.08f;
-	private bool twoWaySwap = true;
 
 	void Start () {
 		width = 1920;
@@ -82,6 +82,7 @@ public class webcam : MonoBehaviour {
 	}		
 
 	public void startCamera (int id){
+		Debug.Log ("start camera " + id);
 		WebCamDevice[] devices = WebCamTexture.devices;
 		if (devices.Length == 1)
 			id = 0;
@@ -112,9 +113,10 @@ public class webcam : MonoBehaviour {
 			transform.position = POVCamera.transform.position + POVCamera.transform.forward * 35; //keep webcam at a certain distance from head.
 			transform.rotation = POVCamera.transform.rotation; //keep webcam feed aligned with head
 			transform.rotation *= Quaternion.Euler (0, 0, 1) * Quaternion.AngleAxis (-utilities.toEulerAngles (POVCamera.transform.rotation).x, Vector3.forward); //compensate for absence of roll servo
-			transform.rotation *= Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis (camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation
+			//transform.rotation *= Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis (camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation
 			//transform.localScale = new Vector3 (width/height*zoom, height/width*zoom, 0);
 			//Arthurs: transform.localScale = new Vector3 (widthHeightRatio * zoom, 1 / widthHeightRatio * zoom, 1 * zoom);
+			Debug.Log("one way swap");
 			transform.localScale = new Vector3 (0.9f, 1, -1); 
 		} else {
 			transform.position = otherPosition + otherPose * Vector3.forward * 35; //keep webcam at a certain distance from head.

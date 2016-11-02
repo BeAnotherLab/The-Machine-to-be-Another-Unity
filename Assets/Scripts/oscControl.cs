@@ -34,21 +34,25 @@ public class oscControl : MonoBehaviour {
 	public bool repeater;
 	public OscOut oscOut;
 	public OscIn oscIn;
+	public bool twoWaySwap;
 
 	private string othersIP = "";
 
-	//private Dictionary<string, ServerLog> servers;
-	//private Dictionary<string, ClientLog> clients;
 
 	void Start() {	
 		othersIP = PlayerPrefs.GetString ("othersIP");
-		if (othersIP != "") initOSC();
-		if (PlayerPrefs.GetInt ("repeater") == 0) repeater = false;
-		if (PlayerPrefs.GetInt ("repeater") == 1) repeater = true;
-		oscIn.Map( "/pose", receiveHeadTracking );
-		oscIn.Map( "/dimon", receiveDimOn );
-		oscIn.Map( "/dimoff", receiveDimOff );
-		oscIn.Map( "/ht", receiveCalibrate );
+		//if (othersIP != "") 
+		initOSC();
+		if (twoWaySwap) {
+			if (PlayerPrefs.GetInt ("repeater") == 0)
+				repeater = false;
+			if (PlayerPrefs.GetInt ("repeater") == 1)
+				repeater = true;
+		}
+//		oscIn.Map( "/pose", receiveHeadTracking );
+//		oscIn.Map( "/dimon", receiveDimOn );
+//		oscIn.Map( "/dimoff", receiveDimOff );
+//		oscIn.Map( "/ht", receiveCalibrate );
 
 		for (int i = 0; i < 8; i++) {
 			oscIn.Map ("/btn" + i.ToString(), receiveBtn); 
@@ -58,15 +62,17 @@ public class oscControl : MonoBehaviour {
 
 	private void initOSC (){
 		othersIP = PlayerPrefs.GetString ("othersIP");
-		if( !oscOut ) oscOut = gameObject.AddComponent<OscOut>();
+		if (twoWaySwap) {
+			if (!oscOut)
+				oscOut = gameObject.AddComponent<OscOut> ();
+			oscOut.Open (8015, othersIP);
+		}
 		if( !oscIn ) oscIn = gameObject.AddComponent<OscIn>();
-
-		oscOut.Open( 8015, othersIP);
 		oscIn.Open(8015);
 	}
 		
 	void Update() {
-		sendHeadTracking ();
+		if(twoWaySwap) sendHeadTracking ();
 	}
 
 	public void sendHeadTracking () {
