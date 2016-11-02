@@ -9,6 +9,6 @@ Instructions for installing with the [servo vest](https://github.com/BeAnotherLa
 - Clone this repository from GitHub: `git clone https://github.com/BeAnotherLab/The-Machine-to-be-Another-Unity.git`
 - Install Arduino software
 - Paste the ArduinoSerialCommand folder to your Arduino library folder
-- Compile and upload the [Arduino control sketch](https://raw.githubusercontent.com/BeAnotherLab/The-Machine-to-be-Another-Unity/master/Files/ArduinoControl/ArduinoControl.ino) to the Arduino
+- Compile and upload the [Arduino control sketch](https://raw.githubusercontent.com/BeAnotherLab/The-Machine-to-be-Another-Unity/master/Arduino/ArduinoControl/ArduinoControl.ino) to the Arduino
 - Open the project from Unity and run . 
 
