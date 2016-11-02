@@ -84,16 +84,13 @@ public class webcam : MonoBehaviour {
 	public void startCamera (int id){
 		Debug.Log ("start camera " + id);
 		WebCamDevice[] devices = WebCamTexture.devices;
-		if (devices.Length == 1)
-			id = 0;
- 		if (id < devices.Length) {
-			camTex = new WebCamTexture (devices [id].name, (int)width, (int)height, 60);
+
+			camTex = new WebCamTexture (devices [0].name, (int)width, (int)height, 60);
 			camTex.requestedWidth = (int)width;
 			camTex.requestedHeight = (int)height;
 			UseWebcamTexture.material.mainTexture = camTex;
 			//UseWebcamTexture.material.shader = Shader.Find ("Sprites/Default");
 			camTex.Play ();
-		}
 
 	}
 	public void recenterPose(){
@@ -115,7 +112,7 @@ public class webcam : MonoBehaviour {
 			transform.rotation *= Quaternion.Euler (0, 0, 1) * Quaternion.AngleAxis (-utilities.toEulerAngles (POVCamera.transform.rotation).x, Vector3.forward); //compensate for absence of roll servo
 			//transform.rotation *= Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis (camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation
 			//transform.localScale = new Vector3 (width/height*zoom, height/width*zoom, 0);
-			//Arthurs: transform.localScale = new Vector3 (widthHeightRatio * zoom, 1 / widthHeightRatio * zoom, 1 * zoom);
+			transform.localScale = new Vector3 (widthHeightRatio * zoom, 1 / widthHeightRatio * zoom, 1 * zoom);
 			Debug.Log("one way swap");
 			transform.localScale = new Vector3 (0.9f, 1, -1); 
 		} else {
