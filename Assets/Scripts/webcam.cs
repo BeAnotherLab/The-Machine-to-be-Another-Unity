@@ -77,6 +77,7 @@ public class webcam : MonoBehaviour {
 
 	public void setCameraID(int id) {
 		camTex.Pause ();
+		Debug.Log ("setting camera id " + id);
 		startCamera (id);
 		PlayerPrefs.SetInt ("cameraID", id);
 	}		
@@ -117,13 +118,13 @@ public class webcam : MonoBehaviour {
 			//Arthurs: transform.localScale = new Vector3 (widthHeightRatio * zoom, 1 / widthHeightRatio * zoom, 1 * zoom);
 			transform.localScale = new Vector3 (0.9f, 1, -1); 
 		} else {
-			transform.position = otherPosition + otherPose * Vector3.forward * 35; //keep webcam at a certain distance from head.
+			//transform.position = otherPosition + otherPose * Vector3.forward * 35; //keep webcam at a certain distance from head.
 			transform.rotation = otherPose; //keep webcam feed aligned with head
 			//transform.rotation *= Quaternion.Euler (0, 0, 1) * Quaternion.AngleAxis (-utilities.toEulerAngles (POVCamera.transform.rotation).x, Vector3.forward); //compensate for absence of roll servo
-			transform.rotation *= Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis (camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation
+			//transform.rotation *= Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis (camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation
 			//transform.localScale = new Vector3 (width/height*zoom, height/width*zoom, 0);
-			transform.localScale = new Vector3 (widthHeightRatio * zoom, 1 / widthHeightRatio * zoom, 1 * zoom); 
-			//transform.localScale = new Vector3 (0.9f, 1, -1); 
+			//transform.localScale = new Vector3 (widthHeightRatio * zoom, 1 / widthHeightRatio * zoom, 1 * zoom); 
+			transform.localScale = new Vector3 (0.9f, 1, -1); 
 		}
 		setDimLevel ();
 	}
