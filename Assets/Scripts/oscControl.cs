@@ -46,8 +46,8 @@ public class oscControl : MonoBehaviour {
 		if (PlayerPrefs.GetInt ("repeater") == 0) repeater = false;
 		if (PlayerPrefs.GetInt ("repeater") == 1) repeater = true;
 		oscIn.Map( "/pose", receiveHeadTracking );
-		oscIn.Map( "/dimon", receiveDimOn );
-		oscIn.Map( "/dimoff", receiveDimOff );
+		oscIn.MapFloat( "/dimon", receiveDimOn );
+		oscIn.MapFloat( "/dimoff", receiveDimOff );
 		oscIn.Map( "/ht", receiveCalibrate );
 
 		for (int i = 0; i < 8; i++) {

@@ -38,8 +38,8 @@ namespace OscSimpl.Examples
 			oscIn = gameObject.AddComponent<OscIn>(); 
 			oscOut.Open( 7000 );
 			oscIn.Open( 7000 );
-			oscIn.Map( floatAddress, OnCachedReceived );
-			oscIn.Map( blobAddress, OnBlobReceived );
+			oscIn.MapFloat( floatAddress, OnCachedReceived );
+			oscIn.MapBlob( blobAddress, OnBlobReceived );
 
 			bundle = new OscBundle();
 
@@ -76,7 +76,7 @@ namespace OscSimpl.Examples
 			oscOut.Send( bundle );
 			bundle.Clear();
 
-			// Update labels
+			// Update labels.
 			if( oscOut.isOpen ){
 				sendFloatLabel.text = floatMessage.args[0].ToString();
 				string intArrayString = "";
@@ -88,14 +88,14 @@ namespace OscSimpl.Examples
 
 		void OnCachedReceived( float value )
 		{
-			// Update label
+			// Update label.
 			receiveFloatLabel.text = value.ToString();
 		}
 
 
 		void OnBlobReceived( byte[] blob )
 		{
-			// Update label
+			// Update label.
 			int[] intArray = BlobToIntArray( blob );
 			string intArrayString = "";
 			foreach( int i in intArray ) intArrayString += i + " ";
