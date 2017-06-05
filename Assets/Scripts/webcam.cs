@@ -85,7 +85,7 @@ public class webcam : MonoBehaviour {
 		Debug.Log ("start camera " + id);
 		WebCamDevice[] devices = WebCamTexture.devices;
 
-			camTex = new WebCamTexture (devices [0].name, (int)width, (int)height, 60);
+			camTex = new WebCamTexture (devices [1].name, (int)width, (int)height, 60); //device 0
 			camTex.requestedWidth = (int)width;
 			camTex.requestedHeight = (int)height;
 			UseWebcamTexture.material.mainTexture = camTex;
