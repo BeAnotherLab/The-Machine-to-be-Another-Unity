@@ -74,18 +74,14 @@ public class webcam : MonoBehaviour {
 		zoom = value;
 		PlayerPrefs.SetFloat ("zoom", zoom);
 	}		
-
-	public void setCameraID(int id) {
-		camTex.Pause ();
-		startCamera (id);
-		PlayerPrefs.SetInt ("cameraID", id);
-	}		
+		
 
 	public void startCamera (int id){
 		Debug.Log ("start camera " + id);
+	
 		WebCamDevice[] devices = WebCamTexture.devices;
 
-			camTex = new WebCamTexture (devices [1].name, (int)width, (int)height, 60); //device 0
+			camTex = new WebCamTexture (devices [id].name, (int)width, (int)height, 60); //device 0
 			camTex.requestedWidth = (int)width;
 			camTex.requestedHeight = (int)height;
 			UseWebcamTexture.material.mainTexture = camTex;
@@ -93,6 +89,16 @@ public class webcam : MonoBehaviour {
 			camTex.Play ();
 
 	}
+
+	public void setCameraID(int id) {
+
+		camTex.Stop ();
+		//camTex.Pause ();
+		startCamera (id);
+		PlayerPrefs.SetInt ("cameraID", id);
+	}	
+
+
 	public void recenterPose(){
 		UnityEngine.VR.InputTracking.Recenter();
 	}
@@ -103,6 +109,7 @@ public class webcam : MonoBehaviour {
 		
 	// Update is called once per frame
 	void Update () {	
+
 		// Turn towards our target rotation.
 		otherPose = Quaternion.RotateTowards(otherPose, nextOtherPose, turningRate * Time.deltaTime);
 
@@ -113,7 +120,7 @@ public class webcam : MonoBehaviour {
 			//transform.rotation *= Quaternion.Euler (0, 0, tiltAngle) * Quaternion.AngleAxis (camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation
 			//transform.localScale = new Vector3 (width/height*zoom, height/width*zoom, 0);
 			transform.localScale = new Vector3 (widthHeightRatio * zoom, 1 / widthHeightRatio * zoom, 1 * zoom);
-			Debug.Log("one way swap");
+//			Debug.Log("one way swap");
 			transform.localScale = new Vector3 (0.9f, 1, -1); 
 		} else {
 			transform.position = otherPosition + otherPose * Vector3.forward * 35; //keep webcam at a certain distance from head.
@@ -124,6 +131,7 @@ public class webcam : MonoBehaviour {
 			transform.localScale = new Vector3 (widthHeightRatio * zoom, 1 / widthHeightRatio * zoom, 1 * zoom); 
 			//transform.localScale = new Vector3 (0.9f, 1, -1); 
 		}
-		setDimLevel ();
+		setDimLevel (); //Commented for troubleshooting camera change
+	
 	}
 }

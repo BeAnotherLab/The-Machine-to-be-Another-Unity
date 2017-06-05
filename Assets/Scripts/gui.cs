@@ -92,7 +92,7 @@ using System.IO.Ports;
 
 		if (webCamDisplay.GetComponent<webcam>().isHeadtrackingOn ()) {		
 			Vector3 pitchYawRoll = utilities.toEulerAngles (mainCamera.transform.rotation);
-			Debug.Log ("pitch " + pitchYawRoll.x + " yaw " + pitchYawRoll.y + " roll " + pitchYawRoll.z);
+		//	Debug.Log ("pitch " + pitchYawRoll.x + " yaw " + pitchYawRoll.y + " roll " + pitchYawRoll.z);
 			rollSlider.value = pitchYawRoll.x;
 			yawSlider.value = 90 - pitchYawRoll.y;
 			pitchSlider.value = pitchYawRoll.z + 90;
