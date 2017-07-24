@@ -1,4 +1,6 @@
 # The-Machine-to-be-Another-Unity
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FBeAnotherLab%2FThe-Machine-to-be-Another-Unity.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FBeAnotherLab%2FThe-Machine-to-be-Another-Unity?ref=badge_shield)
+
 
 Port of https://github.com/BeAnotherLab/The-Machine-to-be-Another to Unity. 
 Instructions:
@@ -12,3 +14,7 @@ Instructions:
 - We are using the paid [OSC simpl[(https://www.assetstore.unity3d.com/en/#!/content/53710) addon for OSC communication in the swap setup
 - Open the project from Unity and run . 
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FBeAnotherLab%2FThe-Machine-to-be-Another-Unity.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FBeAnotherLab%2FThe-Machine-to-be-Another-Unity?ref=badge_large)
