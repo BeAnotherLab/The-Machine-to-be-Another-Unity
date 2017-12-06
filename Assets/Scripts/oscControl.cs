@@ -50,7 +50,7 @@ public class oscControl : MonoBehaviour {
 		oscIn.MapFloat( "/dimoff", receiveDimOff );
 		oscIn.Map( "/ht", receiveCalibrate );
 
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 11; i++) {
 			oscIn.Map ("/btn" + i.ToString(), receiveBtn); 
 		}
 
@@ -139,7 +139,7 @@ public class oscControl : MonoBehaviour {
 	}
 
 	void receiveBtn( OscMessage message ){
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 11; i++) {
 			float x = 3;
 				
 			if (message.address == "/btn" + i.ToString ()){
