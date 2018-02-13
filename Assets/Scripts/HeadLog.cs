@@ -17,7 +17,7 @@ public class HeadLog : MonoBehaviour {
 
 	private Vector3 cameraRotation;
 
-	private int participantID = 0;
+	private int participantID;
 	private float startTimeForParticipant;
 
 	// Use this for initialization
@@ -27,7 +27,10 @@ public class HeadLog : MonoBehaviour {
 
 
 	public void StartWriting() {
-		participantID = participantID + 1;
+
+		participantID = PlayerPrefs.GetInt ("participantIndex") + 1;
+		PlayerPrefs.SetInt ("participantIndex", participantID);
+
 		WriteToFile ("subject ID", "date", "pitch", "yaw", "roll", "angular acceleration", "time stamp");
 		startTimeForParticipant = Time.fixedTime;
 		InvokeRepeating ("FastLogger", 0.0f, logRate);
