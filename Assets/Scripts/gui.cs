@@ -14,6 +14,8 @@ namespace OscSimpl.Examples
 		public InputField IP;
 		public Toggle repeater;
 		public oscControl osc;
+		public InputField nameField;
+		public Text nameFieldPlaceHolder;
 
 		private bool twoWaySwap = true;
 		private bool monitorGUIEnabled, oculusGUIEnabled;
@@ -22,21 +24,28 @@ namespace OscSimpl.Examples
 		private int camera_id;
 		private float deltaTime = 0.0f;
 
+		//public static string participantID;
+
 		// Use this for initialization
 		void Start () {
 
+			nameFieldPlaceHolder.text = PlayerPrefs.GetString ("participantID");//loads stored identifier for computer.
 
 			if (!twoWaySwap) setSerialPortDropdownOptions();
 			if (twoWaySwap) {
 				setIPInputField ();
 			}
+
 			monitorGUIEnabled = true;
 			setCameraDropdownOptions ();
+
+
 		}
 
 		public void setMonitorGUIEnabled() {
 			monitorGUIEnabled = !monitorGUIEnabled;
 		}		
+			
 
 		private void setSerialPortDropdownOptions() {
 			if (!twoWaySwap) {
@@ -51,6 +60,11 @@ namespace OscSimpl.Examples
 
 		private void setIPInputField() {
 	        if (IP.text != null)	IP.text = PlayerPrefs.GetString ("othersIP");
+		}
+
+		public void OnParticipantID() {
+			if (nameField.text != null) PlayerPrefs.SetString ("participantID", nameField.text);
+			Debug.Log(PlayerPrefs.GetString("participantID"));
 		}
 
 		private void setCameraDropdownOptions(){
@@ -79,6 +93,8 @@ namespace OscSimpl.Examples
 
 		// Update is called once per frame
 		void Update () {
+
+			//nameFieldPlaceHolder.text = "he man";
 			setRepeaterToggle ();
 
 			if (Input.GetKeyDown("b")){

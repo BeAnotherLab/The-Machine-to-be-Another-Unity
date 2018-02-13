@@ -34,6 +34,7 @@ public class oscControl : MonoBehaviour {
 	public bool repeater;
 	public OscOut oscOut;
 	public OscIn oscIn;
+	public HeadLog headTracking;
 
 	private string othersIP = "";
 
@@ -41,6 +42,7 @@ public class oscControl : MonoBehaviour {
 	//private Dictionary<string, ClientLog> clients;
 
 	void Start() {	
+		
 		othersIP = PlayerPrefs.GetString ("othersIP");
 		if (othersIP != "") initOSC();
 		if (PlayerPrefs.GetInt ("repeater") == 0) repeater = false;
@@ -127,6 +129,7 @@ public class oscControl : MonoBehaviour {
 	void receiveDimOn(float value) {
 		if (value == 1f) {
 			pointOfView.GetComponent<webcam> ().setDimmed (false);
+			headTracking.StopWriting ();
 			if (repeater)	oscOut.Send ("/dimon", 1f);
 		}
 	}
@@ -134,6 +137,7 @@ public class oscControl : MonoBehaviour {
 	void receiveDimOff(float value) {
 		if (value == 1f) {
 			pointOfView.GetComponent<webcam> ().setDimmed (true);
+			headTracking.StartWriting ();
 			if (repeater) oscOut.Send ("/dimoff", 1f);
 		}
 	}
@@ -149,6 +153,14 @@ public class oscControl : MonoBehaviour {
 					if (repeater) {
 						oscOut.Send("/btn" + i.ToString(), x);
 					}
+				}
+
+				if (message.address == "/btn0") {
+					Debug.Log ("Start");
+				}
+
+				if (message.address == "/btn3") {
+					Debug.Log ("Start");
 				}
 			}
 		}	
