@@ -50,6 +50,8 @@ public class oscControl : MonoBehaviour {
 		oscIn.MapFloat( "/dimoff", receiveDimOff );
 		oscIn.Map( "/ht", receiveCalibrate );
 
+		oscIn.Map ("/status", otherUserStatus);
+
 		for (int i = 0; i < 8; i++) {
 			oscIn.Map ("/btn" + i.ToString(), receiveBtn); 
 		}
@@ -98,6 +100,11 @@ public class oscControl : MonoBehaviour {
 	}
 
 
+	void otherUserStatus(OscMessage message){
+		//if (message.TryGet("otherUserIsReady") {
+
+		//}
+	}
 
 	void receiveHeadTracking( OscMessage message )
 	{
