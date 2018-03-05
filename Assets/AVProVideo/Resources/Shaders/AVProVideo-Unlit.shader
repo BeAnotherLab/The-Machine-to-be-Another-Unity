@@ -1,4 +1,6 @@
-﻿Shader "AVProVideo/Unlit/Opaque (texture+color+fog+stereo support)"
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "AVProVideo/Unlit/Opaque (texture+color+fog+stereo support)"
 {
 	Properties
 	{
@@ -50,7 +52,7 @@
 			v2f vert (appdata v)
 			{
 				v2f o;
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv.xy = TRANSFORM_TEX(v.uv, _MainTex);
 
 #if STEREO_TOP_BOTTOM | STEREO_LEFT_RIGHT

@@ -1,4 +1,6 @@
-﻿Shader "AVProVideo/Unlit/Transparent (texture+color+fog+packed alpha)"
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "AVProVideo/Unlit/Transparent (texture+color+fog+packed alpha)"
 {
 	Properties
 	{
@@ -53,7 +55,7 @@
 			v2f vert (appdata v)
 			{
 				v2f o;
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv.xy = TRANSFORM_TEX(v.uv, _MainTex);
 
 				// Horrible hack to undo the scale transform to fit into our UV packing layout logic...

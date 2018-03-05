@@ -110,7 +110,7 @@ namespace OscSimpl
 			Color boxColor = EditorGUIUtility.isProSkin ? new Color( 1, 1, 1, 0.07f ) : new Color( 1, 1, 1, 0.35f );
 
 			// Check for key down before drawing any fields because they might consume the event.
-			bool enterKeyDown = Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.Return;
+			bool enterKeyDown = Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Return;
 			
 			// Load serialized object
 			serializedObject.Update();

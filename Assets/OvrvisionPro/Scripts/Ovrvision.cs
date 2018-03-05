@@ -101,10 +101,10 @@ public class Ovrvision : MonoBehaviour
 			return;
 
 		// Initialize camera plane object(Left)
-		CameraLeft = this.transform.FindChild("LeftCamera").gameObject;
-		CameraRight = this.transform.FindChild("RightCamera").gameObject;
-		CameraPlaneLeft = CameraLeft.transform.FindChild("LeftImagePlane").gameObject;
-		CameraPlaneRight = CameraRight.transform.FindChild("RightImagePlane").gameObject;
+		CameraLeft = this.transform.Find("LeftCamera").gameObject;
+		CameraRight = this.transform.Find("RightCamera").gameObject;
+		CameraPlaneLeft = CameraLeft.transform.Find("LeftImagePlane").gameObject;
+		CameraPlaneRight = CameraRight.transform.Find("RightImagePlane").gameObject;
 
 		CameraLeft.transform.localPosition = Vector3.zero;
 		CameraRight.transform.localPosition = Vector3.zero;
@@ -145,7 +145,7 @@ public class Ovrvision : MonoBehaviour
 		CameraPlaneLeft.transform.localPosition = new Vector3(-0.032f, 0.0f, OvrPro.GetFloatPoint() + IMAGE_ZOFFSET);
 		CameraPlaneRight.transform.localPosition = new Vector3(CameraRightGap.x - 0.040f, 0.0f, OvrPro.GetFloatPoint() + IMAGE_ZOFFSET);
 
-		UnityEngine.VR.InputTracking.Recenter();
+		UnityEngine.XR.InputTracking.Recenter();
 
 		if (useOvrvisionTrack)
 		{

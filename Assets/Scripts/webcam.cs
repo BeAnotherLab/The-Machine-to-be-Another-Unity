@@ -97,7 +97,7 @@ public class webcam : MonoBehaviour {
 
 	}
 	public void recenterPose(){
-		UnityEngine.VR.InputTracking.Recenter();
+		UnityEngine.XR.InputTracking.Recenter();
 	}
 
 	public void switchHeadtracking() {
