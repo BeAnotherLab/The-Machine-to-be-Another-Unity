@@ -27,7 +27,8 @@ public class webcam : MonoBehaviour {
 		width = 1920;
 		height = 1080;
 		getPlayerPrefs();
-		startCamera(PlayerPrefs.GetInt("cameraID"));
+		//startCamera(PlayerPrefs.GetInt("cameraID"));
+		startCamera(cameraID);
 		recenterPose ();
 		otherPose = new Quaternion ();
 		otherPosition = new Vector3 ();
@@ -109,6 +110,8 @@ public class webcam : MonoBehaviour {
 		// Turn towards our target rotation.
 		otherPose = Quaternion.RotateTowards(otherPose, nextOtherPose, turningRate * Time.deltaTime);
 
+		if (Input.GetKeyDown ("b")) setDimmed ();
+
 		if (!twoWaySwap) {
 			transform.position = POVCamera.transform.position + POVCamera.transform.forward * 35; //keep webcam at a certain distance from head.
 			transform.rotation = POVCamera.transform.rotation; //keep webcam feed aligned with head
@@ -127,5 +130,9 @@ public class webcam : MonoBehaviour {
 			transform.localScale = new Vector3 (0.9f, 1, -1); 
 		}
 		setDimLevel ();
+	}
+
+	void OnDisable(){
+		PlayerPrefs.SetInt ("cameraID", cameraID);
 	}
 }

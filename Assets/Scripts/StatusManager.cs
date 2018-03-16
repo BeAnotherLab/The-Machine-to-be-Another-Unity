@@ -8,7 +8,9 @@ public class StatusManager : MonoBehaviour {
 	public static bool thisUserIsReady = false;
 	public static bool otherUserIsReady = false;
 
-	private bool sessionIsPlaying = false;
+	public bool fakeOculusReady;
+
+	private bool sessionIsPlaying = false, someoneIsGone = false;
 
 	// Use this for initialization
 	void Start () {
@@ -24,17 +26,30 @@ public class StatusManager : MonoBehaviour {
 
 		if (!sessionIsPlaying) {
 			if (thisUserIsReady && otherUserIsReady) {
+				Debug.Log ("both are ready, yay!");
 				startPlaying ();
 				sessionIsPlaying = true;
+			} 
+
+			else if (thisUserIsReady && !otherUserIsReady) {
+				waitingForOther ();
 			}
 		}
 
-		if (sessionIsPlaying) {
+		if (sessionIsPlaying){
+			if (!someoneIsGone) {
+				
 			if (!thisUserIsReady && otherUserIsReady || !otherUserIsReady && thisUserIsReady) {
+				Debug.Log ("woops, somebody stopped...");
+				someoneIsGone = true;
+			}
+		}
 
+			if (!thisUserIsReady && !otherUserIsReady) { 
+				sessionIsPlaying = false; 
+				Debug.Log ("now both stopped, come on!");
 			}
 
-			if (!thisUserIsReady && !otherUserIsReady) sessionIsPlaying = false;
 		}
 
 	}
@@ -46,12 +61,21 @@ public class StatusManager : MonoBehaviour {
 		else if (XRDevice.userPresence == UserPresenceState.NotPresent)	thisUserIsReady = false;
 
 		//other
+		checkForFakeOculus ();
 
 	}
 
 
+	void waitingForOther (){
 
-	void startPlaying(){
+	}
 
+	void startPlaying (){
+
+	}
+
+	 
+	void checkForFakeOculus (){
+		otherUserIsReady = fakeOculusReady;
 	}
 }

@@ -35,16 +35,18 @@ public class oscControl : MonoBehaviour {
 	public OscOut oscOut;
 	public OscIn oscIn;
 
-	private string othersIP = "";
+	public string othersIP = "";
 
 	//private Dictionary<string, ServerLog> servers;
 	//private Dictionary<string, ClientLog> clients;
 
 	void Start() {	
-		othersIP = PlayerPrefs.GetString ("othersIP");
+		if (othersIP == null) othersIP = PlayerPrefs.GetString ("othersIP");
 		if (othersIP != "") initOSC();
+
 		if (PlayerPrefs.GetInt ("repeater") == 0) repeater = false;
 		if (PlayerPrefs.GetInt ("repeater") == 1) repeater = true;
+
 		oscIn.Map( "/pose", receiveHeadTracking );
 		oscIn.MapFloat( "/dimon", receiveDimOn );
 		oscIn.MapFloat( "/dimoff", receiveDimOff );
