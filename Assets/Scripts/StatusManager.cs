@@ -14,6 +14,7 @@ public class StatusManager : MonoBehaviour {
 	public GameObject UICanvas;
 	public Text messageInterfaceText;
 	public webcam dimmer;
+	public AudioManager audioManager;
 
 	private bool sessionIsPlaying = false;
 
@@ -36,6 +37,8 @@ public class StatusManager : MonoBehaviour {
 			if (!otherUserIsReady && thisUserIsReady) OtherIsGone ();
 			if (!thisUserIsReady && !otherUserIsReady) BothAreGone();
 		}
+
+		//outside of the if statement because it may be the case that this happens after the session is over
 		
 
 	}
@@ -50,15 +53,16 @@ public class StatusManager : MonoBehaviour {
 
 	void WaitingForOther () {
 		
-		messageInterfaceText.text = LanguageDictionary.waitForOther;
+		messageInterfaceText.text = LanguageTextDictionary.waitForOther;
 
 	}
 
 	void StartPlaying () {
 		
-		messageInterfaceText.text = LanguageDictionary.instructions;
+		messageInterfaceText.text = LanguageTextDictionary.instructions;
 		sessionIsPlaying = true;
-		StartCoroutine ("ShowInstructionsForTime", 5f);
+		StartCoroutine ("ShowInstructionsForTime", 20f); //this should be set to the duration of the audio track
+		audioManager.PlaySound ("instructions");
 
 	}
 
@@ -67,7 +71,9 @@ public class StatusManager : MonoBehaviour {
 		dimmer.setDimmed ();
 		projectionScreen.SetActive (false);
 		UICanvas.SetActive (true);
-		messageInterfaceText.text = LanguageDictionary.otherIsGone;
+		CancelInvoke ("InstructionReminder");
+		CancelInvoke ("IsOVer");
+		messageInterfaceText.text = LanguageTextDictionary.otherIsGone;
 
 	}
 
@@ -85,12 +91,25 @@ public class StatusManager : MonoBehaviour {
 	
 	}
 
+	void InstructionReminder() {
+		audioManager.PlaySound ("reminder");
+	}
+
+	void IsOver(){
+		audioManager.PlaySound ("goodbye");
+		projectionScreen.SetActive (false);
+		UICanvas.SetActive (true);
+		messageInterfaceText.text = LanguageTextDictionary.finished;
+		CancelInvoke ("InstructionReminder");
+	}
+
 	public IEnumerator ShowInstructionsForTime(float time) {
 
 		yield return new WaitForFixedTime (time);
 		UICanvas.SetActive (false);
 		projectionScreen.SetActive (true);
 		dimmer.setDimmed ();
-
+		InvokeRepeating ("InstructionReminder", 10f, 10f);
+		Invoke ("IsOver", 25f);
 	}
 }

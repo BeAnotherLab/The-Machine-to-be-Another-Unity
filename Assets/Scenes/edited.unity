@@ -1053,7 +1053,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 369592215}
-  - component: {fileID: 369592214}
+  - component: {fileID: 369592216}
   m_Layer: 5
   m_Name: Audio Manager
   m_TagString: Untagged
@@ -1061,22 +1061,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &369592214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 369592213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fbdcb888a2695b448aaef472f6764dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clips:
-  - {fileID: 894504685}
-  - {fileID: 266130855}
-  - {fileID: 288395132}
-  music: {fileID: 2019913579}
 --- !u!224 &369592215
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1100,6 +1084,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &369592216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 369592213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7866338db45df84897dbedc00e0683a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  germanClips: []
+  frenchClips: []
+  italianClips: []
+  englishClips:
+  - {fileID: 894504685}
+  - {fileID: 266130855}
+  - {fileID: 288395132}
+  music: {fileID: 2019913579}
 --- !u!1 &369815574
 GameObject:
   m_ObjectHideFlags: 0
@@ -3360,6 +3363,7 @@ MonoBehaviour:
   UICanvas: {fileID: 1692602105}
   messageInterfaceText: {fileID: 431084906}
   dimmer: {fileID: 1035839688}
+  audioManager: {fileID: 369592216}
 --- !u!114 &1057645148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3368,7 +3372,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1057645145}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f88935b3c372edc4cb4f341779d956f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ae1f68a85a159f46b05c0f78d981148, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   defaultLanguage: english
@@ -3383,6 +3387,7 @@ GameObject:
   - component: {fileID: 1116724790}
   - component: {fileID: 1116724788}
   - component: {fileID: 1116724787}
+  - component: {fileID: 1116724789}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3404,6 +3409,17 @@ Behaviour:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1116724786}
   m_Enabled: 1
+--- !u!114 &1116724789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1116724786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c801885f5180998448c931e722c05a13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!20 &1116724790
 Camera:
   m_ObjectHideFlags: 0
@@ -4265,6 +4281,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1492380351}
   - component: {fileID: 1492380353}
+  - component: {fileID: 1492380354}
+  - component: {fileID: 1492380352}
   m_Layer: 0
   m_Name: OSC Controller
   m_TagString: Untagged
@@ -4285,6 +4303,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1492380352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1492380350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a83e4d41d3144efb843adad75b278d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _port: 8015
+  _mode: 1
+  _ipAddress: 192.168.1.1
+  _remoteStatus: 2
+  onAnyMessage:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: OscSimpl.OscMessageEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  _multicastLoopback: 1
+  _bundleMessagesOnEndOfFrame: 0
+  _openOnAwake: 0
+  _settingsFoldout: 0
+  _messagesFoldout: 0
 --- !u!114 &1492380353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4300,7 +4343,31 @@ MonoBehaviour:
   audioManager: {fileID: 369592213}
   mainCamera: {fileID: 1116724790}
   gui: {fileID: 0}
-  othersIP: 127.0.0.1
+  oscOut: {fileID: 1492380352}
+  oscIn: {fileID: 1492380354}
+  othersIP: 184.42.21.17
+--- !u!114 &1492380354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1492380350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b64988e220a2942f9856e0017b596ba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _port: 8015
+  _mode: 0
+  _multicastAddress: 224.1.1.1
+  _filterDuplicates: 1
+  _addTimeTagsToBundledMessages: 0
+  _openOnAwake: 0
+  _dirtyMappings: 0
+  _mappings: []
+  _settingsFoldout: 0
+  _mappingsFoldout: 0
+  _messagesFoldout: 0
 --- !u!1 &1534634792
 GameObject:
   m_ObjectHideFlags: 0

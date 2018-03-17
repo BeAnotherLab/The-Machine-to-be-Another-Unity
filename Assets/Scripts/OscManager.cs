@@ -15,8 +15,9 @@ public class OscManager : MonoBehaviour {
 	public Camera mainCamera;
 	public GameObject gui;
 
-	private OscOut oscOut;
-	private OscIn oscIn;
+	public OscOut oscOut;
+	public OscIn oscIn;
+	private bool previousStatusForSelf;
 
 	public string othersIP = "";
 
@@ -28,13 +29,13 @@ public class OscManager : MonoBehaviour {
 		initOSC();
 
 		oscIn.Map( "/pose", receiveHeadTracking );
-		oscIn.Map("/otherUser", otherUserStatus);
+		oscIn.Map("/otherUser", receiveOtherUserStatus);
 
 	}
 
 	private void initOSC (){
-		oscOut = gameObject.AddComponent<OscOut>();
-		oscIn = gameObject.AddComponent<OscIn>();
+		if(oscOut == null) oscOut = gameObject.AddComponent<OscOut>();
+		if(oscOut == null) oscIn = gameObject.AddComponent<OscIn>();
 
 		oscOut.Open( 8015, othersIP);
 		oscIn.Open(8015);
@@ -42,6 +43,9 @@ public class OscManager : MonoBehaviour {
 		
 	void Update() {
 		sendHeadTracking ();
+
+		if (StatusManager.thisUserIsReady != previousStatusForSelf) sendThisUserStatus(StatusManager.thisUserIsReady);
+		previousStatusForSelf = StatusManager.thisUserIsReady;
 	}
 
 	public void sendHeadTracking () {
@@ -64,14 +68,27 @@ public class OscManager : MonoBehaviour {
 
 	}
 		
+	public void sendThisUserStatus(bool status){
+		
+		int i = 0;
+		OscMessage message = new OscMessage ("/otherUser");
 
-	void otherUserStatus(OscMessage message){
+		if (status == true) i = 1;
+		else i = 0;
+
+		message.Add (i);
+		oscOut.Send (message);
+
+	}
+
+	void receiveOtherUserStatus(OscMessage message){
 		
 		int x = 0;
 
 		if (message.TryGet(0, out x)) {
 			if (x == 0) StatusManager.otherUserIsReady = false;
 			else if (x == 1) StatusManager.otherUserIsReady = true;
+			Debug.Log ("received something");
 		}
 	}
 

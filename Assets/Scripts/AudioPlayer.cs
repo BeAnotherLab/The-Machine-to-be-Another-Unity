@@ -8,6 +8,7 @@ public class AudioPlayer : MonoBehaviour {
 	public AudioSource[] clips;
 	public AudioSource music;
 
+
 	private bool somethingIsPlaying;
 
 	// Use this for initialization
