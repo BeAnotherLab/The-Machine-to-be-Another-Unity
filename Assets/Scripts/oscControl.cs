@@ -37,6 +37,8 @@ public class oscControl : MonoBehaviour {
 
 	public string othersIP = "";
 
+	//public static bool otherIsReady = false;
+
 	//private Dictionary<string, ServerLog> servers;
 	//private Dictionary<string, ClientLog> clients;
 
@@ -51,6 +53,7 @@ public class oscControl : MonoBehaviour {
 		oscIn.MapFloat( "/dimon", receiveDimOn );
 		oscIn.MapFloat( "/dimoff", receiveDimOff );
 		oscIn.Map( "/ht", receiveCalibrate );
+		oscIn.Map("/otherUser", otherUserStatus);
 
 		oscIn.Map ("/status", otherUserStatus);
 
@@ -103,9 +106,16 @@ public class oscControl : MonoBehaviour {
 
 
 	void otherUserStatus(OscMessage message){
-		//if (message.TryGet("otherUserIsReady") {
-
-		//}
+		int x = 0;
+		if (message.TryGet(0, out x)) {
+			if (x == 0) {
+				StatusManager.otherUserIsReady = false;
+				Debug.Log ("not ready");
+			} else if (x == 1) {
+				StatusManager.otherUserIsReady = true;
+				Debug.Log ("is ready");
+			}
+		}
 	}
 
 	void receiveHeadTracking( OscMessage message )

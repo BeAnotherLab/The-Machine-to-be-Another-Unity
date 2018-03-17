@@ -2,80 +2,95 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
+using UnityEngine.UI;
 
 public class StatusManager : MonoBehaviour {
 
-	public static bool thisUserIsReady = false;
-	public static bool otherUserIsReady = false;
+	public static bool thisUserIsReady = false, otherUserIsReady = false;
 
-	public bool fakeOculusReady;
+	public bool fakeOculusReady; //for debugging
 
-	private bool sessionIsPlaying = false, someoneIsGone = false;
+	public GameObject projectionScreen;
+	public GameObject UICanvas;
+	public Text messageInterfaceText;
+	public webcam dimmer;
 
-	// Use this for initialization
+	private bool sessionIsPlaying = false;
+
 	void Start () {
-		
+		projectionScreen.SetActive (false);// = false;
 	}
-	
-	// Update is called once per frame
+
+
 	void Update () {
 
-	//	bool bothAreReady;
-
-		CheckUsersStatus ();
+		CheckThisUserStatus ();
+		//CheckForFakeOculus (); // for virtual other while debugging
 
 		if (!sessionIsPlaying) {
-			if (thisUserIsReady && otherUserIsReady) {
-				Debug.Log ("both are ready, yay!");
-				startPlaying ();
-				sessionIsPlaying = true;
-			} 
-
-			else if (thisUserIsReady && !otherUserIsReady) {
-				waitingForOther ();
-			}
+			if (thisUserIsReady && otherUserIsReady) StartPlaying ();
+			else if (thisUserIsReady && !otherUserIsReady) WaitingForOther ();
 		}
 
 		if (sessionIsPlaying){
-			if (!someoneIsGone) {
-				
-			if (!thisUserIsReady && otherUserIsReady || !otherUserIsReady && thisUserIsReady) {
-				Debug.Log ("woops, somebody stopped...");
-				someoneIsGone = true;
-			}
+			if (!otherUserIsReady && thisUserIsReady) OtherIsGone ();
+			if (!thisUserIsReady && !otherUserIsReady) BothAreGone();
 		}
-
-			if (!thisUserIsReady && !otherUserIsReady) { 
-				sessionIsPlaying = false; 
-				Debug.Log ("now both stopped, come on!");
-			}
-
-		}
+		
 
 	}
 
-	void CheckUsersStatus (){
+	void CheckThisUserStatus () {
 
-		//self
 		if (XRDevice.userPresence == UserPresenceState.Present) thisUserIsReady = true;
 		else if (XRDevice.userPresence == UserPresenceState.NotPresent)	thisUserIsReady = false;
 
-		//other
-		checkForFakeOculus ();
-
 	}
 
 
-	void waitingForOther (){
+	void WaitingForOther () {
+		
+		messageInterfaceText.text = LanguageDictionary.waitForOther;
 
 	}
 
-	void startPlaying (){
+	void StartPlaying () {
+		
+		messageInterfaceText.text = LanguageDictionary.instructions;
+		sessionIsPlaying = true;
+		StartCoroutine ("ShowInstructionsForTime", 5f);
 
 	}
 
+	void OtherIsGone () {
+		
+		dimmer.setDimmed ();
+		projectionScreen.SetActive (false);
+		UICanvas.SetActive (true);
+		messageInterfaceText.text = LanguageDictionary.otherIsGone;
+
+	}
+
+	void BothAreGone() {
+		
+		messageInterfaceText.text = null;
+		sessionIsPlaying = false; 
+
+	}
+		
 	 
-	void checkForFakeOculus (){
+	void CheckForFakeOculus () {//only for debugging
+
 		otherUserIsReady = fakeOculusReady;
+	
+	}
+
+	public IEnumerator ShowInstructionsForTime(float time) {
+
+		yield return new WaitForFixedTime (time);
+		UICanvas.SetActive (false);
+		projectionScreen.SetActive (true);
+		dimmer.setDimmed ();
+
 	}
 }
