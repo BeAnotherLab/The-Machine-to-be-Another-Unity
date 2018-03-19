@@ -62,23 +62,23 @@ public class StatusManager : MonoBehaviour {
 
 		messageInterfaceText.text = LanguageTextDictionary.instructions;
 		sessionIsPlaying = true;
-		StartCoroutine ("ShowInstructionsForTime", 20f); //this should be set to the duration of the audio track
-
+		//StartCoroutine ("ShowInstructionsForTime", 20f); //this should be set to the duration of the audio track
+		StartCoroutine ("StartPlayingCoroutine");
 	}
 
 	public IEnumerator StartPlayingCoroutine(){
 		
-		yield return new WaitForFixedTime (3);
+		yield return new WaitForFixedTime (3);// wait before playing audio
 			
 		audioManager.PlaySound ("instructions");
 
-		yield return new WaitForFixedTime (15);
+		yield return new WaitForFixedTime (21);//duration of audio track to start video after
 
 		UICanvas.SetActive (false);
 		projectionScreen.SetActive (true);
-		dimmer.setDimmed ();
-		InvokeRepeating ("InstructionReminder", 10f, 10f);
-		Invoke ("IsOver", 25f);
+		dimmer.setDimmed (true);
+		InvokeRepeating ("InstructionReminder", 20f, 20f);
+		Invoke ("IsOver", 280f);
 	}
 
 	void OtherIsGone () {
@@ -99,8 +99,14 @@ public class StatusManager : MonoBehaviour {
 		messageInterfaceText.text = null;
 		sessionIsPlaying = false; 
 		audioManager.StopAll ();
+		StopAllCoroutines ();
 	}
 		
+	void InstructionReminder() {
+
+		audioManager.PlaySound ("reminder");
+
+	}
 	 
 	void CheckForFakeOculus () {//only for debugging
 		
@@ -108,11 +114,6 @@ public class StatusManager : MonoBehaviour {
 
 	}
 
-	void InstructionReminder() {
-		
-		audioManager.PlaySound ("reminder");
-
-	}
 
 	void IsOver(){
 		
@@ -123,15 +124,5 @@ public class StatusManager : MonoBehaviour {
 		CancelInvoke ("InstructionReminder");
 
 	}
-
-	public IEnumerator ShowInstructionsForTime(float time) {
-
-		yield return new WaitForFixedTime (time);
-		UICanvas.SetActive (false);
-		projectionScreen.SetActive (true);
-		dimmer.setDimmed ();
-		InvokeRepeating ("InstructionReminder", 10f, 10f);
-		Invoke ("IsOver", 25f);
-
-	}
+		
 }
