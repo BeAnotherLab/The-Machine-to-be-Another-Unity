@@ -36,8 +36,8 @@ public class StatusManager : MonoBehaviour {
 		}
 
 		if (sessionIsPlaying) {
-			if (!otherUserIsReady && thisUserIsReady) SomeoneIsGone ();
-			if (!thisUserIsReady) SomeoneIsGone ();
+			if (!otherUserIsReady && thisUserIsReady) OtherIsGone ();
+			if (!thisUserIsReady) SelfIsGone ();
 		}
 
 		if (!thisUserIsReady && !otherUserIsReady) BothAreGone();
@@ -82,14 +82,25 @@ public class StatusManager : MonoBehaviour {
 		Invoke ("IsOver", 280f);
 	}
 
-	void SomeoneIsGone () {
+	void OtherIsGone () {//different than self is gone in case there is an audio for this case
 		
-		dimmer.setDimmed ();
+		dimmer.setDimmed (false);
 		projectionScreen.SetActive (false);
 		UICanvas.SetActive (true);
 		CancelInvoke ("InstructionReminder");
 		CancelInvoke ("IsOver");
 		messageInterfaceText.text = LanguageTextDictionary.otherIsGone;
+		audioManager.StopAll ();
+
+	}
+
+	void SelfIsGone () {
+		
+		dimmer.setDimmed (false);
+		projectionScreen.SetActive (false);
+		UICanvas.SetActive (true);
+		audioManager.StopAll ();
+		messageInterfaceText.text = null;
 		audioManager.StopAll ();
 
 	}
