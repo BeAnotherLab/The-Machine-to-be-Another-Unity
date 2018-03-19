@@ -36,7 +36,8 @@ public class StatusManager : MonoBehaviour {
 		}
 
 		if (sessionIsPlaying) {
-			if (!otherUserIsReady && thisUserIsReady) OtherIsGone ();
+			if (!otherUserIsReady && thisUserIsReady) SomeoneIsGone ();
+			if (!thisUserIsReady) SomeoneIsGone ();
 		}
 
 		if (!thisUserIsReady && !otherUserIsReady) BothAreGone();
@@ -81,7 +82,7 @@ public class StatusManager : MonoBehaviour {
 		Invoke ("IsOver", 280f);
 	}
 
-	void OtherIsGone () {
+	void SomeoneIsGone () {
 		
 		dimmer.setDimmed ();
 		projectionScreen.SetActive (false);
