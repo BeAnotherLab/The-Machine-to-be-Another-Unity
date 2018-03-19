@@ -11,19 +11,35 @@ public class AudioManager : MonoBehaviour {
 
 	public AudioSource music;
 
+	private AudioSource[] selectedLanguage;
+	private string previouslySelectedLanguage;
+
 	private bool somethingIsPlaying = false;
 
 	void Start () {
 		music.loop = true;
 		music.Play();
+		selectedLanguage = englishClips;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		CheckAudioPlayback (englishClips);
+		CheckAudioPlayback ();
 		if (!somethingIsPlaying) music.volume = 1;
 
+		if (previouslySelectedLanguage != LanguageTextDictionary.selectedLanguage)
+			SelectAudioLanguage (LanguageTextDictionary.selectedLanguage);
+
+		previouslySelectedLanguage = LanguageTextDictionary.selectedLanguage;
+
+	}
+
+	public void SelectAudioLanguage (string language){
+		if (language == "german")	selectedLanguage = germanClips;
+		if (language == "french")	selectedLanguage = frenchClips;
+		if (language == "italian")	selectedLanguage = italianClips;
+		if (language == "english")	selectedLanguage = englishClips;
 	}
 		
 
@@ -41,13 +57,25 @@ public class AudioManager : MonoBehaviour {
 	}
 		
 
-	private void CheckAudioPlayback(AudioSource[] languageClips){
+	private void CheckAudioPlayback(){
 
 		somethingIsPlaying = false;
 
-		for (int i = 0; i < languageClips.Length; i++) {
-			if (languageClips [i].isPlaying)
+		for (int i = 0; i < selectedLanguage.Length; i++) {
+			if (selectedLanguage [i].isPlaying) {
 				somethingIsPlaying = true;
+				Debug.Log ("something is playing");
+			} else
+				Debug.Log ("nothing is playing");
+		}
+	}
+
+	public void StopAll() {
+		if (somethingIsPlaying) {
+			for (int i = 0; i < selectedLanguage.Length; i++) {
+				selectedLanguage [i].Stop ();
+				music.volume = 1f;
+			}
 		}
 	}
 

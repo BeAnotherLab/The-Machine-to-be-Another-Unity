@@ -88,7 +88,6 @@ public class OscManager : MonoBehaviour {
 		if (message.TryGet(0, out x)) {
 			if (x == 0) StatusManager.otherUserIsReady = false;
 			else if (x == 1) StatusManager.otherUserIsReady = true;
-			Debug.Log ("received something");
 		}
 	}
 

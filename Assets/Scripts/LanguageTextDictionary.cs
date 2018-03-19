@@ -5,17 +5,27 @@ using UnityEngine;
 public class LanguageTextDictionary : MonoBehaviour {
 
 	public string defaultLanguage;
+
+	public static string selectedLanguage;
 	public static string waitForOther;
 	public static string otherIsGone;
 	public static string instructions;
 	public static string finished;
 
 	void Start () {
-		SelectedLanguage (defaultLanguage);
+		TextPerLanguage (defaultLanguage);
+		selectedLanguage = defaultLanguage;
 	}
 
+	void Update() {
+		LanguageChanged(defaultLanguage); //Temporary, while there is no aditional language input.
+	}
 
-	public void SelectedLanguage(string language) {
+	public void LanguageChanged(string language) {
+		selectedLanguage = language;
+	}
+
+	public void TextPerLanguage(string language) {
 
 		if (language == "deutsch") {
 			waitForOther = "Bitte warte einen Moment auf den anderen Teilnehmer ...";
