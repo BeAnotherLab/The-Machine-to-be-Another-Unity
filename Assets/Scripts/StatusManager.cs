@@ -69,17 +69,17 @@ public class StatusManager : MonoBehaviour {
 
 	public IEnumerator StartPlayingCoroutine(){
 		
-		yield return new WaitForFixedTime (1.5);// wait before playing audio
+		yield return new WaitForFixedTime (1.5f);// wait before playing audio
 			
 		audioManager.PlaySound ("instructions");
 
-		yield return new WaitForFixedTime (20);//duration of audio track to start video after
+		yield return new WaitForFixedTime (20f);//duration of audio track to start video after
 
 		UICanvas.SetActive (false);
 		projectionScreen.SetActive (true);
 		dimmer.setDimmed (true);
 		InvokeRepeating ("InstructionReminder", 20f, 20f);
-		Invoke ("IsOver", 280f);
+		Invoke ("IsOver", 240f);//4 minutes
 	}
 
 	void OtherIsGone () {//different than self is gone in case there is an audio for this case
