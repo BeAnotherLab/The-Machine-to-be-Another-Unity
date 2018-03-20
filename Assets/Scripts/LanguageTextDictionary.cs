@@ -51,7 +51,7 @@ public class LanguageTextDictionary : MonoBehaviour {
 		if (language == "english") {
 			waitForOther = "Please wait for a moment for the other participant...";
 			otherIsGone = "Woops... \n Seems like your colleague left! \n Thank you for your participation!";
-			instructions = "Please remember \n \n 1. Move very slowly \n 2. Synchronize your movements \n 3. Follow each other";
+			instructions = "Please remember: \n \n 1. Move very slowly \n 2. Synchronize your movements \n 3. Follow each other \n \n \n Focus by adjusting the headset vertically";
 			finished = "We hope you enjoyed your experience. \n Thank you!";
 		}
 	}

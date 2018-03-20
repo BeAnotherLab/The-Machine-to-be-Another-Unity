@@ -32,7 +32,6 @@ public class AudioManager : MonoBehaviour {
 			SelectAudioLanguage (LanguageTextDictionary.selectedLanguage);
 
 		previouslySelectedLanguage = LanguageTextDictionary.selectedLanguage;
-
 	}
 
 	public void SelectAudioLanguage (string language){
@@ -44,9 +43,17 @@ public class AudioManager : MonoBehaviour {
 		
 
 	public void PlaySound(string sound){//no language selection
-		if (sound == "instructions") StartPlaying (0);
-		if (sound == "reminder") StartPlaying (1);
-		if (sound == "goodbye") StartPlaying (2);
+		
+		if (!somethingIsPlaying) {
+			if (sound == "instructions") StartPlaying (0);
+			if (sound == "reminder") StartPlaying (1);
+			if (sound == "hands") StartPlaying (2);
+			if (sound == "object") StartPlaying (3);
+			if (sound == "mirror") StartPlaying (4);
+			if (sound == "goodbye") StartPlaying (5);
+		}
+
+		else if (somethingIsPlaying) Debug.Log("Could not play sound " + sound + " because another sound is playing");
 	}
 
 	private void StartPlaying(int id){//no language selection
@@ -62,11 +69,7 @@ public class AudioManager : MonoBehaviour {
 		somethingIsPlaying = false;
 
 		for (int i = 0; i < selectedLanguage.Length; i++) {
-			if (selectedLanguage [i].isPlaying) {
-				somethingIsPlaying = true;
-				Debug.Log ("something is playing");
-			} else
-				Debug.Log ("nothing is playing");
+			if (selectedLanguage [i].isPlaying)	somethingIsPlaying = true;
 		}
 	}
 

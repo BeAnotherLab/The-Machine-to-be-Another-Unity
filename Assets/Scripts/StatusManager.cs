@@ -16,7 +16,10 @@ public class StatusManager : MonoBehaviour {
 	public webcam dimmer;
 	public AudioManager audioManager;
 
+	public float timeForHandsAudio, timeForObjectAudio, timeForMirrorAudio, timeForGoodbyeAudio;
+
 	private bool sessionIsPlaying = false;
+	private int reminderItem;
 
 	void Start () {
 		
@@ -28,7 +31,7 @@ public class StatusManager : MonoBehaviour {
 	void Update () {
 
 		CheckThisUserStatus ();
-		//CheckForFakeOculus (); // for virtual other while debugging
+		CheckForFakeOculus (); // for virtual other while debugging
 
 		if (!sessionIsPlaying) {
 			if (thisUserIsReady && otherUserIsReady) StartPlaying ();
@@ -55,7 +58,7 @@ public class StatusManager : MonoBehaviour {
 
 	void WaitingForOther () {
 		
-		messageInterfaceText.text = LanguageTextDictionary.waitForOther;
+		messageInterfaceText.text = LanguageTextDictionary.waitForOther; 
 
 	}
 
@@ -63,23 +66,43 @@ public class StatusManager : MonoBehaviour {
 
 		messageInterfaceText.text = LanguageTextDictionary.instructions;
 		sessionIsPlaying = true;
-		//StartCoroutine ("ShowInstructionsForTime", 20f); //this should be set to the duration of the audio track
 		StartCoroutine ("StartPlayingCoroutine");
 	}
 
-	public IEnumerator StartPlayingCoroutine(){
+	public IEnumerator StartPlayingCoroutine() {
 		
-		yield return new WaitForFixedTime (1.5f);// wait before playing audio
+		yield return new WaitForFixedTime (1f);// wait before playing audio
 			
 		audioManager.PlaySound ("instructions");
 
-		yield return new WaitForFixedTime (20f);//duration of audio track to start video after
+		yield return new WaitForFixedTime (2f);//duration of audio track to start video after
 
 		UICanvas.SetActive (false);
 		projectionScreen.SetActive (true);
 		dimmer.setDimmed (true);
-		InvokeRepeating ("InstructionReminder", 20f, 20f);
-		Invoke ("IsOver", 240f);//4 minutes
+
+		Invoke ("PlayHandSound", timeForHandsAudio);
+		InvokeRepeating("RepeatingInstructions", 11f, 23 );
+		Invoke ("PlayObjectSound", timeForObjectAudio);
+		Invoke ("PlayMirrorSound", timeForGoodbyeAudio);
+		Invoke ("IsOver", timeForGoodbyeAudio);
+
+	}
+
+	void PlayHandSound() {
+		audioManager.PlaySound ("hands");
+	}
+
+	void PlayObjectSound() {
+		audioManager.PlaySound ("object");
+	}
+
+	void PlayMirrorSound() {
+		audioManager.PlaySound ("mirror");
+	}
+		
+	void RepeatingInstructions() {
+		audioManager.PlaySound ("reminder");
 	}
 
 	void OtherIsGone () {//different than self is gone in case there is an audio for this case
@@ -87,38 +110,42 @@ public class StatusManager : MonoBehaviour {
 		dimmer.setDimmed (false);
 		projectionScreen.SetActive (false);
 		UICanvas.SetActive (true);
+		messageInterfaceText.text = LanguageTextDictionary.otherIsGone;
+
 		CancelInvoke ("InstructionReminder");
 		CancelInvoke ("IsOver");
-		messageInterfaceText.text = LanguageTextDictionary.otherIsGone;
+		StopAllCoroutines ();
 		audioManager.StopAll ();
 
 	}
 
 	void SelfIsGone () {
-		
-		dimmer.setDimmed (false);
-		projectionScreen.SetActive (false);
-		UICanvas.SetActive (true);
-		audioManager.StopAll ();
-		messageInterfaceText.text = null;
-		audioManager.StopAll ();
+
+		StopExperience ();
 
 	}
 
 	void BothAreGone() {
-		
+
+		StopExperience ();
+
+	}
+
+	void StopExperience() {
+
+		dimmer.setDimmed (false);
 		projectionScreen.SetActive (false);
-		messageInterfaceText.text = null;
+		UICanvas.SetActive (true);
 		sessionIsPlaying = false; 
+		CancelInvoke ("InstructionReminder");
+		CancelInvoke ("IsOver");
 		audioManager.StopAll ();
 		StopAllCoroutines ();
+		reminderItem = 0;
+		messageInterfaceText.text = null;
+
 	}
 		
-	void InstructionReminder() {
-
-		audioManager.PlaySound ("reminder");
-
-	}
 	 
 	void CheckForFakeOculus () {//only for debugging
 		
@@ -127,7 +154,7 @@ public class StatusManager : MonoBehaviour {
 	}
 
 
-	void IsOver(){
+	void IsOver() {
 		
 		audioManager.PlaySound ("goodbye");
 		projectionScreen.SetActive (false);
