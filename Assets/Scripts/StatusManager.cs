@@ -71,11 +71,11 @@ public class StatusManager : MonoBehaviour {
 
 	public IEnumerator StartPlayingCoroutine() {
 		
-		yield return new WaitForFixedTime (1f);// wait before playing audio
+		yield return new WaitForFixedTime (2.5f);// wait before playing audio
 			
 		audioManager.PlaySound ("instructions");
 
-		yield return new WaitForFixedTime (2f);//duration of audio track to start video after
+		yield return new WaitForFixedTime (5f);//duration of audio track to start video after
 
 		UICanvas.SetActive (false);
 		projectionScreen.SetActive (true);
