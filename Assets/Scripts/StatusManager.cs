@@ -137,7 +137,10 @@ public class StatusManager : MonoBehaviour {
 		projectionScreen.SetActive (false);
 		UICanvas.SetActive (true);
 		sessionIsPlaying = false; 
-		CancelInvoke ("InstructionReminder");
+		CancelInvoke ("RepeatingInstructions");
+		CancelInvoke ("PlayHandSound");
+		CancelInvoke ("PlayMirrorSound");
+		CancelInvoke ("PlayObjectSound");
 		CancelInvoke ("IsOver");
 		audioManager.StopAll ();
 		StopAllCoroutines ();
