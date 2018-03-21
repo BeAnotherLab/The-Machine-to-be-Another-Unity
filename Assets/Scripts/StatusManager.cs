@@ -31,7 +31,7 @@ public class StatusManager : MonoBehaviour {
 	void Update () {
 
 		CheckThisUserStatus ();
-		CheckForFakeOculus (); // for virtual other while debugging
+		//CheckForFakeOculus (); // for virtual other while debugging
 
 		if (!sessionIsPlaying) {
 			if (thisUserIsReady && otherUserIsReady) StartPlaying ();

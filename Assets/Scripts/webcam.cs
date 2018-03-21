@@ -33,6 +33,7 @@ public class webcam : MonoBehaviour {
 		recenterPose ();
 		otherPose = new Quaternion ();
 		otherPosition = new Vector3 ();
+
 	}
 
 	void getPlayerPrefs() {
@@ -76,13 +77,7 @@ public class webcam : MonoBehaviour {
 		zoom = value;
 		PlayerPrefs.SetFloat ("zoom", zoom);
 	}		
-
-	public void setCameraID(int id) {
-		camTex.Pause ();
-		Debug.Log ("setting camera id " + id);
-		startCamera (id);
-		PlayerPrefs.SetInt ("cameraID", id);
-	}		
+		
 		
 	public void recenterPose(){
 		UnityEngine.XR.InputTracking.Recenter();
@@ -116,6 +111,8 @@ public class webcam : MonoBehaviour {
 			//transform.localScale = new Vector3 (widthHeightRatio * zoom, 1 / widthHeightRatio * zoom, 1 * zoom); 
 			transform.localScale = new Vector3 (0.9f, 1, -1); 
 		}
+
+		UseWebcamTexture.material.mainTexture = camTex;
 		setDimLevel ();
 	}
 
