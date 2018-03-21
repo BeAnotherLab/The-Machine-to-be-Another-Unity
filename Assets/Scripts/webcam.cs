@@ -24,11 +24,12 @@ public class webcam : MonoBehaviour {
 	private bool twoWaySwap = true;
 
 	void Start () {
-		width = 1920;
-		height = 1080;
-		getPlayerPrefs();
-		//startCamera(PlayerPrefs.GetInt("cameraID"));
-		startCamera(cameraID);
+
+		WebCamDevice[] devices = WebCamTexture.devices;
+		string deviceName = devices[cameraID].name;
+		camTex = new WebCamTexture (deviceName, 1920, 1080);//, 1920, 1080, FPS); //PERFORMANCE DEPENDS ON FRAMERATE AND RESOLUTION
+		camTex.Play();
+
 		recenterPose ();
 		otherPose = new Quaternion ();
 		otherPosition = new Vector3 ();
@@ -82,21 +83,7 @@ public class webcam : MonoBehaviour {
 		startCamera (id);
 		PlayerPrefs.SetInt ("cameraID", id);
 	}		
-
-	public void startCamera (int id){
-		WebCamDevice[] devices = WebCamTexture.devices;
-		if (devices.Length == 1)
-			id = 0;
- 		if (id < devices.Length) {
-			camTex = new WebCamTexture (devices [id].name, (int)width, (int)height, 60);
-			camTex.requestedWidth = (int)width;
-			camTex.requestedHeight = (int)height;
-			UseWebcamTexture.material.mainTexture = camTex;
-			//UseWebcamTexture.material.shader = Shader.Find ("Sprites/Default");
-			camTex.Play ();
-		}
-
-	}
+		
 	public void recenterPose(){
 		UnityEngine.XR.InputTracking.Recenter();
 	}
