@@ -77,7 +77,7 @@ public class StatusManager : MonoBehaviour {
 			
 		audioManager.PlaySound ("instructions");
 
-		yield return new WaitForFixedTime (5f);//duration of audio track to start video after
+		yield return new WaitForFixedTime (19f);//duration of audio track to start video after
 
 		UICanvas.SetActive (false);
 		projectionScreen.SetActive (true);
@@ -161,7 +161,7 @@ public class StatusManager : MonoBehaviour {
 
 	void IsOver() {
 		
-		audioManager.PlaySound ("goodbye");
+		//audioManager.PlaySound ("goodbye");
 		projectionScreen.SetActive (false);
 		UICanvas.SetActive (true);
 		messageInterfaceText.text = LanguageTextDictionary.finished;
