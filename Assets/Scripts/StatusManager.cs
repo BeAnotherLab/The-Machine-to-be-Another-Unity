@@ -16,7 +16,7 @@ public class StatusManager : MonoBehaviour {
 	public webcam dimmer;
 	public AudioManager audioManager;
 
-	public float timeForHandsAudio, timeForObjectAudio, timeForMirrorAudio, timeForGoodbyeAudio;
+	public float timeForHandsAudio, timeForObjectAudio, timeForMirrorAudio, timeForGoodbyeAudio, waitBeforeStart;
 
 	private bool sessionIsPlaying = false;
 	private int reminderItem;
@@ -45,6 +45,8 @@ public class StatusManager : MonoBehaviour {
 
 		if (!thisUserIsReady && !otherUserIsReady) BothAreGone();
 
+		if (Input.GetKeyDown ("o")) IsOver ();
+
 
 	}
 
@@ -71,7 +73,7 @@ public class StatusManager : MonoBehaviour {
 
 	public IEnumerator StartPlayingCoroutine() {
 		
-		yield return new WaitForFixedTime (2.5f);// wait before playing audio
+		yield return new WaitForFixedTime (waitBeforeStart);// wait before playing audio
 			
 		audioManager.PlaySound ("instructions");
 
@@ -81,11 +83,11 @@ public class StatusManager : MonoBehaviour {
 		projectionScreen.SetActive (true);
 		dimmer.setDimmed (true);
 
-		Invoke ("PlayHandSound", timeForHandsAudio);
-		InvokeRepeating("RepeatingInstructions", 11f, 23 );
-		Invoke ("PlayObjectSound", timeForObjectAudio);
-		Invoke ("PlayMirrorSound", timeForGoodbyeAudio);
-		Invoke ("IsOver", timeForGoodbyeAudio);
+		//Invoke ("PlayHandSound", timeForHandsAudio);
+		//InvokeRepeating("RepeatingInstructions", 11f, 23 );
+		//Invoke ("PlayObjectSound", timeForObjectAudio);
+		//Invoke ("PlayMirrorSound", timeForGoodbyeAudio);
+		//Invoke ("IsOver", timeForGoodbyeAudio);
 
 	}
 
@@ -137,11 +139,11 @@ public class StatusManager : MonoBehaviour {
 		projectionScreen.SetActive (false);
 		UICanvas.SetActive (true);
 		sessionIsPlaying = false; 
-		CancelInvoke ("RepeatingInstructions");
-		CancelInvoke ("PlayHandSound");
-		CancelInvoke ("PlayMirrorSound");
-		CancelInvoke ("PlayObjectSound");
-		CancelInvoke ("IsOver");
+		//CancelInvoke ("RepeatingInstructions");
+		//CancelInvoke ("PlayHandSound");
+		//CancelInvoke ("PlayMirrorSound");
+		//CancelInvoke ("PlayObjectSound");
+		//CancelInvoke ("IsOver");
 		audioManager.StopAll ();
 		StopAllCoroutines ();
 		reminderItem = 0;
@@ -163,7 +165,7 @@ public class StatusManager : MonoBehaviour {
 		projectionScreen.SetActive (false);
 		UICanvas.SetActive (true);
 		messageInterfaceText.text = LanguageTextDictionary.finished;
-		CancelInvoke ("InstructionReminder");
+		//CancelInvoke ("InstructionReminder");
 
 	}
 		
