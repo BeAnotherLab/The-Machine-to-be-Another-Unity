@@ -9,6 +9,8 @@ public class AudioManager : MonoBehaviour {
 	public AudioSource[] italianClips;
 	public AudioSource[] englishClips;
 
+	public AudioSource[] triggerableClips;
+
 	public AudioSource music;
 
 	private AudioSource[] selectedLanguage;
@@ -32,6 +34,10 @@ public class AudioManager : MonoBehaviour {
 			SelectAudioLanguage (LanguageTextDictionary.selectedLanguage);
 
 		previouslySelectedLanguage = LanguageTextDictionary.selectedLanguage;
+
+		for (int i = 0; i < triggerableClips.Length; i++) {
+			if (Input.GetKeyDown (i.ToString ())) PlayTriggerableClips (i);
+		}
 	}
 
 	public void SelectAudioLanguage (string language){
@@ -39,6 +45,11 @@ public class AudioManager : MonoBehaviour {
 		if (language == "french")	selectedLanguage = frenchClips;
 		if (language == "italian")	selectedLanguage = italianClips;
 		if (language == "english")	selectedLanguage = englishClips;
+	}
+
+	public void PlayTriggerableClips(int i){
+		if (!somethingIsPlaying)
+			triggerableClips [i].Play ();
 	}
 		
 
@@ -70,6 +81,10 @@ public class AudioManager : MonoBehaviour {
 
 		for (int i = 0; i < selectedLanguage.Length; i++) {
 			if (selectedLanguage [i].isPlaying)	somethingIsPlaying = true;
+		}
+
+		for (int i = 0; i < triggerableClips.Length; i++) {
+		//	if (triggerableClips[i].isPlaying)	somethingIsPlaying = true;
 		}
 	}
 
