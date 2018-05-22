@@ -36,6 +36,7 @@ public class webcam : MonoBehaviour {
 
 	}
 
+	/*
 	void getPlayerPrefs() {
 		tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
 		zoom = PlayerPrefs.GetFloat ("zoom");
@@ -45,7 +46,7 @@ public class webcam : MonoBehaviour {
             PlayerPrefs.SetFloat("zoom", 39.5f);
         }
 		cameraID = PlayerPrefs.GetInt ("cameraID");
-	}
+	}*/
 
 	public void setDimmed() {		
 		dimmed = !dimmed;
@@ -116,7 +117,7 @@ public class webcam : MonoBehaviour {
 		setDimLevel ();
 	}
 
-	void OnDisable(){
+	void OnDestroy(){
 		camTex.Stop();
 		PlayerPrefs.SetInt ("cameraID", cameraID);
 	}

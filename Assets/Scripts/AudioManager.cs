@@ -39,7 +39,7 @@ public class AudioManager : MonoBehaviour {
 	void Update () {
 
 		CheckAudioPlayback ();
-		if (!somethingIsPlaying) music.volume = 0.75f;
+	//	if (!somethingIsPlaying) music.volume = 0.75f;
 
 		if (previouslySelectedLanguage != LanguageTextDictionary.selectedLanguage)
 			SelectAudioLanguage (LanguageTextDictionary.selectedLanguage);
@@ -80,7 +80,7 @@ public class AudioManager : MonoBehaviour {
 	private void StartPlaying(int id){//no language selection
 		if (!somethingIsPlaying) {
 			englishClips [id].Play ();
-			music.volume = 0.45f;//this should be fade
+			//music.volume = 0.45f;//this should be fade
 		}
 	}
 		
@@ -102,7 +102,7 @@ public class AudioManager : MonoBehaviour {
 		if (somethingIsPlaying) {
 			for (int i = 0; i < selectedLanguage.Length; i++) {
 				selectedLanguage [i].Stop ();
-				music.volume = 0.75f;
+				//music.volume = 0.75f;
 			}
 		}
 	}

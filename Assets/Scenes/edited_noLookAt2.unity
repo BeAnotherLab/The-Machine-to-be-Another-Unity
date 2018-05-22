@@ -2891,7 +2891,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 110a9d0963dc3ca478d446e61b5b3693, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 504e544f80975b74ea17f6261fb9381c, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -3969,14 +3969,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fakeOculusReady: 0
   useWithLookAt: 1
+  useFakeOculus: 0
   projectionScreen: {fileID: 1035839687}
   UICanvas: {fileID: 1692602105}
   messageInterfaceText: {fileID: 431084906}
   dimmer: {fileID: 1035839688}
   audioManager: {fileID: 369592216}
-  waitBeforeInstructions: 1
-  waitAfterInstructionsForScreen: 1
-  waitForGoodbye: 30
+  waitBeforeInstructions: 5
+  waitAfterInstructionsForScreen: 24
+  waitForGoodbye: 5.33
 --- !u!114 &1057645148
 MonoBehaviour:
   m_ObjectHideFlags: 0
