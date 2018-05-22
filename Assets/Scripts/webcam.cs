@@ -117,6 +117,7 @@ public class webcam : MonoBehaviour {
 	}
 
 	void OnDisable(){
+		camTex.Stop();
 		PlayerPrefs.SetInt ("cameraID", cameraID);
 	}
 }

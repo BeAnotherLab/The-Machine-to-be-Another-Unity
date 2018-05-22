@@ -21,7 +21,7 @@ namespace VRStandardAssets.Menu
 
 
 		private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
-
+		public static bool userIsReady;	//When the user starts looking at the trigger long enough, Added by Marte
 
 		private void OnEnable ()
 		{
@@ -67,6 +67,7 @@ namespace VRStandardAssets.Menu
 
 		private IEnumerator ActivateButton()
 		{
+			
 			// If the camera is already fading, ignore.
 			if (m_CameraFade.IsFading)
 				yield break;
@@ -79,7 +80,8 @@ namespace VRStandardAssets.Menu
 			yield return StartCoroutine(m_CameraFade.BeginFadeOut(true));
 
 			// Load the level.
-			//SceneManager.LoadScene(m_SceneToLoad, LoadSceneMode.Single);
+			SceneManager.LoadScene(m_SceneToLoad, LoadSceneMode.Single);
+
 		}
 	}
 }

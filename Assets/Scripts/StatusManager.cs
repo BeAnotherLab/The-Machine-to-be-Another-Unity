@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class StatusManager : MonoBehaviour {
 
 	public static bool thisUserIsReady = false, otherUserIsReady = false;
 
 	public bool fakeOculusReady; //for debugging
+	public bool useWithLookAt;
+	public bool useFakeOculus;
 
 	public GameObject projectionScreen;
 	public GameObject UICanvas;
@@ -19,6 +22,7 @@ public class StatusManager : MonoBehaviour {
 	public float waitBeforeInstructions, waitAfterInstructionsForScreen, waitForGoodbye;
 
 	private bool sessionIsPlaying = false;
+	private bool thisUserWasPlaying;
 
 	void Start () {
 		
@@ -30,7 +34,8 @@ public class StatusManager : MonoBehaviour {
 	void Update () {
 
 		CheckThisUserStatus ();
-		CheckForFakeOculus (); // for virtual other while debugging
+
+		if(useFakeOculus) CheckForFakeOculus (); // for virtual other while debugging
 
 		if (!sessionIsPlaying) {
 			if (thisUserIsReady && otherUserIsReady) StartPlaying ();
@@ -39,10 +44,11 @@ public class StatusManager : MonoBehaviour {
 
 		if (sessionIsPlaying) {
 			if (!otherUserIsReady && thisUserIsReady) OtherIsGone ();
-			if (!thisUserIsReady) SelfIsGone ();
+			if (!thisUserIsReady) StopExperience ();
 		}
 
-		if (!thisUserIsReady && !otherUserIsReady) BothAreGone();
+		if (!thisUserIsReady && thisUserWasPlaying) StopExperience();//In case that the other user is never ready and this one stopped.
+
 
 		if (Input.GetKeyDown ("o")) IsOver ();
 
@@ -51,7 +57,10 @@ public class StatusManager : MonoBehaviour {
 
 	void CheckThisUserStatus () {
 
-		if (XRDevice.userPresence == UserPresenceState.Present) thisUserIsReady = true;
+		if (XRDevice.userPresence == UserPresenceState.Present) {
+			thisUserIsReady = true;
+			thisUserWasPlaying = true;
+		}
 		else if (XRDevice.userPresence == UserPresenceState.NotPresent)	thisUserIsReady = false;
 
 	}
@@ -60,6 +69,7 @@ public class StatusManager : MonoBehaviour {
 	void WaitingForOther () {
 		
 		messageInterfaceText.text = LanguageTextDictionary.waitForOther; 
+		thisUserWasPlaying = true;
 
 	}
 
@@ -106,20 +116,11 @@ public class StatusManager : MonoBehaviour {
 		audioManager.StopAll ();
 
 	}
-
-	void SelfIsGone () {
-
-		StopExperience ();
-
-	}
-
-	void BothAreGone() {
-
-		StopExperience ();
-
-	}
+		
 
 	void StopExperience() {
+
+		thisUserWasPlaying = false;
 
 		dimmer.setDimmed (false);
 		projectionScreen.SetActive (false);
@@ -131,6 +132,8 @@ public class StatusManager : MonoBehaviour {
 		StopAllCoroutines ();
 		messageInterfaceText.text = null;
 
+		if(useWithLookAt) SceneManager.LoadScene ("Look at interaction", LoadSceneMode.Single);
+		
 	}
 		
 	 

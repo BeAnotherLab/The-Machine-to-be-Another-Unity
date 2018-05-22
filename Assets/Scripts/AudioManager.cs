@@ -16,10 +16,22 @@ public class AudioManager : MonoBehaviour {
 	private string previouslySelectedLanguage;
 
 	private bool somethingIsPlaying = false;
+	private bool hasBeenRun = false;
+
+	void OnAwake(){
+		
+
+	}
 
 	void Start () {
-		music.loop = true;
-		music.Play();
+		
+		if (!hasBeenRun) {
+			music.loop = true;
+			music.Play ();
+			DontDestroyOnLoad (this.gameObject);
+			hasBeenRun = true;
+		}
+
 		selectedLanguage = englishClips;
 	}
 	
