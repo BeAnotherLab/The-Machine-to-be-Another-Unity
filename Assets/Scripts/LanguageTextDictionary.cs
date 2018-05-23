@@ -28,10 +28,12 @@ public class LanguageTextDictionary : MonoBehaviour {
 	public void TextPerLanguage(string language) {
 
 		if (language == "deutsch") {
-			waitForOther = "Bitte warte einen Moment auf den anderen Teilnehmer ...";
-			otherIsGone = "Woops ... \n Scheint so, als wäre dein Kollege weg! \n Danke für Ihre Teilnahme!";
-			instructions = "Bitte erinnere dich...\n 1. Bewegen Sie sich sehr langsam.\n 2. Synchronisiere deine Bewegungen\n 3. Aufeinander folgen";
+			waitForOther = "Bitte warten Sie einen Moment auf den anderen Teilnehmer ...";
+			otherIsGone = "Woops ... \n Es scheint so, als wäre die andere Person weg! \n Danke für Ihre Teilnahme!";
+			instructions = "Bitte erinneren Sie sich...\n 1. Bewegen Sie sich sehr langsam.\n 2. Stimmen Sie Ihre Bewegungen mit dern anderen Person ab\n 3. Folgen Sie einander";
 			finished = "Wir hoffen, dass Sie Ihre Erfahrung genossen haben. \n Vielen Dank!";
+			//Bitte schauen Sie diesen Punkt an wenn Sie bereit sind.
+			//Bitte den Punkt anschauen wenn Sie bereit sind. 
 		}
 
 		if (language == "french") {

@@ -7,6 +7,11 @@ using UnityEngine.SceneManagement;
 
 public class StatusManager : MonoBehaviour {
 
+	/// <summary>
+	/// NOTE THAT THIS IS BEING CALLED TWICE, ONCE ON EACH SCENE, THE SOUNDS ARE MUTED FOR THE SECOND SCENE. THIS SHOULD BE FIXED
+	/// </summary>
+	 
+
 	public static bool thisUserIsReady = false, otherUserIsReady = false;
 
 	public bool fakeOculusReady; //for debugging
@@ -19,14 +24,21 @@ public class StatusManager : MonoBehaviour {
 	public webcam dimmer;
 	public AudioManager audioManager;
 
-	public float waitBeforeInstructions, waitAfterInstructionsForScreen, waitForGoodbye;
+	public float waitBeforeInstructions, waitAfterInstructionsForScreen, waitForMirror, waitForGoodbye;
 
 	private bool sessionIsPlaying = false;
 	private bool thisUserWasPlaying;
+	private bool hasBeenCreated = false;
 
 	void Start () {
 		
 		projectionScreen.SetActive (false);// = false;
+
+		/*
+		if (!hasBeenCreated) {
+			DontDestroyOnLoad (this.gameObject);
+			hasBeenCreated = true;
+		}*/
 
 	}
 
@@ -83,6 +95,7 @@ public class StatusManager : MonoBehaviour {
 	public IEnumerator StartPlayingCoroutine() {
 
 		StartCoroutine ("GoodbyeCoroutine");
+		StartCoroutine ("MirrorCoroutine");
 
 		yield return new WaitForFixedTime (waitBeforeInstructions);// wait before playing audio
 			
@@ -102,7 +115,13 @@ public class StatusManager : MonoBehaviour {
 		IsOver ();
 
 	}
-		
+
+	public IEnumerator MirrorCoroutine() {
+
+		yield return new WaitForFixedTime (waitBeforeInstructions + waitForMirror);
+		Debug.Log ("READY FOR MIRROR");
+
+	}
 
 	void OtherIsGone () {//different than self is gone in case there is an audio for this case
 		
@@ -133,6 +152,7 @@ public class StatusManager : MonoBehaviour {
 		messageInterfaceText.text = null;
 
 		if(useWithLookAt) SceneManager.LoadScene ("Look at interaction", LoadSceneMode.Single);
+		//Destroy(this.gameObject);
 		
 	}
 		

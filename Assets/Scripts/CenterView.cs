@@ -10,7 +10,7 @@ public class CenterView : MonoBehaviour {
 	void Start () {
 
 		InputTracking.disablePositionalTracking = true;
-		UnityEngine.XR.InputTracking.Recenter ();
+		//UnityEngine.XR.InputTracking.Recenter ();
 	}
 
 	// Update is called once per frame
