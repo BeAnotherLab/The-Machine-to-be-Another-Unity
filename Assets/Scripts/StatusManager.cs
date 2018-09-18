@@ -112,6 +112,7 @@ public class StatusManager : MonoBehaviour {
 	public IEnumerator GoodbyeCoroutine() {
 
 		yield return new WaitForFixedTime (waitForGoodbye + waitBeforeInstructions);
+		Debug.Log ("READY TO STOP");
 		IsOver ();
 
 	}
