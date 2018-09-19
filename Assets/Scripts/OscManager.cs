@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Net;
+using VRStandardAssets.Menu;
 	
 public class OscManager : MonoBehaviour {
 	
@@ -43,9 +44,11 @@ public class OscManager : MonoBehaviour {
 		
 	void Update() {
 		sendHeadTracking ();
+		//if(MenuButtonBAL.userIsReady) {
+			if (StatusManager.thisUserIsReady != previousStatusForSelf) sendThisUserStatus(StatusManager.thisUserIsReady);
+			previousStatusForSelf = StatusManager.thisUserIsReady;
+		//}
 
-		if (StatusManager.thisUserIsReady != previousStatusForSelf) sendThisUserStatus(StatusManager.thisUserIsReady);
-		previousStatusForSelf = StatusManager.thisUserIsReady;
 	}
 
 	public void sendHeadTracking () {

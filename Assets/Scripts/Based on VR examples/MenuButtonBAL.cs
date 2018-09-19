@@ -21,7 +21,8 @@ namespace VRStandardAssets.Menu
 
 
 		private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
-		public static bool userIsReady;	//When the user starts looking at the trigger long enough, Added by Marte
+		public static bool userIsReady = false;	//When the user starts looking at the trigger long enough, Added by Marte
+
 
 		private void OnEnable ()
 		{
@@ -67,7 +68,7 @@ namespace VRStandardAssets.Menu
 
 		private IEnumerator ActivateButton()
 		{
-			
+			userIsReady = true;
 			// If the camera is already fading, ignore.
 			if (m_CameraFade.IsFading)
 				yield break;

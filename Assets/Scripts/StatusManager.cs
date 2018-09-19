@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using VRStandardAssets.Menu;
 
 public class StatusManager : MonoBehaviour {
 
@@ -44,26 +45,34 @@ public class StatusManager : MonoBehaviour {
 
 
 	void Update () {
+		//if (MenuButtonBAL.userIsReady) {
+			
+			CheckThisUserStatus ();
 
-		CheckThisUserStatus ();
+			if (useFakeOculus)
+				CheckForFakeOculus (); // for virtual other while debugging
 
-		if(useFakeOculus) CheckForFakeOculus (); // for virtual other while debugging
+			if (!sessionIsPlaying) {
+				if (thisUserIsReady && otherUserIsReady)
+					StartPlaying ();
+				else if (thisUserIsReady && !otherUserIsReady)
+					WaitingForOther ();
+			}
 
-		if (!sessionIsPlaying) {
-			if (thisUserIsReady && otherUserIsReady) StartPlaying ();
-			else if (thisUserIsReady && !otherUserIsReady) WaitingForOther ();
-		}
+			if (sessionIsPlaying) {
+				if (!otherUserIsReady && thisUserIsReady)
+					OtherIsGone ();
+				if (!thisUserIsReady)
+					StopExperience ();
+			}
 
-		if (sessionIsPlaying) {
-			if (!otherUserIsReady && thisUserIsReady) OtherIsGone ();
-			if (!thisUserIsReady) StopExperience ();
-		}
-
-		if (!thisUserIsReady && thisUserWasPlaying) StopExperience();//In case that the other user is never ready and this one stopped.
+			if (!thisUserIsReady && thisUserWasPlaying)
+				StopExperience ();//In case that the other user is never ready and this one stopped.
 
 
-		if (Input.GetKeyDown ("o")) IsOver ();
-
+			if (Input.GetKeyDown ("o"))
+				IsOver ();
+		//}
 
 	}
 
@@ -152,7 +161,10 @@ public class StatusManager : MonoBehaviour {
 		StopAllCoroutines ();
 		messageInterfaceText.text = null;
 
-		if(useWithLookAt) SceneManager.LoadScene ("Look at interaction", LoadSceneMode.Single);
+		if(useWithLookAt) {
+			MenuButtonBAL.userIsReady = false;
+			SceneManager.LoadScene ("Look at interaction", LoadSceneMode.Single);
+		}
 		//Destroy(this.gameObject);
 		
 	}
