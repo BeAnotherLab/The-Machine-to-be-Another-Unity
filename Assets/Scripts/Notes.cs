@@ -6,6 +6,7 @@ public class Notes : MonoBehaviour {
 
 	public string noLegsNoObject;
 	public string LegsAndObject;
+	public string LegsAndNoObject;
 
 	// Use this for initialization
 	void Start () {

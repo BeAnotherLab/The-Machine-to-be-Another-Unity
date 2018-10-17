@@ -24,6 +24,7 @@ public class StatusManager : MonoBehaviour {
 	public Text messageInterfaceText;
 	public webcam dimmer;
 	public AudioManager audioManager;
+	public AudioCoroutineCreator audioCoroutines;
 
 	public float waitBeforeInstructions, waitAfterInstructionsForScreen, waitForMirror, waitForGoodbye;
 
@@ -108,7 +109,8 @@ public class StatusManager : MonoBehaviour {
 
 		yield return new WaitForFixedTime (waitBeforeInstructions);// wait before playing audio
 			
-		audioManager.PlaySound ("instructions");
+		//audioManager.PlaySound ("instructions");
+		audioCoroutines.StartAudioCoroutines ();
 
 		yield return new WaitForFixedTime (waitAfterInstructionsForScreen);//duration of audio track to start video after
 
@@ -142,7 +144,8 @@ public class StatusManager : MonoBehaviour {
 
 		CancelInvoke ("IsOver");
 		StopAllCoroutines ();
-		audioManager.StopAll ();
+		audioCoroutines.StopAudioCoroutines();
+		//audioManager.StopAll ();
 
 	}
 		
@@ -157,7 +160,8 @@ public class StatusManager : MonoBehaviour {
 		sessionIsPlaying = false; 
 
 		//CancelInvoke ("IsOver");
-		audioManager.StopAll ();
+		//audioManager.StopAll ();
+		audioCoroutines.StopAudioCoroutines();
 		StopAllCoroutines ();
 		messageInterfaceText.text = null;
 
