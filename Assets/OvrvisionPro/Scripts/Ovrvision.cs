@@ -133,7 +133,7 @@ public class Ovrvision : MonoBehaviour
 		float gapy = CameraRightGap.y * (282.6231f) / (OvrPro.GetFloatPoint());
 		CameraPlaneRight.transform.localPosition = new Vector3(gapx * 0.001f, gapy * 0.001f, OvrPro.GetFloatPoint());
 
-		UnityEngine.XR.InputTracking.Recenter();
+		UnityEngine.VR.InputTracking.Recenter();
 
 		if (useOvrvisionTrack)
 		{
