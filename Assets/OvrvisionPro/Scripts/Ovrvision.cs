@@ -25,17 +25,6 @@ public class Ovrvision : MonoBehaviour
 	private System.IntPtr CameraTexLeftPtr = System.IntPtr.Zero;
 	private System.IntPtr CameraTexRightPtr = System.IntPtr.Zero;
 
-	//cam display settings
-	private float dimLevel = 1;
-	private	bool dimmed = false;
-	private bool headtrackingOn = true;
-	private float dimRate = 0.08f;
-	private WebCamTexture camTex;
-	private float tiltAngle = 0;
-
-	public float range = 20;
-	public float zoom = 39.5f;
-
 	//public propaty
 	public int cameraMode = COvrvisionUnity.OV_CAMVR_FULL;
 	public bool useOvrvisionAR = false;
@@ -64,8 +53,6 @@ public class Ovrvision : MonoBehaviour
 	private const int MARKERGET_MAXNUM10 = 100; //max marker is 10
 	private const int MARKERGET_ARG10 = 10;
 	private const int MARKERGET_RECONFIGURE_NUM = 10;
-
-	private const float IMAGE_ZOFFSET = 0.02f;
 
 	// ------ Function ------
 
@@ -96,15 +83,14 @@ public class Ovrvision : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		getPlayerPrefs ();
 		if (!OvrPro.camStatus)
 			return;
 
 		// Initialize camera plane object(Left)
-		CameraLeft = this.transform.FindChild("LeftCamera").gameObject;
-		CameraRight = this.transform.FindChild("RightCamera").gameObject;
-		CameraPlaneLeft = CameraLeft.transform.FindChild("LeftImagePlane").gameObject;
-		CameraPlaneRight = CameraRight.transform.FindChild("RightImagePlane").gameObject;
+		CameraLeft = this.transform.Find("LeftCamera").gameObject;
+		CameraRight = this.transform.Find("RightCamera").gameObject;
+		CameraPlaneLeft = CameraLeft.transform.Find("LeftImagePlane").gameObject;
+		CameraPlaneRight = CameraRight.transform.Find("RightImagePlane").gameObject;
 
 		CameraLeft.transform.localPosition = Vector3.zero;
 		CameraRight.transform.localPosition = Vector3.zero;
@@ -142,10 +128,12 @@ public class Ovrvision : MonoBehaviour
 		//Plane reset
 		CameraPlaneLeft.transform.localScale = new Vector3(OvrPro.aspectW, -OvrPro.aspectH, 1.0f);
 		CameraPlaneRight.transform.localScale = new Vector3(OvrPro.aspectW, -OvrPro.aspectH, 1.0f);
-		CameraPlaneLeft.transform.localPosition = new Vector3(-0.032f, 0.0f, OvrPro.GetFloatPoint() + IMAGE_ZOFFSET);
-		CameraPlaneRight.transform.localPosition = new Vector3(CameraRightGap.x - 0.040f, 0.0f, OvrPro.GetFloatPoint() + IMAGE_ZOFFSET);
+		CameraPlaneLeft.transform.localPosition = new Vector3(-0.032f, 0.0f, OvrPro.GetFloatPoint());
+		float gapx = (CameraRightGap.x - 0.032f) * (282.6231f) / (OvrPro.GetFloatPoint());
+		float gapy = CameraRightGap.y * (282.6231f) / (OvrPro.GetFloatPoint());
+		CameraPlaneRight.transform.localPosition = new Vector3(gapx * 0.001f, gapy * 0.001f, OvrPro.GetFloatPoint());
 
-		UnityEngine.VR.InputTracking.Recenter();
+		UnityEngine.XR.InputTracking.Recenter();
 
 		if (useOvrvisionTrack)
 		{
@@ -226,6 +214,12 @@ public class Ovrvision : MonoBehaviour
 		OvrPro.UpdateImage(CameraTexLeftPtr, CameraTexRightPtr);
 
 		if (useOvrvisionAR) OvrvisionARRender();
+		else
+		{
+			OvrvisionTracker[] otobjs = GameObject.FindObjectsOfType(typeof(OvrvisionTracker)) as OvrvisionTracker[];
+			foreach (OvrvisionTracker otobj in otobjs)
+				otobj.UpdateTransformNone();
+		}
 		if (useOvrvisionTrack) OvrvisionTrackRender();
 	}
 
@@ -288,6 +282,9 @@ public class Ovrvision : MonoBehaviour
 	// Quit
 	void OnDestroy()
 	{
+		if (!OvrPro.camStatus)
+			return;
+
 		//Close camera
 		if(!OvrPro.Close())
 			Debug.LogError ("Ovrvision close error!!");
@@ -409,38 +406,5 @@ public class Ovrvision : MonoBehaviour
 	{
 		return CameraTexRight;
 	}
-
-
-	void getPlayerPrefs() {
-		tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
-		zoom = PlayerPrefs.GetFloat ("zoom");
-	}
-
-	public void setDimmed() {		
-		dimmed = !dimmed;
-	}
-
-	public bool isHeadtrackingOn() {
-		return headtrackingOn;
-	}
-
-	private void setDimLevel() {		
-		float next;
-		if (dimmed) next = 1;
-		else next = 0;
-		dimLevel += dimRate * (next - dimLevel);	
-		Color c = new Color (dimLevel*range, dimLevel*range, dimLevel*range);
-	}
-
-	public void setCameraOrientation(){
-		tiltAngle += 90;
-		PlayerPrefs.SetFloat ("tiltAngle", tiltAngle);
-	}				
-
-	public void setZoom(float value) {
-		zoom = value;
-		PlayerPrefs.SetFloat ("zoom", zoom);
-	}		
-
 
 }
