@@ -7,17 +7,15 @@ using UnityEngine.SceneManagement;
 using VRStandardAssets.Menu;
 
 public class StatusManager : MonoBehaviour {
-
-	/// <summary>
-	/// NOTE THAT THIS IS BEING CALLED TWICE, ONCE ON EACH SCENE, THE SOUNDS ARE MUTED FOR THE SECOND SCENE. THIS SHOULD BE FIXED
-	/// </summary>
-	 
+ 
 
 	public static bool thisUserIsReady = false, otherUserIsReady = false;
 
 	public bool fakeOculusReady; //for debugging
 	public bool useWithLookAt;
 	public bool useFakeOculus;
+
+	//public bool safeFakeOculusReady;
 
 	public GameObject projectionScreen;
 	public GameObject UICanvas;
@@ -79,6 +77,7 @@ public class StatusManager : MonoBehaviour {
 
 	void CheckThisUserStatus () {
 
+		//if(safeFakeOculusReady){
 		if (XRDevice.userPresence == UserPresenceState.Present) {
 			thisUserIsReady = true;
 			thisUserWasPlaying = true;
@@ -109,7 +108,7 @@ public class StatusManager : MonoBehaviour {
 
 		yield return new WaitForFixedTime (waitBeforeInstructions);// wait before playing audio
 			
-		//audioManager.PlaySound ("instructions");
+		audioManager.PlaySound ("instructions");
 		audioCoroutines.StartAudioCoroutines ();
 
 		yield return new WaitForFixedTime (waitAfterInstructionsForScreen);//duration of audio track to start video after
@@ -145,7 +144,7 @@ public class StatusManager : MonoBehaviour {
 		CancelInvoke ("IsOver");
 		StopAllCoroutines ();
 		audioCoroutines.StopAudioCoroutines();
-		//audioManager.StopAll ();
+		audioManager.StopAll ();
 
 	}
 		
@@ -160,7 +159,7 @@ public class StatusManager : MonoBehaviour {
 		sessionIsPlaying = false; 
 
 		//CancelInvoke ("IsOver");
-		//audioManager.StopAll ();
+		audioManager.StopAll ();
 		audioCoroutines.StopAudioCoroutines();
 		StopAllCoroutines ();
 		messageInterfaceText.text = null;
@@ -169,7 +168,7 @@ public class StatusManager : MonoBehaviour {
 			MenuButtonBAL.userIsReady = false;
 			SceneManager.LoadScene ("Look at interaction", LoadSceneMode.Single);
 		}
-		//Destroy(this.gameObject);
+		Destroy(this.gameObject);
 		
 	}
 		
@@ -183,7 +182,7 @@ public class StatusManager : MonoBehaviour {
 
 	void IsOver() {
 		
-		//audioManager.PlaySound ("goodbye");
+		audioManager.PlaySound ("goodbye");
 		projectionScreen.SetActive (false);
 		UICanvas.SetActive (true);
 		messageInterfaceText.text = LanguageTextDictionary.finished;

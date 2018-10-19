@@ -2545,7 +2545,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -2892,7 +2892,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 110a9d0963dc3ca478d446e61b5b3693, type: 3}
+  m_audioClip: {fileID: 8300000, guid: aa476f22436a1174ba7e04a111312a8f, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -3860,7 +3860,7 @@ MonoBehaviour:
   range: 1
   zoom: 18
   widthHeightRatio: 1.3
-  cameraID: 1
+  cameraID: 0
   width: 0
   height: 0
   otherPose: {x: 0, y: 0, z: 0, w: 0}
@@ -3932,6 +3932,7 @@ GameObject:
   - component: {fileID: 1057645146}
   - component: {fileID: 1057645147}
   - component: {fileID: 1057645148}
+  - component: {fileID: 1057645149}
   m_Layer: 5
   m_Name: StatusManagment
   m_TagString: Untagged
@@ -3969,16 +3970,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fakeOculusReady: 0
+  useWithLookAt: 0
+  useFakeOculus: 0
   projectionScreen: {fileID: 1035839687}
   UICanvas: {fileID: 1692602105}
   messageInterfaceText: {fileID: 431084906}
   dimmer: {fileID: 1035839688}
   audioManager: {fileID: 369592216}
-  timeForHandsAudio: 2
-  timeForObjectAudio: 75
-  timeForMirrorAudio: 120
-  timeForGoodbyeAudio: 180
-  waitBeforeStart: 10
+  audioCoroutines: {fileID: 0}
+  waitBeforeInstructions: 0
+  waitAfterInstructionsForScreen: 24
+  waitForMirror: 140
+  waitForGoodbye: 210
 --- !u!114 &1057645148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3991,6 +3994,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultLanguage: english
+--- !u!114 &1057645149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1057645145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe88af1b34738fc4abc8fe0511a5e54a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noLegsNoObject: legs objects short 42, 204, 264
+  LegsAndObject: '42, 240, 339 '
+  LegsAndNoObject: 
 --- !u!1 &1100389525
 GameObject:
   m_ObjectHideFlags: 0
@@ -7289,7 +7306,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1fea2d92cba56674099f5d4da2cf717c, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -7301,7 +7318,7 @@ AudioSource:
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
-  BypassEffects: 0
+  BypassEffects: 1
   BypassListenerEffects: 0
   BypassReverbZones: 0
   rolloffCustomCurve:
