@@ -24,7 +24,7 @@ public class StatusManager : MonoBehaviour {
 	public AudioManager audioManager;
 	public AudioCoroutineCreator audioCoroutines;
 
-	public float waitBeforeInstructions, waitAfterInstructionsForScreen, waitForMirror, waitForGoodbye;
+	public float waitBeforeInstructions, waitAfterInstructionsForScreen, waitForMirror, waitForGoodbye, waitForWall;
 
 	private bool sessionIsPlaying = false;
 	private bool thisUserWasPlaying;
@@ -105,6 +105,7 @@ public class StatusManager : MonoBehaviour {
 
 		StartCoroutine ("GoodbyeCoroutine");
 		StartCoroutine ("MirrorCoroutine");
+		StartCoroutine ("WallCoroutine");
 
 		yield return new WaitForFixedTime (waitBeforeInstructions);// wait before playing audio
 			
@@ -132,6 +133,12 @@ public class StatusManager : MonoBehaviour {
 		yield return new WaitForFixedTime (waitBeforeInstructions + waitForMirror);
 		Debug.Log ("READY FOR MIRROR");
 
+	}
+
+	public IEnumerator WallCourtine() {
+
+		yield return new WaitForFixedTime (waitBeforeInstructions + waitForWall);
+		Debug.Log ("READY FOR WALL");
 	}
 
 	void OtherIsGone () {//different than self is gone in case there is an audio for this case
@@ -168,7 +175,7 @@ public class StatusManager : MonoBehaviour {
 			MenuButtonBAL.userIsReady = false;
 			SceneManager.LoadScene ("Look at interaction", LoadSceneMode.Single);
 		}
-		Destroy(this.gameObject);
+		//Destroy(this.gameObject);
 		
 	}
 		
@@ -182,7 +189,7 @@ public class StatusManager : MonoBehaviour {
 
 	void IsOver() {
 		
-		audioManager.PlaySound ("goodbye");
+		//audioManager.PlaySound ("goodbye");
 		projectionScreen.SetActive (false);
 		UICanvas.SetActive (true);
 		messageInterfaceText.text = LanguageTextDictionary.finished;
