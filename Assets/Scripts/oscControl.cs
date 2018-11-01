@@ -109,6 +109,9 @@ public class oscControl : MonoBehaviour {
 
 		if( message.TryGet( 0, out x ) && message.TryGet( 1, out y ) && message.TryGet( 2, out z ) &&  message.TryGet( 3, out w ) ){
 			pointOfView.GetComponent<webcam>().otherPose = new Quaternion (x, y, z, w);
+
+            foreach(OVRPosition eye in FindObjectsOfType<OVRPosition>())
+                eye.otherPose = new Quaternion(x, y, z, w);
 		}
 
 
