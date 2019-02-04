@@ -13,7 +13,6 @@ namespace OscSimpl.Examples
 		public Text FPS;	
 		public InputField IP;
 		public Toggle repeater;
-		public oscControl osc;
 
 		private bool twoWaySwap = true;
 		private bool monitorGUIEnabled, oculusGUIEnabled;
@@ -65,7 +64,6 @@ namespace OscSimpl.Examples
 		}
 			
 		private void setRepeaterToggle () {
-			repeater.isOn = osc.repeater;
 		}
 
 		void showFPS() {

@@ -16,8 +16,6 @@ public class OscManager : MonoBehaviour {
 	public Camera mainCamera;
 	public GameObject gui;
 
-	public OscOut oscOut;
-	public OscIn oscIn;
 	private bool previousStatusForSelf;
 
 	public string othersIP = "";
@@ -29,17 +27,9 @@ public class OscManager : MonoBehaviour {
 
 		initOSC();
 
-		oscIn.Map( "/pose", receiveHeadTracking );
-		oscIn.Map("/otherUser", receiveOtherUserStatus);
-
 	}
 
 	private void initOSC (){
-		if(oscOut == null) oscOut = gameObject.AddComponent<OscOut>();
-		if(oscOut == null) oscIn = gameObject.AddComponent<OscIn>();
-
-		oscOut.Open( 8015, othersIP);
-		oscIn.Open(8015);
 	}
 		
 	void Update() {
@@ -54,12 +44,6 @@ public class OscManager : MonoBehaviour {
 	public void sendHeadTracking () {
 		
 		Quaternion q = mainCamera.transform.rotation;
-		OscMessage message = new OscMessage ("/pose");
-		message.Add(q.x);
-		message.Add(q.y);
-		message.Add(q.z);
-		message.Add(q.w);
-		oscOut.Send (message);
 
 		/*
 		Vector3 p = mainCamera.transform.position;
@@ -72,36 +56,25 @@ public class OscManager : MonoBehaviour {
 	}
 		
 	public void sendThisUserStatus(bool status){
-		
 		int i = 0;
-		OscMessage message = new OscMessage ("/otherUser");
 
 		if (status == true) i = 1;
 		else i = 0;
 
-		message.Add (i);
-		oscOut.Send (message);
-
 	}
 
-	void receiveOtherUserStatus(OscMessage message){
+	void receiveOtherUserStatus(){
 		
 		int x = 0;
 
-		if (message.TryGet(0, out x)) {
-			if (x == 0) StatusManager.otherUserIsReady = false;
-			else if (x == 1) StatusManager.otherUserIsReady = true;
-		}
+		if (x == 0) StatusManager.otherUserIsReady = false;
+		else if (x == 1) StatusManager.otherUserIsReady = true;
 	}
 
-	void receiveHeadTracking( OscMessage message )
+	void receiveHeadTracking()
 	{
 		float x = 0, y = 0, z = 0, w = 0;
-
-		if( message.TryGet( 0, out x ) && message.TryGet( 1, out y ) && message.TryGet( 2, out z ) &&  message.TryGet( 3, out w ) ){
-			pointOfView.GetComponent<webcam>().otherPose = new Quaternion (x, y, z, w);
-		}
-
+		pointOfView.GetComponent<webcam>().otherPose = new Quaternion (x, y, z, w);
 	}
 
 	void OnDisable() {
