@@ -10,42 +10,56 @@ using System.Net;
 using VRStandardAssets.Menu;
 	
 public class OscManager : MonoBehaviour {
-	
-	public GameObject pointOfView;
-	public GameObject audioManager;
-	public Camera mainCamera;
-	public GameObject gui;
 
-	private bool previousStatusForSelf;
+    #region Public Fields
 
-	public string othersIP = "";
+    public GameObject pointOfView;
+    public GameObject audioManager;
+    public Camera mainCamera;
+    public GameObject gui;
+    public string othersIP = "";
+
+    #endregion
+
+    #region Private Fields
+
+    private bool previousStatusForSelf;
+
+    #endregion
+
+    #region MonoBehaviour Methods
+
+    private void Start()
+    {
+        if (othersIP == null) othersIP = PlayerPrefs.GetString("othersIP");
+        InitOSC();
+    }
+
+    private void Update()
+    {
+        SendHeadTracking();
+        //if(MenuButtonBAL.userIsReady) {
+        if (StatusManager.thisUserIsReady != previousStatusForSelf) SendThisUserStatus(StatusManager.thisUserIsReady);
+        previousStatusForSelf = StatusManager.thisUserIsReady;
+        //}
+    }
+
+    private void OnDisable()
+    {
+        PlayerPrefs.SetString("othersIP", othersIP);
+    }
+
+    #endregion
 
 
-	void Start() {	
-		
-		if (othersIP == null) othersIP = PlayerPrefs.GetString ("othersIP");
+    #region Public Methods
 
-		initOSC();
+    public void SendHeadTracking()
+    {
 
-	}
+        Quaternion q = mainCamera.transform.rotation;
 
-	private void initOSC (){
-	}
-		
-	void Update() {
-		sendHeadTracking ();
-		//if(MenuButtonBAL.userIsReady) {
-			if (StatusManager.thisUserIsReady != previousStatusForSelf) sendThisUserStatus(StatusManager.thisUserIsReady);
-			previousStatusForSelf = StatusManager.thisUserIsReady;
-		//}
-
-	}
-
-	public void sendHeadTracking () {
-		
-		Quaternion q = mainCamera.transform.rotation;
-
-		/*
+        /*
 		Vector3 p = mainCamera.transform.position;
 		message = new OscMessage ("/position");
 		message.Add(p.x);
@@ -53,32 +67,39 @@ public class OscManager : MonoBehaviour {
 		message.Add(p.z);
 		oscOut.Send (message);*/
 
-	}
-		
-	public void sendThisUserStatus(bool status){
-		int i = 0;
+    }
 
-		if (status == true) i = 1;
-		else i = 0;
+    public void SendThisUserStatus(bool status)
+    {
+        int i = 0;
 
-	}
+        if (status == true) i = 1;
+        else i = 0;
 
-	void receiveOtherUserStatus(){
-		
-		int x = 0;
+    }
 
-		if (x == 0) StatusManager.otherUserIsReady = false;
-		else if (x == 1) StatusManager.otherUserIsReady = true;
-	}
+    #endregion
 
-	void receiveHeadTracking()
-	{
-		float x = 0, y = 0, z = 0, w = 0;
-		pointOfView.GetComponent<webcam>().otherPose = new Quaternion (x, y, z, w);
-	}
 
-	void OnDisable() {
-		PlayerPrefs.SetString("othersIP", othersIP);
-	}
+    #region Private Methods
+
+    private void InitOSC()
+    {
+    }
+
+    private void ReceiveOtherStatus()
+    {
+        int x = 0;
+        if (x == 0) StatusManager.otherUserIsReady = false;
+        else if (x == 1) StatusManager.otherUserIsReady = true;
+    }
+
+    void receiveHeadTracking()
+    {
+        float x = 0, y = 0, z = 0, w = 0;
+        pointOfView.GetComponent<webcam>().otherPose = new Quaternion(x, y, z, w);
+    }
+
+    #endregion
 
 }
