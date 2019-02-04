@@ -70,10 +70,15 @@ public class OscManager : MonoBehaviour {
         Quaternion q = mainCamera.transform.rotation;
 
 		OSCMessage message = new OSCMessage ("/pose");
-		message.AddValue(OSCValue.Float(q.x));
-		message.AddValue(OSCValue.Float(q.y));
-		message.AddValue(OSCValue.Float(q.z));
-		message.AddValue(OSCValue.Float(q.z));
+        var array = OSCValue.Array();
+
+		array.AddValue(OSCValue.Float(q.x));
+        array.AddValue(OSCValue.Float(q.y));
+        array.AddValue(OSCValue.Float(q.z));
+        array.AddValue(OSCValue.Float(q.w));
+
+        message.AddValue(array);
+
         _oscTransmitter.Send(message);
     }
 
@@ -104,9 +109,15 @@ public class OscManager : MonoBehaviour {
 
     private void ReceivedHeadTracking(OSCMessage message)
     {
-        float x = 0, y = 0, z = 0, w = 0;
-        if (message.ToFloat(out x) && message.ToFloat(out y) && message.ToFloat(out z))
-            pointOfView.GetComponent<webcam>().otherPose = new Quaternion(x, y, z, w);
+        List<OSCValue> arrayValues = null;
+        List<float> quaternionValues = null;
+
+
+        if (message.ToArray(out arrayValues)) // Get all values from first array in message.
+            foreach (var value in arrayValues) 
+                quaternionValues.Add(value.FloatValue); //add them to a float list
+
+        pointOfView.GetComponent<webcam>().otherPose = new Quaternion(quaternionValues[0], quaternionValues[1], quaternionValues[2], quaternionValues[3]);
     }
 
     #endregion
