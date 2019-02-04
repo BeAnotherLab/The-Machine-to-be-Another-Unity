@@ -110,12 +110,12 @@ public class OscManager : MonoBehaviour {
     private void ReceivedHeadTracking(OSCMessage message)
     {
         List<OSCValue> arrayValues = null;
-        List<float> quaternionValues = null;
+        List<float> quaternionValues = new List<float>();
 
-
-        if (message.ToArray(out arrayValues)) // Get all values from first array in message.
+        if (message.ToArray(out arrayValues)){ // Get all values from first array in message.
             foreach (var value in arrayValues) 
                 quaternionValues.Add(value.FloatValue); //add them to a float list
+        }
 
         pointOfView.GetComponent<webcam>().otherPose = new Quaternion(quaternionValues[0], quaternionValues[1], quaternionValues[2], quaternionValues[3]);
     }
