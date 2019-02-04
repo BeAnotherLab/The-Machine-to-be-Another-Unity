@@ -135,7 +135,7 @@ public class StatusManager : MonoBehaviour {
 
 	}
 
-	public IEnumerator WallCourtine() {
+	public IEnumerator WallCoroutine() {
 
 		yield return new WaitForFixedTime (waitBeforeInstructions + waitForWall);
 		Debug.Log ("READY FOR WALL");
