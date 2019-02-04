@@ -63,7 +63,6 @@ public class OscManager : MonoBehaviour {
 
     #endregion
 
-
     #region Public Methods
 
     public void SendHeadTracking()
@@ -86,10 +85,10 @@ public class OscManager : MonoBehaviour {
         if (status == true) i = 1;
 
         message.AddValue(OSCValue.Int(i));
+        _oscTransmitter.Send(message);
     }
 
     #endregion
-
 
     #region Private Methods
 
