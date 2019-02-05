@@ -1,6 +1,3 @@
-//
-//	 Based on - Example of usage for OSC receiver - Copyright (c) 2012 Jorge Garcia Martin
-
 using UnityEngine;
 using System;
 using System.Collections;
@@ -116,27 +113,42 @@ public class OscManager : MonoBehaviour {
 
     private void ReceiveCalibrate(OSCMessage message)
     {
-        pointOfView.GetComponent<webcam>().recenterPose();
+        float value;
+        if (message.ToFloat(out value))
+            if (value == 1f) pointOfView.GetComponent<webcam>().recenterPose();
+
         if (repeater) _oscTransmitter.Send(message);
     }
 
     private void ReceiveDimOn(OSCMessage message)
     {
-        pointOfView.GetComponent<webcam>().setDimmed(true);
+        float value;
+        if (message.ToFloat(out value))
+            if (value == 1f) pointOfView.GetComponent<webcam>().setDimmed(true);
+
         if (repeater) _oscTransmitter.Send(message);
     }
 
     private void ReceiveDimOff(OSCMessage message)
     {
-        pointOfView.GetComponent<webcam>().setDimmed(false);
+        float value;
+        if (message.ToFloat(out value))
+            if (value == 1f) pointOfView.GetComponent<webcam>().setDimmed(false);
+
         if (repeater) _oscTransmitter.Send(message);
     }
 
     private void ReceiveBtn(OSCMessage message)
     {
-        for (int i = 0; i < 11; i++)
-            if (message.Address == "/btn" + i.ToString())
-                audioManager.GetComponent<AudioPlayer>().playSound(i);
+        float value;
+        if (message.ToFloat(out value))
+        {
+            if (value == 1f) {
+                for (int i = 0; i < 11; i++)
+                    if (message.Address == "/btn" + i.ToString()) audioManager.GetComponent<AudioPlayer>().playSound(i);
+            }
+        }
+            
 
         if (repeater) _oscTransmitter.Send(message);
     }
