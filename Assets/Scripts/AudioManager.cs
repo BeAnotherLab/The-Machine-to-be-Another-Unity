@@ -20,8 +20,7 @@ public class AudioManager : MonoBehaviour {
 
     private AudioSource[] _selectedLanguage;
     private string _previouslySelectedLanguage;
-    private bool _somethingIsPlaying = false;
-    private bool _hasBeenRun = false;
+    private bool _somethingIsPlaying = false; //
 
     #endregion
 
@@ -29,14 +28,9 @@ public class AudioManager : MonoBehaviour {
 
     private void Start()
     {
-
-        if (!_hasBeenRun)
-        {
-            music.loop = true;
-            music.Play();
-            DontDestroyOnLoad(this.gameObject);
-            _hasBeenRun = true;
-        }
+        music.loop = true;
+        music.Play();
+        DontDestroyOnLoad(this.gameObject);
 
         _selectedLanguage = englishClips;
     }
