@@ -4,113 +4,143 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour {
 
-	public AudioSource[] germanClips;
-	public AudioSource[] frenchClips;
-	public AudioSource[] italianClips;
-	public AudioSource[] englishClips;
-	public AudioSource[] triggerableAudios;
+    #region Public Fields
 
-	public AudioSource music;
+    public AudioSource[] germanClips;
+    public AudioSource[] frenchClips;
+    public AudioSource[] italianClips;
+    public AudioSource[] englishClips;
+    public AudioSource[] triggerableAudios;
 
-	private AudioSource[] selectedLanguage;
-	private string previouslySelectedLanguage;
+    public AudioSource music;
 
-	private bool somethingIsPlaying = false;
-	private bool hasBeenRun = false;
+    #endregion
 
-	void OnAwake(){
-		
+    #region Private Fields
 
-	}
+    private AudioSource[] _selectedLanguage;
+    private string _previouslySelectedLanguage;
+    private bool _somethingIsPlaying = false;
+    private bool _hasBeenRun = false;
 
-	void Start () {
-		
-		if (!hasBeenRun) {
-			music.loop = true;
-			music.Play ();
-			DontDestroyOnLoad (this.gameObject);
-			hasBeenRun = true;
-		}
+    #endregion
 
-		selectedLanguage = englishClips;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    #region MonoBehaviour Methods
 
-		CheckAudioPlayback ();
-	//	if (!somethingIsPlaying) music.volume = 0.75f;
+    private void Start()
+    {
 
-		if (previouslySelectedLanguage != LanguageTextDictionary.selectedLanguage)
-			SelectAudioLanguage (LanguageTextDictionary.selectedLanguage);
+        if (!_hasBeenRun)
+        {
+            music.loop = true;
+            music.Play();
+            DontDestroyOnLoad(this.gameObject);
+            _hasBeenRun = true;
+        }
 
-		previouslySelectedLanguage = LanguageTextDictionary.selectedLanguage;
+        _selectedLanguage = englishClips;
+    }
 
-		for (int i = 0; i < triggerableAudios.Length; i++) {
-			if (Input.GetKeyDown( i.ToString()))	PlayTriggerableSound (i);
-		}
-	}
+    // Update is called once per frame
+    private void Update()
+    {
 
-	public void SelectAudioLanguage (string language){
-		if (language == "german")	selectedLanguage = germanClips;
-		if (language == "french")	selectedLanguage = frenchClips;
-		if (language == "italian")	selectedLanguage = italianClips;
-		if (language == "english")	selectedLanguage = englishClips;
-	}
+        CheckAudioPlayback();
+        //	if (!somethingIsPlaying) music.volume = 0.75f;
 
-	public void PlayTriggerableSound(int id){
-		triggerableAudios [id].Play();
-	}
-		
+        if (_previouslySelectedLanguage != LanguageTextDictionary.selectedLanguage)
+            SelectAudioLanguage(LanguageTextDictionary.selectedLanguage);
 
-	public void PlaySound(string sound){//no language selection
-		
-		if (!somethingIsPlaying) {
-			if (sound == "instructions") StartPlaying (0);
-			if (sound == "reminder") StartPlaying (1);
-			if (sound == "hands") StartPlaying (2);
-			if (sound == "object") StartPlaying (3);
-			if (sound == "mirror") StartPlaying (4);
-			if (sound == "goodbye") StartPlaying (5);
-		}
+        _previouslySelectedLanguage = LanguageTextDictionary.selectedLanguage;
 
-		else if (somethingIsPlaying) Debug.Log("Could not play sound " + sound + " because another sound is playing");
-	}
+        for (int i = 0; i < triggerableAudios.Length; i++)
+        {
+            if (Input.GetKeyDown(i.ToString())) PlayTriggerableSound(i);
+        }
+    }
+    #endregion
 
-	private void StartPlaying(int id){//no language selection
-		if (!somethingIsPlaying) {
-			englishClips [id].Play ();
-			//music.volume = 0.45f;//this should be fade
-		}
-	}
-		
+    #region Public Methods
 
-	private void CheckAudioPlayback(){
+    public void SelectAudioLanguage(string language)
+    {
+        if (language == "german") _selectedLanguage = germanClips;
+        if (language == "french") _selectedLanguage = frenchClips;
+        if (language == "italian") _selectedLanguage = italianClips;
+        if (language == "english") _selectedLanguage = englishClips;
+    }
 
-		somethingIsPlaying = false;
+    public void PlayTriggerableSound(int id)
+    {
+        triggerableAudios[id].Play();
+    }
 
-		for (int i = 0; i < selectedLanguage.Length; i++) {
-			if (selectedLanguage [i].isPlaying)	somethingIsPlaying = true;
-		}
+    public void PlaySound(string sound)
+    {//no language selection
 
-		for (int i = 0; i < triggerableAudios.Length; i++) {
-			if (triggerableAudios [i].isPlaying) somethingIsPlaying = true;
-		}
-	}
+        if (!_somethingIsPlaying)
+        {
+            if (sound == "instructions") StartPlaying(0);
+            if (sound == "reminder") StartPlaying(1);
+            if (sound == "hands") StartPlaying(2);
+            if (sound == "object") StartPlaying(3);
+            if (sound == "mirror") StartPlaying(4);
+            if (sound == "goodbye") StartPlaying(5);
+        }
 
-	public void StopAll() {
-		if (somethingIsPlaying) {
-			for (int i = 0; i < selectedLanguage.Length; i++) {
-				selectedLanguage [i].Stop ();
-				//music.volume = 0.75f;
-			}
-		}
-	}
+        else if (_somethingIsPlaying) Debug.Log("Could not play sound " + sound + " because another sound is playing");
+    }
 
-	public void SelectSound (string language, string sound) {
+    public void StopAll()
+    {
+        if (_somethingIsPlaying)
+        {
+            for (int i = 0; i < _selectedLanguage.Length; i++)
+            {
+                _selectedLanguage[i].Stop();
+                //music.volume = 0.75f;
+            }
+        }
+    }
 
-		AudioClip[] selectedLanguageClips = new AudioClip[3];
+    public void SelectSound(string language, string sound)
+    {
 
-		//if (language == "english") selectedLanguageClips = germanClips;
-	}
+        AudioClip[] selectedLanguageClips = new AudioClip[3];
+
+        //if (language == "english") selectedLanguageClips = germanClips;
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    private void StartPlaying(int id)
+    {//no language selection
+        if (!_somethingIsPlaying)
+        {
+            englishClips[id].Play();
+            //music.volume = 0.45f;//this should be fade
+        }
+    }
+
+    private void CheckAudioPlayback()
+    {
+
+        _somethingIsPlaying = false;
+
+        for (int i = 0; i < _selectedLanguage.Length; i++)
+        {
+            if (_selectedLanguage[i].isPlaying) _somethingIsPlaying = true;
+        }
+
+        for (int i = 0; i < triggerableAudios.Length; i++)
+        {
+            if (triggerableAudios[i].isPlaying) _somethingIsPlaying = true;
+        }
+    }
+
+    #endregion
+
+    
 }
