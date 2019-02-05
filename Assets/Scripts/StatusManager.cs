@@ -7,75 +7,76 @@ using UnityEngine.SceneManagement;
 using VRStandardAssets.Menu;
 
 public class StatusManager : MonoBehaviour {
- 
 
-	public static bool thisUserIsReady = false, otherUserIsReady = false;
+    #region Public Fields
 
-	public bool fakeOculusReady; //for debugging
-	public bool useWithLookAt;
-	public bool useFakeOculus;
+    public static bool thisUserIsReady = false, otherUserIsReady = false;
 
-	//public bool safeFakeOculusReady;
+    public bool fakeOculusReady; //for debugging
+    public bool useWithLookAt;
+    public bool useFakeOculus;
 
-	public GameObject projectionScreen;
-	public GameObject UICanvas;
-	public Text messageInterfaceText;
-	public webcam dimmer;
-	public AudioManager audioManager;
-	public AudioCoroutineCreator audioCoroutines;
+    public GameObject projectionScreen;
+    public GameObject UICanvas;
+    public Text messageInterfaceText;
+    public webcam dimmer;
+    public AudioManager audioManager;
+    public AudioCoroutineCreator audioCoroutines;
 
-	public float waitBeforeInstructions, waitAfterInstructionsForScreen, waitForMirror, waitForGoodbye, waitForWall;
+    public float waitBeforeInstructions, waitAfterInstructionsForScreen, waitForMirror, waitForGoodbye, waitForWall;
 
-	private bool sessionIsPlaying = false;
-	private bool thisUserWasPlaying;
-	private bool hasBeenCreated = false;
+    #endregion
 
-	void Start () {
-		
-		projectionScreen.SetActive (false);// = false;
+    #region Private Fields
 
-		/*
-		if (!hasBeenCreated) {
-			DontDestroyOnLoad (this.gameObject);
-			hasBeenCreated = true;
-		}*/
+    private bool sessionIsPlaying = false;
+    private bool thisUserWasPlaying;
+    private bool hasBeenCreated = false;
 
-	}
+    #endregion
 
+    #region MonoBehaviour Methods
 
-	void Update () {
-		//if (MenuButtonBAL.userIsReady) {
-			
-			CheckThisUserStatus ();
+    void Start()
+    {
+        projectionScreen.SetActive(false);
+    }
 
-			if (useFakeOculus)
-				CheckForFakeOculus (); // for virtual other while debugging
+    void Update()
+    {
+        CheckThisUserStatus();
 
-			if (!sessionIsPlaying) {
-				if (thisUserIsReady && otherUserIsReady)
-					StartPlaying ();
-				else if (thisUserIsReady && !otherUserIsReady)
-					WaitingForOther ();
-			}
+        if (useFakeOculus)
+            CheckForFakeOculus(); // for virtual other while debugging
 
-			if (sessionIsPlaying) {
-				if (!otherUserIsReady && thisUserIsReady)
-					OtherIsGone ();
-				if (!thisUserIsReady)
-					StopExperience ();
-			}
+        if (!sessionIsPlaying)
+        {
+            if (thisUserIsReady && otherUserIsReady)
+                StartPlaying();
+            else if (thisUserIsReady && !otherUserIsReady)
+                WaitingForOther();
+        }
+        else
+        {
+            if (!otherUserIsReady && thisUserIsReady)
+                OtherIsGone();
+            if (!thisUserIsReady)
+                StopExperience();
+        }
 
-			if (!thisUserIsReady && thisUserWasPlaying)
-				StopExperience ();//In case that the other user is never ready and this one stopped.
+        if (!thisUserIsReady && thisUserWasPlaying)
+            StopExperience();//In case that the other user is never ready and this one stopped.
 
+        if (Input.GetKeyDown("o"))
+            IsOver();
 
-			if (Input.GetKeyDown ("o"))
-				IsOver ();
-		//}
+    }
+    #endregion
 
-	}
+    #region Public Methods
+    #endregion
 
-	void CheckThisUserStatus () {
+    private void CheckThisUserStatus () {
 
 		//if(safeFakeOculusReady){
 		if (XRDevice.userPresence == UserPresenceState.Present) {
@@ -87,21 +88,75 @@ public class StatusManager : MonoBehaviour {
 	}
 
 
-	void WaitingForOther () {
+	private void WaitingForOther () {
 		
 		messageInterfaceText.text = LanguageTextDictionary.waitForOther; 
 		thisUserWasPlaying = true;
 
 	}
 
-	void StartPlaying () {
+	private void StartPlaying () {
 
 		messageInterfaceText.text = LanguageTextDictionary.instructions;
 		sessionIsPlaying = true;
 		StartCoroutine ("StartPlayingCoroutine");
 	}
 
-	public IEnumerator StartPlayingCoroutine() {
+
+    private void OtherIsGone()
+    {//different than self is gone in case there is an audio for this case
+
+        dimmer.setDimmed(false);
+        projectionScreen.SetActive(false);
+        UICanvas.SetActive(true);
+        messageInterfaceText.text = LanguageTextDictionary.otherIsGone;
+
+        CancelInvoke("IsOver");
+        StopAllCoroutines();
+        audioCoroutines.StopAudioCoroutines();
+        audioManager.StopAll();
+
+    }
+
+    private void StopExperience()
+    {
+
+        thisUserWasPlaying = false;
+
+        dimmer.setDimmed(false);
+        projectionScreen.SetActive(false);
+        UICanvas.SetActive(true);
+        sessionIsPlaying = false;
+
+        audioManager.StopAll();
+        audioCoroutines.StopAudioCoroutines();
+        StopAllCoroutines();
+        messageInterfaceText.text = null;
+
+        if (useWithLookAt)
+        {
+            MenuButtonBAL.userIsReady = false;
+            SceneManager.LoadScene("Look at interaction", LoadSceneMode.Single);
+        }
+
+    }
+
+    private void CheckForFakeOculus()
+    {//only for debugging
+        otherUserIsReady = fakeOculusReady;
+    }
+
+    private void IsOver()
+    {
+        projectionScreen.SetActive(false);
+        UICanvas.SetActive(true);
+        messageInterfaceText.text = LanguageTextDictionary.finished;
+    }
+
+    #region Private Methods
+    #endregion
+
+    public IEnumerator StartPlayingCoroutine() {
 
 		StartCoroutine ("GoodbyeCoroutine");
 		StartCoroutine ("MirrorCoroutine");
@@ -141,59 +196,4 @@ public class StatusManager : MonoBehaviour {
 		Debug.Log ("READY FOR WALL");
 	}
 
-	void OtherIsGone () {//different than self is gone in case there is an audio for this case
-		
-		dimmer.setDimmed (false);
-		projectionScreen.SetActive (false);
-		UICanvas.SetActive (true);
-		messageInterfaceText.text = LanguageTextDictionary.otherIsGone;
-
-		CancelInvoke ("IsOver");
-		StopAllCoroutines ();
-		audioCoroutines.StopAudioCoroutines();
-		audioManager.StopAll ();
-
-	}
-		
-
-	void StopExperience() {
-
-		thisUserWasPlaying = false;
-
-		dimmer.setDimmed (false);
-		projectionScreen.SetActive (false);
-		UICanvas.SetActive (true);
-		sessionIsPlaying = false; 
-
-		//CancelInvoke ("IsOver");
-		audioManager.StopAll ();
-		audioCoroutines.StopAudioCoroutines();
-		StopAllCoroutines ();
-		messageInterfaceText.text = null;
-
-		if(useWithLookAt) {
-			MenuButtonBAL.userIsReady = false;
-			SceneManager.LoadScene ("Look at interaction", LoadSceneMode.Single);
-		}
-		//Destroy(this.gameObject);
-		
-	}
-		
-	 
-	void CheckForFakeOculus () {//only for debugging
-		
-		otherUserIsReady = fakeOculusReady;
-
-	}
-
-
-	void IsOver() {
-		
-		//audioManager.PlaySound ("goodbye");
-		projectionScreen.SetActive (false);
-		UICanvas.SetActive (true);
-		messageInterfaceText.text = LanguageTextDictionary.finished;
-
-	}
-		
 }
