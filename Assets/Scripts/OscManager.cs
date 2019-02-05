@@ -14,6 +14,9 @@ public class OscManager : MonoBehaviour {
 
     #region Public Fields
 
+    public bool repeater;
+
+    //TODO turn into singletons
     public GameObject pointOfView;
     public GameObject audioManager;
     public Camera mainCamera;
@@ -41,9 +44,16 @@ public class OscManager : MonoBehaviour {
 
     private void Start()
     {
+        //assign handlers to messages
         _oscReceiver.Bind("/pose", ReceivedHeadTracking);
         _oscReceiver.Bind("/otherUser", ReceivedOtherStatus);
+        _oscReceiver.Bind("/dimon", ReceiveDimOn);
+        _oscReceiver.Bind("/dimoff", ReceiveDimOff);
+        _oscReceiver.Bind("/ht", ReceiveCalibrate);
+        for (int i = 0; i < 11; i++)
+            _oscReceiver.Bind("/btn" + i.ToString(), ReceiveBtn);
 
+        //TODO set IP and port from playerprefs to oscTransmitter
         if (othersIP == null) othersIP = PlayerPrefs.GetString("othersIP");
     }
 
@@ -64,6 +74,13 @@ public class OscManager : MonoBehaviour {
     #endregion
 
     #region Public Methods
+
+    public void SetRepeater(bool r)
+    {
+        repeater = r;
+        if (r) PlayerPrefs.SetInt("repeater", 1);
+        else PlayerPrefs.SetInt("repeater", 0);
+    }
 
     public void SendHeadTracking()
     {
@@ -96,6 +113,33 @@ public class OscManager : MonoBehaviour {
     #endregion
 
     #region Private Methods
+
+    private void ReceiveCalibrate(OSCMessage message)
+    {
+        pointOfView.GetComponent<webcam>().recenterPose();
+        if (repeater) _oscTransmitter.Send(message);
+    }
+
+    private void ReceiveDimOn(OSCMessage message)
+    {
+        pointOfView.GetComponent<webcam>().setDimmed(true);
+        if (repeater) _oscTransmitter.Send(message);
+    }
+
+    private void ReceiveDimOff(OSCMessage message)
+    {
+        pointOfView.GetComponent<webcam>().setDimmed(false);
+        if (repeater) _oscTransmitter.Send(message);
+    }
+
+    private void ReceiveBtn(OSCMessage message)
+    {
+        for (int i = 0; i < 11; i++)
+            if (message.Address == "/btn" + i.ToString())
+                audioManager.GetComponent<AudioPlayer>().playSound(i);
+
+        if (repeater) _oscTransmitter.Send(message);
+    }
 
     private void ReceivedOtherStatus(OSCMessage message)
     {
