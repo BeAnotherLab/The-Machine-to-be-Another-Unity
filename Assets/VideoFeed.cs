@@ -31,9 +31,7 @@ public class VideoFeed : MonoBehaviour
     private float _tiltAngle = 0;
 
     //Dim params
-    private float _dimLevel = 1;
     private bool _dimmed = false;
-    private float _dimRate = 0.08f;
 
     #endregion
 
@@ -62,6 +60,7 @@ public class VideoFeed : MonoBehaviour
         otherPose = Quaternion.RotateTowards(otherPose, nextOtherPose, _turningRate * Time.deltaTime);
 
         if (Input.GetKeyDown("b")) SetDimmed();
+        if (Input.GetKeyDown("n")) RecenterPose();
 
         if (!_twoWaySwap) //if servo setup
         {
@@ -78,8 +77,6 @@ public class VideoFeed : MonoBehaviour
         }
 
         _meshRenderer.material.mainTexture = _camTex;
-
-        SetDimmedLevel();
     }
 
     void OnDestroy()
@@ -92,14 +89,25 @@ public class VideoFeed : MonoBehaviour
 
     #region Public Methods
 
+    //TODO use coroutines or LeanTween to avoid setting the dim in the Update() method
+    public void SetDimmed(bool dim)
+    {
+        float next = 1;
+        if (dim) next = 0;
+
+        float dimValue = _meshRenderer.material.color.a;
+
+        LeanTween.value(dimValue, next, 1).setEaseInOutQuad().setOnUpdate((val) => {
+            Color c = _meshRenderer.material.color;
+            c.a = val;
+            _meshRenderer.material.SetColor("_Color", c);
+        });
+    }
+
     public void SetDimmed()
     {
         _dimmed = !_dimmed;
-    }
-
-    public void SetDimmed(bool dim)
-    {
-        _dimmed = dim;
+        SetDimmed(_dimmed);
     }
 
     public void SetCameraOrientation()
@@ -128,21 +136,7 @@ public class VideoFeed : MonoBehaviour
 
 
     #region Private Methods
-
-    //TODO use coroutines or LeanTween to avoid setting the dim in the Update() method
-    private void SetDimmedLevel()
-    {
-        float next;
-        float range = 20;
-
-        if (_dimmed) next = 1;
-        else next = 0;
-
-        _dimLevel += _dimRate * (next - _dimLevel);
-        Color c = new Color(_dimLevel * range, _dimLevel * range, _dimLevel * range);
-        _meshRenderer.material.SetColor("_Color", c);
-    }
-
+    
     //TODO allow camera to be set in runtime
     private void InitCamera()
     {

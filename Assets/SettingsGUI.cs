@@ -17,6 +17,8 @@ public class SettingsGUI : MonoBehaviour
     private Text _FPSText;
     [SerializeField]
     private InputField _IPInputField;
+    [SerializeField]
+    private Button _dimButton;
 
     private VideoFeed _videoFeed;
     private GameObject _mainCamera;
@@ -38,6 +40,11 @@ public class SettingsGUI : MonoBehaviour
         {
             _videoFeed.cameraID = _cameraDropdown.value;
         });
+
+        _dimButton.onClick.AddListener(delegate
+        {
+            _videoFeed.SetDimmed();
+        });
     }
 
     // Use this for initialization
@@ -51,10 +58,8 @@ public class SettingsGUI : MonoBehaviour
     }
 
     void Update()
-    {
-        if (Input.GetKeyDown("b")) _videoFeed.SetDimmed();
-        if (Input.GetKeyDown("n")) _videoFeed.RecenterPose();
-        else if (Input.GetKeyDown("m")) SetMonitorGuiEnabled();
+    {     
+        if (Input.GetKeyDown("m")) SetMonitorGuiEnabled();
 
         if (_videoFeed.useHeadTracking)
         {
