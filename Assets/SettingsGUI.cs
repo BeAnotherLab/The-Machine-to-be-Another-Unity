@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.IO.Ports;
+using extOSC;
 
 public class SettingsGUI : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class SettingsGUI : MonoBehaviour
     private Button _dimButton;
     [SerializeField]
     private Toggle _repeaterToggle;
+    [SerializeField]
+    private Text _controlsText;
 
     private VideoFeed _videoFeed;
     private GameObject _mainCamera;
@@ -53,6 +56,8 @@ public class SettingsGUI : MonoBehaviour
         _IPInputField.onEndEdit.AddListener(delegate { _oscManager.othersIP = _IPInputField.text; });
 
         _repeaterToggle.onValueChanged.AddListener(delegate { _oscManager.repeater = _repeaterToggle.isOn; });
+
+        _controlsText.text = _controlsText.text + "\n \nlocal IP adress : " + OSCUtilities.GetLocalHost();
     }
 
     // Use this for initialization
@@ -62,10 +67,13 @@ public class SettingsGUI : MonoBehaviour
         else SetIpInputField(); //else initialize IP Input field
 
         _monitorGuiEnabled = true;
+
         SetCameraDropdownOptions();
 
         if (PlayerPrefs.GetInt("repeater") == 1) _repeaterToggle.isOn = true;
         else                                     _repeaterToggle.isOn = false;
+
+        OSCUtilities.GetLocalHost();
     }
 
     void Update()
