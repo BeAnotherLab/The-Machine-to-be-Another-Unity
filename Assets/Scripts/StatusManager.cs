@@ -12,43 +12,50 @@ public class StatusManager : MonoBehaviour {
 
     public static bool thisUserIsReady = false, otherUserIsReady = false;
 
-    public bool fakeOculusReady; //for debugging
-    public bool useWithLookAt;
-    public bool useFakeOculus;
-
-    public GameObject projectionScreen;
-    public GameObject UICanvas;
-    public Text messageInterfaceText;
-    public VideoFeed dimmer;
-    public AudioCoroutineCreator audioCoroutines;
-
-    public float waitBeforeInstructions, waitAfterInstructionsForScreen, waitForMirror, waitForGoodbye, waitForWall;
-
     #endregion
+
 
     #region Private Fields
 
-    private bool sessionIsPlaying = false;
-    private bool thisUserWasPlaying;
-    private bool hasBeenCreated = false;
+    [SerializeField]
+    private bool _sesssionIsPlaying = false;
+    [SerializeField]
+    private bool _thisUserWasPlaying;
+
+    [SerializeField]
+    private bool _fakeOculusReady; //for debugging
+    [SerializeField]
+    private bool _useFakeOculus;
+
+    private VideoFeed _videoFeed;
+    private GameObject _instructionsGUI;
+
+    [Tooltip("Instructions Timing")]
+
+    [SerializeField]
+    private float waitBeforeInstructions, waitAfterInstructionsForScreen, waitForMirror, waitForGoodbye, waitForWall;
+
+    private Text _instructionsText;
 
     #endregion
 
+
     #region MonoBehaviour Methods
 
-    void Start()
+    private void Awake()
     {
-        projectionScreen.SetActive(false);
+        _videoFeed = FindObjectOfType<VideoFeed>();
+        _instructionsText = GameObject.Find("InstructionsText").GetComponent<Text>();
     }
 
-    void Update()
+    private void Update() //TODO use events instead of polling status in Update() to make state transitions clearer
     {
         CheckThisUserStatus();
 
-        if (useFakeOculus)
+        if (_useFakeOculus)
             CheckForFakeOculus(); // for virtual other while debugging
 
-        if (!sessionIsPlaying)
+        if (!_sesssionIsPlaying)
         {
             if (thisUserIsReady && otherUserIsReady)
                 StartPlaying();
@@ -63,7 +70,7 @@ public class StatusManager : MonoBehaviour {
                 StopExperience();
         }
 
-        if (!thisUserIsReady && thisUserWasPlaying)
+        if (!thisUserIsReady && _thisUserWasPlaying)
             StopExperience();//In case that the other user is never ready and this one stopped.
 
         if (Input.GetKeyDown("o"))
@@ -72,124 +79,111 @@ public class StatusManager : MonoBehaviour {
     }
     #endregion
 
+
     #region Public Methods
+
+    public IEnumerator StartPlayingCoroutine()
+    {
+
+        StartCoroutine("GoodbyeCoroutine");
+        StartCoroutine("MirrorCoroutine");
+        StartCoroutine("WallCoroutine");
+
+        yield return new WaitForFixedTime(waitBeforeInstructions);// wait before playing audio
+
+        yield return new WaitForFixedTime(waitAfterInstructionsForScreen);//duration of audio track to start video after
+
+        _instructionsGUI.SetActive(false);
+        _videoFeed.setDimmed(true);
+
+    }
+
+    public IEnumerator GoodbyeCoroutine()
+    {
+
+        yield return new WaitForFixedTime(waitForGoodbye + waitBeforeInstructions);
+        Debug.Log("READY TO STOP");
+        IsOver();
+
+    }
+
+    public IEnumerator MirrorCoroutine()
+    {
+
+        yield return new WaitForFixedTime(waitBeforeInstructions + waitForMirror);
+        Debug.Log("READY FOR MIRROR");
+
+    }
+
+    public IEnumerator WallCoroutine()
+    {
+
+        yield return new WaitForFixedTime(waitBeforeInstructions + waitForWall);
+        Debug.Log("READY FOR WALL");
+    }
     #endregion
 
-    private void CheckThisUserStatus () {
 
-		//if(safeFakeOculusReady){
-		if (XRDevice.userPresence == UserPresenceState.Present) {
-			thisUserIsReady = true;
-			thisUserWasPlaying = true;
-		}
-		else if (XRDevice.userPresence == UserPresenceState.NotPresent)	thisUserIsReady = false;
+    #region Private Methods
 
-	}
+    private void CheckThisUserStatus()
+    {
 
+        //if(safeFakeOculusReady){
+        if (XRDevice.userPresence == UserPresenceState.Present)
+        {
+            thisUserIsReady = true;
+            _thisUserWasPlaying = true;
+        }
+        else if (XRDevice.userPresence == UserPresenceState.NotPresent) thisUserIsReady = false;
 
-	private void WaitingForOther () {
-		
-		messageInterfaceText.text = LanguageTextDictionary.waitForOther; 
-		thisUserWasPlaying = true;
+    }
 
-	}
+    private void WaitingForOther()
+    {
+        _instructionsText.text = LanguageTextDictionary.waitForOther;
+        _thisUserWasPlaying = true;
+    }
 
-	private void StartPlaying () {
+    private void StartPlaying()
+    {
+        _instructionsText.text = LanguageTextDictionary.instructions;
+        _sesssionIsPlaying = true;
+        StartCoroutine("StartPlayingCoroutine");
+    }
 
-		messageInterfaceText.text = LanguageTextDictionary.instructions;
-		sessionIsPlaying = true;
-		StartCoroutine ("StartPlayingCoroutine");
-	}
-
-
-    private void OtherIsGone()
-    {//different than self is gone in case there is an audio for this case
-
-        dimmer.setDimmed(false);
-        projectionScreen.SetActive(false);
-        UICanvas.SetActive(true);
-        messageInterfaceText.text = LanguageTextDictionary.otherIsGone;
+    private void OtherIsGone() //different than self is gone in case there is an audio for this case
+    {
+        _videoFeed.setDimmed(false);
+        _instructionsGUI.SetActive(true);
+        _instructionsText.text = LanguageTextDictionary.otherIsGone;
 
         CancelInvoke("IsOver");
         StopAllCoroutines();
-        audioCoroutines.StopAudioCoroutines();
 
     }
 
     private void StopExperience()
     {
+        _thisUserWasPlaying = false;
+        _videoFeed.setDimmed(false);
+        _instructionsGUI.SetActive(true);
+        _sesssionIsPlaying = false;
 
-        thisUserWasPlaying = false;
-
-        dimmer.setDimmed(false);
-        projectionScreen.SetActive(false);
-        UICanvas.SetActive(true);
-        sessionIsPlaying = false;
-
-        audioCoroutines.StopAudioCoroutines();
         StopAllCoroutines();
-        messageInterfaceText.text = null;
-
-        if (useWithLookAt)
-        {
-            MenuButtonBAL.userIsReady = false;
-            SceneManager.LoadScene("Look at interaction", LoadSceneMode.Single);
-        }
-
+        _instructionsText.text = null;
     }
 
-    private void CheckForFakeOculus()
-    {//only for debugging
-        otherUserIsReady = fakeOculusReady;
+    private void CheckForFakeOculus() //only for debugging
+    {
+        otherUserIsReady = _fakeOculusReady;
     }
 
     private void IsOver()
     {
-        projectionScreen.SetActive(false);
-        UICanvas.SetActive(true);
-        messageInterfaceText.text = LanguageTextDictionary.finished;
+        _instructionsGUI.SetActive(true);
+        _instructionsText.text = LanguageTextDictionary.finished;
     }
 
-    #region Private Methods
     #endregion
-
-    public IEnumerator StartPlayingCoroutine() {
-
-		StartCoroutine ("GoodbyeCoroutine");
-		StartCoroutine ("MirrorCoroutine");
-		StartCoroutine ("WallCoroutine");
-
-		yield return new WaitForFixedTime (waitBeforeInstructions);// wait before playing audio
-			
-		audioCoroutines.StartAudioCoroutines ();
-
-		yield return new WaitForFixedTime (waitAfterInstructionsForScreen);//duration of audio track to start video after
-
-		UICanvas.SetActive (false);
-		projectionScreen.SetActive (true);
-		dimmer.setDimmed (true);
-
-	}
-
-	public IEnumerator GoodbyeCoroutine() {
-
-		yield return new WaitForFixedTime (waitForGoodbye + waitBeforeInstructions);
-		Debug.Log ("READY TO STOP");
-		IsOver ();
-
-	}
-
-	public IEnumerator MirrorCoroutine() {
-
-		yield return new WaitForFixedTime (waitBeforeInstructions + waitForMirror);
-		Debug.Log ("READY FOR MIRROR");
-
-	}
-
-	public IEnumerator WallCoroutine() {
-
-		yield return new WaitForFixedTime (waitBeforeInstructions + waitForWall);
-		Debug.Log ("READY FOR WALL");
-	}
-
 }

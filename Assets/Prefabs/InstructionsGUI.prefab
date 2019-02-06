@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1151431780467876323}
   - component: {fileID: 1151431780467876322}
   m_Layer: 5
-  m_Name: Text
+  m_Name: InstructionsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -166,6 +166,7 @@ GameObject:
   - component: {fileID: 1151431781991381620}
   - component: {fileID: 1151431781991381619}
   - component: {fileID: 1151431781991381618}
+  - component: {fileID: 2315952834710173178}
   m_Layer: 5
   m_Name: InstructionsGUI
   m_TagString: Untagged
@@ -253,3 +254,17 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2315952834710173178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151431781991381617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ae1f68a85a159f46b05c0f78d981148, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultLanguage: english
+  messageInterfaceText: {fileID: 0}

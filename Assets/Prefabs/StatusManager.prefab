@@ -10,10 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3197596539171407804}
   - component: {fileID: 3197596539171407805}
-  - component: {fileID: 3197596539171407802}
-  - component: {fileID: 3197596539171407803}
   m_Layer: 5
-  m_Name: StatusManagment
+  m_Name: StatusManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +24,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3197596539171407807}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -50,45 +48,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 503636195938e79408ecd2ae4a64ff49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fakeOculusReady: 0
-  useWithLookAt: 0
-  useFakeOculus: 0
-  projectionScreen: {fileID: 0}
-  UICanvas: {fileID: 0}
   messageInterfaceText: {fileID: 0}
-  dimmer: {fileID: 0}
-  audioManager: {fileID: 0}
   audioCoroutines: {fileID: 0}
   waitBeforeInstructions: 0
-  waitAfterInstructionsForScreen: 24
+  waitAfterInstructionsForScreen: 5
   waitForMirror: 140
   waitForGoodbye: 210
   waitForWall: 10
---- !u!114 &3197596539171407802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3197596539171407807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ae1f68a85a159f46b05c0f78d981148, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultLanguage: english
---- !u!114 &3197596539171407803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3197596539171407807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe88af1b34738fc4abc8fe0511a5e54a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  noLegsNoObject: legs objects short 42, 204, 264
-  LegsAndObject: '42, 240, 339 '
-  LegsAndNoObject: 
