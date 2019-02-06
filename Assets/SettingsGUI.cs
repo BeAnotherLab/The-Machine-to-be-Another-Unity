@@ -55,7 +55,7 @@ public class SettingsGUI : MonoBehaviour
 
         _IPInputField.onEndEdit.AddListener(delegate { _oscManager.othersIP = _IPInputField.text; });
 
-        _repeaterToggle.onValueChanged.AddListener(delegate { _oscManager.repeater = _repeaterToggle.isOn; });
+        _repeaterToggle.onValueChanged.AddListener(delegate { _oscManager.SetRepeater(_repeaterToggle.isOn); });
 
         _controlsText.text = _controlsText.text + "\n \nlocal IP adress : " + OSCUtilities.GetLocalHost();
     }

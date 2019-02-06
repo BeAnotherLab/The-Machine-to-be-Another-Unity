@@ -11,7 +11,6 @@ public class OscManager : MonoBehaviour {
 
     #region Public Fields
 
-    public bool repeater { get {return repeater;} set {SetRepeater(value);} }
     public string othersIP { get { return othersIP; } set { SetOthersIP(value);} }
 
     #endregion
@@ -26,6 +25,8 @@ public class OscManager : MonoBehaviour {
     private OSCReceiver _oscReceiver;
 
     private bool previousStatusForSelf;
+
+    private bool _repeater;
 
     #endregion
 
@@ -64,11 +65,18 @@ public class OscManager : MonoBehaviour {
 
         if (StatusManager.thisUserIsReady != previousStatusForSelf) SendThisUserStatus(StatusManager.thisUserIsReady);
         previousStatusForSelf = StatusManager.thisUserIsReady;
-    }    
+    }
 
     #endregion
 
     #region Public Methods   
+
+    public void SetRepeater(bool r)
+    {
+        _repeater = r;
+        if (r) PlayerPrefs.SetInt("repeater", 1);
+        else PlayerPrefs.SetInt("repeater", 0);
+    }
 
     public void SendHeadTracking()
     {
@@ -107,20 +115,14 @@ public class OscManager : MonoBehaviour {
         PlayerPrefs.SetString("othersIP", othersIP);
         GetComponent<OSCTransmitter>().RemoteHost = othersIP;
     }
-
-    private void SetRepeater(bool r)
-    {
-        if (r) PlayerPrefs.SetInt("repeater", 1);
-        else PlayerPrefs.SetInt("repeater", 0);
-    }
-
+   
     private void ReceiveCalibrate(OSCMessage message)
     {
         float value;
         if (message.ToFloat(out value))
             if (value == 1f) _videoFeed.RecenterPose();
 
-        if (repeater) _oscTransmitter.Send(message);
+        if (_repeater) _oscTransmitter.Send(message);
     }
 
     private void ReceiveDimOn(OSCMessage message)
@@ -129,7 +131,7 @@ public class OscManager : MonoBehaviour {
         if (message.ToFloat(out value))
             if (value == 1f) _videoFeed.SetDimmed(true);
 
-        if (repeater) _oscTransmitter.Send(message);
+        if (_repeater) _oscTransmitter.Send(message);
     }
 
     private void ReceiveDimOff(OSCMessage message)
@@ -138,7 +140,7 @@ public class OscManager : MonoBehaviour {
         if (message.ToFloat(out value))
             if (value == 1f) _videoFeed.SetDimmed(false);
 
-        if (repeater) _oscTransmitter.Send(message);
+        if (_repeater) _oscTransmitter.Send(message);
     }
 
     private void ReceiveBtn(OSCMessage message)
@@ -153,7 +155,7 @@ public class OscManager : MonoBehaviour {
         }
             
 
-        if (repeater) _oscTransmitter.Send(message);
+        if (_repeater) _oscTransmitter.Send(message);
     }
 
     private void ReceivedOtherStatus(OSCMessage message)
