@@ -18,7 +18,7 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField]
     private InputField _IPInputField;
 
-    private webcam _webcamDisplay;
+    private VideoFeed _webcamDisplay;
     private GameObject _mainCamera;
 
     private bool _twoWaySwap = true;
@@ -31,7 +31,7 @@ public class SettingsGUI : MonoBehaviour
 
     private void Awake()
     {
-        _webcamDisplay = FindObjectOfType<webcam>();
+        _webcamDisplay = FindObjectOfType<VideoFeed>();
         _mainCamera = GameObject.Find("Main Camera");
     }
 
@@ -51,7 +51,7 @@ public class SettingsGUI : MonoBehaviour
         if (Input.GetKeyDown("n")) _webcamDisplay.recenterPose();
         else if (Input.GetKeyDown("m")) SetMonitorGuiEnabled();
 
-        if (_webcamDisplay.isHeadtrackingOn())
+        if (_webcamDisplay.useHeadTracking)
         {
             Vector3 pitchYawRoll = _mainCamera.transform.rotation.eulerAngles;
             _rollSlider.value = pitchYawRoll.x;

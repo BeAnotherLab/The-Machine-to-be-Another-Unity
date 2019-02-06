@@ -115,7 +115,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) pointOfView.GetComponent<webcam>().recenterPose();
+            if (value == 1f) pointOfView.GetComponent<VideoFeed>().recenterPose();
 
         if (repeater) _oscTransmitter.Send(message);
     }
@@ -124,7 +124,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) pointOfView.GetComponent<webcam>().setDimmed(true);
+            if (value == 1f) pointOfView.GetComponent<VideoFeed>().setDimmed(true);
 
         if (repeater) _oscTransmitter.Send(message);
     }
@@ -133,7 +133,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) pointOfView.GetComponent<webcam>().setDimmed(false);
+            if (value == 1f) pointOfView.GetComponent<VideoFeed>().setDimmed(false);
 
         if (repeater) _oscTransmitter.Send(message);
     }
@@ -173,7 +173,7 @@ public class OscManager : MonoBehaviour {
                 quaternionValues.Add(value.FloatValue); //add them to a float list
         }
 
-        pointOfView.GetComponent<webcam>().otherPose = new Quaternion(quaternionValues[0], quaternionValues[1], quaternionValues[2], quaternionValues[3]);
+        pointOfView.GetComponent<VideoFeed>().otherPose = new Quaternion(quaternionValues[0], quaternionValues[1], quaternionValues[2], quaternionValues[3]);
     }
 
     #endregion

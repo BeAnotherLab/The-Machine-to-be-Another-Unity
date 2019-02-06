@@ -19,7 +19,7 @@ public class StatusManager : MonoBehaviour {
     public GameObject projectionScreen;
     public GameObject UICanvas;
     public Text messageInterfaceText;
-    public webcam dimmer;
+    public VideoFeed dimmer;
     public AudioManager audioManager;
     public AudioCoroutineCreator audioCoroutines;
 
