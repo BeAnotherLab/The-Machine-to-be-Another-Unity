@@ -116,7 +116,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) _videoFeed.recenterPose();
+            if (value == 1f) _videoFeed.RecenterPose();
 
         if (repeater) _oscTransmitter.Send(message);
     }
@@ -125,7 +125,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) _videoFeed.setDimmed(true);
+            if (value == 1f) _videoFeed.SetDimmed(true);
 
         if (repeater) _oscTransmitter.Send(message);
     }
@@ -134,7 +134,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) _videoFeed.setDimmed(false);
+            if (value == 1f) _videoFeed.SetDimmed(false);
 
         if (repeater) _oscTransmitter.Send(message);
     }

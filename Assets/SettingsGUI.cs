@@ -52,8 +52,8 @@ public class SettingsGUI : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown("b")) _videoFeed.setDimmed();
-        if (Input.GetKeyDown("n")) _videoFeed.recenterPose();
+        if (Input.GetKeyDown("b")) _videoFeed.SetDimmed();
+        if (Input.GetKeyDown("n")) _videoFeed.RecenterPose();
         else if (Input.GetKeyDown("m")) SetMonitorGuiEnabled();
 
         if (_videoFeed.useHeadTracking)

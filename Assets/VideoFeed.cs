@@ -49,7 +49,7 @@ public class VideoFeed : MonoBehaviour
     void Start()
     {
         InitCamera();
-        recenterPose();
+        RecenterPose();
         otherPose = new Quaternion();
     }
 
@@ -61,7 +61,7 @@ public class VideoFeed : MonoBehaviour
         // Turn towards our target rotation.
         otherPose = Quaternion.RotateTowards(otherPose, nextOtherPose, _turningRate * Time.deltaTime);
 
-        if (Input.GetKeyDown("b")) setDimmed();
+        if (Input.GetKeyDown("b")) SetDimmed();
 
         if (!_twoWaySwap) //if servo setup
         {
@@ -78,7 +78,8 @@ public class VideoFeed : MonoBehaviour
         }
 
         _meshRenderer.material.mainTexture = _camTex;
-        setDimLevel();
+
+        SetDimmedLevel();
     }
 
     void OnDestroy()
@@ -91,34 +92,34 @@ public class VideoFeed : MonoBehaviour
 
     #region Public Methods
 
-    public void setDimmed()
+    public void SetDimmed()
     {
         _dimmed = !_dimmed;
     }
 
-    public void setDimmed(bool dim)
+    public void SetDimmed(bool dim)
     {
         _dimmed = dim;
     }
 
-    public void setCameraOrientation()
+    public void SetCameraOrientation()
     {
         _tiltAngle += 90;
         PlayerPrefs.SetFloat("tiltAngle", _tiltAngle);
     }
 
-    public void setZoom(float value)
+    public void SetZoom(float value)
     {
         zoom = value;
         PlayerPrefs.SetFloat("zoom", zoom);
     }
 
-    public void recenterPose()
+    public void RecenterPose()
     {
         UnityEngine.XR.InputTracking.Recenter();
     }
 
-    public void switchHeadtracking()
+    public void SwitchHeadtracking()
     {
         useHeadTracking = !useHeadTracking;
     }
@@ -129,7 +130,7 @@ public class VideoFeed : MonoBehaviour
     #region Private Methods
 
     //TODO use coroutines or LeanTween to avoid setting the dim in the Update() method
-    private void setDimLevel()
+    private void SetDimmedLevel()
     {
         float next;
         float range = 20;

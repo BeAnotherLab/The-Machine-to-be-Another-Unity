@@ -94,7 +94,7 @@ public class StatusManager : MonoBehaviour {
         yield return new WaitForFixedTime(waitAfterInstructionsForScreen);//duration of audio track to start video after
 
         _instructionsGUI.SetActive(false);
-        _videoFeed.setDimmed(true);
+        _videoFeed.SetDimmed(true);
 
     }
 
@@ -154,7 +154,7 @@ public class StatusManager : MonoBehaviour {
 
     private void OtherIsGone() //different than self is gone in case there is an audio for this case
     {
-        _videoFeed.setDimmed(false);
+        _videoFeed.SetDimmed(false);
         _instructionsGUI.SetActive(true);
         _instructionsText.text = LanguageTextDictionary.otherIsGone;
 
@@ -166,7 +166,7 @@ public class StatusManager : MonoBehaviour {
     private void StopExperience()
     {
         _thisUserWasPlaying = false;
-        _videoFeed.setDimmed(false);
+        _videoFeed.SetDimmed(false);
         _instructionsGUI.SetActive(true);
         _sesssionIsPlaying = false;
 
