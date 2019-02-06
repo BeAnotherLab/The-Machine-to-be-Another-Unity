@@ -11,8 +11,8 @@ public class OscManager : MonoBehaviour {
 
     #region Public Fields
 
-    public bool repeater { get {return repeater;} set {SetRepeater(value);}}
-    public string othersIP = "";
+    public bool repeater { get {return repeater;} set {SetRepeater(value);} }
+    public string othersIP { get { return othersIP; } set { SetOthersIP(value);} }
 
     #endregion
 
@@ -48,12 +48,11 @@ public class OscManager : MonoBehaviour {
         _oscReceiver.Bind("/dimon", ReceiveDimOn);
         _oscReceiver.Bind("/dimoff", ReceiveDimOff);
         _oscReceiver.Bind("/ht", ReceiveCalibrate);
-
         for (int i = 0; i < 11; i++)
             _oscReceiver.Bind("/btn" + i.ToString(), ReceiveBtn);
 
-        //TODO set IP and port from playerprefs to oscTransmitter
-        if (othersIP == null) othersIP = PlayerPrefs.GetString("othersIP");
+        //set IP address of other 
+        SetOthersIP(PlayerPrefs.GetString("othersIP"));
     }
 
     private void Update()
@@ -62,12 +61,7 @@ public class OscManager : MonoBehaviour {
 
         if (StatusManager.thisUserIsReady != previousStatusForSelf) SendThisUserStatus(StatusManager.thisUserIsReady);
         previousStatusForSelf = StatusManager.thisUserIsReady;
-    }
-
-    private void OnDisable()
-    {
-        PlayerPrefs.SetString("othersIP", othersIP);
-    }
+    }    
 
     #endregion
 
@@ -104,6 +98,12 @@ public class OscManager : MonoBehaviour {
     #endregion
 
     #region Private Methods
+
+    private void SetOthersIP(string othersIP)
+    {
+        PlayerPrefs.SetString("othersIP", othersIP);
+        GetComponent<OSCTransmitter>().RemoteHost = othersIP;
+    }
 
     private void SetRepeater(bool r)
     {

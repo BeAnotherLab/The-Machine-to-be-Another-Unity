@@ -22,6 +22,7 @@ public class SettingsGUI : MonoBehaviour
 
     private VideoFeed _videoFeed;
     private GameObject _mainCamera;
+    private OscManager _oscManager;
 
     private bool _twoWaySwap = true;
     private bool _monitorGuiEnabled, _oculusGuiEnabled;
@@ -35,6 +36,7 @@ public class SettingsGUI : MonoBehaviour
     {
         _videoFeed = FindObjectOfType<VideoFeed>();
         _mainCamera = GameObject.Find("Main Camera");
+        _oscManager = FindObjectOfType<OscManager>();
 
         _cameraDropdown.onValueChanged.AddListener(delegate
         {
@@ -45,6 +47,8 @@ public class SettingsGUI : MonoBehaviour
         {
             _videoFeed.SetDimmed();
         });
+
+        _IPInputField.onEndEdit.AddListener(delegate { _oscManager.othersIP = _IPInputField.text; });
     }
 
     // Use this for initialization
