@@ -292,7 +292,6 @@ GameObject:
   - component: {fileID: 1116724790}
   - component: {fileID: 1116724788}
   - component: {fileID: 1116724787}
-  - component: {fileID: 1116724789}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -316,18 +315,6 @@ Behaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1116724786}
   m_Enabled: 1
---- !u!114 &1116724789
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1116724786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c801885f5180998448c931e722c05a13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!20 &1116724790
 Camera:
   m_ObjectHideFlags: 0
@@ -538,7 +525,7 @@ PrefabInstance:
     - target: {fileID: 466960672388089699, guid: 94e02a587a63f594582e4abdde83cfb9,
         type: 3}
       propertyPath: m_Name
-      value: WebcamFeed
+      value: VideoFeed
       objectReference: {fileID: 0}
     - target: {fileID: 466960672388089704, guid: 94e02a587a63f594582e4abdde83cfb9,
         type: 3}
@@ -910,6 +897,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0f5f11935d80fe409f504c5ccb1b7a4, type: 3}
+--- !u!1 &3197596539171407807 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3197596539171407807, guid: ac83e1f85f757314ca0a565297f74bce,
+    type: 3}
+  m_PrefabInstance: {fileID: 3197596539289527782}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3197596539171407808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3197596539171407807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ae1f68a85a159f46b05c0f78d981148, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultLanguage: english
 --- !u!1001 &3197596539289527782
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1029,39 +1035,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3197596539171407805, guid: ac83e1f85f757314ca0a565297f74bce,
         type: 3}
-      propertyPath: projectionScreen
-      value: 
-      objectReference: {fileID: 1035839687}
-    - target: {fileID: 3197596539171407805, guid: ac83e1f85f757314ca0a565297f74bce,
-        type: 3}
-      propertyPath: UICanvas
-      value: 
-      objectReference: {fileID: 1692602105}
-    - target: {fileID: 3197596539171407805, guid: ac83e1f85f757314ca0a565297f74bce,
-        type: 3}
       propertyPath: messageInterfaceText
       value: 
       objectReference: {fileID: 431084906}
-    - target: {fileID: 3197596539171407805, guid: ac83e1f85f757314ca0a565297f74bce,
-        type: 3}
-      propertyPath: dimmer
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3197596539171407805, guid: ac83e1f85f757314ca0a565297f74bce,
-        type: 3}
-      propertyPath: audioManager
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3197596539171407805, guid: ac83e1f85f757314ca0a565297f74bce,
-        type: 3}
-      propertyPath: audioCoroutines
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3197596539171407805, guid: ac83e1f85f757314ca0a565297f74bce,
-        type: 3}
-      propertyPath: waitAfterInstructionsForScreen
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac83e1f85f757314ca0a565297f74bce, type: 3}
 --- !u!224 &3197596539289527783 stripped
