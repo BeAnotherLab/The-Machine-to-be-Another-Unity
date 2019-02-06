@@ -11,18 +11,16 @@ public class OscManager : MonoBehaviour {
 
     #region Public Fields
 
-    public bool repeater;
-
-    //TODO turn into singletons
-    public GameObject pointOfView;
-    public GameObject audioManager;
-    public Camera mainCamera;
-    public GameObject gui;
+    public bool repeater { get {return repeater;} set {SetRepeater(value);}}
     public string othersIP = "";
 
     #endregion
 
     #region Private Fields
+
+    private Camera _mainCamera;
+    private VideoFeed _videoFeed;
+    private AudioPlayer _audioPlayer;
 
     private OSCTransmitter _oscTransmitter;
     private OSCReceiver _oscReceiver;
@@ -35,6 +33,9 @@ public class OscManager : MonoBehaviour {
 
     private void Awake()
     {
+        _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        _audioPlayer = FindObjectOfType<AudioPlayer>();
+        _videoFeed = FindObjectOfType<VideoFeed>();
         _oscReceiver = GetComponent<OSCReceiver>();
         _oscTransmitter = GetComponent<OSCTransmitter>();
     }
@@ -47,6 +48,7 @@ public class OscManager : MonoBehaviour {
         _oscReceiver.Bind("/dimon", ReceiveDimOn);
         _oscReceiver.Bind("/dimoff", ReceiveDimOff);
         _oscReceiver.Bind("/ht", ReceiveCalibrate);
+
         for (int i = 0; i < 11; i++)
             _oscReceiver.Bind("/btn" + i.ToString(), ReceiveBtn);
 
@@ -57,10 +59,9 @@ public class OscManager : MonoBehaviour {
     private void Update()
     {
         SendHeadTracking();
-        //if(MenuButtonBAL.userIsReady) {
+
         if (StatusManager.thisUserIsReady != previousStatusForSelf) SendThisUserStatus(StatusManager.thisUserIsReady);
         previousStatusForSelf = StatusManager.thisUserIsReady;
-        //}
     }
 
     private void OnDisable()
@@ -70,18 +71,11 @@ public class OscManager : MonoBehaviour {
 
     #endregion
 
-    #region Public Methods
-
-    public void SetRepeater(bool r)
-    {
-        repeater = r;
-        if (r) PlayerPrefs.SetInt("repeater", 1);
-        else PlayerPrefs.SetInt("repeater", 0);
-    }
+    #region Public Methods   
 
     public void SendHeadTracking()
     {
-        Quaternion q = mainCamera.transform.rotation;
+        Quaternion q = _mainCamera.transform.rotation;
 
 		OSCMessage message = new OSCMessage ("/pose");
         var array = OSCValue.Array();
@@ -111,11 +105,18 @@ public class OscManager : MonoBehaviour {
 
     #region Private Methods
 
+    private void SetRepeater(bool r)
+    {
+        repeater = r;
+        if (r) PlayerPrefs.SetInt("repeater", 1);
+        else PlayerPrefs.SetInt("repeater", 0);
+    }
+
     private void ReceiveCalibrate(OSCMessage message)
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) pointOfView.GetComponent<VideoFeed>().recenterPose();
+            if (value == 1f) _videoFeed.recenterPose();
 
         if (repeater) _oscTransmitter.Send(message);
     }
@@ -124,7 +125,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) pointOfView.GetComponent<VideoFeed>().setDimmed(true);
+            if (value == 1f) _videoFeed.setDimmed(true);
 
         if (repeater) _oscTransmitter.Send(message);
     }
@@ -133,7 +134,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) pointOfView.GetComponent<VideoFeed>().setDimmed(false);
+            if (value == 1f) _videoFeed.setDimmed(false);
 
         if (repeater) _oscTransmitter.Send(message);
     }
@@ -145,7 +146,7 @@ public class OscManager : MonoBehaviour {
         {
             if (value == 1f) {
                 for (int i = 0; i < 11; i++)
-                    if (message.Address == "/btn" + i.ToString()) audioManager.GetComponent<AudioPlayer>().playSound(i);
+                    if (message.Address == "/btn" + i.ToString()) _audioPlayer.GetComponent<AudioPlayer>().playSound(i);
             }
         }
             
@@ -173,7 +174,7 @@ public class OscManager : MonoBehaviour {
                 quaternionValues.Add(value.FloatValue); //add them to a float list
         }
 
-        pointOfView.GetComponent<VideoFeed>().otherPose = new Quaternion(quaternionValues[0], quaternionValues[1], quaternionValues[2], quaternionValues[3]);
+        _videoFeed.GetComponent<VideoFeed>().otherPose = new Quaternion(quaternionValues[0], quaternionValues[1], quaternionValues[2], quaternionValues[3]);
     }
 
     #endregion
