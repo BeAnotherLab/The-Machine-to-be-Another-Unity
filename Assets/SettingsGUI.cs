@@ -18,7 +18,7 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField]
     private InputField _IPInputField;
 
-    private VideoFeed _webcamDisplay;
+    private VideoFeed _videoFeed;
     private GameObject _mainCamera;
 
     private bool _twoWaySwap = true;
@@ -31,8 +31,13 @@ public class SettingsGUI : MonoBehaviour
 
     private void Awake()
     {
-        _webcamDisplay = FindObjectOfType<VideoFeed>();
+        _videoFeed = FindObjectOfType<VideoFeed>();
         _mainCamera = GameObject.Find("Main Camera");
+
+        _cameraDropdown.onValueChanged.AddListener(delegate
+        {
+            _videoFeed.cameraID = _cameraDropdown.value;
+        });
     }
 
     // Use this for initialization
@@ -47,17 +52,17 @@ public class SettingsGUI : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown("b")) _webcamDisplay.setDimmed();
-        if (Input.GetKeyDown("n")) _webcamDisplay.recenterPose();
+        if (Input.GetKeyDown("b")) _videoFeed.setDimmed();
+        if (Input.GetKeyDown("n")) _videoFeed.recenterPose();
         else if (Input.GetKeyDown("m")) SetMonitorGuiEnabled();
 
-        if (_webcamDisplay.useHeadTracking)
+        if (_videoFeed.useHeadTracking)
         {
             Vector3 pitchYawRoll = _mainCamera.transform.rotation.eulerAngles;
             _rollSlider.value = pitchYawRoll.x;
             _yawSlider.value = 90 - pitchYawRoll.y;
             _pitchSlider.value = pitchYawRoll.z + 90;
-            _zoomSlider.value = _webcamDisplay.zoom;
+            _zoomSlider.value = _videoFeed.zoom;
         }
 
         _cameraDropdown.RefreshShownValue();
@@ -106,7 +111,7 @@ public class SettingsGUI : MonoBehaviour
     {
         WebCamDevice[] devices = WebCamTexture.devices;
         _cameraDropdown.options.Clear();
-
+        
         foreach (WebCamDevice device in devices)
         {
             _cameraDropdown.options.Add(new Dropdown.OptionData() { text = device.name });

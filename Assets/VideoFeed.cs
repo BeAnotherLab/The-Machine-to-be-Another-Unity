@@ -3,15 +3,19 @@ using System.Collections;
 
 public class VideoFeed : MonoBehaviour
 {
-
     #region Public Fields
 
+    [HideInInspector]
     public float zoom = 39.5f;
+    [HideInInspector]
     public Quaternion otherPose;
-    public Vector3 otherPosition;
+
     public bool useHeadTracking = true; //used to decide whether to move the servos with the sliders or with the headtracking
 
+    public int cameraID; //app must be reset for changes to be applied
+
     #endregion
+
 
     #region Private Fields
 
@@ -23,7 +27,6 @@ public class VideoFeed : MonoBehaviour
 
     //Camera params
     private WebCamTexture _camTex;
-    private int _cameraID = 1;
     private float _turningRate = 90f;
     private float _tiltAngle = 0;
 
@@ -33,6 +36,7 @@ public class VideoFeed : MonoBehaviour
     private float _dimRate = 0.08f;
 
     #endregion
+
 
     #region MonoBehaviour Methods
 
@@ -44,11 +48,7 @@ public class VideoFeed : MonoBehaviour
 
     void Start()
     {
-        WebCamDevice[] devices = WebCamTexture.devices;
-        string deviceName = devices[_cameraID].name;
-        _camTex = new WebCamTexture(deviceName, 1920, 1080);//, 1920, 1080, FPS); //PERFORMANCE DEPENDS ON FRAMERATE AND RESOLUTION
-        _camTex.Play();
-
+        InitCamera();
         recenterPose();
         otherPose = new Quaternion();
     }
@@ -84,9 +84,10 @@ public class VideoFeed : MonoBehaviour
     void OnDestroy()
     {
         _camTex.Stop();
-        PlayerPrefs.SetInt("cameraID", _cameraID);
+        PlayerPrefs.SetInt("cameraID", cameraID);
     }
     #endregion
+
 
     #region Public Methods
 
@@ -124,6 +125,7 @@ public class VideoFeed : MonoBehaviour
 
     #endregion
 
+
     #region Private Methods
 
     //TODO use coroutines or LeanTween to avoid setting the dim in the Update() method
@@ -138,6 +140,16 @@ public class VideoFeed : MonoBehaviour
         _dimLevel += _dimRate * (next - _dimLevel);
         Color c = new Color(_dimLevel * range, _dimLevel * range, _dimLevel * range);
         _meshRenderer.material.SetColor("_Color", c);
+    }
+
+    //TODO allow camera to be set in runtime
+    private void InitCamera()
+    {
+        cameraID = PlayerPrefs.GetInt("cameraID");
+        WebCamDevice[] devices = WebCamTexture.devices;
+        string deviceName = devices[cameraID].name;
+        _camTex = new WebCamTexture(deviceName, 1920, 1080);//, 1920, 1080, FPS); //PERFORMANCE DEPENDS ON FRAMERATE AND RESOLUTION
+        _camTex.Play();
     }
 
     #endregion
