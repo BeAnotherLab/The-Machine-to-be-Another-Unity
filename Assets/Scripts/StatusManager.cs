@@ -20,7 +20,6 @@ public class StatusManager : MonoBehaviour {
     public GameObject UICanvas;
     public Text messageInterfaceText;
     public VideoFeed dimmer;
-    public AudioManager audioManager;
     public AudioCoroutineCreator audioCoroutines;
 
     public float waitBeforeInstructions, waitAfterInstructionsForScreen, waitForMirror, waitForGoodbye, waitForWall;
@@ -114,7 +113,6 @@ public class StatusManager : MonoBehaviour {
         CancelInvoke("IsOver");
         StopAllCoroutines();
         audioCoroutines.StopAudioCoroutines();
-        audioManager.StopAll();
 
     }
 
@@ -128,7 +126,6 @@ public class StatusManager : MonoBehaviour {
         UICanvas.SetActive(true);
         sessionIsPlaying = false;
 
-        audioManager.StopAll();
         audioCoroutines.StopAudioCoroutines();
         StopAllCoroutines();
         messageInterfaceText.text = null;
@@ -164,7 +161,6 @@ public class StatusManager : MonoBehaviour {
 
 		yield return new WaitForFixedTime (waitBeforeInstructions);// wait before playing audio
 			
-		audioManager.PlaySound ("instructions");
 		audioCoroutines.StartAudioCoroutines ();
 
 		yield return new WaitForFixedTime (waitAfterInstructionsForScreen);//duration of audio track to start video after
