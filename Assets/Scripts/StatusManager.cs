@@ -46,6 +46,7 @@ public class StatusManager : MonoBehaviour {
     {
         _videoFeed = FindObjectOfType<VideoFeed>();
         _instructionsText = GameObject.Find("InstructionsText").GetComponent<Text>();
+        _instructionsGUI = GameObject.Find("InstructionsGUI");
     }
 
     private void Update() //TODO use events instead of polling status in Update() to make state transitions clearer

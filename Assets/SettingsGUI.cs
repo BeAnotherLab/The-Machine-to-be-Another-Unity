@@ -19,6 +19,8 @@ public class SettingsGUI : MonoBehaviour
     private InputField _IPInputField;
     [SerializeField]
     private Button _dimButton;
+    [SerializeField]
+    private Toggle _repeaterToggle;
 
     private VideoFeed _videoFeed;
     private GameObject _mainCamera;
@@ -49,16 +51,21 @@ public class SettingsGUI : MonoBehaviour
         });
 
         _IPInputField.onEndEdit.AddListener(delegate { _oscManager.othersIP = _IPInputField.text; });
+
+        _repeaterToggle.onValueChanged.AddListener(delegate { _oscManager.repeater = _repeaterToggle.isOn; });
     }
 
     // Use this for initialization
     void Start()
-    {
-        if (!_twoWaySwap) SetSerialPortDropdownOptions();
-        else SetIpInputField();
+    {        
+        if (!_twoWaySwap) SetSerialPortDropdownOptions(); //Initialize serial port dropdown if in servo mode
+        else SetIpInputField(); //else initialize IP Input field
 
         _monitorGuiEnabled = true;
         SetCameraDropdownOptions();
+
+        if (PlayerPrefs.GetInt("repeater") == 1) _repeaterToggle.isOn = true;
+        else                                     _repeaterToggle.isOn = false;
     }
 
     void Update()

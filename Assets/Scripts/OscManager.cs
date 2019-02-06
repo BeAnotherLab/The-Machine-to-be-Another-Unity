@@ -48,11 +48,14 @@ public class OscManager : MonoBehaviour {
         _oscReceiver.Bind("/dimon", ReceiveDimOn);
         _oscReceiver.Bind("/dimoff", ReceiveDimOff);
         _oscReceiver.Bind("/ht", ReceiveCalibrate);
-        for (int i = 0; i < 11; i++)
-            _oscReceiver.Bind("/btn" + i.ToString(), ReceiveBtn);
+        for (int i = 0; i < 11; i++) _oscReceiver.Bind("/btn" + i.ToString(), ReceiveBtn);
 
         //set IP address of other 
         SetOthersIP(PlayerPrefs.GetString("othersIP"));
+
+        //set repeater based on what was stored in playerprefs
+        if (PlayerPrefs.GetInt("repeater") == 0) SetRepeater(false);
+        else                                     SetRepeater(true);
     }
 
     private void Update()
@@ -107,7 +110,6 @@ public class OscManager : MonoBehaviour {
 
     private void SetRepeater(bool r)
     {
-        repeater = r;
         if (r) PlayerPrefs.SetInt("repeater", 1);
         else PlayerPrefs.SetInt("repeater", 0);
     }
