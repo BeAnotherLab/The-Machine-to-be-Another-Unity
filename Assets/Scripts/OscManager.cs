@@ -20,6 +20,7 @@ public class OscManager : MonoBehaviour {
     private Camera _mainCamera;
     private VideoFeed _videoFeed;
     private AudioPlayer _audioPlayer;
+    private StatusManager _statusManager;
 
     private OSCTransmitter _oscTransmitter;
     private OSCReceiver _oscReceiver;
@@ -35,8 +36,9 @@ public class OscManager : MonoBehaviour {
     private void Awake()
     {
         _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        _audioPlayer = FindObjectOfType<AudioPlayer>();
         _videoFeed = FindObjectOfType<VideoFeed>();
+        _audioPlayer = FindObjectOfType<AudioPlayer>();
+        _statusManager = FindObjectOfType<StatusManager>();
         _oscReceiver = GetComponent<OSCReceiver>();
         _oscTransmitter = GetComponent<OSCTransmitter>();
     }
@@ -63,8 +65,8 @@ public class OscManager : MonoBehaviour {
     {
         SendHeadTracking();
 
-        if (StatusManager.thisUserIsReady != previousStatusForSelf) SendThisUserStatus(StatusManager.thisUserIsReady);
-        previousStatusForSelf = StatusManager.thisUserIsReady;
+        if (_statusManager.thisUserIsReady != previousStatusForSelf) SendThisUserStatus(_statusManager.thisUserIsReady);
+        previousStatusForSelf = _statusManager.thisUserIsReady;
     }
 
     #endregion
@@ -163,8 +165,8 @@ public class OscManager : MonoBehaviour {
         int x;
         if (message.ToInt(out x))
         {
-            if (x == 0) StatusManager.otherUserIsReady = false;
-            else if (x == 1) StatusManager.otherUserIsReady = true;
+            if (x == 0) _statusManager.otherUserIsReady = false;
+            else if (x == 1) _statusManager.otherUserIsReady = true;
         }
     }
 

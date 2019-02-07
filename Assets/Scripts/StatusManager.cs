@@ -10,7 +10,8 @@ public class StatusManager : MonoBehaviour {
 
     #region Public Fields
 
-    public static bool thisUserIsReady = false, otherUserIsReady = false;
+    public bool thisUserIsReady = false;
+    public bool otherUserIsReady = false;
 
     #endregion
 
