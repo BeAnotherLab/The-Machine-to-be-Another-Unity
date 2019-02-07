@@ -48,6 +48,7 @@ public class VideoFeed : MonoBehaviour
     {
         InitCamera();
         RecenterPose();
+        SetDimmed(true);
         otherPose = new Quaternion();
     }
 
@@ -89,7 +90,6 @@ public class VideoFeed : MonoBehaviour
 
     #region Public Methods
 
-    //TODO use coroutines or LeanTween to avoid setting the dim in the Update() method
     public void SetDimmed(bool dim)
     {
         float next = 1;
