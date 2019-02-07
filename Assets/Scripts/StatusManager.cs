@@ -29,6 +29,7 @@ public class StatusManager : MonoBehaviour {
 
     private VideoFeed _videoFeed;
     private GameObject _instructionsGUI;
+    private AudioPlayer _audioPlayer;
 
     [Tooltip("Instructions Timing")]
 
@@ -47,6 +48,7 @@ public class StatusManager : MonoBehaviour {
         _videoFeed = FindObjectOfType<VideoFeed>();
         _instructionsText = GameObject.Find("InstructionsText").GetComponent<Text>();
         _instructionsGUI = GameObject.Find("InstructionsGUI");
+        _audioPlayer = FindObjectOfType<AudioPlayer>();
     }
 
     private void Update() //TODO use events instead of polling status in Update() to make state transitions clearer
@@ -122,6 +124,7 @@ public class StatusManager : MonoBehaviour {
         yield return new WaitForFixedTime(waitBeforeInstructions + waitForWall);
         Debug.Log("READY FOR WALL");
     }
+
     #endregion
 
 
@@ -129,14 +132,13 @@ public class StatusManager : MonoBehaviour {
 
     private void CheckThisUserStatus()
     {
-
-        //if(safeFakeOculusReady){
         if (XRDevice.userPresence == UserPresenceState.Present)
         {
             thisUserIsReady = true;
             _thisUserWasPlaying = true;
         }
-        else if (XRDevice.userPresence == UserPresenceState.NotPresent) thisUserIsReady = false;
+        else if (XRDevice.userPresence == UserPresenceState.NotPresent)
+            thisUserIsReady = false;
 
     }
 
@@ -150,6 +152,7 @@ public class StatusManager : MonoBehaviour {
     {
         _instructionsText.text = LanguageTextDictionary.instructions;
         _sesssionIsPlaying = true;
+        _audioPlayer.PlayAudioInstructions();
         StartCoroutine("StartPlayingCoroutine");
     }
 
@@ -159,7 +162,6 @@ public class StatusManager : MonoBehaviour {
         _instructionsGUI.SetActive(true);
         _instructionsText.text = LanguageTextDictionary.otherIsGone;
 
-        CancelInvoke("IsOver");
         StopAllCoroutines();
 
     }
@@ -173,6 +175,8 @@ public class StatusManager : MonoBehaviour {
 
         StopAllCoroutines();
         _instructionsText.text = null;
+
+        _audioPlayer.StopAudioInstructions();
     }
 
     private void CheckForFakeOculus() //only for debugging

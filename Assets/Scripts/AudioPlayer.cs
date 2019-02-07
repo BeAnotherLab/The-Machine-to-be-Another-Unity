@@ -13,7 +13,9 @@ public class AudioPlayer : MonoBehaviour {
     private AudioSource[] _clips; //audios to be triggered with keys or touchOSC
     [SerializeField]
     private AudioSource _music; //the background music
-
+    [SerializeField]
+    private AudioSource _autoModeInstructions; //the audio file played when in automatic mode
+    
     private bool _somethingIsPlaying;
 
     #endregion
@@ -38,7 +40,6 @@ public class AudioPlayer : MonoBehaviour {
     // Update is called once per frame
     private void Update()
     {
-
         foreach (KeyCode vKey in System.Enum.GetValues(typeof(KeyCode)))
         {
             if (Input.GetKey(vKey))
@@ -81,6 +82,16 @@ public class AudioPlayer : MonoBehaviour {
 
 
     #region Public Methods
+
+    public void PlayAudioInstructions()
+    {
+        _autoModeInstructions.Play();
+    }
+
+    public void StopAudioInstructions()
+    {
+        _autoModeInstructions.Stop();
+    }
 
     public void playSound(int id)
     {
