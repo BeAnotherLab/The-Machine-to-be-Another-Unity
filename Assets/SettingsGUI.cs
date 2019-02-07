@@ -21,13 +21,17 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField]
     private Button _dimButton;
     [SerializeField]
+    private Button _headTrackingOnButton;
+    [SerializeField]
     private Toggle _repeaterToggle;
     [SerializeField]
     private Text _controlsText;
 
     private VideoFeed _videoFeed;
+    [SerializeField]
     private GameObject _mainCamera;
     private OscManager _oscManager;
+    private ArduinoControl _arduinoControl;
 
     private bool _twoWaySwap = true;
     private bool _monitorGuiEnabled, _oculusGuiEnabled;
@@ -42,6 +46,7 @@ public class SettingsGUI : MonoBehaviour
         _videoFeed = FindObjectOfType<VideoFeed>();
         _mainCamera = GameObject.Find("Main Camera");
         _oscManager = FindObjectOfType<OscManager>();
+        _arduinoControl = FindObjectOfType<ArduinoControl>();
 
         _cameraDropdown.onValueChanged.AddListener(delegate
         {
@@ -53,15 +58,23 @@ public class SettingsGUI : MonoBehaviour
             _videoFeed.SetDimmed();
         });
 
+
         _IPInputField.onEndEdit.AddListener(delegate { _oscManager.othersIP = _IPInputField.text; });
 
         _repeaterToggle.onValueChanged.AddListener(delegate { _oscManager.SetRepeater(_repeaterToggle.isOn); });
 
         _controlsText.text = _controlsText.text + "\n \nlocal IP adress : " + OSCUtilities.GetLocalHost();
+
+        //Assign servos control buttons handlers
+        _pitchSlider.onValueChanged.AddListener(delegate { _arduinoControl.SetPitch(_pitchSlider.value); });
+        _yawSlider.onValueChanged.AddListener(delegate { _arduinoControl.SetYaw(_yawSlider.value); });
+        _serialDropdown.onValueChanged.AddListener(delegate { _arduinoControl.SetSerialPort(_serialDropdown.value); });
+        _headTrackingOnButton.onClick.AddListener(delegate { _videoFeed.SwitchHeadtracking(); });
+
     }
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {        
         if (!_twoWaySwap) SetSerialPortDropdownOptions(); //Initialize serial port dropdown if in servo mode
         else SetIpInputField(); //else initialize IP Input field
@@ -76,13 +89,14 @@ public class SettingsGUI : MonoBehaviour
         OSCUtilities.GetLocalHost();
     }
 
-    void Update()
+    private void Update()
     {     
         if (Input.GetKeyDown("m")) SetMonitorGuiEnabled();
 
         if (_videoFeed.useHeadTracking)
         {
-            Vector3 pitchYawRoll = _mainCamera.transform.rotation.eulerAngles;
+            Vector3 pitchYawRoll = utilities.toEulerAngles(_mainCamera.transform.rotation);
+
             _rollSlider.value = pitchYawRoll.x;
             _yawSlider.value = 90 - pitchYawRoll.y;
             _pitchSlider.value = pitchYawRoll.z + 90;

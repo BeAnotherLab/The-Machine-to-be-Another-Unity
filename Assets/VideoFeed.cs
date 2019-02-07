@@ -127,7 +127,7 @@ public class VideoFeed : MonoBehaviour
         UnityEngine.XR.InputTracking.Recenter();
     }
 
-    public void SwitchHeadtracking()
+    public void SwitchHeadtracking() //Use to map the pitch and yaw sliders to headtracking or not
     {
         useHeadTracking = !useHeadTracking;
     }
