@@ -173,8 +173,12 @@ public class ArduinoControl : MonoBehaviour
             port = ports[p];
         if (_stream != null)
             _stream.Close();
-        _stream = new SerialPort(port, baudrate);
-        _stream.Open();
+
+        if (port != "")
+        {
+            _stream = new SerialPort(port, baudrate);
+            _stream.Open();
+        }
     }
 
     #endregion
