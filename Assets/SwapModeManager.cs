@@ -11,11 +11,11 @@ public class SwapModeManager : MonoBehaviour
 
     public SwapModes swapMode;
 
-
     private void Awake()
     {
         if (instance == null) instance = this;
     }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,44 +25,59 @@ public class SwapModeManager : MonoBehaviour
         else if (PlayerPrefs.GetInt("swapMode", 0) == 2 ) SetSwapMode(SwapModes.SERVO_SWAP);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void SetSwapMode(SwapModes mode)
     {
         switch (mode)
         {
             case SwapModes.AUTO_SWAP:
                 //deactivate servos
-                ArduinoControl.C
-                //hide serial port dropdown, show repeater toggle
+                ArduinoControl.instance.ActivateServos(false);
+
+                //hide serial port dropdown, show repeater toggle, show IP input field
+                SettingsGUI.instance.SetSwapMode();
+
                 //move video with other pose
+                VideoFeed.instance.twoWayWap = true;
+
                 //enable status management
                 FindObjectOfType<StatusManager>().statusManagementOn = true;
+
                 //auto play instructions audio when both ready. reset timer                
                 break;
+
             case SwapModes.MANUAL_SWAP:
                 //deactivate servos
-                //hide serial port dropdown, show repeater toggle
+                ArduinoControl.instance.ActivateServos(false);
+
+                //hide serial port dropdown, show repeater toggle, show IP input field
+                SettingsGUI.instance.SetSwapMode();
+
                 //move video with other pose
+                VideoFeed.instance.twoWayWap = true;
+
                 //enable status management
                 FindObjectOfType<StatusManager>().statusManagementOn = true;
+
                 //stop auto swap instructions audio
                 break;
+
             case SwapModes.SERVO_SWAP:
                 //enable servos
-                //hide repeater toggle, show serial dropdown
+                ArduinoControl.instance.ActivateServos(true);
+
+                //show serial port dropdown, hide repeater toggle, hide IP input field
+                SettingsGUI.instance.SetServoMode();
+
                 //keep video in front of camera
+                VideoFeed.instance.twoWayWap = true;
+
                 //disable status management
                 FindObjectOfType<StatusManager>().statusManagementOn = false;
-                //hide repeater toggle
                 break;
         }
 
         swapMode = mode;
         PlayerPrefs.SetInt("swapMode", (int) mode);
+
     }
 }

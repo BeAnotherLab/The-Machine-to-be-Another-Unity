@@ -14,6 +14,8 @@ public class ArduinoControl : MonoBehaviour
 
     public static ArduinoControl instance;
 
+    public bool _servosOn;
+
     /* The baudrate of the serial port. */
     [Tooltip("The baudrate of the serial port")]
     public int baudrate = 57600;
@@ -26,6 +28,7 @@ public class ArduinoControl : MonoBehaviour
     #region Private Fields
 
     private SerialPort _stream;
+    private int _serialPort;
 
     #endregion
 
@@ -39,7 +42,7 @@ public class ArduinoControl : MonoBehaviour
 
     private void Start()
     {
-        Open(PlayerPrefs.GetInt("Serial port")); //start with opening the port that was saved in player prefs
+        _serialPort = PlayerPrefs.GetInt("Serial port");
     }
 
     #endregion
@@ -47,28 +50,42 @@ public class ArduinoControl : MonoBehaviour
 
     #region Public Methods   
 
+    public void ActivateServos(bool activate)
+    {
+        if (_servosOn) Close();
+        if (activate) Open(_serialPort);
+        _servosOn = activate;
+    }
+
     public void SetSerialPort(int p)
     {
         Open(p);
+        _serialPort = p;
         PlayerPrefs.SetInt("Serial port", p);
     }
 
     public void SetPitch(float value)
     {
-        float sum;
-        sum = value + pitchOffset;
-        if ((value + pitchOffset) > 180) sum = 179.5f;
-        if ((value + pitchOffset) < 0) sum = 0.5f;
-        WriteToArduino("Pitch " + sum);
+        if (_servosOn)
+        {
+            float sum;
+            sum = value + pitchOffset;
+            if ((value + pitchOffset) > 180) sum = 179.5f;
+            if ((value + pitchOffset) < 0) sum = 0.5f;
+            WriteToArduino("Pitch " + sum);
+        }
     }
 
     public void SetYaw(float value)
     {
-        float sum;
-        sum = value + yawOffset;
-        if ((value + yawOffset) > 180) sum = 179.5f;
-        if ((value + yawOffset) < 0) sum = 0.5f;
-        WriteToArduino("Yaw " + sum);
+        if (_servosOn)
+        {
+            float sum;
+            sum = value + yawOffset;
+            if ((value + yawOffset) > 180) sum = 179.5f;
+            if ((value + yawOffset) < 0) sum = 0.5f;
+            WriteToArduino("Yaw " + sum);
+        }
     }
 
     public string ReadFromArduino(int timeout = 0)
@@ -140,6 +157,7 @@ public class ArduinoControl : MonoBehaviour
 
     private void WriteToArduino(string message)
     {
+
         // Send the request
         _stream.WriteLine(message);
         _stream.BaseStream.Flush();

@@ -37,7 +37,6 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField]
     private GameObject _mainCamera;
 
-    private bool _twoWaySwap = true;
     private bool _monitorGuiEnabled, _oculusGuiEnabled;
     private float _deltaTime = 0.0f;
 
@@ -81,9 +80,6 @@ public class SettingsGUI : MonoBehaviour
     // Use this for initialization
     private void Start()
     {        
-        if (!_twoWaySwap) SetSerialPortDropdownOptions(); //Initialize serial port dropdown if in servo mode
-        else SetIpInputField(); //else initialize IP Input field
-
         _monitorGuiEnabled = true;
 
         SetCameraDropdownOptions();
@@ -127,6 +123,29 @@ public class SettingsGUI : MonoBehaviour
        else
             _panel.GetComponent<CanvasGroup>().alpha = 1f;
     }
+                
+    public void SetSwapMode() 
+    {
+        //hide serial dropdown
+        _serialDropdown.gameObject.SetActive(false);
+
+        //show two way swap related networking GUI
+        _repeaterToggle.gameObject.SetActive(true);
+        _IPInputField.gameObject.SetActive(true);
+        SetIpInputField(); //else initialize IP Input field
+    }
+
+    public void SetServoMode()
+    {
+        //show serial dropdown
+        _serialDropdown.gameObject.SetActive(true);
+        SetSerialPortDropdownOptions();
+        _serialDropdown.RefreshShownValue();
+
+        //hide two way swap related networking GUI
+        _IPInputField.gameObject.SetActive(false);
+        _repeaterToggle.gameObject.SetActive(false);
+    }
 
     #endregion
 
@@ -143,16 +162,13 @@ public class SettingsGUI : MonoBehaviour
 
     private void SetSerialPortDropdownOptions()
     {
-        if (!_twoWaySwap)
+        string[] ports = SerialPort.GetPortNames();
+        _serialDropdown.options.Clear();
+        foreach (string c in ports)
         {
-            string[] ports = SerialPort.GetPortNames();
-            _serialDropdown.options.Clear();
-            foreach (string c in ports)
-            {
-                _serialDropdown.options.Add(new Dropdown.OptionData() { text = c });
-            }
-            _serialDropdown.value = PlayerPrefs.GetInt("Serial port");
+            _serialDropdown.options.Add(new Dropdown.OptionData() { text = c });
         }
+        _serialDropdown.value = PlayerPrefs.GetInt("Serial port");
     }
 
     private void SetIpInputField()
