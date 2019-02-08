@@ -19,7 +19,10 @@ public class SwapModeManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //load swap mode from player prefs
+        if (PlayerPrefs.GetInt("swapMode", 0) == 0 ) SetSwapMode(SwapModes.AUTO_SWAP);
+        else if (PlayerPrefs.GetInt("swapMode", 0) == 1 ) SetSwapMode(SwapModes.MANUAL_SWAP);
+        else if (PlayerPrefs.GetInt("swapMode", 0) == 2 ) SetSwapMode(SwapModes.SERVO_SWAP);
     }
 
     // Update is called once per frame
@@ -34,6 +37,7 @@ public class SwapModeManager : MonoBehaviour
         {
             case SwapModes.AUTO_SWAP:
                 //deactivate servos
+                ArduinoControl.C
                 //hide serial port dropdown, show repeater toggle
                 //move video with other pose
                 //enable status management
@@ -59,5 +63,6 @@ public class SwapModeManager : MonoBehaviour
         }
 
         swapMode = mode;
+        PlayerPrefs.SetInt("swapMode", (int) mode);
     }
 }
