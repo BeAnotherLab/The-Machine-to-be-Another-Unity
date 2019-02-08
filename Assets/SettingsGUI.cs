@@ -26,12 +26,15 @@ public class SettingsGUI : MonoBehaviour
     private Toggle _repeaterToggle;
     [SerializeField]
     private Text _controlsText;
+    [SerializeField]
+    private Toggle _autoSwapToggle, _manualSwapToggle, _servoSwapToggle;
 
     private VideoFeed _videoFeed;
     [SerializeField]
     private GameObject _mainCamera;
     private OscManager _oscManager;
     private ArduinoControl _arduinoControl;
+    private SwapModeManager _swapModeManager;
 
     private bool _twoWaySwap = true;
     private bool _monitorGuiEnabled, _oculusGuiEnabled;
@@ -43,10 +46,13 @@ public class SettingsGUI : MonoBehaviour
 
     private void Awake()
     {
+        //objects in the scene
+        //TODO make them singletons where appropriate
         _videoFeed = FindObjectOfType<VideoFeed>();
         _mainCamera = GameObject.Find("Main Camera");
         _oscManager = FindObjectOfType<OscManager>();
         _arduinoControl = FindObjectOfType<ArduinoControl>();
+        _swapModeManager = FindObjectOfType<SwapModeManager>();
 
         _cameraDropdown.onValueChanged.AddListener(delegate
         {
@@ -70,6 +76,11 @@ public class SettingsGUI : MonoBehaviour
         _yawSlider.onValueChanged.AddListener(delegate { _arduinoControl.SetYaw(_yawSlider.value); });
         _serialDropdown.onValueChanged.AddListener(delegate { _arduinoControl.SetSerialPort(_serialDropdown.value); });
         _headTrackingOnButton.onClick.AddListener(delegate { _videoFeed.SwitchHeadtracking(); });
+
+        //Assign swap mode toggles handlers
+        _autoSwapToggle.onValueChanged.AddListener(delegate { _swapModeManager.SetSwapMode(SwapModeManager.SwapModes.AUTO_SWAP); });
+        _manualSwapToggle.onValueChanged.AddListener(delegate { _swapModeManager.SetSwapMode(SwapModeManager.SwapModes.MANUAL_SWAP); });
+        _servoSwapToggle.onValueChanged.AddListener(delegate { _swapModeManager.SetSwapMode(SwapModeManager.SwapModes.SERVO_SWAP); });
 
     }
 

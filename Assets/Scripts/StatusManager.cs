@@ -13,6 +13,8 @@ public class StatusManager : MonoBehaviour {
     public bool thisUserIsReady = false;
     public bool otherUserIsReady = false;
 
+    public bool statusManagementOn;
+
     #endregion
 
 
@@ -52,7 +54,7 @@ public class StatusManager : MonoBehaviour {
         _audioPlayer = FindObjectOfType<AudioPlayer>();
     }
 
-    private void Update() //TODO use events instead of polling status in Update() to make state transitions clearer
+    private void Update() //TODO use events instead of polling status in Update() to make state transitions easier
     {
         CheckThisUserStatus();
 
@@ -81,6 +83,7 @@ public class StatusManager : MonoBehaviour {
             IsOver();
 
     }
+
     #endregion
 
 

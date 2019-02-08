@@ -65,8 +65,12 @@ public class OscManager : MonoBehaviour {
     {
         SendHeadTracking();
 
-        if (_statusManager.thisUserIsReady != previousStatusForSelf) SendThisUserStatus(_statusManager.thisUserIsReady);
-        previousStatusForSelf = _statusManager.thisUserIsReady;
+        if(_statusManager.statusManagementOn)
+        {
+            if (_statusManager.thisUserIsReady != previousStatusForSelf) SendThisUserStatus(_statusManager.thisUserIsReady);
+            previousStatusForSelf = _statusManager.thisUserIsReady;
+        }
+        
     }
 
     #endregion
@@ -162,11 +166,14 @@ public class OscManager : MonoBehaviour {
 
     private void ReceivedOtherStatus(OSCMessage message)
     {
-        int x;
-        if (message.ToInt(out x))
+        if (FindObjectOfType<StatusManager>().statusManagementOn)
         {
-            if (x == 0) _statusManager.otherUserIsReady = false;
-            else if (x == 1) _statusManager.otherUserIsReady = true;
+            int x;
+            if (message.ToInt(out x))
+            {
+                if (x == 0) _statusManager.otherUserIsReady = false;
+                else if (x == 1) _statusManager.otherUserIsReady = true;
+            }
         }
     }
 
