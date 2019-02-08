@@ -6,6 +6,9 @@ using System.IO;
 public class AudioPlayer : MonoBehaviour {
 
     #region Public Fields
+
+    public static AudioPlayer instance;
+
     #endregion
 
     #region Private Fields
@@ -22,8 +25,11 @@ public class AudioPlayer : MonoBehaviour {
 
     #region MonoBehaviour Methods
 
+
     private void Awake()
     {
+        if (instance == null) instance = this;
+
         _clips = transform.Find("English audios").GetComponentsInChildren<AudioSource>();
     }
 

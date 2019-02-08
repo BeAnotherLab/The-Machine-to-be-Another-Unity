@@ -11,6 +11,8 @@ public class OscManager : MonoBehaviour {
 
     #region Public Fields
 
+    public static OscManager instance;
+
     public string othersIP { get { return othersIP; } set { SetOthersIP(value);} }
 
     #endregion
@@ -18,9 +20,6 @@ public class OscManager : MonoBehaviour {
     #region Private Fields
 
     private Camera _mainCamera;
-    private VideoFeed _videoFeed;
-    private AudioPlayer _audioPlayer;
-    private StatusManager _statusManager;
 
     private OSCTransmitter _oscTransmitter;
     private OSCReceiver _oscReceiver;
@@ -35,10 +34,10 @@ public class OscManager : MonoBehaviour {
 
     private void Awake()
     {
+        if (instance == null) instance = this;
+
         _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        _videoFeed = FindObjectOfType<VideoFeed>();
-        _audioPlayer = FindObjectOfType<AudioPlayer>();
-        _statusManager = FindObjectOfType<StatusManager>();
+        
         _oscReceiver = GetComponent<OSCReceiver>();
         _oscTransmitter = GetComponent<OSCTransmitter>();
     }
@@ -65,10 +64,10 @@ public class OscManager : MonoBehaviour {
     {
         SendHeadTracking();
 
-        if(_statusManager.statusManagementOn)
+        if(StatusManager.instance.statusManagementOn)
         {
-            if (_statusManager.thisUserIsReady != previousStatusForSelf) SendThisUserStatus(_statusManager.thisUserIsReady);
-            previousStatusForSelf = _statusManager.thisUserIsReady;
+            if (StatusManager.instance.thisUserIsReady != previousStatusForSelf) SendThisUserStatus(StatusManager.instance.thisUserIsReady);
+            previousStatusForSelf = StatusManager.instance.thisUserIsReady;
         }
         
     }
@@ -126,7 +125,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) _videoFeed.RecenterPose();
+            if (value == 1f) VideoFeed.instance.RecenterPose();
 
         if (_repeater) _oscTransmitter.Send(message);
     }
@@ -135,7 +134,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) _videoFeed.SetDimmed(true);
+            if (value == 1f) VideoFeed.instance.SetDimmed(true);
 
         if (_repeater) _oscTransmitter.Send(message);
     }
@@ -144,7 +143,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) _videoFeed.SetDimmed(false);
+            if (value == 1f) VideoFeed.instance.SetDimmed(false);
 
         if (_repeater) _oscTransmitter.Send(message);
     }
@@ -156,7 +155,7 @@ public class OscManager : MonoBehaviour {
         {
             if (value == 1f) {
                 for (int i = 0; i < 11; i++)
-                    if (message.Address == "/btn" + i.ToString()) _audioPlayer.GetComponent<AudioPlayer>().playSound(i);
+                    if (message.Address == "/btn" + i.ToString()) AudioPlayer.instance.GetComponent<AudioPlayer>().playSound(i);
             }
         }
             
@@ -166,13 +165,13 @@ public class OscManager : MonoBehaviour {
 
     private void ReceivedOtherStatus(OSCMessage message)
     {
-        if (FindObjectOfType<StatusManager>().statusManagementOn)
+        if (StatusManager.instance.statusManagementOn)
         {
             int x;
             if (message.ToInt(out x))
             {
-                if (x == 0) _statusManager.otherUserIsReady = false;
-                else if (x == 1) _statusManager.otherUserIsReady = true;
+                if (x == 0) StatusManager.instance.otherUserIsReady = false;
+                else if (x == 1) StatusManager.instance.otherUserIsReady = true;
             }
         }
     }
@@ -187,7 +186,7 @@ public class OscManager : MonoBehaviour {
                 quaternionValues.Add(value.FloatValue); //add them to a float list
         }
 
-        _videoFeed.GetComponent<VideoFeed>().otherPose = new Quaternion(quaternionValues[0], quaternionValues[1], quaternionValues[2], quaternionValues[3]);
+        VideoFeed.instance.GetComponent<VideoFeed>().otherPose = new Quaternion(quaternionValues[0], quaternionValues[1], quaternionValues[2], quaternionValues[3]);
     }
 
     #endregion

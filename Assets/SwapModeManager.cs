@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class SwapModeManager : MonoBehaviour
 {
+
+    public static SwapModeManager instance;
+
     public enum SwapModes {AUTO_SWAP, MANUAL_SWAP, SERVO_SWAP};
 
     public SwapModes swapMode;
 
+
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+    }
     // Start is called before the first frame update
     void Start()
     {

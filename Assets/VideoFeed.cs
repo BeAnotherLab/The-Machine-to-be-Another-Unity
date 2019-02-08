@@ -5,6 +5,8 @@ public class VideoFeed : MonoBehaviour
 {
     #region Public Fields
 
+    public static VideoFeed instance;
+
     [HideInInspector]
     public float zoom = 39.5f;
     [HideInInspector]
@@ -40,6 +42,8 @@ public class VideoFeed : MonoBehaviour
 
     private void Awake()
     {
+        if (instance == null) instance = this;
+
         _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         _meshRenderer = GetComponent<MeshRenderer>();
     }

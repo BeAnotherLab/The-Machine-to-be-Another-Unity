@@ -12,6 +12,8 @@ public class ArduinoControl : MonoBehaviour
 
     #region Public Fields
 
+    public static ArduinoControl instance;
+
     /* The baudrate of the serial port. */
     [Tooltip("The baudrate of the serial port")]
     public int baudrate = 57600;
@@ -29,6 +31,11 @@ public class ArduinoControl : MonoBehaviour
 
 
     #region MonoBehaviour Methods
+
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+    }
 
     private void Start()
     {

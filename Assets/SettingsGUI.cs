@@ -6,6 +6,12 @@ using extOSC;
 
 public class SettingsGUI : MonoBehaviour
 {
+    #region Public field
+
+    public SettingsGUI instance;
+
+    #endregion  
+
     #region Private Fields
 
     [SerializeField]
@@ -29,12 +35,8 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField]
     private Toggle _autoSwapToggle, _manualSwapToggle, _servoSwapToggle;
 
-    private VideoFeed _videoFeed;
     [SerializeField]
     private GameObject _mainCamera;
-    private OscManager _oscManager;
-    private ArduinoControl _arduinoControl;
-    private SwapModeManager _swapModeManager;
 
     private bool _twoWaySwap = true;
     private bool _monitorGuiEnabled, _oculusGuiEnabled;
@@ -46,41 +48,37 @@ public class SettingsGUI : MonoBehaviour
 
     private void Awake()
     {
+        if (instance == null) instance = this;
+
         //objects in the scene
-        //TODO make them singletons where appropriate
-        _videoFeed = FindObjectOfType<VideoFeed>();
         _mainCamera = GameObject.Find("Main Camera");
-        _oscManager = FindObjectOfType<OscManager>();
-        _arduinoControl = FindObjectOfType<ArduinoControl>();
-        _swapModeManager = FindObjectOfType<SwapModeManager>();
 
         _cameraDropdown.onValueChanged.AddListener(delegate
         {
-            _videoFeed.cameraID = _cameraDropdown.value;
+            VideoFeed.instance.cameraID = _cameraDropdown.value;
         });
 
         _dimButton.onClick.AddListener(delegate
         {
-            _videoFeed.SetDimmed();
+            VideoFeed.instance.SetDimmed();
         });
 
+        _IPInputField.onEndEdit.AddListener(delegate { OscManager.instance.othersIP = _IPInputField.text; });
 
-        _IPInputField.onEndEdit.AddListener(delegate { _oscManager.othersIP = _IPInputField.text; });
-
-        _repeaterToggle.onValueChanged.AddListener(delegate { _oscManager.SetRepeater(_repeaterToggle.isOn); });
+        _repeaterToggle.onValueChanged.AddListener(delegate { OscManager.instance.SetRepeater(_repeaterToggle.isOn); });
 
         _controlsText.text = _controlsText.text + "\n \nlocal IP adress : " + OSCUtilities.GetLocalHost();
 
         //Assign servos control buttons handlers
-        _pitchSlider.onValueChanged.AddListener(delegate { _arduinoControl.SetPitch(_pitchSlider.value); });
-        _yawSlider.onValueChanged.AddListener(delegate { _arduinoControl.SetYaw(_yawSlider.value); });
-        _serialDropdown.onValueChanged.AddListener(delegate { _arduinoControl.SetSerialPort(_serialDropdown.value); });
-        _headTrackingOnButton.onClick.AddListener(delegate { _videoFeed.SwitchHeadtracking(); });
+        _pitchSlider.onValueChanged.AddListener(delegate { ArduinoControl.instance.SetPitch(_pitchSlider.value); });
+        _yawSlider.onValueChanged.AddListener(delegate { ArduinoControl.instance.SetYaw(_yawSlider.value); });
+        _serialDropdown.onValueChanged.AddListener(delegate { ArduinoControl.instance.SetSerialPort(_serialDropdown.value); });
+        _headTrackingOnButton.onClick.AddListener(delegate { VideoFeed.instance.SwitchHeadtracking(); });
 
         //Assign swap mode toggles handlers
-        _autoSwapToggle.onValueChanged.AddListener(delegate { _swapModeManager.SetSwapMode(SwapModeManager.SwapModes.AUTO_SWAP); });
-        _manualSwapToggle.onValueChanged.AddListener(delegate { _swapModeManager.SetSwapMode(SwapModeManager.SwapModes.MANUAL_SWAP); });
-        _servoSwapToggle.onValueChanged.AddListener(delegate { _swapModeManager.SetSwapMode(SwapModeManager.SwapModes.SERVO_SWAP); });
+        _autoSwapToggle.onValueChanged.AddListener(delegate { SwapModeManager.instance.SetSwapMode(SwapModeManager.SwapModes.AUTO_SWAP); });
+        _manualSwapToggle.onValueChanged.AddListener(delegate { SwapModeManager.instance.SetSwapMode(SwapModeManager.SwapModes.MANUAL_SWAP); });
+        _servoSwapToggle.onValueChanged.AddListener(delegate { SwapModeManager.instance.SetSwapMode(SwapModeManager.SwapModes.SERVO_SWAP); });
 
     }
 
@@ -104,14 +102,14 @@ public class SettingsGUI : MonoBehaviour
     {     
         if (Input.GetKeyDown("m")) SetMonitorGuiEnabled();
 
-        if (_videoFeed.useHeadTracking)
+        if (VideoFeed.instance.useHeadTracking)
         {
             Vector3 pitchYawRoll = utilities.toEulerAngles(_mainCamera.transform.rotation);
 
             _rollSlider.value = pitchYawRoll.x;
             _yawSlider.value = 90 - pitchYawRoll.y;
             _pitchSlider.value = pitchYawRoll.z + 90;
-            _zoomSlider.value = _videoFeed.zoom;
+            _zoomSlider.value = VideoFeed.instance.zoom;
         }
 
         _cameraDropdown.RefreshShownValue();

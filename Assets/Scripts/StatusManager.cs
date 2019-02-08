@@ -10,6 +10,8 @@ public class StatusManager : MonoBehaviour {
 
     #region Public Fields
 
+    public static StatusManager instance;
+
     public bool thisUserIsReady = false;
     public bool otherUserIsReady = false;
 
@@ -30,10 +32,7 @@ public class StatusManager : MonoBehaviour {
     [SerializeField]
     private bool _useFakeOculus;
 
-    private VideoFeed _videoFeed;
     private GameObject _instructionsGUI;
-    private AudioPlayer _audioPlayer;
-
     [Tooltip("Instructions Timing")]
 
     [SerializeField]
@@ -48,10 +47,8 @@ public class StatusManager : MonoBehaviour {
 
     private void Awake()
     {
-        _videoFeed = FindObjectOfType<VideoFeed>();
-        _instructionsText = GameObject.Find("InstructionsText").GetComponent<Text>();
         _instructionsGUI = GameObject.Find("InstructionsGUI");
-        _audioPlayer = FindObjectOfType<AudioPlayer>();
+        if (instance == null) instance = this;
     }
 
     private void Update() //TODO use events instead of polling status in Update() to make state transitions easier
@@ -101,7 +98,7 @@ public class StatusManager : MonoBehaviour {
         yield return new WaitForFixedTime(waitAfterInstructionsForScreen);//duration of audio track to start video after
 
         _instructionsGUI.SetActive(false);
-        _videoFeed.SetDimmed(false);
+        VideoFeed.instance.SetDimmed(false);
 
     }
 
@@ -156,13 +153,13 @@ public class StatusManager : MonoBehaviour {
     {
         _instructionsText.text = LanguageTextDictionary.instructions;
         _sesssionIsPlaying = true;
-        _audioPlayer.PlayAudioInstructions();
+        AudioPlayer.instance.PlayAudioInstructions();
         StartCoroutine("StartPlayingCoroutine");
     }
 
     private void OtherIsGone() //different than self is gone in case there is an audio for this case
     {
-        _videoFeed.SetDimmed(true);
+        VideoFeed.instance.SetDimmed(true);
         _instructionsGUI.SetActive(true);
         _instructionsText.text = LanguageTextDictionary.otherIsGone;
 
@@ -173,14 +170,14 @@ public class StatusManager : MonoBehaviour {
     private void StopExperience()
     {
         _thisUserWasPlaying = false;
-        _videoFeed.SetDimmed(true);
+        VideoFeed.instance.SetDimmed(true);
         _instructionsGUI.SetActive(true);
         _sesssionIsPlaying = false;
 
         StopAllCoroutines();
         _instructionsText.text = null;
 
-        _audioPlayer.StopAudioInstructions();
+        AudioPlayer.instance.StopAudioInstructions();
     }
 
     private void CheckForFakeOculus() //only for debugging
@@ -192,7 +189,7 @@ public class StatusManager : MonoBehaviour {
     {
         _instructionsGUI.SetActive(true);
         _instructionsText.text = LanguageTextDictionary.finished;
-        _videoFeed.SetDimmed(true);
+        VideoFeed.instance.SetDimmed(true);
     }
 
     #endregion
