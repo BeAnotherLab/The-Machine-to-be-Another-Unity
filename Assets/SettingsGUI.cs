@@ -8,12 +8,13 @@ public class SettingsGUI : MonoBehaviour
 {
     #region Public field
 
-    public SettingsGUI instance;
+    public static SettingsGUI instance;
 
     #endregion  
 
     #region Private Fields
-
+    [SerializeField]
+    private Dropdown _swapModeDropdown;
     [SerializeField]
     private GameObject _panel;
     [SerializeField]
@@ -32,8 +33,6 @@ public class SettingsGUI : MonoBehaviour
     private Toggle _repeaterToggle;
     [SerializeField]
     private Text _controlsText;
-    [SerializeField]
-    private Toggle _autoSwapToggle, _manualSwapToggle, _servoSwapToggle;
 
     [SerializeField]
     private GameObject _mainCamera;
@@ -75,11 +74,8 @@ public class SettingsGUI : MonoBehaviour
         _serialDropdown.onValueChanged.AddListener(delegate { ArduinoControl.instance.SetSerialPort(_serialDropdown.value); });
         _headTrackingOnButton.onClick.AddListener(delegate { VideoFeed.instance.SwitchHeadtracking(); });
 
-        //Assign swap mode toggles handlers
-        _autoSwapToggle.onValueChanged.AddListener(delegate { SwapModeManager.instance.SetSwapMode(SwapModeManager.SwapModes.AUTO_SWAP); });
-        _manualSwapToggle.onValueChanged.AddListener(delegate { SwapModeManager.instance.SetSwapMode(SwapModeManager.SwapModes.MANUAL_SWAP); });
-        _servoSwapToggle.onValueChanged.AddListener(delegate { SwapModeManager.instance.SetSwapMode(SwapModeManager.SwapModes.SERVO_SWAP); });
-
+        //Assign swap mode dropdown handler
+        _swapModeDropdown.onValueChanged.AddListener(delegate { SwapModeManager.instance.SetSwapMode( (SwapModeManager.SwapModes) _swapModeDropdown.value); });
     }
 
     // Use this for initialization
@@ -91,6 +87,7 @@ public class SettingsGUI : MonoBehaviour
         _monitorGuiEnabled = true;
 
         SetCameraDropdownOptions();
+        SetSwapModeDropdownOptions();
 
         if (PlayerPrefs.GetInt("repeater") == 1) _repeaterToggle.isOn = true;
         else                                     _repeaterToggle.isOn = false;
@@ -134,6 +131,15 @@ public class SettingsGUI : MonoBehaviour
     #endregion
 
     #region Private Methods
+
+    private void SetSwapModeDropdownOptions()
+    {
+        _swapModeDropdown.options.Add(new Dropdown.OptionData() { text = "Auto Swap"});
+        _swapModeDropdown.options.Add(new Dropdown.OptionData() { text = "Manual Swap"});
+        _swapModeDropdown.options.Add(new Dropdown.OptionData() { text = "Servo Swap"});
+
+        _swapModeDropdown.RefreshShownValue();
+    }
 
     private void SetSerialPortDropdownOptions()
     {
