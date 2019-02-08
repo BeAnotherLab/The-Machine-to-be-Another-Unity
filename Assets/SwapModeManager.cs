@@ -80,7 +80,7 @@ public class SwapModeManager : MonoBehaviour
                 SettingsGUI.instance.SetServoMode();
 
                 //keep video in front of camera
-                VideoFeed.instance.twoWayWap = true;
+                VideoFeed.instance.twoWayWap = false;
 
                 //disable status management
                 StatusManager.instance.DisableStatusManagement();
