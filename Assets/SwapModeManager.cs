@@ -39,10 +39,11 @@ public class SwapModeManager : MonoBehaviour
                 //move video with other pose
                 VideoFeed.instance.twoWayWap = true;
 
-                //enable status management
-                FindObjectOfType<StatusManager>().statusManagementOn = true;
+                //enable status management, self, other, autofinish
+                StatusManager.instance.statusManagementOn = true;
 
-                //auto play instructions audio when both ready. reset timer                
+                //auto play instructions audio when both ready. reset timer      
+
                 break;
 
             case SwapModes.MANUAL_SWAP:
@@ -55,10 +56,13 @@ public class SwapModeManager : MonoBehaviour
                 //move video with other pose
                 VideoFeed.instance.twoWayWap = true;
 
-                //enable status management
-                FindObjectOfType<StatusManager>().statusManagementOn = true;
-
+                //enable status management, self, other
+                //TODO remove autofinish
+                StatusManager.instance.statusManagementOn = true;
+               
                 //stop auto swap instructions audio
+                AudioPlayer.instance.StopAudioInstructions();
+
                 break;
 
             case SwapModes.SERVO_SWAP:
@@ -72,7 +76,11 @@ public class SwapModeManager : MonoBehaviour
                 VideoFeed.instance.twoWayWap = true;
 
                 //disable status management
-                FindObjectOfType<StatusManager>().statusManagementOn = false;
+                StatusManager.instance.DisableStatusManagement();
+
+                //stop auto swap instructions audio
+                AudioPlayer.instance.StopAudioInstructions();
+
                 break;
         }
 

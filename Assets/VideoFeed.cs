@@ -16,13 +16,13 @@ public class VideoFeed : MonoBehaviour
 
     public int cameraID; //app must be reset for changes to be applied
 
+    public bool twoWayWap;
+
     #endregion
 
 
     #region Private Fields
 
-    [SerializeField]
-    private bool _twoWaySwap = true;
 
     private MeshRenderer _meshRenderer;
     private Camera _mainCamera;
@@ -67,7 +67,7 @@ public class VideoFeed : MonoBehaviour
         if (Input.GetKeyDown("b")) SetDimmed();
         if (Input.GetKeyDown("n")) RecenterPose();
 
-        if (!_twoWaySwap) //if servo setup
+        if (!twoWayWap) //if servo setup
         {
             transform.position = _mainCamera.transform.position + _mainCamera.transform.forward * 35; //keep webcam at a certain distance from head.
             transform.rotation = _mainCamera.transform.rotation; //keep webcam feed aligned with head

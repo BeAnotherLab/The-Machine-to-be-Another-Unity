@@ -47,44 +47,58 @@ public class StatusManager : MonoBehaviour {
 
     private void Awake()
     {
-        _instructionsGUI = GameObject.Find("InstructionsGUI");
         if (instance == null) instance = this;
+        _instructionsGUI = GameObject.Find("InstructionsGUI");
     }
 
     private void Update() //TODO use events instead of polling status in Update() to make state transitions easier
     {
-        CheckThisUserStatus();
-
-        if (_useFakeOculus)
-            CheckForFakeOculus(); // for virtual other while debugging
-
-        if (!_sesssionIsPlaying)
+        if ( statusManagementOn )
         {
-            if (thisUserIsReady && otherUserIsReady)
-                StartPlaying();
-            else if (thisUserIsReady && !otherUserIsReady)
-                WaitingForOther();
+            CheckThisUserStatus();
+
+            if (_useFakeOculus)
+                CheckForFakeOculus(); // for virtual other while debugging
+
+            if (!_sesssionIsPlaying) //if session is not running
+            {
+                if (thisUserIsReady && otherUserIsReady) //start running when both are ready
+                    StartPlaying();
+                else if (thisUserIsReady && !otherUserIsReady) //else wait while other is not ready
+                    WaitingForOther();
+            }
+            else //if session is running
+            {
+                if (!otherUserIsReady && thisUserIsReady) //if other left
+                    OtherIsGone();
+                if (!thisUserIsReady) //if self left
+                    StopExperience();
+            }
+
+            if (!thisUserIsReady && _thisUserWasPlaying)
+                StopExperience();//In case that the other user is never ready and this one stopped.
+
+            if (Input.GetKeyDown("o"))
+                IsOver();
         }
-        else
-        {
-            if (!otherUserIsReady && thisUserIsReady)
-                OtherIsGone();
-            if (!thisUserIsReady)
-                StopExperience();
-        }
-
-        if (!thisUserIsReady && _thisUserWasPlaying)
-            StopExperience();//In case that the other user is never ready and this one stopped.
-
-        if (Input.GetKeyDown("o"))
-            IsOver();
-
     }
 
     #endregion
 
 
     #region Public Methods
+
+    public void DisableStatusManagement()
+    {
+        _instructionsGUI.SetActive(false);
+        VideoFeed.instance.SetDimmed(true);
+        _instructionsText.text = null;
+        StopAllCoroutines();
+        _sesssionIsPlaying = false;
+
+        StatusManager.instance.statusManagementOn = false;
+
+    }
 
     public IEnumerator StartPlayingCoroutine()
     {
@@ -137,6 +151,7 @@ public class StatusManager : MonoBehaviour {
         {
             thisUserIsReady = true;
             _thisUserWasPlaying = true;
+            //
         }
         else if (XRDevice.userPresence == UserPresenceState.NotPresent)
             thisUserIsReady = false;
