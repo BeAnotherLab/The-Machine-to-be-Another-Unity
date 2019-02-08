@@ -13,7 +13,7 @@ public class OscManager : MonoBehaviour {
 
     public static OscManager instance;
 
-    public string othersIP { get { return othersIP; } set { SetOthersIP(value);} }
+    public string othersIP { get { return othersIP; } set { SetOthersIP(value); } }
 
     #endregion
 
@@ -54,10 +54,7 @@ public class OscManager : MonoBehaviour {
 
         //set IP address of other 
         SetOthersIP(PlayerPrefs.GetString("othersIP"));
-
-        //set repeater based on what was stored in playerprefs
-        if (PlayerPrefs.GetInt("repeater") == 0) SetRepeater(false);
-        else                                     SetRepeater(true);
+        
     }
 
     private void Update()
@@ -69,12 +66,22 @@ public class OscManager : MonoBehaviour {
             if (StatusManager.instance.thisUserIsReady != previousStatusForSelf) SendThisUserStatus(StatusManager.instance.thisUserIsReady);
             previousStatusForSelf = StatusManager.instance.thisUserIsReady;
         }
-        
     }
 
     #endregion
 
     #region Public Methods   
+
+    public void EnableRepeater(bool enable) 
+    {
+        if (enable)
+        {
+            //set repeater based on what was stored in playerprefs
+            if (PlayerPrefs.GetInt("repeater") == 0) SetRepeater(false);
+            else SetRepeater(true);
+        }
+        else _repeater = false;
+    }
 
     public void SetRepeater(bool r)
     {

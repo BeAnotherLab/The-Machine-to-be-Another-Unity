@@ -43,6 +43,8 @@ public class SwapModeManager : MonoBehaviour
                 StatusManager.instance.statusManagementOn = true;
 
                 //auto play instructions audio when both ready. reset timer      
+                //enable OSC repeat
+                OscManager.instance.EnableRepeater(true);
 
                 break;
 
@@ -63,6 +65,9 @@ public class SwapModeManager : MonoBehaviour
                 //stop auto swap instructions audio
                 AudioPlayer.instance.StopAudioInstructions();
 
+                //enable OSC repeat
+                OscManager.instance.EnableRepeater(true);
+
                 break;
 
             case SwapModes.SERVO_SWAP:
@@ -80,6 +85,9 @@ public class SwapModeManager : MonoBehaviour
 
                 //stop auto swap instructions audio
                 AudioPlayer.instance.StopAudioInstructions();
+
+                //disable OSC repeat
+                OscManager.instance.EnableRepeater(false);
 
                 break;
         }
