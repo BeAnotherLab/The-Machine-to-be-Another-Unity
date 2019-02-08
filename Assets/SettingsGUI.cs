@@ -114,6 +114,14 @@ public class SettingsGUI : MonoBehaviour
 
     #region Public Methods
 
+    public void SetSwapMode(SwapModeManager.SwapModes mode) //this is called from swap mode manager since we cannot change dropdown value without triggering event
+    {
+        Debug.Log("set mode " + mode);
+        Debug.Log("set mode (int value)" + (int) mode);
+        _swapModeDropdown.value = (int) mode;
+        _swapModeDropdown.RefreshShownValue();
+    }
+
     public void SetMonitorGuiEnabled()
     {
         _monitorGuiEnabled = !_monitorGuiEnabled;
@@ -157,6 +165,7 @@ public class SettingsGUI : MonoBehaviour
         _swapModeDropdown.options.Add(new Dropdown.OptionData() { text = "Manual Swap"});
         _swapModeDropdown.options.Add(new Dropdown.OptionData() { text = "Servo Swap"});
 
+        _swapModeDropdown.value = PlayerPrefs.GetInt("swapMode");
         _swapModeDropdown.RefreshShownValue();
     }
 
