@@ -16,6 +16,7 @@ public class StatusManager : MonoBehaviour {
     public bool otherUserIsReady = false;
 
     public bool statusManagementOn;
+    public bool autoStartAndFinishOn;
 
     #endregion
 
@@ -49,6 +50,7 @@ public class StatusManager : MonoBehaviour {
     {
         if (instance == null) instance = this;
         _instructionsGUI = GameObject.Find("InstructionsGUI");
+        _instructionsText = GameObject.Find("InstructionsText").GetComponent<Text>();
     }
 
     private void Update() //TODO use events instead of polling status in Update() to make state transitions easier
@@ -88,11 +90,25 @@ public class StatusManager : MonoBehaviour {
 
     #region Public Methods
 
+    public void StopExperience()
+    {
+        _thisUserWasPlaying = false;
+        VideoFeed.instance.SetDimmed(true);
+        _instructionsGUI.SetActive(true);
+        _sesssionIsPlaying = false;
+
+        StopAllCoroutines();
+        _instructionsText.text = null;
+
+        AudioPlayer.instance.StopAudioInstructions();
+    }
+
     public void DisableStatusManagement()
     {
         _instructionsGUI.SetActive(false);
         VideoFeed.instance.SetDimmed(true);
         _instructionsText.text = null;
+
         StopAllCoroutines();
         _sesssionIsPlaying = false;
 
@@ -102,8 +118,12 @@ public class StatusManager : MonoBehaviour {
 
     public IEnumerator StartPlayingCoroutine()
     {
+        if (autoStartAndFinishOn)
+        {
+            StartCoroutine("GoodbyeCoroutine");
+            AudioPlayer.instance.PlayAudioInstructions();
+        }
 
-        StartCoroutine("GoodbyeCoroutine");
         StartCoroutine("MirrorCoroutine");
         StartCoroutine("WallCoroutine");
 
@@ -168,7 +188,6 @@ public class StatusManager : MonoBehaviour {
     {
         _instructionsText.text = LanguageTextDictionary.instructions;
         _sesssionIsPlaying = true;
-        AudioPlayer.instance.PlayAudioInstructions();
         StartCoroutine("StartPlayingCoroutine");
     }
 
@@ -180,19 +199,6 @@ public class StatusManager : MonoBehaviour {
 
         StopAllCoroutines();
 
-    }
-
-    private void StopExperience()
-    {
-        _thisUserWasPlaying = false;
-        VideoFeed.instance.SetDimmed(true);
-        _instructionsGUI.SetActive(true);
-        _sesssionIsPlaying = false;
-
-        StopAllCoroutines();
-        _instructionsText.text = null;
-
-        AudioPlayer.instance.StopAudioInstructions();
     }
 
     private void CheckForFakeOculus() //only for debugging

@@ -39,10 +39,11 @@ public class SwapModeManager : MonoBehaviour
                 //move video with other pose
                 VideoFeed.instance.twoWayWap = true;
 
-                //enable status management, self, other, autofinish
+                //enable status management, self, other, autoplay, autofinish, reset timer      
+                StatusManager.instance.StopExperience();
+                StatusManager.instance.autoStartAndFinishOn = true;
                 StatusManager.instance.statusManagementOn = true;
 
-                //auto play instructions audio when both ready. reset timer      
                 //enable OSC repeat
                 OscManager.instance.EnableRepeater(true);
 
@@ -58,8 +59,9 @@ public class SwapModeManager : MonoBehaviour
                 //move video with other pose
                 VideoFeed.instance.twoWayWap = true;
 
-                //enable status management, self, other
-                //TODO remove autofinish
+                //enable status management, self, other, remove autoplay, autofinish, reset timer               
+                StatusManager.instance.StopExperience();
+                StatusManager.instance.autoStartAndFinishOn = false;
                 StatusManager.instance.statusManagementOn = true;
                
                 //stop auto swap instructions audio
