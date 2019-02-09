@@ -147,7 +147,8 @@ public class ArduinoControl : MonoBehaviour
 
     public void Close()
     {
-        _stream.Close();
+        if (_stream != null)
+            _stream.Close();
     }
 
     #endregion
@@ -157,10 +158,12 @@ public class ArduinoControl : MonoBehaviour
 
     private void WriteToArduino(string message)
     {
-
-        // Send the request
-        _stream.WriteLine(message);
-        _stream.BaseStream.Flush();
+        if (_stream != null)
+        {
+            // Send the request
+            _stream.WriteLine(message);
+            _stream.BaseStream.Flush();
+        }
     }
 
     private void Open(int p)
