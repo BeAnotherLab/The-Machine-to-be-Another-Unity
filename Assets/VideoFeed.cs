@@ -94,6 +94,11 @@ public class VideoFeed : MonoBehaviour
 
     #region Public Methods
 
+    public void FlipHorizontal()
+    {
+        transform.parent.localScale = new Vector3(- transform.parent.localScale.x, transform.parent.localScale.y, transform.parent.localScale.z);
+    }
+
     public void SetDimmed(bool dim)
     {
         float next = 1;

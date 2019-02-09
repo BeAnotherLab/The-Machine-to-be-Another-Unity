@@ -103,6 +103,10 @@ public class SettingsGUI : MonoBehaviour
         if (Input.GetKeyDown("x")) SetLanguage(1);
         if (Input.GetKeyDown("c")) SetLanguage(2);
 
+        if (Input.GetKeyDown("f"))
+        {
+            VideoFeed.instance.FlipHorizontal();
+        }
         if (VideoFeed.instance.useHeadTracking)
         {
             Vector3 pitchYawRoll = utilities.toEulerAngles(_mainCamera.transform.rotation);
