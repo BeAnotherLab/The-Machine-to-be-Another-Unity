@@ -33,6 +33,8 @@ public class SettingsGUI : MonoBehaviour
     private Toggle _repeaterToggle;
     [SerializeField]
     private Text _controlsText;
+    [SerializeField]
+    private Text _languageText;
 
     [SerializeField]
     private GameObject _mainCamera;
@@ -89,11 +91,17 @@ public class SettingsGUI : MonoBehaviour
         else                                     _repeaterToggle.isOn = false;
 
         OSCUtilities.GetLocalHost();
+
+        SetLanguageText(PlayerPrefs.GetInt("language"));
     }
 
     private void Update()
     {     
         if (Input.GetKeyDown("m")) SetMonitorGuiEnabled();
+
+        if (Input.GetKeyDown("z")) SetLanguage(0);
+        if (Input.GetKeyDown("x")) SetLanguage(1);
+        if (Input.GetKeyDown("c")) SetLanguage(2);
 
         if (VideoFeed.instance.useHeadTracking)
         {
@@ -112,8 +120,18 @@ public class SettingsGUI : MonoBehaviour
 
     #endregion
 
+
     #region Public Methods
 
+    public void SetLanguage(int language)
+    {
+        AudioPlayer.instance.language = language;
+
+        SetLanguageText(language);
+
+        PlayerPrefs.SetInt("language", language);
+    }
+    
     public void SetSwapMode(SwapModeManager.SwapModes mode) //this is called from swap mode manager since we cannot change dropdown value without triggering event
     {
         Debug.Log("set mode " + mode);
@@ -158,6 +176,14 @@ public class SettingsGUI : MonoBehaviour
     #endregion
 
     #region Private Methods
+
+    private void SetLanguageText(int language)
+    {
+        string languageString = "English";
+        if (language == 1) languageString = "French";
+        else if (language == 2) languageString = "Portuguese";
+        _languageText.text = "Language : " + languageString;
+    }
 
     private void SetSwapModeDropdownOptions()
     {

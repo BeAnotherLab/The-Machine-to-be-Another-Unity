@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 
@@ -9,11 +9,22 @@ public class AudioPlayer : MonoBehaviour {
 
     public static AudioPlayer instance;
 
+    public int language;
+
     #endregion
 
     #region Private Fields
+
+
     [SerializeField]
-    private AudioSource[] _clips; //audios to be triggered with keys or touchOSC
+    private AudioSource[] _englishClips; //english audios
+    [SerializeField]
+    private AudioSource[] _frenchClips; //french audios
+    [SerializeField]
+    private AudioSource[] _portugueseClips; //portuguese audios
+
+    private List<AudioSource[]> _audioClips;
+
     [SerializeField]
     private AudioSource _music; //the background music
     [SerializeField]
@@ -30,7 +41,16 @@ public class AudioPlayer : MonoBehaviour {
     {
         if (instance == null) instance = this;
 
-        _clips = transform.Find("English audios").GetComponentsInChildren<AudioSource>();
+        _audioClips = new List<AudioSource[]>();
+
+        _englishClips = GameObject.Find("EnglishAudios").GetComponentsInChildren<AudioSource>();
+        _audioClips.Add(_englishClips);
+
+        _frenchClips = GameObject.Find("FrenchAudios").GetComponentsInChildren<AudioSource>();
+        _audioClips.Add(_frenchClips);
+
+        _portugueseClips = GameObject.Find("PortugueseAudios").GetComponentsInChildren<AudioSource>();
+        _audioClips.Add(_portugueseClips);        
     }
 
     // Use this for initialization
@@ -39,7 +59,10 @@ public class AudioPlayer : MonoBehaviour {
         //play looping background music
         _music.loop = true;
         _music.Play();
-        foreach (AudioSource clip in _clips)
+
+        language = PlayerPrefs.GetInt("language");
+
+        foreach (AudioSource clip in _audioClips[language])
             clip.Pause();
     }
 
@@ -50,32 +73,31 @@ public class AudioPlayer : MonoBehaviour {
         {
             if (Input.GetKey(vKey))
             {
-                //your code here
                 if (vKey == UnityEngine.KeyCode.Q)
                     playSound(0);
                 else if (vKey == UnityEngine.KeyCode.W)
-                    playSound(1);
-                else if (vKey == UnityEngine.KeyCode.E)
-                    playSound(2);
-                else if (vKey == UnityEngine.KeyCode.R)
-                    playSound(3);
-                else if (vKey == UnityEngine.KeyCode.T)
-                    playSound(4);
-                else if (vKey == UnityEngine.KeyCode.Y)
                     playSound(5);
-                else if (vKey == UnityEngine.KeyCode.U)
+                else if (vKey == UnityEngine.KeyCode.E)
+                    playSound(4);
+                else if (vKey == UnityEngine.KeyCode.R)
                     playSound(6);
-                else if (vKey == UnityEngine.KeyCode.I)
+                else if (vKey == UnityEngine.KeyCode.T)
                     playSound(7);
+                else if (vKey == UnityEngine.KeyCode.Y)
+                    playSound(1);
+                else if (vKey == UnityEngine.KeyCode.U)
+                    playSound(2);
+                else if (vKey == UnityEngine.KeyCode.I)
+                    playSound(3);
             }
         }
 
         _somethingIsPlaying = false;
 
         //check if some audio is playing 
-        for (int i = 0; i < _clips.Length; i++)
+        for (int i = 0; i < _audioClips[language].Length; i++)
         {
-            if (_clips[i].isPlaying)
+            if (_audioClips[language][i].isPlaying)
                 _somethingIsPlaying = true;
         }
 
@@ -88,7 +110,7 @@ public class AudioPlayer : MonoBehaviour {
 
 
     #region Public Methods
-
+    
     public void PlayAudioInstructions()
     {
         _autoModeInstructions.Play();
@@ -104,7 +126,7 @@ public class AudioPlayer : MonoBehaviour {
         if (!_somethingIsPlaying)
         {
             Debug.Log("playing sound" + id.ToString());
-            _clips[id].Play();
+            _audioClips[language][id].Play();
             _music.volume = 0.45f;
         }
     }
