@@ -1,84 +1,139 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 
 public class AudioPlayer : MonoBehaviour {
 
-	public AudioSource[] clips;
-	public AudioSource music;
+    #region Public Fields
 
-	private bool somethingIsPlaying;
+    public static AudioPlayer instance;
 
-	// Use this for initialization
-	void Start () {
-		//play looping background music
-		music.loop = true;
-		music.Play();
-		foreach (AudioSource clip in clips) {
-			clip.Pause ();
-		}
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    public int language;
 
-		foreach(KeyCode vKey in System.Enum.GetValues(typeof(KeyCode))){
-			if(Input.GetKey(vKey)){
-				//your code here
-				if (vKey == UnityEngine.KeyCode.Q)
-					playSound (0);
-				else if (vKey == UnityEngine.KeyCode.W)
-					playSound (1);
-				else if (vKey == UnityEngine.KeyCode.E)
-					playSound (2);
-				else if (vKey == UnityEngine.KeyCode.R)
-					playSound (3);
-				else if (vKey == UnityEngine.KeyCode.T)
-					playSound (4);
-				else if (vKey == UnityEngine.KeyCode.Y)
-					playSound (5);
-				else if (vKey == UnityEngine.KeyCode.U)
-					playSound (6);
-				else if (vKey == UnityEngine.KeyCode.I)
-					playSound (7);
-                else if (vKey == UnityEngine.KeyCode.O)
-                    playSound(8);
-                else if (vKey == UnityEngine.KeyCode.P)
-                    playSound(9);
-                else if (vKey == UnityEngine.KeyCode.L)
-                    playSound(10);
+    #endregion
+
+    #region Private Fields
+
+
+    [SerializeField]
+    private AudioSource[] _englishClips; //english audios
+    [SerializeField]
+    private AudioSource[] _frenchClips; //french audios
+    [SerializeField]
+    private AudioSource[] _portugueseClips; //portuguese audios
+
+    private List<AudioSource[]> _audioClips;
+
+    [SerializeField]
+    private AudioSource _music; //the background music
+    [SerializeField]
+    private AudioSource _autoModeInstructions; //the audio file played when in automatic mode
+    
+    private bool _somethingIsPlaying;
+
+    #endregion
+
+    #region MonoBehaviour Methods
+
+
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+
+        _audioClips = new List<AudioSource[]>();
+
+        _englishClips = GameObject.Find("EnglishAudios").GetComponentsInChildren<AudioSource>();
+        _audioClips.Add(_englishClips);
+
+        _frenchClips = GameObject.Find("FrenchAudios").GetComponentsInChildren<AudioSource>();
+        _audioClips.Add(_frenchClips);
+
+        _portugueseClips = GameObject.Find("PortugueseAudios").GetComponentsInChildren<AudioSource>();
+        _audioClips.Add(_portugueseClips);        
+    }
+
+    // Use this for initialization
+    private void Start()
+    {
+        //play looping background music
+        _music.loop = true;
+        _music.Play();
+
+        language = PlayerPrefs.GetInt("language");
+
+        foreach (AudioSource clip in _audioClips[language])
+            clip.Pause();
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        foreach (KeyCode vKey in System.Enum.GetValues(typeof(KeyCode)))
+        {
+            if (Input.GetKey(vKey))
+            {
+                if (vKey == UnityEngine.KeyCode.Q)
+                    playSound(0);
+                else if (vKey == UnityEngine.KeyCode.W)
+                    playSound(5);
+                else if (vKey == UnityEngine.KeyCode.E)
+                    playSound(4);
+                else if (vKey == UnityEngine.KeyCode.R)
+                    playSound(6);
+                else if (vKey == UnityEngine.KeyCode.T)
+                    playSound(7);
+                else if (vKey == UnityEngine.KeyCode.Y)
+                    playSound(1);
+                else if (vKey == UnityEngine.KeyCode.U)
+                    playSound(2);
+                else if (vKey == UnityEngine.KeyCode.I)
+                    playSound(3);
             }
-		}
+        }
 
-		somethingIsPlaying = false;
+        _somethingIsPlaying = false;
 
-		//check if some audio is playing 
-		for (int i = 0; i < clips.Length; i++) {
-			if (clips [i].isPlaying)
-				somethingIsPlaying = true;
-		}
+        //check if some audio is playing 
+        for (int i = 0; i < _audioClips[language].Length; i++)
+        {
+            if (_audioClips[language][i].isPlaying)
+                _somethingIsPlaying = true;
+        }
 
-		if (!somethingIsPlaying)
-			music.volume = 1;
-				
-	}
+        if (!_somethingIsPlaying)
+            _music.volume = 1;
 
-	public void playSound(int id){
-		if (!somethingIsPlaying) {
-			Debug.Log ("playing sound" + id.ToString ());
-			clips [id].Play ();
-			music.volume = 0.45f;
-		}
-	}
+    }
 
-	/*
-	 * */
-//assign a TouchOSC control
-//assign a keyboard key for each sound
-//show on GUI what key triggers what sound
-//prevent from playing if one is already playing
+    #endregion
 
 
+    #region Public Methods
+    
+    public void PlayAudioInstructions()
+    {
+        _autoModeInstructions.Play();
+    }
+
+    public void StopAudioInstructions()
+    {
+        _autoModeInstructions.Stop();
+    }
+
+    public void playSound(int id)
+    {
+        if (!_somethingIsPlaying)
+        {
+            Debug.Log("playing sound" + id.ToString());
+            _audioClips[language][id].Play();
+            _music.volume = 0.45f;
+        }
+    }
+    #endregion
+
+
+    #region Private Methods
+    #endregion
 
 }
