@@ -7,8 +7,8 @@ public class VideoFeed : MonoBehaviour
 
     public static VideoFeed instance;
 
-    //[HideInInspector]
-    public float zoom = 39.5f;
+    public float zoom;
+    
     [HideInInspector]
     public Quaternion otherPose;
 

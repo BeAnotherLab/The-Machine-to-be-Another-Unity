@@ -88,6 +88,8 @@ public class SettingsGUI : MonoBehaviour
         SetCameraDropdownOptions();
         SetSwapModeDropdownOptions();
 
+        _zoomSlider.value = PlayerPrefs.GetFloat("zoom", 39.5f);
+
         if (PlayerPrefs.GetInt("repeater") == 1) _repeaterToggle.isOn = true;
         else                                     _repeaterToggle.isOn = false;
 
