@@ -89,6 +89,12 @@ public class AudioPlayer : MonoBehaviour {
                     playSound(2);
                 else if (vKey == UnityEngine.KeyCode.I)
                     playSound(3);
+                else if (vKey == UnityEngine.KeyCode.J)
+                    playSound(8);
+                else if (vKey == UnityEngine.KeyCode.K)
+                    playSound(9);
+                else if (vKey == UnityEngine.KeyCode.L)
+                    playSound(10);
             }
         }
 
