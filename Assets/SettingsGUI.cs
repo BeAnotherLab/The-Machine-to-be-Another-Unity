@@ -72,6 +72,7 @@ public class SettingsGUI : MonoBehaviour
         //Assign servos control buttons handlers
         _pitchSlider.onValueChanged.AddListener(delegate { ArduinoControl.instance.SetPitch(_pitchSlider.value); });
         _yawSlider.onValueChanged.AddListener(delegate { ArduinoControl.instance.SetYaw(_yawSlider.value); });
+        _zoomSlider.onValueChanged.AddListener(delegate { VideoFeed.instance.SetZoom(_zoomSlider.value); });
         _serialDropdown.onValueChanged.AddListener(delegate { ArduinoControl.instance.SetSerialPort(_serialDropdown.value); });
         _headTrackingOnButton.onClick.AddListener(delegate { VideoFeed.instance.SwitchHeadtracking(); });
 
