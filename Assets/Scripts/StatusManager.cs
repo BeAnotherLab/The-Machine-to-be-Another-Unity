@@ -90,6 +90,13 @@ public class StatusManager : MonoBehaviour {
 
     #region Public Methods
 
+    public void ThisUserIsReady()
+    {
+        thisUserIsReady = true;
+        _thisUserWasPlaying = true;
+        ConfirmationButton.instance.gameObject.SetActive(false);
+    }
+
     public void StopExperience()
     {
         _thisUserWasPlaying = false;
@@ -101,6 +108,8 @@ public class StatusManager : MonoBehaviour {
         _instructionsText.text = null;
 
         AudioPlayer.instance.StopAudioInstructions();
+        ConfirmationButton.instance.gameObject.SetActive(true);
+
     }
 
     public void DisableStatusManagement()
@@ -167,15 +176,8 @@ public class StatusManager : MonoBehaviour {
 
     private void CheckThisUserStatus()
     {
-        if (XRDevice.userPresence == UserPresenceState.Present)
-        {
-            thisUserIsReady = true;
-            _thisUserWasPlaying = true;
-            //
-        }
-        else if (XRDevice.userPresence == UserPresenceState.NotPresent)
+        if (XRDevice.userPresence == UserPresenceState.NotPresent)
             thisUserIsReady = false;
-
     }
 
     private void WaitingForOther()
@@ -198,7 +200,6 @@ public class StatusManager : MonoBehaviour {
         _instructionsText.text = LanguageTextDictionary.otherIsGone;
 
         StopAllCoroutines();
-
     }
 
     private void CheckForFakeOculus() //only for debugging
@@ -206,7 +207,7 @@ public class StatusManager : MonoBehaviour {
         otherUserIsReady = _fakeOculusReady;
     }
 
-    private void IsOver()
+    private void IsOver() //called at the the end of the experience
     {
         _instructionsGUI.SetActive(true);
         _instructionsText.text = LanguageTextDictionary.finished;

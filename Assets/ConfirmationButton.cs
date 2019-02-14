@@ -11,12 +11,19 @@ namespace VRStandardAssets.Menu
     // that will be loaded and use the SelectionRadial.
     public class ConfirmationButton : MonoBehaviour
     {
+        public static ConfirmationButton instance;
+
         public event Action<ConfirmationButton> OnButtonSelected;           // This event is triggered when the selection of the button has finished.
 
         [SerializeField] private SelectionRadial m_SelectionRadial;         // This controls when the selection is complete.
         [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
 
         private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
+
+        private void Awake()
+        {
+            if (instance == null) instance = this;
+        }
 
         private void OnEnable()
         {
@@ -51,6 +58,9 @@ namespace VRStandardAssets.Menu
         private void HandleSelectionComplete()
         {
             //the user is ready
+            StatusManager.instance.ThisUserIsReady();
+
+
         }
 
     }
