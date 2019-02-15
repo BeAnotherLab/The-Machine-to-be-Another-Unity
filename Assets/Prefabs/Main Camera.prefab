@@ -16,8 +16,8 @@ GameObject:
   - component: {fileID: 3462846772297512130}
   - component: {fileID: 3462846772297565038}
   - component: {fileID: 3462846772297582088}
-  - component: {fileID: 3462846772297534248}
   - component: {fileID: 3462846772297571682}
+  - component: {fileID: 4331334965932987113}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -155,22 +155,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Canvas: {fileID: 3462846772317853374}
---- !u!114 &3462846772297534248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1473624093389685108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03fb8390bc96a7f4cafebf5efc362f62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SelectionDuration: 1
-  m_HideOnStart: 0
-  m_Selection: {fileID: 3462846772297500174}
-  m_VRInput: {fileID: 3462846772297565038}
 --- !u!114 &3462846772297571682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +172,22 @@ MonoBehaviour:
   m_Image: {fileID: 3462846772297588030}
   m_ReticleTransform: {fileID: 3462846772317993960}
   m_Camera: {fileID: 1473624093389685105}
+--- !u!114 &4331334965932987113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473624093389685108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e38a852a5e7a9c94bb760e0a2e9c9a6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SelectionDuration: 2
+  m_HideOnStart: 1
+  m_Selection: {fileID: 3462846772297500174}
+  m_VRInput: {fileID: 3462846772297565038}
 --- !u!1 &3462846772303890890
 GameObject:
   m_ObjectHideFlags: 0
