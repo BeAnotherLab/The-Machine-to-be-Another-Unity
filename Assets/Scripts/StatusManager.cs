@@ -53,6 +53,11 @@ public class StatusManager : MonoBehaviour {
         _mainCamera = GameObject.Find("Main Camera");
     }
 
+    private void Start()
+    {
+        _instructionsText.text = LanguageTextDictionary.idle;
+    }
+
     private void Update() //TODO use events instead of polling status in Update() to make state transitions easier
     {
         if ( statusManagementOn )
@@ -109,7 +114,7 @@ public class StatusManager : MonoBehaviour {
     {
         VideoFeed.instance.SetDimmed(true);
         _instructionsGUI.SetActive(true);
-        _instructionsText.text = null; //TODO show welcome instructions instead
+        _instructionsText.text = LanguageTextDictionary.idle; 
 
         StopAllCoroutines();
 
