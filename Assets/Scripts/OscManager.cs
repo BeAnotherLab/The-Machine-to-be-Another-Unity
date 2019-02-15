@@ -23,9 +23,7 @@ public class OscManager : MonoBehaviour {
 
     private OSCTransmitter _oscTransmitter;
     private OSCReceiver _oscReceiver;
-
-    private bool previousStatusForSelf;
-
+    
     private bool _repeater;
 
     #endregion
@@ -54,18 +52,11 @@ public class OscManager : MonoBehaviour {
 
         //set IP address of other 
         SetOthersIP(PlayerPrefs.GetString("othersIP"));
-        
     }
 
     private void Update()
     {
         SendHeadTracking();
-
-        if(StatusManager.instance.statusManagementOn)
-        {
-            if (StatusManager.instance.thisUserIsReady != previousStatusForSelf) SendThisUserStatus(StatusManager.instance.thisUserIsReady);
-            previousStatusForSelf = StatusManager.instance.thisUserIsReady;
-        }
     }
 
     #endregion
@@ -177,8 +168,8 @@ public class OscManager : MonoBehaviour {
             int x;
             if (message.ToInt(out x))
             {
-                if (x == 0) StatusManager.instance.otherUserIsReady = false;
-                else if (x == 1) StatusManager.instance.otherUserIsReady = true;
+                if (x == 0) StatusManager.instance.OtherLeft();
+                else if (x == 1) StatusManager.instance.OtherUserIsReady();
             }
         }
     }

@@ -21,13 +21,7 @@ public class StatusManager : MonoBehaviour {
 
     #endregion
 
-
     #region Private Fields
-
-    [SerializeField]
-    private bool _sesssionIsPlaying = false;
-    [SerializeField]
-    private bool _thisUserWasPlaying;
 
     [SerializeField]
     private bool _fakeOculusReady; //for debugging
@@ -39,6 +33,7 @@ public class StatusManager : MonoBehaviour {
 
     [SerializeField]
     private float waitBeforeInstructions, waitAfterInstructionsForScreen, waitForMirror, waitForGoodbye, waitForWall;
+    //TODO make waitafterInstructions match the duration of the introduction audio
 
     private Text _instructionsText;
 
@@ -62,28 +57,11 @@ public class StatusManager : MonoBehaviour {
     {
         if ( statusManagementOn )
         {
-            CheckThisUserStatus();
+            if (XRDevice.userPresence == UserPresenceState.NotPresent && thisUserIsReady)
+                StopExperience(); //if we were ready and we took off the headset
 
             if (_useFakeOculus)
                 CheckForFakeOculus(); // for virtual other while debugging
-
-            if (!_sesssionIsPlaying) //if session is not running
-            {
-                if (thisUserIsReady && otherUserIsReady) //start running when both are ready
-                    StartPlaying();
-                else if (thisUserIsReady && !otherUserIsReady) //else wait while other is not ready
-                    WaitingForOther();
-            }
-            else //if session is running
-            {
-                if (!otherUserIsReady && thisUserIsReady) //if other left
-                    OtherIsGone();
-                if (!thisUserIsReady) //if self left
-                    StopExperience();
-            }
-
-            if (!thisUserIsReady && _thisUserWasPlaying)
-                StopExperience();//In case that the other user is never ready and this one stopped.
 
             if (Input.GetKeyDown("o"))
                 IsOver();
@@ -95,47 +73,65 @@ public class StatusManager : MonoBehaviour {
 
     #region Public Methods
 
-    public void ThisUserIsReady() //called when user has aimed at the confirmation and waited through the countdown.
+    public void ThisUserIsReady() //called when user has aimed at the confirmation dialog and waited through the countdown.
     {
-        thisUserIsReady = true;
-        _thisUserWasPlaying = true;
+        if (statusManagementOn) OscManager.instance.SendThisUserStatus(true);
 
-        //disable status confirmation GUI elements
-        EnableConfirmationGUI(false);
+        EnableConfirmationGUI(false); //hide status confirmation GUI elements
+
+        //start experience or wait for the other if they're not ready yet
+        if (otherUserIsReady) StartPlaying();
+        else WaitingForOther();
+
+        thisUserIsReady = true;
+    }
+
+    private void ThisUserIsNotReady()
+    {
+        EnableConfirmationGUI(true);
+        OscManager.instance.SendThisUserStatus(false);
+        thisUserIsReady = false;
+    }
+
+    public void OtherUserIsReady() 
+    {
+        otherUserIsReady = true;
+        if (thisUserIsReady) StartPlaying();
+    }
+
+    public void OtherLeft()
+    {
+        otherUserIsReady = false;
+        if (thisUserIsReady) OtherIsGone();
     }
 
     public void StopExperience()
     {
-        _thisUserWasPlaying = false;
         VideoFeed.instance.SetDimmed(true);
         _instructionsGUI.SetActive(true);
-        _sesssionIsPlaying = false;
+        _instructionsText.text = null; //TODO show welcome instructions instead
 
         StopAllCoroutines();
-        _instructionsText.text = null;
 
         AudioPlayer.instance.StopAudioInstructions();
 
-        //enable status confirmation GUI elements
-        EnableConfirmationGUI(true);
+        ThisUserIsNotReady(); //reset user status
     }
 
     public void DisableStatusManagement()
     {
-        _instructionsGUI.SetActive(false);
         VideoFeed.instance.SetDimmed(true);
+        _instructionsGUI.SetActive(false);
         _instructionsText.text = null;
 
         StopAllCoroutines();
-        _sesssionIsPlaying = false;
 
-        StatusManager.instance.statusManagementOn = false;
-
+        statusManagementOn = false;
     }
 
     public IEnumerator StartPlayingCoroutine()
-    {
-        if (autoStartAndFinishOn)
+    {      
+        if (autoStartAndFinishOn) //if we are in auto swap
         {
             StartCoroutine("GoodbyeCoroutine");
             AudioPlayer.instance.PlayAudioInstructions();
@@ -145,34 +141,27 @@ public class StatusManager : MonoBehaviour {
         StartCoroutine("WallCoroutine");
 
         yield return new WaitForFixedTime(waitBeforeInstructions);// wait before playing audio
-
         yield return new WaitForFixedTime(waitAfterInstructionsForScreen);//duration of audio track to start video after
 
-        _instructionsGUI.SetActive(false);
         VideoFeed.instance.SetDimmed(false);
-
+        _instructionsGUI.SetActive(false);
     }
 
     public IEnumerator GoodbyeCoroutine()
     {
-
         yield return new WaitForFixedTime(waitForGoodbye + waitBeforeInstructions);
         Debug.Log("READY TO STOP");
         IsOver();
-
     }
 
     public IEnumerator MirrorCoroutine()
     {
-
         yield return new WaitForFixedTime(waitBeforeInstructions + waitForMirror);
         Debug.Log("READY FOR MIRROR");
-
     }
 
     public IEnumerator WallCoroutine()
     {
-
         yield return new WaitForFixedTime(waitBeforeInstructions + waitForWall);
         Debug.Log("READY FOR WALL");
     }
@@ -192,36 +181,43 @@ public class StatusManager : MonoBehaviour {
         {
             _mainCamera.GetComponent<Reticle>().Hide();
             _mainCamera.GetComponent<CustomSelectionRadial>().Hide();
-
         }
     }
-
-    private void CheckThisUserStatus()
-    {
-        if (XRDevice.userPresence == UserPresenceState.NotPresent)
-            thisUserIsReady = false;
-    }
-
+    
     private void WaitingForOther()
     {
         _instructionsText.text = LanguageTextDictionary.waitForOther;
-        _thisUserWasPlaying = true;
     }
 
     private void StartPlaying()
     {
+        _instructionsGUI.SetActive(true);
         _instructionsText.text = LanguageTextDictionary.instructions;
-        _sesssionIsPlaying = true;
         StartCoroutine("StartPlayingCoroutine");
     }
 
     private void OtherIsGone() //different than self is gone in case there is an audio for this case
     {
         VideoFeed.instance.SetDimmed(true);
+
         _instructionsGUI.SetActive(true);
         _instructionsText.text = LanguageTextDictionary.otherIsGone;
 
         StopAllCoroutines();
+
+        StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
+    }
+
+    private void IsOver() //called at the the end of the experience
+    {
+        VideoFeed.instance.SetDimmed(true);
+
+        _instructionsGUI.SetActive(true);
+        _instructionsText.text = LanguageTextDictionary.finished;
+
+        StopAllCoroutines();
+
+        StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience
     }
 
     private void CheckForFakeOculus() //only for debugging
@@ -229,11 +225,10 @@ public class StatusManager : MonoBehaviour {
         otherUserIsReady = _fakeOculusReady;
     }
 
-    private void IsOver() //called at the the end of the experience
+    private IEnumerator WaitBeforeResetting()
     {
-        _instructionsGUI.SetActive(true);
-        _instructionsText.text = LanguageTextDictionary.finished;
-        VideoFeed.instance.SetDimmed(true);
+        yield return new WaitForSeconds(4f); //make sure this value is inferior or equal to the confirmation radial time to avoid bugs
+        StopExperience();
     }
 
     #endregion

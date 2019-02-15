@@ -25,7 +25,7 @@ namespace VRStandardAssets.Utils
         private bool m_RadialFilled;                                                               // Used to allow the coroutine to wait for the bar to fill.
 
 
-        public float SelectionDuration { get { return m_SelectionDuration; } }
+        public float SelectionDuration { get { return m_SelectionDuration; } }                  //Make sure this time is superior to the time the "other is gone" message to avoid sync issues
 
         private void Start()
         {
