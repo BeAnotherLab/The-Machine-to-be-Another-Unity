@@ -5,6 +5,7 @@ using UnityEngine.XR;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using VRStandardAssets.Menu;
+using VRStandardAssets.Utils;
 
 public class StatusManager : MonoBehaviour {
 
@@ -41,6 +42,8 @@ public class StatusManager : MonoBehaviour {
 
     private Text _instructionsText;
 
+    private GameObject _mainCamera;
+
     #endregion
 
 
@@ -51,6 +54,8 @@ public class StatusManager : MonoBehaviour {
         if (instance == null) instance = this;
         _instructionsGUI = GameObject.Find("InstructionsGUI");
         _instructionsText = GameObject.Find("InstructionsText").GetComponent<Text>();
+
+        _mainCamera = GameObject.Find("Main Camera");
     }
 
     private void Update() //TODO use events instead of polling status in Update() to make state transitions easier
@@ -90,11 +95,13 @@ public class StatusManager : MonoBehaviour {
 
     #region Public Methods
 
-    public void ThisUserIsReady()
+    public void ThisUserIsReady() //called when user has aimed at the confirmation and waited through the countdown.
     {
         thisUserIsReady = true;
         _thisUserWasPlaying = true;
-        ConfirmationButton.instance.gameObject.SetActive(false);
+
+        //disable status confirmation GUI elements
+        EnableConfirmationGUI(false);
     }
 
     public void StopExperience()
@@ -108,8 +115,9 @@ public class StatusManager : MonoBehaviour {
         _instructionsText.text = null;
 
         AudioPlayer.instance.StopAudioInstructions();
-        ConfirmationButton.instance.gameObject.SetActive(true);
 
+        //enable status confirmation GUI elements
+        EnableConfirmationGUI(true);
     }
 
     public void DisableStatusManagement()
@@ -173,6 +181,20 @@ public class StatusManager : MonoBehaviour {
 
 
     #region Private Methods
+
+    private void EnableConfirmationGUI(bool enable)
+    {
+        ConfirmationButton.instance.gameObject.SetActive(enable);
+
+        if (enable)
+            _mainCamera.GetComponent<Reticle>().Show();
+        else
+        {
+            _mainCamera.GetComponent<Reticle>().Hide();
+            _mainCamera.GetComponent<CustomSelectionRadial>().Hide();
+
+        }
+    }
 
     private void CheckThisUserStatus()
     {

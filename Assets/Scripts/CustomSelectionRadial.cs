@@ -27,22 +27,6 @@ namespace VRStandardAssets.Utils
 
         public float SelectionDuration { get { return m_SelectionDuration; } }
 
-
-        private void OnEnable()
-        {
-            m_VRInput.OnDown += HandleDown;
-            m_VRInput.OnUp += HandleUp;
-
-        }
-
-
-        private void OnDisable()
-        {
-            m_VRInput.OnDown -= HandleDown;
-            m_VRInput.OnUp -= HandleUp;
-        }
-
-
         private void Start()
         {
             // Setup the radial to have no fill at the start and hide if necessary.
@@ -52,24 +36,32 @@ namespace VRStandardAssets.Utils
                 Hide();
         }
 
-
         public void Show()
         {
             m_Selection.gameObject.SetActive(true);
+
             m_IsSelectionRadialActive = true;
 
-            HandleDown();//Added by Marte
+            if (m_IsSelectionRadialActive)
+            {
+                m_SelectionFillRoutine = StartCoroutine(FillSelectionRadial());
+            }
         }
 
 
         public void Hide()
         {
             m_Selection.gameObject.SetActive(false);
-            m_IsSelectionRadialActive = false;
 
-            // This effectively resets the radial for when it's shown again.
-            HandleUp();//Added by Marte
-            m_Selection.fillAmount = 0f;
+            // If the radial is active stop filling it and reset it's amount.
+            if (m_IsSelectionRadialActive)
+            {
+                if (m_SelectionFillRoutine != null)
+                    StopCoroutine(m_SelectionFillRoutine);
+
+                m_Selection.fillAmount = 0f;
+            }
+            m_IsSelectionRadialActive = false;
 
         }
 
@@ -128,34 +120,9 @@ namespace VRStandardAssets.Utils
             Hide();
         }
 
-
-        private void HandleDown()
-        {
-            // If the radial is active start filling it.
-            if (m_IsSelectionRadialActive)
-            {
-                m_SelectionFillRoutine = StartCoroutine(FillSelectionRadial());
-            }
-        }
-
-
         private void HandleUp()
         {
-            /*Commented by Marte
-            // If the radial is active stop filling it and reset it's amount.
-           if (m_IsSelectionRadialActive)
-            {
-                if(m_SelectionFillRoutine != null)
-                    StopCoroutine(m_SelectionFillRoutine);
-
-                m_Selection.fillAmount = 0f;
-            }*/
-
-            ///added by Marte
-            if (m_SelectionFillRoutine != null)
-                StopCoroutine(m_SelectionFillRoutine);
-            m_Selection.fillAmount = 0f;
-            ///
+         
         }
     }
 }
