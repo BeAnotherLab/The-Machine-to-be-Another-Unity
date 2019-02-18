@@ -46,7 +46,8 @@ namespace VRStandardAssets.Menu
             if (XRDevice.userPresence == UserPresenceState.Present)
             {
                 m_SelectionRadial.Show();
-
+                LeanTween.scale(gameObject, new Vector3(1.2f, 1.2f, 1.2f), 0.45f).setEaseOutBounce();
+                LeanTween.color(gameObject, Color.white, 0.25f).setEaseOutCubic();
                 m_GazeOver = true;
             }
         }
@@ -55,6 +56,8 @@ namespace VRStandardAssets.Menu
         {
             // When the user looks away from the rendering of the scene, hide the radial.
             m_SelectionRadial.Hide();
+            LeanTween.scale(gameObject, new Vector3(1, 1, 1), 0.45f).setEaseOutBounce();
+            LeanTween.color(gameObject, Color.gray, 0.25f).setEaseOutCubic();
 
             m_GazeOver = false;
         }
@@ -63,8 +66,6 @@ namespace VRStandardAssets.Menu
         {
             //the user is ready
             StatusManager.instance.ThisUserIsReady();
-
-
         }
 
     }
