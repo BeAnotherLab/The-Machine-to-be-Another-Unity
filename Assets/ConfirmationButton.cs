@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using VRStandardAssets.Utils;
+using UnityEngine.XR;
 
 namespace VRStandardAssets.Menu
 {
@@ -42,9 +43,12 @@ namespace VRStandardAssets.Menu
         private void HandleOver()
         {
             // When the user looks at the rendering of the scene, show the radial.
-            m_SelectionRadial.Show();
+            if (XRDevice.userPresence == UserPresenceState.Present)
+            {
+                m_SelectionRadial.Show();
 
-            m_GazeOver = true;
+                m_GazeOver = true;
+            }
         }
 
         private void HandleOut()

@@ -21,6 +21,7 @@ public class StatusManager : MonoBehaviour {
 
     #endregion
 
+
     #region Private Fields
 
     [SerializeField]
@@ -39,6 +40,8 @@ public class StatusManager : MonoBehaviour {
 
     private GameObject _mainCamera;
 
+    private GameObject _confirmationMenu;
+
     #endregion
 
 
@@ -51,6 +54,8 @@ public class StatusManager : MonoBehaviour {
         _instructionsText = GameObject.Find("InstructionsText").GetComponent<Text>();
 
         _mainCamera = GameObject.Find("Main Camera");
+
+        _confirmationMenu = GameObject.Find("ConfirmationMenu");
     }
 
     private void Start()
@@ -58,12 +63,15 @@ public class StatusManager : MonoBehaviour {
         _instructionsText.text = LanguageTextDictionary.idle;
     }
 
-    private void Update() //TODO use events instead of polling status in Update() to make state transitions easier
+    private void Update()
     {
-        if ( statusManagementOn )
+        if ( statusManagementOn ) //status management is for both autonomous and manual swap
         {
-            if (XRDevice.userPresence == UserPresenceState.NotPresent && thisUserIsReady)
-                StopExperience(); //if we were ready and we took off the headset
+            if (XRDevice.userPresence == UserPresenceState.NotPresent)
+            {
+                _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
+                if (thisUserIsReady) StopExperience(); //if we were ready and we took off the headset
+            }
 
             if (_useFakeOculus)
                 CheckForFakeOculus(); // for virtual other while debugging
