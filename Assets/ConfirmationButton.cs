@@ -64,8 +64,8 @@ namespace VRStandardAssets.Menu
 
         private void HandleSelectionComplete()
         {
-            //the user is ready
-            StatusManager.instance.ThisUserIsReady();
+            HandleOut();            
+            StatusManager.instance.ThisUserIsReady(); //the user is ready
         }
 
     }
