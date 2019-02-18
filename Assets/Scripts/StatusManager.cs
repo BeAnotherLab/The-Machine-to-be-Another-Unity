@@ -86,6 +86,12 @@ public class StatusManager : MonoBehaviour {
 
     #region Public Methods
 
+    public void SetAutoStartAndFinish(bool on, float waitTime = 5)
+    {
+        autoStartAndFinishOn = on;
+        waitBeforeInstructions = waitTime;
+    }
+
     public void ThisUserIsReady() //called when user has aimed at the confirmation dialog and waited through the countdown.
     {
         if (statusManagementOn) OscManager.instance.SendThisUserStatus(true);
@@ -156,7 +162,7 @@ public class StatusManager : MonoBehaviour {
         yield return new WaitForFixedTime(waitBeforeInstructions);// wait before playing audio
         yield return new WaitForFixedTime(waitAfterInstructionsForScreen);//duration of audio track to start video after
 
-        VideoFeed.instance.SetDimmed(false);
+        if (autoStartAndFinishOn) VideoFeed.instance.SetDimmed(false);
         _instructionsGUI.SetActive(false);
     }
 
