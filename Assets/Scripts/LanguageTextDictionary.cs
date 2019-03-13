@@ -14,7 +14,7 @@ public class LanguageTextDictionary : MonoBehaviour {
 	public static string finished;
 
 	void Start () {
-		TextPerLanguage (defaultLanguage);
+        TextPerLanguage (defaultLanguage);
 		selectedLanguage = defaultLanguage;
 	}
 
@@ -43,7 +43,7 @@ public class LanguageTextDictionary : MonoBehaviour {
             waitForOther = "Veuillez attendre un moment pour l'autre participant ...";
 			otherIsGone = "Woops ... \n On dirait que votre collègue est parti! \n Merci de votre participation!";
 			instructions = "Maintenant, souvenez-vous... \n \n 1. Déplacez-vous très lentement \n 2. Synchronisez vos mouvements \n 3. Suivez-vous";
-			finished = "We hope you enjoyed your experience. \n Thank you!";
+			finished = "Nous espérons que vous avez apprécié votre expérience. \n Je vous remercie!";
 		}
 
 		if (language == "italian") {
@@ -56,11 +56,11 @@ public class LanguageTextDictionary : MonoBehaviour {
 
 		if (language == "english") {
             idle = "Adjust the headset using the straps on the sides and on top until you are comfortable and can see this text properly. \n When you are ready, look at the button below to start the experience.";
-			waitForOther = "Please wait for a moment for the other participant...";
-			otherIsGone = "Woops... \n Seems like your colleague left! \n Thank you for your participation!";
-			instructions = "Please remember: \n \n 1. Move very slowly \n 2. Synchronize your movements \n 3. Follow each other \n \n \n Focus by adjusting the headset vertically";
-			finished = "We hope you enjoyed your experience. \n Thank you!";
-		}
+            waitForOther = "Please wait for a moment for the other participant...";
+            otherIsGone = "Woops... \n Seems like your colleague left! \n Thank you for your participation!";
+            instructions = "Please remember: \n \n 1. Move very slowly \n 2. Synchronize your movements \n 3. Follow each other \n \n \n Focus by adjusting the headset vertically";
+            finished = "We hope you enjoyed your experience. \n Thank you!";
+        }
 	}
 
 }

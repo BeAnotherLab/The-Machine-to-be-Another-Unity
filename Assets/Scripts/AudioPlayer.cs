@@ -67,38 +67,40 @@ public class AudioPlayer : MonoBehaviour {
     }
 
     // Update is called once per frame
-    private void Update()
-    {
-        foreach (KeyCode vKey in System.Enum.GetValues(typeof(KeyCode)))
+       private void Update()
         {
-            if (Input.GetKey(vKey))
+            foreach (KeyCode vKey in System.Enum.GetValues(typeof(KeyCode)))
             {
-                if (vKey == UnityEngine.KeyCode.Q)
-                    playSound(0);
-                else if (vKey == UnityEngine.KeyCode.W)
-                    playSound(5);
-                else if (vKey == UnityEngine.KeyCode.E)
-                    playSound(4);
-                else if (vKey == UnityEngine.KeyCode.R)
-                    playSound(6);
-                else if (vKey == UnityEngine.KeyCode.T)
-                    playSound(7);
-                else if (vKey == UnityEngine.KeyCode.Y)
-                    playSound(1);
-                else if (vKey == UnityEngine.KeyCode.U)
-                    playSound(2);
-                else if (vKey == UnityEngine.KeyCode.I)
-                    playSound(3);
-                else if (vKey == UnityEngine.KeyCode.J)
-                    playSound(8);
-                else if (vKey == UnityEngine.KeyCode.K)
-                    playSound(9);
-                else if (vKey == UnityEngine.KeyCode.L)
-                    playSound(10);
+                if (Input.GetKey(vKey))
+                {
+                    if (vKey == UnityEngine.KeyCode.F)
+                        playSound(11);
+                    else if (vKey == UnityEngine.KeyCode.E)
+                        playSound(0);
+                    else if (vKey == UnityEngine.KeyCode.R)
+                        playSound(1);
+                    else if (vKey == UnityEngine.KeyCode.T)
+                        playSound(2);
+                    else if (vKey == UnityEngine.KeyCode.Y)
+                        playSound(3);
+                    else if (vKey == UnityEngine.KeyCode.U)
+                        playSound(4);
+                    else if (vKey == UnityEngine.KeyCode.I)
+                        playSound(5);
+                    else if (vKey == UnityEngine.KeyCode.O)
+                        playSound(6);
+                    else if (vKey == UnityEngine.KeyCode.P)
+                        playSound(7);
+                    else if (vKey == UnityEngine.KeyCode.Q)
+                        playSound(8);
+                    else if (vKey == UnityEngine.KeyCode.S)
+                        playSound(9);
+                    else if (vKey == UnityEngine.KeyCode.D)
+                        playSound(10);
+                }
             }
-        }
 
-        _somethingIsPlaying = false;
+            _somethingIsPlaying = false;
 
         //check if some audio is playing 
         for (int i = 0; i < _audioClips[language].Length; i++)

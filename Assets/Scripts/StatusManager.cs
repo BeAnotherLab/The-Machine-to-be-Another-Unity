@@ -76,7 +76,7 @@ public class StatusManager : MonoBehaviour {
             if (_useFakeOculus)
                 CheckForFakeOculus(); // for virtual other while debugging
 
-            if (Input.GetKeyDown("o"))
+            if (Input.GetKeyDown("l"))
                 IsOver();
         }
     }

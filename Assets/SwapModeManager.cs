@@ -25,6 +25,23 @@ public class SwapModeManager : MonoBehaviour
         else if (PlayerPrefs.GetInt("swapMode", 0) == 2 ) SetSwapMode(SwapModes.SERVO_SWAP);
     }
 
+    private void Update()
+    {
+        foreach (KeyCode vKey in System.Enum.GetValues(typeof(KeyCode)))
+        {
+            if (Input.GetKey(vKey))
+            {
+                if (vKey == UnityEngine.KeyCode.G)
+                    SetSwapMode(SwapModes.AUTO_SWAP);
+                else if (vKey == UnityEngine.KeyCode.H)
+                    SetSwapMode(SwapModes.MANUAL_SWAP);
+                else if (vKey == UnityEngine.KeyCode.J)
+                    SetSwapMode(SwapModes.SERVO_SWAP);
+            }
+        }
+    }
+
+
     public void SetSwapMode(SwapModes mode)
     {
         switch (mode)
