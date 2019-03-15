@@ -73,7 +73,7 @@ public class AudioPlayer : MonoBehaviour {
             {
                 if (Input.GetKey(vKey))
                 {
-                    if (vKey == UnityEngine.KeyCode.F)
+                    if (vKey == UnityEngine.KeyCode.K)
                         playSound(11);
                     else if (vKey == UnityEngine.KeyCode.E)
                         playSound(0);
