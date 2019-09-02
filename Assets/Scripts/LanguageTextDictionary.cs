@@ -20,6 +20,7 @@ public class LanguageTextDictionary : MonoBehaviour {
 
 	void Update() {
 		LanguageChanged(defaultLanguage); //Temporary, while there is no aditional language input.
+		TextPerLanguage (defaultLanguage);
 	}
 
 	public void LanguageChanged(string language) {
@@ -51,7 +52,7 @@ public class LanguageTextDictionary : MonoBehaviour {
             waitForOther = "Per favore aspetta un momento per l'altro partecipante ...";
 			otherIsGone = "Woops ... \n Sembra che il tuo collega se ne sia andato! \n Grazie per la tua partecipazione!";
 			instructions = "Per favore, ricorda... \n \n 1. Muoviti molto lentamente \n 2. Sincronizza i tuoi movimenti \n 3. Seguiti";
-			finished = "We hope you enjoyed your experience. \n Thank you!";
+			finished = "Ci auguriamo che la tua esperienza ti sia piaciuta. \n Grazie!";
 		}
 
 		if (language == "english") {
