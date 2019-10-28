@@ -206,16 +206,27 @@ public class StatusManager : MonoBehaviour {
     private void CurtainActivation(int down, int startStop)
     {
         if (down == 1) { 
-            if(startStop)
+            if(startStop) {
                 Debug.Log("CORTINA DEBE COMENZAR A BAJAR");
-            else
+                ArduinoControl.instance.SendCurtainMessage(down, startStop);
+            }
+                
+            else { 
                 Debug.Log("CORTINA DEBE TERMINAR DE BAJAR");
+                //ArduinoControl.instance.SendCurtainMessage(down, startStop);
+            }
         }
         else {
             if (startStop)
+            {
                 Debug.Log("CORTINA DEBE COMENZAR A SUBIR");
+                //ArduinoControl.instance.SendCurtainMessage(down, startStop);
+            }
             else
+            {
                 Debug.Log("CORTINA DEBE TERMINAR DE SUBIR");
+                //ArduinoControl.instance.SendCurtainMessage(down, startStop);
+            }
         }
     }
 
