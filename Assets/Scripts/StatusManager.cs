@@ -162,6 +162,11 @@ public class StatusManager : MonoBehaviour {
         yield return new WaitForFixedTime(waitBeforeInstructions);// wait before playing audio
         yield return new WaitForFixedTime(waitAfterInstructionsForScreen);//duration of audio track to start video after
 
+        if (autoStartAndFinishOn) //if we are in auto swap
+        {
+            CurtainActivation(1);
+        }
+
         if (autoStartAndFinishOn) VideoFeed.instance.SetDimmed(false);
         _instructionsGUI.SetActive(false);
     }
@@ -183,12 +188,21 @@ public class StatusManager : MonoBehaviour {
     {
         yield return new WaitForFixedTime(waitBeforeInstructions + waitForWall);
         Debug.Log("READY FOR WALL");
+        CurtainActivation(0);
     }
 
     #endregion
 
 
     #region Private Methods
+
+    private void CurtainActivation(int down)
+    {
+        if (down == 1)
+            Debug.Log("CORTINA DEBE BAJAR");
+        else
+            Debug.Log("CORTINA DEBE SUBIR");
+    }
 
     private void EnableConfirmationGUI(bool enable)
     {

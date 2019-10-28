@@ -11,6 +11,8 @@ public class SwapModeManager : MonoBehaviour
 
     public SwapModes swapMode;
 
+    public bool useCurtain;
+
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -31,7 +33,9 @@ public class SwapModeManager : MonoBehaviour
         {
             case SwapModes.AUTO_SWAP:
                 //deactivate servos
-                ArduinoControl.instance.ActivateServos(false);
+                if(!useCurtain)
+                    ArduinoControl.instance.ActivateServos(false);
+
 
                 //hide serial port dropdown, show repeater toggle, show IP input field
                 SettingsGUI.instance.SetSwapMode();

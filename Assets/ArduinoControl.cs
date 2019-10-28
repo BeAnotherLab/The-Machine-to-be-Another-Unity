@@ -88,6 +88,24 @@ public class ArduinoControl : MonoBehaviour
         }
     }
 
+    public void SendCurtainMessage(int down) {
+        if (_servosOn)
+        {
+            int onOff;
+
+            if(down == 1) {
+                onOff = 1;
+                WriteToArduino("Curtain_down " + onOff);
+            }
+
+            else 
+            {
+                onOff = 1;
+                WriteToArduino("Curtain_up " + onOff);
+            }
+        }
+    }
+
     public string ReadFromArduino(int timeout = 0)
     {
         _stream.ReadTimeout = timeout;
@@ -100,6 +118,7 @@ public class ArduinoControl : MonoBehaviour
             return null;
         }
     }
+
 
     public IEnumerator AsynchronousReadFromArduino(Action<string> callback, Action fail = null, float timeout = float.PositiveInfinity)
     {
