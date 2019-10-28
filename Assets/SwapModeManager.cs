@@ -35,7 +35,8 @@ public class SwapModeManager : MonoBehaviour
                 //deactivate servos
                 if(!useCurtain)
                     ArduinoControl.instance.ActivateServos(false);
-
+                else
+                    ArduinoControl.instance.ActivateServos(true);
 
                 //hide serial port dropdown, show repeater toggle, show IP input field
                 SettingsGUI.instance.SetSwapMode();

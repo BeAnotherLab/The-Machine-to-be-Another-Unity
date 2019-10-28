@@ -93,7 +93,8 @@ public class ArduinoControl : MonoBehaviour
         {
             int onOff;
 
-            if(down == 1) {
+            if(down == 1)
+            {
                 onOff = 1;
                 WriteToArduino("Curtain_down " + onOff);
             }

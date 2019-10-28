@@ -164,7 +164,8 @@ public class StatusManager : MonoBehaviour {
 
         if (autoStartAndFinishOn) //if we are in auto swap
         {
-            CurtainActivation(1);
+            CurtainActivation(1, 0);
+            StartCoroutine(CurtainStopCorroutine(0, 5f));
         }
 
         if (autoStartAndFinishOn) VideoFeed.instance.SetDimmed(false);
@@ -189,6 +190,7 @@ public class StatusManager : MonoBehaviour {
         yield return new WaitForFixedTime(waitBeforeInstructions + waitForWall);
         Debug.Log("READY FOR WALL");
         CurtainActivation(0);
+        StartCoroutine(CurtainStopCorroutine(1, 5f));
     }
 
     #endregion
@@ -196,12 +198,25 @@ public class StatusManager : MonoBehaviour {
 
     #region Private Methods
 
-    private void CurtainActivation(int down)
+    private IEnumerator CurtainStopCorroutine(int down, float waitTime) {
+        yield return new WaitForFixedTime(waitTime);
+        CurtainActivation(down, 1);
+    }
+
+    private void CurtainActivation(int down, int startStop)
     {
-        if (down == 1)
-            Debug.Log("CORTINA DEBE BAJAR");
-        else
-            Debug.Log("CORTINA DEBE SUBIR");
+        if (down == 1) { 
+            if(startStop)
+                Debug.Log("CORTINA DEBE COMENZAR A BAJAR");
+            else
+                Debug.Log("CORTINA DEBE TERMINAR DE BAJAR");
+        }
+        else {
+            if (startStop)
+                Debug.Log("CORTINA DEBE COMENZAR A SUBIR");
+            else
+                Debug.Log("CORTINA DEBE TERMINAR DE SUBIR");
+        }
     }
 
     private void EnableConfirmationGUI(bool enable)
