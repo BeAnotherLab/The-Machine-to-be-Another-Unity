@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
@@ -164,8 +164,7 @@ public class StatusManager : MonoBehaviour {
 
         if (autoStartAndFinishOn) //if we are in auto swap
         {
-            CurtainActivation(1, 0);
-            StartCoroutine(CurtainStopCorroutine(0, 5f));
+            ArduinoControl.instance.SendCurtainMessage(0); //close curtain
         }
 
         if (autoStartAndFinishOn) VideoFeed.instance.SetDimmed(false);
@@ -189,46 +188,13 @@ public class StatusManager : MonoBehaviour {
     {
         yield return new WaitForFixedTime(waitBeforeInstructions + waitForWall);
         Debug.Log("READY FOR WALL");
-        CurtainActivation(0);
-        StartCoroutine(CurtainStopCorroutine(1, 5f));
+        ArduinoControl.instance.SendCurtainMessage(0); //open curtain
     }
 
     #endregion
 
 
     #region Private Methods
-
-    private IEnumerator CurtainStopCorroutine(int down, float waitTime) {
-        yield return new WaitForFixedTime(waitTime);
-        CurtainActivation(down, 1);
-    }
-
-    private void CurtainActivation(int down, int startStop)
-    {
-        if (down == 1) { 
-            if(startStop) {
-                Debug.Log("CORTINA DEBE COMENZAR A BAJAR");
-                ArduinoControl.instance.SendCurtainMessage(down, startStop);
-            }
-                
-            else { 
-                Debug.Log("CORTINA DEBE TERMINAR DE BAJAR");
-                //ArduinoControl.instance.SendCurtainMessage(down, startStop);
-            }
-        }
-        else {
-            if (startStop)
-            {
-                Debug.Log("CORTINA DEBE COMENZAR A SUBIR");
-                //ArduinoControl.instance.SendCurtainMessage(down, startStop);
-            }
-            else
-            {
-                Debug.Log("CORTINA DEBE TERMINAR DE SUBIR");
-                //ArduinoControl.instance.SendCurtainMessage(down, startStop);
-            }
-        }
-    }
 
     private void EnableConfirmationGUI(bool enable)
     {

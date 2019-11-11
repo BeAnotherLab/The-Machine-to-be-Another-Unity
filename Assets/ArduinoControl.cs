@@ -1,4 +1,4 @@
-﻿/* based on ArduinoConnector by Alan Zucconi
+/* based on ArduinoConnector by Alan Zucconi
  * http://www.alanzucconi.com/?p=2979
  */
 using UnityEngine;
@@ -88,15 +88,23 @@ public class ArduinoControl : MonoBehaviour
         }
     }
 
-    public void SendCurtainMessage(int down, int onOff) {
+    public void SendCurtainMessage(int down) {
         if (_servosOn)
         {
-            if(down == 1)
+            int onOff;
+
+            if(down == 1) {
+                onOff = 1;
+                Debug.Log("askin arduino to close curtain");
                 WriteToArduino("Curtain_down " + onOff);
+            }
 
             else 
+            {
+                onOff = 1;
+                Debug.Log("askin arduino to close curtain");
                 WriteToArduino("Curtain_up " + onOff);
-
+            }
         }
     }
 
