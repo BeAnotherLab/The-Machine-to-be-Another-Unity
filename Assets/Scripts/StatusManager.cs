@@ -182,13 +182,15 @@ public class StatusManager : MonoBehaviour {
     {
         yield return new WaitForFixedTime(waitBeforeInstructions + waitForMirror);
         Debug.Log("READY FOR MIRROR");
+        ArduinoControl.instance.SendCurtainMessage(2); //open mirror
     }
 
     public IEnumerator WallCoroutine()
     {
         yield return new WaitForFixedTime(waitBeforeInstructions + waitForWall);
         Debug.Log("READY FOR WALL");
-        ArduinoControl.instance.SendCurtainMessage(0); //open curtain
+        ArduinoControl.instance.SendCurtainMessage(3); //close mirror
+        ArduinoControl.instance.SendCurtainMessage(1); //open curtain
     }
 
     #endregion

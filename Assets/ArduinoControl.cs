@@ -18,7 +18,7 @@ public class ArduinoControl : MonoBehaviour
 
     /* The baudrate of the serial port. */
     [Tooltip("The baudrate of the serial port")]
-    public int baudrate = 57600;
+    public int baudrate = 9600;//57600;
 
     public float pitchOffset, yawOffset; //use those values to compensate
 
@@ -91,20 +91,27 @@ public class ArduinoControl : MonoBehaviour
     public void SendCurtainMessage(int down) {
         if (_servosOn)
         {
-            int onOff;
-
-            if(down == 1) {
-                onOff = 1;
-                Debug.Log("askin arduino to close curtain");
-                WriteToArduino("Curtain_down " + onOff);
-            }
-
-            else 
+            if (down == 0)
             {
-                onOff = 1;
-                Debug.Log("askin arduino to close curtain");
-                WriteToArduino("Curtain_up " + onOff);
+                Debug.Log("asking arduino to open curtain");
+                WriteToArduino("wall_open");
             }
+            else if (down == 1) {
+                Debug.Log("asking arduino to close curtain");
+                WriteToArduino("wall_close");
+            }
+            else if (down == 2)
+            {
+                Debug.Log("asking arduino to open mirror");
+                WriteToArduino("mirror_open");
+            }
+            else if (down == 3)
+            {
+                Debug.Log("asking arduino to close mirror");
+                WriteToArduino("mirror_close");
+            }
+
+
         }
     }
 
