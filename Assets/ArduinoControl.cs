@@ -45,6 +45,11 @@ public class ArduinoControl : MonoBehaviour
         _serialPort = PlayerPrefs.GetInt("Serial port");
     }
 
+    private void Update()
+    {
+        //Debug.Log(ReadFromArduino(5));//maybe 5
+    }
+
     #endregion
 
 
@@ -209,6 +214,8 @@ public class ArduinoControl : MonoBehaviour
         {
             _stream = new SerialPort(port, baudrate);
             _stream.Open();
+
+            StartCoroutine(AsynchronousReadFromArduino((string s) => Debug.Log(s), () => Debug.LogError("Error!"), 100000f));
         }
     }
 
