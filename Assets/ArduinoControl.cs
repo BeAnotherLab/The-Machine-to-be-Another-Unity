@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO.Ports;
 
 public class ArduinoControl : MonoBehaviour
@@ -16,6 +17,11 @@ public class ArduinoControl : MonoBehaviour
 
     public bool _servosOn;
     public string manualPort;
+
+    public bool useRandomTargets;
+    public bool inverse;
+
+    public List<RandomLerpOnAFloat> _lerpList = new List<RandomLerpOnAFloat>(4);
 
     /* The baudrate of the serial port. */
     [Tooltip("The baudrate of the serial port")]
@@ -44,6 +50,11 @@ public class ArduinoControl : MonoBehaviour
     private void Start()
     {
         _serialPort = PlayerPrefs.GetInt("Serial port");
+
+        if (useRandomTargets)
+            for (int i = 0; i < _lerpList.Count; i++)
+                _lerpList[i] = gameObject.AddComponent<RandomLerpOnAFloat>();
+
     }
 
     #endregion
@@ -73,7 +84,13 @@ public class ArduinoControl : MonoBehaviour
             sum = value + pitchOffset;
             if ((value + pitchOffset) > 180) sum = 179.5f;
             if ((value + pitchOffset) < 0) sum = 0.5f;
-            //sum = 180 - sum;
+
+            if(inverse)
+                sum = 180 - sum;
+            if (useRandomTargets)
+                sum = _lerpList[0].ChangingValue();
+
+            Debug.Log("pitch " + sum);
             WriteToArduino("Pitch " + sum);
         }
     }
@@ -86,7 +103,13 @@ public class ArduinoControl : MonoBehaviour
             sum = value + yawOffset;
             if ((value + yawOffset) > 180) sum = 179.5f;
             if ((value + yawOffset) < 0) sum = 0.5f;
-            //sum = 180 - sum;
+
+            if (inverse)
+                sum = 180 - sum;
+            if (useRandomTargets)
+                sum = _lerpList[1].ChangingValue();
+            
+            Debug.Log("yaw " + sum);
             WriteToArduino("Yaw " + sum);
         }
     }
