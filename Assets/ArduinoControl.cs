@@ -15,6 +15,7 @@ public class ArduinoControl : MonoBehaviour
     public static ArduinoControl instance;
 
     public bool _servosOn;
+    public string manualPort;
 
     /* The baudrate of the serial port. */
     [Tooltip("The baudrate of the serial port")]
@@ -72,6 +73,7 @@ public class ArduinoControl : MonoBehaviour
             sum = value + pitchOffset;
             if ((value + pitchOffset) > 180) sum = 179.5f;
             if ((value + pitchOffset) < 0) sum = 0.5f;
+            //sum = 180 - sum;
             WriteToArduino("Pitch " + sum);
         }
     }
@@ -84,6 +86,7 @@ public class ArduinoControl : MonoBehaviour
             sum = value + yawOffset;
             if ((value + yawOffset) > 180) sum = 179.5f;
             if ((value + yawOffset) < 0) sum = 0.5f;
+            //sum = 180 - sum;
             WriteToArduino("Yaw " + sum);
         }
     }
@@ -179,7 +182,22 @@ public class ArduinoControl : MonoBehaviour
 
         if (port != "")
         {
-            _stream = new SerialPort(port, baudrate);
+            if (manualPort != "")
+            {
+                manualPort = manualPort.Remove(0, 3);
+
+                int portNumber = int.Parse(manualPort);
+
+                if (portNumber < 10)
+                    manualPort = "COM" + portNumber;
+                else
+                    manualPort = "\\\\.\\" + "COM" + portNumber;
+
+                _stream = new SerialPort(manualPort, baudrate);//(port, baudrate)
+            }
+            else
+                _stream = new SerialPort(port, baudrate);
+            Debug.Log(port);
             _stream.Open();
         }
     }

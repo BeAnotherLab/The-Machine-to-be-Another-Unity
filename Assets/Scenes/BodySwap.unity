@@ -872,7 +872,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb793594ac9c094fa0072b0096ad647, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _servosOn: 0
+  _servosOn: 1
+  manualPort: COM3
   baudrate: 57600
   pitchOffset: 0
   yawOffset: 0
@@ -2424,11 +2425,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConfirmationMenu
       objectReference: {fileID: 0}
-    - target: {fileID: 46874015393943357, guid: 3f00baa8facab504c84081460f38c958,
-        type: 3}
-      propertyPath: m_SelectionRadial
-      value: 
-      objectReference: {fileID: 2076889787}
     - target: {fileID: 6391230081184258347, guid: 3f00baa8facab504c84081460f38c958,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2534,5 +2530,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 46874015393943357, guid: 3f00baa8facab504c84081460f38c958,
+        type: 3}
+      propertyPath: m_SelectionRadial
+      value: 
+      objectReference: {fileID: 2076889787}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f00baa8facab504c84081460f38c958, type: 3}
