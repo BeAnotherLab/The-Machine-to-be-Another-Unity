@@ -30,7 +30,7 @@ public class VideoFeed : MonoBehaviour
     //Camera params
     private WebCamTexture _camTex;
     private float _turningRate = 90f;
-    private float _tiltAngle = 0;
+    private float _tiltAngle = 90;
 
     //Dim params
     private bool _dimmed = false;

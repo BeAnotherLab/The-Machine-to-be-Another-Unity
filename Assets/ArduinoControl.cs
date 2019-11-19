@@ -55,6 +55,9 @@ public class ArduinoControl : MonoBehaviour
             for (int i = 0; i < _lerpList.Count; i++)
                 _lerpList[i] = gameObject.AddComponent<RandomLerpOnAFloat>();
 
+        _lerpList[0].minimum = 45;
+        //_lerpList[1].minimum = 45;
+
     }
 
     #endregion
@@ -80,6 +83,7 @@ public class ArduinoControl : MonoBehaviour
     {
         if (_servosOn)
         {
+
             float sum;
             sum = value + pitchOffset;
             if ((value + pitchOffset) > 180) sum = 179.5f;
@@ -90,6 +94,7 @@ public class ArduinoControl : MonoBehaviour
             if (useRandomTargets)
                 sum = _lerpList[0].ChangingValue();
 
+            //sum = 15;
             Debug.Log("pitch " + sum);
             WriteToArduino("Pitch " + sum);
         }
@@ -108,7 +113,8 @@ public class ArduinoControl : MonoBehaviour
                 sum = 180 - sum;
             if (useRandomTargets)
                 sum = _lerpList[1].ChangingValue();
-            
+
+            //sum = 15;
             Debug.Log("yaw " + sum);
             WriteToArduino("Yaw " + sum);
         }
