@@ -15,14 +15,10 @@ void setup() {
 
   SCmd.addCommand("Pitch", pitchCommand);
   SCmd.addCommand("Yaw", yawCommand);  
-  SCmd.addCommand("Curtain_down", curtainDownCommand);
-  SCmd.addCommand("Curtain_up", curtainUpCommand);
 
   //initialize in center position
   pitchServo.write(90); 
   yawServo.write(90); 
-
-  pinMode(LED_BUILTIN, OUTPUT);
 }
 
 void loop () {
@@ -35,14 +31,6 @@ void pitchCommand() {
 
 void yawCommand() {
   servoCommand(yawServo);  
-}
-
-void curtainDownCommand(){
-  digitalWrite(LED_BUILTIN, LOW);   // turn the LED off
-}
-
-void curtainUpCommand(){
-   digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on
 }
 
 void servoCommand(Servo servo)    
