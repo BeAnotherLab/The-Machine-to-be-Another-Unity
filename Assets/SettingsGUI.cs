@@ -157,10 +157,10 @@ public class SettingsGUI : MonoBehaviour
             _panel.GetComponent<CanvasGroup>().alpha = 1f;
     }
                 
-    public void SetSwapMode() 
+    public void SetSwapMode(bool useCurtain = false) 
     {
-        //hide serial dropdown
-        _serialDropdown.gameObject.SetActive(false);
+        //show serial dropdown depending on if we're using the curtain or not
+        EnableSerialDropdown(useCurtain);
 
         //show two way swap related networking GUI
         _repeaterToggle.gameObject.SetActive(true);
@@ -170,10 +170,7 @@ public class SettingsGUI : MonoBehaviour
 
     public void SetServoMode()
     {
-        //show serial dropdown
-        _serialDropdown.gameObject.SetActive(true);
-        SetSerialPortDropdownOptions();
-        _serialDropdown.RefreshShownValue();
+        EnableSerialDropdown(true);
 
         //hide two way swap related networking GUI
         _IPInputField.gameObject.SetActive(false);
@@ -183,6 +180,17 @@ public class SettingsGUI : MonoBehaviour
     #endregion
 
     #region Private Methods
+
+    private void EnableSerialDropdown(bool enable)
+    {        
+        _serialDropdown.gameObject.SetActive(enable);
+
+        if (enable)
+        {
+            SetSerialPortDropdownOptions();
+            _serialDropdown.RefreshShownValue();
+        }
+    }
 
     private void SetLanguageText(int language)
     {

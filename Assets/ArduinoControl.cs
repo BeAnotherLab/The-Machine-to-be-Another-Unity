@@ -50,7 +50,7 @@ public class ArduinoControl : MonoBehaviour
 
     #region Public Methods   
 
-    public void ActivateServos(bool activate)
+    public void ActivateSerial(bool activate)
     {
         if (_servosOn) Close();
         if (activate) Open(_serialPort);

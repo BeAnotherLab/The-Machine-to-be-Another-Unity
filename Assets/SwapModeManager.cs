@@ -32,14 +32,11 @@ public class SwapModeManager : MonoBehaviour
         switch (mode)
         {
             case SwapModes.AUTO_SWAP:
-                //deactivate servos
-                if(!useCurtain)
-                    ArduinoControl.instance.ActivateServos(false);
-                else
-                    ArduinoControl.instance.ActivateServos(true);
+                //enable serial depending on if we are using the curtain or not
+                ArduinoControl.instance.ActivateSerial(useCurtain);
 
                 //hide serial port dropdown, show repeater toggle, show IP input field
-                SettingsGUI.instance.SetSwapMode();
+                SettingsGUI.instance.SetSwapMode(useCurtain);
 
                 //move video with other pose
                 VideoFeed.instance.twoWayWap = true;
@@ -56,7 +53,7 @@ public class SwapModeManager : MonoBehaviour
 
             case SwapModes.MANUAL_SWAP:
                 //deactivate servos
-                ArduinoControl.instance.ActivateServos(false);
+                ArduinoControl.instance.ActivateSerial(false);
 
                 //hide serial port dropdown, show repeater toggle, show IP input field
                 SettingsGUI.instance.SetSwapMode();
@@ -79,7 +76,7 @@ public class SwapModeManager : MonoBehaviour
 
             case SwapModes.SERVO_SWAP:
                 //enable servos
-                ArduinoControl.instance.ActivateServos(true);
+                ArduinoControl.instance.ActivateSerial(true);
 
                 //show serial port dropdown, hide repeater toggle, hide IP input field
                 SettingsGUI.instance.SetServoMode();
