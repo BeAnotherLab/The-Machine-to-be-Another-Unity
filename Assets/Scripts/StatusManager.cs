@@ -164,7 +164,7 @@ public class StatusManager : MonoBehaviour {
 
         if (autoStartAndFinishOn) //if we are in auto swap
         {
-            ArduinoControl.instance.SendCurtainMessage(0); //close curtain
+            ArduinoControl.instance.SendCommand("wal_on"); //close curtain
         }
 
         if (autoStartAndFinishOn) VideoFeed.instance.SetDimmed(false);
@@ -188,7 +188,7 @@ public class StatusManager : MonoBehaviour {
     {
         yield return new WaitForFixedTime(waitBeforeInstructions + waitForWall);
         Debug.Log("READY FOR WALL");
-        ArduinoControl.instance.SendCurtainMessage(0); //open curtain
+        ArduinoControl.instance.SendCommand("wall_off"); //open curtain
     }
 
     #endregion
