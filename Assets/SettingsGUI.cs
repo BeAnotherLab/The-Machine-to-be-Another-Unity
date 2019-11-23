@@ -10,37 +10,27 @@ public class SettingsGUI : MonoBehaviour
 
     public static SettingsGUI instance;
 
-    #endregion  
+    #endregion
 
     #region Private Fields
-    [SerializeField]
-    private Dropdown _swapModeDropdown;
-    [SerializeField]
-    private GameObject _panel;
-    [SerializeField]
-    private Slider _pitchSlider, _yawSlider, _rollSlider, _zoomSlider;
-    [SerializeField]
-    private Dropdown _serialDropdown, _cameraDropdown;
-    [SerializeField]
-    private Text _FPSText;
-    [SerializeField]
-    private InputField _IPInputField;
-    [SerializeField]
-    private Button _dimButton;
-    [SerializeField]
-    private Button _headTrackingOnButton;
-    [SerializeField]
-    private Toggle _repeaterToggle;
-    [SerializeField]
-    private Text _controlsText;
-    [SerializeField]
-    private Text _languageText;
 
-    [SerializeField]
-    private GameObject _mainCamera;
+    [SerializeField] private Dropdown _swapModeDropdown;
+    [SerializeField] private GameObject _panel;
+    [SerializeField] private Slider _pitchSlider, _yawSlider, _rollSlider, _zoomSlider;
+    [SerializeField] private Dropdown _serialDropdown, _cameraDropdown;
+    [SerializeField] private Text _FPSText;
+    [SerializeField] private InputField _IPInputField;
+    [SerializeField] private Button _dimButton;
+    [SerializeField] private Button _headTrackingOnButton;
+    [SerializeField] private Toggle _repeaterToggle;
+    [SerializeField] private Text _controlsText;
+    [SerializeField] private Text _languageText;
+    [SerializeField] private GameObject _mainCamera;
 
     private bool _monitorGuiEnabled, _oculusGuiEnabled;
     private float _deltaTime = 0.0f;
+
+    [SerializeField] private bool serialDebug;
 
     #endregion
 

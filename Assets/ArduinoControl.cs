@@ -88,7 +88,15 @@ public class ArduinoControl : MonoBehaviour
         }
     }
 
-    public void SendCurtainMessage(int down) {
+    public void SendCommand(string command)
+    {
+        if (_servosOn)
+        {
+            WriteToArduino("command");
+        }
+    }
+
+    public void SendCurtainMessage(int down) { //TODO remove. replace by above
         if (_servosOn)
         {
             int onOff;
@@ -120,7 +128,6 @@ public class ArduinoControl : MonoBehaviour
             return null;
         }
     }
-
 
     public IEnumerator AsynchronousReadFromArduino(Action<string> callback, Action fail = null, float timeout = float.PositiveInfinity)
     {
