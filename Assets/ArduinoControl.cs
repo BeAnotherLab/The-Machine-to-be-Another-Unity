@@ -92,7 +92,7 @@ public class ArduinoControl : MonoBehaviour
     {
         if (_servosOn)
         {
-            WriteToArduino("command");
+            WriteToArduino(command);
         }
     }
 
