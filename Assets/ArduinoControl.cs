@@ -14,7 +14,8 @@ public class ArduinoControl : MonoBehaviour
 
     public static ArduinoControl instance;
 
-    public bool _servosOn;
+    [SerializeField] private bool _servosOn;
+    [SerializeField] private bool _curtainOn;
 
     /* The baudrate of the serial port. */
     [Tooltip("The baudrate of the serial port")]
@@ -50,11 +51,18 @@ public class ArduinoControl : MonoBehaviour
 
     #region Public Methods   
 
-    public void ActivateSerial(bool activate)
+    public void ActivateSerial(bool servosOn, bool curtainOn = false)
     {
-        if (_servosOn) Close();
-        if (activate) Open(_serialPort);
-        _servosOn = activate;
+        if (servosOn || curtainOn) Open(_serialPort); //if we want to activate, open
+        _servosOn = servosOn;
+        _curtainOn = curtainOn;
+    }
+
+    public void DisableSerial()
+    {
+        if (_servosOn || _curtainOn) Close();
+        _servosOn = false;
+        _curtainOn = false;
     }
 
     public void SetSerialPort(int p)
@@ -88,9 +96,9 @@ public class ArduinoControl : MonoBehaviour
         }
     }
 
-    public void SendCommand(string command)
+    public void SendCommand(string command) //used to send commands to control technorama walls, curtains, etc
     {
-        if (_servosOn)
+        if (_curtainOn)
         {
             Debug.Log("sending " + command + " to arduino");
             WriteToArduino(command);
