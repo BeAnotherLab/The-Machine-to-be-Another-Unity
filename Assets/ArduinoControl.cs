@@ -53,6 +53,8 @@ public class ArduinoControl : MonoBehaviour
 
     public void ActivateSerial(bool servosOn, bool curtainOn = false)
     {
+        if (servosOn) baudrate = 57600;
+        else if (_curtainOn) baudrate = 9600;
         if (servosOn || curtainOn) Open(_serialPort); //if we want to activate, open
         _servosOn = servosOn;
         _curtainOn = curtainOn;
