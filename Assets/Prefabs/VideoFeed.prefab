@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 466960672388089711}
   - component: {fileID: 466960672388089709}
   - component: {fileID: 6044354570613304044}
+  - component: {fileID: 876641917059204560}
   m_Layer: 0
-  m_Name: WebcamFeed
+  m_Name: VideoFeed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,6 +93,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zoom: 39.5
   otherPose: {x: 0, y: 0, z: 0, w: 0}
-  otherPosition: {x: 0, y: 0, z: 0}
   useHeadTracking: 1
-  _twoWaySwap: 1
+  cameraID: 0
+  twoWayWap: 0
+--- !u!114 &876641917059204560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466960672388089699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb793594ac9c094fa0072b0096ad647, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _servosOn: 0
+  baudrate: 9600
+  pitchOffset: 0
+  yawOffset: 0

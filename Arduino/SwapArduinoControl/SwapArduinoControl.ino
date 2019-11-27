@@ -5,7 +5,7 @@
 SerialCommand SCmd;   // The SerialCommand object
 
 void setup() {
-  Serial.begin(57600);
+  Serial.begin(9600);
   while (!Serial);
 
   SCmd.addCommand("wal_on", curtainDownCommand);
