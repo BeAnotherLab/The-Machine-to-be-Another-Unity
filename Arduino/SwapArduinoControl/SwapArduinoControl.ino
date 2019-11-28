@@ -10,8 +10,12 @@ void setup() {
 
   SCmd.addCommand("wal_on", curtainDownCommand);
   SCmd.addCommand("wal_off", curtainUpCommand);
+  SCmd.addCommand("wal_stop", stopCurtain);  
 
-  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(12, OUTPUT);
+  pinMode(13, OUTPUT);
+
+  stopCurtain();
 }
 
 void loop () {
@@ -19,9 +23,16 @@ void loop () {
 }
 
 void curtainDownCommand(){
-  digitalWrite(LED_BUILTIN, LOW);   // turn the LED off
+  digitalWrite(12, LOW);   // turn the LED off
+  digitalWrite(13, HIGH);   // turn the LED off
 }
 
 void curtainUpCommand(){
-   digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on
+   digitalWrite(12, HIGH);   // turn the LED on
+   digitalWrite(13, LOW);   // turn the LED on
+}
+
+void stopCurtain(){
+   digitalWrite(12, HIGH);   // turn the LED on
+   digitalWrite(13, HIGH);   // turn the LED on
 }
