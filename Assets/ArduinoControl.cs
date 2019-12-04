@@ -23,13 +23,14 @@ public class ArduinoControl : MonoBehaviour
 
     public float pitchOffset, yawOffset; //use those values to compensate
 
+    public string serialPort;
+
     #endregion
 
 
     #region Private Fields
 
     private SerialPort _stream;
-    private int _serialPort;
 
     #endregion
 
@@ -43,7 +44,6 @@ public class ArduinoControl : MonoBehaviour
 
     private void Start()
     {
-        _serialPort = PlayerPrefs.GetInt("Serial port");
     }
 
     #endregion
@@ -55,7 +55,12 @@ public class ArduinoControl : MonoBehaviour
     {
         if (servosOn) baudrate = 57600;
         else if (_curtainOn) baudrate = 9600;
-        if (servosOn || curtainOn) Open(_serialPort); //if we want to activate, open
+        if (servosOn || curtainOn)
+        {
+            if (_stream != null) _stream.Close();
+            _stream = new SerialPort(serialPort, baudrate);
+            _stream.Open();
+        }
         _servosOn = servosOn;
         _curtainOn = curtainOn;
     }
@@ -69,9 +74,7 @@ public class ArduinoControl : MonoBehaviour
 
     public void SetSerialPort(int p)
     {
-        Open(p);
-        _serialPort = p;
-        PlayerPrefs.SetInt("Serial port", p);
+        
     }
 
     public void SetPitch(float value)
@@ -182,24 +185,6 @@ public class ArduinoControl : MonoBehaviour
             // Send the request
             _stream.WriteLine(message);
             _stream.BaseStream.Flush();
-        }
-    }
-
-    private void Open(int p)
-    {
-        string[] ports = SerialPort.GetPortNames();
-        string port = "";
-        if (ports.Length == 1)
-            p = 0;
-        if (p < ports.Length)
-            port = ports[p];
-        if (_stream != null)
-            _stream.Close();
-
-        if (port != "")
-        {
-            _stream = new SerialPort(port, baudrate);
-            _stream.Open();
         }
     }
 
