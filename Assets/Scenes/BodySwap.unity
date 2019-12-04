@@ -860,22 +860,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 466960672030764964}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1035839688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1035839687}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcb793594ac9c094fa0072b0096ad647, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _servosOn: 0
-  baudrate: 57600
-  pitchOffset: 0
-  yawOffset: 0
 --- !u!4 &1035839692 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 466960672388089704, guid: 94e02a587a63f594582e4abdde83cfb9,
@@ -1902,6 +1886,21 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7255556501592917980, guid: d0f5f11935d80fe409f504c5ccb1b7a4,
+        type: 3}
+      propertyPath: commands.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7255556501592917980, guid: d0f5f11935d80fe409f504c5ccb1b7a4,
+        type: 3}
+      propertyPath: commands.Array.data[8]
+      value: wal_stop
+      objectReference: {fileID: 0}
+    - target: {fileID: 7255556501592917980, guid: d0f5f11935d80fe409f504c5ccb1b7a4,
+        type: 3}
+      propertyPath: commands.Array.data[7]
+      value: wal_stop
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0f5f11935d80fe409f504c5ccb1b7a4, type: 3}
 --- !u!1001 &3197596539289527782
@@ -2200,6 +2199,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1379381038382601400, guid: 001b3698894d90f4eb7027aa882aad96,
+        type: 3}
+      propertyPath: useCurtain
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 001b3698894d90f4eb7027aa882aad96, type: 3}
 --- !u!1001 &7382287860123986496
@@ -2424,11 +2428,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConfirmationMenu
       objectReference: {fileID: 0}
-    - target: {fileID: 46874015393943357, guid: 3f00baa8facab504c84081460f38c958,
-        type: 3}
-      propertyPath: m_SelectionRadial
-      value: 
-      objectReference: {fileID: 2076889787}
     - target: {fileID: 6391230081184258347, guid: 3f00baa8facab504c84081460f38c958,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2534,5 +2533,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 46874015393943357, guid: 3f00baa8facab504c84081460f38c958,
+        type: 3}
+      propertyPath: m_SelectionRadial
+      value: 
+      objectReference: {fileID: 2076889787}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f00baa8facab504c84081460f38c958, type: 3}

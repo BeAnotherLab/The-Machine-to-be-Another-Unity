@@ -5,13 +5,14 @@ using UnityEngine.UI;
 
 public class SerialDebugPanel : MonoBehaviour
 {
-    [SerializeField] string[] commands;
+    [SerializeField] private string[] commands;
+    [SerializeField] private GameObject _buttons;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         int i = 0;
-        foreach (Button button in GetComponentsInChildren<Button>())
+        foreach (Button button in _buttons.GetComponentsInChildren<Button>())
         {
             var index = i;
             
