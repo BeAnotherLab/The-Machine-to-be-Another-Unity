@@ -18,8 +18,9 @@ public class ArduinoControl : MonoBehaviour
     public bool _servosOn;
     public string manualPort;
 
-    public bool useRandomTargets;
+    public bool useRandomTargets, delay;
     public bool inverse;
+    public float time;
 
     public List<RandomLerpOnAFloat> _lerpList = new List<RandomLerpOnAFloat>(4);
 
@@ -37,6 +38,9 @@ public class ArduinoControl : MonoBehaviour
     private SerialPort _stream;
     private int _serialPort;
 
+    private List<float> pitchBuffer = new List<float>();
+    private List<float> yawBuffer = new List<float>();
+    private float delayedPitch, delayedYaw;
     #endregion
 
 
@@ -93,6 +97,10 @@ public class ArduinoControl : MonoBehaviour
                 sum = 180 - sum;
             if (useRandomTargets)
                 sum = _lerpList[0].ChangingValue();
+            if (delay) { 
+                StartCoroutine(DelayPitchValue(sum, time));
+                sum = delayedPitch;
+            }
 
             //sum = 15;
             Debug.Log("pitch " + sum);
@@ -113,7 +121,11 @@ public class ArduinoControl : MonoBehaviour
                 sum = 180 - sum;
             if (useRandomTargets)
                 sum = _lerpList[1].ChangingValue();
-
+            if (delay)
+            {
+                StartCoroutine(DelayYawValue(sum, time));
+                sum = delayedYaw;
+            }
             //sum = 15;
             Debug.Log("yaw " + sum);
             WriteToArduino("Yaw " + sum);
@@ -131,6 +143,23 @@ public class ArduinoControl : MonoBehaviour
         {
             return null;
         }
+    }
+
+    private IEnumerator DelayPitchValue(float value, float time)    {
+        pitchBuffer.Add(value);
+        yield return new WaitForSecondsRealtime(time);
+        delayedPitch = pitchBuffer[0];
+        pitchBuffer.RemoveAt(0);
+        Resources.UnloadUnusedAssets();
+    }
+
+    private IEnumerator DelayYawValue(float value, float time)
+    {
+        yawBuffer.Add(value);
+        yield return new WaitForSecondsRealtime(time);
+        delayedYaw = yawBuffer[0];
+        yawBuffer.RemoveAt(0);
+        Resources.UnloadUnusedAssets();
     }
 
     public IEnumerator AsynchronousReadFromArduino(Action<string> callback, Action fail = null, float timeout = float.PositiveInfinity)

@@ -660,11 +660,11 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1fea2d92cba56674099f5d4da2cf717c, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
-  Mute: 0
+  Mute: 1
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
@@ -920,7 +920,8 @@ MonoBehaviour:
   _servosOn: 1
   manualPort: COM3
   useRandomTargets: 0
-  inverse: 1
+  delay: 1
+  time: 1
   _lerpList:
   - {fileID: 0}
   - {fileID: 0}
