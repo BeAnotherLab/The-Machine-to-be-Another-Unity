@@ -64,7 +64,7 @@ public class SettingsGUI : MonoBehaviour
         _yawSlider.onValueChanged.AddListener(delegate { ArduinoControl.instance.SetYaw(_yawSlider.value); });
         _zoomSlider.onValueChanged.AddListener(delegate { VideoFeed.instance.SetZoom(_zoomSlider.value); });
         
-        _serialDropdown.onValueChanged.AddListener(delegate { SetSerialDropdownOption(_serialDropdown.value); });
+        _serialDropdown.onValueChanged.AddListener(delegate { SelectSerialOption(_serialDropdown.value); });
         _headTrackingOnButton.onClick.AddListener(delegate { VideoFeed.instance.SwitchHeadtracking(); });
 
         //Assign swap mode dropdown handler
@@ -78,7 +78,7 @@ public class SettingsGUI : MonoBehaviour
 
         SetCameraDropdownOptions();
         SetSwapModeDropdownOptions();
-
+        
         _zoomSlider.value = PlayerPrefs.GetFloat("zoom", 39.5f);
 
         if (PlayerPrefs.GetInt("repeater") == 1) _repeaterToggle.isOn = true;
@@ -171,13 +171,13 @@ public class SettingsGUI : MonoBehaviour
 
     #region Private Methods
 
-    private void SetSerialDropdownOption(int index)
+    private void SelectSerialOption(int index)
     {
         //if found, set the port by options index
         if (index != -1)
         {
-            ArduinoControl.instance.SetSerialPort(index);
-            PlayerPrefs.SetString("Serial Port", _serialDropdown.options[index].ToString());
+            ArduinoControl.instance.Open(index);
+            PlayerPrefs.SetString("Serial Port", _serialDropdown.options[index].text);
         } //TODO notify there was an error if port = -1
     }
     
@@ -194,7 +194,6 @@ public class SettingsGUI : MonoBehaviour
     private void EnableSerialDropdown(bool enable) //shows/hides serial dropdown
     {        
         _serialDropdown.gameObject.SetActive(enable);
-
         if (enable)
         {
             SetSerialPortDropdownOptions();
@@ -228,9 +227,12 @@ public class SettingsGUI : MonoBehaviour
         {
             _serialDropdown.options.Add(new Dropdown.OptionData() { text = c });
         }
-        //assign the value that was saved.
+        
         //TODO only if it is in available options
-        _serialDropdown.value = GetSerialIndexByOptionName(_serialDropdown, PlayerPrefs.GetString("Serial port"));
+        var name = PlayerPrefs.GetString("Serial Port");
+        _serialDropdown.value = GetSerialIndexByOptionName(_serialDropdown, name); //assign the value that was saved in PlayerPrefs
+        ArduinoControl.instance.Open(_serialDropdown.value);
+        SelectSerialOption(_serialDropdown.value);
     }
 
     private void SetIpInputField()
