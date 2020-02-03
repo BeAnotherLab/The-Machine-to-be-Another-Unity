@@ -22,15 +22,14 @@ public class ArduinoControl : MonoBehaviour
     public int baudrate = 57600;
 
     public float pitchOffset, yawOffset; //use those values to compensate
-
-    public string serialPort;
-
+    
     #endregion
 
 
     #region Private Fields
 
     private SerialPort _stream;
+    private int _serialPortIndex;
 
     #endregion
 
@@ -42,10 +41,6 @@ public class ArduinoControl : MonoBehaviour
         if (instance == null) instance = this;
     }
 
-    private void Start()
-    {
-    }
-
     #endregion
 
 
@@ -55,12 +50,7 @@ public class ArduinoControl : MonoBehaviour
     {
         if (servosOn) baudrate = 57600;
         else if (_curtainOn) baudrate = 9600;
-        if (servosOn || curtainOn)
-        {
-            if (_stream != null) _stream.Close();
-            _stream = new SerialPort(serialPort, baudrate);
-            _stream.Open();
-        }
+        //if (servosOn || curtainOn) Open(_serialPortIndex); //if we want to activate, open
         _servosOn = servosOn;
         _curtainOn = curtainOn;
     }
@@ -72,9 +62,10 @@ public class ArduinoControl : MonoBehaviour
         _curtainOn = false;
     }
 
-    public void SetSerialPort(int p)
+    public void SetSerialPort(int port) //set serial port by port index 
     {
-        
+        Open(port);
+        _serialPortIndex = port;
     }
 
     public void SetPitch(float value)
@@ -185,6 +176,24 @@ public class ArduinoControl : MonoBehaviour
             // Send the request
             _stream.WriteLine(message);
             _stream.BaseStream.Flush();
+        }
+    }
+
+    private void Open(int p)
+    {
+        string[] ports = SerialPort.GetPortNames();
+        string port = "";
+        if (ports.Length == 1) //if there is only one option
+            p = 0; // use the first
+        if (p < ports.Length) // if p in range
+            port = ports[p]; // use that port
+        if (_stream != null)
+            _stream.Close();
+
+        if (port != "")
+        {
+            _stream = new SerialPort(port, baudrate);
+            _stream.Open();
         }
     }
 

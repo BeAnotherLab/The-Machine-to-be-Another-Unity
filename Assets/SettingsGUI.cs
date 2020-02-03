@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using System.IO.Ports;
 using extOSC;
@@ -63,7 +63,8 @@ public class SettingsGUI : MonoBehaviour
         _pitchSlider.onValueChanged.AddListener(delegate { ArduinoControl.instance.SetPitch(_pitchSlider.value); });
         _yawSlider.onValueChanged.AddListener(delegate { ArduinoControl.instance.SetYaw(_yawSlider.value); });
         _zoomSlider.onValueChanged.AddListener(delegate { VideoFeed.instance.SetZoom(_zoomSlider.value); });
-        _serialDropdown.onValueChanged.AddListener(delegate { ArduinoControl.instance.SetSerialPort(_serialDropdown.value); });
+        
+        _serialDropdown.onValueChanged.AddListener(delegate { SetSerialDropdownOption(_serialDropdown.value); });
         _headTrackingOnButton.onClick.AddListener(delegate { VideoFeed.instance.SwitchHeadtracking(); });
 
         //Assign swap mode dropdown handler
@@ -116,7 +117,6 @@ public class SettingsGUI : MonoBehaviour
     }
 
     #endregion
-
 
     #region Public Methods
 
@@ -171,7 +171,27 @@ public class SettingsGUI : MonoBehaviour
 
     #region Private Methods
 
-    private void EnableSerialDropdown(bool enable)
+    private void SetSerialDropdownOption(int index)
+    {
+        //if found, set the port by options index
+        if (index != -1)
+        {
+            ArduinoControl.instance.SetSerialPort(index);
+            PlayerPrefs.SetString("Serial Port", _serialDropdown.options[index].ToString());
+        } //TODO notify there was an error if port = -1
+    }
+    
+    private int GetSerialIndexByOptionName(Dropdown dropDown, string name)
+    {
+        List<Dropdown.OptionData> list = dropDown.options;
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (list[i].text.Equals(name)) { return i; }
+        }
+        return -1;
+    }
+    
+    private void EnableSerialDropdown(bool enable) //shows/hides serial dropdown
     {        
         _serialDropdown.gameObject.SetActive(enable);
 
@@ -200,7 +220,7 @@ public class SettingsGUI : MonoBehaviour
         _swapModeDropdown.RefreshShownValue();
     }
 
-    private void SetSerialPortDropdownOptions()
+    private void SetSerialPortDropdownOptions() //get available ports and add them as options to the dropdown
     {
         string[] ports = SerialPort.GetPortNames();
         _serialDropdown.options.Clear();
@@ -208,13 +228,15 @@ public class SettingsGUI : MonoBehaviour
         {
             _serialDropdown.options.Add(new Dropdown.OptionData() { text = c });
         }
-        _serialDropdown.value = PlayerPrefs.GetInt("Serial port");
+        //assign the value that was saved.
+        //TODO only if it is in available options
+        _serialDropdown.value = GetSerialIndexByOptionName(_serialDropdown, PlayerPrefs.GetString("Serial port"));
     }
 
     private void SetIpInputField()
     {
         if (_IPInputField.text != null) _IPInputField.text = PlayerPrefs.GetString("othersIP");
-    }
+    }    
 
     private void SetCameraDropdownOptions()
     {
