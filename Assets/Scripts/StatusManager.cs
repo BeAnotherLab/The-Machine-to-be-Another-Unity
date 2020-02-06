@@ -190,7 +190,7 @@ public class StatusManager : MonoBehaviour {
     {
         yield return new WaitForFixedTime(waitBeforeInstructions + waitForWall);
         Debug.Log("READY FOR WALL");
-        ArduinoControl.instance.SendCommand("wall_off"); //open curtain
+        ArduinoControl.instance.SendCommand("wal_off"); //open curtain
         ArduinoControl.instance.SendCommand("mir_off"); //hide mirror
     }
 
