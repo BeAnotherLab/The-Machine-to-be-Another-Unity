@@ -79,8 +79,14 @@ namespace RockVR.Video
             }
             else
             {
+                index = 0;
                 Debug.LogWarning("[VideoPlayer::NextVideo] All videos have already been played.");
             }
+        }
+
+        public void StopVideo()
+        {
+            videoPlayerImpl.Stop();
         }
 #endif
     }
