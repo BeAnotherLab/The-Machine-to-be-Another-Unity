@@ -273,7 +273,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: aa476f22436a1174ba7e04a111312a8f, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -2290,6 +2290,11 @@ PrefabInstance:
       propertyPath: waitForWall
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 3197596539171407805, guid: ac83e1f85f757314ca0a565297f74bce,
+        type: 3}
+      propertyPath: _useFakeOculus
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3197596539171407808, guid: ac83e1f85f757314ca0a565297f74bce,
         type: 3}
       propertyPath: defaultLanguage
@@ -2390,6 +2395,11 @@ PrefabInstance:
       propertyPath: m_BackGroundColor.b
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3462846772297588030, guid: 715447b851299a547860fdcc1f6121c0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 715447b851299a547860fdcc1f6121c0, type: 3}
 --- !u!1001 &7308667568641905649
@@ -2462,7 +2472,7 @@ PrefabInstance:
     - target: {fileID: 1379381038382601400, guid: 001b3698894d90f4eb7027aa882aad96,
         type: 3}
       propertyPath: useCurtain
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 001b3698894d90f4eb7027aa882aad96, type: 3}

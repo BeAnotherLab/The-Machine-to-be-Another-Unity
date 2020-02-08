@@ -43,7 +43,7 @@ public class SwapModeManager : MonoBehaviour
 
                 //enable status management, self, other, autoplay, autofinish, reset timer      
                 StatusManager.instance.StopExperience();
-                StatusManager.instance.SetAutoStartAndFinish(true, 22);
+                StatusManager.instance.SetAutoStartAndFinish(true, 0);
                 StatusManager.instance.statusManagementOn = true;
 
                 //enable OSC repeat
