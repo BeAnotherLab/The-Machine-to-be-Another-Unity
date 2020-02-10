@@ -225,8 +225,6 @@ public class StatusManager : MonoBehaviour {
         _instructionsText.text = LanguageTextDictionary.finished;
 
         StopAllCoroutines();
-
-        StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience
     }
 
     private IEnumerator WaitBeforeResetting()
