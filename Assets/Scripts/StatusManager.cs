@@ -13,24 +13,18 @@ public class StatusManager : MonoBehaviour {
 
     public static StatusManager instance;
 
-    public bool thisUserIsReady = false;
-    public bool otherUserIsReady = false;
-
     public bool statusManagementOn;
-    public bool autoStartAndFinishOn;
 
     #endregion
 
 
     #region Private Fields
+    
+    [SerializeField] private bool _thisUserIsReady;
+    [SerializeField] private bool _otherUserIsReady;
+    [SerializeField] private bool _autoStartAndFinishOn;
 
-    [SerializeField]
-    private bool _fakeOculusReady; //for debugging
-    [SerializeField]
-    private bool _useFakeOculus;
-
-    private GameObject _instructionsGUI;
-    [Tooltip("Instructions Timing")]
+    [Tooltip("Instructions Timing")] private GameObject _instructionsGUI;
 
     [SerializeField]
     private float waitBeforeInstructions, waitAfterInstructionsForScreen, waitForMirror, waitForGoodbye, waitForWall;
@@ -70,7 +64,7 @@ public class StatusManager : MonoBehaviour {
             if (XRDevice.userPresence == UserPresenceState.NotPresent)
             {
                 _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
-                if (thisUserIsReady) StopExperience(); //if we were ready and we took off the headset
+                if (_thisUserIsReady) StopExperience(); //if we were ready and we took off the headset
             }
 
             if (Input.GetKeyDown("o"))
@@ -85,7 +79,7 @@ public class StatusManager : MonoBehaviour {
 
     public void SetAutoStartAndFinish(bool on, float waitTime = 5)
     {
-        autoStartAndFinishOn = on;
+        _autoStartAndFinishOn = on;
         waitBeforeInstructions = waitTime;
     }
 
@@ -96,22 +90,22 @@ public class StatusManager : MonoBehaviour {
         EnableConfirmationGUI(false); //hide status confirmation GUI elements
 
         //start experience or wait for the other if they're not ready yet
-        if (otherUserIsReady) StartPlaying();
+        if (_otherUserIsReady) StartPlaying();
         else _instructionsText.text = LanguageTextDictionary.waitForOther; //show GUI instruction that indicates to wait for the other
 
-        thisUserIsReady = true;
+        _thisUserIsReady = true;
     }
 
     public void OtherUserIsReady() 
     {
-        otherUserIsReady = true;
-        if (thisUserIsReady) StartPlaying();
+        _otherUserIsReady = true;
+        if (_thisUserIsReady) StartPlaying();
     }
 
     public void OtherLeft()
     {
-        otherUserIsReady = false;
-        if (thisUserIsReady)
+        _otherUserIsReady = false;
+        if (_thisUserIsReady)
         {
             //different than self is gone in case there is an audio for this case
             VideoFeed.instance.SetDimmed(true);
@@ -138,7 +132,7 @@ public class StatusManager : MonoBehaviour {
         //reset user status as it is not ready
         EnableConfirmationGUI(true);
         OscManager.instance.SendThisUserStatus(false);
-        thisUserIsReady = false;
+        _thisUserIsReady = false;
     }
 
     public void DisableStatusManagement()
@@ -159,7 +153,7 @@ public class StatusManager : MonoBehaviour {
 
     private IEnumerator StartPlayingCoroutine()
     {      
-        if (autoStartAndFinishOn) //if we are in auto swap
+        if (_autoStartAndFinishOn) //if we are in auto swap
         {
             StartCoroutine("GoodbyeCoroutine");
             AudioPlayer.instance.PlayAudioInstructions();
@@ -171,13 +165,13 @@ public class StatusManager : MonoBehaviour {
         yield return new WaitForFixedTime(waitBeforeInstructions);// wait before playing audio
         yield return new WaitForFixedTime(waitAfterInstructionsForScreen);//duration of audio track to start video after
 
-        if (autoStartAndFinishOn) //if we are in auto swap
+        if (_autoStartAndFinishOn) //if we are in auto swap
         {
             ArduinoControl.instance.SendCommand("wal_on"); //close curtain
             ArduinoControl.instance.SendCommand("mir_off"); //hide mirror
         }
 
-        if (autoStartAndFinishOn) VideoFeed.instance.SetDimmed(false);
+        if (_autoStartAndFinishOn) VideoFeed.instance.SetDimmed(false);
         _instructionsGUI.SetActive(false);
     }
 
