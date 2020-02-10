@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
 public class VideoFeed : MonoBehaviour
@@ -151,9 +152,16 @@ public class VideoFeed : MonoBehaviour
     {
         cameraID = PlayerPrefs.GetInt("cameraID");
         WebCamDevice[] devices = WebCamTexture.devices;
-        string deviceName = devices[cameraID].name;
-        _camTex = new WebCamTexture(deviceName, 1920, 1080);//, 1920, 1080, FPS); //PERFORMANCE DEPENDS ON FRAMERATE AND RESOLUTION
-        _camTex.Play();
+        if (devices.Length > cameraID)
+        {
+            string deviceName = devices[cameraID].name;
+            _camTex = new WebCamTexture(deviceName, 1920, 1080);//, 1920, 1080, FPS); //PERFORMANCE DEPENDS ON FRAMERATE AND RESOLUTION
+            _camTex.Play();
+        }
+        else
+        {
+            Debug.Log("PlayerPrefs camera ID not found");
+        }
     }
 
     #endregion
