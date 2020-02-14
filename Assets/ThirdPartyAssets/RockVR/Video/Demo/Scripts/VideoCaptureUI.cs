@@ -63,12 +63,6 @@ namespace RockVR.Video.Demo
                         // Play capture video.
                         VideoPlayer.instance.PlayVideo();
                     }
-
-                    if (GUI.Button(new Rect(180, Screen.height - 60, 150, 50), "Start Capture"))
-                    {
-                        VideoCaptureCtrl.instance.StartCapture();                        
-                    }
-
                 }
                 else
                 {
@@ -82,12 +76,6 @@ namespace RockVR.Video.Demo
                         // Open video save directory.
                         Process.Start(PathConfig.saveFolder);
 #endif
-                    }
-
-                    if (GUI.Button(new Rect(180, Screen.height - 60, 150, 50), "Start Capture"))
-                    {
-                        VideoCaptureCtrl.instance.StartCapture();
-                        VideoPlayer.instance.StopVideo();
                     }
                 }
             }
