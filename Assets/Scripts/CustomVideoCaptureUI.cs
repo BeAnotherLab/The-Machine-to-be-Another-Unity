@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Diagnostics;
 using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
 
 namespace RockVR.Video.Demo
 {
@@ -9,61 +10,57 @@ namespace RockVR.Video.Demo
     {
         [SerializeField] private Button _nextButton;
         [SerializeField] private Text _processingText;
-
+        
         private bool isPlayVideo;
         private void Awake()
         {
-            _nextButton.onClick.AddListener(() => { Next()});
+            _nextButton.onClick.AddListener(() => Next());
             Application.runInBackground = true;
             isPlayVideo = false;
-            
-        }
-
-        private void Start()
-        {
-            _stopRecordingButton.interactable = false;
-            _playVideosButton.interactable = false;
         }
 
         private void Update()
         {
-            if (VideoCaptureCtrl.instance.status == VideoCaptureCtrl.StatusType.NOT_START)
+            if (VideoCaptureCtrl.instance.status == VideoCaptureCtrl.StatusType.STOPPED) //disable button while processing
             {
-                _processingText.text = "not started";
-            }
-            else if (VideoCaptureCtrl.instance.status == VideoCaptureCtrl.StatusType.STARTED)
+                _nextButton.enabled = false;
+            } else if (VideoCaptureCtrl.instance.status == VideoCaptureCtrl.StatusType.FINISH) //enable when we're ready
             {
-                _processingText.text = "started";
+                _nextButton.enabled = true;
+                _processingText.text = "processing finished";
+                _nextButton.GetComponentInChildren<Text>().text = "play recording";
             }
-            else if (VideoCaptureCtrl.instance.status == VideoCaptureCtrl.StatusType.STOPPED)
-            {
-                _processingText.text = "stopped";
-            }
-            else if (VideoCaptureCtrl.instance.status == VideoCaptureCtrl.StatusType.FINISH)
-            {
-                _processingText.text = "finished";
-            }
-        }
-
-        public void PlayVideo()
-        {
-            // Set root folder.
-            isPlayVideo = true;
-            VideoPlayer.instance.SetRootFolder();
-            // Play capture video.
-            VideoPlayer.instance.PlayVideo();
         }
 
         private void Next()
         {
             switch (VideoCaptureCtrl.instance.status)
             {
-                case  VideoCaptureCtrl.StatusType.NOT_START:
+                case  VideoCaptureCtrl.StatusType.NOT_START: // before recording
+                    VideoCaptureCtrl.instance.StartCapture();
+                    _processingText.text = "recording";
+                    _nextButton.GetComponentInChildren<Text>().text = "stop recording";
                     break;
-                case VideoCaptureCtrl.StatusType.STARTED:
+                case VideoCaptureCtrl.StatusType.STARTED: // while recording
+                    VideoCaptureCtrl.instance.StopCapture();
+                    _processingText.text = "processing";
                     break;
-                case VideoCaptureCtrl.StatusType.STOPPED:
-                    break;
+                case VideoCaptureCtrl.StatusType.FINISH: //recording is finished processing
+                    if (isPlayVideo) //either video is playing
+                    {
+                        _processingText.text = "ready to capture";
+                        _nextButton.GetComponentInChildren<Text>().text = "stop video";
+                        VideoPlayer.instance.StopVideo();
+                        isPlayVideo = false;
+                    }
+                    else //or we haven't played it yet
+                    {
+                        isPlayVideo = true;
+                        VideoPlayer.instance.SetRootFolder();
+                        VideoPlayer.instance.PlayVideo();
+                        _processingText.text = "playing";                  
+                    }
+                    break;   
             }
         }
 

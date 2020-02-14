@@ -679,7 +679,7 @@ namespace RockVR.Video
             }
             if (VideoCaptureCtrl.instance.debug)
             {
-                Debug.Log("[VideoCapture::FrameEncodeThreadFunction] Encode " +
+                    Debug.Log("[VideoCapture::FrameEncodeThreadFunction] Encode " +
                           "process finish!");
             }
             // Update current status.
