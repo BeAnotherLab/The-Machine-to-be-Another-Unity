@@ -1,6 +1,6 @@
 #include <Technorama.h>
 
-bool Reset=false;          //global
+bool Reset=false;         //global
 
 void reset() {
   if (Reset) {            //sys_rst received

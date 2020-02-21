@@ -1,9 +1,9 @@
 //*******************************
 //  Titel:    MachineToBeAnother
 //  Projekt:  Kopfwelten
-//  Version:  0.5
+//  Version:  1.0
 //  Autor:    che
-//  Datum:    12.02.2020
+//  Datum:    21.02.2020
 //********************************
 
 #include <Technorama.h>
@@ -11,7 +11,7 @@
 bool DEBUG=false;                  //global
 
 void setup(){
-  Serial.begin(9600);              // start serial communication
+  Serial.begin(9600);              //start serial communication
   Serial.println();
 
   pinMode(CONTROLLINO_D0, OUTPUT); //wall start
