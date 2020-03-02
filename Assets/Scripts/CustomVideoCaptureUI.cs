@@ -10,13 +10,13 @@ namespace RockVR.Video.Demo
     {
         [SerializeField] private Button _nextButton;
         [SerializeField] private Text _processingText;
-        
-        private bool isPlayVideo;
+
+        private bool _captureFinishedOnce; //flag to only do processing finished related actions once since we don't have processing finished events from the Video Capture asset
+        private bool _videoPlayed;
         private void Awake()
         {
             _nextButton.onClick.AddListener(() => Next());
-            Application.runInBackground = true;
-            isPlayVideo = false;
+            CustomVideoPlayer.OnVideoFinished += delegate { VideoFinished(); };
         }
 
         private void Update()
@@ -24,9 +24,10 @@ namespace RockVR.Video.Demo
             if (VideoCaptureCtrl.instance.status == VideoCaptureCtrl.StatusType.STOPPED) //disable button while processing
             {
                 _nextButton.enabled = false;
-            } else if (VideoCaptureCtrl.instance.status == VideoCaptureCtrl.StatusType.FINISH) //enable when we're ready
+            } else if (VideoCaptureCtrl.instance.status == VideoCaptureCtrl.StatusType.FINISH && !_captureFinishedOnce) //enable when we're ready
             {
                 _nextButton.enabled = true;
+                _captureFinishedOnce = true;
                 _processingText.text = "processing finished";
                 _nextButton.GetComponentInChildren<Text>().text = "play recording";
             }
@@ -36,32 +37,40 @@ namespace RockVR.Video.Demo
         {
             switch (VideoCaptureCtrl.instance.status)
             {
-                case  VideoCaptureCtrl.StatusType.NOT_START: // before recording
-                    VideoCaptureCtrl.instance.StartCapture();
-                    _processingText.text = "recording";
-                    _nextButton.GetComponentInChildren<Text>().text = "stop recording";
+                case  VideoCaptureCtrl.StatusType.NOT_START: // before recording, first time around
+                    StartRecording();            
                     break;
                 case VideoCaptureCtrl.StatusType.STARTED: // while recording
                     VideoCaptureCtrl.instance.StopCapture();
                     _processingText.text = "processing";
                     break;
-                case VideoCaptureCtrl.StatusType.FINISH: //recording is finished processing
-                    if (isPlayVideo) //either video is playing
+                case VideoCaptureCtrl.StatusType.FINISH: //we're done processing the recorded video
+                    if (!_videoPlayed) //if we haven't played the video yet (we only play it once
                     {
-                        _processingText.text = "ready to capture";
-                        _nextButton.GetComponentInChildren<Text>().text = "stop video";
-                        VideoPlayer.instance.StopVideo();
-                        isPlayVideo = false;
+                        CustomVideoPlayer.instance.SetRootFolder();
+                        CustomVideoPlayer.instance.PlayVideo();
+                        _processingText.text = "playing";
+                        _videoPlayed = true;
                     }
-                    else //or we haven't played it yet
-                    {
-                        isPlayVideo = true;
-                        VideoPlayer.instance.SetRootFolder();
-                        VideoPlayer.instance.PlayVideo();
-                        _processingText.text = "playing";                  
-                    }
-                    break;   
+                    else StartRecording();
+                        
+                    break;    
             }
+        }
+
+        private void StartRecording()
+        {
+            _videoPlayed = false;
+            VideoCaptureCtrl.instance.StartCapture();
+            _captureFinishedOnce = false;
+            _processingText.text = "recording";
+            _nextButton.GetComponentInChildren<Text>().text = "stop recording";
+        }
+        
+        private void VideoFinished()
+        {
+            _processingText.text = "ready to capture";
+            _nextButton.GetComponentInChildren<Text>().text = "Start Recording";
         }
 
     }
