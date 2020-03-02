@@ -83,7 +83,8 @@ public class VideoFeed : MonoBehaviour
             transform.rotation = otherPose; //Move image according to the other person's head orientation
             transform.localScale = new Vector3(0.9f, 1, -1);
         }
-
+        
+        Graphics.Blit(_meshRenderer.material.mainTexture, _videoRenderTexture);
     }
 
     void OnDestroy()
