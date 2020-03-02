@@ -28,7 +28,7 @@ namespace RockVR.Video.Demo
             {
                 _nextButton.enabled = true;
                 _captureFinishedOnce = true;
-                _processingText.text = "processing finished";
+                _processingText.text = "processed";
                 _nextButton.GetComponentInChildren<Text>().text = "play recording";
             }
         }
