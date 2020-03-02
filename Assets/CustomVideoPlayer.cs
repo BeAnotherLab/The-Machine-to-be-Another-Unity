@@ -48,19 +48,12 @@ namespace RockVR.Video
                     if (files[i].Name.EndsWith(".mp4"))
                     {
                         videoFiles.Add(PathConfig.SaveFolder + files[i].Name);
-                        continue;
                     }
                 }
             }
             // Init VideoPlayer properties.
             videoPlayerImpl.enabled = true;
-            videoPlayerImpl.source = UnityEngine.Video.VideoSource.Url;
-            videoPlayerImpl.playOnAwake = false;
-            videoPlayerImpl.renderMode = UnityEngine.Video.VideoRenderMode.CameraNearPlane;
             videoPlayerImpl.targetCamera = Camera.main;
-            videoPlayerImpl.audioOutputMode = UnityEngine.Video.VideoAudioOutputMode.AudioSource;
-            videoPlayerImpl.controlledAudioTrackCount = 1;
-            videoPlayerImpl.aspectRatio = UnityEngine.Video.VideoAspectRatio.Stretch;
             videoPlayerImpl.loopPointReached += delegate(UnityEngine.Video.VideoPlayer source) { FinishVideo(); };
             if (gameObject.GetComponent<AudioSource>() != null)
             {

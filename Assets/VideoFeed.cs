@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using RockVR.Video;
 using System.Collections;
 
 public class VideoFeed : MonoBehaviour
@@ -22,18 +23,18 @@ public class VideoFeed : MonoBehaviour
 
 
     #region Private Fields
-
-
+   
     private MeshRenderer _meshRenderer;
     private Camera _mainCamera;
 
     //Camera params
+    [SerializeField] private RenderTexture _videoRenderTexture;
     private WebCamTexture _camTex;
     private float _turningRate = 90f;
-    private float _tiltAngle = 0;
+    private float _tiltAngle;
 
     //Dim params
-    private bool _dimmed = false;
+    private bool _dimmed;
 
     #endregion
 
@@ -46,6 +47,7 @@ public class VideoFeed : MonoBehaviour
 
         _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         _meshRenderer = GetComponent<MeshRenderer>();
+        CustomVideoPlayer.OnVideoFinished += delegate { SetLiveVideoTexture(); };
     }
 
     void Start()
@@ -54,6 +56,7 @@ public class VideoFeed : MonoBehaviour
         RecenterPose();
         SetDimmed(true);
         otherPose = new Quaternion();
+        SetLiveVideoTexture();
     }
 
     // Update is called once per frame
@@ -81,7 +84,6 @@ public class VideoFeed : MonoBehaviour
             transform.localScale = new Vector3(0.9f, 1, -1);
         }
 
-        _meshRenderer.material.mainTexture = _camTex;
     }
 
     void OnDestroy()
@@ -94,6 +96,16 @@ public class VideoFeed : MonoBehaviour
 
     #region Public Methods
 
+    public void SetRecordedVideoTexture()
+    {
+        _meshRenderer.material.mainTexture = _videoRenderTexture;
+    }
+
+    private void SetLiveVideoTexture()
+    {
+        _meshRenderer.material.mainTexture = _camTex;
+    }
+    
     public void FlipHorizontal()
     {
         transform.parent.localScale = new Vector3(- transform.parent.localScale.x, transform.parent.localScale.y, transform.parent.localScale.z);
