@@ -917,11 +917,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb793594ac9c094fa0072b0096ad647, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _servosOn: 1
+  _servosOn: 0
   manualPort: COM5
   useRandomTargets: 0
-  delay: 1
+  delay: 0
   inverse: 0
+  horizontalOnly: 0
   time: 1
   _lerpList:
   - {fileID: 0}
@@ -2476,6 +2477,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ConfirmationMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 1960320972057757430, guid: 3f00baa8facab504c84081460f38c958,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6391230081184258347, guid: 3f00baa8facab504c84081460f38c958,
         type: 3}

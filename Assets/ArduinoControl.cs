@@ -20,6 +20,7 @@ public class ArduinoControl : MonoBehaviour
 
     public bool useRandomTargets, delay;
     public bool inverse;
+    public bool horizontalOnly;
     public float time;
 
     public List<RandomLerpOnAFloat> _lerpList = new List<RandomLerpOnAFloat>(4);
@@ -93,7 +94,7 @@ public class ArduinoControl : MonoBehaviour
             if ((value + pitchOffset) > 180) sum = 179.5f;
             if ((value + pitchOffset) < 0) sum = 0.5f;
 
-            if(inverse)
+            if(inverse && horizontalOnly)
                 sum = 180 - sum;
             if (useRandomTargets)
                 sum = _lerpList[0].ChangingValue();
