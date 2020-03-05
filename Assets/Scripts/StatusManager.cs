@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
@@ -13,24 +13,18 @@ public class StatusManager : MonoBehaviour {
 
     public static StatusManager instance;
 
-    public bool thisUserIsReady = false;
-    public bool otherUserIsReady = false;
-
     public bool statusManagementOn;
-    public bool autoStartAndFinishOn;
 
     #endregion
 
 
     #region Private Fields
+    
+    [SerializeField] private bool _thisUserIsReady;
+    [SerializeField] private bool _otherUserIsReady;
+    [SerializeField] private bool _autoStartAndFinishOn;
 
-    [SerializeField]
-    private bool _fakeOculusReady; //for debugging
-    [SerializeField]
-    private bool _useFakeOculus;
-
-    private GameObject _instructionsGUI;
-    [Tooltip("Instructions Timing")]
+    [Tooltip("Instructions Timing")] private GameObject _instructionsGUI;
 
     [SerializeField]
     private float waitBeforeInstructions, waitAfterInstructionsForScreen, waitForMirror, waitForGoodbye, waitForWall;
@@ -70,11 +64,8 @@ public class StatusManager : MonoBehaviour {
             if (XRDevice.userPresence == UserPresenceState.NotPresent)
             {
                 _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
-                if (thisUserIsReady) StopExperience(); //if we were ready and we took off the headset
+                if (_thisUserIsReady) StopExperience(); //if we were ready and we took off the headset
             }
-
-            if (_useFakeOculus)
-                CheckForFakeOculus(); // for virtual other while debugging
 
             if (Input.GetKeyDown("o"))
                 IsOver();
@@ -88,7 +79,7 @@ public class StatusManager : MonoBehaviour {
 
     public void SetAutoStartAndFinish(bool on, float waitTime = 5)
     {
-        autoStartAndFinishOn = on;
+        _autoStartAndFinishOn = on;
         waitBeforeInstructions = waitTime;
     }
 
@@ -99,29 +90,33 @@ public class StatusManager : MonoBehaviour {
         EnableConfirmationGUI(false); //hide status confirmation GUI elements
 
         //start experience or wait for the other if they're not ready yet
-        if (otherUserIsReady) StartPlaying();
-        else WaitingForOther();
+        if (_otherUserIsReady) StartPlaying();
+        else _instructionsText.text = LanguageTextDictionary.waitForOther; //show GUI instruction that indicates to wait for the other
 
-        thisUserIsReady = true;
-    }
-
-    private void ThisUserIsNotReady()
-    {
-        EnableConfirmationGUI(true);
-        OscManager.instance.SendThisUserStatus(false);
-        thisUserIsReady = false;
+        _thisUserIsReady = true;
     }
 
     public void OtherUserIsReady() 
     {
-        otherUserIsReady = true;
-        if (thisUserIsReady) StartPlaying();
+        _otherUserIsReady = true;
+        if (_thisUserIsReady) StartPlaying();
     }
 
     public void OtherLeft()
     {
-        otherUserIsReady = false;
-        if (thisUserIsReady) OtherIsGone();
+        _otherUserIsReady = false;
+        if (_thisUserIsReady)
+        {
+            //different than self is gone in case there is an audio for this case
+            VideoFeed.instance.SetDimmed(true);
+
+            _instructionsGUI.SetActive(true);
+            _instructionsText.text = LanguageTextDictionary.otherIsGone;
+
+            StopAllCoroutines();
+
+            StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
+        }
     }
 
     public void StopExperience()
@@ -134,7 +129,11 @@ public class StatusManager : MonoBehaviour {
 
         AudioPlayer.instance.StopAudioInstructions();
 
-        ThisUserIsNotReady(); //reset user status
+        //reset user status as it is not ready
+        EnableConfirmationGUI(true);
+        OscManager.instance.SendThisUserStatus(false);
+        ArduinoControl.instance.SendCommand("stop");
+        _thisUserIsReady = false;
     }
 
     public void DisableStatusManagement()
@@ -147,10 +146,15 @@ public class StatusManager : MonoBehaviour {
 
         statusManagementOn = false;
     }
+    
+    #endregion
 
-    public IEnumerator StartPlayingCoroutine()
+
+    #region Private Methods
+
+    private IEnumerator StartPlayingCoroutine()
     {      
-        if (autoStartAndFinishOn) //if we are in auto swap
+        if (_autoStartAndFinishOn) //if we are in auto swap
         {
             StartCoroutine("GoodbyeCoroutine");
             AudioPlayer.instance.PlayAudioInstructions();
@@ -162,34 +166,38 @@ public class StatusManager : MonoBehaviour {
         yield return new WaitForFixedTime(waitBeforeInstructions);// wait before playing audio
         yield return new WaitForFixedTime(waitAfterInstructionsForScreen);//duration of audio track to start video after
 
-        if (autoStartAndFinishOn) VideoFeed.instance.SetDimmed(false);
+        if (_autoStartAndFinishOn) //if we are in auto swap
+        {
+            ArduinoControl.instance.SendCommand("wal_on"); //close curtain
+            ArduinoControl.instance.SendCommand("mir_off"); //hide mirror
+        }
+
+        if (_autoStartAndFinishOn) VideoFeed.instance.SetDimmed(false);
         _instructionsGUI.SetActive(false);
     }
 
-    public IEnumerator GoodbyeCoroutine()
+    private IEnumerator GoodbyeCoroutine()
     {
         yield return new WaitForFixedTime(waitForGoodbye + waitBeforeInstructions);
         Debug.Log("READY TO STOP");
         IsOver();
     }
 
-    public IEnumerator MirrorCoroutine()
+    private IEnumerator MirrorCoroutine()
     {
         yield return new WaitForFixedTime(waitBeforeInstructions + waitForMirror);
         Debug.Log("READY FOR MIRROR");
+        ArduinoControl.instance.SendCommand("mir_on"); //show mirror
     }
 
-    public IEnumerator WallCoroutine()
+    private IEnumerator WallCoroutine()
     {
         yield return new WaitForFixedTime(waitBeforeInstructions + waitForWall);
         Debug.Log("READY FOR WALL");
+        ArduinoControl.instance.SendCommand("wal_off"); //open curtain
+        ArduinoControl.instance.SendCommand("mir_off"); //hide mirror
     }
-
-    #endregion
-
-
-    #region Private Methods
-
+    
     private void EnableConfirmationGUI(bool enable)
     {
         ConfirmationButton.instance.gameObject.SetActive(enable);
@@ -202,29 +210,12 @@ public class StatusManager : MonoBehaviour {
             _mainCamera.GetComponent<CustomSelectionRadial>().Hide();
         }
     }
-    
-    private void WaitingForOther()
-    {
-        _instructionsText.text = LanguageTextDictionary.waitForOther;
-    }
 
     private void StartPlaying()
     {
         _instructionsGUI.SetActive(true);
         _instructionsText.text = LanguageTextDictionary.instructions;
         StartCoroutine("StartPlayingCoroutine");
-    }
-
-    private void OtherIsGone() //different than self is gone in case there is an audio for this case
-    {
-        VideoFeed.instance.SetDimmed(true);
-
-        _instructionsGUI.SetActive(true);
-        _instructionsText.text = LanguageTextDictionary.otherIsGone;
-
-        StopAllCoroutines();
-
-        StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
     }
 
     private void IsOver() //called at the the end of the experience
@@ -235,13 +226,6 @@ public class StatusManager : MonoBehaviour {
         _instructionsText.text = LanguageTextDictionary.finished;
 
         StopAllCoroutines();
-
-        StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience
-    }
-
-    private void CheckForFakeOculus() //only for debugging
-    {
-        otherUserIsReady = _fakeOculusReady;
     }
 
     private IEnumerator WaitBeforeResetting()

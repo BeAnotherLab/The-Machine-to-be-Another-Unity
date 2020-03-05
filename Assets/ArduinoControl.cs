@@ -1,4 +1,4 @@
-﻿/* based on ArduinoConnector by Alan Zucconi
+/* based on ArduinoConnector by Alan Zucconi
  * http://www.alanzucconi.com/?p=2979
  */
 using UnityEngine;
@@ -14,21 +14,21 @@ public class ArduinoControl : MonoBehaviour
 
     public static ArduinoControl instance;
 
-    public bool _servosOn;
+    [SerializeField] private bool _servosOn;
+    [SerializeField] private bool _curtainOn;
 
     /* The baudrate of the serial port. */
     [Tooltip("The baudrate of the serial port")]
     public int baudrate = 57600;
 
     public float pitchOffset, yawOffset; //use those values to compensate
-
+    
     #endregion
 
 
     #region Private Fields
 
     private SerialPort _stream;
-    private int _serialPort;
 
     #endregion
 
@@ -40,29 +40,44 @@ public class ArduinoControl : MonoBehaviour
         if (instance == null) instance = this;
     }
 
-    private void Start()
-    {
-        _serialPort = PlayerPrefs.GetInt("Serial port");
-    }
-
     #endregion
 
 
     #region Public Methods   
 
-    public void ActivateServos(bool activate)
+    public void ActivateSerial(bool servosOn, bool curtainOn = false)
     {
-        if (_servosOn) Close();
-        if (activate) Open(_serialPort);
-        _servosOn = activate;
+        if (servosOn) baudrate = 57600;
+        else if (_curtainOn) baudrate = 9600;
+        _servosOn = servosOn;
+        _curtainOn = curtainOn;
     }
 
-    public void SetSerialPort(int p)
+    public void DisableSerial()
     {
-        Open(p);
-        _serialPort = p;
-        PlayerPrefs.SetInt("Serial port", p);
+        if (_servosOn || _curtainOn) Close();
+        _servosOn = false;
+        _curtainOn = false;
     }
+
+    public void Open(int p)
+    {
+        string[] ports = SerialPort.GetPortNames();
+        string port = "";
+        if (ports.Length == 1) //if there is only one option
+            p = 0; // use the first
+        if (p < ports.Length) // if p in range
+            port = ports[p]; // use that port
+        if (_stream != null)
+            _stream.Close();
+
+        if (port != "")
+        {
+            _stream = new SerialPort(port, baudrate);
+            _stream.Open();
+        }
+    }
+
 
     public void SetPitch(float value)
     {
@@ -85,6 +100,15 @@ public class ArduinoControl : MonoBehaviour
             if ((value + yawOffset) > 180) sum = 179.5f;
             if ((value + yawOffset) < 0) sum = 0.5f;
             WriteToArduino("Yaw " + sum);
+        }
+    }
+
+    public void SendCommand(string command) //used to send commands to control technorama walls, curtains, etc
+    {
+        if (_curtainOn)
+        {
+            Debug.Log("sending " + command + " to arduino");
+            WriteToArduino(command);
         }
     }
 
@@ -163,24 +187,6 @@ public class ArduinoControl : MonoBehaviour
             // Send the request
             _stream.WriteLine(message);
             _stream.BaseStream.Flush();
-        }
-    }
-
-    private void Open(int p)
-    {
-        string[] ports = SerialPort.GetPortNames();
-        string port = "";
-        if (ports.Length == 1)
-            p = 0;
-        if (p < ports.Length)
-            port = ports[p];
-        if (_stream != null)
-            _stream.Close();
-
-        if (port != "")
-        {
-            _stream = new SerialPort(port, baudrate);
-            _stream.Open();
         }
     }
 

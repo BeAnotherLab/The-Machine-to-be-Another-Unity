@@ -11,6 +11,8 @@ public class SwapModeManager : MonoBehaviour
 
     public SwapModes swapMode;
 
+    public bool useCurtain;
+
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -30,18 +32,18 @@ public class SwapModeManager : MonoBehaviour
         switch (mode)
         {
             case SwapModes.AUTO_SWAP:
-                //deactivate servos
-                ArduinoControl.instance.ActivateServos(false);
+                //enable serial depending on if we are using the curtain or not
+                ArduinoControl.instance.ActivateSerial(false, useCurtain);
 
                 //hide serial port dropdown, show repeater toggle, show IP input field
-                SettingsGUI.instance.SetSwapMode();
+                SettingsGUI.instance.SetSwapMode(useCurtain);
 
                 //move video with other pose
                 VideoFeed.instance.twoWayWap = true;
 
                 //enable status management, self, other, autoplay, autofinish, reset timer      
                 StatusManager.instance.StopExperience();
-                StatusManager.instance.SetAutoStartAndFinish(true, 22);
+                StatusManager.instance.SetAutoStartAndFinish(true, 0);
                 StatusManager.instance.statusManagementOn = true;
 
                 //enable OSC repeat
@@ -51,7 +53,7 @@ public class SwapModeManager : MonoBehaviour
 
             case SwapModes.MANUAL_SWAP:
                 //deactivate servos
-                ArduinoControl.instance.ActivateServos(false);
+                ArduinoControl.instance.DisableSerial();
 
                 //hide serial port dropdown, show repeater toggle, show IP input field
                 SettingsGUI.instance.SetSwapMode();
@@ -74,7 +76,7 @@ public class SwapModeManager : MonoBehaviour
 
             case SwapModes.SERVO_SWAP:
                 //enable servos
-                ArduinoControl.instance.ActivateServos(true);
+                ArduinoControl.instance.ActivateSerial(true, false);
 
                 //show serial port dropdown, hide repeater toggle, hide IP input field
                 SettingsGUI.instance.SetServoMode();

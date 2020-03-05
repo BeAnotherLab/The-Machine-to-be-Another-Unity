@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using System.IO.Ports;
 using extOSC;
@@ -10,37 +10,27 @@ public class SettingsGUI : MonoBehaviour
 
     public static SettingsGUI instance;
 
-    #endregion  
+    #endregion
 
     #region Private Fields
-    [SerializeField]
-    private Dropdown _swapModeDropdown;
-    [SerializeField]
-    private GameObject _panel;
-    [SerializeField]
-    private Slider _pitchSlider, _yawSlider, _rollSlider, _zoomSlider;
-    [SerializeField]
-    private Dropdown _serialDropdown, _cameraDropdown;
-    [SerializeField]
-    private Text _FPSText;
-    [SerializeField]
-    private InputField _IPInputField;
-    [SerializeField]
-    private Button _dimButton;
-    [SerializeField]
-    private Button _headTrackingOnButton;
-    [SerializeField]
-    private Toggle _repeaterToggle;
-    [SerializeField]
-    private Text _controlsText;
-    [SerializeField]
-    private Text _languageText;
 
-    [SerializeField]
-    private GameObject _mainCamera;
+    [SerializeField] private Dropdown _swapModeDropdown;
+    [SerializeField] private GameObject _panel;
+    [SerializeField] private Slider _pitchSlider, _yawSlider, _rollSlider, _zoomSlider;
+    [SerializeField] private Dropdown _serialDropdown, _cameraDropdown;
+    [SerializeField] private Text _FPSText;
+    [SerializeField] private InputField _IPInputField;
+    [SerializeField] private Button _dimButton;
+    [SerializeField] private Button _headTrackingOnButton;
+    [SerializeField] private Toggle _repeaterToggle;
+    [SerializeField] private Text _controlsText;
+    [SerializeField] private Text _languageText;
+    [SerializeField] private GameObject _mainCamera;
 
     private bool _monitorGuiEnabled, _oculusGuiEnabled;
     private float _deltaTime = 0.0f;
+
+    [SerializeField] private bool serialDebug;
 
     #endregion
 
@@ -73,7 +63,8 @@ public class SettingsGUI : MonoBehaviour
         _pitchSlider.onValueChanged.AddListener(delegate { ArduinoControl.instance.SetPitch(_pitchSlider.value); });
         _yawSlider.onValueChanged.AddListener(delegate { ArduinoControl.instance.SetYaw(_yawSlider.value); });
         _zoomSlider.onValueChanged.AddListener(delegate { VideoFeed.instance.SetZoom(_zoomSlider.value); });
-        _serialDropdown.onValueChanged.AddListener(delegate { ArduinoControl.instance.SetSerialPort(_serialDropdown.value); });
+        
+        _serialDropdown.onValueChanged.AddListener(delegate { SelectSerialOption(_serialDropdown.value); });
         _headTrackingOnButton.onClick.AddListener(delegate { VideoFeed.instance.SwitchHeadtracking(); });
 
         //Assign swap mode dropdown handler
@@ -87,7 +78,7 @@ public class SettingsGUI : MonoBehaviour
 
         SetCameraDropdownOptions();
         SetSwapModeDropdownOptions();
-
+        
         _zoomSlider.value = PlayerPrefs.GetFloat("zoom", 39.5f);
 
         if (PlayerPrefs.GetInt("repeater") == 1) _repeaterToggle.isOn = true;
@@ -127,7 +118,6 @@ public class SettingsGUI : MonoBehaviour
 
     #endregion
 
-
     #region Public Methods
 
     public void SetLanguage(int language)
@@ -157,10 +147,10 @@ public class SettingsGUI : MonoBehaviour
             _panel.GetComponent<CanvasGroup>().alpha = 1f;
     }
                 
-    public void SetSwapMode() 
+    public void SetSwapMode(bool useCurtain = false) 
     {
-        //hide serial dropdown
-        _serialDropdown.gameObject.SetActive(false);
+        //show serial dropdown depending on if we're using the curtain or not
+        EnableSerialDropdown(useCurtain);
 
         //show two way swap related networking GUI
         _repeaterToggle.gameObject.SetActive(true);
@@ -170,10 +160,7 @@ public class SettingsGUI : MonoBehaviour
 
     public void SetServoMode()
     {
-        //show serial dropdown
-        _serialDropdown.gameObject.SetActive(true);
-        SetSerialPortDropdownOptions();
-        _serialDropdown.RefreshShownValue();
+        EnableSerialDropdown(true);
 
         //hide two way swap related networking GUI
         _IPInputField.gameObject.SetActive(false);
@@ -183,6 +170,36 @@ public class SettingsGUI : MonoBehaviour
     #endregion
 
     #region Private Methods
+
+    private void SelectSerialOption(int index)
+    {
+        //if found, set the port by options index
+        if (index != -1)
+        {
+            ArduinoControl.instance.Open(index);
+            PlayerPrefs.SetString("Serial Port", _serialDropdown.options[index].text);
+        } //TODO notify there was an error if port = -1
+    }
+    
+    private int GetSerialIndexByOptionName(Dropdown dropDown, string name)
+    {
+        List<Dropdown.OptionData> list = dropDown.options;
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (list[i].text.Equals(name)) { return i; }
+        }
+        return -1;
+    }
+    
+    private void EnableSerialDropdown(bool enable) //shows/hides serial dropdown
+    {        
+        _serialDropdown.gameObject.SetActive(enable);
+        if (enable)
+        {
+            SetSerialPortDropdownOptions();
+            _serialDropdown.RefreshShownValue();
+        }
+    }
 
     private void SetLanguageText(int language)
     {
@@ -202,7 +219,7 @@ public class SettingsGUI : MonoBehaviour
         _swapModeDropdown.RefreshShownValue();
     }
 
-    private void SetSerialPortDropdownOptions()
+    private void SetSerialPortDropdownOptions() //get available ports and add them as options to the dropdown
     {
         string[] ports = SerialPort.GetPortNames();
         _serialDropdown.options.Clear();
@@ -210,13 +227,18 @@ public class SettingsGUI : MonoBehaviour
         {
             _serialDropdown.options.Add(new Dropdown.OptionData() { text = c });
         }
-        _serialDropdown.value = PlayerPrefs.GetInt("Serial port");
+        
+        //TODO only if it is in available options
+        var name = PlayerPrefs.GetString("Serial Port");
+        _serialDropdown.value = GetSerialIndexByOptionName(_serialDropdown, name); //assign the value that was saved in PlayerPrefs
+        ArduinoControl.instance.Open(_serialDropdown.value);
+        SelectSerialOption(_serialDropdown.value);
     }
 
     private void SetIpInputField()
     {
         if (_IPInputField.text != null) _IPInputField.text = PlayerPrefs.GetString("othersIP");
-    }
+    }    
 
     private void SetCameraDropdownOptions()
     {
