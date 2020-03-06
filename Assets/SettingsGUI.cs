@@ -205,7 +205,7 @@ public class SettingsGUI : MonoBehaviour
     {
         string languageString = "English";
         if (language == 1) languageString = "French";
-        else if (language == 2) languageString = "Portuguese";
+        else if (language == 2) languageString = "Italian";
         _languageText.text = "Language : " + languageString;
     }
 
