@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1169019389771402}
+  m_IsPrefabParent: 1
+--- !u!1 &1169019389771402
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4720884688345560}
+  - component: {fileID: 114023058375386772}
+  m_Layer: 0
+  m_Name: Uduino
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 8c53aeac11c2023478cfc6f967a46c53, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4720884688345560
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1169019389771402}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114023058375386772
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1169019389771402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f5a4e52dfc3107499249fb2d34a1bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pins: []
+  activeExtentionsMap:
+    keys:
+    - UduinoDevice_AndroidBluetoothLE
+    - UduinoDevice_DesktopSerial
+    - UduinoDevice_AndroidSerial
+    - UduinoDevice_DesktopBluetoothLE
+    - UduinoDevice_Wifi
+    values: 0001000000
+  presentExtentionsMap:
+    keys:
+    - UduinoDevice_DesktopSerial
+    - UduinoDevice_DesktopBluetoothLE
+    - UduinoDevice_AndroidBluetoothLE
+    - UduinoDevice_AndroidSerial
+    - UduinoDevice_Wifi
+    values: 0101010101
+  debugLevel: 4
+  baudRate: 9600
+  limitSendRate: 0
+  readTimeout: 10
+  writeTimeout: 10
+  threadFrequency: 10
+  alwaysRead: 1
+  readAfterCommand: 1
+  skipMessageQueue: 0
+  messageQueueLength: 10
+  defaultArduinoBoardType: 0
+  useCuPort: 0
+  sendRateSpeed: 20
+  discoverTries: 8
+  autoDiscover: 1
+  delayBeforeDiscover: 0.75
+  stopAllOnQuit: 1
+  stopAllOnPause: 0
+  autoReconnect: 1
+  autoReconnectDelay: 15
+  shouldReconnect: 0
+  blackListedPorts: []
+  OnDataReceivedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Uduino.UduinoManager+eventValueReceived, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnBoardConnectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Uduino.UduinoManager+eventBoard, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnBoardDisconnectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Uduino.UduinoManager+eventBoard, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  displayAndroidTextGUI: 0
+  autoConnectToLastDevice: 1
+  bleScanDuration: 5
+  interfaceType: 0
+  uduinoIpAddress: 192.168.0.22
+  uduinoWifiPort: 4222
+  isApplicationQuiting: 0
