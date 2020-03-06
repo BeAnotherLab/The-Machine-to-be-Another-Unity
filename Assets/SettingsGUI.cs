@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using System.IO.Ports;
 using extOSC;
 
 public class SettingsGUI : MonoBehaviour
@@ -221,7 +220,8 @@ public class SettingsGUI : MonoBehaviour
 
     private void SetSerialPortDropdownOptions() //get available ports and add them as options to the dropdown
     {
-        string[] ports = SerialPort.GetPortNames();
+        string[] ports ={""};
+        
         _serialDropdown.options.Clear();
         foreach (string c in ports)
         {

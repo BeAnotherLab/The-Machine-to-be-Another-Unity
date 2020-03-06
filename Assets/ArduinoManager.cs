@@ -4,7 +4,6 @@
 using UnityEngine;
 using System;
 using System.Collections;
-using System.IO.Ports;
 
 public class ArduinoManager : MonoBehaviour
 {
@@ -27,7 +26,6 @@ public class ArduinoManager : MonoBehaviour
 
     #region Private Fields
 
-    private SerialPort _stream;
 
     #endregion
 
@@ -61,20 +59,7 @@ public class ArduinoManager : MonoBehaviour
 
     public void Open(int p)
     {
-        string[] ports = SerialPort.GetPortNames();
-        string port = "";
-        if (ports.Length == 1) //if there is only one option
-            p = 0; // use the first
-        if (p < ports.Length) // if p in range
-            port = ports[p]; // use that port
-        if (_stream != null)
-            _stream.Close();
-
-        if (port != "")
-        {
-            _stream = new SerialPort(port, baudrate);
-            _stream.Open();
-        }
+     
     }
 
 
@@ -113,15 +98,7 @@ public class ArduinoManager : MonoBehaviour
 
     public string ReadFromArduino(int timeout = 0)
     {
-        _stream.ReadTimeout = timeout;
-        try
-        {
-            return _stream.ReadLine();
-        }
-        catch (TimeoutException)
-        {
-            return null;
-        }
+        return "";
     }
 
     public IEnumerator AsynchronousReadFromArduino(Action<string> callback, Action fail = null, float timeout = float.PositiveInfinity)
@@ -137,7 +114,6 @@ public class ArduinoManager : MonoBehaviour
             // A single read attempt
             try
             {
-                dataString = _stream.ReadLine();
             }
             catch (TimeoutException)
             {
@@ -170,8 +146,7 @@ public class ArduinoManager : MonoBehaviour
 
     public void Close()
     {
-        if (_stream != null)
-            _stream.Close();
+       
     }
 
     #endregion
@@ -181,12 +156,7 @@ public class ArduinoManager : MonoBehaviour
 
     private void WriteToArduino(string message)
     {
-        if (_stream != null)
-        {
-            // Send the request
-            _stream.WriteLine(message);
-            _stream.BaseStream.Flush();
-        }
+        
     }
 
     #endregion
