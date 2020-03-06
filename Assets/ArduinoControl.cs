@@ -94,7 +94,7 @@ public class ArduinoControl : MonoBehaviour
             if ((value + pitchOffset) > 180) sum = 179.5f;
             if ((value + pitchOffset) < 0) sum = 0.5f;
 
-            if(inverse && horizontalOnly)
+            if(inverse && !horizontalOnly)
                 sum = 180 - sum;
             if (useRandomTargets)
                 sum = _lerpList[0].ChangingValue();
