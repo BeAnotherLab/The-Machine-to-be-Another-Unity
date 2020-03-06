@@ -1,12 +1,12 @@
 #include<Uduino.h>
-Uduino uduino("firstArduino");
+Uduino uduino("myArduinoName");
 
-int variable = 1000;
+int variable = 10;
 
 void setup()
 {
   Serial.begin(9600);
-  uduino.addCommand("GetVariable", GetVariable);
+  uduino.addCommand("myVariable", GetVariable);
 }
 
 void GetVariable() {
@@ -15,11 +15,10 @@ void GetVariable() {
 
 void loop()
 {
-  uduino.update();
+  uduino.readSerial();
 
-  if (uduino.isConnected()) {
-    variable ++;
-    if (variable == 2000) variable = 1000;
-    delay(100);
-  }
+  variable ++;
+  if (variable == 20) variable = 10;
+
+  delay(100);
 }
