@@ -3,9 +3,8 @@
 //  Projekt:  Kopfwelten
 //  Version:  1.0
 //  Autor:    che
-//  Datum:    21.02.2020
-//********************************
-
+//  Datum:    13.03.2020
+//*******************************
 #include <Technorama.h>
 
 bool DEBUG=false;                  //global
