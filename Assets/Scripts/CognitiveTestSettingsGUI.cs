@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class CognitiveTestSettingsGUI : MonoBehaviour
 {
+
+    public static CognitiveTestSettingsGUI instance;
+    
     [SerializeField] private Text _FPSText;
     [SerializeField] private Dropdown _pronounDropdown;
     [SerializeField] private InputField _subjectIDInputField;
@@ -17,6 +20,9 @@ public class CognitiveTestSettingsGUI : MonoBehaviour
 
     private void Awake()
     {
+
+        if (instance == null) instance = this;        
+        
         _pronounDropdown.onValueChanged.AddListener(delegate(int arg0)
         {
             PlayerPrefs.SetString("Pronoun", _pronounDropdown.options[arg0].text);
@@ -36,17 +42,17 @@ public class CognitiveTestSettingsGUI : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         SetCameraDropdownOptions();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         ShowFPS();
     }
-    
+
     private void SetCameraDropdownOptions()
     {
         WebCamDevice[] devices = WebCamTexture.devices;
