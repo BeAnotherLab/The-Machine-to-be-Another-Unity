@@ -27,6 +27,36 @@ public class CognitiveTestManager : MonoBehaviour
         if (instance == null) instance = this;
     }
 
+    private void Start()
+    {
+        _path = "Assets/task structure.json";
+        //Read the text from directly from the test.txt file
+        StreamReader reader = new StreamReader(_path); 
+        
+        _trials = new JSONObject(reader.ReadToEnd());
+        reader.Close();
+
+        _practiceTrials = new List<JSONObject>();
+        _testTrials1 = new List<JSONObject>();
+        _testTrials2 = new List<JSONObject>();
+        _testTrials3 = new List<JSONObject>();
+        _testTrials4 = new List<JSONObject>();
+        
+        for (int i = 0; i <= 26; i++) _practiceTrials.Add(_trials.list[i]);
+        for (int i = 26; i < 78; i++) _testTrials1.Add(_trials.list[i]);
+        for (int i = 78; i < 130; i++) _testTrials2.Add(_trials.list[i]);
+        for (int i = 130; i < 182; i++) _testTrials3.Add(_trials.list[i]);
+        for (int i = 182; i < 234; i++) _testTrials4.Add(_trials.list[i]);
+        
+_
+        ListExtensions.Shuffle(_practiceTrials);
+        ListExtensions.Shuffle(_testTrials1);
+        ListExtensions.Shuffle(_testTrials2);
+        ListExtensions.Shuffle(_testTrials3);
+        ListExtensions.Shuffle(_testTrials4);
+        
+    }
+
     // Update is called once per frame
     void Update()
     {
