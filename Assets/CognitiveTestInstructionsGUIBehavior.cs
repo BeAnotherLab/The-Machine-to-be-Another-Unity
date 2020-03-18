@@ -32,7 +32,7 @@ public class CognitiveTestInstructionsGUIBehavior : MonoBehaviour
       }
       else
       {
-         CognitiveTestManager.instance.StartTraining();
+         CognitiveTestManager.instance.StartTest();
       }
    }
 }

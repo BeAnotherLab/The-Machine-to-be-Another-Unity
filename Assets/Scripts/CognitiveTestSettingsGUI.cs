@@ -35,7 +35,7 @@ public class CognitiveTestSettingsGUI : MonoBehaviour
 
         _startButton.onClick.AddListener(delegate
         {
-            CognitiveTestManager.instance.StartTest(
+            CognitiveTestManager.instance.StartInstructions(
                 _pronounDropdown.options[_pronounDropdown.value].text,
                          _subjectIDInputField.text);
         });

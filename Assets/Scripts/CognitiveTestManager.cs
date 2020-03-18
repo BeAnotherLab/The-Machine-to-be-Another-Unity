@@ -67,6 +67,8 @@ public class CognitiveTestManager : MonoBehaviour
         foreach (JSONObject jsonObject in _testTrials2) _finalTrialsList.Add(jsonObject);
         foreach (JSONObject jsonObject in _testTrials1) _finalTrialsList.Add(jsonObject);
         foreach (JSONObject jsonObject in _practiceTrials) _finalTrialsList.Add(jsonObject);
+
+        _currentStep = steps.init;
     }
 
     // Update is called once per frame
@@ -78,34 +80,41 @@ public class CognitiveTestManager : MonoBehaviour
         }
     }
 
-    public void StartTest(string pronoun, string subjectID)
+    public void StartInstructions(string pronoun, string subjectID)
     {
-        _pronoun = pronoun;        
+        _pronoun = pronoun;
         CognitiveTestInstructionsGUIBehavior.instance.Init();
-        _currentStep = steps.instructions;
         CognitiveTestSettingsGUI.instance.gameObject.SetActive(false);
+        _currentStep = steps.instructions;
+    }
+    
+    public void StartTest()
+    {
+        _currentStep = steps.testing;
         _trialIndex = 0;
         StartCoroutine(ShowTrialCoroutine());
     }
 
-    public void StartTraining()
-    {
-        _currentStep = steps.training;
-    }
-
     private IEnumerator ShowTrialCoroutine()
     {
+        _trialInstructionText.transform.parent.gameObject.SetActive(true);
+
+        VideoFeed.instance.SetDimmed(true);
+
         _trialInstructionText.text = "+";
 
         yield return new WaitForSeconds(2);
 
+        //TODO load pronoun from settings
         _trialInstructionText.text = _finalTrialsList[_trialIndex].GetField("stim1").str;
         
         yield return new WaitForSeconds(2);
         
+        _trialInstructionText.transform.parent.gameObject.SetActive(false);
+        
         VideoFeed.instance.SetDimmed(false);
         
-        VideoFeed.instance.FlipHorizontal(); //if need to change direction
+        //VideoFeed.instance.FlipHorizontal(); //if need to change direction
 
         RedDotsController.instance.Show(_finalTrialsList[_trialIndex].GetField("stim2").str);
 
@@ -116,6 +125,5 @@ public class CognitiveTestManager : MonoBehaviour
         StartCoroutine(ShowTrialCoroutine());
     }
     
-
 }
 
