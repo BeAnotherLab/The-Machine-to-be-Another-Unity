@@ -60,8 +60,8 @@ public class SettingsGUI : MonoBehaviour
         _controlsText.text = _controlsText.text + "\n \nlocal IP adress : " + OSCUtilities.GetLocalHost();
 
         //Assign servos control buttons handlers
-        _pitchSlider.onValueChanged.AddListener(delegate { ArduinoControl.instance.SetPitch(_pitchSlider.value); });
-        _yawSlider.onValueChanged.AddListener(delegate { ArduinoControl.instance.SetYaw(_yawSlider.value); });
+        _pitchSlider.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetPitch(_pitchSlider.value); });
+        _yawSlider.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetYaw(_yawSlider.value); });
         _zoomSlider.onValueChanged.AddListener(delegate { VideoFeed.instance.SetZoom(_zoomSlider.value); });
         
         _serialDropdown.onValueChanged.AddListener(delegate { SelectSerialOption(_serialDropdown.value); });
@@ -176,7 +176,7 @@ public class SettingsGUI : MonoBehaviour
         //if found, set the port by options index
         if (index != -1)
         {
-            ArduinoControl.instance.Open(index);
+            ArduinoManager.instance.Open(index);
             PlayerPrefs.SetString("Serial Port", _serialDropdown.options[index].text);
         } //TODO notify there was an error if port = -1
     }
@@ -231,7 +231,7 @@ public class SettingsGUI : MonoBehaviour
         //TODO only if it is in available options
         var name = PlayerPrefs.GetString("Serial Port");
         _serialDropdown.value = GetSerialIndexByOptionName(_serialDropdown, name); //assign the value that was saved in PlayerPrefs
-        ArduinoControl.instance.Open(_serialDropdown.value);
+        ArduinoManager.instance.Open(_serialDropdown.value);
         SelectSerialOption(_serialDropdown.value);
     }
 

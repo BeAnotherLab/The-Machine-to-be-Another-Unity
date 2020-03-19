@@ -2,17 +2,16 @@
  * http://www.alanzucconi.com/?p=2979
  */
 using UnityEngine;
-using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.IO.Ports;
 
-public class ArduinoControl : MonoBehaviour
+public class ArduinoManager : MonoBehaviour
 {
 
     #region Public Fields
 
-    public static ArduinoControl instance;
+    public static ArduinoManager instance;
 
     [SerializeField] private bool _servosOn;
     [SerializeField] private bool _curtainOn;
