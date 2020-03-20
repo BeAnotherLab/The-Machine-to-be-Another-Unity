@@ -9,31 +9,33 @@ public class CognitiveTestManager : MonoBehaviour
 {
     #region Private Fields
 
+    //for parsing the trial structure JSONs
     private int _trialIndex;
-
-    //intermediary JSON objects
-   
     private JSONObject _finalTrialsList;
-
-    private JSONObject _results; //the JSON object that gets written as a file in the end
-        
+    private JSONObject _trials;
+    
+    //the answers given by the subject
     private enum answer { yes, no, none };
-
     private answer _givenAnswer;
+
+    //flag to defint the time frame in which we accept answers
     private bool _waitingForAnswer;
 
+    //the trial instructions text canvas element
     [SerializeField] private Text _trialInstructionText;
 
+    //The different steps in our test
     private enum steps { init, instructions, testing };
-
     private steps _currentStep;
 
+    //the timer to measure reaction time
     private Stopwatch timer;
 
     private Coroutine _trialCoroutine;
     
     #endregion
 
+    
     #region  Public Fields
 
     public static CognitiveTestManager instance;
@@ -52,47 +54,30 @@ public class CognitiveTestManager : MonoBehaviour
     {
         VideoFeed.instance.twoWayWap = true;
         
-        JSONObject _trials;
-        List<JSONObject> _practiceTrials;
-        List<JSONObject> _testTrials1, _testTrials2, _testTrials3, _testTrials4;
-        
         //Read the text from directly from the test.txt file
         StreamReader reader = new StreamReader("Assets/task structure.json"); 
-        
         _trials = new JSONObject(reader.ReadToEnd());
         reader.Close();
-
-        //TODO shorten
-        _practiceTrials = new List<JSONObject>();
-        _testTrials1 = new List<JSONObject>();
-        _testTrials2 = new List<JSONObject>();
-        _testTrials3 = new List<JSONObject>();
-        _testTrials4 = new List<JSONObject>();
         _finalTrialsList = new JSONObject();
+        PrepareBlock(0, 26);
+        PrepareBlock(26, 78);
+        PrepareBlock(78, 130);
+        PrepareBlock(130, 182);
+        PrepareBlock(182, 234);
         
-        for (int i = 0; i <= 26; i++) _practiceTrials.Add(_trials.list[i]);
-        for (int i = 26; i < 78; i++) _testTrials1.Add(_trials.list[i]);
-        for (int i = 78; i < 130; i++) _testTrials2.Add(_trials.list[i]);
-        for (int i = 130; i < 182; i++) _testTrials3.Add(_trials.list[i]);
-        for (int i = 182; i < 234; i++) _testTrials4.Add(_trials.list[i]);
-        
-        ListExtensions.Shuffle(_practiceTrials);
-        ListExtensions.Shuffle(_testTrials1);
-        ListExtensions.Shuffle(_testTrials2);
-        ListExtensions.Shuffle(_testTrials3);
-        ListExtensions.Shuffle(_testTrials4);
-        
-        foreach (JSONObject jsonObject in _practiceTrials) _finalTrialsList.Add(jsonObject);
-        foreach (JSONObject jsonObject in _testTrials1) _finalTrialsList.Add(jsonObject);
-        foreach (JSONObject jsonObject in _testTrials2) _finalTrialsList.Add(jsonObject);
-        foreach (JSONObject jsonObject in _testTrials3) _finalTrialsList.Add(jsonObject);
-        foreach (JSONObject jsonObject in _testTrials4) _finalTrialsList.Add(jsonObject);
-
         _currentStep = steps.init;
         
         timer = new Stopwatch();
     }
 
+    private void PrepareBlock(int startIndex, int endIndex)
+    {
+        List<JSONObject> jsonObjects = new List<JSONObject>(); //create list of JSONObjects
+        for (int i = startIndex; i < endIndex; i++) jsonObjects.Add(_trials.list[i]); //add elements between our boundaries
+        ListExtensions.Shuffle(jsonObjects); //shuffle that list
+        foreach (JSONObject jsonObject in jsonObjects) _finalTrialsList.Add(jsonObject); //add it to the final list
+    }
+    
     // Update is called once per frame
     private void Update()
     {
