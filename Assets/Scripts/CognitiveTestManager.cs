@@ -14,9 +14,7 @@ public class CognitiveTestManager : MonoBehaviour
     private int _trialIndex;
 
     //intermediary JSON objects
-    private JSONObject _trials;
-    private List<JSONObject> _practiceTrials;
-    private List<JSONObject> _testTrials1, _testTrials2, _testTrials3, _testTrials4;
+   
     private JSONObject _finalTrialsList;
 
     private JSONObject _results; //the JSON object that gets written as a file in the end
@@ -38,9 +36,15 @@ public class CognitiveTestManager : MonoBehaviour
     private Coroutine _trialCoroutine;
     
     #endregion
-    
-    
+
+    #region  Public Fields
+
     public static CognitiveTestManager instance;
+
+    #endregion
+
+
+    #region Monobehavior Methods
 
     private void Awake()
     {
@@ -50,6 +54,10 @@ public class CognitiveTestManager : MonoBehaviour
     private void Start()
     {
         VideoFeed.instance.twoWayWap = true;
+        
+        JSONObject _trials;
+        List<JSONObject> _practiceTrials;
+        List<JSONObject> _testTrials1, _testTrials2, _testTrials3, _testTrials4;
         
         _path = "Assets/task structure.json";
         //Read the text from directly from the test.txt file
@@ -90,7 +98,7 @@ public class CognitiveTestManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyUp(KeyCode.Space) && _currentStep == steps.init)
         {
@@ -105,7 +113,12 @@ public class CognitiveTestManager : MonoBehaviour
             if (Input.GetMouseButtonDown(0)) GetClick(0);
             else if (Input.GetMouseButtonDown(1)) GetClick(1);
         }
-    }
+    }    
+
+    #endregion
+
+
+    #region Public Methods
 
     public void StartInstructions(string pronoun, string subjectID)
     {
@@ -122,6 +135,11 @@ public class CognitiveTestManager : MonoBehaviour
         _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
     }
 
+    #endregion
+
+    
+    #region Private Methods
+    
     private IEnumerator ShowTrialCoroutine()
     {
         _trialIndex++;
@@ -194,5 +212,8 @@ public class CognitiveTestManager : MonoBehaviour
         if (_finalTrialsList[_trialIndex].GetField("type").str == "practice") StartCoroutine(ShowFeedbackCoroutine());
         else if (_finalTrialsList[_trialIndex].GetField("type").str == "test") _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
     }    
+    
+    #endregion
+    
 }
 
