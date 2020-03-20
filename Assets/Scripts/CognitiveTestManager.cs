@@ -3,31 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using System.Diagnostics;
 
 public class CognitiveTestManager : MonoBehaviour
 {
+    #region Private Fields
+
     private string _path;
     private string _pronoun;
     private int _trialIndex;
 
+    //intermediary JSON objects
     private JSONObject _trials;
     private List<JSONObject> _practiceTrials;
     private List<JSONObject> _testTrials1, _testTrials2, _testTrials3, _testTrials4;
     private JSONObject _finalTrialsList;
+
+    private JSONObject _results; //the JSON object that gets written as a file in the end
+        
+    private enum answer { yes, no, none };
+
+    private answer _givenAnswer;
+    private double _answerTime;
+    private bool _waitingForAnswer;
+
+    [SerializeField] private Text _trialInstructionText;
+
+    private enum steps { init, instructions, training, testing };
+
+    private steps _currentStep;
+
+    private Stopwatch timer;
+
+    private Coroutine _trialCoroutine;
+    
+    #endregion
+    
     
     public static CognitiveTestManager instance;
-
-    [SerializeField] Text _trialInstructionText;
-
-     private enum steps
-     {
-         init,
-         instructions,
-         training,
-         testing
-     };
-
-     private steps _currentStep;
 
     private void Awake()
     {
@@ -36,6 +49,8 @@ public class CognitiveTestManager : MonoBehaviour
 
     private void Start()
     {
+        VideoFeed.instance.twoWayWap = true;
+        
         _path = "Assets/task structure.json";
         //Read the text from directly from the test.txt file
         StreamReader reader = new StreamReader(_path); 
@@ -43,6 +58,7 @@ public class CognitiveTestManager : MonoBehaviour
         _trials = new JSONObject(reader.ReadToEnd());
         reader.Close();
 
+        //TODO shorten
         _practiceTrials = new List<JSONObject>();
         _testTrials1 = new List<JSONObject>();
         _testTrials2 = new List<JSONObject>();
@@ -62,21 +78,32 @@ public class CognitiveTestManager : MonoBehaviour
         ListExtensions.Shuffle(_testTrials3);
         ListExtensions.Shuffle(_testTrials4);
         
-        foreach (JSONObject jsonObject in _testTrials4) _finalTrialsList.Add(jsonObject);
-        foreach (JSONObject jsonObject in _testTrials3) _finalTrialsList.Add(jsonObject);
-        foreach (JSONObject jsonObject in _testTrials2) _finalTrialsList.Add(jsonObject);
-        foreach (JSONObject jsonObject in _testTrials1) _finalTrialsList.Add(jsonObject);
         foreach (JSONObject jsonObject in _practiceTrials) _finalTrialsList.Add(jsonObject);
+        foreach (JSONObject jsonObject in _testTrials1) _finalTrialsList.Add(jsonObject);
+        foreach (JSONObject jsonObject in _testTrials2) _finalTrialsList.Add(jsonObject);
+        foreach (JSONObject jsonObject in _testTrials3) _finalTrialsList.Add(jsonObject);
+        foreach (JSONObject jsonObject in _testTrials4) _finalTrialsList.Add(jsonObject);
 
         _currentStep = steps.init;
+        
+        timer = new Stopwatch();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyUp(KeyCode.Space) && _currentStep == steps.init)
+        {
+            //TODO complement start button click
+        }
         if (Input.GetKeyUp(KeyCode.Space) && _currentStep == steps.instructions)
         {
             CognitiveTestInstructionsGUIBehavior.instance.Next();
+        }
+        else if (_waitingForAnswer && _givenAnswer == answer.none)
+        {
+            if (Input.GetMouseButtonDown(0)) GetClick(0);
+            else if (Input.GetMouseButtonDown(1)) GetClick(1);
         }
     }
 
@@ -92,38 +119,80 @@ public class CognitiveTestManager : MonoBehaviour
     {
         _currentStep = steps.testing;
         _trialIndex = 0;
-        StartCoroutine(ShowTrialCoroutine());
+        _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
     }
 
     private IEnumerator ShowTrialCoroutine()
     {
-        _trialInstructionText.transform.parent.gameObject.SetActive(true);
-
-        VideoFeed.instance.SetDimmed(true);
-
-        _trialInstructionText.text = "+";
+        _trialIndex++;
+        
+        //initialize trial answer values
+        timer.Start();
+        _givenAnswer = answer.none;
+        
+        ShowInstructionText(true, "+");
+        VideoFeed.instance.SetDimmed(true); //hide video feed
 
         yield return new WaitForSeconds(2);
 
         //TODO load pronoun from settings
-        _trialInstructionText.text = _finalTrialsList[_trialIndex].GetField("stim1").str;
+        ShowInstructionText(true, _finalTrialsList[_trialIndex].GetField("stim1").str); //show pronoun + number of balls
         
         yield return new WaitForSeconds(2);
+        _waitingForAnswer = true;
+        ShowInstructionText(false);
+        VideoFeed.instance.SetDimmed(false); //display video feed
+        //VideoFeed.instance.FlipHorizontal(); //TODO if need to change direction
+        RedDotsController.instance.Show(_finalTrialsList[_trialIndex].GetField("stim2").str); //show dots as indicated in file
+        //get expected answer
         
-        _trialInstructionText.transform.parent.gameObject.SetActive(false);
-        
-        VideoFeed.instance.SetDimmed(false);
-        
-        //VideoFeed.instance.FlipHorizontal(); //if need to change direction
-
-        RedDotsController.instance.Show(_finalTrialsList[_trialIndex].GetField("stim2").str);
-
         yield return new WaitForSeconds(4);
+        ShowInstructionText(true, "Out of time!");
         
-        _trialIndex++;
+        yield return new WaitForSeconds(3);
+        
+        _waitingForAnswer = false;
+        _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
+    }
 
-        StartCoroutine(ShowTrialCoroutine());
+    private IEnumerator ShowFeedbackCoroutine()
+    {
+        StopCoroutine(_trialCoroutine);
+        if (_givenAnswer != answer.none)
+        {
+            //write reaction time
+            UnityEngine.Debug.Log("correct answer : " + _finalTrialsList[_trialIndex].GetField("key").str);
+            UnityEngine.Debug.Log("given answer : " + _givenAnswer);
+            UnityEngine.Debug.Log("Response time : " + (timer.Elapsed.Milliseconds));
+            
+            //add answer
+            if(    _finalTrialsList[_trialIndex].GetField("key").str == "c" && _givenAnswer == answer.yes 
+                   || _finalTrialsList[_trialIndex].GetField("key").str == "n" && _givenAnswer == answer.no)
+                ShowInstructionText(true, "True answer!"); //good answer
+            else 
+                ShowInstructionText(true, "Bad answer!"); //bad answer
+        }
+        
+        yield return new WaitForSeconds(4);
+
+        _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
     }
     
+    private void ShowInstructionText(bool show, string text = "")
+    {
+        _trialInstructionText.transform.parent.gameObject.SetActive(show); //Show instructions canvas
+        _trialInstructionText.text = text; //give feedback
+    }
+
+    private void GetClick(int button)
+    {
+        if (button == 0) _givenAnswer = answer.yes;
+        if (button == 1) _givenAnswer = answer.no;
+        
+        _answerTime = Time.time;
+        
+        if (_finalTrialsList[_trialIndex].GetField("type").str == "practice") StartCoroutine(ShowFeedbackCoroutine());
+        else if (_finalTrialsList[_trialIndex].GetField("type").str == "test") _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
+    }    
 }
 
