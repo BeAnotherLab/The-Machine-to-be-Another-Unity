@@ -9,8 +9,6 @@ public class CognitiveTestManager : MonoBehaviour
 {
     #region Private Fields
 
-    private string _path;
-    private string _pronoun;
     private int _trialIndex;
 
     //intermediary JSON objects
@@ -22,12 +20,11 @@ public class CognitiveTestManager : MonoBehaviour
     private enum answer { yes, no, none };
 
     private answer _givenAnswer;
-    private double _answerTime;
     private bool _waitingForAnswer;
 
     [SerializeField] private Text _trialInstructionText;
 
-    private enum steps { init, instructions, training, testing };
+    private enum steps { init, instructions, testing };
 
     private steps _currentStep;
 
@@ -59,9 +56,8 @@ public class CognitiveTestManager : MonoBehaviour
         List<JSONObject> _practiceTrials;
         List<JSONObject> _testTrials1, _testTrials2, _testTrials3, _testTrials4;
         
-        _path = "Assets/task structure.json";
         //Read the text from directly from the test.txt file
-        StreamReader reader = new StreamReader(_path); 
+        StreamReader reader = new StreamReader("Assets/task structure.json"); 
         
         _trials = new JSONObject(reader.ReadToEnd());
         reader.Close();
@@ -122,7 +118,8 @@ public class CognitiveTestManager : MonoBehaviour
 
     public void StartInstructions(string pronoun, string subjectID)
     {
-        _pronoun = pronoun;
+        //TODO save pronoun and subjectID in playerprefs
+        //TODOCheck if SubjectID does not already exist
         CognitiveTestInstructionsGUIBehavior.instance.Init();
         CognitiveTestSettingsGUI.instance.gameObject.SetActive(false);
         _currentStep = steps.instructions;
@@ -206,8 +203,6 @@ public class CognitiveTestManager : MonoBehaviour
     {
         if (button == 0) _givenAnswer = answer.yes;
         if (button == 1) _givenAnswer = answer.no;
-        
-        _answerTime = Time.time;
         
         if (_finalTrialsList[_trialIndex].GetField("type").str == "practice") StartCoroutine(ShowFeedbackCoroutine());
         else if (_finalTrialsList[_trialIndex].GetField("type").str == "test") _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
