@@ -23,11 +23,6 @@ public class CognitiveTestSettingsGUI : MonoBehaviour
 
         if (instance == null) instance = this;        
         
-        _pronounDropdown.onValueChanged.AddListener(delegate(int arg0)
-        {
-            PlayerPrefs.SetString("Pronoun", _pronounDropdown.options[arg0].text);
-        });
-        
         _cameraDropdown.onValueChanged.AddListener(delegate
         {
             VideoFeed.instance.cameraID = _cameraDropdown.value;

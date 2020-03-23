@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,10 @@ public class CognitiveTestManager : MonoBehaviour
 {
     #region Private Fields
 
+    //params from settings GUI
+    private string _pronoun;
+    private string _subjectID;
+    
     //for parsing the trial structure JSONs
     private int _trialIndex;
     private JSONObject _finalTrialsList;
@@ -18,7 +23,7 @@ public class CognitiveTestManager : MonoBehaviour
     private enum answer { yes, no, none };
     private answer _givenAnswer;
 
-    //flag to defint the time frame in which we accept answers
+    //flag to define the time frame in which we accept answers
     private bool _waitingForAnswer;
 
     //the trial instructions text canvas element
@@ -103,7 +108,9 @@ public class CognitiveTestManager : MonoBehaviour
 
     public void StartInstructions(string pronoun, string subjectID)
     {
-        //TODO save pronoun and subjectID in playerprefs
+        _pronoun = pronoun;
+        _subjectID = subjectID;
+        
         //TODOCheck if SubjectID does not already exist
         CognitiveTestInstructionsGUIBehavior.instance.Init();
         CognitiveTestSettingsGUI.instance.gameObject.SetActive(false);
@@ -136,7 +143,10 @@ public class CognitiveTestManager : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         //TODO load pronoun from settings
-        ShowInstructionText(true, _finalTrialsList[_trialIndex].GetField("stim1").str); //show pronoun + number of balls
+        string stim1 = _finalTrialsList[_trialIndex].GetField("stim1").str;
+        if (stim1.Contains("SHE")) stim1 = _pronoun + " " + stim1[3];
+        else stim1 = "You : " + stim1[3]; 
+        ShowInstructionText(true, stim1); //show pronoun + number of balls
         
         yield return new WaitForSeconds(2);
         _waitingForAnswer = true;
