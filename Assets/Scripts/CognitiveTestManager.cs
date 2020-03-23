@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 public class CognitiveTestManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class CognitiveTestManager : MonoBehaviour
     private int _trialIndex;
     private JSONObject _finalTrialsList;
     private JSONObject _trials;
+    private JSONObject _results;
     
     //the answers given by the subject
     private enum answer { yes, no, none };
@@ -34,9 +36,11 @@ public class CognitiveTestManager : MonoBehaviour
     private steps _currentStep;
 
     //the timer to measure reaction time
-    private Stopwatch timer;
+    private Stopwatch _timer;
 
     private Coroutine _trialCoroutine;
+
+    private string _filePath;
     
     #endregion
 
@@ -72,7 +76,7 @@ public class CognitiveTestManager : MonoBehaviour
         
         _currentStep = steps.init;
         
-        timer = new Stopwatch();
+        _timer = new Stopwatch();
     }
 
     private void PrepareBlock(int startIndex, int endIndex)
@@ -112,6 +116,8 @@ public class CognitiveTestManager : MonoBehaviour
         _subjectID = subjectID;
         
         //TODOCheck if SubjectID does not already exist
+        _filePath = "./Logs/" + _subjectID + "_log.json"; 
+
         CognitiveTestInstructionsGUIBehavior.instance.Init();
         CognitiveTestSettingsGUI.instance.gameObject.SetActive(false);
         _currentStep = steps.instructions;
@@ -134,7 +140,6 @@ public class CognitiveTestManager : MonoBehaviour
         _trialIndex++;
         
         //initialize trial answer values
-        timer.Start();
         _givenAnswer = answer.none;
         
         ShowInstructionText(true, "+");
@@ -142,26 +147,32 @@ public class CognitiveTestManager : MonoBehaviour
 
         yield return new WaitForSeconds(2);
 
-        //TODO load pronoun from settings
+        //Make sure to use the right pronoun
         string stim1 = _finalTrialsList[_trialIndex].GetField("stim1").str;
         if (stim1.Contains("SHE")) stim1 = _pronoun + " " + stim1[3];
         else stim1 = "You : " + stim1[3]; 
         ShowInstructionText(true, stim1); //show pronoun + number of balls
         
         yield return new WaitForSeconds(2);
-        _waitingForAnswer = true;
+        
+        _timer.Start();
         ShowInstructionText(false);
         VideoFeed.instance.SetDimmed(false); //display video feed
         //VideoFeed.instance.FlipHorizontal(); //TODO if need to change direction
         RedDotsController.instance.Show(_finalTrialsList[_trialIndex].GetField("stim2").str); //show dots as indicated in file
-        //get expected answer
-        
+        _waitingForAnswer = true;
+
         yield return new WaitForSeconds(4);
+
+        _waitingForAnswer = false;
+        WriteTestResults("none", _timer.ElapsedMilliseconds);
         ShowInstructionText(true, "Out of time!");
+        _timer.Stop();
+        _timer.Reset();
         
         yield return new WaitForSeconds(3);
         
-        _waitingForAnswer = false;
+        
         _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
     }
 
@@ -173,14 +184,13 @@ public class CognitiveTestManager : MonoBehaviour
             //write reaction time
             UnityEngine.Debug.Log("correct answer : " + _finalTrialsList[_trialIndex].GetField("key").str);
             UnityEngine.Debug.Log("given answer : " + _givenAnswer);
-            UnityEngine.Debug.Log("Response time : " + (timer.Elapsed.Milliseconds));
-            
+
             //add answer
             if(    _finalTrialsList[_trialIndex].GetField("key").str == "c" && _givenAnswer == answer.yes 
                    || _finalTrialsList[_trialIndex].GetField("key").str == "n" && _givenAnswer == answer.no)
-                ShowInstructionText(true, "True answer!"); //good answer
+                ShowInstructionText(true, "Correct answer!"); 
             else 
-                ShowInstructionText(true, "Bad answer!"); //bad answer
+                ShowInstructionText(true, "Wrong answer!");
         }
         
         yield return new WaitForSeconds(4);
@@ -196,14 +206,38 @@ public class CognitiveTestManager : MonoBehaviour
 
     private void GetClick(int button)
     {
-        if (button == 0) _givenAnswer = answer.yes;
-        if (button == 1) _givenAnswer = answer.no;
+        string answer = "";
+        _waitingForAnswer = false;
+        _timer.Stop();
+        Debug.Log("time elapsed "  + _timer.ElapsedMilliseconds);
+        
+        if (button == 0)
+        {
+            WriteTestResults("yes", _timer.Elapsed.Milliseconds);
+            _givenAnswer = CognitiveTestManager.answer.no;
+        }
+        else if (button == 1)
+        {
+            WriteTestResults("no", _timer.Elapsed.Milliseconds);
+            _givenAnswer = CognitiveTestManager.answer.yes;
+        }
         
         if (_finalTrialsList[_trialIndex].GetField("type").str == "practice") StartCoroutine(ShowFeedbackCoroutine());
         else if (_finalTrialsList[_trialIndex].GetField("type").str == "test") _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
-    }    
+    }
+
+    private void WriteTestResults(string answer, double time)
+    {
+        _finalTrialsList[_trialIndex].AddField("answer", answer);
+        _finalTrialsList[_trialIndex].AddField("time", time.ToString());
+
+        File.WriteAllText(_filePath, _finalTrialsList.Print());
+        
+        _timer.Reset();
+    }
     
     #endregion
+    
     
 }
 
