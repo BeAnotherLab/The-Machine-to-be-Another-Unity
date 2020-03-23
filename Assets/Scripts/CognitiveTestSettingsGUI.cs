@@ -14,6 +14,7 @@ public class CognitiveTestSettingsGUI : MonoBehaviour
     [SerializeField] private InputField _subjectIDInputField;
     [SerializeField] private Dropdown _cameraDropdown;
     [SerializeField] private Button _startButton;
+    [SerializeField] private GameObject _subjectExistingErrorMessage;
     
     private bool _monitorGuiEnabled;
     private float _deltaTime = 0.0f;
@@ -48,6 +49,18 @@ public class CognitiveTestSettingsGUI : MonoBehaviour
         ShowFPS();
     }
 
+    public void ShowExistingSubjectIDError()
+    {
+        StartCoroutine(ShowAndHideExistingSubjectIDError());
+    }
+
+    private IEnumerator ShowAndHideExistingSubjectIDError()
+    {
+        _subjectExistingErrorMessage.gameObject.SetActive(true);
+        yield return new WaitForSeconds(5);
+        _subjectExistingErrorMessage.gameObject.SetActive(false);
+    }
+    
     private void SetCameraDropdownOptions()
     {
         WebCamDevice[] devices = WebCamTexture.devices;

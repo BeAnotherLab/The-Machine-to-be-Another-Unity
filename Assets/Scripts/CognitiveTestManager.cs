@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System.Diagnostics;
+using System.Linq;
 using Debug = UnityEngine.Debug;
 
 public class CognitiveTestManager : MonoBehaviour
@@ -113,14 +114,22 @@ public class CognitiveTestManager : MonoBehaviour
     public void StartInstructions(string pronoun, string subjectID)
     {
         _pronoun = pronoun;
-        _subjectID = subjectID;
         
-        //TODOCheck if SubjectID does not already exist
-        _filePath = "./Logs/" + _subjectID + "_log.json"; 
+        var files = Directory.GetFiles("./Logs");
 
-        CognitiveTestInstructionsGUIBehavior.instance.Init();
-        CognitiveTestSettingsGUI.instance.gameObject.SetActive(false);
-        _currentStep = steps.instructions;
+        string filepath = "./Logs/" + _subjectID + "_log.json";
+        
+        if (!File.Exists(filepath))
+        {
+            _subjectID = subjectID;
+
+            _filePath = filepath; 
+
+            CognitiveTestInstructionsGUIBehavior.instance.Init();
+            CognitiveTestSettingsGUI.instance.gameObject.SetActive(false);
+            _currentStep = steps.instructions;            
+        }
+        else CognitiveTestSettingsGUI.instance.ShowExistingSubjectIDError();
     }
     
     public void StartTest()
@@ -171,7 +180,6 @@ public class CognitiveTestManager : MonoBehaviour
         _timer.Reset();
         
         yield return new WaitForSeconds(3);
-        
         
         _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
     }
