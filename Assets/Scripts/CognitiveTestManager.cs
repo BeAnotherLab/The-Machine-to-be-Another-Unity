@@ -117,7 +117,7 @@ public class CognitiveTestManager : MonoBehaviour
         
         var files = Directory.GetFiles("./Logs");
 
-        string filepath = "./Logs/" + _subjectID + "_log.json";
+        string filepath = "./Logs/" + subjectID + "_log.json";
         
         if (!File.Exists(filepath))
         {
