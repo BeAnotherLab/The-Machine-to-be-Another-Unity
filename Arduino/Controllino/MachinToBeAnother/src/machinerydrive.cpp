@@ -7,7 +7,7 @@ bool SendErrorOnce1=true;
 bool SendErrorOnce2=true;
 
 void machinerydrive(){
-  if (analogRead(CONTROLLINO_A3)) {      //MD ready
+  if (digitalRead(CONTROLLINO_A3)) {      //MD ready
     MDReady=true;
     SendErrorOnce1=true;
   }
