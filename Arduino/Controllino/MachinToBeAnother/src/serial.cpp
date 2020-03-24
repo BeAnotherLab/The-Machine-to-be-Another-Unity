@@ -1,7 +1,8 @@
 #include <Technorama.h>
 #include <SerialCommand.h>
+#include <Uduino.h>
 
-SerialCommand sCmd;
+Uduino uduino("dataSender");
 bool FirstRunSerial=true;
 
 void serial_wall_on() {
@@ -48,15 +49,16 @@ void serial (void) {
   if (FirstRunSerial){
 
     // Setup callbacks for SerialCommand commands for String. Use just 8 letters!!!
-    sCmd.addCommand("wal_on",   serial_wall_on);        // Close Wall
-    sCmd.addCommand("wal_off",  serial_wall_off);       // Open Wall
-    sCmd.addCommand("mir_on",   serial_mirror_on);      // Open Mirror
-    sCmd.addCommand("mir_off",  serial_mirror_off);     // Close Mirror
-    sCmd.addCommand("sys_rst",  serial_system_reset);   // System Reset
-    sCmd.addCommand("debug",    debug_modus);           // debug modus
-    sCmd.setDefaultHandler(unrecognized);               // Handler for command that isn't matched  (says "What?")
+    uduino.addCommand("wal_on",   serial_wall_on);        // Close Wall
+    uduino.addCommand("wal_off",  serial_wall_off);       // Open Wall
+    uduino.addCommand("mir_on",   serial_mirror_on);      // Open Mirror
+    uduino.addCommand("mir_off",  serial_mirror_off);     // Close Mirror
+    uduino.addCommand("sys_rst",  serial_system_reset);   // System Reset
+    uduino.addCommand("debug",    debug_modus);           // debug modus
+    //uduino.setDefaultHandler(unrecognized);               // Handler for command that isn't matched  (says "What?")
 
     FirstRunSerial=false;
   }
-  sCmd.readSerial();          // Read Serial Communication and call funcions
+
+  uduino.update();          // Read Serial Communication and call funcions
 }

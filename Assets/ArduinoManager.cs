@@ -2,40 +2,34 @@
  * http://www.alanzucconi.com/?p=2979
  */
 using UnityEngine;
-using UnityEngine.UI;
 using System;
 using System.Collections;
+using Uduino;
 
-public class ArduinoControl : MonoBehaviour
+public class ArduinoManager : MonoBehaviour
 {
 
     #region Public Fields
 
-    public static ArduinoControl instance;
+    public static ArduinoManager instance;
 
     [SerializeField] private bool _servosOn;
     [SerializeField] private bool _curtainOn;
 
-    /* The baudrate of the serial port. */
-    [Tooltip("The baudrate of the serial port")]
-    public int baudrate = 57600;
-
     public float pitchOffset, yawOffset; //use those values to compensate
     
     #endregion
-
-
-    #region Private Fields
-
-
-    #endregion
-
 
     #region MonoBehaviour Methods
 
     private void Awake()
     {
         if (instance == null) instance = this;
+    }
+
+    private void Start()
+    {
+        UduinoManager.Instance.OnDataReceived += DataReceived;
     }
 
     #endregion
@@ -45,8 +39,8 @@ public class ArduinoControl : MonoBehaviour
 
     public void ActivateSerial(bool servosOn, bool curtainOn = false)
     {
-        if (servosOn) baudrate = 57600;
-        else if (_curtainOn) baudrate = 9600;
+        if (servosOn) UduinoManager.Instance.BaudRate = 57600;
+        else if (_curtainOn) UduinoManager.Instance.BaudRate = 9600;
         _servosOn = servosOn;
         _curtainOn = curtainOn;
     }
@@ -155,6 +149,11 @@ public class ArduinoControl : MonoBehaviour
 
     #region Private Methods
 
+    private void DataReceived(string data, UduinoDevice board)
+    {
+        Debug.Log(data);
+    }
+    
     private void WriteToArduino(string message)
     {
         

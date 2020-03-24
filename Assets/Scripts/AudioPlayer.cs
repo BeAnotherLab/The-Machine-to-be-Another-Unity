@@ -21,7 +21,7 @@ public class AudioPlayer : MonoBehaviour {
     [SerializeField]
     private AudioSource[] _frenchClips; //french audios
     [SerializeField]
-    private AudioSource[] _italianClips; //italian audios
+    private AudioSource[] _portugueseClips; //italian audios
 
     private List<AudioSource[]> _audioClips;
 
@@ -43,14 +43,15 @@ public class AudioPlayer : MonoBehaviour {
 
         _audioClips = new List<AudioSource[]>();
 
+        //TODO add audio translations as scriptable object configuration to avoid errors with objects not found in scene
         _englishClips = GameObject.Find("EnglishAudios").GetComponentsInChildren<AudioSource>();
         _audioClips.Add(_englishClips);
 
         _frenchClips = GameObject.Find("FrenchAudios").GetComponentsInChildren<AudioSource>();
         _audioClips.Add(_frenchClips);
 
-        _italianClips = GameObject.Find("ItalianAudios").GetComponentsInChildren<AudioSource>();
-        _audioClips.Add(_italianClips);        
+        _portugueseClips = GameObject.Find("PortugueseAudios").GetComponentsInChildren<AudioSource>();
+        _audioClips.Add(_portugueseClips);        
     }
 
     // Use this for initialization

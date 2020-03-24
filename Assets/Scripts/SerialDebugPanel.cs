@@ -19,7 +19,7 @@ public class SerialDebugPanel : MonoBehaviour
             button.gameObject.GetComponentInChildren<Text>().text = commands[i];
             button.onClick.AddListener(delegate
             {
-                ArduinoControl.instance.SendCommand(commands[index]);
+                ArduinoManager.instance.SendCommand(commands[index]);
             });
             
             i++;

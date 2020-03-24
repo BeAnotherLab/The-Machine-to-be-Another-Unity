@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4467387727433931582
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1880062187224018194}
+  - component: {fileID: 7949422715204737352}
+  - component: {fileID: 3610201268164942279}
+  m_Layer: 0
+  m_Name: ArduinoManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1880062187224018194
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4467387727433931582}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7949422715204737352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4467387727433931582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb793594ac9c094fa0072b0096ad647, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _servosOn: 0
+  _curtainOn: 0
+  pitchOffset: 0
+  yawOffset: 0
+--- !u!114 &3610201268164942279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4467387727433931582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f5a4e52dfc3107499249fb2d34a1bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pins: []
+  activeExtentionsMap:
+    keys:
+    - UduinoDevice_DesktopSerial
+    values: 01
+  presentExtentionsMap:
+    keys:
+    - UduinoDevice_DesktopSerial
+    values: 01
+  debugLevel: 0
+  baudRate: 9600
+  limitSendRate: 0
+  readTimeout: 30
+  writeTimeout: 30
+  threadFrequency: 16
+  alwaysRead: 1
+  readAfterCommand: 1
+  skipMessageQueue: 0
+  messageQueueLength: 10
+  defaultArduinoBoardType: 0
+  useCuPort: 0
+  sendRateSpeed: 20
+  discoverTries: 10
+  autoDiscover: 1
+  delayBeforeDiscover: 0.5
+  stopAllOnQuit: 1
+  stopAllOnPause: 0
+  autoReconnect: 1
+  autoReconnectDelay: 5
+  shouldReconnect: 0
+  blackListedPorts: []
+  OnDataReceivedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Uduino.UduinoManager+eventValueReceived, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnBoardConnectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Uduino.UduinoManager+eventBoard, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnBoardDisconnectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Uduino.UduinoManager+eventBoard, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  displayAndroidTextGUI: 0
+  autoConnectToLastDevice: 1
+  bleScanDuration: 3
+  interfaceType: 2
+  uduinoIpAddress: 192.168.x.x
+  uduinoWifiPort: 4222
+  isApplicationQuiting: 0

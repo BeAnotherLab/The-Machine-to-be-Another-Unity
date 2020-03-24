@@ -132,7 +132,7 @@ public class StatusManager : MonoBehaviour {
         //reset user status as it is not ready
         EnableConfirmationGUI(true);
         OscManager.instance.SendThisUserStatus(false);
-        ArduinoControl.instance.SendCommand("stop");
+        ArduinoManager.instance.SendCommand("stop");
         _thisUserIsReady = false;
     }
 
@@ -168,8 +168,8 @@ public class StatusManager : MonoBehaviour {
 
         if (_autoStartAndFinishOn) //if we are in auto swap
         {
-            ArduinoControl.instance.SendCommand("wal_on"); //close curtain
-            ArduinoControl.instance.SendCommand("mir_off"); //hide mirror
+            ArduinoManager.instance.SendCommand("wal_on"); //close curtain
+            ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
         }
 
         if (_autoStartAndFinishOn) VideoFeed.instance.SetDimmed(false);
@@ -187,15 +187,15 @@ public class StatusManager : MonoBehaviour {
     {
         yield return new WaitForFixedTime(waitBeforeInstructions + waitForMirror);
         Debug.Log("READY FOR MIRROR");
-        ArduinoControl.instance.SendCommand("mir_on"); //show mirror
+        ArduinoManager.instance.SendCommand("mir_on"); //show mirror
     }
 
     private IEnumerator WallCoroutine()
     {
         yield return new WaitForFixedTime(waitBeforeInstructions + waitForWall);
         Debug.Log("READY FOR WALL");
-        ArduinoControl.instance.SendCommand("wal_off"); //open curtain
-        ArduinoControl.instance.SendCommand("mir_off"); //hide mirror
+        ArduinoManager.instance.SendCommand("wal_off"); //open curtain
+        ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
     }
     
     private void EnableConfirmationGUI(bool enable)

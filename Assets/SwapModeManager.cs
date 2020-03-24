@@ -33,7 +33,7 @@ public class SwapModeManager : MonoBehaviour
         {
             case SwapModes.AUTO_SWAP:
                 //enable serial depending on if we are using the curtain or not
-                ArduinoControl.instance.ActivateSerial(false, useCurtain);
+                ArduinoManager.instance.ActivateSerial(false, useCurtain);
 
                 //hide serial port dropdown, show repeater toggle, show IP input field
                 SettingsGUI.instance.SetSwapMode(useCurtain);
@@ -53,7 +53,7 @@ public class SwapModeManager : MonoBehaviour
 
             case SwapModes.MANUAL_SWAP:
                 //deactivate servos
-                ArduinoControl.instance.DisableSerial();
+                ArduinoManager.instance.DisableSerial();
 
                 //hide serial port dropdown, show repeater toggle, show IP input field
                 SettingsGUI.instance.SetSwapMode();
@@ -76,7 +76,7 @@ public class SwapModeManager : MonoBehaviour
 
             case SwapModes.SERVO_SWAP:
                 //enable servos
-                ArduinoControl.instance.ActivateSerial(true, false);
+                ArduinoManager.instance.ActivateSerial(true, false);
 
                 //show serial port dropdown, hide repeater toggle, hide IP input field
                 SettingsGUI.instance.SetServoMode();
