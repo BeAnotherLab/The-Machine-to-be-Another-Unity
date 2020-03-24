@@ -17,24 +17,26 @@ public class RedDotsController : MonoBehaviour
 
     public void Show(string configuration)
     {
-        int selfSpheres = (int) Char.GetNumericValue(configuration.ToCharArray()[1]);
-        int otherSpheres = (int) Char.GetNumericValue(configuration.ToCharArray()[4]);
-        char directionFacing = configuration.ToCharArray()[7];
-        Transform visibleSide, otherSide;
+        //parse configuration string
+        int selfSpheres = (int) Char.GetNumericValue(configuration.ToCharArray()[1]); //the number of spheres self sees
+        int otherSpheres = (int) Char.GetNumericValue(configuration.ToCharArray()[4]); //the number of spheres the other sees
+        char directionFacing = configuration.ToCharArray()[7]; //the direction the other is facing
+        Transform visibleSide; //the side visible to the other
+        Transform oppositeSide; //the side not visible to the other
 
-        if (directionFacing == 'L')
+        if (directionFacing == 'L') //if we want the other facing left
         {
-            visibleSide = _leftSpheres;
-            otherSide = _rightSpheres;
+            visibleSide = _leftSpheres; 
+            oppositeSide = _rightSpheres;
         }
-        else
+        else //if we want the other facing right
         {
             visibleSide = _rightSpheres;
-            otherSide = _leftSpheres;
+            oppositeSide = _leftSpheres;
         }
             
-        DisplaySpheresForSelfOrOther(otherSpheres, otherSide);
-        DisplaySpheresForSelfOrOther(selfSpheres - otherSpheres, visibleSide);
+        DisplaySpheresForSelfOrOther(otherSpheres, visibleSide); //display the spheres for the other
+        DisplaySpheresForSelfOrOther(selfSpheres - otherSpheres, oppositeSide); //display the spheres for oneself
     }
 
     private void DisplaySpheresOnSide(Transform side, bool top, bool center, bool bottom)
