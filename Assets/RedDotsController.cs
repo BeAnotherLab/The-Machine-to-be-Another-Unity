@@ -53,5 +53,4 @@ public class RedDotsController : MonoBehaviour
         else if (numberSpheres == 2) DisplaySpheresOnSide(side, true, false, true);
         else if (numberSpheres == 3) DisplaySpheresOnSide(side, true, true, true);
     }
-    
 }

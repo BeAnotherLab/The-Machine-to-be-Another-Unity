@@ -14,6 +14,7 @@ public class CognitiveTestSettingsGUI : MonoBehaviour
     [SerializeField] private InputField _subjectIDInputField;
     [SerializeField] private Dropdown _cameraDropdown;
     [SerializeField] private Dropdown _directionDropdown;
+    [SerializeField] private Toggle _showDummyToggle;
     [SerializeField] private Button _startButton;
     [SerializeField] private GameObject _subjectExistingErrorMessage;
     
@@ -35,6 +36,12 @@ public class CognitiveTestSettingsGUI : MonoBehaviour
                 _pronounDropdown.options[_pronounDropdown.value].text, 
                 _subjectIDInputField.text, 
                 _directionDropdown.options[_directionDropdown.value].text);
+        });
+        
+        _showDummyToggle.onValueChanged.AddListener(delegate(bool value){
+            ShowDummy.instance.Show(value);
+            VideoFeed.instance.gameObject.SetActive(!value);
+            _directionDropdown.interactable = !value;
         });
     }
 
