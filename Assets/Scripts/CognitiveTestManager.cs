@@ -66,7 +66,7 @@ public class CognitiveTestManager : MonoBehaviour
         VideoFeed.instance.twoWayWap = true;
         
         //Read the task structure from JSON
-        StreamReader reader = new StreamReader("Assets/task structure.json"); 
+        StreamReader reader = new StreamReader(Application.streamingAssetsPath + "/task structure.json"); 
         _trials = new JSONObject(reader.ReadToEnd());
         reader.Close();
         _finalTrialsList = new JSONObject();
@@ -116,12 +116,13 @@ public class CognitiveTestManager : MonoBehaviour
     {
         _pronoun = pronoun;
         _subjectDirection = subjectDirection;
-        var files = Directory.GetFiles("./Logs");
+        var files = Directory.GetFiles(Application.dataPath);
 
-        string filepath = "./Logs/" + subjectID + "_log.json";
+        string filepath = Application.dataPath + "/" + subjectID + "_log.json";
         
         if (!File.Exists(filepath))
         {
+            Debug.Log(" creating new file : " + filepath);
             _subjectID = subjectID;
             _filePath = filepath; 
             CognitiveTestInstructionsGUIBehavior.instance.Init();
