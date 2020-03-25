@@ -24,6 +24,8 @@ void setup(){
   pinMode(CONTROLLINO_A1, INPUT);  //endpoint OFF (inverted)
   pinMode(CONTROLLINO_A2, INPUT);  //machinery drive fault (true=ok)
   pinMode(CONTROLLINO_A3, INPUT);  //machinery drive ready (true=ready)
+
+  pinMode(CONTROLLINO_A4, INPUT);  //language input
 }
 
 void thread_1(){
@@ -81,8 +83,29 @@ void thread_5(){
   }
 }
 
-
 void thread_6(){
+  static unsigned long int warteSeit;
+
+  if (millis()-warteSeit >= 20){ //20ms
+    warteSeit=millis();
+
+    //20ms thread
+    //curtain();
+  }
+}
+
+void thread_7(){
+  static unsigned long int warteSeit;
+
+  if (millis()-warteSeit >= 20){ //20ms
+    warteSeit=millis();
+
+    //20ms thread
+    language();
+  }
+}
+
+void thread_8(){
   static unsigned long int warteSeit;
 
   if (millis()-warteSeit >= 500){ //500ms
@@ -101,4 +124,6 @@ void loop()
   thread_4();
   thread_5();
   thread_6();
+  thread_7();
+  thread_8();
 }

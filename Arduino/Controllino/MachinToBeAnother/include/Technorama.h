@@ -25,3 +25,7 @@ extern void wall(void);
 extern bool FirstRunWall;
 extern bool WallStart;
 extern bool WallDire;
+
+extern void language(void);
+extern bool LngChange;
+extern byte LngState;

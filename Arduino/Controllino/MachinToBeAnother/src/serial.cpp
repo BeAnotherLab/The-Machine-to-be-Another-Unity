@@ -40,6 +40,26 @@ void debug_modus() {
   else Serial.println("dbg_off");
 }
 
+void language_change_de() {
+    LngChange=true;
+    LngState=0;
+}
+
+void language_change_en() {
+    LngChange=true;
+    LngState=1;
+}
+
+void language_change_fr() {
+    LngChange=true;
+    LngState=2;
+}
+
+void language_change_it() {
+    LngChange=true;
+    LngState=3;
+}
+
 // This gets set as the default handler, and gets called when no other command matches.
 void unrecognized(const char *command) {
   Serial.println("cmd_bad");
@@ -55,7 +75,12 @@ void serial (void) {
     uduino.addCommand("mir_off",  serial_mirror_off);     // Close Mirror
     uduino.addCommand("sys_rst",  serial_system_reset);   // System Reset
     uduino.addCommand("debug",    debug_modus);           // debug modus
-    //uduino.setDefaultHandler(unrecognized);               // Handler for command that isn't matched  (says "What?")
+    uduino.addCommand("lng_de",   language_change_de);    // change language to DE
+    uduino.addCommand("lng_en",   language_change_en);    // change language to EN
+    uduino.addCommand("lng_fr",   language_change_fr);    // change language to FR
+    uduino.addCommand("lng_it",   language_change_it);    // change language to IT
+
+    //uduino.addDefaultHandler(unrecognized);               // Handler for command that isn't matched  (says "What?")
 
     FirstRunSerial=false;
   }
