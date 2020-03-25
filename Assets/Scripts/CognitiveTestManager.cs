@@ -65,7 +65,7 @@ public class CognitiveTestManager : MonoBehaviour
     {
         VideoFeed.instance.twoWayWap = true;
         
-        //Read the text from directly from the test.txt file
+        //Read the task structure from JSON
         StreamReader reader = new StreamReader("Assets/task structure.json"); 
         _trials = new JSONObject(reader.ReadToEnd());
         reader.Close();
@@ -123,11 +123,9 @@ public class CognitiveTestManager : MonoBehaviour
         if (!File.Exists(filepath))
         {
             _subjectID = subjectID;
-
             _filePath = filepath; 
-
             CognitiveTestInstructionsGUIBehavior.instance.Init();
-            CognitiveTestSettingsGUI.instance.gameObject.SetActive(false);
+            CognitiveTestSettingsGUI.instance.gameObject.SetActive(false); //hide settings GUI
             _currentStep = steps.instructions;            
         }
         else CognitiveTestSettingsGUI.instance.ShowExistingSubjectIDError();
@@ -147,14 +145,13 @@ public class CognitiveTestManager : MonoBehaviour
     
     private IEnumerator ShowTrialCoroutine()
     {
-        _trialIndex++;
-        
         //initialize trial answer values
+        _trialIndex++;
         _givenAnswer = answer.none;
-        
         ShowInstructionText(true, "+");
         VideoFeed.instance.SetDimmed(true); //hide video feed
-
+        RedDotsController.instance.Show("S0_O0_FR_EN");
+        
         yield return new WaitForSeconds(2);
 
         //Make sure to use the right pronoun
@@ -163,7 +160,8 @@ public class CognitiveTestManager : MonoBehaviour
         else stim1 = "You : " + stim1[3]; 
         ShowInstructionText(true, stim1); //show pronoun + number of balls
         
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.5f);
+        
         Debug.Log("stim1 : " + _finalTrialsList[_trialIndex].GetField("stim1").str);
         Debug.Log("stim2 : " + _finalTrialsList[_trialIndex].GetField("stim2").str);
 
@@ -217,7 +215,6 @@ public class CognitiveTestManager : MonoBehaviour
 
     private void GetClick(int button)
     {
-        string answer = "";
         _waitingForAnswer = false;
         _timer.Stop();
         Debug.Log("time elapsed "  + _timer.ElapsedMilliseconds);
@@ -225,12 +222,12 @@ public class CognitiveTestManager : MonoBehaviour
         if (button == 0)
         {
             WriteTestResults("yes", _timer.Elapsed.Milliseconds);
-            _givenAnswer = CognitiveTestManager.answer.yes;
+            _givenAnswer = answer.yes;
         }
         else if (button == 1)
         {
             WriteTestResults("no", _timer.Elapsed.Milliseconds);
-            _givenAnswer = CognitiveTestManager.answer.no;
+            _givenAnswer = answer.no;
         }
         
         if (_finalTrialsList[_trialIndex].GetField("type").str == "practice") StartCoroutine(ShowFeedbackCoroutine());
