@@ -34,7 +34,7 @@ public class CognitiveTestManager : MonoBehaviour
     [SerializeField] private Text _trialInstructionText;
 
     //The different steps in our test
-    private enum steps { init, instructions, testing };
+    private enum steps { init, instructions, practice, testing };
     private steps _currentStep;
 
     //the timer to measure reaction time
@@ -134,7 +134,7 @@ public class CognitiveTestManager : MonoBehaviour
     
     public void StartTest()
     {
-        _currentStep = steps.testing;
+        _currentStep = steps.practice;
         _trialIndex = 0;
         _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
     }
@@ -144,14 +144,21 @@ public class CognitiveTestManager : MonoBehaviour
     
     #region Private Methods
     
-    private IEnumerator ShowTrialCoroutine()
+    private IEnumerator ShowTrialCoroutine(bool firstTest = false)
     {
+        if (firstTest)
+        {
+            ShowInstructionText(true, "Ok, the trial is now finished! We will start the proper testing");
+            yield return new WaitForSeconds(3);
+            ShowInstructionText(false);
+        }
+        
         //initialize trial answer values
         _trialIndex++;
         _givenAnswer = answer.none;
         ShowInstructionText(true, "+");
         VideoFeed.instance.SetDimmed(true); //hide video feed
-        RedDotsController.instance.Show("S0_O0_FR_EN");
+        RedDotsController.instance.Show("S0_O0_FR_EN"); //hide the dots
         
         yield return new WaitForSeconds(2);
 
@@ -186,9 +193,8 @@ public class CognitiveTestManager : MonoBehaviour
         _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
     }
 
-    private IEnumerator ShowFeedbackCoroutine()
+    private IEnumerator ShowFeedbackCoroutine(bool practiceFinished = false)
     {
-        StopCoroutine(_trialCoroutine);
         if (_givenAnswer != answer.none)
         {
             //write reaction time
@@ -205,7 +211,7 @@ public class CognitiveTestManager : MonoBehaviour
         
         yield return new WaitForSeconds(4);
 
-        _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
+        _trialCoroutine = StartCoroutine(ShowTrialCoroutine(practiceFinished));
     }
     
     private void ShowInstructionText(bool show, string text = "")
@@ -219,6 +225,7 @@ public class CognitiveTestManager : MonoBehaviour
         _waitingForAnswer = false;
         _timer.Stop();
         Debug.Log("time elapsed "  + _timer.ElapsedMilliseconds);
+        StopCoroutine(_trialCoroutine);
         
         if (button == 0)
         {
@@ -232,7 +239,17 @@ public class CognitiveTestManager : MonoBehaviour
         }
         
         if (_finalTrialsList[_trialIndex].GetField("type").str == "practice") StartCoroutine(ShowFeedbackCoroutine());
-        else if (_finalTrialsList[_trialIndex].GetField("type").str == "test") _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
+        else if (_finalTrialsList[_trialIndex].GetField("type").str == "test")
+        {
+            if (_currentStep == steps.practice) //if we just went from practice to proper testing
+            {
+                _trialCoroutine = StartCoroutine(ShowFeedbackCoroutine(true));
+                _currentStep = steps.testing;
+            } else if (_currentStep == steps.testing)
+            {
+                _trialCoroutine = StartCoroutine(ShowTrialCoroutine());    
+            }
+        }
     }
 
     private void WriteTestResults(string answer, double time)
@@ -244,7 +261,7 @@ public class CognitiveTestManager : MonoBehaviour
         
         _timer.Reset();
     }
-
+    
     private void MatchDirection(char desiredDirection)
     {
         if (desiredDirection == 'R' && _subjectDirection == "Left")
