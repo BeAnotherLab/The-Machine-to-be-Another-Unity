@@ -15,6 +15,7 @@ public class CognitiveTestSettingsGUI : MonoBehaviour
     [SerializeField] private Dropdown _cameraDropdown;
     [SerializeField] private Dropdown _directionDropdown;
     [SerializeField] private Toggle _showDummyToggle;
+    [SerializeField] private Button _rotateButton;
     [SerializeField] private Button _startButton;
     [SerializeField] private GameObject _subjectExistingErrorMessage;
     
@@ -40,9 +41,12 @@ public class CognitiveTestSettingsGUI : MonoBehaviour
         
         _showDummyToggle.onValueChanged.AddListener(delegate(bool value){
             ShowDummy.instance.Show(value);
+            _rotateButton.interactable = !value;
             VideoFeed.instance.gameObject.SetActive(!value);
             _directionDropdown.interactable = !value;
         });
+        
+        _rotateButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
     }
 
     // Start is called before the first frame update

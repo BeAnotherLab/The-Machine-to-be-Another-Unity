@@ -29,7 +29,7 @@ public class SettingsGUI : MonoBehaviour
 
     private bool _monitorGuiEnabled, _oculusGuiEnabled;
     private float _deltaTime = 0.0f;
-
+ 
     [SerializeField] private bool serialDebug;
 
     #endregion

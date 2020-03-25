@@ -21,6 +21,8 @@ public class VideoFeed : MonoBehaviour
 
     public bool twoWayWap;
 
+    public bool dimOnStart;
+    
     #endregion
 
 
@@ -54,9 +56,10 @@ public class VideoFeed : MonoBehaviour
 
     void Start()
     {
+        _tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
         InitCamera();
         RecenterPose();
-        SetDimmed(true);
+        SetDimmed(dimOnStart);
         otherPose = new Quaternion();
         SetLiveVideoTexture();
     }
@@ -84,6 +87,7 @@ public class VideoFeed : MonoBehaviour
         {
             transform.rotation = otherPose; //Move image according to the other person's head orientation
             transform.localScale = new Vector3(0.9f, 1, -1);
+            transform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(_camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation
         }
         
         Graphics.Blit(_meshRenderer.material.mainTexture, _videoRenderTexture);
@@ -134,7 +138,7 @@ public class VideoFeed : MonoBehaviour
         SetDimmed(_dimmed);
     }
 
-    public void SetCameraOrientation()
+    public void Rotate()
     {
         _tiltAngle += 90;
         PlayerPrefs.SetFloat("tiltAngle", _tiltAngle);

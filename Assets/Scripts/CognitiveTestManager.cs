@@ -127,7 +127,8 @@ public class CognitiveTestManager : MonoBehaviour
             _filePath = filepath; 
             CognitiveTestInstructionsGUIBehavior.instance.Init();
             CognitiveTestSettingsGUI.instance.gameObject.SetActive(false); //hide settings GUI
-            _currentStep = steps.instructions;            
+            _currentStep = steps.instructions;       
+            VideoFeed.instance.SetDimmed(true);
         }
         else CognitiveTestSettingsGUI.instance.ShowExistingSubjectIDError();
     }
