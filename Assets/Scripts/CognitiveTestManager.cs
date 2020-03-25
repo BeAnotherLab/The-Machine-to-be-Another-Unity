@@ -15,6 +15,7 @@ public class CognitiveTestManager : MonoBehaviour
     //params from settings GUI
     private string _pronoun;
     private string _subjectID;
+    private string _subjectDirection;
     
     //for parsing the trial structure JSONs
     private int _trialIndex;
@@ -111,10 +112,10 @@ public class CognitiveTestManager : MonoBehaviour
 
     #region Public Methods
 
-    public void StartInstructions(string pronoun, string subjectID)
+    public void StartInstructions(string pronoun, string subjectID, string subjectDirection)
     {
         _pronoun = pronoun;
-        
+        _subjectDirection = subjectDirection;
         var files = Directory.GetFiles("./Logs");
 
         string filepath = "./Logs/" + subjectID + "_log.json";
@@ -163,11 +164,13 @@ public class CognitiveTestManager : MonoBehaviour
         ShowInstructionText(true, stim1); //show pronoun + number of balls
         
         yield return new WaitForSeconds(2);
-        
+        Debug.Log("stim1 : " + _finalTrialsList[_trialIndex].GetField("stim1").str);
+        Debug.Log("stim2 : " + _finalTrialsList[_trialIndex].GetField("stim2").str);
+
         _timer.Start();
         ShowInstructionText(false);
         VideoFeed.instance.SetDimmed(false); //display video feed
-        //VideoFeed.instance.FlipHorizontal(); //TODO if need to change direction
+        MatchDirection(_finalTrialsList[_trialIndex].GetField("stim2").str[7]); //Make sure 
         RedDotsController.instance.Show(_finalTrialsList[_trialIndex].GetField("stim2").str); //show dots as indicated in file
         _waitingForAnswer = true;
 
@@ -190,9 +193,9 @@ public class CognitiveTestManager : MonoBehaviour
         if (_givenAnswer != answer.none)
         {
             //write reaction time
-            UnityEngine.Debug.Log("correct answer : " + _finalTrialsList[_trialIndex].GetField("key").str);
-            UnityEngine.Debug.Log("given answer : " + _givenAnswer);
-
+            Debug.Log("correct answer : " + _finalTrialsList[_trialIndex].GetField("key").str);
+            Debug.Log("given answer : " + _givenAnswer);
+            
             //add answer
             if(    _finalTrialsList[_trialIndex].GetField("key").str == "c" && _givenAnswer == answer.yes 
                    || _finalTrialsList[_trialIndex].GetField("key").str == "n" && _givenAnswer == answer.no)
@@ -222,12 +225,12 @@ public class CognitiveTestManager : MonoBehaviour
         if (button == 0)
         {
             WriteTestResults("yes", _timer.Elapsed.Milliseconds);
-            _givenAnswer = CognitiveTestManager.answer.no;
+            _givenAnswer = CognitiveTestManager.answer.yes;
         }
         else if (button == 1)
         {
             WriteTestResults("no", _timer.Elapsed.Milliseconds);
-            _givenAnswer = CognitiveTestManager.answer.yes;
+            _givenAnswer = CognitiveTestManager.answer.no;
         }
         
         if (_finalTrialsList[_trialIndex].GetField("type").str == "practice") StartCoroutine(ShowFeedbackCoroutine());
@@ -242,6 +245,19 @@ public class CognitiveTestManager : MonoBehaviour
         File.WriteAllText(_filePath, _finalTrialsList.Print());
         
         _timer.Reset();
+    }
+
+    private void MatchDirection(char desiredDirection)
+    {
+        if (desiredDirection == 'R' && _subjectDirection == "Left")
+        {
+            VideoFeed.instance.FlipHorizontal();
+            _subjectDirection = "Right";
+        } else if (desiredDirection == 'L' && _subjectDirection == "Right")
+        {
+            VideoFeed.instance.FlipHorizontal();
+            _subjectDirection = "Left";
+        }
     }
     
     #endregion

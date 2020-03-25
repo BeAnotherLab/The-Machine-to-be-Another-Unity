@@ -13,6 +13,7 @@ public class CognitiveTestSettingsGUI : MonoBehaviour
     [SerializeField] private Dropdown _pronounDropdown;
     [SerializeField] private InputField _subjectIDInputField;
     [SerializeField] private Dropdown _cameraDropdown;
+    [SerializeField] private Dropdown _directionDropdown;
     [SerializeField] private Button _startButton;
     [SerializeField] private GameObject _subjectExistingErrorMessage;
     
@@ -21,7 +22,6 @@ public class CognitiveTestSettingsGUI : MonoBehaviour
 
     private void Awake()
     {
-
         if (instance == null) instance = this;        
         
         _cameraDropdown.onValueChanged.AddListener(delegate
@@ -32,8 +32,9 @@ public class CognitiveTestSettingsGUI : MonoBehaviour
         _startButton.onClick.AddListener(delegate
         {
             CognitiveTestManager.instance.StartInstructions(
-                _pronounDropdown.options[_pronounDropdown.value].text,
-                         _subjectIDInputField.text);
+                _pronounDropdown.options[_pronounDropdown.value].text, 
+                _subjectIDInputField.text, 
+                _directionDropdown.options[_directionDropdown.value].text);
         });
     }
 
