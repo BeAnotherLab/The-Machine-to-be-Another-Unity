@@ -70,11 +70,11 @@ public class CognitiveTestManager : MonoBehaviour
         _trials = new JSONObject(reader.ReadToEnd());
         reader.Close();
         _finalTrialsList = new JSONObject();
-        PrepareBlock(0, 26);
-        PrepareBlock(26, 78);
-        PrepareBlock(78, 130);
-        PrepareBlock(130, 182);
-        PrepareBlock(182, 234);
+        PrepareBlock(0, 26); //practice block
+        PrepareBlock(26, 78); //block 1
+        PrepareBlock(78, 130); //block 2
+        PrepareBlock(130, 182); //block 3
+        PrepareBlock(182, 234); //block 4
         
         _currentStep = steps.init;
         
