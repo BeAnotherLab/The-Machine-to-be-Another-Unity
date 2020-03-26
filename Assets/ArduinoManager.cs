@@ -90,55 +90,7 @@ public class ArduinoManager : MonoBehaviour
             WriteToArduino(command);
         }
     }
-
-    public string ReadFromArduino(int timeout = 0)
-    {
-        return "";
-    }
-
-    public IEnumerator AsynchronousReadFromArduino(Action<string> callback, Action fail = null, float timeout = float.PositiveInfinity)
-    {
-        DateTime initialTime = DateTime.Now;
-        DateTime nowTime;
-        TimeSpan diff = default(TimeSpan);
-
-        string dataString = null;
-
-        do
-        {
-            // A single read attempt
-            try
-            {
-            }
-            catch (TimeoutException)
-            {
-                dataString = null;
-            }
-
-            if (dataString != null)
-            {
-                callback(dataString);
-                yield return null;
-            }
-            else
-                yield return new WaitForSeconds(0.05f);
-
-            nowTime = DateTime.Now;
-            diff = nowTime - initialTime;
-
-        } while (diff.Milliseconds < timeout);
-
-        if (fail != null)
-            fail();
-        yield return null;
-    }
-
-    void GetPlayerPrefs()
-    {
-        pitchOffset = PlayerPrefs.GetFloat("pitchOffset");
-        yawOffset = PlayerPrefs.GetFloat("yawOffset");
-    }
-
+    
     public void Close()
     {
        
@@ -156,7 +108,7 @@ public class ArduinoManager : MonoBehaviour
     
     private void WriteToArduino(string message)
     {
-        
+        UduinoManager.Instance.sendCommand(message);
     }
 
     #endregion
