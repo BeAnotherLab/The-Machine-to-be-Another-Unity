@@ -153,7 +153,6 @@ public class CognitiveTestManager : MonoBehaviour
         }
 
         //initialize trial answer values
-        _trialIndex++;
         _givenAnswer = answer.none;
         ShowInstructionText(true, "+");
         VideoFeed.instance.SetDimmed(true); //hide video feed
@@ -190,7 +189,7 @@ public class CognitiveTestManager : MonoBehaviour
     
         yield return new WaitForSeconds(3);
     
-        if (_trialIndex == _finalTrialsList.Count-1) StartCoroutine(FinishTest());
+        if (_trialIndex == _finalTrialsList.Count) StartCoroutine(FinishTest());
         else _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
     }
 
@@ -239,7 +238,7 @@ public class CognitiveTestManager : MonoBehaviour
             _givenAnswer = answer.no;
         }
         
-        if (_trialIndex == _finalTrialsList.Count - 1) StartCoroutine(FinishTest());
+        if (_trialIndex == _finalTrialsList.Count) StartCoroutine(FinishTest());
         else if (_finalTrialsList[_trialIndex].GetField("type").str == "practice") StartCoroutine(ShowFeedbackCoroutine());
         else if (_finalTrialsList[_trialIndex].GetField("type").str == "test")
         {
@@ -260,7 +259,7 @@ public class CognitiveTestManager : MonoBehaviour
         _finalTrialsList[_trialIndex].AddField("time", time.ToString());
 
         File.WriteAllText(_filePath, _finalTrialsList.Print());
-        
+        _trialIndex++;
         _timer.Reset();
     }
 
