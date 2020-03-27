@@ -44,6 +44,8 @@ public class CognitiveTestManager : MonoBehaviour
 
     private string _filePath;
     
+    [SerializeField] string[] _blockNames;
+    
     #endregion
 
     
@@ -70,21 +72,17 @@ public class CognitiveTestManager : MonoBehaviour
         _trials = new JSONObject(reader.ReadToEnd());
         reader.Close();
         _finalTrialsList = new JSONObject();
-        PrepareBlock(0, 26); //practice block
-        PrepareBlock(26, 78); //block 1
-        PrepareBlock(78, 130); //block 2
-        PrepareBlock(130, 182); //block 3
-        PrepareBlock(182, 234); //block 4
+
+        foreach (string blockName in _blockNames) PrepareBlock(blockName);
         
         _currentStep = steps.init;
         
         _timer = new Stopwatch();
     }
 
-    private void PrepareBlock(int startIndex, int endIndex)
+    private void PrepareBlock(string blockName)
     {
-        List<JSONObject> jsonObjects = new List<JSONObject>(); //create list of JSONObjects
-        for (int i = startIndex; i < endIndex; i++) jsonObjects.Add(_trials.list[i]); //add elements between our boundaries
+        List<JSONObject> jsonObjects = _trials.list.Where(trial => trial.GetField("field8").str == blockName).ToList();
         ListExtensions.Shuffle(jsonObjects); //shuffle that list
         foreach (JSONObject jsonObject in jsonObjects) _finalTrialsList.Add(jsonObject); //add it to the final list
     }
