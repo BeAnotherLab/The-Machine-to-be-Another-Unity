@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using VRStandardAssets.Menu;
 using VRStandardAssets.Utils;
 
@@ -23,6 +21,7 @@ public class StatusManager : MonoBehaviour {
     [SerializeField] private bool _thisUserIsReady;
     [SerializeField] private bool _otherUserIsReady;
     [SerializeField] private bool _autoStartAndFinishOn;
+    [SerializeField] private bool _serialReady;
 
     [Tooltip("Instructions Timing")] private GameObject _instructionsGUI;
 
@@ -54,7 +53,7 @@ public class StatusManager : MonoBehaviour {
 
     private void Start()
     {
-        _instructionsText.text = LanguageTextDictionary.idle;
+        _instructionsText.text = "Waiting for serial...";
     }
 
     private void Update()
@@ -90,7 +89,7 @@ public class StatusManager : MonoBehaviour {
         EnableConfirmationGUI(false); //hide status confirmation GUI elements
 
         //start experience or wait for the other if they're not ready yet
-        if (_otherUserIsReady) StartPlaying();
+        if (_otherUserIsReady && _serialReady) StartPlaying();
         else _instructionsText.text = LanguageTextDictionary.waitForOther; //show GUI instruction that indicates to wait for the other
 
         _thisUserIsReady = true;
@@ -99,13 +98,13 @@ public class StatusManager : MonoBehaviour {
     public void OtherUserIsReady() 
     {
         _otherUserIsReady = true;
-        if (_thisUserIsReady) StartPlaying();
+        if (_thisUserIsReady && _serialReady) StartPlaying();
     }
 
     public void OtherLeft()
     {
         _otherUserIsReady = false;
-        if (_thisUserIsReady)
+        if (_thisUserIsReady && _serialReady)
         {
             //different than self is gone in case there is an audio for this case
             VideoFeed.instance.SetDimmed(true);
@@ -146,7 +145,24 @@ public class StatusManager : MonoBehaviour {
 
         statusManagementOn = false;
     }
-    
+
+    public void SerialFailure() //if something went wrong with the physical installation
+    {
+        StopAllCoroutines();
+        _instructionsGUI.SetActive(true);
+        _instructionsText.text = LanguageTextDictionary.systemFailure;
+        VideoFeed.instance.SetDimmed(true);
+        OscManager.instance.SendSerialStatus(false);
+    }
+
+    public void SerialReady()
+    {
+        _serialReady = true;
+        OscManager.instance.SendSerialStatus(true);
+        _instructionsGUI.SetActive(true);
+        _instructionsText.text = LanguageTextDictionary.idle;
+    }
+
     #endregion
 
 

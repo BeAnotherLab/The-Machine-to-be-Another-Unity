@@ -20,6 +20,15 @@ public class ArduinoManager : MonoBehaviour
     
     #endregion
 
+    #region Private Fields
+
+    [SerializeField] private int _timeOut;
+    private bool _commandOK;
+
+    private Coroutine _timeoutCoroutine;
+        
+    #endregion
+    
     #region MonoBehaviour Methods
 
     private void Awake()
@@ -103,13 +112,22 @@ public class ArduinoManager : MonoBehaviour
 
     private void DataReceived(string data, UduinoDevice board)
     {
-        Debug.Log(data);
+        if (data == "sys_rdy") StatusManager.instance.SerialReady();
+        else if (data == "cmd_ok") _commandOK = true;
     }
     
     private void WriteToArduino(string message)
     {
-        UduinoManager.Instance.sendCommand(message);
+        UduinoManager.Instance.sendCommand(message); 
+        if (_timeoutCoroutine != null) StopCoroutine(_timeoutCoroutine); 
+        _timeoutCoroutine = StartCoroutine(WaitForTimeout());
     }
 
+    private IEnumerator WaitForTimeout()
+    {
+        yield return new WaitForSeconds(_timeOut);
+        if(!_commandOK) StatusManager.instance.SerialFailure();
+    }
+    
     #endregion
 }

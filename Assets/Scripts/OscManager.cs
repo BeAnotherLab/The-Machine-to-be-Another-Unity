@@ -48,6 +48,7 @@ public class OscManager : MonoBehaviour {
         _oscReceiver.Bind("/dimon", ReceiveDimOn);
         _oscReceiver.Bind("/dimoff", ReceiveDimOff);
         _oscReceiver.Bind("/ht", ReceiveCalibrate);
+        _oscReceiver.Bind("/serialStatus", ReceiveSerialStatus);
         for (int i = 0; i < 11; i++) _oscReceiver.Bind("/btn" + i.ToString(), ReceiveBtn);
 
         //set IP address of other 
@@ -103,10 +104,24 @@ public class OscManager : MonoBehaviour {
         OSCMessage message = new OSCMessage("/otherUser");
 
         int i = 0;
-        if (status == true) i = 1;
+        if (status) i = 1;
 
         message.AddValue(OSCValue.Int(i));
         _oscTransmitter.Send(message);
+    }
+
+    public void SendSerialStatus(bool status)
+    {
+        if (_repeater)
+        {
+            OSCMessage message = new OSCMessage("/serialStatus");
+
+            int i = 0;
+            if (status) i = 1;
+
+            message.AddValue(OSCValue.Int(i));
+            _oscTransmitter.Send(message);    
+        }
     }
 
     #endregion
@@ -187,6 +202,20 @@ public class OscManager : MonoBehaviour {
         VideoFeed.instance.GetComponent<VideoFeed>().otherPose = new Quaternion(quaternionValues[0], quaternionValues[1], quaternionValues[2], quaternionValues[3]);
     }
 
+    private void ReceiveSerialStatus(OSCMessage message)
+    {
+        if (StatusManager.instance.statusManagementOn)
+        {
+            int x;
+            if (message.ToInt(out x))
+            {
+                if (x == 0) StatusManager.instance.SerialFailure();
+                else if (x == 1) StatusManager.instance.SerialReady();
+            }
+        }
+    }
+    
+    
     #endregion
 
 }
