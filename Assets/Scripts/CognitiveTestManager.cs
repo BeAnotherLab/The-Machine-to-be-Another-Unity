@@ -151,14 +151,14 @@ public class CognitiveTestManager : MonoBehaviour
             yield return new WaitForSeconds(3);
             ShowInstructionText(false);
         }
-        
+
         //initialize trial answer values
         _trialIndex++;
         _givenAnswer = answer.none;
         ShowInstructionText(true, "+");
         VideoFeed.instance.SetDimmed(true); //hide video feed
         RedDotsController.instance.Show("S0_O0_FR_EN"); //hide the dots
-        
+    
         yield return new WaitForSeconds(2);
 
         //Make sure to use the right pronoun
@@ -166,9 +166,10 @@ public class CognitiveTestManager : MonoBehaviour
         if (stim1.Contains("SHE")) stim1 = _pronoun + " " + stim1[3];
         else stim1 = "You : " + stim1[3]; 
         ShowInstructionText(true, stim1); //show pronoun + number of balls
-        
+    
         yield return new WaitForSeconds(1.5f);
         
+        Debug.Log("block : " + _finalTrialsList[_trialIndex].GetField("field8").str);
         Debug.Log("stim1 : " + _finalTrialsList[_trialIndex].GetField("stim1").str);
         Debug.Log("stim2 : " + _finalTrialsList[_trialIndex].GetField("stim2").str);
 
@@ -186,10 +187,11 @@ public class CognitiveTestManager : MonoBehaviour
         ShowInstructionText(true, "Out of time!");
         _timer.Stop();
         _timer.Reset();
-        
+    
         yield return new WaitForSeconds(3);
-        
-        _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
+    
+        if (_trialIndex == _finalTrialsList.Count-1) StartCoroutine(FinishTest());
+        else _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
     }
 
     private IEnumerator ShowFeedbackCoroutine(bool practiceFinished = false)
@@ -237,7 +239,8 @@ public class CognitiveTestManager : MonoBehaviour
             _givenAnswer = answer.no;
         }
         
-        if (_finalTrialsList[_trialIndex].GetField("type").str == "practice") StartCoroutine(ShowFeedbackCoroutine());
+        if (_trialIndex == _finalTrialsList.Count - 1) StartCoroutine(FinishTest());
+        else if (_finalTrialsList[_trialIndex].GetField("type").str == "practice") StartCoroutine(ShowFeedbackCoroutine());
         else if (_finalTrialsList[_trialIndex].GetField("type").str == "test")
         {
             if (_currentStep == steps.practice) //if we just went from practice to proper testing
@@ -259,6 +262,13 @@ public class CognitiveTestManager : MonoBehaviour
         File.WriteAllText(_filePath, _finalTrialsList.Print());
         
         _timer.Reset();
+    }
+
+    private IEnumerator FinishTest()
+    {
+        ShowInstructionText(true, "Ok, the test is now finished! We will proceed with the next step now");
+        yield return new WaitForSeconds(3);
+        ShowInstructionText(false);
     }
     
     private void MatchDirection(char desiredDirection)
