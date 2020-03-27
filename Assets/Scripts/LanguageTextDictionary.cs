@@ -12,7 +12,8 @@ public class LanguageTextDictionary : MonoBehaviour {
 	public static string otherIsGone;
 	public static string instructions;
 	public static string finished;
-
+	public static string systemFailure;
+	
 	void Start () {
 		TextPerLanguage (defaultLanguage);
 		selectedLanguage = defaultLanguage;
@@ -35,8 +36,7 @@ public class LanguageTextDictionary : MonoBehaviour {
 			otherIsGone = "Woops ... \n Es scheint so, als wäre die andere Person weg! \n Danke für Ihre Teilnahme!";
 			instructions = "Bitte erinneren Sie sich...\n 1. Bewegen Sie sich sehr langsam.\n 2. Stimmen Sie Ihre Bewegungen mit dern anderen Person ab\n 3. Folgen Sie einander";
 			finished = "Wir hoffen, dass Sie Ihre Erfahrung genossen haben. \n Vielen Dank!";
-			//Bitte schauen Sie diesen Punkt an wenn Sie bereit sind.
-			//Bitte den Punkt anschauen wenn Sie bereit sind. 
+			systemFailure = "Es ist ein Fehler mit dem System aufgetreten. Bitte entfernen Sie Ihr Headset";
 		}
 
 		if (language == "french") {
@@ -44,7 +44,8 @@ public class LanguageTextDictionary : MonoBehaviour {
             waitForOther = "Veuillez attendre un moment pour l'autre participant ...";
 			otherIsGone = "Woops ... \n On dirait que votre collègue est parti! \n Merci de votre participation!";
 			instructions = "Maintenant, souvenez-vous... \n \n 1. Déplacez-vous très lentement \n 2. Synchronisez vos mouvements \n 3. Suivez-vous";
-			finished = "We hope you enjoyed your experience. \n Thank you!";
+			finished = "Nous espérons que l'expérience vous a plu. \n Merci!";
+			systemFailure = "Il y a eu un problème avec le syst+eme. Veuillez retirer votre casque";
 		}
 
 		if (language == "italian") {
@@ -53,6 +54,7 @@ public class LanguageTextDictionary : MonoBehaviour {
 			otherIsGone = "Woops ... \n Sembra che il tuo collega se ne sia andato! \n Grazie per la tua partecipazione!";
 			instructions = "Per favore, ricorda... \n \n 1. Muoviti molto lentamente \n 2. Sincronizza i tuoi movimenti \n 3. Seguiti";
 			finished = "Ci auguriamo che la tua esperienza ti sia piaciuta. \n Grazie!";
+			systemFailure = "Si è verificato un errore con il sistema. Rimuovi il casco";
 		}
 
 		if (language == "english") {
@@ -61,6 +63,7 @@ public class LanguageTextDictionary : MonoBehaviour {
 			otherIsGone = "Woops... \n Seems like your colleague left! \n Thank you for your participation!";
 			instructions = "Please remember: \n \n 1. Move very slowly \n 2. Synchronize your movements \n 3. Follow each other \n \n \n Focus by adjusting the headset vertically";
 			finished = "We hope you enjoyed your experience. \n Thank you!";
+			systemFailure = "oops! There was an error with the system. Please remove your headset";
 		}
 	}
 
