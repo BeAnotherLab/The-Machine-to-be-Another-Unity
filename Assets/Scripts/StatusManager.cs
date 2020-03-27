@@ -84,15 +84,18 @@ public class StatusManager : MonoBehaviour {
 
     public void ThisUserIsReady() //called when user has aimed at the confirmation dialog and waited through the countdown.
     {
-        if (statusManagementOn) OscManager.instance.SendThisUserStatus(true);
+        if (_serialReady)
+        {
+            if (statusManagementOn) OscManager.instance.SendThisUserStatus(true);
 
-        EnableConfirmationGUI(false); //hide status confirmation GUI elements
+            EnableConfirmationGUI(false); //hide status confirmation GUI elements
 
-        //start experience or wait for the other if they're not ready yet
-        if (_otherUserIsReady && _serialReady) StartPlaying();
-        else _instructionsText.text = LanguageTextDictionary.waitForOther; //show GUI instruction that indicates to wait for the other
+            //start experience or wait for the other if they're not ready yet
+            if (_otherUserIsReady) StartPlaying();
+            else _instructionsText.text = LanguageTextDictionary.waitForOther; //show GUI instruction that indicates to wait for the other
 
-        _thisUserIsReady = true;
+            _thisUserIsReady = true;    
+        }
     }
 
     public void OtherUserIsReady() 
@@ -120,19 +123,22 @@ public class StatusManager : MonoBehaviour {
 
     public void StopExperience()
     {
-        VideoFeed.instance.SetDimmed(true);
-        _instructionsGUI.SetActive(true);
-        _instructionsText.text = LanguageTextDictionary.idle; 
+        if (_serialReady)
+        {
+            VideoFeed.instance.SetDimmed(true);
+            _instructionsGUI.SetActive(true);
+            _instructionsText.text = LanguageTextDictionary.idle; 
 
-        StopAllCoroutines();
+            StopAllCoroutines();
 
-        AudioPlayer.instance.StopAudioInstructions();
+            AudioPlayer.instance.StopAudioInstructions();
 
-        //reset user status as it is not ready
-        EnableConfirmationGUI(true);
-        OscManager.instance.SendThisUserStatus(false);
-        ArduinoManager.instance.SendCommand("stop");
-        _thisUserIsReady = false;
+            //reset user status as it is not ready
+            EnableConfirmationGUI(true);
+            OscManager.instance.SendThisUserStatus(false);
+            ArduinoManager.instance.SendCommand("stop");
+            _thisUserIsReady = false;   
+        }
     }
 
     public void DisableStatusManagement()
