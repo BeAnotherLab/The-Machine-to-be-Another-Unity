@@ -153,6 +153,7 @@ public class StatusManager : MonoBehaviour {
         _instructionsText.text = LanguageTextDictionary.systemFailure;
         VideoFeed.instance.SetDimmed(true);
         OscManager.instance.SendSerialStatus(false);
+        AudioPlayer.instance.StopAudioInstructions();    
     }
 
     public void SerialReady()
