@@ -148,6 +148,7 @@ public class StatusManager : MonoBehaviour {
 
     public void SerialFailure() //if something went wrong with the physical installation
     {
+        _serialReady = false;
         StopAllCoroutines();
         _instructionsGUI.SetActive(true);
         _instructionsText.text = LanguageTextDictionary.systemFailure;
