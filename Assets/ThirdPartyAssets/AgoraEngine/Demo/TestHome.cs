@@ -19,7 +19,7 @@ public class TestHome : MonoBehaviour
 
     private string HomeSceneName = "SceneHome";
 
-    private string PlaySceneName = "SceneHelloVideo";
+    private string PlaySceneName = "BodySwap";
 
     // PLEASE KEEP THIS App ID IN SAFE PLACE
     // Get your own App ID at https://dashboard.agora.io/

@@ -151,8 +151,6 @@ public class TestHelloUnityVideo
     private void onJoinChannelSuccess(string channelName, uint uid, int elapsed)
     {
         Debug.Log("JoinChannelSuccessHandler: uid = " + uid);
-        GameObject textVersionGameObject = GameObject.Find("VersionText");
-        textVersionGameObject.GetComponent<Text>().text = "SDK Version : " + getSdkVersion();
     }
 
     // When a remote user joined, this delegate will be called. Typically
@@ -170,13 +168,13 @@ public class TestHelloUnityVideo
         }
 
         // create a GameObject and assign to this new user
-        VideoSurface videoSurface = makeImageSurface(uid.ToString());
+        VideoSurface videoSurface = GameObject.Find("VideoFeed").AddComponent<VideoSurface>(); 
         if (!ReferenceEquals(videoSurface, null))
         {
             // configure videoSurface
             videoSurface.SetForUser(uid);
             videoSurface.SetEnable(true);
-            videoSurface.SetVideoSurfaceType(AgoraVideoSurfaceType.RawImage);
+            videoSurface.SetVideoSurfaceType(AgoraVideoSurfaceType.Renderer);
             videoSurface.SetGameFps(30);
         }
     }
