@@ -2,27 +2,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class InterventionManager : MonoBehaviour
 {
     public static InterventionManager instance;
 
-    public enum ParticipantType { leader, follower };
-    public ParticipantType participantType;
+    private PlayableDirector _interventionTimeline;
     
-    public enum ExperimentType { control, experimental };
-    public ExperimentType experimentType;
-
     private void Awake()
     {
         if (instance == null) instance = this;
+        _interventionTimeline = GetComponentInChildren<PlayableDirector>();
     }
 
-    public void StartInterventon()
+    private void Start()
+    {
+        CognitiveTestManager.instance.OnPreTestsFinished += ReadyToStart;
+    }
+
+    public void ReadyToStart()
     {
         //enable sending/receiving headtracking
         OscManager.instance.sendHeadTracking = true;
         
+        _interventionTimeline.Play();
         //start timing experience
     }
 
@@ -30,8 +34,10 @@ public class InterventionManager : MonoBehaviour
     {
         OscManager.instance.sendHeadTracking = false;
         
-        //run tests second time, skip practice 
-        CognitiveTestManager.instance.StartTest(CognitiveTestManager.steps.testing);
+        //say we're doing cognitive test again
+        
+        //start cognitive test again
+        CognitiveTestManager.instance.StartTest(ExperimentStep.post);        
     }
-
+    
 }

@@ -29,7 +29,7 @@ public class CognitiveTestInstructionsGUIBehavior : MonoBehaviour
       }
       else
       {
-         CognitiveTestManager.instance.StartTest();
+         CognitiveTestManager.instance.StartTest(ExperimentStep.pre);
       }
    }
 }

@@ -35,7 +35,7 @@ public class CognitiveTestManager : MonoBehaviour
     [SerializeField] private Text _trialInstructionText;
 
     //The different steps in our test
-    private enum steps { init, instructions, practice, testing };
+    public enum steps { init, instructions, practice, testing };
     private steps _currentStep;
 
     //the timer to measure reaction time
@@ -54,6 +54,9 @@ public class CognitiveTestManager : MonoBehaviour
 
     public static CognitiveTestManager instance;
 
+    public delegate void PreTestsFinished();
+    public event PreTestsFinished OnPreTestsFinished;
+    
     #endregion
 
 
@@ -69,7 +72,7 @@ public class CognitiveTestManager : MonoBehaviour
         VideoFeed.instance.twoWayWap = true;
         
         //Read the task structure from JSON
-        StreamReader reader = new StreamReader(Application.streamingAssetsPath + "/task structure.json"); 
+        StreamReader reader = new StreamReader(Application.streamingAssetsPath + "/task structure 1.json"); 
         _trials = new JSONObject(reader.ReadToEnd());
         reader.Close();
         _finalTrialsList = new JSONObject();
@@ -118,17 +121,25 @@ public class CognitiveTestManager : MonoBehaviour
             _subjectID = subjectID;
             _filePath = filepath; 
             CognitiveTestInstructionsGUIBehavior.instance.Init();
-            CognitiveTestSettingsGUI.instance.gameObject.SetActive(false); //hide settings GUI
+            ExperimentSettingsGUI.instance.gameObject.SetActive(false); //hide settings GUI
             _currentStep = steps.instructions;       
             VideoFeed.instance.SetDimmed(true);
         }
-        else CognitiveTestSettingsGUI.instance.ShowExistingSubjectIDError();
+        else ExperimentSettingsGUI.instance.ShowExistingSubjectIDError();
     }
     
-    public void StartTest()
+    public void StartTest(ExperimentStep experimentStep)
     {
-        _currentStep = steps.practice;
-        _trialIndex = 0;
+        if (experimentStep == ExperimentStep.post) //if we are testing post intervention, go straight to testing
+        {
+            _currentStep = steps.testing;
+            //if we skip practice, start at the index of the first block 
+            _trialIndex = _trials.list.Where(trial => trial.GetField("field8").str == _blockNames[0]).ToList().Count;
+        } else if (experimentStep == ExperimentStep.pre)
+        {
+            _currentStep = steps.practice;
+        } //if we are testing pre intervention, show instructions and do a practice round
+        
         _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
     }
 
@@ -269,8 +280,9 @@ public class CognitiveTestManager : MonoBehaviour
     {
         ShowInstructionText(true, "Ok, the test is now finished! We will proceed with the next step now");
         yield return new WaitForSeconds(3);
-        //
+        OnPreTestsFinished();
         ShowInstructionText(false);
+        _trialIndex = 0;
     }
     
     private void MatchDirection(char desiredDirection)

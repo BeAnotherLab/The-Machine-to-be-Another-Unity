@@ -4,20 +4,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CognitiveTestSettingsGUI : MonoBehaviour
+public class ExperimentSettingsGUI : MonoBehaviour
 {
 
-    public static CognitiveTestSettingsGUI instance;
+    public static ExperimentSettingsGUI instance;
     
-    [SerializeField] private Text _FPSText;
-    [SerializeField] private Dropdown _pronounDropdown;
+    //Experiment settings
     [SerializeField] private InputField _subjectIDInputField;
+    [SerializeField] private Dropdown _conditionDropdown;
+    [SerializeField] private Dropdown _participantDropdown;
+    [SerializeField] private GameObject _subjectExistingErrorMessage;
+    
+    //Cognitive settings
+    [SerializeField] private Dropdown _pronounDropdown;
     [SerializeField] private Dropdown _cameraDropdown;
     [SerializeField] private Dropdown _directionDropdown;
     [SerializeField] private Toggle _showDummyToggle;
+    
+    //Swap settings
+    [SerializeField] private Text _FPSText;
     [SerializeField] private Button _rotateButton;
     [SerializeField] private Button _startButton;
-    [SerializeField] private GameObject _subjectExistingErrorMessage;
     
     private bool _monitorGuiEnabled;
     private float _deltaTime = 0.0f;
@@ -37,6 +44,16 @@ public class CognitiveTestSettingsGUI : MonoBehaviour
                 _pronounDropdown.options[_pronounDropdown.value].text, 
                 _subjectIDInputField.text, 
                 _directionDropdown.options[_directionDropdown.value].text);
+
+            if (_conditionDropdown.options[_conditionDropdown.value].text == "Experimental")
+                ExperimentManager.instance.conditionType = ConditionType.experimental;
+            else
+                ExperimentManager.instance.conditionType = ConditionType.control;
+
+            if (_participantDropdown.options[_participantDropdown.value].text == "Leader")
+                ExperimentManager.instance.participantType = ParticipantType.leader;
+            else
+                ExperimentManager.instance.participantType = ParticipantType.follower;
         });
         
         _showDummyToggle.onValueChanged.AddListener(delegate(bool value){
