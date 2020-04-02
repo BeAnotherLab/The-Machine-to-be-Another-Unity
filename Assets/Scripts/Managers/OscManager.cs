@@ -15,6 +15,8 @@ public class OscManager : MonoBehaviour {
 
     public string othersIP { get { return othersIP; } set { SetOthersIP(value); } }
 
+    public bool sendHeadTracking;
+    
     #endregion
 
     #region Private Fields
@@ -84,19 +86,22 @@ public class OscManager : MonoBehaviour {
 
     public void SendHeadTracking()
     {
-        Quaternion q = _mainCamera.transform.rotation;
+        if (sendHeadTracking)
+        {
+            Quaternion q = _mainCamera.transform.rotation;
 
-		OSCMessage message = new OSCMessage ("/pose");
-        var array = OSCValue.Array();
+            OSCMessage message = new OSCMessage ("/pose");
+            var array = OSCValue.Array();
 
-		array.AddValue(OSCValue.Float(q.x));
-        array.AddValue(OSCValue.Float(q.y));
-        array.AddValue(OSCValue.Float(q.z));
-        array.AddValue(OSCValue.Float(q.w));
+            array.AddValue(OSCValue.Float(q.x));
+            array.AddValue(OSCValue.Float(q.y));
+            array.AddValue(OSCValue.Float(q.z));
+            array.AddValue(OSCValue.Float(q.w));
 
-        message.AddValue(array);
+            message.AddValue(array);
 
-        _oscTransmitter.Send(message);
+            _oscTransmitter.Send(message);    
+        }
     }
 
     public void SendThisUserStatus(bool status)
