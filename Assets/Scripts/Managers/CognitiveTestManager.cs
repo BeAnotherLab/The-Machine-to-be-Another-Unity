@@ -80,13 +80,6 @@ public class CognitiveTestManager : MonoBehaviour
         
         _timer = new Stopwatch();
     }
-
-    private void PrepareBlock(string blockName)
-    {
-        List<JSONObject> jsonObjects = _trials.list.Where(trial => trial.GetField("field8").str == blockName).ToList();
-        ListExtensions.Shuffle(jsonObjects); //shuffle that list
-        foreach (JSONObject jsonObject in jsonObjects) _finalTrialsList.Add(jsonObject); //add it to the final list
-    }
     
     // Update is called once per frame
     private void Update()
@@ -143,6 +136,14 @@ public class CognitiveTestManager : MonoBehaviour
 
     
     #region Private Methods
+    
+    private void PrepareBlock(string blockName)
+    {
+        List<JSONObject> jsonObjects = _trials.list.Where(trial => trial.GetField("field8").str == blockName).ToList();
+        ListExtensions.Shuffle(jsonObjects); //shuffle that list
+        foreach (JSONObject jsonObject in jsonObjects) _finalTrialsList.Add(jsonObject); //add it to the final list
+    }
+
     
     private IEnumerator ShowTrialCoroutine(bool firstTest = false)
     {
