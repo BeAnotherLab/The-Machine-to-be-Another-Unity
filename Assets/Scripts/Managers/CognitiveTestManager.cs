@@ -10,6 +10,7 @@ using Debug = UnityEngine.Debug;
 
 public class CognitiveTestManager : MonoBehaviour
 {
+    
     #region Private Fields
 
     //params from settings GUI
@@ -267,6 +268,7 @@ public class CognitiveTestManager : MonoBehaviour
     {
         ShowInstructionText(true, "Ok, the test is now finished! We will proceed with the next step now");
         yield return new WaitForSeconds(3);
+        //
         ShowInstructionText(false);
     }
     
