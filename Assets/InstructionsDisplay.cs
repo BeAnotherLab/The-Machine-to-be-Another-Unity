@@ -5,6 +5,10 @@ using UnityEngine.Video;
 
 public class InstructionsDisplay : MonoBehaviour
 {
-    [SerializeField] VideoPlayer _welcomeLoopVideo;
-    [SerializeField] VideoPlayer _waitForTurnLoopVideo;
+    [SerializeField] private VideoPlayer _welcomeLoopVideo;
+    [SerializeField] private VideoPlayer _waitForTurnLoopVideo;
+    [SerializeField] private GameObject _technicalFailurePanel;
+    
+    
+    
 }
