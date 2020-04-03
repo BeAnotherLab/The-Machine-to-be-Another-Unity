@@ -114,6 +114,11 @@ public class ArduinoManager : MonoBehaviour
     {
         if (data == "sys_rdy") StatusManager.instance.SerialReady();
         else if (data == "cmd_ok") _commandOK = true;
+        else if (data == "TIMEOUT" || data == "MD_FAULT" || data == "MD_Block")
+        {
+            Debug.Log("ERROR : " + data);
+            StatusManager.instance.SerialFailure();
+        }
     }
     
     private void WriteToArduino(string message)
