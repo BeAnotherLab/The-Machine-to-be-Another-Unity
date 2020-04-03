@@ -26,6 +26,7 @@ public class ArduinoManager : MonoBehaviour
     private bool _commandOK;
 
     private Coroutine _timeoutCoroutine;
+    private Coroutine _waitForSysReadyCoroutine;
         
     #endregion
     
@@ -34,6 +35,7 @@ public class ArduinoManager : MonoBehaviour
     private void Awake()
     {
         if (instance == null) instance = this;
+        UduinoManager.Instance.OnBoardConnected += SendSysReady; //Create the Delegate
     }
 
     private void Start()
@@ -51,7 +53,7 @@ public class ArduinoManager : MonoBehaviour
         if (servosOn) UduinoManager.Instance.BaudRate = 57600;
         else if (_curtainOn) UduinoManager.Instance.BaudRate = 9600;
         _servosOn = servosOn;
-        _curtainOn = curtainOn;
+        _curtainOn = curtainOn;    
     }
 
     public void DisableSerial()
@@ -110,9 +112,18 @@ public class ArduinoManager : MonoBehaviour
 
     #region Private Methods
 
+    private void SendSysReady(UduinoDevice device)
+    {
+        _waitForSysReadyCoroutine = StartCoroutine(WaitForSysReady());
+    }
+    
     private void DataReceived(string data, UduinoDevice board)
     {
-        if (data == "sys_rdy") StatusManager.instance.SerialReady();
+        if (data == "sys_rdy")
+        {
+            if(_waitForSysReadyCoroutine != null) StopCoroutine(_waitForSysReadyCoroutine);
+            StatusManager.instance.SerialReady();
+        } 
         else if (data == "cmd_ok") _commandOK = true;
         else if (data == "TIMEOUT" || data == "MD_FAULT" || data == "MD_Block")
         {
@@ -121,7 +132,7 @@ public class ArduinoManager : MonoBehaviour
         }
     }
     
-    private void WriteToArduino(string message)
+    private void WriteToArduino(string message) //send a command, trigger timeout routine
     {
         UduinoManager.Instance.sendCommand(message); 
         if (_timeoutCoroutine != null) StopCoroutine(_timeoutCoroutine); 
@@ -132,6 +143,14 @@ public class ArduinoManager : MonoBehaviour
     {
         yield return new WaitForSeconds(_timeOut);
         if(!_commandOK) StatusManager.instance.SerialFailure();
+    }
+
+    private IEnumerator WaitForSysReady() //TODO check if necessary
+    {
+        Debug.Log("sending syst rst");
+        UduinoManager.Instance.sendCommand("sys_rst");
+        yield return new WaitForSeconds(2);
+        _waitForSysReadyCoroutine = StartCoroutine(WaitForSysReady());
     }
     
     #endregion
