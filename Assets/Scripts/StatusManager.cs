@@ -136,7 +136,9 @@ public class StatusManager : MonoBehaviour {
             //reset user status as it is not ready
             EnableConfirmationGUI(true);
             OscManager.instance.SendThisUserStatus(false);
-            ArduinoManager.instance.SendCommand("stop");
+            ArduinoManager.instance.SendCommand("wall_off");
+            ArduinoManager.instance.SendCommand("mir_off");
+            ArduinoManager.instance.SendCommand("cur_off");
             _thisUserIsReady = false;   
         }
     }
