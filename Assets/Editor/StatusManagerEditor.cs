@@ -10,10 +10,20 @@ public class StatusManagerEditor : Editor
     {
         base.OnInspectorGUI();
         StatusManager statusManager = (StatusManager) target;
-        
+
+        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
         if (GUILayout.Button("Other is ready")) statusManager.OtherUserIsReady();
         if (GUILayout.Button("Other is gone")) statusManager.OtherLeft();
+
+        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+        if (GUILayout.Button("Other put headset on")) statusManager.OtherPutHeadsetOn();
+        if (GUILayout.Button("Self put headset on")) statusManager.SelfPutHeadsetOn();
+        
+        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+        
         if (GUILayout.Button("Self is ready")) statusManager.ThisUserIsReady();
-        if (GUILayout.Button("Self is Gone")) statusManager.StopExperience();
+        if (GUILayout.Button("Self is gone")) statusManager.StopExperience();
     }
 }

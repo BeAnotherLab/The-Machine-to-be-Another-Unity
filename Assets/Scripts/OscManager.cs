@@ -99,13 +99,16 @@ public class OscManager : MonoBehaviour {
         _oscTransmitter.Send(message);
     }
 
-    public void SendThisUserStatus(bool status)
+    public void SendThisUserStatus(UserStatus status)
     {
         OSCMessage message = new OSCMessage("/otherUser");
 
         int i = 0;
-        if (status) i = 1;
-
+        
+        if (status == UserStatus.headsetOff) i = 0;
+        else if (status == UserStatus.headsetOn) i = 1;
+        else if (status == UserStatus.readyToStart) i = 2;
+        
         message.AddValue(OSCValue.Int(i));
         _oscTransmitter.Send(message);
     }
@@ -185,10 +188,11 @@ public class OscManager : MonoBehaviour {
             {
                 if (x == 0) StatusManager.instance.OtherLeft();
                 else if (x == 1) StatusManager.instance.OtherUserIsReady();
+                if (x == 2) StatusManager.instance.OtherPutHeadsetOn();
             }
         }
     }
-
+    
     private void ReceivedHeadTracking(OSCMessage message)
     {
         List<OSCValue> arrayValues = null;

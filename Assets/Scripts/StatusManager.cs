@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using VRStandardAssets.Menu;
 using VRStandardAssets.Utils;
 
+public enum UserStatus { headsetOff, headsetOn, readyToStart }
+
 public class StatusManager : MonoBehaviour {
 
     #region Public Fields
@@ -13,16 +15,17 @@ public class StatusManager : MonoBehaviour {
 
     public bool statusManagementOn;
 
+    public UserStatus selfStatus;
+    public UserStatus otherStatus;
+    
     #endregion
 
 
     #region Private Fields
-    
-    [SerializeField] private bool _thisUserIsReady;
-    [SerializeField] private bool _otherUserIsReady;
+
     [SerializeField] private bool _autoStartAndFinishOn;
     [SerializeField] private bool _serialReady;
-
+    
     [Tooltip("Instructions Timing")] private GameObject _instructionsGUI;
 
     [SerializeField]
@@ -34,6 +37,7 @@ public class StatusManager : MonoBehaviour {
     private GameObject _mainCamera;
 
     private GameObject _confirmationMenu;
+
 
     #endregion
 
@@ -63,7 +67,11 @@ public class StatusManager : MonoBehaviour {
             if (XRDevice.userPresence == UserPresenceState.NotPresent)
             {
                 _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
-                if (_thisUserIsReady) StopExperience(); //if we were ready and we took off the headset
+                if (selfStatus == UserStatus.readyToStart) StopExperience(); //if we were ready and we took off the headset
+            }
+            else
+            {
+                if(selfStatus == UserStatus.headsetOff) SelfPutHeadsetOn(); //if we just put the headset on 
             }
 
             if (Input.GetKeyDown("o"))
@@ -86,28 +94,41 @@ public class StatusManager : MonoBehaviour {
     {
         if (_serialReady)
         {
-            if (statusManagementOn) OscManager.instance.SendThisUserStatus(true);
+            if (statusManagementOn) OscManager.instance.SendThisUserStatus(UserStatus.readyToStart);
 
             EnableConfirmationGUI(false); //hide status confirmation GUI elements
 
             //start experience or wait for the other if they're not ready yet
-            if (_otherUserIsReady) StartPlaying();
+            if (otherStatus == UserStatus.readyToStart) StartPlaying();
             else _instructionsText.text = LanguageTextDictionary.waitForOther; //show GUI instruction that indicates to wait for the other
 
-            _thisUserIsReady = true;    
+            selfStatus = UserStatus.readyToStart;
         }
     }
 
-    public void OtherUserIsReady() 
+    public void OtherUserIsReady()
     {
-        _otherUserIsReady = true;
-        if (_thisUserIsReady && _serialReady) StartPlaying();
+        otherStatus = UserStatus.readyToStart;
+        if (selfStatus == UserStatus.readyToStart && _serialReady) StartPlaying();
     }
 
+    public void SelfPutHeadsetOn()
+    {
+        selfStatus = UserStatus.headsetOn;
+        OscManager.instance.SendThisUserStatus(UserStatus.headsetOn);
+        if (otherStatus == UserStatus.headsetOn) HeadsetsOn();
+    }
+
+    public void OtherPutHeadsetOn()
+    {
+        otherStatus = UserStatus.headsetOn;
+        if (selfStatus == UserStatus.headsetOn) HeadsetsOn();
+    }
+    
     public void OtherLeft()
     {
-        _otherUserIsReady = false;
-        if (_thisUserIsReady && _serialReady)
+        otherStatus = UserStatus.headsetOff;
+        if (selfStatus == UserStatus.readyToStart && _serialReady)
         {
             //different than self is gone in case there is an audio for this case
             VideoFeed.instance.SetDimmed(true);
@@ -135,11 +156,14 @@ public class StatusManager : MonoBehaviour {
 
             //reset user status as it is not ready
             EnableConfirmationGUI(true);
-            OscManager.instance.SendThisUserStatus(false);
+            OscManager.instance.SendThisUserStatus(UserStatus.headsetOff);
             ArduinoManager.instance.SendCommand("wall_off");
             ArduinoManager.instance.SendCommand("mir_off");
             ArduinoManager.instance.SendCommand("cur_off");
-            _thisUserIsReady = false;   
+            
+            InstructionsDisplay.instance.ShowWelcomeVideo();
+            
+            selfStatus = UserStatus.readyToStart;
         }
     }
 
@@ -178,6 +202,11 @@ public class StatusManager : MonoBehaviour {
 
     #region Private Methods
 
+    private void HeadsetsOn()
+    {
+        InstructionsDisplay.instance.ShowWaitForTurnVideo();
+    }
+    
     private IEnumerator StartPlayingCoroutine()
     {      
         if (_autoStartAndFinishOn) //if we are in auto swap
