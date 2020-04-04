@@ -69,7 +69,7 @@ public class StatusManager : MonoBehaviour {
                 _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
                 if (selfStatus == UserStatus.readyToStart) StopExperience(); //if we were ready and we took off the headset
             }
-            else
+            else if (XRDevice.userPresence == UserPresenceState.Present)
             {
                 if(selfStatus == UserStatus.headsetOff) SelfPutHeadsetOn(); //if we just put the headset on 
             }
@@ -111,11 +111,9 @@ public class StatusManager : MonoBehaviour {
 
     public void SelfPutHeadsetOn()
     {
-        {
-            selfStatus = UserStatus.headsetOn;
-            OscManager.instance.SendThisUserStatus(UserStatus.headsetOn);
-            if (otherStatus == UserStatus.headsetOn) HeadsetsOn();    
-        }
+        selfStatus = UserStatus.headsetOn;
+        OscManager.instance.SendThisUserStatus(UserStatus.headsetOn);
+        if (otherStatus == UserStatus.headsetOn) HeadsetsOn();    
     }
 
     public void OtherPutHeadsetOn()
@@ -160,7 +158,7 @@ public class StatusManager : MonoBehaviour {
         
         InstructionsDisplay.instance.ShowWelcomeVideo();
         
-        selfStatus = UserStatus.readyToStart;
+        selfStatus = UserStatus.headsetOff;
     }
 
     public void DisableStatusManagement()
