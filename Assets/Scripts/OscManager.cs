@@ -187,8 +187,8 @@ public class OscManager : MonoBehaviour {
             if (message.ToInt(out x))
             {
                 if (x == 0) StatusManager.instance.OtherLeft();
-                else if (x == 1) StatusManager.instance.OtherUserIsReady();
-                if (x == 2) StatusManager.instance.OtherPutHeadsetOn();
+                else if (x == 1) StatusManager.instance.OtherPutHeadsetOn();
+                if (x == 2)  StatusManager.instance.OtherUserIsReady();
             }
         }
     }
