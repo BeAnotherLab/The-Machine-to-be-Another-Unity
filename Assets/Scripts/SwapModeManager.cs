@@ -32,8 +32,6 @@ public class SwapModeManager : MonoBehaviour
         switch (mode)
         {
             case SwapModes.AUTO_SWAP:
-                //enable serial depending on if we are using the curtain or not
-                ArduinoManager.instance.ActivateSerial(false, useCurtain);
 
                 //hide serial port dropdown, show repeater toggle, show IP input field
                 SettingsGUI.instance.SetSwapMode(useCurtain);
@@ -49,6 +47,9 @@ public class SwapModeManager : MonoBehaviour
                 //enable OSC repeat
                 OscManager.instance.EnableRepeater(true);
 
+                //enable serial depending on if we are using the curtain or not
+                ArduinoManager.instance.ActivateSerial(false, useCurtain);
+                
                 break;
 
             case SwapModes.MANUAL_SWAP:

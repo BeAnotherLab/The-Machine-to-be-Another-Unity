@@ -92,31 +92,30 @@ public class StatusManager : MonoBehaviour {
 
     public void ThisUserIsReady() //called when user has aimed at the confirmation dialog and waited through the countdown.
     {
-        if (_serialReady)
-        {
-            if (statusManagementOn) OscManager.instance.SendThisUserStatus(UserStatus.readyToStart);
+        if (statusManagementOn) OscManager.instance.SendThisUserStatus(UserStatus.readyToStart);
 
-            EnableConfirmationGUI(false); //hide status confirmation GUI elements
+        EnableConfirmationGUI(false); //hide status confirmation GUI elements
 
-            //start experience or wait for the other if they're not ready yet
-            if (otherStatus == UserStatus.readyToStart) StartPlaying();
-            else _instructionsText.text = LanguageTextDictionary.waitForOther; //show GUI instruction that indicates to wait for the other
+        //start experience or wait for the other if they're not ready yet
+        if (otherStatus == UserStatus.readyToStart) StartPlaying();
+        else _instructionsText.text = LanguageTextDictionary.waitForOther; //show GUI instruction that indicates to wait for the other
 
-            selfStatus = UserStatus.readyToStart;
-        }
+        selfStatus = UserStatus.readyToStart;
     }
 
     public void OtherUserIsReady()
     {
         otherStatus = UserStatus.readyToStart;
-        if (selfStatus == UserStatus.readyToStart && _serialReady) StartPlaying();
+        if (selfStatus == UserStatus.readyToStart) StartPlaying();
     }
 
     public void SelfPutHeadsetOn()
     {
-        selfStatus = UserStatus.headsetOn;
-        OscManager.instance.SendThisUserStatus(UserStatus.headsetOn);
-        if (otherStatus == UserStatus.headsetOn) HeadsetsOn();
+        {
+            selfStatus = UserStatus.headsetOn;
+            OscManager.instance.SendThisUserStatus(UserStatus.headsetOn);
+            if (otherStatus == UserStatus.headsetOn) HeadsetsOn();    
+        }
     }
 
     public void OtherPutHeadsetOn()
@@ -128,7 +127,7 @@ public class StatusManager : MonoBehaviour {
     public void OtherLeft()
     {
         otherStatus = UserStatus.headsetOff;
-        if (selfStatus == UserStatus.readyToStart && _serialReady)
+        if (selfStatus == UserStatus.readyToStart)
         {
             //different than self is gone in case there is an audio for this case
             VideoFeed.instance.SetDimmed(true);
@@ -144,27 +143,24 @@ public class StatusManager : MonoBehaviour {
 
     public void StopExperience()
     {
-        if (_serialReady)
-        {
-            VideoFeed.instance.SetDimmed(true);
-            _instructionsGUI.SetActive(true);
-            _instructionsText.text = LanguageTextDictionary.idle; 
+        VideoFeed.instance.SetDimmed(true);
+        _instructionsGUI.SetActive(true);
+        _instructionsText.text = LanguageTextDictionary.idle; 
 
-            StopAllCoroutines();
+        StopAllCoroutines();
 
-            AudioPlayer.instance.StopAudioInstructions();
+        AudioPlayer.instance.StopAudioInstructions();
 
-            //reset user status as it is not ready
-            EnableConfirmationGUI(true);
-            OscManager.instance.SendThisUserStatus(UserStatus.headsetOff);
-            ArduinoManager.instance.SendCommand("wall_off");
-            ArduinoManager.instance.SendCommand("mir_off");
-            ArduinoManager.instance.SendCommand("cur_off");
-            
-            InstructionsDisplay.instance.ShowWelcomeVideo();
-            
-            selfStatus = UserStatus.readyToStart;
-        }
+        //reset user status as it is not ready
+        EnableConfirmationGUI(true);
+        OscManager.instance.SendThisUserStatus(UserStatus.headsetOff);
+        ArduinoManager.instance.SendCommand("wall_off");
+        ArduinoManager.instance.SendCommand("mir_off");
+        ArduinoManager.instance.SendCommand("cur_off");
+        
+        InstructionsDisplay.instance.ShowWelcomeVideo();
+        
+        selfStatus = UserStatus.readyToStart;
     }
 
     public void DisableStatusManagement()
@@ -180,21 +176,21 @@ public class StatusManager : MonoBehaviour {
 
     public void SerialFailure() //if something went wrong with the physical installation
     {
-        _serialReady = false;
         StopAllCoroutines();
         _instructionsGUI.SetActive(true);
         _instructionsText.text = LanguageTextDictionary.systemFailure;
         VideoFeed.instance.SetDimmed(true);
         OscManager.instance.SendSerialStatus(false);
         AudioPlayer.instance.StopAudioInstructions();    
+        Destroy(gameObject);
     }
 
     public void SerialReady()
     {
-        _serialReady = true;
         OscManager.instance.SendSerialStatus(true);
         _instructionsGUI.SetActive(true);
         _instructionsText.text = LanguageTextDictionary.idle;
+        _serialReady = true;
     }
 
     #endregion
@@ -268,9 +264,12 @@ public class StatusManager : MonoBehaviour {
 
     private void StartPlaying()
     {
-        _instructionsGUI.SetActive(true);
-        _instructionsText.text = LanguageTextDictionary.instructions;
-        StartCoroutine("StartPlayingCoroutine");
+        if (_serialReady)
+        {
+            _instructionsGUI.SetActive(true);
+            _instructionsText.text = LanguageTextDictionary.instructions;
+            StartCoroutine("StartPlayingCoroutine");    
+        }
     }
 
     private void IsOver() //called at the the end of the experience

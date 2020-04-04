@@ -35,12 +35,6 @@ public class ArduinoManager : MonoBehaviour
     private void Awake()
     {
         if (instance == null) instance = this;
-        UduinoManager.Instance.OnBoardConnected += SendSysReady; //Create the Delegate
-    }
-
-    private void Start()
-    {
-        UduinoManager.Instance.OnDataReceived += DataReceived;
     }
 
     #endregion
@@ -50,6 +44,8 @@ public class ArduinoManager : MonoBehaviour
 
     public void ActivateSerial(bool servosOn, bool curtainOn = false)
     {
+        UduinoManager.Instance.OnDataReceived += DataReceived;
+        UduinoManager.Instance.OnBoardConnected += SendSysReady; //Create the Delegate
         if (servosOn) UduinoManager.Instance.BaudRate = 57600;
         else if (_curtainOn) UduinoManager.Instance.BaudRate = 9600;
         _servosOn = servosOn;
