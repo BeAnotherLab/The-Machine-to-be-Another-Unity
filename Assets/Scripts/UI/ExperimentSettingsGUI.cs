@@ -11,13 +11,14 @@ public class ExperimentSettingsGUI : MonoBehaviour
     
     //Experiment settings
     [SerializeField] private InputField _subjectIDInputField;
+    [SerializeField] private Dropdown _experimentCameraDropdown;
     [SerializeField] private Dropdown _conditionDropdown;
     [SerializeField] private Dropdown _participantDropdown;
     [SerializeField] private GameObject _subjectExistingErrorMessage;
     
     //Cognitive settings
     [SerializeField] private Dropdown _pronounDropdown;
-    [SerializeField] private Dropdown _cameraDropdown;
+    [SerializeField] private Dropdown _CognitiveTestCameraDropdown;
     [SerializeField] private Dropdown _directionDropdown;
     [SerializeField] private Toggle _showDummyToggle;
     
@@ -33,9 +34,9 @@ public class ExperimentSettingsGUI : MonoBehaviour
     {
         if (instance == null) instance = this;        
         
-        _cameraDropdown.onValueChanged.AddListener(delegate
+        _CognitiveTestCameraDropdown.onValueChanged.AddListener(delegate
         {
-            VideoFeed.instance.cameraID = _cameraDropdown.value;
+            VideoFeed.instance.cameraID = _CognitiveTestCameraDropdown.value;
         });
 
         _startButton.onClick.AddListener(delegate
@@ -93,14 +94,14 @@ public class ExperimentSettingsGUI : MonoBehaviour
     private void SetCameraDropdownOptions()
     {
         WebCamDevice[] devices = WebCamTexture.devices;
-        _cameraDropdown.options.Clear();
+        _CognitiveTestCameraDropdown.options.Clear();
         
         foreach (WebCamDevice device in devices)
         {
-            _cameraDropdown.options.Add(new Dropdown.OptionData() { text = device.name });
+            _CognitiveTestCameraDropdown.options.Add(new Dropdown.OptionData() { text = device.name });
         }
-        _cameraDropdown.value = PlayerPrefs.GetInt("cameraID");
-        _cameraDropdown.RefreshShownValue();
+        _CognitiveTestCameraDropdown.value = PlayerPrefs.GetInt("cameraID");
+        _CognitiveTestCameraDropdown.RefreshShownValue();
     }
 
     

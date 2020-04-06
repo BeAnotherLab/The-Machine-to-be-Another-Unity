@@ -17,7 +17,7 @@ public class VideoFeed : MonoBehaviour
 
     public bool useHeadTracking = true; //used to decide whether to move the servos with the sliders or with the headtracking
 
-    public int cameraID; //app must be reset for changes to be applied
+    public int cameraID; //app must be reset for changes to be applied. first camera is for swap, second is for cognitive task
 
     public bool twoWayWap;
 
