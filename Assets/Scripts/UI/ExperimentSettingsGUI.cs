@@ -65,6 +65,8 @@ public class ExperimentSettingsGUI : MonoBehaviour
         });
         
         _rotateButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
+        
+        VideoFeed.instance.OnWebCamConnected += SetCameraDropdownOptions;
     }
 
     // Start is called before the first frame update
@@ -91,7 +93,7 @@ public class ExperimentSettingsGUI : MonoBehaviour
         _subjectExistingErrorMessage.gameObject.SetActive(false);
     }
     
-    private void SetCameraDropdownOptions()
+    public void SetCameraDropdownOptions()
     {
         WebCamDevice[] devices = WebCamTexture.devices;
         _CognitiveTestCameraDropdown.options.Clear();

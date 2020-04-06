@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 
-public class VideoFeed : MonoBehaviour
+public class VideoFeed : MonoBehaviour //TODO turn to manager
 {
     #region Public Fields
 
@@ -22,6 +22,10 @@ public class VideoFeed : MonoBehaviour
     public bool twoWayWap;
 
     public bool dimOnStart;
+
+    public delegate void WebCamConnected();
+    public event WebCamConnected OnWebCamConnected;
+    public int _connectedWebcams;
     
     #endregion
 
@@ -62,6 +66,7 @@ public class VideoFeed : MonoBehaviour
         SetDimmed(dimOnStart);
         otherPose = new Quaternion();
         SetLiveVideoTexture();
+        _connectedWebcams = 0;
     }
 
     // Update is called once per frame
@@ -91,6 +96,12 @@ public class VideoFeed : MonoBehaviour
         }
         
         Graphics.Blit(_meshRenderer.material.mainTexture, _videoRenderTexture);
+
+        if (_connectedWebcams != WebCamTexture.devices.Length)
+        {
+            _connectedWebcams = WebCamTexture.devices.Length;
+            OnWebCamConnected();
+        }
     }
 
     void OnDestroy()
