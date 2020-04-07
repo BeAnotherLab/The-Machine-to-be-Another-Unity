@@ -27,10 +27,10 @@ public class StatusManager : MonoBehaviour {
     [Tooltip("Instructions Timing")] private GameObject _instructionsGUI;
 
     [SerializeField]
-    private float waitBeforeInstructions, waitAfterInstructionsForScreen, waitForMirror, waitForGoodbye, waitForWall;
+    private float waitBeforeInstructions; 
     
     [Tooltip("Set configuration of event timing (1-4)")] [SerializeField] private int _timingConfiguration;
-    private List<int> _selectedTimingList = new List<int>();
+    private List<float> _selectedTimingList = new List<float>();
     //TODO make waitafterInstructions match the duration of the introduction audio
 
     private Text _instructionsText;
@@ -58,6 +58,7 @@ public class StatusManager : MonoBehaviour {
     private void Start()
     {
         _instructionsText.text = "Waiting for serial...";
+        InitializeTimings();
     }
 
     private void Update()
@@ -84,6 +85,9 @@ public class StatusManager : MonoBehaviour {
 
         foreach (int item in MultipleTimings.instance.timingList[_timingConfiguration])
             _selectedTimingList.Add(item);
+
+        foreach (int item in _selectedTimingList)
+            Debug.Log(item);
     }
 
     public void SetAutoStartAndFinish(bool on, float waitTime = 5)

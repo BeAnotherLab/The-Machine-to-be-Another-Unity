@@ -23,7 +23,7 @@ public class ArduinoManager : MonoBehaviour
     #region Private Fields
 
     [SerializeField] private int _timeOut;
-    private bool _commandOK;
+    public bool _commandOK = true;
 
     private Coroutine _timeoutCoroutine;
     private Coroutine _waitForSysReadyCoroutine;

@@ -6,16 +6,16 @@ public class MultipleTimings : MonoBehaviour
 {
 
     #region Public Fields
-    public List<List<int>> timingList = new List<List<int>>();
+    public List<List<float>> timingList = new List<List<float>>();
 
     public static MultipleTimings instance;
     #endregion
 
     #region Private Fields
-    [SerializeField] private List<int> timeList1 = new List<int>();
-    [SerializeField] private List<int> timeList2 = new List<int>();
-    [SerializeField] private List<int> timeList3 = new List<int>();
-    [SerializeField] private List<int> timeList4 = new List<int>();
+    [Tooltip("0 = instructions end, 1 = mirror, 2 = wall, 3 = goodbye")] [SerializeField] private List<float> timeList1 = new List<float>();
+    [Tooltip("0 = instructions end, 1 = mirror, 2 = wall, 3 = goodbye")] [SerializeField] private List<float> timeList2 = new List<float>();
+    [Tooltip("0 = instructions end, 1 = mirror, 2 = wall, 3 = goodbye")] [SerializeField] private List<float> timeList3 = new List<float>();
+    [Tooltip("0 = instructions end, 1 = mirror, 2 = wall, 3 = goodbye")] [SerializeField] private List<float> timeList4 = new List<float>();
     #endregion
 
 
@@ -32,10 +32,6 @@ public class MultipleTimings : MonoBehaviour
         timingList.Add(timeList4);
     }
 
-    private void Start()
-    {
-
-    }
     #endregion
 
 }
