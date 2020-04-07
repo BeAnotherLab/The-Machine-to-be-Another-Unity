@@ -24,7 +24,7 @@ public class StatusManagerEditor : Editor
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         
         if (GUILayout.Button("Self is ready")) statusManager.ThisUserIsReady();
-        if (GUILayout.Button("Self is gone")) statusManager.StopExperience();
+        if (GUILayout.Button("Self is gone")) statusManager.SelfRemovedHeadset();
         
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         if (GUILayout.Button("Serial ready")) statusManager.SerialReady();

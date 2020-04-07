@@ -38,7 +38,6 @@ public class StatusManager : MonoBehaviour {
 
     private GameObject _confirmationMenu;
 
-
     #endregion
 
 
@@ -53,6 +52,7 @@ public class StatusManager : MonoBehaviour {
         _mainCamera = GameObject.Find("Main Camera");
 
         _confirmationMenu = GameObject.Find("ConfirmationMenu");
+
     }
 
     private void Start()
@@ -64,21 +64,13 @@ public class StatusManager : MonoBehaviour {
     {
         if ( statusManagementOn ) //status management is for both autonomous and manual swap
         {
-            if (XRDevice.userPresence == UserPresenceState.NotPresent)
-            {
-                _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
-                if (selfStatus == UserStatus.readyToStart) StopExperience(); //if we were ready and we took off the headset
-                if (selfStatus == UserStatus.headsetOn) InstructionsDisplay.instance.ShowWelcomeVideo();
-                selfStatus = UserStatus.headsetOff;
-            }
-            else if (XRDevice.userPresence == UserPresenceState.Present)
-            {
-                if(selfStatus == UserStatus.headsetOff) SelfPutHeadsetOn(); //if we just put the headset on 
-            }
-
-            if (Input.GetKeyDown("o"))
-                IsOver();
-        }
+            if (XRDevice.userPresence == UserPresenceState.NotPresent && selfStatus != UserStatus.headsetOff) 
+                SelfRemovedHeadset();
+            else if (XRDevice.userPresence == UserPresenceState.Present && selfStatus == UserStatus.headsetOff) //if we just put the headset on 
+                SelfPutHeadsetOn(); 
+            
+            if (Input.GetKeyDown("o")) IsOver();
+        } 
     }
 
     #endregion
@@ -195,11 +187,19 @@ public class StatusManager : MonoBehaviour {
         _serialReady = true;
     }
 
+    public void SelfRemovedHeadset()
+    {
+        _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
+        if (selfStatus == UserStatus.readyToStart) StopExperience(); //if we were ready and we took off the headset
+        if (selfStatus == UserStatus.headsetOn) InstructionsDisplay.instance.ShowWelcomeVideo(); //if we just had headset on
+        selfStatus = UserStatus.headsetOff;
+    }
+    
     #endregion
 
 
     #region Private Methods
-
+    
     private void HeadsetsOn()
     {
         InstructionsDisplay.instance.ShowWaitForTurnVideo();
