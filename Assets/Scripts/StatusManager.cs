@@ -58,7 +58,6 @@ public class StatusManager : MonoBehaviour {
     private void Start()
     {
         _instructionsText.text = "Waiting for serial...";
-        InitializeTimings();
     }
 
     private void Update()
@@ -82,6 +81,8 @@ public class StatusManager : MonoBehaviour {
     #region Public Methods
 
     private void InitializeTimings (){
+
+        _selectedTimingList.Clear();
 
         foreach (int item in MultipleTimings.instance.timingList[_timingConfiguration])
             _selectedTimingList.Add(item);
@@ -253,6 +254,9 @@ public class StatusManager : MonoBehaviour {
     {
         _instructionsGUI.SetActive(true);
         _instructionsText.text = LanguageTextDictionary.instructions;
+
+        InitializeTimings();
+
         StartCoroutine("StartPlayingCoroutine");
     }
 
