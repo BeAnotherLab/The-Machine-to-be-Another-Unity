@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.UI;
@@ -27,6 +28,9 @@ public class StatusManager : MonoBehaviour {
 
     [SerializeField]
     private float waitBeforeInstructions, waitAfterInstructionsForScreen, waitForMirror, waitForGoodbye, waitForWall;
+    
+    [Tooltip("Set configuration of event timing (1-4)")] [SerializeField] private int _timingConfiguration;
+    private List<int> _selectedTimingList = new List<int>();
     //TODO make waitafterInstructions match the duration of the introduction audio
 
     private Text _instructionsText;
@@ -75,6 +79,12 @@ public class StatusManager : MonoBehaviour {
 
 
     #region Public Methods
+
+    private void InitializeTimings (){
+
+        foreach (int item in MultipleTimings.instance.timingList[_timingConfiguration])
+            _selectedTimingList.Add(item);
+    }
 
     public void SetAutoStartAndFinish(bool on, float waitTime = 5)
     {
@@ -190,8 +200,8 @@ public class StatusManager : MonoBehaviour {
         StartCoroutine("WallCoroutine");
 
         yield return new WaitForFixedTime(waitBeforeInstructions);// wait before playing audio
-        yield return new WaitForFixedTime(waitAfterInstructionsForScreen);//duration of audio track to start video after
-
+        yield return new WaitForFixedTime(_selectedTimingList[0]);//duration of audio track to start video after
+        
         if (_autoStartAndFinishOn) //if we are in auto swap
         {
             ArduinoManager.instance.SendCommand("wal_on"); //close curtain
@@ -204,21 +214,21 @@ public class StatusManager : MonoBehaviour {
 
     private IEnumerator GoodbyeCoroutine()
     {
-        yield return new WaitForFixedTime(waitForGoodbye + waitBeforeInstructions);
+        yield return new WaitForFixedTime(_selectedTimingList[3] + waitBeforeInstructions);
         Debug.Log("READY TO STOP");
         IsOver();
     }
 
     private IEnumerator MirrorCoroutine()
     {
-        yield return new WaitForFixedTime(waitBeforeInstructions + waitForMirror);
+        yield return new WaitForFixedTime(waitBeforeInstructions + _selectedTimingList[1]);
         Debug.Log("READY FOR MIRROR");
         ArduinoManager.instance.SendCommand("mir_on"); //show mirror
     }
 
     private IEnumerator WallCoroutine()
     {
-        yield return new WaitForFixedTime(waitBeforeInstructions + waitForWall);
+        yield return new WaitForFixedTime(waitBeforeInstructions + _selectedTimingList[2]);
         Debug.Log("READY FOR WALL");
         ArduinoManager.instance.SendCommand("wal_off"); //open curtain
         ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
