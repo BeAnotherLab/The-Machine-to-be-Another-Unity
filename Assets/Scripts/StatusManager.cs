@@ -137,6 +137,10 @@ public class StatusManager : MonoBehaviour {
 
             StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
         }
+        else
+        {
+            InstructionsDisplay.instance.ShowWelcomeVideo();
+        }
     }
 
     public void StopExperience()
