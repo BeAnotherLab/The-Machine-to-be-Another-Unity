@@ -27,6 +27,11 @@ public class LocalizationManager : MonoBehaviour {
         DontDestroyOnLoad (gameObject);
     }
 
+    private void Start()
+    {
+        LoadLocalizedText(localizationTexts[0]);
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown("z")) LoadLocalizedText(localizationTexts[0]);

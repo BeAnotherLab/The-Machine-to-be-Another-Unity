@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3197596539171407804}
   - component: {fileID: 3197596539171407805}
-  - component: {fileID: 3197596539171407808}
   m_Layer: 5
   m_Name: StatusManager
   m_TagString: Untagged
@@ -49,27 +48,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 503636195938e79408ecd2ae4a64ff49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisUserIsReady: 0
-  otherUserIsReady: 0
   statusManagementOn: 0
-  autoStartAndFinishOn: 0
-  _fakeOculusReady: 0
-  _useFakeOculus: 0
+  selfStatus: 0
+  otherStatus: 0
+  _autoStartAndFinishOn: 0
+  _serialReady: 0
   waitBeforeInstructions: 0
   waitAfterInstructionsForScreen: 25
   waitForMirror: 140
   waitForGoodbye: 205
   waitForWall: 180
---- !u!114 &3197596539171407808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3197596539171407807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ae1f68a85a159f46b05c0f78d981148, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultLanguage: deutsch

@@ -126,6 +126,23 @@ public class ArduinoManager : MonoBehaviour
             Debug.Log("ERROR : " + data);
             StatusManager.instance.SerialFailure();
         }
+        else if (data == "lng_de")
+        {
+            
+        }
+        else if (data == "lng_fr")
+        {
+            
+        }
+        else if (data == "lng_it")
+        {
+            
+        }
+        else if (data == "lng_en")
+        {
+            
+        }
+            
     }
     
     private void WriteToArduino(string message) //send a command, trigger timeout routine
