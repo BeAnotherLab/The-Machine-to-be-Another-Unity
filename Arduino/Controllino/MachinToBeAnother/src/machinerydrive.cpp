@@ -32,6 +32,6 @@ void machinerydrive(){
     digitalWrite(CONTROLLINO_D0, LOW);  //stop motor
   }
 
-  MDReleased=MDReady&&MDOk;
+  MDReleased = MDReady && MDOk;
   digitalWrite(CONTROLLINO_D6, MDReleased);
 }
