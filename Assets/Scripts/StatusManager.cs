@@ -86,8 +86,6 @@ public class StatusManager : MonoBehaviour {
         foreach (int item in MultipleTimings.instance.timingList[_timingConfiguration])
             _selectedTimingList.Add(item);
 
-        foreach (int item in _selectedTimingList)
-            Debug.Log(item);
     }
 
     public void SetAutoStartAndFinish(bool on, float waitTime = 5)
@@ -197,7 +195,7 @@ public class StatusManager : MonoBehaviour {
         if (_autoStartAndFinishOn) //if we are in auto swap
         {
             StartCoroutine("GoodbyeCoroutine");
-            AudioPlayer.instance.PlayAudioInstructions();
+            AudioPlayer.instance.PlayAudioInstructions(_timingConfiguration);
         }
 
         StartCoroutine("MirrorCoroutine");

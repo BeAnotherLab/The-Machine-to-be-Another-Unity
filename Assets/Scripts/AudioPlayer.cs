@@ -29,7 +29,7 @@ public class AudioPlayer : MonoBehaviour {
     [SerializeField]
     private AudioSource _music; //the background music
     [SerializeField]
-    private AudioSource _autoModeInstructions; //the audio file played when in automatic mode
+    private AudioSource[] _autoModeInstructions; //the audio file played when in automatic mode
     
     private bool _somethingIsPlaying;
 
@@ -53,7 +53,9 @@ public class AudioPlayer : MonoBehaviour {
         _audioClips.Add(_frenchClips);
 
         _portugueseClips = GameObject.Find("PortugueseAudios").GetComponentsInChildren<AudioSource>();
-        _audioClips.Add(_portugueseClips);        
+        _audioClips.Add(_portugueseClips);
+
+        _autoModeInstructions = GameObject.Find("AutoModeInstructions").GetComponentsInChildren<AudioSource>();
     }
 
     // Use this for initialization
@@ -120,14 +122,15 @@ public class AudioPlayer : MonoBehaviour {
 
     #region Public Methods
     
-    public void PlayAudioInstructions()
+    public void PlayAudioInstructions(int _selectedInstructions)
     {
-        _autoModeInstructions.Play();
+        _autoModeInstructions[_selectedInstructions].Play();
     }
 
     public void StopAudioInstructions()
     {
-        _autoModeInstructions.Stop();
+        foreach(AudioSource _instruction in _autoModeInstructions)
+            _instruction.Stop();
     }
 
     public void playSound(int id)
