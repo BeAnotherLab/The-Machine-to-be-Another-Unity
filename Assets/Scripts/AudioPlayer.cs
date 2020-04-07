@@ -23,6 +23,8 @@ public class AudioPlayer : MonoBehaviour {
     private AudioSource[] _frenchClips; //french audios
     [SerializeField]
     private AudioSource[] _portugueseClips; //italian audios
+    [SerializeField]
+    private AudioSource[] _autoClips; //autonomous swap audios for prototyping
 
     private List<AudioSource[]> _audioClips;
 
@@ -55,7 +57,12 @@ public class AudioPlayer : MonoBehaviour {
         _portugueseClips = GameObject.Find("PortugueseAudios").GetComponentsInChildren<AudioSource>();
         _audioClips.Add(_portugueseClips);
 
+        _autoClips = GameObject.Find("AutoModeAudios").GetComponentsInChildren<AudioSource>();
+        _audioClips.Add(_autoClips);
+
         _autoModeInstructions = GameObject.Find("AutoModeInstructions").GetComponentsInChildren<AudioSource>();
+
+        
     }
 
     // Use this for initialization
@@ -66,6 +73,10 @@ public class AudioPlayer : MonoBehaviour {
         _music.Play();
 
         language = PlayerPrefs.GetInt("language");
+
+        if ((int)SwapModeManager.instance.swapMode == 0) //if autonomous swap
+            language = 4;//instead of loading a language it will load the list corresponding to the autonomous cues.
+
 
         foreach (AudioSource clip in _audioClips[language])
             clip.Pause();
