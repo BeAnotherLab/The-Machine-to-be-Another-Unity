@@ -68,6 +68,8 @@ public class StatusManager : MonoBehaviour {
             {
                 _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
                 if (selfStatus == UserStatus.readyToStart) StopExperience(); //if we were ready and we took off the headset
+                if (selfStatus == UserStatus.headsetOn) InstructionsDisplay.instance.ShowWelcomeVideo();
+                selfStatus = UserStatus.headsetOff;
             }
             else if (XRDevice.userPresence == UserPresenceState.Present)
             {
@@ -161,8 +163,6 @@ public class StatusManager : MonoBehaviour {
         ArduinoManager.instance.SendCommand("cur_off");
         
         InstructionsDisplay.instance.ShowWelcomeVideo();
-        
-        selfStatus = UserStatus.headsetOff;
     }
 
     public void DisableStatusManagement()
