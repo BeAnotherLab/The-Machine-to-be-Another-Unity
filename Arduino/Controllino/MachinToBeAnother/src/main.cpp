@@ -1,10 +1,3 @@
-//*******************************
-//  Titel:    MachineToBeAnother
-//  Projekt:  Kopfwelten
-//  Version:  1.0
-//  Autor:    che
-//  Datum:    13.03.2020
-//*******************************
 #include <Technorama.h>
 
 bool DEBUG=false;                  //global
@@ -16,6 +9,9 @@ void setup(){
   pinMode(CONTROLLINO_D0, OUTPUT); //wall start
   pinMode(CONTROLLINO_D1, OUTPUT); //wall direction
   pinMode(CONTROLLINO_D2, OUTPUT); //mirror
+  pinMode(CONTROLLINO_D3, OUTPUT); 
+  pinMode(CONTROLLINO_D4, OUTPUT); //curtain
+  pinMode(CONTROLLINO_D5, OUTPUT); 
 
   pinMode(CONTROLLINO_D6, OUTPUT); //status machinery drive
   pinMode(CONTROLLINO_D7, OUTPUT); //running
@@ -42,10 +38,10 @@ void thread_1(){
 void thread_2(){
     static unsigned long int warteSeit;
 
-    if (millis()-warteSeit >= 5){ //5ms
+    if (millis()-warteSeit >= 20){ //20ms
       warteSeit=millis();
 
-      //5ms thread
+      //20ms thread
       reset();
     }
 }
@@ -90,7 +86,7 @@ void thread_6(){
     warteSeit=millis();
 
     //20ms thread
-    //curtain();
+    curtain();
   }
 }
 

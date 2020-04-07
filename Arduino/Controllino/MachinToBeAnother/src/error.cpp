@@ -8,7 +8,7 @@ void error(byte ErrorNr){
   switch (ErrorNr) {
 
     case 0:
-      Serial.println("sys_rdy");  //command executed
+      Serial.println("cmd_ok");  //command executed
     break;
 
     case 1:
