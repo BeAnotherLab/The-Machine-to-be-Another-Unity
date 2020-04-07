@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +14,14 @@ public class LanguageTextDictionary : MonoBehaviour {
 	public static string instructions;
 	public static string finished;
 	public static string systemFailure;
-	
+
+	public static LanguageTextDictionary instance;
+
+	private void Awake()
+	{
+		if (instance == null) instance = this;
+	}
+
 	void Start () {
 		TextPerLanguage (defaultLanguage);
 		selectedLanguage = defaultLanguage;
