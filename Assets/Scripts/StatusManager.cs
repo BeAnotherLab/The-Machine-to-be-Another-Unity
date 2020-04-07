@@ -149,7 +149,6 @@ public class StatusManager : MonoBehaviour {
 
         //reset user status as it is not ready
         EnableConfirmationGUI(true);
-        OscManager.instance.SendThisUserStatus(UserStatus.headsetOff);
         ArduinoManager.instance.SendCommand("wall_off");
         ArduinoManager.instance.SendCommand("mir_off");
         ArduinoManager.instance.SendCommand("cur_off");
@@ -193,6 +192,7 @@ public class StatusManager : MonoBehaviour {
         if (selfStatus == UserStatus.readyToStart) StopExperience(); //if we were ready and we took off the headset
         if (selfStatus == UserStatus.headsetOn) InstructionsDisplay.instance.ShowWelcomeVideo(); //if we just had headset on
         selfStatus = UserStatus.headsetOff;
+        OscManager.instance.SendThisUserStatus(selfStatus);
     }
     
     #endregion
@@ -292,3 +292,4 @@ public class StatusManager : MonoBehaviour {
 
     #endregion
 }
+ 
