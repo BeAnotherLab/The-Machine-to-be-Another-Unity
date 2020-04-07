@@ -175,6 +175,7 @@ public class StatusManager : MonoBehaviour {
         VideoFeed.instance.SetDimmed(true);
         OscManager.instance.SendSerialStatus(false);
         AudioPlayer.instance.StopAudioInstructions();    
+        InstructionsDisplay.instance.ShowTechnicalFailureMessage();
         Destroy(gameObject);
     }
 
