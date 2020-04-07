@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.UI;
@@ -29,7 +30,10 @@ public class StatusManager : MonoBehaviour {
     [Tooltip("Instructions Timing")] private GameObject _instructionsGUI;
 
     [SerializeField]
-    private float waitBeforeInstructions, waitAfterInstructionsForScreen, waitForMirror, waitForGoodbye, waitForWall;
+    private float waitBeforeInstructions; 
+    
+    [Tooltip("Set configuration of event timing (1-4)")] [SerializeField] private int _timingConfiguration;
+    private List<float> _selectedTimingList = new List<float>();
     //TODO make waitafterInstructions match the duration of the introduction audio
 
     private Text _instructionsText;
@@ -77,6 +81,15 @@ public class StatusManager : MonoBehaviour {
 
 
     #region Public Methods
+
+    private void InitializeTimings (){
+
+        _selectedTimingList.Clear();
+
+        foreach (int item in MultipleTimings.instance.timingList[_timingConfiguration])
+            _selectedTimingList.Add(item);
+
+    }
 
     public void SetAutoStartAndFinish(bool on, float waitTime = 5)
     {
@@ -211,15 +224,15 @@ public class StatusManager : MonoBehaviour {
         if (_autoStartAndFinishOn) //if we are in auto swap
         {
             StartCoroutine("GoodbyeCoroutine");
-            AudioPlayer.instance.PlayAudioInstructions();
+            AudioPlayer.instance.PlayAudioInstructions(_timingConfiguration);
         }
 
         StartCoroutine("MirrorCoroutine");
         StartCoroutine("WallCoroutine");
 
         yield return new WaitForFixedTime(waitBeforeInstructions);// wait before playing audio
-        yield return new WaitForFixedTime(waitAfterInstructionsForScreen);//duration of audio track to start video after
-
+        yield return new WaitForFixedTime(_selectedTimingList[0]);//duration of audio track to start video after
+        
         if (_autoStartAndFinishOn) //if we are in auto swap
         {
             ArduinoManager.instance.SendCommand("wal_on"); //close curtain
@@ -232,21 +245,21 @@ public class StatusManager : MonoBehaviour {
 
     private IEnumerator GoodbyeCoroutine()
     {
-        yield return new WaitForFixedTime(waitForGoodbye + waitBeforeInstructions);
+        yield return new WaitForFixedTime(_selectedTimingList[3] + waitBeforeInstructions);
         Debug.Log("READY TO STOP");
         IsOver();
     }
 
     private IEnumerator MirrorCoroutine()
     {
-        yield return new WaitForFixedTime(waitBeforeInstructions + waitForMirror);
+        yield return new WaitForFixedTime(waitBeforeInstructions + _selectedTimingList[1]);
         Debug.Log("READY FOR MIRROR");
         ArduinoManager.instance.SendCommand("mir_on"); //show mirror
     }
 
     private IEnumerator WallCoroutine()
     {
-        yield return new WaitForFixedTime(waitBeforeInstructions + waitForWall);
+        yield return new WaitForFixedTime(waitBeforeInstructions + _selectedTimingList[2]);
         Debug.Log("READY FOR WALL");
         ArduinoManager.instance.SendCommand("wal_off"); //open curtain
         ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
@@ -269,6 +282,7 @@ public class StatusManager : MonoBehaviour {
     {
         if (_serialReady)
         {
+	        InitializeTimings();
             _instructionsGUI.SetActive(true);
             _instructionsText.text = LanguageTextDictionary.instructions;
             StartCoroutine("StartPlayingCoroutine");    
