@@ -20,8 +20,7 @@ public class LanguageTextDictionary : MonoBehaviour {
 	}
 
 	void Update() {
-		LanguageChanged(defaultLanguage); //Temporary, while there is no aditional language input.
-		TextPerLanguage (defaultLanguage);
+		TextPerLanguage (selectedLanguage);
 	}
 
 	public void LanguageChanged(string language) {
