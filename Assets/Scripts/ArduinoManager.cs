@@ -116,19 +116,21 @@ public class ArduinoManager : MonoBehaviour
     
     private void DataReceived(string data, UduinoDevice board)
     {
+        Debug.Log("received : " + data);
+
         if (data == "sys_rdy")
         {
             if(_waitForSysReadyCoroutine != null) StopCoroutine(_waitForSysReadyCoroutine);
             StatusManager.instance.SerialReady();
         } 
         else if (data == "cmd_ok") _commandOK = true;
-        else if (data == "TIMEOUT" || data == "MD_FAULT" || data == "MD_Block")
+        else if (data == "TIMEOUT" || data == "MD_FAULT" || data == "MD_BLOCK")
         {
             Debug.Log("ERROR : " + data);
             StatusManager.instance.SerialFailure();
         }
         else if (data == "lng_de") LanguageTextDictionary.instance.LanguageChanged("deutsch");
-        else if (data == "lng_fr") LanguageTextDictionary.instance.LanguageChanged("english");
+        else if (data == "lng_fr") LanguageTextDictionary.instance.LanguageChanged("french");
         else if (data == "lng_it") LanguageTextDictionary.instance.LanguageChanged("italian");
         else if (data == "lng_en") LanguageTextDictionary.instance.LanguageChanged("english");
     }
