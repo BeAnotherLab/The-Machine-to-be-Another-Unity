@@ -45,7 +45,6 @@ public class ArduinoManager : MonoBehaviour
     public void ActivateSerial(bool servosOn, bool curtainOn = false)
     {
         UduinoManager.Instance.OnDataReceived += DataReceived;
-        UduinoManager.Instance.OnBoardConnected += SendSysReady; //Create the Delegate
         if (servosOn) UduinoManager.Instance.BaudRate = 57600;
         else if (_curtainOn) UduinoManager.Instance.BaudRate = 9600;
         _servosOn = servosOn;
@@ -107,11 +106,6 @@ public class ArduinoManager : MonoBehaviour
 
 
     #region Private Methods
-
-    private void SendSysReady(UduinoDevice device)
-    {
-        _waitForSysReadyCoroutine = StartCoroutine(WaitForSysReady());
-    }
     
     private void DataReceived(string data, UduinoDevice board)
     {
@@ -143,14 +137,6 @@ public class ArduinoManager : MonoBehaviour
     {
         yield return new WaitForSeconds(_timeOut);
         if(!_commandOK) StatusManager.instance.SerialFailure();
-    }
-
-    private IEnumerator WaitForSysReady() //TODO check if necessary
-    {
-        Debug.Log("sending syst rst");
-        UduinoManager.Instance.sendCommand("sys_rst");
-        yield return new WaitForSeconds(2);
-        _waitForSysReadyCoroutine = StartCoroutine(WaitForSysReady());
     }
     
     #endregion
