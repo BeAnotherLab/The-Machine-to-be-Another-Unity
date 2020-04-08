@@ -152,6 +152,7 @@ public class StatusManager : MonoBehaviour {
 
     public void StopExperience()
     {
+
         VideoFeed.instance.SetDimmed(true);
         _instructionsGUI.SetActive(true);
         _instructionsText.text = LanguageTextDictionary.idle; 
@@ -162,10 +163,10 @@ public class StatusManager : MonoBehaviour {
 
         //reset user status as it is not ready
         EnableConfirmationGUI(true);
-        ArduinoManager.instance.SendCommand("wall_off");
-        ArduinoManager.instance.SendCommand("mir_off");
-        ArduinoManager.instance.SendCommand("cur_off");
-        
+
+        if (_serialReady) //TODO is check necessary? 
+            ArduinoManager.instance.InitialPositions();
+
         InstructionsDisplay.instance.ShowWelcomeVideo();
     }
 
@@ -195,6 +196,7 @@ public class StatusManager : MonoBehaviour {
     public void SerialReady()
     {
         OscManager.instance.SendSerialStatus(true);
+        ArduinoManager.instance.InitialPositions();
         _instructionsGUI.SetActive(true);
         _instructionsText.text = LanguageTextDictionary.idle;
         _serialReady = true;

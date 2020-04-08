@@ -42,6 +42,13 @@ public class ArduinoManager : MonoBehaviour
 
     #region Public Methods   
 
+    public void InitialPositions()
+    {
+        SendCommand("wal_off");
+        SendCommand("mir_off");
+        SendCommand("cur_off");
+    }
+
     public void ActivateSerial(bool servosOn, bool curtainOn = false)
     {
         UduinoManager.Instance.OnDataReceived += DataReceived;
