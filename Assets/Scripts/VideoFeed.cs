@@ -1,8 +1,5 @@
 using UnityEngine;
 using RockVR.Video;
-using System;
-using UnityEngine;
-using System.Collections;
 
 public class VideoFeed : MonoBehaviour //TODO turn to manager
 {
@@ -23,10 +20,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     public bool dimOnStart;
 
-    public delegate void WebCamConnected();
-    public event WebCamConnected OnWebCamConnected;
-    public int _connectedWebcams;
-    
     #endregion
 
 
@@ -37,7 +30,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     //Camera params
     [SerializeField] private RenderTexture _videoRenderTexture;
-    private WebCamTexture _camTex;
     private float _turningRate = 90f;
     private float _tiltAngle;
 
@@ -55,18 +47,15 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
         _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         _meshRenderer = GetComponent<MeshRenderer>();
-        CustomVideoPlayer.OnVideoFinished += delegate { SetLiveVideoTexture(); };
     }
 
     void Start()
     {
+        //CustomVideoPlayer.OnVideoFinished += delegate { SetLiveVideoTexture(); };
         _tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
-        InitCamera();
         RecenterPose();
         SetDimmed(dimOnStart);
         otherPose = new Quaternion();
-        SetLiveVideoTexture();
-        _connectedWebcams = 0;
     }
 
     // Update is called once per frame
@@ -85,28 +74,22 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
             transform.position = _mainCamera.transform.position + _mainCamera.transform.forward * 35; //keep webcam at a certain distance from head.
             transform.rotation = _mainCamera.transform.rotation; //keep webcam feed aligned with head
             transform.rotation *= Quaternion.Euler(0, 0, 1) * Quaternion.AngleAxis(-utilities.toEulerAngles(_mainCamera.transform.rotation).x, Vector3.forward); //compensate for absence of roll servo
-            transform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(_camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation
+            transform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(0, Vector3.up); //to adjust for webcam physical orientation
             transform.localScale = new Vector3(0.9f, 1, -1);
         }
         else //if two way swap
         {
             transform.rotation = otherPose; //Move image according to the other person's head orientation
             transform.localScale = new Vector3(0.9f, 1, -1);
-            transform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(_camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation
+            transform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(0, Vector3.up); //to adjust for webcam physical orientation
         }
         
         Graphics.Blit(_meshRenderer.material.mainTexture, _videoRenderTexture);
-
-        if (_connectedWebcams != WebCamTexture.devices.Length)
-        {
-            _connectedWebcams = WebCamTexture.devices.Length;
-            OnWebCamConnected();
-        }
+        
     }
 
     void OnDestroy()
     {
-        _camTex.Stop();
         PlayerPrefs.SetInt("cameraID", cameraID);
     }
     #endregion
@@ -114,16 +97,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     #region Public Methods
 
-    public void SetRecordedVideoTexture()
-    {
-        _meshRenderer.material.mainTexture = _videoRenderTexture;
-    }
-
-    private void SetLiveVideoTexture()
-    {
-        _meshRenderer.material.mainTexture = _camTex;
-    }
-    
     public void FlipHorizontal()
     {
         transform.parent.localScale = new Vector3(- transform.parent.localScale.x, transform.parent.localScale.y, transform.parent.localScale.z);
@@ -170,28 +143,12 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     {
         useHeadTracking = !useHeadTracking;
     }
-
-    #endregion
-
-
-    #region Private Methods
     
-    //TODO allow camera to be set in runtime
-    private void InitCamera()
+    public void SetRecordedVideoTexture()
     {
-        cameraID = PlayerPrefs.GetInt("cameraID");
-        WebCamDevice[] devices = WebCamTexture.devices;
-        if (devices.Length > cameraID)
-        {
-            string deviceName = devices[cameraID].name;
-            _camTex = new WebCamTexture(deviceName, 1920, 1080);//, 1920, 1080, FPS); //PERFORMANCE DEPENDS ON FRAMERATE AND RESOLUTION
-            _camTex.Play();
-        }
-        else
-        {
-            Debug.Log("PlayerPrefs camera ID not found");
-        }
+        _meshRenderer.material.mainTexture = _videoRenderTexture;
     }
-
+    
     #endregion
+    
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using RenderHeads.Media.AVProLiveCamera;
 
 public class ExperimentSettingsGUI : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class ExperimentSettingsGUI : MonoBehaviour
     
     //Cognitive settings
     [SerializeField] private Dropdown _pronounDropdown;
-    [SerializeField] private Dropdown _CognitiveTestCameraDropdown;
+    [SerializeField] private Dropdown _cognitiveTestCameraDropdown;
     [SerializeField] private Dropdown _directionDropdown;
     [SerializeField] private Toggle _showDummyToggle;
     
@@ -34,9 +35,10 @@ public class ExperimentSettingsGUI : MonoBehaviour
     {
         if (instance == null) instance = this;        
         
-        _CognitiveTestCameraDropdown.onValueChanged.AddListener(delegate
+        _cognitiveTestCameraDropdown.onValueChanged.AddListener(delegate
         {
-            VideoFeed.instance.cameraID = _CognitiveTestCameraDropdown.value;
+            VideoFeed.instance.cameraID = _cognitiveTestCameraDropdown.value;
+            VideoCameraManager.instance.SetAVProCamera(_cognitiveTestCameraDropdown.value);
         });
 
         _startButton.onClick.AddListener(delegate
@@ -66,7 +68,7 @@ public class ExperimentSettingsGUI : MonoBehaviour
         
         _rotateButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
         
-        VideoFeed.instance.OnWebCamConnected += SetCameraDropdownOptions;
+        VideoCameraManager.instance.OnWebCamConnected += SetCameraDropdownOptions;
     }
 
     // Start is called before the first frame update
@@ -95,15 +97,14 @@ public class ExperimentSettingsGUI : MonoBehaviour
     
     public void SetCameraDropdownOptions()
     {
-        WebCamDevice[] devices = WebCamTexture.devices;
-        _CognitiveTestCameraDropdown.options.Clear();
-        
-        foreach (WebCamDevice device in devices)
+        _cognitiveTestCameraDropdown.options.Clear();
+
+        for(int i = 0; i < AVProLiveCameraManager.Instance.NumDevices; i++)
         {
-            _CognitiveTestCameraDropdown.options.Add(new Dropdown.OptionData() { text = device.name });
+            _cognitiveTestCameraDropdown.options.Add(new Dropdown.OptionData() { text = AVProLiveCameraManager.Instance.GetDevice(i).Name });
         }
-        _CognitiveTestCameraDropdown.value = PlayerPrefs.GetInt("cameraID");
-        _CognitiveTestCameraDropdown.RefreshShownValue();
+        _cognitiveTestCameraDropdown.value = PlayerPrefs.GetInt("cameraID");
+        _cognitiveTestCameraDropdown.RefreshShownValue();
     }
 
     
