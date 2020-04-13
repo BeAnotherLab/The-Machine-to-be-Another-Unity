@@ -112,25 +112,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &56929770 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8208434292311000986, guid: 29ad19a4d683a5040b94c312cae13ca5,
-    type: 3}
-  m_PrefabInstance: {fileID: 3704805988154616960}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &56929772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 56929770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aa6fdcc8ad57f04f9159a9c6ffe6a64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _connectedWebcams: 0
 --- !u!1 &351328135
 GameObject:
   m_ObjectHideFlags: 0
@@ -1641,6 +1622,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8208434292311001018, guid: 29ad19a4d683a5040b94c312cae13ca5,
+        type: 3}
+      propertyPath: _material
+      value: 
+      objectReference: {fileID: 2100000, guid: 42d3233844697f34eb8ed0b217a7222c, type: 2}
     - target: {fileID: 8208434292311001017, guid: 29ad19a4d683a5040b94c312cae13ca5,
         type: 3}
       propertyPath: _updateHotSwap
@@ -1651,11 +1637,6 @@ PrefabInstance:
       propertyPath: _playOnStart
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8208434292311001018, guid: 29ad19a4d683a5040b94c312cae13ca5,
-        type: 3}
-      propertyPath: _material
-      value: 
-      objectReference: {fileID: 2100000, guid: 42d3233844697f34eb8ed0b217a7222c, type: 2}
     - target: {fileID: 8208434292311001016, guid: 29ad19a4d683a5040b94c312cae13ca5,
         type: 3}
       propertyPath: _supportHotSwapping
