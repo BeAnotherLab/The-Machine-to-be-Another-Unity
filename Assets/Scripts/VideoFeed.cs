@@ -20,16 +20,16 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     public bool dimOnStart;
 
+    [SerializeField] private MeshRenderer _videoPlaybackMeshRenderer;
+    
     #endregion
 
 
     #region Private Fields
    
-    private MeshRenderer _meshRenderer;
     private Camera _mainCamera;
 
     //Camera params
-    [SerializeField] private RenderTexture _videoRenderTexture;
     private float _turningRate = 90f;
     private float _tiltAngle;
 
@@ -46,12 +46,10 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         if (instance == null) instance = this;
 
         _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        _meshRenderer = GetComponent<MeshRenderer>();
     }
 
     void Start()
     {
-        //CustomVideoPlayer.OnVideoFinished += delegate { SetLiveVideoTexture(); };
         _tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
         RecenterPose();
         SetDimmed(dimOnStart);
@@ -83,7 +81,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
             transform.localScale = new Vector3(0.9f, 1, -1);
             transform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(0, Vector3.up); //to adjust for webcam physical orientation
         }
-        
     }
 
     void OnDestroy()
@@ -101,7 +98,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     }
 
     public void SetDimmed(bool dim)
-    {
+    {/*
         float next = 1;
         if (dim) next = 0;
 
@@ -111,7 +108,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
             Color c = _meshRenderer.material.color;
             c.a = val;
             _meshRenderer.material.SetColor("_Color", c);
-        });
+        });*/
     }
 
     public void SetDimmed()
@@ -141,10 +138,11 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     {
         useHeadTracking = !useHeadTracking;
     }
-    
-    public void SetRecordedVideoTexture()
+
+    public void ShowLiveFeed(bool show)
     {
-        _meshRenderer.material.mainTexture = _videoRenderTexture;
+        GetComponent<MeshRenderer>().enabled = show;
+        _videoPlaybackMeshRenderer.enabled = !show;
     }
     
     #endregion

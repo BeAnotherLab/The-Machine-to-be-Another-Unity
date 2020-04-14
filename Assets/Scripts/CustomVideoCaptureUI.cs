@@ -49,7 +49,6 @@ namespace RockVR.Video.Demo
                     {
                         CustomVideoPlayer.instance.SetRootFolder();
                         CustomVideoPlayer.instance.PlayVideo();
-                        VideoFeed.instance.SetRecordedVideoTexture();
                         _processingText.text = "playing";
                         _videoPlayed = true;
                     }

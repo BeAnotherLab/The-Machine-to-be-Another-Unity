@@ -16,6 +16,12 @@ public class VideoCameraManager : MonoBehaviour
     private void Awake()
     {
         if (instance == null) instance = this;
+        CustomVideoPlayer.OnVideoFinished += delegate { ShowLiveFeed(); };
+    }
+
+    private void Start()
+    {
+        ShowLiveFeed();
     }
 
     // Update is called once per frame
@@ -28,6 +34,16 @@ public class VideoCameraManager : MonoBehaviour
         }
     }
 
+    public void ShowRecordedVideo()
+    {
+        VideoFeed.instance.ShowLiveFeed(false);
+    }
+    
+    public void ShowLiveFeed()
+    {
+        VideoFeed.instance.ShowLiveFeed(true);
+    }
+    
     public void SetAVProCamera(int cameraIndex)
     {
         GetComponent<AVProLiveCamera>()._deviceSelection = AVProLiveCamera.SelectDeviceBy.Index;
