@@ -84,8 +84,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
             transform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(0, Vector3.up); //to adjust for webcam physical orientation
         }
         
-        Graphics.Blit(_meshRenderer.material.mainTexture, _videoRenderTexture);
-        
     }
 
     void OnDestroy()

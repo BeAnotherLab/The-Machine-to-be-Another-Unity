@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8208434292311001018}
   - component: {fileID: 8208434292311001016}
   - component: {fileID: 1988415107881604546}
+  - component: {fileID: 2326994558544268790}
   m_Layer: 0
   m_Name: VideoManager
   m_TagString: MainCamera
@@ -131,3 +132,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa6fdcc8ad57f04f9159a9c6ffe6a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2326994558544268790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8208434292311000986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7cb2a429e8f5ea46bcbfdb162fc6075, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _material: {fileID: 2100000, guid: 42d3233844697f34eb8ed0b217a7222c, type: 2}
+  _liveCamera: {fileID: 8208434292311001017}
+  _videoRenderTexture: {fileID: 8400000, guid: a4dae89f3cb2b294e93556d9fcc1ab61, type: 2}
