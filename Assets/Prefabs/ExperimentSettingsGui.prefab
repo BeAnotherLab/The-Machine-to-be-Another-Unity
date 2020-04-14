@@ -2547,7 +2547,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3514100659205100360}
-  - {fileID: 4905669718677174622}
   m_Father: {fileID: 4905669720029269614}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5293,87 +5292,6 @@ MonoBehaviour:
   m_Text: 'Rotate camera
 
 '
---- !u!1 &4905669718677174623
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4905669718677174622}
-  - component: {fileID: 4905669718677174620}
-  - component: {fileID: 4905669718677174621}
-  m_Layer: 5
-  m_Name: FPS
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &4905669718677174622
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4905669718677174623}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 6819825176071741592}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -910, y: 490}
-  m_SizeDelta: {x: 160, y: 30}
-  m_Pivot: {x: 0, y: 1}
---- !u!222 &4905669718677174620
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4905669718677174623}
-  m_CullTransparentMesh: 0
---- !u!114 &4905669718677174621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4905669718677174623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
-    m_Alignment: 0
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: 'FPS
-
-'
 --- !u!1 &4905669718719379189
 GameObject:
   m_ObjectHideFlags: 0
@@ -5387,6 +5305,7 @@ GameObject:
   - component: {fileID: 4905669718719379146}
   - component: {fileID: 4905669718719379147}
   - component: {fileID: 1967908074841912544}
+  - component: {fileID: 5745514267149978836}
   m_Layer: 5
   m_Name: CognitiveTestSettings
   m_TagString: Untagged
@@ -5490,6 +5409,24 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 1
   m_ConstraintCount: 1
+--- !u!114 &5745514267149978836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4905669718719379189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e1c11ae167cb514fa2467b94c4357b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pronounDropdown: {fileID: 0}
+  _cognitiveTestCameraDropdown: {fileID: 0}
+  _directionDropdown: {fileID: 0}
+  _showDummyToggle: {fileID: 0}
+  _subjectIDInputField: {fileID: 0}
+  _rotateButton: {fileID: 0}
 --- !u!1 &4905669718884853703
 GameObject:
   m_ObjectHideFlags: 0
@@ -6659,13 +6596,9 @@ MonoBehaviour:
   _conditionDropdown: {fileID: 5144889871394047122}
   _participantDropdown: {fileID: 1864681688783147454}
   _subjectExistingErrorMessage: {fileID: 3190155677811762156}
-  _pronounDropdown: {fileID: 4015836801986929970}
-  _cognitiveTestCameraDropdown: {fileID: 4905669719883451855}
-  _directionDropdown: {fileID: 72478770}
-  _showDummyToggle: {fileID: 3286445115343010961}
-  _FPSText: {fileID: 4905669718677174621}
-  _rotateButton: {fileID: 3193296482711422962}
+  _FPSText: {fileID: 0}
   _startButton: {fileID: 5385862253609065173}
+  _rotateButton: {fileID: 3193296482711422962}
 --- !u!1 &4905669720031549470
 GameObject:
   m_ObjectHideFlags: 0

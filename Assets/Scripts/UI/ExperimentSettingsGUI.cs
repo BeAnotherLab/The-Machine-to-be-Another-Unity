@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using RenderHeads.Media.AVProLiveCamera;
 
-public class ExperimentSettingsGUI : MonoBehaviour
+public class ExperimentSettingsGUI : CameraDropdownSelector
 {
 
     public static ExperimentSettingsGUI instance;
@@ -16,38 +16,24 @@ public class ExperimentSettingsGUI : MonoBehaviour
     [SerializeField] private Dropdown _conditionDropdown;
     [SerializeField] private Dropdown _participantDropdown;
     [SerializeField] private GameObject _subjectExistingErrorMessage;
-    
-    //Cognitive settings
-    [SerializeField] private Dropdown _pronounDropdown;
-    [SerializeField] private Dropdown _cognitiveTestCameraDropdown;
-    [SerializeField] private Dropdown _directionDropdown;
-    [SerializeField] private Toggle _showDummyToggle;
-    
-    //Swap settings
-    [SerializeField] private Text _FPSText;
-    [SerializeField] private Button _rotateButton;
+
     [SerializeField] private Button _startButton;
     
-    private bool _monitorGuiEnabled;
-    private float _deltaTime = 0.0f;
+    [SerializeField] private Button _rotateButton;
 
     private void Awake()
     {
-        if (instance == null) instance = this;        
-        
-        _cognitiveTestCameraDropdown.onValueChanged.AddListener(delegate
-        {
-            VideoFeed.instance.cameraID = _cognitiveTestCameraDropdown.value;
-            VideoCameraManager.instance.SetAVProCamera(_cognitiveTestCameraDropdown.value);
-        });
+        if (instance == null) instance = this;
 
+        _experimentCameraDropdown.onValueChanged.AddListener(delegate
+        {
+            VideoFeed.instance.cameraID = _experimentCameraDropdown.value;
+            VideoCameraManager.instance.SetAVProCamera(_experimentCameraDropdown.value);
+            PlayerPrefs.SetInt("CognitiveTestCamera", _experimentCameraDropdown.value);
+        });
+        
         _startButton.onClick.AddListener(delegate
         {
-            CognitiveTestManager.instance.StartInstructions(
-                _pronounDropdown.options[_pronounDropdown.value].text, 
-                _subjectIDInputField.text, 
-                _directionDropdown.options[_directionDropdown.value].text);
-
             if (_conditionDropdown.options[_conditionDropdown.value].text == "Experimental")
                 ExperimentManager.instance.conditionType = ConditionType.experimental;
             else
@@ -58,29 +44,14 @@ public class ExperimentSettingsGUI : MonoBehaviour
             else
                 ExperimentManager.instance.participantType = ParticipantType.follower;
         });
-        
-        _showDummyToggle.onValueChanged.AddListener(delegate(bool value){
-            ShowDummy.instance.Show(value);
-            _rotateButton.interactable = !value;
-            VideoFeed.instance.gameObject.SetActive(!value);
-            _directionDropdown.interactable = !value;
-        });
-        
+
         _rotateButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
-        
-        VideoCameraManager.instance.OnWebCamConnected += SetCameraDropdownOptions;
     }
 
     // Start is called before the first frame update
     private void Start()
     {
-        SetCameraDropdownOptions();
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        ShowFPS();
+        SetCameraDropdownOptions(_experimentCameraDropdown);
     }
 
     public void ShowExistingSubjectIDError()
@@ -93,28 +64,5 @@ public class ExperimentSettingsGUI : MonoBehaviour
         _subjectExistingErrorMessage.gameObject.SetActive(true);
         yield return new WaitForSeconds(5);
         _subjectExistingErrorMessage.gameObject.SetActive(false);
-    }
-    
-    public void SetCameraDropdownOptions()
-    {
-        _cognitiveTestCameraDropdown.options.Clear();
-
-        for(int i = 0; i < AVProLiveCameraManager.Instance.NumDevices; i++)
-        {
-            _cognitiveTestCameraDropdown.options.Add(new Dropdown.OptionData() { text = AVProLiveCameraManager.Instance.GetDevice(i).Name });
-        }
-        _cognitiveTestCameraDropdown.value = PlayerPrefs.GetInt("cameraID");
-        _cognitiveTestCameraDropdown.RefreshShownValue();
-    }
-
-    
-    private void ShowFPS()
-    {
-        _deltaTime += (Time.deltaTime - _deltaTime) * 0.1f;
-        int w = Screen.width, h = Screen.height;
-        float msec = _deltaTime * 1000.0f;
-        float fps = 1.0f / _deltaTime;
-        string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
-        _FPSText.text = text;
     }
 }

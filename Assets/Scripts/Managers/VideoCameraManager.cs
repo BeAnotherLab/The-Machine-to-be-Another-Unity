@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using RenderHeads.Media.AVProLiveCamera;
 using RockVR.Video;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class VideoCameraManager : MonoBehaviour
 {
