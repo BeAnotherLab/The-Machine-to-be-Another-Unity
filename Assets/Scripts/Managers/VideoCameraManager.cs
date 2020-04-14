@@ -6,7 +6,7 @@ using RockVR.Video;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class VideoCameraManager : MonoBehaviour
+public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
 {
     public delegate void WebCamConnected();
     public event WebCamConnected OnWebCamConnected;
@@ -17,7 +17,6 @@ public class VideoCameraManager : MonoBehaviour
     private void Awake()
     {
         if (instance == null) instance = this;
-        CustomVideoPlayer.OnVideoFinished += delegate { ShowLiveFeed(); };
     }
 
     private void Start()
@@ -43,12 +42,5 @@ public class VideoCameraManager : MonoBehaviour
     public void ShowLiveFeed()
     {
         VideoFeed.instance.ShowLiveFeed(true);
-    }
-    
-    public void SetAVProCamera(int cameraIndex)
-    {
-        GetComponent<AVProLiveCamera>()._deviceSelection = AVProLiveCamera.SelectDeviceBy.Index;
-        GetComponent<AVProLiveCamera>()._desiredDeviceIndex = cameraIndex;
-        GetComponent<AVProLiveCamera>().Begin();
     }
 }
