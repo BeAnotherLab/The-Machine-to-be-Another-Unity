@@ -272,7 +272,7 @@ public class CognitiveTestManager : MonoBehaviour
     {
         _finalTrialsList[_trialIndex].AddField("answer", answer);
         _finalTrialsList[_trialIndex].AddField("time", time.ToString());
-        _finalTrialsList[_trialIndex].AddField("prespost", _prepost);
+        _finalTrialsList[_trialIndex].AddField("prepost", _prepost);
 
         File.WriteAllText(_filePath, _finalTrialsList.Print());
         _trialIndex++;
