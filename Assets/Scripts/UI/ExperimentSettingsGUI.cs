@@ -15,11 +15,12 @@ public class ExperimentSettingsGUI : CameraDropdownSelector
     [SerializeField] private Dropdown _experimentCameraDropdown;
     [SerializeField] private Dropdown _conditionDropdown;
     [SerializeField] private Dropdown _participantDropdown;
-    [SerializeField] private GameObject _subjectExistingErrorMessage;
 
     [SerializeField] private Button _startButton;
     
     [SerializeField] private Button _rotateButton;
+    
+    [SerializeField] private GameObject _subjectExistingErrorMessage;
 
     private void Awake()
     {
@@ -53,16 +54,18 @@ public class ExperimentSettingsGUI : CameraDropdownSelector
     {
         SetCameraDropdownOptions(_experimentCameraDropdown);
     }
-
+    
+    
     public void ShowExistingSubjectIDError()
     {
         StartCoroutine(ShowAndHideExistingSubjectIDError());
     }
-
+    
     private IEnumerator ShowAndHideExistingSubjectIDError()
     {
         _subjectExistingErrorMessage.gameObject.SetActive(true);
         yield return new WaitForSeconds(5);
         _subjectExistingErrorMessage.gameObject.SetActive(false);
     }
+
 }

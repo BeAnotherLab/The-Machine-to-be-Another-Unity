@@ -6,13 +6,14 @@ using UnityEngine.UI;
 public class CognitiveSettingsGUI : CameraDropdownSelector
 {
     //Cognitive settings
-    [SerializeField] private Dropdown _pronounDropdown;
+    [SerializeField] private InputField _subjectIDInputField;
+    [SerializeField] private GameObject _subjectExistingErrorMessage;
     [SerializeField] private Dropdown _cognitiveTestCameraDropdown;
+    [SerializeField] private Dropdown _pronounDropdown;
+    [SerializeField] private Dropdown _prePostDropdown;
     [SerializeField] private Dropdown _directionDropdown;
     [SerializeField] private Toggle _showDummyToggle;
-    [SerializeField] private InputField _subjectIDInputField;
     [SerializeField] private Button _rotateButton;
-
     [SerializeField] private Button _startButton;
 
     public static CognitiveSettingsGUI instance;
@@ -40,14 +41,31 @@ public class CognitiveSettingsGUI : CameraDropdownSelector
             CognitiveTestManager.instance.StartInstructions(
                 _pronounDropdown.options[_pronounDropdown.value].text,
                 _subjectIDInputField.text,
-                _directionDropdown.options[_directionDropdown.value].text);
+                _directionDropdown.options[_directionDropdown.value].text,
+                _prePostDropdown.options[_prePostDropdown.value].text
+                );
         });
         
         _rotateButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
-        }
+        
+        
+    }
 
     private void Start()
     {
         SetCameraDropdownOptions(_cognitiveTestCameraDropdown);
     }
+    
+    public void ShowExistingSubjectIDError()
+    {
+        StartCoroutine(ShowAndHideExistingSubjectIDError());
+    }
+    
+    private IEnumerator ShowAndHideExistingSubjectIDError()
+    {
+        _subjectExistingErrorMessage.gameObject.SetActive(true);
+        yield return new WaitForSeconds(5);
+        _subjectExistingErrorMessage.gameObject.SetActive(false);
+    }
+
 }

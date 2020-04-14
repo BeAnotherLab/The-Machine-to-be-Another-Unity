@@ -17,6 +17,7 @@ public class CognitiveTestManager : MonoBehaviour
     private string _pronoun;
     private string _subjectID;
     private string _subjectDirection;
+    private string _prepost;
     
     //for parsing the trial structure JSONs
     private int _trialIndex;
@@ -107,10 +108,11 @@ public class CognitiveTestManager : MonoBehaviour
 
     #region Public Methods
 
-    public void StartInstructions(string pronoun, string subjectID, string subjectDirection)
+    public void StartInstructions(string pronoun, string subjectID, string subjectDirection, string prepost)
     {
         _pronoun = pronoun;
         _subjectDirection = subjectDirection;
+        _prepost = prepost;
         var files = Directory.GetFiles(Application.dataPath);
 
         string filepath = Application.dataPath + "/" + subjectID + "_log.json";
@@ -125,7 +127,7 @@ public class CognitiveTestManager : MonoBehaviour
             _currentStep = steps.instructions;       
             VideoFeed.instance.SetDimmed(true);
         }
-        else ExperimentSettingsGUI.instance.ShowExistingSubjectIDError();
+        else CognitiveSettingsGUI.instance.ShowExistingSubjectIDError();
     }
     
     public void StartTest(ExperimentStep experimentStep)
@@ -270,6 +272,7 @@ public class CognitiveTestManager : MonoBehaviour
     {
         _finalTrialsList[_trialIndex].AddField("answer", answer);
         _finalTrialsList[_trialIndex].AddField("time", time.ToString());
+        _finalTrialsList[_trialIndex].AddField("prespost", _prepost);
 
         File.WriteAllText(_filePath, _finalTrialsList.Print());
         _trialIndex++;
