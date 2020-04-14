@@ -72,7 +72,7 @@ public class CognitiveTestManager : MonoBehaviour
         VideoFeed.instance.twoWayWap = true;
         
         //Read the task structure from JSON
-        StreamReader reader = new StreamReader(Application.streamingAssetsPath + "/task structure 1.json"); 
+        StreamReader reader = new StreamReader(Application.streamingAssetsPath + "/task structure.json"); 
         _trials = new JSONObject(reader.ReadToEnd());
         reader.Close();
         _finalTrialsList = new JSONObject();
@@ -121,7 +121,7 @@ public class CognitiveTestManager : MonoBehaviour
             _subjectID = subjectID;
             _filePath = filepath; 
             CognitiveTestInstructionsGUIBehavior.instance.Init();
-            ExperimentSettingsGUI.instance.gameObject.SetActive(false); //hide settings GUI
+            CognitiveSettingsGUI.instance.gameObject.SetActive(false); //hide settings GUI
             _currentStep = steps.instructions;       
             VideoFeed.instance.SetDimmed(true);
         }

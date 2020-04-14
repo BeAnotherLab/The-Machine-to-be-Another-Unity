@@ -14,14 +14,18 @@ public class CognitiveSettingsGUI : CameraDropdownSelector
     [SerializeField] private Button _rotateButton;
 
     [SerializeField] private Button _startButton;
+
+    public static CognitiveSettingsGUI instance;
     
     // Start is called before the first frame update
     private void Awake()
     {
+        if (instance == null) instance = this;
+        
         _cognitiveTestCameraDropdown.onValueChanged.AddListener(delegate
         {
             VideoFeed.instance.cameraID = _cognitiveTestCameraDropdown.value;
-            VideoCameraManager.instance.SetAVProCamera(_cognitiveTestCameraDropdown.value);
+            CognitiveTestCameraManager.instance.SetAVProCamera(_cognitiveTestCameraDropdown.value);
         });
         
         _showDummyToggle.onValueChanged.AddListener(delegate(bool value){
@@ -45,11 +49,5 @@ public class CognitiveSettingsGUI : CameraDropdownSelector
     private void Start()
     {
         SetCameraDropdownOptions(_cognitiveTestCameraDropdown);
-    }
-    
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
