@@ -35,10 +35,6 @@ void serial_curtain_off() {
   CurtainChange=true;
 }
 
-void serial_system_reset() {
-  Reset=true;
-}
-
 void debug_modus() {
   DEBUG=!DEBUG;
   if (DEBUG) Serial.println("dbg_on");
@@ -80,15 +76,18 @@ void serial (void) {
     uduino.addCommand("mir_off",  serial_mirror_off);     // close mirror
     uduino.addCommand("cur_on",   serial_curtain_on);     // close curtain
     uduino.addCommand("cur_off",  serial_curtain_off);    // open curtain
-    uduino.addCommand("sys_rst",  serial_system_reset);   // System Reset
     uduino.addCommand("debug",    debug_modus);           // debug modus
     uduino.addCommand("lng_de",   language_change_de);    // change language to DE
     uduino.addCommand("lng_en",   language_change_en);    // change language to EN
     uduino.addCommand("lng_fr",   language_change_fr);    // change language to FR
     uduino.addCommand("lng_it",   language_change_it);    // change language to IT
-    
     uduino.addDefaultHandler(unrecognized);               // Handler for command that isn't matched  (says "What?")
 
+    if (MDReleased) Serial.println("sys_rdy");
+    else {
+      if (!MDOk) error(2);
+      else error(3);
+    }
     FirstRunSerial=false;
   }
 

@@ -2,20 +2,10 @@
 
 int status = 0;
 int Timeout;
-bool ResetWall = false;       //global
-bool DuringResetWall = false; //global
 bool Wall;               //global
-bool WallChange;                //global
+bool WallChange;         //global
 
-void wall(){
-  if (ResetWall && MDReleased) {  //motor initialization
-      if (DEBUG) Serial.println("DEBUG wal_rst");
-      WallChange = true;
-      Wall = false;
-      ResetWall = false;
-      DuringResetWall = true;
-  }
-
+void wall() {
   switch (status) {
 
     case 0: //Start
@@ -33,8 +23,8 @@ void wall(){
           }
         }
         else {
-          status=6;
-          if(DEBUG) Serial.println("DEBUG abborted");
+          if (!MDOk) status = 6;
+          else status = 7;
         }
       }
     break;
@@ -49,8 +39,8 @@ void wall(){
       }
 
       else {
-        status=6;
-        if(DEBUG) Serial.println("DEBUG abborted");
+          if (!MDOk) status = 6;
+          else status = 7;
       }
     break;
 
@@ -69,38 +59,46 @@ void wall(){
             if(DEBUG) Serial.println("DEBUG endpoint OFF done");
           }
         }
-        if (Timeout==500) status=5; //5s timeout (500 x 10ms)
+        if (Timeout>=500) status=5; //5s timeout (500 x 10ms)
         Timeout++;
       }
 
       else {
-        status=6;
-        if(DEBUG) Serial.println("DEBUG abborted");
+          if (!MDOk) status = 6;
+          else status = 7;
       }
     break;
 
 
     case 4: //stop wall
       digitalWrite(CONTROLLINO_D0, LOW); //stop motor
+      if(DEBUG) Serial.println("DEBUG wall stopped");
       WallChange=false;
-      if (!Reset) error(0);
-      else DuringResetWall = false;
+      error(0);
       digitalWrite(CONTROLLINO_D1, !Wall); //preset other direction
       status=0;
     break;
 
 
     case 5: //TIMEOUT
-      error(1);
       digitalWrite(CONTROLLINO_D0, LOW); //stop motor
+      error(1);
       WallChange=false;
       status=0;
     break;
 
 
-    case 6: //MD problems
-      error(Error);
+    case 6: //MD_FAULT
       digitalWrite(CONTROLLINO_D0, LOW); //stop motor
+      error(2);
+      WallChange=false;
+      status=0;
+    break;
+
+
+    case 7: //MD_BLOCK
+      digitalWrite(CONTROLLINO_D0, LOW); //stop motor
+      error(3);
       WallChange=false;
       status=0;
     break;

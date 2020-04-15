@@ -1,11 +1,8 @@
 #include <Technorama.h>
 
-byte Error=0; //global
-
-void error(byte ErrorNr){
-  Error = ErrorNr;
-
-  switch (ErrorNr) {
+void error(byte Error){
+  
+  switch (Error) {
 
     case 0:
       Serial.println("cmd_ok");  //command executed
@@ -22,5 +19,6 @@ void error(byte ErrorNr){
     case 3:
       Serial.println("MD_BLOCK"); //machinery drive not ready
     break;
+
   }
 }

@@ -36,17 +36,6 @@ void thread_1(){
 }
 
 void thread_2(){
-    static unsigned long int warteSeit;
-
-    if (millis()-warteSeit >= 20){ //20ms
-      warteSeit=millis();
-
-      //20ms thread
-      reset();
-    }
-}
-
-void thread_3(){
   static unsigned long int warteSeit;
 
   if (millis()-warteSeit >= 10){ //10ms
@@ -57,7 +46,7 @@ void thread_3(){
   }
 }
 
-void thread_4(){
+void thread_3(){
   static unsigned long int warteSeit;
 
   if (millis()-warteSeit >= 20){ //20ms
@@ -68,7 +57,7 @@ void thread_4(){
   }
 }
 
-void thread_5(){
+void thread_4(){
   static unsigned long int warteSeit;
 
   if (millis()-warteSeit >= 20){ //20ms
@@ -79,7 +68,7 @@ void thread_5(){
   }
 }
 
-void thread_6(){
+void thread_5(){
   static unsigned long int warteSeit;
 
   if (millis()-warteSeit >= 20){ //20ms
@@ -90,7 +79,7 @@ void thread_6(){
   }
 }
 
-void thread_7(){
+void thread_6(){
   static unsigned long int warteSeit;
 
   if (millis()-warteSeit >= 20){ //20ms
@@ -101,7 +90,7 @@ void thread_7(){
   }
 }
 
-void thread_8(){
+void thread_7(){
   static unsigned long int warteSeit;
 
   if (millis()-warteSeit >= 500){ //500ms
@@ -121,5 +110,4 @@ void loop()
   thread_5();
   thread_6();
   thread_7();
-  thread_8();
 }
