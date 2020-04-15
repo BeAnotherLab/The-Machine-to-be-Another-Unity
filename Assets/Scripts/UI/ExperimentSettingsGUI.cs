@@ -36,14 +36,16 @@ public class ExperimentSettingsGUI : CameraDropdownSelector
         _startButton.onClick.AddListener(delegate
         {
             if (_conditionDropdown.options[_conditionDropdown.value].text == "Experimental")
-                ExperimentManager.instance.conditionType = ConditionType.experimental;
+                ExperimentManager.instance.condition = ConditionType.experimental;
             else
-                ExperimentManager.instance.conditionType = ConditionType.control;
+                ExperimentManager.instance.condition = ConditionType.control;
 
             if (_participantDropdown.options[_participantDropdown.value].text == "Leader")
-                ExperimentManager.instance.participantType = ParticipantType.leader;
+                ExperimentManager.instance.participant = ParticipantType.leader;
             else
-                ExperimentManager.instance.participantType = ParticipantType.follower;
+                ExperimentManager.instance.participant = ParticipantType.follower;
+            
+            ExperimentManager.instance.StartExperiment(_conditionDropdown.options[_conditionDropdown.value].text == "Familiarization");
         });
 
         _rotateButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
@@ -54,7 +56,6 @@ public class ExperimentSettingsGUI : CameraDropdownSelector
     {
         SetCameraDropdownOptions(_experimentCameraDropdown);
     }
-    
     
     public void ShowExistingSubjectIDError()
     {
