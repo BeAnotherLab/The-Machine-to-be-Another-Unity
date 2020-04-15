@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+public enum ExperimentStep { pre, intervention, post };
+
 public class CognitiveTestInstructionsGUIBehavior : MonoBehaviour
 {
 
