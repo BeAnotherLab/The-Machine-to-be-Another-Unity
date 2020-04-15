@@ -18,7 +18,7 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private Slider _pitchSlider, _yawSlider, _rollSlider, _zoomSlider;
     [SerializeField] private Dropdown _serialDropdown, _cameraDropdown;
     [SerializeField] private Text _FPSText;
-    [SerializeField] private InputField _IPInputField;
+    [SerializeField] private IPInputField _ipInputField;
     [SerializeField] private Button _dimButton;
     [SerializeField] private Button _headTrackingOnButton;
     [SerializeField] private Toggle _repeaterToggle;
@@ -51,9 +51,7 @@ public class SettingsGUI : MonoBehaviour
         {
             VideoFeed.instance.SetDimmed();
         });
-
-        _IPInputField.onEndEdit.AddListener(delegate { OscManager.instance.othersIP = _IPInputField.text; });
-
+        
         _repeaterToggle.onValueChanged.AddListener(delegate { OscManager.instance.SetRepeater(_repeaterToggle.isOn); });
 
         _controlsText.text = _controlsText.text + "\n \nlocal IP adress : " + OSCUtilities.GetLocalHost();
@@ -153,8 +151,7 @@ public class SettingsGUI : MonoBehaviour
 
         //show two way swap related networking GUI
         _repeaterToggle.gameObject.SetActive(true);
-        _IPInputField.gameObject.SetActive(true);
-        SetIpInputField(); //else initialize IP Input field
+        _ipInputField.gameObject.SetActive(true);
     }
 
     public void SetServoMode()
@@ -162,7 +159,7 @@ public class SettingsGUI : MonoBehaviour
         EnableSerialDropdown(true);
 
         //hide two way swap related networking GUI
-        _IPInputField.gameObject.SetActive(false);
+        _ipInputField.gameObject.SetActive(false);
         _repeaterToggle.gameObject.SetActive(false);
     }
 
@@ -234,12 +231,7 @@ public class SettingsGUI : MonoBehaviour
         ArduinoManager.instance.Open(_serialDropdown.value);
         SelectSerialOption(_serialDropdown.value);
     }
-
-    private void SetIpInputField()
-    {
-        if (_IPInputField.text != null) _IPInputField.text = PlayerPrefs.GetString("othersIP");
-    }    
-
+    
     private void SetCameraDropdownOptions()
     {
         WebCamDevice[] devices = WebCamTexture.devices;

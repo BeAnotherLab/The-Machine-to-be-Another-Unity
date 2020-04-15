@@ -11,7 +11,6 @@ public class ExperimentSettingsGUI : CameraDropdownSelector
     public static ExperimentSettingsGUI instance;
     
     //Experiment settings
-    [SerializeField] private InputField _subjectIDInputField;
     [SerializeField] private Dropdown _experimentCameraDropdown;
     [SerializeField] private Dropdown _conditionDropdown;
     [SerializeField] private Dropdown _participantDropdown;
