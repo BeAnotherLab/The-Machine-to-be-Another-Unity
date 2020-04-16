@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CognitiveSettingsGUI : CameraDropdownSelector
+public class CognitiveSettingsGUI : MonoBehaviour
 {
     //Cognitive settings
     [SerializeField] private InputField _subjectIDInputField;
     [SerializeField] private GameObject _subjectExistingErrorMessage;
-    [SerializeField] private Dropdown _cognitiveTestCameraDropdown;
     [SerializeField] private Dropdown _pronounDropdown;
     [SerializeField] private Dropdown _prePostDropdown;
     [SerializeField] private Dropdown _directionDropdown;
@@ -22,12 +21,6 @@ public class CognitiveSettingsGUI : CameraDropdownSelector
     private void Awake()
     {
         if (instance == null) instance = this;
-        
-        _cognitiveTestCameraDropdown.onValueChanged.AddListener(delegate
-        {
-            VideoFeed.instance.cameraID = _cognitiveTestCameraDropdown.value;
-            CognitiveTestCameraManager.instance.SetAVProCamera(_cognitiveTestCameraDropdown.value);
-        });
         
         _showDummyToggle.onValueChanged.AddListener(delegate(bool value){
             ShowDummy.instance.Show(value);
@@ -51,11 +44,6 @@ public class CognitiveSettingsGUI : CameraDropdownSelector
         
     }
 
-    private void Start()
-    {
-        SetCameraDropdownOptions(_cognitiveTestCameraDropdown);
-    }
-    
     public void ShowExistingSubjectIDError()
     {
         StartCoroutine(ShowAndHideExistingSubjectIDError());

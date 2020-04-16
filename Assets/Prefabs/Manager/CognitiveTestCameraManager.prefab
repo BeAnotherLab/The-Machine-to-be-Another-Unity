@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5618610949124843117}
   - component: {fileID: 2042455706554969123}
   - component: {fileID: 1063336074817142639}
+  - component: {fileID: 5136844079966028535}
   m_Layer: 0
   m_Name: CognitiveTestCameraManager
   m_TagString: MainCamera
@@ -132,3 +133,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dc372afa41de0a4dba7300914d5ed10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5136844079966028535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5618610949124843087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad43af36df273084f8ac3b1fa71ae729, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _liveCamera: {fileID: 5618610949124843116}
+  _liveCameraManager: {fileID: 5618610949124843117}
+  _guiSkin: {fileID: 0}

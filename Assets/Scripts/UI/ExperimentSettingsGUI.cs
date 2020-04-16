@@ -5,13 +5,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using RenderHeads.Media.AVProLiveCamera;
 
-public class ExperimentSettingsGUI : CameraDropdownSelector
+public class ExperimentSettingsGUI : MonoBehaviour
 {
 
     public static ExperimentSettingsGUI instance;
     
     //Experiment settings
-    [SerializeField] private Dropdown _experimentCameraDropdown;
     [SerializeField] private Dropdown _conditionDropdown;
     [SerializeField] private Dropdown _participantDropdown;
 
@@ -25,13 +24,6 @@ public class ExperimentSettingsGUI : CameraDropdownSelector
     {
         if (instance == null) instance = this;
 
-        _experimentCameraDropdown.onValueChanged.AddListener(delegate
-        {
-            VideoFeed.instance.cameraID = _experimentCameraDropdown.value;
-            VideoCameraManager.instance.SetAVProCamera(_experimentCameraDropdown.value);
-            PlayerPrefs.SetInt("CognitiveTestCamera", _experimentCameraDropdown.value);
-        });
-        
         _startButton.onClick.AddListener(delegate
         {
             if (_conditionDropdown.options[_conditionDropdown.value].text == "Experimental")
@@ -50,12 +42,6 @@ public class ExperimentSettingsGUI : CameraDropdownSelector
         _rotateButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
     }
 
-    // Start is called before the first frame update
-    private void Start()
-    {
-        SetCameraDropdownOptions(_experimentCameraDropdown);
-    }
-    
     public void ShowExistingSubjectIDError()
     {
         StartCoroutine(ShowAndHideExistingSubjectIDError());
