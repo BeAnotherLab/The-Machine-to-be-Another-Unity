@@ -8,10 +8,6 @@ using UnityEngine.UI;
 
 public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
 {
-    public delegate void WebCamConnected();
-    public event WebCamConnected OnWebCamConnected;
-    private int _connectedWebcams;
-
     public static VideoCameraManager instance;
 
     private void Awake()
@@ -27,11 +23,7 @@ public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
     // Update is called once per frame
     private void Update()
     {
-        if (_connectedWebcams != AVProLiveCameraManager.Instance.NumDevices)
-        {
-            _connectedWebcams = AVProLiveCameraManager.Instance.NumDevices;
-            OnWebCamConnected();
-        }
+       
     }
 
     public void ShowRecordedVideo()
