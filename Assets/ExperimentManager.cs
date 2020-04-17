@@ -7,7 +7,7 @@ using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
 public enum ParticipantType { leader, follower };
-public enum ConditionType { control, experimental };
+public enum ConditionType { control, experimental, familiarization };
 
 public class ExperimentManager : MonoBehaviour
 {
@@ -28,14 +28,14 @@ public class ExperimentManager : MonoBehaviour
     {
     }
 
-    public void StartExperiment(bool familiarization = false)
+    public void StartExperiment()
     {
         ExperimentSettingsGUI.instance.gameObject.SetActive(false); //disable experiment GUI
         //TODO activate/deactivate clip tracks depending on if leader or follower
         //TimelineAsset timelineAsset = (TimelineAsset) _interventionTimeline.playableAsset;
         //var tracks = timelineAsset.GetOutputTracks(); ... etc 
 
-        if (!familiarization)
+        if (condition != ConditionType.familiarization)
         {
             _interventionTimeline.Play();
         

@@ -28,8 +28,10 @@ public class ExperimentSettingsGUI : MonoBehaviour
         {
             if (_conditionDropdown.options[_conditionDropdown.value].text == "Experimental")
                 ExperimentManager.instance.condition = ConditionType.experimental;
-            else
+            else if (_conditionDropdown.options[_conditionDropdown.value].text == "Control")
                 ExperimentManager.instance.condition = ConditionType.control;
+            else if (_conditionDropdown.options[_conditionDropdown.value].text == "Familiarization")
+                ExperimentManager.instance.condition = ConditionType.familiarization;
 
             if (_participantDropdown.options[_participantDropdown.value].text == "Leader")
                 ExperimentManager.instance.participant = ParticipantType.leader;
