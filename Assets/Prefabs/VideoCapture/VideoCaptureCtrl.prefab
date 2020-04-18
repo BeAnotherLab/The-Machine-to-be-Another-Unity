@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1191502925427211514}
-  - component: {fileID: 1191502925427211513}
   - component: {fileID: 1191502925427211519}
   - component: {fileID: 1191502925427211518}
   - component: {fileID: 5327114238500435544}
+  - component: {fileID: 6918895090249978050}
   m_Layer: 0
   m_Name: VideoCaptureCtrl
   m_TagString: Untagged
@@ -34,25 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1191502925427211513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1191502925427211517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ce1c4f59cc9242fd926bcc78fcf4ab9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  debug: 1
-  startOnAwake: 0
-  captureTime: 10
-  quitAfterCapture: 0
-  _videoCaptures:
-  - {fileID: 0}
-  _audioCapture: {fileID: 0}
 --- !u!328 &1191502925427211519
 VideoPlayer:
   m_ObjectHideFlags: 0
@@ -117,3 +98,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6918895090249978050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191502925427211517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12486601ef0f9da4d8b3a7dad180e179, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 1
+  startOnAwake: 0
+  captureTime: 10
+  quitAfterCapture: 0
+  _videoCaptures: []
+  _audioCapture: {fileID: 0}

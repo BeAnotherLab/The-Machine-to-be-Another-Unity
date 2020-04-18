@@ -58,7 +58,7 @@ namespace RockVR.Video.Demo
             }
         }
 
-        private void StartRecording()
+        public void StartRecording()
         {
             _videoPlayed = false;
             VideoCaptureCtrl.instance.StartCapture();

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using RockVR.Video;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using VideoPlayer = UnityEngine.Video.VideoPlayer;
 
 public enum ParticipantType { leader, follower };
 public enum ConditionType { control, experimental, familiarization };
@@ -18,6 +20,7 @@ public class ExperimentManager : MonoBehaviour
 
     [SerializeField] private PlayableDirector _interventionTimeline;
     [SerializeField] private PlayableDirector _familiarizationTimeline;
+    [SerializeField] private VideoPlayer _videoPlayer;
     
     private void Awake()
     {
@@ -52,14 +55,22 @@ public class ExperimentManager : MonoBehaviour
             if (participant == ParticipantType.follower)
             {
                 //play follower free phase instruction audio or text
+                if (condition == ConditionType.control)
+                {
+                    var currentSubjectID = PlayerPrefs.GetString("SubjectID");
+                    _videoPlayer.url = PlayerPrefs.GetString("VideoCapturePath" + currentSubjectID);
+                }
             }
             else
             {
                 //play leader free phase instruction audio or text
             }    
-        } else _familiarizationTimeline.Play();
-        
-        
+        }
+        else
+        {
+            if(participant == ParticipantType.follower) VideoCaptureCtrl.instance.StartCapture();
+            _familiarizationTimeline.Play();
+        }
     }
 
     public void StartFreePhase()
@@ -68,6 +79,8 @@ public class ExperimentManager : MonoBehaviour
         if (participant == ParticipantType.follower && condition == ConditionType.control)
         {
             //switch to pre recorded video
+            VideoFeed.instance.ShowLiveFeed(false);
+            _videoPlayer.Play();
         }
         
         Debug.Log("start free phase for " + condition + " " + participant);
@@ -80,6 +93,7 @@ public class ExperimentManager : MonoBehaviour
         if (participant == ParticipantType.follower && condition == ConditionType.control)
         {
             //switch back to live video
+            VideoFeed.instance.ShowLiveFeed(true);
         }
         
         Debug.Log("start tactile phase for " + condition + " " + participant);
