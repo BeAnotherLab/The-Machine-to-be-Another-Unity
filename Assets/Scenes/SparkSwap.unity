@@ -153,6 +153,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 351328136}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: _videoCaptures.Array.data[0]
+      value: 
+      objectReference: {fileID: 693048447}
     - target: {fileID: 1191502925427211517, guid: ff20aeb04c1ef7f4fb92f84ccdb0ee4b,
         type: 3}
       propertyPath: m_Name
@@ -213,20 +217,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: _videoCaptures.Array.data[0]
-      value: 
-      objectReference: {fileID: 693048447}
     - target: {fileID: 1191502925427211519, guid: ff20aeb04c1ef7f4fb92f84ccdb0ee4b,
         type: 3}
-      propertyPath: m_AspectRatio
-      value: 0
+      propertyPath: m_DataSource
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1191502925427211519, guid: ff20aeb04c1ef7f4fb92f84ccdb0ee4b,
-        type: 3}
-      propertyPath: m_TargetTexture
-      value: 
-      objectReference: {fileID: 8400000, guid: a42fdc43a0d927a46afb8880b8b27f7d, type: 2}
     - target: {fileID: 1232882324366495631, guid: ff20aeb04c1ef7f4fb92f84ccdb0ee4b,
         type: 3}
       propertyPath: mode
@@ -269,6 +264,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b10d5fa89302c645900bebd0f5f9e88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!328 &438960734 stripped
+VideoPlayer:
+  m_CorrespondingSourceObject: {fileID: 1191502925427211519, guid: ff20aeb04c1ef7f4fb92f84ccdb0ee4b,
+    type: 3}
+  m_PrefabInstance: {fileID: 356394441}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &693048447 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8989141444344808265, guid: ad988c8cc32a517458e4a082f0f3fc44,
@@ -1510,6 +1511,11 @@ PrefabInstance:
       propertyPath: m_SceneBindings.Array.data[3].value
       value: 
       objectReference: {fileID: 356394442}
+    - target: {fileID: 1983499656887503803, guid: df44111d5d69d794faf790738dfec0be,
+        type: 3}
+      propertyPath: _videoPlayer
+      value: 
+      objectReference: {fileID: 438960734}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df44111d5d69d794faf790738dfec0be, type: 3}
 --- !u!1001 &3462846770952635453

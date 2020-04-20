@@ -21,6 +21,9 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private PlayableDirector _interventionTimeline;
     [SerializeField] private PlayableDirector _familiarizationTimeline;
     [SerializeField] private VideoPlayer _videoPlayer;
+
+    [SerializeField] private TrackAsset _leaderTrack;
+    [SerializeField] private TrackAsset _followerTrack;
     
     private void Awake()
     {
@@ -29,15 +32,19 @@ public class ExperimentManager : MonoBehaviour
 
     private void Start()
     {
+        TimelineAsset timelineAsset = (TimelineAsset) _interventionTimeline.playableAsset;
+        _followerTrack = timelineAsset.GetOutputTrack(1);
+        _leaderTrack = timelineAsset.GetOutputTrack(2);        
     }
 
     public void StartExperiment()
     {
         ExperimentSettingsGUI.instance.gameObject.SetActive(false); //disable experiment GUI
-        //TODO activate/deactivate clip tracks depending on if leader or follower
-        //TimelineAsset timelineAsset = (TimelineAsset) _interventionTimeline.playableAsset;
-        //var tracks = timelineAsset.GetOutputTracks(); ... etc 
-
+        
+        //activate/deactivate clip tracks depending on if leader or follower
+        _followerTrack.muted = participant != ParticipantType.follower;
+        _leaderTrack.muted = participant != ParticipantType.leader; 
+        
         if (condition != ConditionType.familiarization)
         {
             _interventionTimeline.Play();
@@ -47,24 +54,16 @@ public class ExperimentManager : MonoBehaviour
                 OscManager.instance.sendHeadTracking = true; //enable sending/receiving headtracking
                 VideoFeed.instance.twoWayWap = true; //move POV according to other headtracking
             }
-            else
+            else 
             {
                 VideoFeed.instance.twoWayWap = false; //POV follows own headtracking
             }
         
-            if (participant == ParticipantType.follower)
+            if (participant == ParticipantType.follower && condition == ConditionType.control)
             {
-                //play follower free phase instruction audio or text
-                if (condition == ConditionType.control)
-                {
-                    var currentSubjectID = PlayerPrefs.GetString("SubjectID");
-                    _videoPlayer.url = PlayerPrefs.GetString("VideoCapturePath" + currentSubjectID);
-                }
+                var currentSubjectID = PlayerPrefs.GetString("SubjectID");
+                _videoPlayer.url = PlayerPrefs.GetString("VideoCapturePath" + currentSubjectID);
             }
-            else
-            {
-                //play leader free phase instruction audio or text
-            }    
         }
         else
         {
