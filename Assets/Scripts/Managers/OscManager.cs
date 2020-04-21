@@ -17,6 +17,9 @@ public class OscManager : MonoBehaviour {
 
     public bool sendHeadTracking;
     
+    public delegate void OtherStatus();
+    public static OtherStatus OnOtherStatus;
+    
     #endregion
 
     #region Private Fields
@@ -185,6 +188,7 @@ public class OscManager : MonoBehaviour {
     {
         if (StatusManager.instance.statusManagementOn)
         {
+            OnOtherStatus();
             int x;
             if (message.ToInt(out x))
             {

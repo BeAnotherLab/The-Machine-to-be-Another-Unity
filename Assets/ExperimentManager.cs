@@ -28,6 +28,7 @@ public class ExperimentManager : MonoBehaviour
     private void Awake()
     {
       if (instance == null) instance = this;
+      OscManager.OnOtherStatus += StartExperiment;
     }
 
     private void Start()
