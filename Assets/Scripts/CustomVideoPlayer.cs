@@ -66,6 +66,7 @@ namespace RockVR.Video
         /// </summary>
         public void PlayVideo()
         {
+            VideoCameraManager.instance.ShowRecordedVideo();
             GetComponent<UnityEngine.Video.VideoPlayer>().url = "file://" + videoFiles.Last();
             Debug.Log("[VideoPlayer::PlayVideo] Video Path:" + videoFiles.Last());
             videoPlayerImpl.Play();

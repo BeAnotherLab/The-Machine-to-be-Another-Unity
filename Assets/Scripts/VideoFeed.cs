@@ -1,10 +1,7 @@
 using UnityEngine;
 using RockVR.Video;
-using System;
-using UnityEngine;
-using System.Collections;
 
-public class VideoFeed : MonoBehaviour
+public class VideoFeed : MonoBehaviour //TODO turn to manager
 {
     #region Public Fields
 
@@ -17,23 +14,22 @@ public class VideoFeed : MonoBehaviour
 
     public bool useHeadTracking = true; //used to decide whether to move the servos with the sliders or with the headtracking
 
-    public int cameraID; //app must be reset for changes to be applied
+    public int cameraID; //app must be reset for changes to be applied. first camera is for swap, second is for cognitive task
 
     public bool twoWayWap;
 
     public bool dimOnStart;
+
+    [SerializeField] private MeshRenderer _videoPlaybackMeshRenderer;
     
     #endregion
 
 
     #region Private Fields
    
-    private MeshRenderer _meshRenderer;
     private Camera _mainCamera;
 
     //Camera params
-    [SerializeField] private RenderTexture _videoRenderTexture;
-    private WebCamTexture _camTex;
     private float _turningRate = 90f;
     private float _tiltAngle;
 
@@ -50,18 +46,14 @@ public class VideoFeed : MonoBehaviour
         if (instance == null) instance = this;
 
         _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        _meshRenderer = GetComponent<MeshRenderer>();
-        CustomVideoPlayer.OnVideoFinished += delegate { SetLiveVideoTexture(); };
     }
 
     void Start()
     {
         _tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
-        InitCamera();
         RecenterPose();
         SetDimmed(dimOnStart);
         otherPose = new Quaternion();
-        SetLiveVideoTexture();
     }
 
     // Update is called once per frame
@@ -80,22 +72,19 @@ public class VideoFeed : MonoBehaviour
             transform.position = _mainCamera.transform.position + _mainCamera.transform.forward * 35; //keep webcam at a certain distance from head.
             transform.rotation = _mainCamera.transform.rotation; //keep webcam feed aligned with head
             transform.rotation *= Quaternion.Euler(0, 0, 1) * Quaternion.AngleAxis(-utilities.toEulerAngles(_mainCamera.transform.rotation).x, Vector3.forward); //compensate for absence of roll servo
-            transform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(_camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation
+            transform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(0, Vector3.up); //to adjust for webcam physical orientation
             transform.localScale = new Vector3(0.9f, 1, -1);
         }
         else //if two way swap
         {
             transform.rotation = otherPose; //Move image according to the other person's head orientation
             transform.localScale = new Vector3(0.9f, 1, -1);
-            transform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(_camTex.videoRotationAngle, Vector3.up); //to adjust for webcam physical orientation
+            transform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(0, Vector3.up); //to adjust for webcam physical orientation
         }
-        
-        Graphics.Blit(_meshRenderer.material.mainTexture, _videoRenderTexture);
     }
 
     void OnDestroy()
     {
-        _camTex.Stop();
         PlayerPrefs.SetInt("cameraID", cameraID);
     }
     #endregion
@@ -103,23 +92,13 @@ public class VideoFeed : MonoBehaviour
 
     #region Public Methods
 
-    public void SetRecordedVideoTexture()
-    {
-        _meshRenderer.material.mainTexture = _videoRenderTexture;
-    }
-
-    private void SetLiveVideoTexture()
-    {
-        _meshRenderer.material.mainTexture = _camTex;
-    }
-    
     public void FlipHorizontal()
     {
         transform.parent.localScale = new Vector3(- transform.parent.localScale.x, transform.parent.localScale.y, transform.parent.localScale.z);
     }
 
     public void SetDimmed(bool dim)
-    {
+    {/*
         float next = 1;
         if (dim) next = 0;
 
@@ -129,7 +108,7 @@ public class VideoFeed : MonoBehaviour
             Color c = _meshRenderer.material.color;
             c.a = val;
             _meshRenderer.material.SetColor("_Color", c);
-        });
+        });*/
     }
 
     public void SetDimmed()
@@ -160,27 +139,12 @@ public class VideoFeed : MonoBehaviour
         useHeadTracking = !useHeadTracking;
     }
 
-    #endregion
-
-
-    #region Private Methods
-    
-    //TODO allow camera to be set in runtime
-    private void InitCamera()
+    public void ShowLiveFeed(bool show)
     {
-        cameraID = PlayerPrefs.GetInt("cameraID");
-        WebCamDevice[] devices = WebCamTexture.devices;
-        if (devices.Length > cameraID)
-        {
-            string deviceName = devices[cameraID].name;
-            _camTex = new WebCamTexture(deviceName, 1920, 1080);//, 1920, 1080, FPS); //PERFORMANCE DEPENDS ON FRAMERATE AND RESOLUTION
-            _camTex.Play();
-        }
-        else
-        {
-            Debug.Log("PlayerPrefs camera ID not found");
-        }
+        GetComponent<MeshRenderer>().enabled = show;
+        _videoPlaybackMeshRenderer.enabled = !show;
     }
-
+    
     #endregion
+    
 }
