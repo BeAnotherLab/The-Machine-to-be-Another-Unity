@@ -23,4 +23,9 @@ public class MotorTestInstructionsGUIBehavior : MonoBehaviour
     {
         
     }
+
+    public void Next()
+    {
+        
+    }
 }

@@ -7,26 +7,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
-public class MotorTestManager : MonoBehaviour
+//'Trial_nr','Condition','Congruency','Finger','Resp','T_trial','T_cue','T_resp','RT');
+
+
+public class MotorTestManager : TestManager
 {
-    
-    public enum steps {init, instructions, testing};
-    private steps _currentStep;
-    
-    private string _subjectID;
-    private string _prepost;
 
-    private int _trialIndex;
-
-    //the timer to measure reaction time
-    private Stopwatch _timer;
-    private Coroutine _trialCoroutine;
-    private string _filePath;
-
-    private JSONObject _trials;
+    [SerializeField] private int _numberTrials; 
     
-    //the trial instructions text canvas element
-    [SerializeField] private Text _trialInstructionText;
+    //the answers given by the subject
+    private enum answer { left, right, none };
+    private answer _givenAnswer;
+
+    private bool _bothFingersOn;
     
     #region Public Fields
 
@@ -41,7 +34,28 @@ public class MotorTestManager : MonoBehaviour
 
     private void Start()
     {
-        _trials = new JSONObject();
+        base.Start();
+        
+        //todo randomize trials 
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Space) && _currentStep == steps.instructions)
+        {
+            MotorTestInstructionsGUIBehavior.instance.Next();
+            _currentStep = steps.testing;
+        }
+        else if (_waitingForAnswer && _givenAnswer == answer.none) //get answer
+        {
+            if (Input.GetMouseButtonUp(0)) GetButtonUp(0);
+            else if (Input.GetMouseButtonUp(1)) GetButtonUp(1);
+        }
+        else if (Input.GetMouseButtonUp(0) && Input.GetMouseButtonDown(1) && !_bothFingersOn && _currentStep == steps.testing)
+        {
+            _bothFingersOn = true;
+            _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
+        }
     }
 
     public void StartInstructions(string subjectID, string prepost)
@@ -50,7 +64,7 @@ public class MotorTestManager : MonoBehaviour
         _subjectID = subjectID;
         var files = Directory.GetFiles(Application.dataPath);
         
-        string filepath = Application.dataPath + "/" + subjectID + "_log.json";
+        string filepath = Application.dataPath + "/" + "MotorTest" + subjectID + "_log.json";
         
         if (!File.Exists(filepath))
         {
@@ -60,41 +74,79 @@ public class MotorTestManager : MonoBehaviour
             MotorTestInstructionsGUIBehavior.instance.Init();
             MotorTestSettingsGUI.instance.gameObject.SetActive(false); //hide settings GUI
             _currentStep = steps.instructions;       
-            VideoFeed.instance.SetDimmed(true);
         }
         else MotorTestSettingsGUI.instance.ShowExistingSubjectIDError();
     }
 
-    public void StartText()
+    public void StartTest()
     {
-        
+        _currentStep = steps.practice;
+        ShowInstructionText(true, "Now press both buttons and we'll start");
     }
 
     private IEnumerator ShowTrialCoroutine()
     {
         ShowInstructionText(true, "+");
-        VideoFeed.instance.SetDimmed(true); //hide video feed
+        _givenAnswer = answer.none;
+        MotorTestInstructionsGUIBehavior.instance.ShowAnimation(false);
         
         yield return new WaitForSeconds(1);
+
+        _waitingForAnswer = true;
+        MotorTestInstructionsGUIBehavior.instance.ShowAnimation(true); //show trial animatio
+        _timer.Start();
         
-    }
-    
-    private void ShowInstructionText(bool show, string text = "")
-    {
-        _trialInstructionText.transform.parent.gameObject.SetActive(show); //Show instructions canvas
-        _trialInstructionText.text = text; //give feedback
+        yield return new WaitForSeconds(3); //TODO check animation length
+
+        //ran out of time
+        _waitingForAnswer = false;
+        WriteTestResults("none", _timer.ElapsedMilliseconds);
+        ShowInstructionText(true, "Out of time!");
+        _timer.Stop();
+        _timer.Reset();
+        
+        yield return new WaitForSeconds(3);
+        
+            
     }
 
     private void WriteTestResults(string answer, double time)
     {
-        _trials[_trialIndex].AddField("answer", answer);
-        _trials[_trialIndex].AddField("time", time.ToString());
-        _trials[_trialIndex].AddField("prepost", _prepost);
+        _finalTrialsList[_trialIndex].AddField("answer", answer);
+        _finalTrialsList[_trialIndex].AddField("time", time.ToString());
+        _finalTrialsList[_trialIndex].AddField("prepost", _prepost);
 
-        File.WriteAllText(_filePath, _trials.Print());
+        File.WriteAllText(_filePath, _finalTrialsList.Print());
         _trialIndex++;
         _timer.Reset();
     }
 
+    private void GetButtonUp(int button)
+    {
+        _waitingForAnswer = false;
+        _timer.Stop();
+        Debug.Log("time elapsed "  + _timer.ElapsedMilliseconds);
+        StopCoroutine(_trialCoroutine);
+        
+        if (button == 0)
+        {
+            WriteTestResults("yes", _timer.Elapsed.Milliseconds);
+            _givenAnswer = answer.left;
+        }
+        else if (button == 1)
+        {
+            WriteTestResults("no", _timer.Elapsed.Milliseconds);
+            _givenAnswer = answer.right;
+        }
+        
+        if (_trialIndex == _finalTrialsList.Count) StartCoroutine(FinishTest());
+        else if (_finalTrialsList[_trialIndex].GetField("type").str == "test")
+        {
+           if (_currentStep == steps.testing)
+            {
+                _trialCoroutine = StartCoroutine(ShowTrialCoroutine());    
+            }
+        }
+    }
     
 }

@@ -8,43 +8,22 @@ using System.Diagnostics;
 using System.Linq;
 using Debug = UnityEngine.Debug;
 
-public class CognitiveTestManager : MonoBehaviour
+public class CognitiveTestManager : TestManager
 {
     
     #region Private Fields
 
     //params from settings GUI
     private string _pronoun;
-    private string _subjectID;
     private string _subjectDirection;
-    private string _prepost;
     
     //for parsing the trial structure JSONs
-    private int _trialIndex;
-    private JSONObject _finalTrialsList;
     private JSONObject _trials;
     private JSONObject _results;
     
     //the answers given by the subject
     private enum answer { yes, no, none };
     private answer _givenAnswer;
-
-    //flag to define the time frame in which we accept answers
-    private bool _waitingForAnswer;
-
-    //the trial instructions text canvas element
-    [SerializeField] private Text _trialInstructionText;
-
-    //The different steps in our test
-    public enum steps { init, instructions, practice, testing };
-    private steps _currentStep;
-
-    //the timer to measure reaction time
-    private Stopwatch _timer;
-
-    private Coroutine _trialCoroutine;
-
-    private string _filePath;
     
     [SerializeField] string[] _blockNames;
     
@@ -54,9 +33,6 @@ public class CognitiveTestManager : MonoBehaviour
     #region  Public Fields
 
     public static CognitiveTestManager instance;
-
-    public delegate void PreTestsFinished();
-    public event PreTestsFinished OnPreTestsFinished;
     
     #endregion
 
@@ -70,28 +46,21 @@ public class CognitiveTestManager : MonoBehaviour
 
     private void Start()
     {
+        base.Start();
+        
         VideoFeed.instance.twoWayWap = true;
         
         //Read the task structure from JSON
         StreamReader reader = new StreamReader(Application.streamingAssetsPath + "/task structure.json"); 
         _trials = new JSONObject(reader.ReadToEnd());
         reader.Close();
-        _finalTrialsList = new JSONObject();
 
         foreach (string blockName in _blockNames) PrepareBlock(blockName);
-        
-        _currentStep = steps.init;
-        
-        _timer = new Stopwatch();
     }
     
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Space) && _currentStep == steps.init)
-        {
-            //TODO complement start button click
-        }
         if (Input.GetKeyUp(KeyCode.Space) && _currentStep == steps.instructions)
         {
             CognitiveTestInstructionsGUIBehavior.instance.Next();
@@ -115,7 +84,7 @@ public class CognitiveTestManager : MonoBehaviour
         _prepost = prepost;
         var files = Directory.GetFiles(Application.dataPath);
 
-        string filepath = Application.dataPath + "/" + subjectID + "_log.json";
+        string filepath = Application.dataPath + "/" + "CognitiveTest" + subjectID + "_log.json";
         
         if (!File.Exists(filepath))
         {
@@ -228,12 +197,6 @@ public class CognitiveTestManager : MonoBehaviour
 
         _trialCoroutine = StartCoroutine(ShowTrialCoroutine(practiceFinished));
     }
-    
-    private void ShowInstructionText(bool show, string text = "")
-    {
-        _trialInstructionText.transform.parent.gameObject.SetActive(show); //Show instructions canvas
-        _trialInstructionText.text = text; //give feedback
-    }
 
     private void GetClick(int button)
     {
@@ -278,15 +241,6 @@ public class CognitiveTestManager : MonoBehaviour
         _trialIndex++;
         _timer.Reset();
     }
-
-    private IEnumerator FinishTest()
-    {
-        ShowInstructionText(true, "Ok, the test is now finished! We will proceed with the next step now");
-        yield return new WaitForSeconds(3);
-        OnPreTestsFinished();
-        ShowInstructionText(false);
-        _trialIndex = 0;
-    }
     
     private void MatchDirection(char desiredDirection)
     {
@@ -302,7 +256,6 @@ public class CognitiveTestManager : MonoBehaviour
     }
     
     #endregion
-    
     
 }
 

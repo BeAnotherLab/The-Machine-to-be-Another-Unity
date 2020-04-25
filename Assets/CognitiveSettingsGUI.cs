@@ -40,8 +40,6 @@ public class CognitiveSettingsGUI : MonoBehaviour
         });
         
         _rotateButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
-        
-        
     }
 
     public void ShowExistingSubjectIDError()
