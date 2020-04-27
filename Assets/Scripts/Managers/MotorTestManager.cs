@@ -6,14 +6,13 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
-
 //'Trial_nr','Condition','Congruency','Finger','Resp','T_trial','T_cue','T_resp','RT');
 
 
 public class MotorTestManager : TestManager
 {
 
-    public enum Condition {congruentIndex, incongruentIndex, congruentMiddle, incongruentMiddle};
+    public enum Condition {congruentIndex, incongruentIndex, congruentMiddle, incongruentMiddle, baseIndex, baseMiddle};
     public Condition _currentCondition;
     
     [SerializeField] private int _numberTrials; 
@@ -39,7 +38,20 @@ public class MotorTestManager : TestManager
     {
         base.Start();
         
-        //todo randomize trials 
+        //first create an array with "_numberTrials" repetitions of each of the 6 stiumulus combinations and randomize their order
+        Condition[][] conditions = new Condition [_numberTrials][];
+        
+        for (int i = 0; i < _numberTrials; i++)
+        {
+            int j = 0;
+            conditions[i] = new Condition[6];
+            foreach (Condition condition in Enum.GetValues(typeof(Condition)))
+            {
+                conditions[i][j] = condition;
+                j++;
+            }
+            Reshuffle(conditions[i]);
+        }
     }
 
     private void Update()
@@ -148,6 +160,18 @@ public class MotorTestManager : TestManager
             {
                 _trialCoroutine = StartCoroutine(ShowTrialCoroutine());    
             }
+        }
+    }
+
+    private void Reshuffle(Condition[] array)
+    {
+        // Knuth shuffle algorithm :: courtesy of Wikipedia :)
+        for (int t = 0; t < array.Length; t++ )
+        {
+            Condition tmp = array[t];
+            int r = UnityEngine.Random.Range(t, array.Length);
+            array[t] = array[r];
+            array[r] = tmp;
         }
     }
     
