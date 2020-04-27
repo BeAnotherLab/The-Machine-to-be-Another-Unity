@@ -12,9 +12,16 @@ using Debug = UnityEngine.Debug;
 public class MotorTestManager : TestManager
 {
 
+    #region Public Fields
+
     public enum Condition {congruentIndex, incongruentIndex, congruentMiddle, incongruentMiddle, baseIndex, baseMiddle};
     public Condition _currentCondition;
+
+    #endregion
     
+
+    #region Private fields
+
     [SerializeField] private int _numberTrials; 
     
     //the answers given by the subject
@@ -22,12 +29,18 @@ public class MotorTestManager : TestManager
     private answer _givenAnswer;
 
     private bool _bothFingersOn;
+
+    #endregion
+    
     
     #region Public Fields
 
     public static MotorTestManager instance;
     
     #endregion
+
+
+    #region Monobehavior methods
     
     private void Awake()
     {
@@ -54,7 +67,7 @@ public class MotorTestManager : TestManager
         }
     }
 
-    private void Update()
+    private void Update()    
     {
         if (Input.GetKeyUp(KeyCode.Space) && _currentStep == steps.instructions)
         {
@@ -63,8 +76,8 @@ public class MotorTestManager : TestManager
         }
         else if (_waitingForAnswer && _givenAnswer == answer.none) //get answer
         {
-            if (Input.GetMouseButtonUp(0)) GetButtonUp(0);
-            else if (Input.GetMouseButtonUp(1)) GetButtonUp(1);
+            if (Input.GetKeyUp(KeyCode.LeftArrow)) GetButtonUp(0);
+            else if (Input.GetKeyUp(KeyCode.RightArrow)) GetButtonUp(1);
         }
         else if (Input.GetMouseButtonUp(0) && Input.GetMouseButtonDown(1) && !_bothFingersOn && _currentStep == steps.testing)
         {
@@ -73,6 +86,11 @@ public class MotorTestManager : TestManager
         }
     }
 
+    #endregion
+    
+    
+    #region Public Methods
+    
     public void StartInstructions(string subjectID, string prepost)
     {
         _prepost = prepost;
@@ -96,12 +114,17 @@ public class MotorTestManager : TestManager
     public void StartTest()
     {
         _currentStep = steps.practice;
-        ShowInstructionText(true, "Now press both buttons and we'll start");
+        InstructionsTextBehavior.instance.ShowInstructionText(true, "Now press both buttons and we'll start");
     }
 
+    #endregion
+
+    
+    #region private methods
+    
     private IEnumerator ShowTrialCoroutine()
     {
-        ShowInstructionText(true, "+");
+        InstructionsTextBehavior.instance.ShowInstructionText(true, "+");
         _givenAnswer = answer.none;
         MotorTestInstructionsGUIBehavior.instance.ShowAnimation(false);
         
@@ -117,7 +140,7 @@ public class MotorTestManager : TestManager
         //ran out of time
         _waitingForAnswer = false;
         WriteTestResults("none", _timer.ElapsedMilliseconds);
-        ShowInstructionText(true, "Out of time!");
+        InstructionsTextBehavior.instance.ShowInstructionText(true, "Out of time!");
         _timer.Stop();
         _timer.Reset();
         
@@ -153,7 +176,7 @@ public class MotorTestManager : TestManager
             _givenAnswer = answer.right;
         }
         
-        if (_trialIndex == _finalTrialsList.Count) StartCoroutine(FinishTest());
+        if (_trialIndex == _finalTrialsList.Count) FinishTest();
         else if (_finalTrialsList[_trialIndex].GetField("type").str == "test")
         {
            if (_currentStep == steps.testing)
@@ -175,4 +198,5 @@ public class MotorTestManager : TestManager
         }
     }
     
+    #endregion
 }

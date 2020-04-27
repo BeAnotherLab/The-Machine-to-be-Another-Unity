@@ -27,12 +27,13 @@ public class MotorTestInstructionsGUIBehavior : MonoBehaviour
 
     public void Init()
     {
-        
+        InstructionsTextBehavior.instance.ShowInstructionText(true, "");
     }
 
     public void Next()
     {
-        
+        InstructionsTextBehavior.instance.ShowInstructionText(false, "");
+        MotorTestManager.instance.StartTest();
     }
     
     public void ShowAnimation(bool show)

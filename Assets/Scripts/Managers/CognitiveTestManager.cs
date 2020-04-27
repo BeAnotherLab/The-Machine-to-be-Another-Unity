@@ -125,20 +125,14 @@ public class CognitiveTestManager : TestManager
         ListExtensions.Shuffle(jsonObjects); //shuffle that list
         foreach (JSONObject jsonObject in jsonObjects) _finalTrialsList.Add(jsonObject); //add it to the final list
     }
-
     
     private IEnumerator ShowTrialCoroutine(bool firstTest = false)
     {
-        if (firstTest)
-        {
-            ShowInstructionText(true, "Ok, the trial is now finished! We will start the proper testing");
-            yield return new WaitForSeconds(3);
-            ShowInstructionText(false);
-        }
+        if (firstTest) InstructionsTextBehavior.instance.ShowInstructionText("Ok, the trial is now finished! We will start the proper testing", 3);
 
         //initialize trial answer values
         _givenAnswer = answer.none;
-        ShowInstructionText(true, "+");
+        InstructionsTextBehavior.instance.ShowInstructionText(true, "+");
         VideoFeed.instance.SetDimmed(true); //hide video feed
         RedDotsController.instance.Show("S0_O0_FR_EN"); //hide the dots
     
@@ -148,7 +142,7 @@ public class CognitiveTestManager : TestManager
         string stim1 = _finalTrialsList[_trialIndex].GetField("stim1").str;
         if (stim1.Contains("SHE")) stim1 = _pronoun + " " + stim1[3];
         else stim1 = "You : " + stim1[3]; 
-        ShowInstructionText(true, stim1); //show pronoun + number of balls
+        InstructionsTextBehavior.instance.ShowInstructionText(true, stim1); //show pronoun + number of balls
     
         yield return new WaitForSeconds(1.5f);
         
@@ -157,7 +151,7 @@ public class CognitiveTestManager : TestManager
         Debug.Log("stim2 : " + _finalTrialsList[_trialIndex].GetField("stim2").str);
 
         _timer.Start();
-        ShowInstructionText(false);
+        InstructionsTextBehavior.instance.ShowInstructionText(false);
         VideoFeed.instance.SetDimmed(false); //display video feed
         MatchDirection(_finalTrialsList[_trialIndex].GetField("stim2").str[7]); //Make sure 
         RedDotsController.instance.Show(_finalTrialsList[_trialIndex].GetField("stim2").str); //show dots as indicated in file
@@ -167,13 +161,13 @@ public class CognitiveTestManager : TestManager
 
         _waitingForAnswer = false;
         WriteTestResults("none", _timer.ElapsedMilliseconds);
-        ShowInstructionText(true, "Out of time!");
+        InstructionsTextBehavior.instance.ShowInstructionText(true, "Out of time!");
         _timer.Stop();
         _timer.Reset();
     
         yield return new WaitForSeconds(3);
     
-        if (_trialIndex == _finalTrialsList.Count) StartCoroutine(FinishTest());
+        if (_trialIndex == _finalTrialsList.Count) FinishTest();
         else _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
     }
 
@@ -188,9 +182,9 @@ public class CognitiveTestManager : TestManager
             //add answer
             if(    _finalTrialsList[_trialIndex].GetField("key").str == "c" && _givenAnswer == answer.yes 
                    || _finalTrialsList[_trialIndex].GetField("key").str == "n" && _givenAnswer == answer.no)
-                ShowInstructionText(true, "Correct answer!"); 
+                InstructionsTextBehavior.instance.ShowInstructionText(true, "Correct answer!"); 
             else 
-                ShowInstructionText(true, "Wrong answer!");
+                InstructionsTextBehavior.instance.ShowInstructionText(true, "Wrong answer!");
         }
         
         yield return new WaitForSeconds(4);
@@ -216,7 +210,7 @@ public class CognitiveTestManager : TestManager
             _givenAnswer = answer.no;
         }
         
-        if (_trialIndex == _finalTrialsList.Count) StartCoroutine(FinishTest());
+        if (_trialIndex == _finalTrialsList.Count) FinishTest();
         else if (_finalTrialsList[_trialIndex].GetField("type").str == "practice") StartCoroutine(ShowFeedbackCoroutine());
         else if (_finalTrialsList[_trialIndex].GetField("type").str == "test")
         {
