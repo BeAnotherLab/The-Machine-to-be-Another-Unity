@@ -13,6 +13,9 @@ using Debug = UnityEngine.Debug;
 public class MotorTestManager : TestManager
 {
 
+    public enum Condition {congruentIndex, incongruentIndex, congruentMiddle, incongruentMiddle};
+    public Condition _currentCondition;
+    
     [SerializeField] private int _numberTrials; 
     
     //the answers given by the subject
@@ -93,7 +96,8 @@ public class MotorTestManager : TestManager
         yield return new WaitForSeconds(1);
 
         _waitingForAnswer = true;
-        MotorTestInstructionsGUIBehavior.instance.ShowAnimation(true); //show trial animatio
+        MotorTestInstructionsGUIBehavior.instance.ShowAnimation(true); //show trial animation
+        MotorTestInstructionsGUIBehavior.instance.Play(_currentCondition);
         _timer.Start();
         
         yield return new WaitForSeconds(3); //TODO check animation length
@@ -106,8 +110,6 @@ public class MotorTestManager : TestManager
         _timer.Reset();
         
         yield return new WaitForSeconds(3);
-        
-            
     }
 
     private void WriteTestResults(string answer, double time)
