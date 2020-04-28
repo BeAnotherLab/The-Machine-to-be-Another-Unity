@@ -7,24 +7,19 @@ public class MotorTestInstructionsGUIBehavior : MonoBehaviour
 {
     public static MotorTestInstructionsGUIBehavior instance;
 
-    [SerializeField] private int frameTime;
+    [SerializeField] private float frameTime;
     [SerializeField] private Sprite _baseFrame, _baseIndexFrame, _baseMiddleFrame;
     [SerializeField] private Sprite[] _congruentIndexFrames, _congruentMiddleFingerFrames, _incongruentIndexFrames,  _incongruentMiddleFingerFrames;
-
-    private Image _frameImage;
+    
+    [SerializeField] private Image _frameImage;
+    [SerializeField] private GameObject _frameGO;
     
     // Start is called before the first frame update
     private void Awake()
     {
         if (instance == null) instance = this;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        _frameImage = GetComponent<Image>();
-    }
-
+    
     public void Init()
     {
         InstructionsTextBehavior.instance.ShowInstructionText(true, "");
@@ -38,26 +33,28 @@ public class MotorTestInstructionsGUIBehavior : MonoBehaviour
     
     public void ShowAnimation(bool show)
     {
-        GetComponent<CanvasGroup>().alpha = show ? 0 : 1;
+        _frameGO.SetActive(show);
     }
 
     public void Play(MotorTestManager.Condition condition)
     {
-        if (condition == MotorTestManager.Condition.congruentIndex) StartCoroutine(PlayVideo(_congruentIndexFrames));
-        if(condition == MotorTestManager.Condition.congruentMiddle) StartCoroutine(PlayVideo(_congruentMiddleFingerFrames));
-        if(condition == MotorTestManager.Condition.incongruentIndex) StartCoroutine(PlayVideo(_incongruentIndexFrames));
-        if(condition == MotorTestManager.Condition.incongruentMiddle) StartCoroutine(PlayVideo(_incongruentMiddleFingerFrames));
+        Debug.Log("play condition " + condition);
+        if(condition == MotorTestManager.Condition.congruentIndex) StartCoroutine(PlayVideo(_congruentIndexFrames, _baseIndexFrame));
+        else if(condition == MotorTestManager.Condition.congruentMiddle) StartCoroutine(PlayVideo(_congruentMiddleFingerFrames, _baseMiddleFrame));
+        else if(condition == MotorTestManager.Condition.incongruentIndex) StartCoroutine(PlayVideo(_incongruentIndexFrames, _baseIndexFrame));
+        else if(condition == MotorTestManager.Condition.incongruentMiddle) StartCoroutine(PlayVideo(_incongruentMiddleFingerFrames, _baseMiddleFrame));
     }
     
-    private IEnumerator PlayVideo(Sprite[] video)
+    private IEnumerator PlayVideo(Sprite[] video, Sprite baseFingerFrame)
     {
         _frameImage.sprite = _baseFrame;
-
-        yield return new WaitForSeconds(frameTime);
-        
+        yield return new WaitForSeconds(1.232f);
+        _frameImage.sprite = baseFingerFrame;
+        yield return new WaitForSeconds(1.5f);
         foreach (Sprite frame in video)
         {
             _frameImage.sprite = frame;
+            yield return new WaitForSeconds(frameTime);
         }
     }
     

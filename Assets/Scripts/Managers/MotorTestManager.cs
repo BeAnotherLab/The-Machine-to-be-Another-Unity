@@ -15,7 +15,6 @@ public class MotorTestManager : TestManager
     #region Public Fields
 
     public enum Condition {congruentIndex, incongruentIndex, congruentMiddle, incongruentMiddle, baseIndex, baseMiddle};
-    public Condition _currentCondition;
 
     #endregion
     
@@ -30,6 +29,8 @@ public class MotorTestManager : TestManager
 
     private bool _bothFingersOn;
 
+    private List<Condition> _stimuli;    
+    
     #endregion
     
     
@@ -65,6 +66,12 @@ public class MotorTestManager : TestManager
             }
             Reshuffle(conditions[i]);
         }
+
+        _stimuli = new List<Condition>();
+        
+        foreach(Condition[] row in conditions)
+            foreach(Condition condition in row)
+                _stimuli.Add(condition);
     }
 
     private void Update()    
@@ -79,11 +86,12 @@ public class MotorTestManager : TestManager
             if (Input.GetKeyUp(KeyCode.LeftArrow)) GetButtonUp(0);
             else if (Input.GetKeyUp(KeyCode.RightArrow)) GetButtonUp(1);
         }
-        else if (Input.GetMouseButtonUp(0) && Input.GetMouseButtonDown(1) && !_bothFingersOn && _currentStep == steps.testing)
+        else if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow) && !_bothFingersOn && _currentStep == steps.testing)
         {
             _bothFingersOn = true;
             _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
         }
+        if (!Input.GetKey(KeyCode.LeftArrow) || !Input.GetKey(KeyCode.RightArrow)) _bothFingersOn = false;
     }
 
     #endregion
@@ -132,15 +140,15 @@ public class MotorTestManager : TestManager
 
         _waitingForAnswer = true;
         MotorTestInstructionsGUIBehavior.instance.ShowAnimation(true); //show trial animation
-        MotorTestInstructionsGUIBehavior.instance.Play(_currentCondition);
+        MotorTestInstructionsGUIBehavior.instance.Play(_stimuli[_trialIndex]);
         _timer.Start();
         
-        yield return new WaitForSeconds(3); //TODO check animation length
+        yield return new WaitForSeconds(15); //TODO check animation length
 
         //ran out of time
         _waitingForAnswer = false;
-        WriteTestResults("none", _timer.ElapsedMilliseconds);
-        InstructionsTextBehavior.instance.ShowInstructionText(true, "Out of time!");
+            WriteTestResults("none", _timer.ElapsedMilliseconds);
+        InstructionsTextBehavior.instance.ShowInstructionText(true, "Out of time! Put your fingers back on" );
         _timer.Stop();
         _timer.Reset();
         
@@ -149,11 +157,11 @@ public class MotorTestManager : TestManager
 
     private void WriteTestResults(string answer, double time)
     {
-        _finalTrialsList[_trialIndex].AddField("answer", answer);
+       /* _finalTrialsList[_trialIndex].AddField("answer", answer);
         _finalTrialsList[_trialIndex].AddField("time", time.ToString());
         _finalTrialsList[_trialIndex].AddField("prepost", _prepost);
 
-        File.WriteAllText(_filePath, _finalTrialsList.Print());
+        File.WriteAllText(_filePath, _finalTrialsList.Print());*/
         _trialIndex++;
         _timer.Reset();
     }
@@ -177,13 +185,6 @@ public class MotorTestManager : TestManager
         }
         
         if (_trialIndex == _finalTrialsList.Count) FinishTest();
-        else if (_finalTrialsList[_trialIndex].GetField("type").str == "test")
-        {
-           if (_currentStep == steps.testing)
-            {
-                _trialCoroutine = StartCoroutine(ShowTrialCoroutine());    
-            }
-        }
     }
 
     private void Reshuffle(Condition[] array)
