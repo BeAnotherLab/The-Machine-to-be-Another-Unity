@@ -16,6 +16,9 @@ public class MotorTestManager : TestManager
 
     public enum Condition {congruentIndex, incongruentIndex, congruentMiddle, incongruentMiddle, baseIndex, baseMiddle};
 
+    public delegate void MyTimerStart();
+    public MyTimerStart OnTimerStart;
+    
     #endregion
     
 
@@ -46,8 +49,15 @@ public class MotorTestManager : TestManager
     private void Awake()
     {
         if (instance == null) instance = this;
+        OnTimerStart += TimerStart;
     }
 
+    private void TimerStart()
+    {
+        _timer.Start();   
+        Debug.Log("timer start");
+    }
+    
     private void Start()
     {
         base.Start();
@@ -134,20 +144,17 @@ public class MotorTestManager : TestManager
     {
         InstructionsTextBehavior.instance.ShowInstructionText(true, "+");
         _givenAnswer = answer.none;
-        MotorTestInstructionsGUIBehavior.instance.ShowAnimation(false);
         
         yield return new WaitForSeconds(1);
 
         _waitingForAnswer = true;
-        MotorTestInstructionsGUIBehavior.instance.ShowAnimation(true); //show trial animation
         MotorTestInstructionsGUIBehavior.instance.Play(_stimuli[_trialIndex]);
-        _timer.Start();
-        
+
         yield return new WaitForSeconds(15); //TODO check animation length
 
         //ran out of time
         _waitingForAnswer = false;
-            WriteTestResults("none", _timer.ElapsedMilliseconds);
+        WriteTestResults("none", _timer.ElapsedMilliseconds);
         InstructionsTextBehavior.instance.ShowInstructionText(true, "Out of time! Put your fingers back on" );
         _timer.Stop();
         _timer.Reset();

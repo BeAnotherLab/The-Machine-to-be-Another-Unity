@@ -12,7 +12,6 @@ public class MotorTestInstructionsGUIBehavior : MonoBehaviour
     [SerializeField] private Sprite[] _congruentIndexFrames, _congruentMiddleFingerFrames, _incongruentIndexFrames,  _incongruentMiddleFingerFrames;
     
     [SerializeField] private Image _frameImage;
-    [SerializeField] private GameObject _frameGO;
     
     // Start is called before the first frame update
     private void Awake()
@@ -22,7 +21,16 @@ public class MotorTestInstructionsGUIBehavior : MonoBehaviour
     
     public void Init()
     {
-        InstructionsTextBehavior.instance.ShowInstructionText(true, "");
+        var initText = @"Finger exercise task
+
+        1 = Raise your index finger
+        2 = Raise your middle finger
+
+        You will see different hand movements shown on the screen. However, your task is to focus on the number that appears on the screen and to raise you index or middle finger as soon as possible, once a number has been displayed.
+
+        Ready? Press the spacebar to start!";
+        
+        InstructionsTextBehavior.instance.ShowInstructionText(true, initText);
     }
 
     public void Next()
@@ -31,31 +39,47 @@ public class MotorTestInstructionsGUIBehavior : MonoBehaviour
         MotorTestManager.instance.StartTest();
     }
     
-    public void ShowAnimation(bool show)
-    {
-        _frameGO.SetActive(show);
-    }
-
     public void Play(MotorTestManager.Condition condition)
     {
         Debug.Log("play condition " + condition);
+        
         if(condition == MotorTestManager.Condition.congruentIndex) StartCoroutine(PlayVideo(_congruentIndexFrames, _baseIndexFrame));
         else if(condition == MotorTestManager.Condition.congruentMiddle) StartCoroutine(PlayVideo(_congruentMiddleFingerFrames, _baseMiddleFrame));
         else if(condition == MotorTestManager.Condition.incongruentIndex) StartCoroutine(PlayVideo(_incongruentIndexFrames, _baseIndexFrame));
         else if(condition == MotorTestManager.Condition.incongruentMiddle) StartCoroutine(PlayVideo(_incongruentMiddleFingerFrames, _baseMiddleFrame));
+        else if(condition == MotorTestManager.Condition.baseIndex) StartCoroutine(PlayVideo(new Sprite[] {_baseIndexFrame, _baseIndexFrame, _baseIndexFrame}, _baseIndexFrame, true));
+        else if(condition == MotorTestManager.Condition.baseMiddle) StartCoroutine(PlayVideo(new Sprite[] {_baseMiddleFrame, _baseMiddleFrame, _baseMiddleFrame}, _baseMiddleFrame, true));
     }
     
-    private IEnumerator PlayVideo(Sprite[] video, Sprite baseFingerFrame)
+    private IEnumerator PlayVideo(Sprite[] video, Sprite baseFingerFrame, bool baseStimulus = false)
     {
+        _frameImage.enabled = true;
+
+        //Show hand without a cue for 1232 ms
         _frameImage.sprite = _baseFrame;
+            
         yield return new WaitForSeconds(1.232f);
-        _frameImage.sprite = baseFingerFrame;
-        yield return new WaitForSeconds(1.5f);
-        foreach (Sprite frame in video)
+        
+        //start timer
+        MotorTestManager.instance.OnTimerStart();
+        
+        if (!baseStimulus)
         {
-            _frameImage.sprite = frame;
-            yield return new WaitForSeconds(frameTime);
+            foreach (Sprite frame in video)
+            {
+                _frameImage.sprite = frame;
+                yield return new WaitForSeconds(frameTime);
+            }
+            yield return new WaitForSeconds(1.5f);
         }
+        else
+        {
+            //Show the picture with the cue on the hand
+            _frameImage.sprite = baseFingerFrame;
+            yield return new WaitForSeconds(1.5f);
+        }
+
+        _frameImage.enabled = false;
     }
     
 }
