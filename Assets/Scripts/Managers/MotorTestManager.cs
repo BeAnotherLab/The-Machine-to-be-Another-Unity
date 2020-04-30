@@ -7,6 +7,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
+using Random = System.Random;
+
 //'Trial_nr','Condition','Congruency','Finger','Resp','T_trial','T_cue','T_resp','RT');
 
 
@@ -159,8 +161,8 @@ public class MotorTestManager : TestManager
         InstructionsTextBehavior.instance.ShowInstructionText(true, "+");
         MotorTestInstructionsGUIBehavior.instance.Stop();
         _givenAnswer = answer.none;
-        
-        yield return new WaitForSeconds(1);
+
+        yield return new WaitForSeconds(0.7f + 2f * UnityEngine.Random.value); // wait for a a random time
 
         MotorTestInstructionsGUIBehavior.instance.Play(_stimuli[_trialIndex]);
     }
