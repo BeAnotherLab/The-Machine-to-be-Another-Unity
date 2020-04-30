@@ -14,8 +14,7 @@ public abstract class TestManager : MonoBehaviour
     protected Coroutine _trialCoroutine;
     protected string _filePath;
 
-    //for parsing the trial structure JSONs
-    protected JSONObject _finalTrialsList;
+    
     protected int _trialIndex;
     
     //The different steps in our test
@@ -30,7 +29,6 @@ public abstract class TestManager : MonoBehaviour
     {
         _currentStep = steps.init;
         _timer = new Stopwatch();
-        _finalTrialsList = new JSONObject();
     }
     
     protected void FinishTest()

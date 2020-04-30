@@ -20,6 +20,7 @@ public class CognitiveTestManager : TestManager
     //for parsing the trial structure JSONs
     private JSONObject _trials;
     private JSONObject _results;
+    private JSONObject _finalTrialsList;
     
     //the answers given by the subject
     private enum answer { yes, no, none };
@@ -55,6 +56,7 @@ public class CognitiveTestManager : TestManager
         _trials = new JSONObject(reader.ReadToEnd());
         reader.Close();
 
+        _finalTrialsList = new JSONObject();
         foreach (string blockName in _blockNames) PrepareBlock(blockName);
     }
     
@@ -121,6 +123,7 @@ public class CognitiveTestManager : TestManager
     
     private void PrepareBlock(string blockName)
     {
+        
         List<JSONObject> jsonObjects = _trials.list.Where(trial => trial.GetField("field8").str == blockName).ToList();
         ListExtensions.Shuffle(jsonObjects); //shuffle that list
         foreach (JSONObject jsonObject in jsonObjects) _finalTrialsList.Add(jsonObject); //add it to the final list

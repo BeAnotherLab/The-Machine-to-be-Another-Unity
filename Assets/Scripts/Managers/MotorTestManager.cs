@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
@@ -27,12 +28,14 @@ public class MotorTestManager : TestManager
     [SerializeField] private int _numberTrials; 
     
     //the answers given by the subject
-    private enum answer { left, right, none };
+    private enum answer { indexFinger, middleFinger, none };
     private answer _givenAnswer;
 
     private bool _bothFingersOn;
 
-    private List<Condition> _stimuli;    
+    private List<Condition> _stimuli;
+
+    private JSONObject _results;
     
     #endregion
     
@@ -83,6 +86,8 @@ public class MotorTestManager : TestManager
         foreach(Condition[] row in conditions)
             foreach(Condition condition in row)
                 _stimuli.Add(condition);
+
+        _results = new JSONObject();
     }
 
     private void Update()    
@@ -160,13 +165,17 @@ public class MotorTestManager : TestManager
         MotorTestInstructionsGUIBehavior.instance.Play(_stimuli[_trialIndex]);
     }
 
-    private void WriteTestResults(string answer, double time)
+    private void WriteTestResults(Condition condition, answer theAnswer, double time)
     {
-       /* _finalTrialsList[_trialIndex].AddField("answer", answer);
-        _finalTrialsList[_trialIndex].AddField("time", time.ToString());
-        _finalTrialsList[_trialIndex].AddField("prepost", _prepost);
-
-        File.WriteAllText(_filePath, _finalTrialsList.Print());*/
+        var stimulusResult = new JSONObject();
+        stimulusResult.AddField("condition", Enum.GetName(typeof(Condition), _stimuli[_trialIndex]));
+        stimulusResult.AddField("answer", Enum.GetName(typeof(answer), theAnswer));
+        stimulusResult.AddField("time", time.ToString());
+        stimulusResult.AddField("prepost", _prepost);
+        
+        _results.Add(stimulusResult);
+        
+        File.WriteAllText(_filePath, _results.Print());
         _trialIndex++;
         _timer.Reset();
 
@@ -186,15 +195,14 @@ public class MotorTestManager : TestManager
         
         if (button == 0)
         {
-            WriteTestResults("yes", _timer.Elapsed.Milliseconds);
-            _givenAnswer = answer.left;
+            _givenAnswer = answer.indexFinger;
+            WriteTestResults(_stimuli[_trialIndex], _givenAnswer, _timer.Elapsed.Milliseconds);
         }
         else if (button == 1)
         {
-            WriteTestResults("no", _timer.Elapsed.Milliseconds);
-            _givenAnswer = answer.right;
+            _givenAnswer = answer.middleFinger;
+            WriteTestResults(_stimuli[_trialIndex], _givenAnswer, _timer.Elapsed.Milliseconds);
         }
-        
     }
 
     private void Reshuffle(Condition[] array)
