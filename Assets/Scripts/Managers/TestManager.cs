@@ -19,9 +19,8 @@ public abstract class TestManager : MonoBehaviour
     protected int _trialIndex;
     
     //The different steps in our test
-    public enum steps { init, instructions, practice, testing };
+    public enum steps { init, instructions, practice, testing, finished };
     protected steps _currentStep;
-    
     
     //flag to define the time frame in which we accept answers
     protected bool _waitingForAnswer;
@@ -36,13 +35,7 @@ public abstract class TestManager : MonoBehaviour
     
     protected void FinishTest()
     {
-        _trialIndex = 0;
-        InstructionsTextBehavior.instance.ShowInstructionText("Ok, the test is now finished! We will proceed with the next step now", 3);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        InstructionsTextBehavior.instance.ShowInstructionText("Ok, the test is now finished! We will proceed with the next step now", 15);
+        _currentStep = steps.finished;
     }
 }

@@ -37,10 +37,4 @@ public class MotorTestSettingsGUI : MonoBehaviour
         yield return new WaitForSeconds(5);
         _subjectExistingErrorMessage.gameObject.SetActive(false);
     }
-
-
-    public void Init()
-    {
-        
-    }
 }

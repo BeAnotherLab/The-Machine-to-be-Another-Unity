@@ -55,6 +55,7 @@ public class MotorTestManager : TestManager
     private void TimerStart()
     {
         _timer.Start();   
+        _waitingForAnswer = true;
         Debug.Log("timer start");
     }
     
@@ -86,7 +87,7 @@ public class MotorTestManager : TestManager
 
     private void Update()    
     {
-        if (Input.GetKeyUp(KeyCode.Space) && _currentStep == steps.instructions)
+        if (Input.GetKeyUp(KeyCode.Space) && _currentStep == steps.instructions) //use space bar to go past instructions
         {
             MotorTestInstructionsGUIBehavior.instance.Next();
             _currentStep = steps.testing;
@@ -96,12 +97,20 @@ public class MotorTestManager : TestManager
             if (Input.GetKeyUp(KeyCode.LeftArrow)) GetButtonUp(0);
             else if (Input.GetKeyUp(KeyCode.RightArrow)) GetButtonUp(1);
         }
-        else if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow) && !_bothFingersOn && _currentStep == steps.testing)
+        //if we just just pressed both busttons
+        else if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow) && !_bothFingersOn && _currentStep == steps.testing) 
         {
             _bothFingersOn = true;
             _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
         }
-        if (!Input.GetKey(KeyCode.LeftArrow) || !Input.GetKey(KeyCode.RightArrow)) _bothFingersOn = false;
+        //if we just lifted one finger during testing
+        else if ((!Input.GetKey(KeyCode.LeftArrow) || !Input.GetKey(KeyCode.RightArrow)) && _bothFingersOn && _currentStep == steps.testing) 
+        {
+            StopCoroutine(_trialCoroutine);
+            if(!_waitingForAnswer) MotorTestInstructionsGUIBehavior.instance.Stop();
+            _bothFingersOn = false;
+            StartTest();
+        }
     }
 
     #endregion
@@ -131,8 +140,7 @@ public class MotorTestManager : TestManager
 
     public void StartTest()
     {
-        _currentStep = steps.practice;
-        InstructionsTextBehavior.instance.ShowInstructionText(true, "Now press both buttons and we'll start");
+        InstructionsTextBehavior.instance.ShowInstructionText(true, "Now press both buttons");
     }
 
     #endregion
@@ -142,24 +150,14 @@ public class MotorTestManager : TestManager
     
     private IEnumerator ShowTrialCoroutine()
     {
+        Debug.Log("trial index : " + _trialIndex);
         InstructionsTextBehavior.instance.ShowInstructionText(true, "+");
+        MotorTestInstructionsGUIBehavior.instance.Stop();
         _givenAnswer = answer.none;
         
         yield return new WaitForSeconds(1);
 
-        _waitingForAnswer = true;
         MotorTestInstructionsGUIBehavior.instance.Play(_stimuli[_trialIndex]);
-
-        yield return new WaitForSeconds(15); //TODO check animation length
-
-        //ran out of time
-        _waitingForAnswer = false;
-        WriteTestResults("none", _timer.ElapsedMilliseconds);
-        InstructionsTextBehavior.instance.ShowInstructionText(true, "Out of time! Put your fingers back on" );
-        _timer.Stop();
-        _timer.Reset();
-        
-        yield return new WaitForSeconds(3);
     }
 
     private void WriteTestResults(string answer, double time)
@@ -171,6 +169,12 @@ public class MotorTestManager : TestManager
         File.WriteAllText(_filePath, _finalTrialsList.Print());*/
         _trialIndex++;
         _timer.Reset();
+
+        if (_trialIndex == _stimuli.Count)
+        {
+            FinishTest();
+            MotorTestInstructionsGUIBehavior.instance.Stop();
+        }
     }
 
     private void GetButtonUp(int button)
@@ -178,7 +182,7 @@ public class MotorTestManager : TestManager
         _waitingForAnswer = false;
         _timer.Stop();
         Debug.Log("time elapsed "  + _timer.ElapsedMilliseconds);
-        StopCoroutine(_trialCoroutine);
+        if (_trialCoroutine != null) StopCoroutine(_trialCoroutine);
         
         if (button == 0)
         {
@@ -191,7 +195,6 @@ public class MotorTestManager : TestManager
             _givenAnswer = answer.right;
         }
         
-        if (_trialIndex == _finalTrialsList.Count) FinishTest();
     }
 
     private void Reshuffle(Condition[] array)

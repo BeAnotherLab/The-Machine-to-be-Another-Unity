@@ -12,6 +12,8 @@ public class MotorTestInstructionsGUIBehavior : MonoBehaviour
     [SerializeField] private Sprite[] _congruentIndexFrames, _congruentMiddleFingerFrames, _incongruentIndexFrames,  _incongruentMiddleFingerFrames;
     
     [SerializeField] private Image _frameImage;
+
+    private Coroutine _playbackCoroutine;
     
     // Start is called before the first frame update
     private void Awake()
@@ -43,12 +45,24 @@ public class MotorTestInstructionsGUIBehavior : MonoBehaviour
     {
         Debug.Log("play condition " + condition);
         
-        if(condition == MotorTestManager.Condition.congruentIndex) StartCoroutine(PlayVideo(_congruentIndexFrames, _baseIndexFrame));
-        else if(condition == MotorTestManager.Condition.congruentMiddle) StartCoroutine(PlayVideo(_congruentMiddleFingerFrames, _baseMiddleFrame));
-        else if(condition == MotorTestManager.Condition.incongruentIndex) StartCoroutine(PlayVideo(_incongruentIndexFrames, _baseIndexFrame));
-        else if(condition == MotorTestManager.Condition.incongruentMiddle) StartCoroutine(PlayVideo(_incongruentMiddleFingerFrames, _baseMiddleFrame));
-        else if(condition == MotorTestManager.Condition.baseIndex) StartCoroutine(PlayVideo(new Sprite[] {_baseIndexFrame, _baseIndexFrame, _baseIndexFrame}, _baseIndexFrame, true));
-        else if(condition == MotorTestManager.Condition.baseMiddle) StartCoroutine(PlayVideo(new Sprite[] {_baseMiddleFrame, _baseMiddleFrame, _baseMiddleFrame}, _baseMiddleFrame, true));
+        if(condition == MotorTestManager.Condition.congruentIndex) 
+            _playbackCoroutine = StartCoroutine(PlayVideo(_congruentIndexFrames, _baseIndexFrame));
+        else if(condition == MotorTestManager.Condition.congruentMiddle) 
+            _playbackCoroutine = StartCoroutine(PlayVideo(_congruentMiddleFingerFrames, _baseMiddleFrame));
+        else if(condition == MotorTestManager.Condition.incongruentIndex) 
+            _playbackCoroutine = StartCoroutine(PlayVideo(_incongruentIndexFrames, _baseIndexFrame));
+        else if(condition == MotorTestManager.Condition.incongruentMiddle) 
+            _playbackCoroutine = StartCoroutine(PlayVideo(_incongruentMiddleFingerFrames, _baseMiddleFrame));
+        else if(condition == MotorTestManager.Condition.baseIndex) 
+            _playbackCoroutine = StartCoroutine(PlayVideo(new Sprite[] {_baseIndexFrame, _baseIndexFrame, _baseIndexFrame}, _baseIndexFrame, true));
+        else if(condition == MotorTestManager.Condition.baseMiddle)
+            _playbackCoroutine = StartCoroutine(PlayVideo(new Sprite[] {_baseMiddleFrame, _baseMiddleFrame, _baseMiddleFrame}, _baseMiddleFrame, true));
+    }
+
+    public void Stop()
+    {
+        _frameImage.enabled = false;
+        if(_playbackCoroutine != null) StopCoroutine(_playbackCoroutine);
     }
     
     private IEnumerator PlayVideo(Sprite[] video, Sprite baseFingerFrame, bool baseStimulus = false)
@@ -78,8 +92,6 @@ public class MotorTestInstructionsGUIBehavior : MonoBehaviour
             _frameImage.sprite = baseFingerFrame;
             yield return new WaitForSeconds(1.5f);
         }
-
-        _frameImage.enabled = false;
     }
     
 }
