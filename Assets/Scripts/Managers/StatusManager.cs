@@ -36,8 +36,6 @@ public class StatusManager : MonoBehaviour {
     private List<float> _selectedTimingList = new List<float>();
     //TODO make waitafterInstructions match the duration of the introduction audio
 
-    private Text _instructionsText;
-
     private GameObject _mainCamera;
 
     private GameObject _confirmationMenu;
@@ -50,8 +48,6 @@ public class StatusManager : MonoBehaviour {
     private void Awake()
     {
         if (instance == null) instance = this;
-        _instructionsGUI = GameObject.Find("InstructionsGUI");
-        _instructionsText = GameObject.Find("InstructionsText").GetComponent<Text>();
 
         _mainCamera = GameObject.Find("Main Camera");
 
@@ -61,7 +57,7 @@ public class StatusManager : MonoBehaviour {
 
     private void Start()
     {
-        _instructionsText.text = "Waiting for serial...";
+        InstructionsTextGUI.instance.SetText("waitingForSerial");
     }
 
     private void Update()
@@ -105,7 +101,7 @@ public class StatusManager : MonoBehaviour {
 
         //start experience or wait for the other if they're not ready yet
         if (otherStatus == UserStatus.readyToStart) StartPlaying();
-        else _instructionsText.text = LanguageTextDictionary.waitForOther; //show GUI instruction that indicates to wait for the other
+        else InstructionsTextGUI.instance.SetText("waitForOther");
 
         selfStatus = UserStatus.readyToStart;
     }
@@ -137,8 +133,7 @@ public class StatusManager : MonoBehaviour {
             //different than self is gone in case there is an audio for this case
             VideoFeed.instance.SetDimmed(true);
 
-            _instructionsGUI.SetActive(true);
-            _instructionsText.text = LanguageTextDictionary.otherIsGone;
+            InstructionsTextGUI.instance.SetText("otherIsGone");
 
             StopAllCoroutines();
 
@@ -154,8 +149,7 @@ public class StatusManager : MonoBehaviour {
     {
 
         VideoFeed.instance.SetDimmed(true);
-        _instructionsGUI.SetActive(true);
-        _instructionsText.text = LanguageTextDictionary.idle; 
+        InstructionsTextGUI.instance.SetText("idle");
 
         StopAllCoroutines();
 
@@ -173,8 +167,7 @@ public class StatusManager : MonoBehaviour {
     public void DisableStatusManagement()
     {
         VideoFeed.instance.SetDimmed(true);
-        _instructionsGUI.SetActive(false);
-        _instructionsText.text = null;
+        InstructionsTextGUI.instance.Hide();
 
         StopAllCoroutines();
 
@@ -184,8 +177,7 @@ public class StatusManager : MonoBehaviour {
     public void SerialFailure() //if something went wrong with the physical installation
     {
         StopAllCoroutines();
-        _instructionsGUI.SetActive(true);
-        _instructionsText.text = LanguageTextDictionary.systemFailure;
+        
         VideoFeed.instance.SetDimmed(true);
         OscManager.instance.SendSerialStatus(false);
         AudioPlayer.instance.StopAudioInstructions();    
@@ -196,9 +188,9 @@ public class StatusManager : MonoBehaviour {
     public void SerialReady()
     {
         OscManager.instance.SendSerialStatus(true);
-        ArduinoManager.instance.InitialPositions();
         _instructionsGUI.SetActive(true);
-        _instructionsText.text = LanguageTextDictionary.idle;
+        InstructionsTextGUI.instance.SetText("idle");
+        ArduinoManager.instance.InitialPositions();
         _serialReady = true;
     }
 
@@ -284,9 +276,9 @@ public class StatusManager : MonoBehaviour {
     {
         if (_serialReady)
         {
-	        InitializeTimings();
             _instructionsGUI.SetActive(true);
-            _instructionsText.text = LanguageTextDictionary.instructions;
+            InstructionsTextGUI.instance.SetText("instructions");
+	        InitializeTimings();
             StartCoroutine("StartPlayingCoroutine");    
         }
     }
@@ -295,8 +287,7 @@ public class StatusManager : MonoBehaviour {
     {
         VideoFeed.instance.SetDimmed(true);
 
-        _instructionsGUI.SetActive(true);
-        _instructionsText.text = LanguageTextDictionary.finished;
+        InstructionsTextGUI.instance.SetText("finished");
 
         StopAllCoroutines();
     }

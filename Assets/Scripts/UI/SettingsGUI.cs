@@ -88,11 +88,8 @@ public class SettingsGUI : MonoBehaviour
 
     private void Update()
     {     
+        //TODO move out of settings GUI
         if (Input.GetKeyDown("m")) SetMonitorGuiEnabled();
-
-        if (Input.GetKeyDown("z")) SetLanguage(0);
-        if (Input.GetKeyDown("x")) SetLanguage(1);
-        if (Input.GetKeyDown("c")) SetLanguage(2);
 
         if (Input.GetKeyDown("f"))
         {
