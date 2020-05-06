@@ -19,6 +19,8 @@ public class StatusManager : MonoBehaviour {
     public UserStatus selfStatus;
     public UserStatus otherStatus;
     
+    public List<List<float>> timingList = new List<List<float>>();
+    
     #endregion
 
 
@@ -40,6 +42,11 @@ public class StatusManager : MonoBehaviour {
 
     private GameObject _confirmationMenu;
 
+    [Tooltip("0 = instructions end, 1 = mirror, 2 = wall, 3 = goodbye")] [SerializeField] private List<float> timeList1 = new List<float>();
+    [Tooltip("0 = instructions end, 1 = mirror, 2 = wall, 3 = goodbye")] [SerializeField] private List<float> timeList2 = new List<float>();
+    [Tooltip("0 = instructions end, 1 = mirror, 2 = wall, 3 = goodbye")] [SerializeField] private List<float> timeList3 = new List<float>();
+    [Tooltip("0 = instructions end, 1 = mirror, 2 = wall, 3 = goodbye")] [SerializeField] private List<float> timeList4 = new List<float>();
+    
     #endregion
 
 
@@ -53,6 +60,10 @@ public class StatusManager : MonoBehaviour {
 
         _confirmationMenu = GameObject.Find("ConfirmationMenu");
 
+        timingList.Add(timeList1);
+        timingList.Add(timeList2);
+        timingList.Add(timeList3);
+        timingList.Add(timeList4);
     }
 
     private void Start()
@@ -77,15 +88,6 @@ public class StatusManager : MonoBehaviour {
 
 
     #region Public Methods
-
-    private void InitializeTimings (){
-
-        _selectedTimingList.Clear();
-
-        foreach (int item in MultipleTimings.instance.timingList[_timingConfiguration])
-            _selectedTimingList.Add(item);
-
-    }
 
     public void SetAutoStartAndFinish(bool on, float waitTime = 5)
     {
@@ -277,7 +279,8 @@ public class StatusManager : MonoBehaviour {
         {
             _instructionsGUI.SetActive(true);
             InstructionsTextBehavior.instance.ShowTextFromKey("instructions");
-            InitializeTimings();
+            _selectedTimingList.Clear();
+            foreach (int item in timingList[_timingConfiguration]) _selectedTimingList.Add(item);
             StartCoroutine("StartPlayingCoroutine");    
         }
     }
