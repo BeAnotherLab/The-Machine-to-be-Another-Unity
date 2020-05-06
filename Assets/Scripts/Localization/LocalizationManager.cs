@@ -69,7 +69,7 @@ public class LocalizationManager : MonoBehaviour {
         if (localizedText.ContainsKey (key)) 
         {
             result = localizedText [key];
-        }
+        } else Debug.Log("key not found");
 
         return result;
 
