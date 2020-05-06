@@ -129,10 +129,10 @@ public class ArduinoManager : MonoBehaviour
             Debug.Log("ERROR : " + data);
             StatusManager.instance.SerialFailure();
         }
-        else if (data == "lng_de") LanguageTextDictionary.instance.LanguageChanged("deutsch");
-        else if (data == "lng_fr") LanguageTextDictionary.instance.LanguageChanged("french");
-        else if (data == "lng_it") LanguageTextDictionary.instance.LanguageChanged("italian");
-        else if (data == "lng_en") LanguageTextDictionary.instance.LanguageChanged("english");
+        else if (data == "lng_de") LocalizationManager.instance.LoadLocalizedText("LocalizedText_de.json");
+        else if (data == "lng_fr") LocalizationManager.instance.LoadLocalizedText("LocalizedText_fr.json");
+        else if (data == "lng_it") LocalizationManager.instance.LoadLocalizedText("italian");
+        else if (data == "lng_en") LocalizationManager.instance.LoadLocalizedText("english");
     }
     
     private void WriteToArduino(string message) //send a command, trigger timeout routine
