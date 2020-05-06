@@ -8,7 +8,7 @@ public class LocalizationManager : MonoBehaviour {
 
     public static LocalizationManager instance;
 
-    [SerializeField] private string[] localizationTexts;
+    [SerializeField] private string[] localizationTexts; //TODO autoload
     
     private Dictionary<string, string> localizedText;
     private bool isReady = false;
