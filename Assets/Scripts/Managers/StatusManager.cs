@@ -27,7 +27,6 @@ public class StatusManager : MonoBehaviour {
     [SerializeField] private bool _autoStartAndFinishOn;
     [SerializeField] private bool _serialReady;
     
-    [Tooltip("Instructions Timing")] private GameObject _instructionsGUI;
 
     private GameObject _mainCamera;
 
@@ -78,7 +77,6 @@ public class StatusManager : MonoBehaviour {
         }
 
         if (_autoStartAndFinishOn) VideoFeed.instance.SetDimmed(false);
-        _instructionsGUI.SetActive(false);
     }
 
     public void MirrorOn()
@@ -189,7 +187,6 @@ public class StatusManager : MonoBehaviour {
     public void SerialReady()
     {
         OscManager.instance.SendSerialStatus(true);
-        _instructionsGUI.SetActive(true);
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
         ArduinoManager.instance.InitialPositions();
         _serialReady = true;
@@ -231,7 +228,6 @@ public class StatusManager : MonoBehaviour {
     {
         if (_serialReady)
         {
-            _instructionsGUI.SetActive(true);
             InstructionsTextBehavior.instance.ShowTextFromKey("instructions");
             //TODO start playing back timeline
         }
