@@ -57,7 +57,7 @@ public class StatusManager : MonoBehaviour {
 
     private void Start()
     {
-        InstructionsTextGUI.instance.SetText("waitingForSerial");
+        InstructionsTextBehavior.instance.ShowTextFromKey("waitingForSerial");
     }
 
     private void Update()
@@ -101,7 +101,7 @@ public class StatusManager : MonoBehaviour {
 
         //start experience or wait for the other if they're not ready yet
         if (otherStatus == UserStatus.readyToStart) StartPlaying();
-        else InstructionsTextGUI.instance.SetText("waitForOther");
+        else InstructionsTextBehavior.instance.ShowTextFromKey("waitForOther");
 
         selfStatus = UserStatus.readyToStart;
     }
@@ -133,7 +133,7 @@ public class StatusManager : MonoBehaviour {
             //different than self is gone in case there is an audio for this case
             VideoFeed.instance.SetDimmed(true);
 
-            InstructionsTextGUI.instance.SetText("otherIsGone");
+            InstructionsTextBehavior.instance.ShowTextFromKey("otherIsGone");
 
             StopAllCoroutines();
 
@@ -149,7 +149,7 @@ public class StatusManager : MonoBehaviour {
     {
 
         VideoFeed.instance.SetDimmed(true);
-        InstructionsTextGUI.instance.SetText("idle");
+        InstructionsTextBehavior.instance.ShowTextFromKey("idle");
 
         StopAllCoroutines();
 
@@ -167,7 +167,7 @@ public class StatusManager : MonoBehaviour {
     public void DisableStatusManagement()
     {
         VideoFeed.instance.SetDimmed(true);
-        InstructionsTextGUI.instance.Hide();
+        InstructionsTextBehavior.instance.ShowInstructionText(false);
 
         StopAllCoroutines();
 
@@ -189,7 +189,7 @@ public class StatusManager : MonoBehaviour {
     {
         OscManager.instance.SendSerialStatus(true);
         _instructionsGUI.SetActive(true);
-        InstructionsTextGUI.instance.SetText("idle");
+        InstructionsTextBehavior.instance.ShowTextFromKey("idle");
         ArduinoManager.instance.InitialPositions();
         _serialReady = true;
     }
@@ -277,8 +277,8 @@ public class StatusManager : MonoBehaviour {
         if (_serialReady)
         {
             _instructionsGUI.SetActive(true);
-            InstructionsTextGUI.instance.SetText("instructions");
-	        InitializeTimings();
+            InstructionsTextBehavior.instance.ShowTextFromKey("instructions");
+            InitializeTimings();
             StartCoroutine("StartPlayingCoroutine");    
         }
     }
@@ -286,9 +286,7 @@ public class StatusManager : MonoBehaviour {
     private void IsOver() //called at the the end of the experience
     {
         VideoFeed.instance.SetDimmed(true);
-
-        InstructionsTextGUI.instance.SetText("finished");
-
+        InstructionsTextBehavior.instance.ShowTextFromKey("finished");
         StopAllCoroutines();
     }
 

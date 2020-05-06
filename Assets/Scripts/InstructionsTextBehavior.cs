@@ -8,16 +8,25 @@ public class InstructionsTextBehavior : MonoBehaviour
 {
 
     public static InstructionsTextBehavior instance;
+
+    [SerializeField] private GameObject _textGameObject;
     
     private void Awake()
     {
         if (instance == null) instance = this;
     }
     
+    public void ShowTextFromKey(string key)
+    {
+        GetComponent<CanvasGroup>().alpha = 1;
+        _textGameObject.GetComponent<LocalizedText>().key = key;
+    }
+
     public void ShowInstructionText(bool show, string text = "")
     {
         transform.parent.gameObject.SetActive(show); //Show instructions canvas
-        GetComponent<Text>().text = text; //give feedback
+        GetComponent <CanvasGroup>().alpha = show ? 1 : 0;
+        _textGameObject.GetComponent<Text>().text = text; //give feedback
     }
 
     public void ShowInstructionText(string text, int time)
@@ -31,7 +40,5 @@ public class InstructionsTextBehavior : MonoBehaviour
         yield return new WaitForSeconds(time);
         ShowInstructionText(false);       
     }
-    
- 
     
 }
