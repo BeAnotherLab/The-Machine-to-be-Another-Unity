@@ -237,6 +237,7 @@ public class StatusManager : MonoBehaviour {
     {
         VideoFeed.instance.SetDimmed(true);
         InstructionsTextBehavior.instance.ShowTextFromKey("finished");
+        _instructionsTimeline.Stop();
     }
 
     private IEnumerator WaitBeforeResetting()
