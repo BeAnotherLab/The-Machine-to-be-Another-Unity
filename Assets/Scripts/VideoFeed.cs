@@ -36,6 +36,8 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     //Dim params
     private bool _dimmed;
 
+    private MeshRenderer _meshRenderer;
+    
     #endregion
 
 
@@ -46,13 +48,14 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         if (instance == null) instance = this;
 
         _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        _meshRenderer = GetComponent<MeshRenderer>();
     }
 
     void Start()
     {
         _tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
         RecenterPose();
-        SetDimmed(dimOnStart);
+        if (dimOnStart) SetDimmed(true);
         otherPose = new Quaternion();
     }
 
@@ -98,7 +101,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     }
 
     public void SetDimmed(bool dim)
-    {/*
+    {
         float next = 1;
         if (dim) next = 0;
 
@@ -108,7 +111,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
             Color c = _meshRenderer.material.color;
             c.a = val;
             _meshRenderer.material.SetColor("_Color", c);
-        });*/
+        });
     }
 
     public void SetDimmed()
