@@ -16,7 +16,7 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private Dropdown _swapModeDropdown;
     [SerializeField] private GameObject _panel;
     [SerializeField] private Slider _pitchSlider, _yawSlider, _rollSlider, _zoomSlider;
-    [SerializeField] private Dropdown _serialDropdown, _cameraDropdown;
+    [SerializeField] private Dropdown _serialDropdown;
     [SerializeField] private Text _FPSText;
     [SerializeField] private IPInputField _ipInputField;
     [SerializeField] private Button _dimButton;
@@ -41,12 +41,7 @@ public class SettingsGUI : MonoBehaviour
 
         //objects in the scene
         _mainCamera = GameObject.Find("Main Camera");
-
-        _cameraDropdown.onValueChanged.AddListener(delegate
-        {
-            VideoFeed.instance.cameraID = _cameraDropdown.value;
-        });
-
+        
         _dimButton.onClick.AddListener(delegate
         {
             VideoFeed.instance.SetDimmed();
@@ -73,7 +68,6 @@ public class SettingsGUI : MonoBehaviour
     {        
         _monitorGuiEnabled = true;
 
-        SetCameraDropdownOptions();
         SetSwapModeDropdownOptions();
         
         _zoomSlider.value = PlayerPrefs.GetFloat("zoom", 39.5f);
@@ -104,8 +98,6 @@ public class SettingsGUI : MonoBehaviour
             _pitchSlider.value = pitchYawRoll.z + 90;
             _zoomSlider.value = VideoFeed.instance.zoom;
         }
-
-        _cameraDropdown.RefreshShownValue();
 
         ShowFPS();
     }
@@ -229,19 +221,6 @@ public class SettingsGUI : MonoBehaviour
         SelectSerialOption(_serialDropdown.value);
     }
     
-    private void SetCameraDropdownOptions()
-    {
-        WebCamDevice[] devices = WebCamTexture.devices;
-        _cameraDropdown.options.Clear();
-        
-        foreach (WebCamDevice device in devices)
-        {
-            _cameraDropdown.options.Add(new Dropdown.OptionData() { text = device.name });
-        }
-        _cameraDropdown.value = PlayerPrefs.GetInt("cameraID");
-        _cameraDropdown.RefreshShownValue();
-    }
-
     private void ShowFPS()
     {
         _deltaTime += (Time.deltaTime - _deltaTime) * 0.1f;
