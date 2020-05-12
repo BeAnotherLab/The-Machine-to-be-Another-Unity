@@ -145,10 +145,9 @@ public class StatusManager : MonoBehaviour {
         }
     }
 
-    public void StopExperience()
+    public void StopExperience(bool start = false)
     {
-
-        VideoFeed.instance.SetDimmed(true);
+        if (!start) VideoFeed.instance.SetDimmed(true); //TODO somehow this messses with Video Feed dimming when called on Start?
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
 
         StopAllCoroutines();
