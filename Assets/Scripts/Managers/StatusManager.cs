@@ -136,7 +136,7 @@ public class StatusManager : MonoBehaviour {
             VideoFeed.instance.SetDimmed(true);
 
             InstructionsTextBehavior.instance.ShowTextFromKey("otherIsGone");
-
+            _instructionsTimeline.Stop();
             StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
         }
         else
