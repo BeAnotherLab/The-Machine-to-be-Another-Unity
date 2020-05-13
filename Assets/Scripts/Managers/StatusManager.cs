@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.XR;
 using UnityEngine.UI;
 using VRStandardAssets.Menu;
@@ -26,7 +27,7 @@ public class StatusManager : MonoBehaviour {
 
     [SerializeField] private bool _autoStartAndFinishOn;
     [SerializeField] private bool _serialReady;
-    
+    [SerializeField] private PlayableDirector _instructionsTimeline;
 
     private GameObject _mainCamera;
 
@@ -229,7 +230,7 @@ public class StatusManager : MonoBehaviour {
         if (_serialReady)
         {
             InstructionsTextBehavior.instance.ShowTextFromKey("instructions");
-            //TODO start playing back timeline
+            _instructionsTimeline.Play();
         }
     }
 
