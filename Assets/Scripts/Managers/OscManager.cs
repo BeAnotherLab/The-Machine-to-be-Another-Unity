@@ -191,7 +191,6 @@ public class OscManager : MonoBehaviour {
     {
         if (StatusManager.instance.statusManagementOn)
         {
-            OnOtherStatus();
             int x;
             if (message.ToInt(out x))
             {
@@ -199,6 +198,7 @@ public class OscManager : MonoBehaviour {
                 else if (x == 1) StatusManager.instance.OtherPutHeadsetOn();
                 if (x == 2)  StatusManager.instance.OtherUserIsReady();
             }
+            OnOtherStatus();
         }
     }
     
