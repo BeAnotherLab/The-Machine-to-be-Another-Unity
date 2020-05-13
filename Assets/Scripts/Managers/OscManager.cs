@@ -198,7 +198,7 @@ public class OscManager : MonoBehaviour {
                 else if (x == 1) StatusManager.instance.OtherPutHeadsetOn();
                 if (x == 2)  StatusManager.instance.OtherUserIsReady();
             }
-            OnOtherStatus();
+            OnOtherStatus(); //TODO Fix error triggered here 
         }
     }
     

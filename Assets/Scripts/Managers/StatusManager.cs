@@ -151,8 +151,7 @@ public class StatusManager : MonoBehaviour {
         if (!start) VideoFeed.instance.SetDimmed(true); //TODO somehow this messses with Video Feed dimming when called on Start?
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
 
-        StopAllCoroutines();
-
+        _instructionsTimeline.Stop();
         AudioPlayer.instance.StopAudioInstructions();
 
         //reset user status as it is not ready
@@ -169,15 +168,11 @@ public class StatusManager : MonoBehaviour {
         VideoFeed.instance.SetDimmed(true);
         InstructionsTextBehavior.instance.ShowInstructionText(false);
 
-        StopAllCoroutines();
-
         statusManagementOn = false;
     }
 
     public void SerialFailure() //if something went wrong with the physical installation
     {
-        StopAllCoroutines();
-        
         VideoFeed.instance.SetDimmed(true);
         OscManager.instance.SendSerialStatus(false);
         AudioPlayer.instance.StopAudioInstructions();    
