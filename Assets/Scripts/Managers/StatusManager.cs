@@ -177,6 +177,7 @@ public class StatusManager : MonoBehaviour {
         OscManager.instance.SendSerialStatus(false);
         AudioPlayer.instance.StopAudioInstructions();    
         InstructionsDisplay.instance.ShowTechnicalFailureMessage();
+        _instructionsTimeline.Stop();
         Destroy(gameObject);
     }
 
