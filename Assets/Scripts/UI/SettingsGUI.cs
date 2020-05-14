@@ -19,13 +19,14 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private Dropdown _serialDropdown;
     [SerializeField] private Text _FPSText;
     [SerializeField] private IPInputField _ipInputField;
+    [SerializeField] private Toggle _serialControlToggle;
     [SerializeField] private Button _dimButton;
     [SerializeField] private Button _headTrackingOnButton;
     [SerializeField] private Toggle _repeaterToggle;
     [SerializeField] private Text _controlsText;
     [SerializeField] private Text _languageText;
-    [SerializeField] private GameObject _mainCamera;
-
+    
+    private GameObject _mainCamera;
     private bool _monitorGuiEnabled, _oculusGuiEnabled;
     private float _deltaTime = 0.0f;
  
@@ -47,8 +48,16 @@ public class SettingsGUI : MonoBehaviour
             VideoFeed.instance.SetDimmed();
         });
         
-        _repeaterToggle.onValueChanged.AddListener(delegate { OscManager.instance.SetRepeater(_repeaterToggle.isOn); });
+        _repeaterToggle.onValueChanged.AddListener(delegate
+        {
+            OscManager.instance.SetRepeater(_repeaterToggle.isOn);
+        });
 
+        _serialControlToggle.onValueChanged.AddListener(delegate
+        {
+            ArduinoManager.instance.SetSerialControlOn(_serialControlToggle.isOn);
+        });
+        
         _controlsText.text = _controlsText.text + "\n \nlocal IP adress : " + OSCUtilities.GetLocalHost();
 
         //Assign servos control buttons handlers
@@ -232,5 +241,4 @@ public class SettingsGUI : MonoBehaviour
     }
 
     #endregion
-
 }
