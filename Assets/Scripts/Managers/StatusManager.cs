@@ -6,6 +6,7 @@ using UnityEngine.XR;
 using UnityEngine.UI;
 using VRStandardAssets.Menu;
 using VRStandardAssets.Utils;
+using Uduino;
 
 public enum UserStatus { headsetOff, headsetOn, readyToStart }
 
@@ -44,6 +45,7 @@ public class StatusManager : MonoBehaviour {
 
         _mainCamera = GameObject.Find("Main Camera");
         _confirmationMenu = GameObject.Find("ConfirmationMenu");
+        UduinoManager.Instance.OnBoardDisconnectedEvent.AddListener(delegate { SerialFailure(); });
     }
 
     private void Start()
@@ -177,6 +179,7 @@ public class StatusManager : MonoBehaviour {
         OscManager.instance.SendSerialStatus(false);
         AudioPlayer.instance.StopAudioInstructions();    
         InstructionsDisplay.instance.ShowTechnicalFailureMessage();
+        InstructionsTextBehavior.instance.ShowTextFromKey("systemFailure");
         _instructionsTimeline.Stop();
         Destroy(gameObject);
     }
