@@ -20,6 +20,7 @@ public class ArduinoManager : MonoBehaviour
     
     #endregion
 
+    
     #region Private Fields
 
     [SerializeField] private int _timeOut;
@@ -29,6 +30,7 @@ public class ArduinoManager : MonoBehaviour
     private Coroutine _waitForSysReadyCoroutine;
         
     #endregion
+    
     
     #region MonoBehaviour Methods
 
@@ -118,7 +120,7 @@ public class ArduinoManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         SendCommand("wal_off");
         SendCommand("mir_off");
-        SendCommand("cur_off");
+        SendCommand("cur_on");
     }
     
     private void DataReceived(string data, UduinoDevice board)
