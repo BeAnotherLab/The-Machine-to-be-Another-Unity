@@ -27,11 +27,10 @@ public class StatusManager : MonoBehaviour {
     #region Private Fields
 
     [SerializeField] private bool _autoStartAndFinishOn;
-    [SerializeField] private bool _serialReady;
     [SerializeField] private PlayableDirector _instructionsTimeline;
 
     private GameObject _mainCamera;
-
+    private bool _serialReady;
     private GameObject _confirmationMenu;
     
     #endregion

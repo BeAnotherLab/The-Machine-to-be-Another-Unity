@@ -14,7 +14,7 @@ public class ArduinoManager : MonoBehaviour
     public static ArduinoManager instance;
 
     [SerializeField] private bool _servosOn;
-    [SerializeField] private bool _curtainOn;
+    private bool _curtainOn;
 
     public float pitchOffset, yawOffset; //use those values to compensate
     
@@ -24,7 +24,7 @@ public class ArduinoManager : MonoBehaviour
     #region Private Fields
 
     [SerializeField] private int _timeOut;
-    [SerializeField] private bool _commandOK;
+    private bool _commandOK;
 
     private Coroutine _timeoutCoroutine;
     private Coroutine _waitForSysReadyCoroutine;
