@@ -44,9 +44,7 @@ public class ArduinoManager : MonoBehaviour
 
     public void InitialPositions()
     {
-        SendCommand("wal_off");
-        SendCommand("mir_off");
-        SendCommand("cur_off");
+        StartCoroutine(DelayedInitialPositions());
     }
 
     public void ActivateSerial(bool servosOn, bool curtainOn = false)
@@ -100,6 +98,7 @@ public class ArduinoManager : MonoBehaviour
         if (_curtainOn)
         {
             Debug.Log("sending " + command + " to arduino");
+            _commandOK = false;
             WriteToArduino(command);
         }
     }
@@ -113,9 +112,19 @@ public class ArduinoManager : MonoBehaviour
 
 
     #region Private Methods
+
+    private IEnumerator DelayedInitialPositions()
+    {
+        yield return new WaitForSeconds(3);
+        SendCommand("wal_off");
+        SendCommand("mir_off");
+        SendCommand("cur_off");
+    }
     
     private void DataReceived(string data, UduinoDevice board)
     {
+        Debug.Log("received " + data);
+        
         if (data == "sys_rdy")
         {
             if(_waitForSysReadyCoroutine != null) StopCoroutine(_waitForSysReadyCoroutine);
