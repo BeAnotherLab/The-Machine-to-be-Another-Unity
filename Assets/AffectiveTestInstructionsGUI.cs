@@ -9,31 +9,46 @@ public class AffectiveTestInstructionsGUI : MonoBehaviour
     public static AffectiveTestInstructionsGUI instance;
     
     [SerializeField] private Image selfFrame;
-    [SerializeField] private GameObject selfImage;
+    [SerializeField] private Image selfImage;
     [SerializeField] private Image otherFrame;
-    [SerializeField] private GameObject otherImage;
+    [SerializeField] private Image otherImage;
 
     private Dictionary<string, Sprite> _spritesDictionary;
-    private Dictionary<string, AudioClip> _audioClipsDictionary;        
+    
+    [SerializeField] private GameObject[] _slides;
+    private int _slideIndex;
+
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+    }
     
     // Start is called before the first frame update
     private void Start()
     {
         Sprite[] sprites = Resources.LoadAll<Sprite>("AffectiveTaskImages");
-        AudioClip[] clips = Resources.LoadAll<AudioClip>("AffectiveTaskAudioClips");
-
         _spritesDictionary = new Dictionary<string, Sprite>();
-        _audioClipsDictionary = new Dictionary<string, AudioClip>();
-        
         foreach (Sprite sprite in sprites) _spritesDictionary.Add(sprite.name, sprite);
-        foreach (AudioClip clip in clips) _audioClipsDictionary.Add(clip.name, clip);
-        
-        int x = 0;
+    }
 
-        //preload images
+    public void Init()
+    {
+        _slides[0].SetActive(true);
+    }
+    
+    public void Next()
+    {
+        _slides[_slideIndex].SetActive(false);
 
-
-        //preload audios
+        if (_slideIndex < _slides.Length - 1 )
+        {
+            _slideIndex++;
+            _slides[_slideIndex].SetActive(true);   
+        }
+        else
+        {
+            AffectiveTestManager.instance.StartTest(ExperimentStep.pre);
+        }
     }
     
     public void ShowStimulus(JSONObject stimulus)
@@ -48,9 +63,9 @@ public class AffectiveTestInstructionsGUI : MonoBehaviour
             otherFrame.color = Color.green;
             selfFrame.color = Color.red;
         }
-        
-        stimulus.GetField("selfImage");
-        stimulus.GetField("otherImage");
+
+        selfImage.sprite = _spritesDictionary[stimulus.GetField("selfImage").str]; 
+        otherImage.sprite = _spritesDictionary[stimulus.GetField("otherImage").str]; 
     }
 
     public void ShowRatingScale()

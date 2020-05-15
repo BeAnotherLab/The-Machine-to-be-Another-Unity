@@ -533,7 +533,7 @@ GameObject:
   - component: {fileID: 8720454784118159883}
   - component: {fileID: 5629668061662093111}
   m_Layer: 5
-  m_Name: MotorTestSettingsLabel
+  m_Name: AffectiveTestSettingsLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -599,7 +599,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Motor test settings
+  m_Text: Affective test settings
 --- !u!1 &4283422664531464257
 GameObject:
   m_ObjectHideFlags: 0
@@ -1158,7 +1158,7 @@ GameObject:
   - component: {fileID: 7772319791827643728}
   - component: {fileID: 7772319791827643729}
   - component: {fileID: 3785216947720056698}
-  - component: {fileID: 4216098875948151454}
+  - component: {fileID: 6078999052121543482}
   m_Layer: 5
   m_Name: AffectiveTestSettingsGUI
   m_TagString: Untagged
@@ -1262,7 +1262,7 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 1
   m_ConstraintCount: 1
---- !u!114 &4216098875948151454
+--- !u!114 &6078999052121543482
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1271,7 +1271,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7772319791827643759}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cd53fa816f092644882c49ab8a34835, type: 3}
+  m_Script: {fileID: 11500000, guid: bd3a0c566e99fe949bb665b3d63d5712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _subjectIDInputField: {fileID: 9002969357221496666}
@@ -1592,8 +1592,47 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 8288188328124821977, guid: dbc9938b9067bdb43949055c54f76a88,
+        type: 3}
+      propertyPath: m_TargetGraphic
+      value: 
+      objectReference: {fileID: 9002969357221496667}
+    - target: {fileID: 8288188328124821977, guid: dbc9938b9067bdb43949055c54f76a88,
+        type: 3}
+      propertyPath: m_TextComponent
+      value: 
+      objectReference: {fileID: 9002969356235217037}
+    - target: {fileID: 8288188328124821977, guid: dbc9938b9067bdb43949055c54f76a88,
+        type: 3}
+      propertyPath: m_Placeholder
+      value: 
+      objectReference: {fileID: 9002969356579487565}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbc9938b9067bdb43949055c54f76a88, type: 3}
+--- !u!1 &7425964140505769938 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7564680386826178897, guid: dbc9938b9067bdb43949055c54f76a88,
+    type: 3}
+  m_PrefabInstance: {fileID: 1149956882316736131}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &9002969357221496665 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8288188328124821978, guid: dbc9938b9067bdb43949055c54f76a88,
+    type: 3}
+  m_PrefabInstance: {fileID: 1149956882316736131}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9002969357221496667 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8288188328124821976, guid: dbc9938b9067bdb43949055c54f76a88,
+    type: 3}
+  m_PrefabInstance: {fileID: 1149956882316736131}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &9002969357221496666 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8288188328124821977, guid: dbc9938b9067bdb43949055c54f76a88,
@@ -1606,18 +1645,30 @@ MonoBehaviour:
   m_Script: {fileID: 575553740, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &9002969357221496665 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8288188328124821978, guid: dbc9938b9067bdb43949055c54f76a88,
+--- !u!114 &9002969356579487565 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8288188327482657230, guid: dbc9938b9067bdb43949055c54f76a88,
     type: 3}
   m_PrefabInstance: {fileID: 1149956882316736131}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7425964140505769938 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7564680386826178897, guid: dbc9938b9067bdb43949055c54f76a88,
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9002969356235217037 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8288188327826402830, guid: dbc9938b9067bdb43949055c54f76a88,
     type: 3}
   m_PrefabInstance: {fileID: 1149956882316736131}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7909831537877359049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1735,6 +1786,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 627007479160920198, guid: 8bb5cedbffda1f44c8254f2d7a33e8d1,
+        type: 3}
+      propertyPath: m_TargetGraphic
+      value: 
+      objectReference: {fileID: 564907260514748565}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bb5cedbffda1f44c8254f2d7a33e8d1, type: 3}
 --- !u!224 &1380913804391286052 stripped
@@ -1743,6 +1799,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 7909831537877359049}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &564907260514748565 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7643639674310349148, guid: 8bb5cedbffda1f44c8254f2d7a33e8d1,
+    type: 3}
+  m_PrefabInstance: {fileID: 7909831537877359049}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7311257659816722767 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 627007479160920198, guid: 8bb5cedbffda1f44c8254f2d7a33e8d1,
