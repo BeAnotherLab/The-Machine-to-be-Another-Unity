@@ -49,6 +49,12 @@ public class ArduinoManager : MonoBehaviour
         StartCoroutine(DelayedInitialPositions());
     }
 
+    public void SetSerialControlComputer(bool serialControlOn) //defines if this computer is the one in charge of serial control in Technorama swap
+    {
+        if(serialControlOn) PlayerPrefs.SetInt("serialControlOn", 1);
+        else PlayerPrefs.SetInt("serialControlOn", 0);
+    }
+    
     public void ActivateSerial(bool servosOn, bool curtainOn = false)
     {
         UduinoManager.Instance.OnDataReceived += DataReceived;

@@ -55,7 +55,7 @@ public class SettingsGUI : MonoBehaviour
 
         _serialControlToggle.onValueChanged.AddListener(delegate
         {
-            ArduinoManager.instance.SetSerialControlOn(_serialControlToggle.isOn);
+            ArduinoManager.instance.SetSerialControlComputer(_serialControlToggle.isOn);
         });
         
         _controlsText.text = _controlsText.text + "\n \nlocal IP adress : " + OSCUtilities.GetLocalHost();
@@ -84,6 +84,9 @@ public class SettingsGUI : MonoBehaviour
         if (PlayerPrefs.GetInt("repeater") == 1) _repeaterToggle.isOn = true;
         else                                     _repeaterToggle.isOn = false;
 
+        if (PlayerPrefs.GetInt("serialControlOn") == 1) _serialControlToggle.isOn = true;
+        else _serialControlToggle.isOn = false;             
+        
         OSCUtilities.GetLocalHost();
 
         SetLanguageText(PlayerPrefs.GetInt("language"));
@@ -146,7 +149,8 @@ public class SettingsGUI : MonoBehaviour
     {
         //show serial dropdown depending on if we're using the curtain or not
         EnableSerialDropdown(useCurtain);
-
+        _serialControlToggle.gameObject.SetActive(useCurtain);
+        
         //show two way swap related networking GUI
         _repeaterToggle.gameObject.SetActive(true);
         _ipInputField.gameObject.SetActive(true);
