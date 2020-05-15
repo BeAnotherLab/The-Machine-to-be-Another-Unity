@@ -77,7 +77,7 @@ public class SwapModeManager : MonoBehaviour
 
             case SwapModes.SERVO_SWAP:
                 //enable servos
-                ArduinoManager.instance.ActivateSerial(true, false);
+                ArduinoManager.instance.ActivateSerial(true);
 
                 //show serial port dropdown, hide repeater toggle, hide IP input field
                 SettingsGUI.instance.SetServoMode();

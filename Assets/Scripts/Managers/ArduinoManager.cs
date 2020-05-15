@@ -13,8 +13,8 @@ public class ArduinoManager : MonoBehaviour
 
     public static ArduinoManager instance;
 
-    [SerializeField] private bool _servosOn;
-    private bool _curtainOn;
+    [SerializeField] private bool _servosOn; //for one way swap.
+    private bool _serialControlOn; //for technorama swap. determine if this computer is in charge of controlling the curtain and mirrors
 
     public float pitchOffset, yawOffset; //use those values to compensate
     
@@ -53,22 +53,22 @@ public class ArduinoManager : MonoBehaviour
     {
         if(serialControlOn) PlayerPrefs.SetInt("serialControlOn", 1);
         else PlayerPrefs.SetInt("serialControlOn", 0);
+        _serialControlOn = serialControlOn;
     }
     
-    public void ActivateSerial(bool servosOn, bool curtainOn = false)
+    public void ActivateSerial(bool servosOn, bool useCurtain)
     {
         UduinoManager.Instance.OnDataReceived += DataReceived;
         if (servosOn) UduinoManager.Instance.BaudRate = 57600;
-        else if (_curtainOn) UduinoManager.Instance.BaudRate = 9600;
+        else if (_serialControlOn && useCurtain) UduinoManager.Instance.BaudRate = 9600; //if we are in Technorama and this computer is connected to the Arduino
         _servosOn = servosOn;
-        _curtainOn = curtainOn;    
     }
 
     public void DisableSerial()
     {
-        if (_servosOn || _curtainOn) Close();
+        if (_servosOn || _serialControlOn) Close();
         _servosOn = false;
-        _curtainOn = false;
+        _serialControlOn = false;
     }
 
     public void Open(int p)
@@ -103,7 +103,7 @@ public class ArduinoManager : MonoBehaviour
 
     public void SendCommand(string command) //used to send commands to control technorama walls, curtains, etc
     {
-        if (_curtainOn)
+        if (_serialControlOn)
         {
             Debug.Log("sending " + command + " to arduino");
             _commandOK = false;
