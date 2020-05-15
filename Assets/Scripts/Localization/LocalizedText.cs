@@ -18,6 +18,6 @@ public class LocalizedText : MonoBehaviour
 
     private void Update()
     {
-        text.text = LocalizationManager.instance.GetLocalizedValue(key);
+        if (LocalizationManager.instance != null) text.text = LocalizationManager.instance.GetLocalizedValue(key);
     }
 }

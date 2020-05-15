@@ -31,7 +31,7 @@ public class CognitiveTestManager : TestManager
     #endregion
 
     
-    #region  Public Fields
+    #region Public Fields
 
     public static CognitiveTestManager instance;
     
@@ -123,7 +123,6 @@ public class CognitiveTestManager : TestManager
     
     private void PrepareBlock(string blockName)
     {
-        
         List<JSONObject> jsonObjects = _trials.list.Where(trial => trial.GetField("field8").str == blockName).ToList();
         ListExtensions.Shuffle(jsonObjects); //shuffle that list
         foreach (JSONObject jsonObject in jsonObjects) _finalTrialsList.Add(jsonObject); //add it to the final list

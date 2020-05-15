@@ -8,11 +8,12 @@ public class AffectiveTestInstructionsGUI : MonoBehaviour
 {
     public static AffectiveTestInstructionsGUI instance;
     
-    [SerializeField] private Image selfFrame;
-    [SerializeField] private Image selfImage;
-    [SerializeField] private Image otherFrame;
-    [SerializeField] private Image otherImage;
-
+    [SerializeField] private Image _selfFrame;
+    [SerializeField] private Image _selfImage;
+    [SerializeField] private Image _otherFrame;
+    [SerializeField] private Image _otherImage;
+    [SerializeField] private CanvasGroup _affectiveInstructionsCanvasGroup;
+    
     private Dictionary<string, Sprite> _spritesDictionary;
     
     [SerializeField] private GameObject[] _slides;
@@ -28,7 +29,7 @@ public class AffectiveTestInstructionsGUI : MonoBehaviour
     {
         Sprite[] sprites = Resources.LoadAll<Sprite>("AffectiveTaskImages");
         _spritesDictionary = new Dictionary<string, Sprite>();
-        foreach (Sprite sprite in sprites) _spritesDictionary.Add(sprite.name, sprite);
+        foreach (Sprite sprite in sprites) _spritesDictionary.Add(sprite.name + ".jpg", sprite);
     }
 
     public void Init()
@@ -53,23 +54,25 @@ public class AffectiveTestInstructionsGUI : MonoBehaviour
     
     public void ShowStimulus(JSONObject stimulus)
     {
+        _affectiveInstructionsCanvasGroup.alpha = 1;
+        
         if (stimulus.GetField("perspective").str == "self")
         {
-            selfFrame.color = Color.green;
-            otherFrame.color = Color.red;
+            _selfFrame.color = Color.green;
+            _otherFrame.color = Color.red;
         }
         else
         {
-            otherFrame.color = Color.green;
-            selfFrame.color = Color.red;
+            _otherFrame.color = Color.green;
+            _selfFrame.color = Color.red;
         }
 
-        selfImage.sprite = _spritesDictionary[stimulus.GetField("selfImage").str]; 
-        otherImage.sprite = _spritesDictionary[stimulus.GetField("otherImage").str]; 
+        _selfImage.sprite = _spritesDictionary[stimulus.GetField("selfImage").str]; 
+        _otherImage.sprite = _spritesDictionary[stimulus.GetField("otherImage").str]; 
     }
 
     public void ShowRatingScale()
     {
-        
+        _affectiveInstructionsCanvasGroup.alpha = 0;
     }
 }
