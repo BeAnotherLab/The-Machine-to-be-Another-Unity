@@ -13,7 +13,9 @@ public class AffectiveTestManager : TestManager
     private JSONObject _results;
     private JSONObject _finalTrialsList;
 
-    private Dictionary<string, AudioClip> _audioClipsDictionary;        
+    private Dictionary<string, AudioClip> _audioClipsDictionary;
+
+    private bool _moveSlider;
     
     #endregion
 
@@ -40,8 +42,6 @@ public class AffectiveTestManager : TestManager
         _trials = new JSONObject(reader.ReadToEnd());
         reader.Close();
 
-        _finalTrialsList = new JSONObject();
-        
         _audioClipsDictionary = new Dictionary<string, AudioClip>();
         AudioClip[] clips = Resources.LoadAll<AudioClip>("AffectiveTaskAudioClips");
         foreach (AudioClip clip in clips) _audioClipsDictionary.Add(clip.name + ".jpg", clip);
@@ -53,6 +53,12 @@ public class AffectiveTestManager : TestManager
         {
             AffectiveTestInstructionsGUI.instance.Next();
         }
+
+        //TODO replace input with mouse
+        if (Input.GetKeyUp(KeyCode.UpArrow) && _moveSlider)
+            AffectiveTestInstructionsGUI.instance.ratingScaleSlider.value += 0.5f;
+        else if (Input.GetKeyUp(KeyCode.DownArrow) && _moveSlider)
+            AffectiveTestInstructionsGUI.instance.ratingScaleSlider.value -= 0.5f;
     }
 
     #endregion
@@ -104,23 +110,22 @@ public class AffectiveTestManager : TestManager
             AudioSource.PlayClipAtPoint(_audioClipsDictionary[_trials[_trialIndex].GetField("selfImage").str], transform.position);
         
         yield return new WaitForSeconds(4);
-        
+
+        _moveSlider = true;
         AffectiveTestInstructionsGUI.instance.ShowRatingScale(); //show rating scale    
         
         yield return new WaitForSeconds(6);
-        
-        //time out!
-    }
-    
-    private void WriteTestResults(string answer, double time)
-    {
-        _finalTrialsList[_trialIndex].AddField("answer", answer);
-        _finalTrialsList[_trialIndex].AddField("prepost", _prepost);
 
-        File.WriteAllText(_filePath, _finalTrialsList.Print());
+        _moveSlider = false;
+        _trials[_trialIndex].AddField("answer", AffectiveTestInstructionsGUI.instance.ratingScaleSlider.value);
+        _trials[_trialIndex].AddField("prepost", _prepost);
+
+        File.WriteAllText(_filePath, _trials.Print());
         _trialIndex++;
+        
+        if (_trialIndex < _trials.Count) StartCoroutine(ShowTrialCoroutine());
+        else FinishTest();
     }
 
-    
     #endregion
 }

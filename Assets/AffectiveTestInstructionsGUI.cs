@@ -14,6 +14,9 @@ public class AffectiveTestInstructionsGUI : MonoBehaviour
     [SerializeField] private Image _otherImage;
     [SerializeField] private CanvasGroup _affectiveInstructionsCanvasGroup;
     
+    public Slider ratingScaleSlider;
+    [SerializeField] private CanvasGroup _ratingScaleCanvasGroup;
+    
     private Dictionary<string, Sprite> _spritesDictionary;
     
     [SerializeField] private GameObject[] _slides;
@@ -55,6 +58,7 @@ public class AffectiveTestInstructionsGUI : MonoBehaviour
     public void ShowStimulus(JSONObject stimulus)
     {
         _affectiveInstructionsCanvasGroup.alpha = 1;
+        _ratingScaleCanvasGroup.alpha = 0;
         
         if (stimulus.GetField("perspective").str == "self")
         {
@@ -73,6 +77,8 @@ public class AffectiveTestInstructionsGUI : MonoBehaviour
 
     public void ShowRatingScale()
     {
+        ratingScaleSlider.value = 0;
         _affectiveInstructionsCanvasGroup.alpha = 0;
+        _ratingScaleCanvasGroup.alpha = 1;
     }
 }
