@@ -187,9 +187,9 @@ public class StatusManager : MonoBehaviour {
     {
         if (serialControlComputer) //if this computer is the one connected to the Arduino board
         {
-            OscManager.instance.SendSerialStatus(true);
             ArduinoManager.instance.InitialPositions();
         }
+        
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
         _readyForStandby = true;    
     }
