@@ -30,7 +30,8 @@ public class OscManager : MonoBehaviour {
     private OSCReceiver _oscReceiver;
     
     private bool _repeater;
-
+    private bool _serialStatusOKReceived;
+    
     #endregion
 
     #region MonoBehaviour Methods
@@ -54,6 +55,7 @@ public class OscManager : MonoBehaviour {
         _oscReceiver.Bind("/dimoff", ReceiveDimOff);
         _oscReceiver.Bind("/ht", ReceiveCalibrate);
         _oscReceiver.Bind("/serialStatus", ReceiveSerialStatus);
+        _oscReceiver.Bind("/serialConfirmation", ReceiveSerialStatusOK);
         for (int i = 0; i < 11; i++) _oscReceiver.Bind("/btn" + i.ToString(), ReceiveBtn);
 
         //set IP address of other 
@@ -123,14 +125,11 @@ public class OscManager : MonoBehaviour {
 
     public void SendSerialStatus(bool status)
     {
-        if (_repeater)
+        if(status) StartCoroutine(SendStatusUntilAnswer()); //when sending OK, we must wait for answer
+        else if (_repeater)
         {
             OSCMessage message = new OSCMessage("/serialStatus");
-
-            int i = 0;
-            if (status) i = 1;
-
-            message.AddValue(OSCValue.Int(i));
+            message.AddValue(OSCValue.Int(0));
             _oscTransmitter.Send(message);    
         }
     }
@@ -227,7 +226,24 @@ public class OscManager : MonoBehaviour {
             }
         }
     }
+
+    private void ReceiveSerialStatusOK(OSCMessage message)
+    {
+        _serialStatusOKReceived = true;
+        StatusManager.instance.SerialReady(true);
+    }
     
+    private IEnumerator SendStatusUntilAnswer()
+    {
+        Debug.Log("sending serial status");
+        OSCMessage message = new OSCMessage("/serialStatus");
+        message.AddValue(OSCValue.Int(0));
+        _oscTransmitter.Send(message);
+        
+        yield return new WaitForSeconds(1);
+
+        if (!_serialStatusOKReceived) StartCoroutine(SendStatusUntilAnswer());
+    }
     
     #endregion
 
