@@ -37,8 +37,9 @@ public class ArduinoManager : MonoBehaviour
     private void Awake()
     {
         if (instance == null) instance = this;
+        _serialControlOn = PlayerPrefs.GetInt("serialControlOn", 0) == 1;
     }
-
+    
     #endregion
 
 
@@ -58,9 +59,12 @@ public class ArduinoManager : MonoBehaviour
     
     public void ActivateSerial(bool servosOn, bool useCurtain)
     {
-        UduinoManager.Instance.OnDataReceived += DataReceived;
         if (servosOn) UduinoManager.Instance.BaudRate = 57600;
-        else if (_serialControlOn && useCurtain) UduinoManager.Instance.BaudRate = 9600; //if we are in Technorama and this computer is connected to the Arduino
+        else if (_serialControlOn && useCurtain){
+            UduinoManager.Instance.OnDataReceived += DataReceived;
+            UduinoManager.Instance.BaudRate = 9600; //if we are in Technorama and this computer is connected to the Arduino
+            _waitForSysReadyCoroutine = StartCoroutine(WaitForSerial());
+        }
         _servosOn = servosOn;
     }
 
@@ -75,7 +79,6 @@ public class ArduinoManager : MonoBehaviour
     {
      
     }
-
 
     public void SetPitch(float value)
     {
@@ -146,8 +149,8 @@ public class ArduinoManager : MonoBehaviour
         }
         else if (data == "lng_de") LocalizationManager.instance.LoadLocalizedText("LocalizedText_de.json");
         else if (data == "lng_fr") LocalizationManager.instance.LoadLocalizedText("LocalizedText_fr.json");
-        else if (data == "lng_it") LocalizationManager.instance.LoadLocalizedText("italian");
-        else if (data == "lng_en") LocalizationManager.instance.LoadLocalizedText("english");
+        else if (data == "lng_it") LocalizationManager.instance.LoadLocalizedText("LocalizedText_it.json");
+        else if (data == "lng_en") LocalizationManager.instance.LoadLocalizedText("LocalizedText_en.json");
     }
     
     private void WriteToArduino(string message) //send a command, trigger timeout routine
@@ -162,6 +165,12 @@ public class ArduinoManager : MonoBehaviour
         yield return new WaitForSeconds(_timeOut);
         if(!_commandOK) StatusManager.instance.SerialFailure();
     }
+
+    private IEnumerator WaitForSerial()
+    {
+        yield return new WaitForSeconds(5f);
+        StatusManager.instance.SerialFailure();
+    }    
     
     #endregion
 }

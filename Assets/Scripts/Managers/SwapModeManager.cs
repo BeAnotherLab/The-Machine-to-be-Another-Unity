@@ -40,7 +40,7 @@ public class SwapModeManager : MonoBehaviour
                 VideoFeed.instance.twoWayWap = true;
 
                 //enable status management, self, other, autoplay, autofinish, reset timer      
-                StatusManager.instance.StopExperience(true);
+                StatusManager.instance.Standby(true);
                 StatusManager.instance.SetAutoStartAndFinish(true, 0);
                 StatusManager.instance.statusManagementOn = true;
 
@@ -63,7 +63,7 @@ public class SwapModeManager : MonoBehaviour
                 VideoFeed.instance.twoWayWap = true;
 
                 //enable status management, self, other, remove autoplay, autofinish, reset timer               
-                StatusManager.instance.StopExperience(true);
+                StatusManager.instance.Standby(true);
                 StatusManager.instance.SetAutoStartAndFinish(false, 5);
                 StatusManager.instance.statusManagementOn = true;
 

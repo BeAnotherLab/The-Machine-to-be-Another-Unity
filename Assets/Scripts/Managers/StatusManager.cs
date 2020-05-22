@@ -26,11 +26,11 @@ public class StatusManager : MonoBehaviour {
 
     #region Private Fields
 
-    [SerializeField] private bool _autoStartAndFinishOn;
+    [SerializeField] private bool _autoStartAndFinishOn; //TODO check if can remove
     [SerializeField] private PlayableDirector _instructionsTimeline;
 
     private GameObject _mainCamera;
-    private bool _serialReady;
+    private bool _readyForStandby; //when we use serial, only go to standby if Arduino is ready.
     private GameObject _confirmationMenu;
     
     #endregion
@@ -147,7 +147,7 @@ public class StatusManager : MonoBehaviour {
         }
     }
 
-    public void StopExperience(bool start = false)
+    public void Standby(bool start = false)
     {
         if (!start) VideoFeed.instance.SetDimmed(true); //TODO somehow this messses with Video Feed dimming when called on Start?
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
@@ -158,7 +158,7 @@ public class StatusManager : MonoBehaviour {
         //reset user status as it is not ready
         EnableConfirmationGUI(true);
 
-        if (_serialReady) //TODO is check necessary? 
+        if (_readyForStandby) //TODO is check necessary? 
             ArduinoManager.instance.InitialPositions();
 
         InstructionsDisplay.instance.ShowWelcomeVideo();
@@ -188,13 +188,13 @@ public class StatusManager : MonoBehaviour {
         OscManager.instance.SendSerialStatus(true);
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
         ArduinoManager.instance.InitialPositions();
-        _serialReady = true;
+        _readyForStandby = true;
     }
 
     public void SelfRemovedHeadset()
     {
         _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
-        if (selfStatus == UserStatus.readyToStart) StopExperience(); //if we were ready and we took off the headset
+        if (selfStatus == UserStatus.readyToStart) Standby(); //if we were ready and we took off the headset
         if (selfStatus == UserStatus.headsetOn) InstructionsDisplay.instance.ShowWelcomeVideo(); //if we just had headset on
         selfStatus = UserStatus.headsetOff;
         OscManager.instance.SendThisUserStatus(selfStatus);
@@ -225,7 +225,7 @@ public class StatusManager : MonoBehaviour {
 
     private void StartPlaying()
     {
-        if (_serialReady)
+        if (_readyForStandby)
         {
             InstructionsTextBehavior.instance.ShowTextFromKey("instructions");
             _instructionsTimeline.Play();
@@ -242,7 +242,7 @@ public class StatusManager : MonoBehaviour {
     private IEnumerator WaitBeforeResetting()
     {
         yield return new WaitForSeconds(4f); //make sure this value is inferior or equal to the confirmation radial time to avoid bugs
-        StopExperience();
+        Standby();
     }
 
     #endregion
