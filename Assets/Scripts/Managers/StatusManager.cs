@@ -183,12 +183,15 @@ public class StatusManager : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    public void SerialReady()
+    public void SerialReady(bool serialControlComputer = false)
     {
-        OscManager.instance.SendSerialStatus(true);
+        if (serialControlComputer) //if this computer is the one connected to the Arduino board
+        {
+            OscManager.instance.SendSerialStatus(true);
+            ArduinoManager.instance.InitialPositions();
+        }
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
-        ArduinoManager.instance.InitialPositions();
-        _readyForStandby = true;
+        _readyForStandby = true;    
     }
 
     public void SelfRemovedHeadset()

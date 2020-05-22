@@ -139,7 +139,7 @@ public class ArduinoManager : MonoBehaviour
         if (data == "sys_rdy")
         {
             if(_waitForSysReadyCoroutine != null) StopCoroutine(_waitForSysReadyCoroutine);
-            StatusManager.instance.SerialReady();
+            StatusManager.instance.SerialReady(true);
         } 
         else if (data == "cmd_ok") _commandOK = true;
         else if (data == "TIMEOUT" || data == "MD_FAULT" || data == "MD_BLOCK")
