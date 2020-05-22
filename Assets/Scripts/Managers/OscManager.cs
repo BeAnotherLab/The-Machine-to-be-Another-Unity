@@ -222,12 +222,18 @@ public class OscManager : MonoBehaviour {
             if (message.ToInt(out x))
             {
                 if (x == 0) StatusManager.instance.SerialFailure();
-                else if (x == 1) StatusManager.instance.SerialReady();
+                else if (x == 1) //when we receive serial ready from computer connected to Arduino
+                {
+                    //confirm we've received the message
+                    OSCMessage oscMessage = new OSCMessage("/serialConfirmation");
+                    _oscTransmitter.Send(oscMessage);
+                    StatusManager.instance.SerialReady();
+                }
             }
         }
     }
 
-    private void ReceiveSerialStatusOK(OSCMessage message)
+    private void ReceiveSerialStatusOK(OSCMessage message) //the receiver computer acknowledges serial status OK
     {
         _serialStatusOKReceived = true;
         StatusManager.instance.SerialReady(true);
