@@ -126,7 +126,7 @@ public class OscManager : MonoBehaviour {
     public void SendSerialStatus(bool status)
     {
         if(status) StartCoroutine(SendStatusUntilAnswer()); //when sending OK, we must wait for answer
-        else if (_repeater)
+        else if (_repeater) //send not OK
         {
             OSCMessage message = new OSCMessage("/serialStatus");
             message.AddValue(OSCValue.Int(0));
@@ -237,7 +237,7 @@ public class OscManager : MonoBehaviour {
     {
         Debug.Log("sending serial status");
         OSCMessage message = new OSCMessage("/serialStatus");
-        message.AddValue(OSCValue.Int(0));
+        message.AddValue(OSCValue.Int(1));
         _oscTransmitter.Send(message);
         
         yield return new WaitForSeconds(1);
