@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class SparkStatusManager : StatusManager
 {
+    
+    #region Public Fields
+
+    public static StatusManager instance; 
+    
+    #endregion
+    
+    #region MonoBehaviour Methods
+
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         
     }
@@ -16,6 +25,9 @@ public class SparkStatusManager : StatusManager
         
     }
 
+    #endregion
+
+    #region Public Methods
 
     public void StartFreePhase()
     {
@@ -26,4 +38,11 @@ public class SparkStatusManager : StatusManager
     {
         
     }
+
+    #endregion
+    
+    #region Private Methods
+
+    #endregion
+
 }
