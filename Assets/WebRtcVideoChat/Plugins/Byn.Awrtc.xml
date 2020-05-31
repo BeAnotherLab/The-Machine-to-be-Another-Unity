@@ -1,0 +1,2272 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Byn.Awrtc</name>
+    </assembly>
+    <members>
+        <member name="T:Byn.Awrtc.Base.AWebRtcCall">
+            <summary>
+            Abstract base call class. Used for shared functionality between
+            all platforms.
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.Base.AWebRtcCall.mNetworkConfig">
+            <summary>
+            Used network configuration
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.Base.AWebRtcCall.mMediaConfig">
+            <summary>
+            Media configuration or null if no media is configured.
+            != null doesn't mean the configuration was accepted. 
+            </summary>
+        </member>
+        <member name="E:Byn.Awrtc.Base.AWebRtcCall.CallEvent">
+            <summary>
+            Event handler. All call events are delivered via this
+            event handler.
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.Base.AWebRtcCall.mNetwork">
+            <summary>
+            Local media network doing all the hard work.
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.Base.AWebRtcCall.mConferenceMode">
+            <summary>
+            True = conference mode without Call. Connecting all using Listen in
+            NxN full mesh
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.Base.AWebRtcCall.MESSAGE_TYPE_DATA">
+            <summary>
+            Suppose to removed again and replaced with separate data channels
+            Messages contains data
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.Base.AWebRtcCall.MESSAGE_TYPE_STRING">
+            <summary>
+            Suppose to removed again and replaced with separate data channels
+            Messages contains string
+            </summary>
+        </member>
+        <member name="T:Byn.Awrtc.Base.AWebRtcCall.CallState">
+            <summary>
+            State of the call. Mainly used to check for bugs / invalid states.
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.Base.AWebRtcCall.CallState.Invalid">
+            <summary>
+            Not yet initialized / bug
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.Base.AWebRtcCall.CallState.Initialized">
+            <summary>
+            Object is initialized but local media not yet configured
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.Base.AWebRtcCall.CallState.Configuring">
+            <summary>
+            In process of accessing the local media devices.
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.Base.AWebRtcCall.CallState.Configured">
+            <summary>
+            Configured. Video/Audio can be accessed and call is ready to start
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.Base.AWebRtcCall.CallState.RequestingAddress">
+            <summary>
+            In process of requesting an address from the server to then listen and wait for
+            an incoming call.
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.Base.AWebRtcCall.CallState.WaitingForIncomingCall">
+            <summary>
+            Call is listening on an address and waiting for an incoming call
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.Base.AWebRtcCall.CallState.WaitingForOutgoingCall">
+            <summary>
+            Call is in the process of connecting to another call object.
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.Base.AWebRtcCall.CallState.InCall">
+            <summary>
+            Indicating that the call object is at least connected to another object
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.Base.AWebRtcCall.CallState.Closed">
+            <summary>
+            Call ended / conference room closed
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.Base.AWebRtcCall.mIsDisposed">
+            <summary>
+            Set to true after Dispose called.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.Base.AWebRtcCall.IsDisposed">
+            <summary>
+            Will return true after Dispose is called.
+            Just for testing. Software should be designed to never need this.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.Base.AWebRtcCall.State">
+            <summary>
+            Mainly used for debugging.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.Base.AWebRtcCall.LocalFrameEvents">
+            <summary>
+            Set to true to block delivery of local frames to increase performance.
+            
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.Base.AWebRtcCall.mConnectionIds">
+            <summary>
+            Keeps track of all connected users
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.Base.AWebRtcCall.mPendingListenCall">
+            <summary>
+            Flags used to wait for a configuration complete event
+            before Listen or Call is called.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.#ctor(Byn.Awrtc.NetworkConfig)">
+            <summary>
+            Creates a new call using a given NetworkConfig object.
+            </summary>
+            <param name="config">
+            NetworkConfig deciding url of the signaling server + 
+            WebRTC ice servers.
+            </param>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.Initialize(Byn.Awrtc.IMediaNetwork)">
+            <summary>
+            Needs to be called by the subclass
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.Configure(Byn.Awrtc.MediaConfig)">
+            <summary>
+            Configures the camera/audio devices used for the call
+            </summary>
+            <param name="config"></param>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.Call(System.String)">
+            <summary>
+            Starts an outgoing call. Only supported in direct mode. Use Listen to connect in 
+            conference mode no matter if ingoing or outgoing.
+            </summary>
+            <param name="address"></param>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.Listen(System.String)">
+            <summary>
+            Listens to incoming calls on the given address.
+            </summary>
+            <param name="address"></param>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.Send(System.String)">
+            <summary>
+            Send a string to all connected systems.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.Send(System.String,System.Boolean)">
+            <summary>
+            Sends a text message to all connected peers.
+            </summary>
+            <param name="message">Any text message</param>
+            <param name="reliable">Set false for sending messages unreliably</param>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.Send(System.String,System.Boolean,Byn.Awrtc.ConnectionId)">
+            <summary>
+            Send a string to a specific receiver using a set channel.
+            </summary>
+            <param name="message"></param>
+            <param name="reliable"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.Send(System.Byte[],System.Boolean)">
+            <summary>
+            Sends data to all connections using a set channel
+            </summary>
+            <param name="data"></param>
+            <param name="reliable"></param>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.Send(System.Byte[],System.Boolean,Byn.Awrtc.ConnectionId)">
+            <summary>
+            Implements send method as defined in the interface
+            </summary>
+            <param name="data"></param>
+            <param name="reliable"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.Update">
+            <summary>
+            Updates the call. Should be called around 30 times per second to move data from
+            browser / native webrtc to this call object (and the used thread)
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.HandleMediaEvents">
+            <summary>
+            Called after HandleNetworkEvents and before Flush.
+            It will handle the video frames and subclasses can use it
+            to handle additional video or audio data.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.HandleNetworkEvent(Byn.Awrtc.NetworkEvent)">
+            <summary>
+            Method is called to handle the network events triggered by the internal media network and 
+            trigger related event handlers for the call object.
+            </summary>
+            <param name="evt"></param>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.TriggerCallEvent(Byn.Awrtc.CallEventArgs)">
+            <summary>
+            Will send out data to the user.
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.Dispose(System.Boolean)">
+            <summary>
+            Destroys the call.
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.Dispose">
+            <summary>
+            Destroys the call object and released underlaying resources.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.SetVolume(System.Double,Byn.Awrtc.ConnectionId)">
+            <summary>
+            Sets the volume
+            </summary>
+            <param name="volume"></param>
+            <param name="remoteUserId"></param>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.HasAudioTrack(Byn.Awrtc.ConnectionId)">
+            <summary>
+            True if the connection is sending an audio track
+            </summary>
+            <param name="remoteUserId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.HasVideoTrack(Byn.Awrtc.ConnectionId)">
+            <summary>
+            True if the connection is sending video
+            </summary>
+            <param name="remoteUserId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.IsMute">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.SetMute(System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="val"></param>
+        </member>
+        <member name="M:Byn.Awrtc.Base.AWebRtcCall.GetBufferedAmount(Byn.Awrtc.ConnectionId,System.Boolean)">
+            <summary>
+            Experimental. For testing only. Might be removed again
+            </summary>
+        </member>
+        <member name="T:Byn.Awrtc.ByteArrayBuffer">
+            <summary>
+            This class is used to wrap a byte[] of any size and use it as a fixed size buffer.
+            Main goal is to reuse byte[] objects multiple times as the automatic garbage collection
+            of byte[] can cause unity games to stall or reduce framerate.
+            
+            Watch out this class is being used to help with C# / C++ interaction and allow direct pointer
+            access to the byte[]. Changes can easily cause crashes or very difficult to debug memory errors
+            on different plaforms.
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.ByteArrayBuffer.sPool">
+            <summary>
+            Each index corresponds to a List with a different power of two.
+            The List can contain multiple buffers that can be reused
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.ByteArrayBuffer.LOG_GC_CALLS">
+            <summary>
+            Debugging flag only. 
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.ByteArrayBuffer.array">
+            <summary>
+            Array used by this buffer
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.ByteArrayBuffer.PositionWriteRelative">
+            <summary>
+            Used to keep track of the "end" position / length of the content in this buffer.
+            
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.ByteArrayBuffer.PositionWriteAbsolute">
+            <summary>
+            Length + Offset of the buffer
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.ByteArrayBuffer.PositionReadRelative">
+            <summary>
+            Keeps track of the current read position / length (relative to the offset)
+            
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.ByteArrayBuffer.PositionReadAbsolute">
+            <summary>
+            Index of the read position starting on array[0] not array[offset]
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.ByteArrayBuffer.Offset">
+            <summary>
+            Offset of the content in this buffer. Can be used to truncate leading bytes without having
+            to reallocate the whole byte array
+            (not yet used. Always 0. This might change if more optimization is needed
+            for some C# / C++ interaction)
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.ByteArrayBuffer.Buffer">
+            <summary>
+            Returns a reference to the internal buffer
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.ByteArrayBuffer.ContentLength">
+            <summary>
+            Length of the content in the buffer. 
+            Samme as PositionWriteRelative but used for MessageDataBuffer interface
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.ByteArrayBuffer.IsDisposed">
+            <summary>
+            Checks if the buffer was disposed. For debugging.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.ByteArrayBuffer.#ctor(System.Byte[])">
+            <summary>
+            Creates a byte buffer without using the global bool / without reusing an existing byte[]
+            </summary>
+            <param name="arr"></param>
+        </member>
+        <member name="M:Byn.Awrtc.ByteArrayBuffer.#ctor(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Creates a byte buffer without using the global bool / without reusing an existing byte[]
+            </summary>
+            <param name="arr"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:Byn.Awrtc.ByteArrayBuffer.Finalize">
+            <summary>
+            Used to catch inefficient code. Triggered if the buffer is garbage collected. 
+            It will send a warning if the user forgot to dispose the buffer properly.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.ByteArrayBuffer.CopyFrom(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Copies the data into the buffer. Offset and length are assumed to fit
+            </summary>
+            <param name="arr"></param>
+            <param name="srcOffset"></param>
+            <param name="len"></param>
+        </member>
+        <member name="M:Byn.Awrtc.ByteArrayBuffer.#cctor">
+            <summary>
+            Static constructor to initialize the buffers in the pool
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.ByteArrayBuffer.GetPower(System.UInt32)">
+            <summary>
+            trick to map the power of two to an index
+            </summary>
+            <param name="anyPowerOfTwo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.ByteArrayBuffer.NextPowerOfTwo(System.UInt32)">
+            <summary>
+            Next higher power of two
+            </summary>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.ByteArrayBuffer.Get(System.Int32,System.Boolean)">
+            <summary>
+            Allocates a new buffer. It won't use the exact size but often a larger one 
+            to be able to reuse it later efficiently.
+            Call Dispose after being done with the buffer
+            </summary>
+            <param name="size"></param>
+            <param name="enforceZeroOffset"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.ByteArrayBuffer.Dispose">
+            <summary>
+            Returns the buffer back to its pool if it was created via Get. 
+            </summary>
+        </member>
+        <member name="T:Byn.Awrtc.CallEventHandler">
+            <summary>
+            Delegate to receive call events
+            </summary>
+            <param name="sender">The call object sending the event</param>
+            <param name="args">event args</param>
+        </member>
+        <member name="T:Byn.Awrtc.CallEventType">
+            <summary>
+            Type of the event.
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.CallEventType.Invalid">
+            <summary>
+            Used if the event value wasn't initialized
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.CallEventType.WaitForIncomingCall">
+            <summary>
+            The call object is successfully connected to the server waiting for another user 
+            to connect.
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.CallEventType.CallAccepted">
+            <summary>
+            A call was accepted
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.CallEventType.CallEnded">
+            <summary>
+            The call ended
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.CallEventType.FrameUpdate">
+            <summary>
+            A new video frame arrived
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.CallEventType.Message">
+            <summary>
+            Text message arrived
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.CallEventType.ConnectionFailed">
+            <summary>
+            Connection failed. Might be due to an server, network error or the address didn't exist
+            Using ErrorEventArgs
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.CallEventType.ListeningFailed">
+            <summary>
+            Listening failed. Address might be in use or due to server/network error
+            Using ErrorEventArgs
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.CallEventType.ConfigurationComplete">
+            <summary>
+            Event triggered after the local media was successfully configured. 
+            If requested the call object will have access to the users camera and/or audio now and
+            the local camera frames can be received in events. 
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.CallEventType.ConfigurationFailed">
+            <summary>
+            Configuration failed. This happens if the configuration requested features
+            the system doesn't support e.g. no camera, camera doesn't support the requested resolution
+            or the user didn't allow the website to access the camera/microphone in WebGL mode.
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.CallEventType.DataMessage">
+            <summary>
+            Reliable or unreliable data msg arrived
+            </summary>
+        </member>
+        <member name="T:Byn.Awrtc.CallEventArgs">
+            <summary>
+            Base class of all call event args.
+            
+            A subclass might contain more information about the call.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.CallEventArgs.Type">
+            <summary>
+            Returns the CallEventType.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.CallEventArgs.#ctor(Byn.Awrtc.CallEventType)">
+            <summary>
+            Creates a new call event.
+            </summary>
+            <param name="type">Type of the event</param>
+        </member>
+        <member name="T:Byn.Awrtc.CallAcceptedEventArgs">
+            <summary>
+            Event notices the user that a new call was accepted. The property ConnectionId
+            can be used to distinguish messages / video frames of this particular user in 
+            conference calls.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.CallAcceptedEventArgs.ConnectionId">
+            <summary>
+            Id to identify the new connection in conference calls.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.CallAcceptedEventArgs.#ctor(Byn.Awrtc.ConnectionId)">
+            <summary>
+            Creates new events args for accepted calls.
+            </summary>
+            <param name="connectionId"></param>
+        </member>
+        <member name="T:Byn.Awrtc.CallEndedEventArgs">
+            <summary>
+            Another Call object ended the connection.
+            
+            Note that in conference call this event can occur multiple time for each connected user.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.CallEndedEventArgs.ConnectionId">
+            <summary>
+            Id to identify the new connection in conference calls.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.CallEndedEventArgs.#ctor(Byn.Awrtc.ConnectionId)">
+            <summary>
+            Creates new events args for accepted calls.
+            </summary>
+            <param name="connectionId"></param>
+        </member>
+        <member name="T:Byn.Awrtc.CallErrorType">
+            <summary>
+            Net yet implemented.
+            This enum will give detail information of why the error occurred to make it easier to handle it automatically.
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.CallErrorType.Unknown">
+            <summary>
+            Reason not known.
+            </summary>
+        </member>
+        <member name="T:Byn.Awrtc.ErrorEventArgs">
+            <summary>
+            Error events contain a error message and an error type to automatically handle the error.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.ErrorEventArgs.Info">
+            <summary>
+            Error information
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.ErrorEventArgs.#ctor(Byn.Awrtc.CallEventType,Byn.Awrtc.ErrorInfo)">
+            <summary>
+            Creates a new error event.
+            </summary>
+            <param name="eventType"></param>
+            <param name="errorType"></param>
+            <param name="errorMessage"></param>
+        </member>
+        <member name="T:Byn.Awrtc.WaitForIncomingCallEventArgs">
+            <summary>
+            Event notifies the call is waiting for incoming connections.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.WaitForIncomingCallEventArgs.Address">
+            <summary>
+            Address that other calls can use to connect.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.WaitForIncomingCallEventArgs.#ctor(System.String)">
+            <summary>
+            Creates a new WaitForIncomingCallEventArgs object.
+            </summary>
+            <param name="address">Address</param>
+        </member>
+        <member name="T:Byn.Awrtc.MessageEventArgs">
+            <summary>
+            Text message from other peer received.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MessageEventArgs.ConnectionId">
+            <summary>
+            Not yet fully supported. This will allow to distinguish multiple remote senders. 
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MessageEventArgs.Reliable">
+            <summary>
+            true for reliable channel, false for unreliable
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MessageEventArgs.Content">
+            <summary>
+            Content of the text message.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.MessageEventArgs.#ctor(Byn.Awrtc.ConnectionId,System.String,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="message"></param>
+            <param name="reliable"></param>
+        </member>
+        <member name="T:Byn.Awrtc.DataMessageEventArgs">
+            <summary>
+            Event for a received data message. Contains the sent byte[] and indication
+            if it was sent using the reliable or unreliable channel.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.DataMessageEventArgs.ConnectionId">
+            <summary>
+            Not yet fully supported. This will allow to distinguish multiple remote senders. 
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.DataMessageEventArgs.Content">
+            <summary>
+            Content of the text message.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.DataMessageEventArgs.Reliable">
+            <summary>
+            true for reliable channel, false for unreliable
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.DataMessageEventArgs.#ctor(Byn.Awrtc.ConnectionId,System.Byte[],System.Boolean)">
+            <summary>
+            Creates a new data message event
+            </summary>
+            <param name="id">connection id that sent the message</param>
+            <param name="data">content</param>
+            <param name="reliable">true for reliable channel, false for unreliable</param>
+        </member>
+        <member name="T:Byn.Awrtc.FrameUpdateEventArgs">
+            <summary>
+            New video frame received
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.FrameUpdateEventArgs.Format">
+            <summary>
+            Returns the format the image is encoded in.
+            Only 32bit Argb is supported currently.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.FrameUpdateEventArgs.ConnectionId">
+            <summary>
+            Not yet fully support. This will allow to distinguish multiple remote senders. 
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.FrameUpdateEventArgs.TrackId">
+            <summary>
+            Currently always 0! This will allow to distinguish between multiple video tracks
+            sent by the same source in the future.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.FrameUpdateEventArgs.IsRemote">
+            <summary>
+            False if the frame is from a local camera. True if it is received from a
+            via network.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.FrameUpdateEventArgs.Frame">
+            <summary>
+            Raw image data. Note that the byte array contained in RawFrame will be reused
+            for the next frames received. Only valid until the next call of ICall.Update
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.FrameUpdateEventArgs.#ctor(Byn.Awrtc.ConnectionId,Byn.Awrtc.IFrame)">
+            <summary>
+            Creates a new FrameUpdateEventArgs
+            </summary>
+            <param name="conId"></param>
+            <param name="frame"></param>
+        </member>
+        <member name="T:Byn.Awrtc.ConnectionId">
+            <summary>
+            Connection id identifies one specific endpoint in a IBaseNetwork.
+            
+            The id is only unique locally for a specific IBaseNetwork. The same connection
+            can have a different id on the other end point of the connection! 
+            
+            
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.ConnectionId.INVALID">
+            <summary>
+            Specific id that is used to represent an invalid id.
+            
+            Value might change to 0 in the future to make sure C# initializes empty id's to
+            invalid values.
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.ConnectionId.id">
+            <summary>
+            Stores the id as a short.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.ConnectionId.#ctor(System.Int16)">
+            <summary>
+            Creates a new id. Only for internal use.
+            </summary>
+            <param name="lId"></param>
+        </member>
+        <member name="M:Byn.Awrtc.ConnectionId.Equals(System.Object)">
+            <summary>
+            Checks if the ids are equal
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.ConnectionId.IsValid">
+            <summary>
+            Returns true if the id has a valid value.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.ConnectionId.GetHashCode">
+            <summary>
+            Forwarded to the same version in the short id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.ConnectionId.op_Equality(Byn.Awrtc.ConnectionId,Byn.Awrtc.ConnectionId)">
+            <summary>
+            Forwarded to the same version in the short id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.ConnectionId.op_Inequality(Byn.Awrtc.ConnectionId,Byn.Awrtc.ConnectionId)">
+            <summary>
+            Forwarded to the same version in the short id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.ConnectionId.op_LessThan(Byn.Awrtc.ConnectionId,Byn.Awrtc.ConnectionId)">
+            <summary>
+            Forwarded to the same version in the short id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.ConnectionId.op_GreaterThan(Byn.Awrtc.ConnectionId,Byn.Awrtc.ConnectionId)">
+            <summary>
+            Forwarded to the same version in the short id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.ConnectionId.op_LessThanOrEqual(Byn.Awrtc.ConnectionId,Byn.Awrtc.ConnectionId)">
+            <summary>
+            Forwarded to the same version in the short id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.ConnectionId.op_GreaterThanOrEqual(Byn.Awrtc.ConnectionId,Byn.Awrtc.ConnectionId)">
+            <summary>
+            Forwarded to the same version in the short id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.ConnectionId.ToString">
+            <summary>
+            Forwarded to the same version in the short id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Byn.Awrtc.DefaultValues">
+            <summary>
+            TODO: Will be removed soon.
+            Used to keep global configuration values in the past.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.DefaultValues.AuthenticateAsClientBugWorkaround">
+            <summary>
+            A work around for the unity.
+            Unity stalls sometimes during SslStream AuthenticateAsClient calls.
+            This workaround will attempt a call for 5 seconds and then kill the stream
+            if it gets stuck and retry with a higher timeout value. It usually works
+            after the first retry.
+            
+            The default is false as the work around might cause other problems on other
+            platforms.
+            </summary>
+        </member>
+        <member name="T:Byn.Awrtc.ErrorInfo">
+            <summary>
+            In development. Don't use yet this class will change!
+            
+            Later these errors get a proper ErrorInfo object with error codes. 
+            
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.ErrorInfo.SERVER_INIT_FAILED_ADDRESS_IN_USE">
+            <summary>
+            Address is used already
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.ErrorInfo.CONNECTION_FAILED_ADDRESS_UNKNOWN">
+            <summary>
+            Address not in use
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.ErrorInfo.SERVER_INIT_FAILED_REQURED_CONNECTION_OFFLINE">
+            <summary>
+            Websocket failed / signaling failed
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.ErrorInfo.CONNECTION_FAILED_REQURED_CONNECTION_OFFLINE">
+            <summary>
+            Websocket failed / signaling failed
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.ErrorInfo.DISCONNECTED_REQURED_CONNECTION_OFFLINE">
+            <summary>
+            Websocket failed / signaling failed
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.ErrorInfo.SERVER_CLOSED_REQURED_CONNECTION_OFFLINE">
+            <summary>
+            Server was online but the connection got shut down due to external reasons e.g. timeout, disconnect
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.ErrorInfo.CONNECTION_FAILED_TO_CONNECT_DIRECTLY">
+            <summary>
+            This is almost always firewall related but could also happen if the server just went offline in the moment we tried to connect
+            Could in theory also be caused due to incompatible WebRTC versions
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.ErrorInfo.INCOMING_CONNECTION_FAILED_TO_CONNECT_DIRECTLY">
+            <summary>
+            Incoming direct connection failed. Firewall or the user simply stopped the connection before it happened.
+            Could in theory also be caused due to incompatible WebRTC versions
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.ErrorInfo.DISCONNECTED_DUE_TO_TIMEOUT">
+            <summary>
+            Not yet used. To recognzie the difference between a normal disconnect and a timeout / interruption.
+            This might not be possible to support yet
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.ErrorInfo.CONFIGURATION_FAILED">
+            <summary>
+            Place holder for a subset of errors that aren't returned from WebRTC yet. 
+            Possible errors:
+            * video device name requested doesn't exists
+            * min / max width values are too rigid that all devices were ecluded
+            * no video device at all (this still continues without error)
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.ErrorInfo.ErrorMessage">
+            <summary>
+            Returns a detailed error message for debugging purposes. Not ment to be shown to the end user
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.ErrorInfo.#ctor(System.String)">
+            <summary>
+            Creates a new error info object with the given string. 
+            Will be replaced later by error codes + custom debug message.
+            </summary>
+            <param name="error"></param>
+        </member>
+        <member name="M:Byn.Awrtc.ErrorInfo.ToString">
+            <summary>
+            Returns complete error information for debugging. Not ment to be shown to the end user.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Byn.Awrtc.INetwork">
+            <summary>
+            Interface to a network that doesn't enforce storing any states.
+            
+            Anything more is reusable between multiple different networks.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.INetwork.Dequeue(Byn.Awrtc.NetworkEvent@)">
+            <summary>
+            This will return the incoming network events. Call this method and handle the incoming events until it returns false.
+            </summary>
+            <param name="evt"></param>
+            <returns>Returns true if the parameter evt contains a new event. False if there are no events to process left.</returns>
+        </member>
+        <member name="M:Byn.Awrtc.INetwork.Peek(Byn.Awrtc.NetworkEvent@)">
+            <summary>
+            Will return the first event in the queue without removing it.
+            </summary>
+            <param name="evt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.INetwork.Flush">
+            <summary>
+            Sends buffered data.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.INetwork.SendData(Byn.Awrtc.ConnectionId,System.Byte[],System.Int32,System.Int32,System.Boolean)">
+             <summary>
+             Sends the content of a byte array to the given connection. 
+             </summary>
+             <param name="id">The id of the recipient</param>
+             <param name="data">Byte array containing the data to send</param>
+             <param name="offset">The index in data where the network should start to send</param>
+             <param name="length">Length in bytes you want to send</param>
+             <param name="reliable">True to send a reliable message(TCP style) and false to send unreliable (UDP style)</param>
+             <returns>
+             Returns false if:
+             * The id is invalid (should never happen unless you have a bug in your code)
+             * the the connection is disconnected (you will also get an event via Dequeue to handle it)
+             * The internal buffer is full to buffer more send calls. You can avoid this from happening by using
+             your own congestion control or by using IWebRtcNetwork.GetBufferedAmount to ensure it doesn't grow too high. 
+             You can also just wait until SendData returns false and then retry sending later to give the network some
+             time to send out the buffered data.
+            </returns>
+        </member>
+        <member name="M:Byn.Awrtc.INetwork.Disconnect(Byn.Awrtc.ConnectionId)">
+            <summary>
+            Disconnects the given connection
+            </summary>
+            <param name="id">Id of the connection to disconnect.</param>
+        </member>
+        <member name="M:Byn.Awrtc.INetwork.Shutdown">
+            <summary>
+            Disconnects all connection and shuts down the server if started.
+            Dequeue will still return the confirmation messages such as Disconnected event for each connection.
+            
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.INetwork.Update">
+            <summary>
+            Call this every frame if you intend to read incoming messages using Dequeue. This will make
+            sure all data is read received by the network.
+            </summary>
+        </member>
+        <member name="T:Byn.Awrtc.IBasicNetwork">
+            <summary>
+            Used to represent a network interface that can allow incoming connections or connect to another network.
+            
+            Address can be any kind of string. This could be a ip address and port, websockets or an key in a dictionary
+            on a server to get the exact connection details from somewhere else.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.IBasicNetwork.StartServer(System.String)">
+            <summary>
+            Starts a server + asking for it to have a certain address.
+            The use of the address is not guaranteed. If the address is in
+            use the underlying system will return ServerConnectionFailed.
+            (This can also be triggered if anything else fails in the process)
+            </summary>
+            <param name="address"></param>
+        </member>
+        <member name="M:Byn.Awrtc.IBasicNetwork.StopServer">
+            <summary>
+            Stops incoming connections. This usually doesn't close existing connections thus can be used
+            to enforce a certain amount of maximum allowed connections.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.IBasicNetwork.Connect(System.String)">
+            <summary>
+            Connects to a given address or room name.
+            
+            This call will result in one of those 2 events in response:
+            * NewConnection if the connection was established
+            * ConnectionFailed if the connection failed.
+            
+            
+            </summary>
+            <param name="address">A string that identifies the target.</param>
+            <returns>Returns the Connection id the established connection will have (only supported by WebRtcNetwork).</returns>
+        </member>
+        <member name="T:Byn.Awrtc.IWebRtcNetwork">
+            <summary>
+            This will allow more detailed access to webrtc for different platforms. Not yet implemented.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.IWebRtcNetwork.GetBufferedAmount(Byn.Awrtc.ConnectionId,System.Boolean)">
+            <summary>
+            Still experimental.
+            Only supported for Native platforms so far.
+            </summary>
+            <param name="id"></param>
+            <param name="reliable"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Byn.Awrtc.ICall">
+            <summary>
+            Main interface for platform independent video calls.
+            
+            Usage of this interface usually follows a specific pattern:
+            1. Create a platform specific instance via a factory with a specific
+            NetworkConfig
+            2. Register an event handler at CallEvent
+            3. Call configure with your own MediaConfig instance defining what
+            features you need. 
+            4. Wait for a ConfigurationComplete (or failed) event. During this
+            time the platform might ask the user the allow access to the devices.
+            5. Either call Listen with an address to wait for an incoming connection
+            or use Call to connect another ICall that already listens on that address.
+            6. Wait for CallAccepted and other events
+            
+            Do not forget to call Dispose method after you finished the call or the connection
+            might run forever in the background!
+            </summary>
+        </member>
+        <member name="E:Byn.Awrtc.ICall.CallEvent">
+            <summary>
+            Event handler. Returns all events from new accepted calls to frame updates of the local and remote
+            camera.
+            
+            All events will be triggered during call of the Update method (see below) to avoid multi threading issues.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.ICall.Configure(Byn.Awrtc.MediaConfig)">
+            <summary>
+            Sets the media configuration. Currently, you can call this only once during the life time
+            of the Call object!
+            
+            You need to call this before Listen or Call is used.
+            </summary>
+            <param name="config"></param>
+        </member>
+        <member name="M:Byn.Awrtc.ICall.Listen(System.String)">
+            <summary>
+            Listens on a given address (any string shorter than 256 characters).
+            
+            The event handler will return WaitForIncomingCall once incoming calls can be
+            received and ListeningFailed if an error occurred.
+            
+            In conference mode multiple calls listening on the same address will be
+            connected.
+            
+            </summary>
+            <param name="address">Any string. Max 256 characters.</param>
+        </member>
+        <member name="M:Byn.Awrtc.ICall.Call(System.String)">
+            <summary>
+            Will try to connect to an address of another Call object (which called Listen).
+            Don't use in conference mode!
+            </summary>
+            <param name="address">Any string. Max 256 characters.</param>
+        </member>
+        <member name="M:Byn.Awrtc.ICall.Send(System.String)">
+            <summary>
+            Sends a text message to the connected users.
+            Messages will be sent reliably
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Byn.Awrtc.ICall.Send(System.String,System.Boolean)">
+            <summary>
+            Same as Send(string message) but allows
+            to send unreliable as well.
+            </summary>
+            <param name="message"></param>
+            <param name="reliable"></param>
+        </member>
+        <member name="M:Byn.Awrtc.ICall.Send(System.String,System.Boolean,Byn.Awrtc.ConnectionId)">
+            <summary>
+            Allows to set a specific user to send the message to.
+            
+            </summary>
+            <param name="message">
+            Any string message. Keep below 8000 characters.
+            </param>
+            <param name="reliable">
+            true for TCP style connections, false for UDP style (messages
+            might not be delivered)
+            </param>
+            <param name="id">
+            The ConnectionId to send the message two. 
+            </param>
+            <returns>
+            Returns false if the message could be sent either because the
+            ConnectionId isn't valid, user disconnected or the internal buffer
+            is full. Try to resend the message after a while.
+            </returns>
+        </member>
+        <member name="M:Byn.Awrtc.ICall.Send(System.Byte[],System.Boolean)">
+            <summary>
+            Added in 0.981. For testing only so far.
+            Allows sending of arbitrary data either reliable or unreliable.
+            
+            Use this method only to send short messages to avoid blocking the
+            internal data streams. This limit is not enforced internally.
+            Feel free to experiment.
+            </summary>
+            <param name="data"></param>
+            <param name="reliable">true to use the TCP style channel, false for UDP style</param>
+        </member>
+        <member name="M:Byn.Awrtc.ICall.Send(System.Byte[],System.Boolean,Byn.Awrtc.ConnectionId)">
+            <summary>
+            Added in 0.981. For testing only so far.
+            Allows sending of arbitrary data either reliable or unreliable.
+            
+            Use this method only to send short messages to avoid blocking the
+            internal data streams. This limit is not enforced internally.
+            Feel free to experiment.
+            </summary>
+            <param name="data"></param>
+            <param name="reliable">true to use the TCP style channel, false for UDP style</param>
+            <param name="id">User to send the message to</param>
+            <returns>
+            Returns false if the message could be sent either because the
+            ConnectionId isn't valid, user disconnected or the internal buffer
+            is full. Try to resend the message after a while.
+            </returns>
+        </member>
+        <member name="M:Byn.Awrtc.ICall.Update">
+            <summary>
+            Call this to update the internal state of this object and trigger the events. You should do this 
+            around 30-60 times per second.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.ICall.SetVolume(System.Double,Byn.Awrtc.ConnectionId)">
+            <summary>
+            Sets a volume for the replay of a remote connections audio stream.
+            </summary>
+            <param name="volume"> 1 = normal volume, 0 = mute, everything above 1 might increase volume but reduce quality</param>
+            <param name="remoteUserId">Id of the remote connection. </param>
+        </member>
+        <member name="P:Byn.Awrtc.ICall.LocalFrameEvents">
+            <summary>
+            If this property is set to true the call object will
+            return an Event of type FrameUpdateEventArgs each time the local
+            video device created a new frame.
+            Set this to false if you don't want to show the local user image
+            or there is an alternative way to showing the frame.
+            
+            Setting this value to false will increase performance and reduce 
+            needed memory as it avoids unnecessary image copies / processing.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.ICall.HasAudioTrack(Byn.Awrtc.ConnectionId)">
+            <summary>
+            Checks if the connection with the given id has a media stream with an audio track
+            attached.
+            </summary>
+            <returns>True if at least one audio track is attached. False if no audio track or no media stream</returns>
+        </member>
+        <member name="M:Byn.Awrtc.ICall.HasVideoTrack(Byn.Awrtc.ConnectionId)">
+            <summary>
+            Checks if the connection with the given id has a media stream with an video track
+            attached.
+            </summary>
+            <returns>True if at least one video track is attached. False if no video track or no media stream</returns>
+        </member>
+        <member name="M:Byn.Awrtc.ICall.IsMute">
+            <summary>
+            Checks if the local audio track (local microphone) is muted.
+            True means it is muted.
+            False means it isn't muted (via this system). This doesn't mean the microphone is actually
+            sending. It still can be muted within the OS or via the physicial device.
+            </summary>
+            <returns>
+            true - muted
+            false - not muted
+            </returns>
+        </member>
+        <member name="M:Byn.Awrtc.ICall.SetMute(System.Boolean)">
+            <summary>
+            Allows to mute the local audio track (local microphone)
+            
+            True = mute
+            False = send the microphone data if available
+            </summary>
+            <param name="val">
+            true - set to mute
+            false - not muted
+            </param>
+        </member>
+        <member name="T:Byn.Awrtc.IAwrtcFactory">
+            <summary>
+            Factory to create new Call objects. 
+            
+            See platform dependent documentation to find out how to get
+            a reference to the ICallFactory.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.IAwrtcFactory.CreateCall(Byn.Awrtc.NetworkConfig)">
+            <summary>
+            Creates a new call object. Optional with a custom network configuration.
+            
+            Do not forget to call Dispose after you finished the call or the connection
+            might run forever in the background!
+            </summary>
+            <param name="config"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.IAwrtcFactory.CreateCall(Byn.Awrtc.NetworkConfig,Byn.Awrtc.IBasicNetwork)">
+            <summary>
+            Experimental.
+            Creates a new call using the given IBasicNetork interface for signaling.
+            </summary>
+            <param name="config"></param>
+            <param name="signalingNetwork"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.IAwrtcFactory.CreateMediaNetwork(Byn.Awrtc.NetworkConfig)">
+            <summary>
+            Creates a IMediaNetwork using the given network configuration
+            </summary>
+            <param name="config"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.IAwrtcFactory.CreateBasicNetwork(System.String,Byn.Awrtc.IceServer[])">
+            <summary>
+            Creates a IBasicNetwork. The implementation details depend on the platform being used.
+            </summary>
+            <param name="websocketUrl">Url used for signaling. Most start with ws or wss.</param>
+            <param name="urls">Ice Server configuration for webrtc </param>
+            <returns>Returns the created object or null if it fails (usually means platform not supported)</returns>
+        </member>
+        <member name="M:Byn.Awrtc.IAwrtcFactory.GetVideoDevices">
+            <summary>
+            Returns an array of video devices. This list might be empty if no device is found
+            or choice of devices is not supported on the platform.
+            </summary>
+            <returns>A list of video devices or null if choice of video devices isn't supported by
+            the current platform.</returns>
+        </member>
+        <member name="M:Byn.Awrtc.IAwrtcFactory.CanSelectVideoDevice">
+            <summary>
+            Returns true if the video devices can be selected.
+            False if there is no access (browser).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Byn.Awrtc.IceServer">
+            <summary>
+            Represents an ice server entry
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.IceServer.Urls">
+            <summary>
+            Returns a copy of the given urls
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.IceServer.Username">
+            <summary>
+            Returns the username
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.IceServer.Credential">
+            <summary>
+            Returns the credential / password
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.IceServer.#ctor(System.Collections.Generic.List{System.String},System.String,System.String)">
+            <summary>
+            Creates an ice server entry with the given urls, username and credential (password, tokens might be supported later)
+            </summary>
+            <param name="lUrls"></param>
+            <param name="lUsername"></param>
+            <param name="lCredential"></param>
+        </member>
+        <member name="M:Byn.Awrtc.IceServer.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Creates an ice server entry with the given url, username and credential (password, tokens might be supported later)
+            </summary>
+            <param name="lUrl"></param>
+            <param name="lUsername"></param>
+            <param name="lCredential"></param>
+        </member>
+        <member name="M:Byn.Awrtc.IceServer.ToString">
+            <summary>
+            Returns all IceServer properties as a string for debugging.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Byn.Awrtc.MediaConfigurationState">
+            <summary>
+            Used to identify the state of the local media
+            configuration
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.MediaConfigurationState.Invalid">
+            <summary>
+            Invalid / not initialized. 
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.MediaConfigurationState.NoConfiguration">
+            <summary>
+            Not yet configured
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.MediaConfigurationState.InProgress">
+            <summary>
+            Configuration process running.
+            In browser mode this state is active while the user sees a window to 
+            allow access / choose video and audio device
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.MediaConfigurationState.Successful">
+            <summary>
+            Configuration process finished and local video/audio can be received and sent across network
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.MediaConfigurationState.Failed">
+            <summary>
+            User denied access or video/audio device missing or did not satisfy the requirements set
+            by MediaConfig
+            </summary>
+        </member>
+        <member name="T:Byn.Awrtc.IMediaNetwork">
+            <summary>
+            WebRtc network that allows access to video / audio functionality.
+            
+            This interface will change a lot in the future. Avoid using this directly and
+            use ICall whenever possible.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.IMediaNetwork.Configure(Byn.Awrtc.MediaConfig)">
+            <summary>
+            Configures the local media stream allowing to
+            activate the local camera and microphone.
+            </summary>
+            <param name="config"></param>
+        </member>
+        <member name="M:Byn.Awrtc.IMediaNetwork.GetConfigurationState">
+            <summary>
+            Returns the current state of the configuration process
+            </summary>
+            <returns>Current value of MediaConfigurationState</returns>
+        </member>
+        <member name="M:Byn.Awrtc.IMediaNetwork.GetConfigurationError">
+            <summary>
+            Returns an error in case the configuration state is failed.
+            (note this is not fully implemented)
+            </summary>
+            <returns>
+            Text returned by native webrtc or the  browser (not yet implemented.
+            Will reference to the browsers log for error information)
+            </returns>
+        </member>
+        <member name="M:Byn.Awrtc.IMediaNetwork.ResetConfiguration">
+            <summary>
+            Resets the configuration back to NoConfiguration. Can only be used during
+            Failed state.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.IMediaNetwork.TryGetFrame(Byn.Awrtc.ConnectionId)">
+            <summary>
+            Returns a RawFrame. This is a direct reference used internally and should
+            not be accessed after the next Update call.
+            </summary>
+            <param name="id">
+            ConnectionId of the user to get the frame information or INVALID for the local frame.
+            </param>
+            <returns>Returns a RawFrame containing an image or null if non available</returns>
+        </member>
+        <member name="M:Byn.Awrtc.IMediaNetwork.SetVolume(System.Double,Byn.Awrtc.ConnectionId)">
+            <summary>
+            Sets a volume for the replay of a remote connections audio stream.
+            </summary>
+            <param name="volume"> 1 = normal volume, 0 = mute.
+            The native version supports values above 1 (up to 10). For the browser version 1 is the maximum value.
+            </param>
+            <param name="remoteUserId">Id of the remote connection. </param>
+        </member>
+        <member name="M:Byn.Awrtc.IMediaNetwork.HasAudioTrack(Byn.Awrtc.ConnectionId)">
+            <summary>
+            Checks if the connection with the given id has a media stream with an audio track
+            attached.
+            </summary>
+            <returns>True if at least one audio track is attached. False if no audio track or no media stream</returns>
+        </member>
+        <member name="M:Byn.Awrtc.IMediaNetwork.HasVideoTrack(Byn.Awrtc.ConnectionId)">
+            <summary>
+            Checks if the connection with the given id has a media stream with an video track
+            attached.
+            </summary>
+            <returns>True if at least one video track is attached. False if no video track or no media stream</returns>
+        </member>
+        <member name="M:Byn.Awrtc.IMediaNetwork.IsMute">
+            <summary>
+            Checks if the microphone is muted.
+            True means it is muted.
+            False means it isn't muted (via this system). This doesn't mean the microphone is actually
+            sending. It still can be muted within the OS or via the physicial device.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.IMediaNetwork.SetMute(System.Boolean)">
+            <summary>
+            Allows to mute the microphone.
+            True = mute
+            False = send the microphone data if available
+            </summary>
+            <param name="val"></param>
+        </member>
+        <member name="T:Byn.Awrtc.LocalNetwork">
+            <summary>
+            LocalNetwork. Simulate the IBasicNetwork locally in a single applicaiton.
+            
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.LocalNetwork.Connections">
+            <summary>
+            Current list of used connection ids
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.LocalNetwork.IsServer">
+            <summary>
+            True if accepting incoming connections
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.LocalNetwork.#ctor">
+            <summary>
+            Creates a new local network
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.LocalNetwork.StartServer(System.String)">
+            <summary>
+            Starts a server to allow incoming connections
+            </summary>
+            <param name="serverAddress"></param>
+        </member>
+        <member name="M:Byn.Awrtc.LocalNetwork.StopServer">
+            <summary>
+            Stops allowing incoming connections
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.LocalNetwork.Connect(System.String)">
+            <summary>
+            Connects to another address
+            </summary>
+            <param name="address"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.LocalNetwork.Shutdown">
+            <summary>
+            Disconnects all, StopsServer
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.LocalNetwork.SendData(Byn.Awrtc.ConnectionId,System.Byte[],System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="userId"></param>
+            <param name="data"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <param name="reliable"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.LocalNetwork.Update">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.LocalNetwork.Dequeue(Byn.Awrtc.NetworkEvent@)">
+            <summary>
+            Returns the next buffered network event
+            </summary>
+            <param name="evt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.LocalNetwork.Peek(Byn.Awrtc.NetworkEvent@)">
+            <summary>
+            Gets the next network event if there is any
+            </summary>
+            <param name="evt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.LocalNetwork.Flush">
+            <summary>
+            Flushes buffers (not used)
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.LocalNetwork.Disconnect(Byn.Awrtc.ConnectionId)">
+            <summary>
+            Disconnects a peer
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:Byn.Awrtc.LocalNetwork.Dispose(System.Boolean)">
+            <summary>
+            Called during disposing
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="M:Byn.Awrtc.LocalNetwork.Dispose">
+            <summary>
+            Disposable pattern.
+            Will disconnect everything and destroy this object. 
+            </summary>
+        </member>
+        <member name="T:Byn.Awrtc.MediaConfig">
+            <summary>
+            Configuration for the WebRtcCall class.
+            
+            Allows to turn on / off video and audio + configures the used servers to initialize the connection and
+            avoid firewalls.
+            
+            Note that the min/max and ideal Width/Height values are suggestions to WebRTC and the reaction to these 
+            values are not well defined. Always be prepared to get a different resolution or no video data at all!
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MediaConfig.Audio">
+            <summary>
+            Set true to allow sending video to the other connection(s)
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MediaConfig.Video">
+            <summary>
+            Set true to allow sending video to the other connection(s).
+            
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MediaConfig.VideoDeviceName">
+            <summary>
+            Name of the video device or null to automatically choose any device.
+            Will be ignored in the browser as the user needs to configure the browser
+            itself to set a certain video device.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MediaConfig.MinWidth">
+            <summary>
+            Sets the absolute minimum width usable. Everything below this
+            resolution leads to an error during the configuration process.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MediaConfig.MinHeight">
+            <summary>
+            Sets the absolute minimum height usable. Everything below this
+            resolution leads to an error during the configuration process.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MediaConfig.MaxWidth">
+            <summary>
+            Sets the absolute maximum width usable. Everything above this
+            resolution leads to an error during the configuration process.
+            
+            Note that a too high value here can reduce the performance extremely if a user
+            has a high res webcam but a weak CPU.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MediaConfig.MaxHeight">
+            <summary>
+            Sets the absolute maximum height usable. Everything above this
+            resolution leads to an error during the configuration process.
+            
+            Note that a too high value here can reduce the performance extremely if a user
+            has a high res webcam but a weak CPU.
+            
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MediaConfig.IdealWidth">
+            <summary>
+            Ideal width. The closest value width is used if the camera has multiple possible
+            configurations that are within max and min width.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MediaConfig.IdealHeight">
+            <summary>
+            Ideal height. The closest value height is used if the camera has multiple possible
+            configurations that are within max and min width.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MediaConfig.IdealFrameRate">
+            <summary>
+            WebRTC will chose the device configuration which has the FPS closest to the given
+            value for IdealFrameRate.
+            (IdealWidth, IdealHeight has priority though.)
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MediaConfig.MinFrameRate">
+            <summary>
+            WebRTC will only consider device configurations that have at least
+            the given frame rate.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MediaConfig.MaxFrameRate">
+            <summary>
+            WebRTC will only consider device configurations that have
+            a frame rate below the given value.
+            
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MediaConfig.Format">
+            <summary>
+            This will support multiple formats in the future. So far only 
+            FramePixelFormat.ABGR is supported due to browser compatibility.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.MediaConfig.#ctor">
+            <summary>
+            Default configuration. Can be used directly.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.MediaConfig.#ctor(Byn.Awrtc.MediaConfig)">
+            <summary>
+            Copy constructor used to clone objects of MediaConfig and its 
+            subclasses.
+            </summary>
+            <param name="other"></param>
+        </member>
+        <member name="M:Byn.Awrtc.MediaConfig.DeepClone">
+            <summary>
+            Creates a clone by copying the content of all members.
+            </summary>
+            <returns>Cloned object</returns>
+        </member>
+        <member name="M:Byn.Awrtc.MediaConfig.ToString">
+            <summary>
+            Returns a string listing all values
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Byn.Awrtc.MessageDataBuffer">
+             <summary>
+             
+             This interface is used to return binary message data.
+            
+             Use MessageDataBuffer.Buffer only to read data between
+             the index Offset and Offset + MessageDataBuffer.ContentLength.
+             
+             After reading use Dispose to allow the network to
+             reuse this buffer and spare the Garbage Collector
+             the work.
+             
+             Make sure not to keep any references to
+             MessageDataBuffer.Buffer after calling Dispose!
+             If you need to store the byte array create a copy
+             of the content before using Dispose.
+             </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MessageDataBuffer.Buffer">
+            <summary>
+            Returns the buffer that contains the message data.
+            Don't use Buffer.Length! The buffer might be longer than the actually message.
+            use ContentLength to get the length of the content
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MessageDataBuffer.Offset">
+            <summary>
+            Offset of the content.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.MessageDataBuffer.ContentLength">
+            <summary>
+            Returns the length of the buffers content.
+            The byte array might be longer than the actual content!
+            Always use this property not Buffer.Length !!!
+            </summary>
+        </member>
+        <member name="T:Byn.Awrtc.MessageDataBufferExt">
+            <summary>
+            Helper to add convinience methods to MessageDataBuffer interface
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.MessageDataBufferExt.AsStringUnicode(Byn.Awrtc.MessageDataBuffer)">
+            <summary>
+            Reads the buffer as unicode string
+            </summary>
+            <param name="buffer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.MessageDataBufferExt.Copy(Byn.Awrtc.MessageDataBuffer)">
+            <summary>
+            Creates a copy of the buffer content
+            </summary>
+            <param name="buffer"></param>
+            <returns>A newly allocated byte[] with the exact length and data of the content</returns>
+        </member>
+        <member name="T:Byn.Awrtc.NetworkConfig">
+            <summary>
+            Contains information about how to setup webrtc.
+            SignalingUrl must be set otherwise connections won't be possible.
+            You should also at least add a single stun server to IceServers if you
+            want to be able to connect to devices outside your local LAN / WIFI.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.NetworkConfig.IceServers">
+            <summary>
+            New place to setup stun and turn servers. Unlike the old version it allows to set
+            username and password for secure connections.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.NetworkConfig.SignalingUrl">
+            <summary>
+            Server used to find the other peer based on a given string. 
+            
+            Leave empty to use a default server (development only!).
+            
+            Setting this value to null will turn on the test mode! Instead of using a 
+            signaling server the network will be simulated locally (program wide only)
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.NetworkConfig.AllowRenegotiation">
+            <summary>
+            NOTE: TESTING ONLY! NOT YET SUPPORTED ON BROWSER VERSION! MIGHT BE BUGGY STILL!
+            Default: false
+            
+            Setting this value to true will keep the connection to the signaling server active after a direct connection
+            was established.
+            Set this to true if you want to be able to change the media stream configuration without reconnecting e.g.
+            turning video on / off without restarting the connection.
+            
+            Set to false if to keep the use of the signaling server to a minimum. 
+            
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.NetworkConfig.IsConference">
+            <summary>
+            Set true to set the call object to conference mode.
+            Everyone listening to the same address will be connected.
+            Don't use if not necessary as it will allow any user to connect during the call any time.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.NetworkConfig.ToString">
+            <summary>
+            Converts the NetworkConfig into a string used for debugging.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Byn.Awrtc.NetEventType">
+            <summary>
+            Type of the received network event.
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.NetEventType.Invalid">
+            <summary>
+            Should never happen. Indicades an error / failed to initialize properly
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.NetEventType.UnreliableMessageReceived">
+            <summary>
+            Used for UDP style messages
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.NetEventType.ReliableMessageReceived">
+            <summary>
+            Used for TCP style messages
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.NetEventType.ServerInitialized">
+            <summary>
+            confirmation that the server was started. other people will be able to connect
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.NetEventType.ServerInitFailed">
+            <summary>
+            server couldn't be started
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.NetEventType.ServerClosed">
+            <summary>
+            server was closed. no new incoming connections
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.NetEventType.NewConnection">
+            <summary>
+            
+            new incoming or outgoing connection established
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.NetEventType.ConnectionFailed">
+            <summary>
+            outgoing connection failed
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.NetEventType.Disconnected">
+            <summary>
+            a connection was disconnected
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.NetEventType.FatalError">
+            <summary>
+            not yet used. Is suppose to be used for errors
+            that indicate the system that returned it stopped working.
+            (e.g. buffer overflow)
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.NetEventType.Warning">
+            <summary>
+            not yet used
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.NetEventType.Log">
+             <summary>
+            not yet used
+             </summary>
+        </member>
+        <member name="F:Byn.Awrtc.NetEventType.ReservedStart">
+            <summary>
+            This value and higher are reserved for other uses. 
+            Should never get to the user and should be filtered out.
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.NetEventType.MetaVersion">
+            <summary>
+            Reserved.
+            Used by protocols that forward NetworkEvents
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.NetEventType.MetaHeartbeat">
+            <summary>
+            Reserved.
+            Used by protocols that forward NetworkEvents.
+            </summary>
+        </member>
+        <member name="T:Byn.Awrtc.NetEventDataType">
+            <summary>
+            Byte in the raw messages that indicate the content. 
+            This will be removed again in the future after the native side properly supports encoded strings
+            
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.NetEventDataType.Null">
+            <summary>
+            No data / invalid
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.NetEventDataType.ByteArray">
+            <summary>
+            leading 32 bit byte length + byte array
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.NetEventDataType.UTF16String">
+            <summary>
+            leading 32 bit length (in utf16 chunks)  + UTF 16 
+            </summary>
+        </member>
+        <member name="T:Byn.Awrtc.NetworkEvent">
+            <summary>
+            Contains information about events received by the network.
+            
+            The type of the network event decides the content it can contain.
+            
+            Most important are:
+            
+            UnreliableMessageReceived / ReliableMessageReceived:
+            A new message was received. The property MessageData will return
+            a buffer + byte array containing the data received.
+            
+            ServerInitialized:
+            A call to StartServer was successful. The Info property will return the address
+            the server can be accessed by.
+            
+            
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.NetworkEvent.Type">
+            <summary>
+            Returns the type of the message.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.NetworkEvent.ConnectionId">
+            <summary>
+            Returns the related connection id or ConnecitonId.Invalid if there is none.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.NetworkEvent.RawData">
+            <summary>
+            Returns an object belonging to the event.
+            This can be a MessageDataBuffer containing a byte array or a string or an errorinfo object
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.NetworkEvent.MessageData">
+            <summary>
+            Returns the content of the messages if the event type is
+            UnreliableMessageReceived or ReliableMessageReceived.
+            
+            null for all other message types.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.NetworkEvent.GetDataAsByteArray">
+            <summary>
+            Returns the a copy of the message data as a new byte array with the exact size of the content
+            instead of the buffer.
+            </summary>
+            <returns>Copy of the message data or null if no message data available</returns>
+        </member>
+        <member name="P:Byn.Awrtc.NetworkEvent.Info">
+            <summary>
+            Contains additional information or null
+            Only used so far for NetEventType.ServerInitialized to return the servers address information.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.NetworkEvent.ErrorInfo">
+            <summary>
+            Returns an error info object if one is connected. 
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.NetworkEvent.#ctor(Byn.Awrtc.NetEventType)">
+            <summary>
+            Creates a new network event of a certain type setting 
+            connection id to invalid and data to null.
+            
+            Internal only. Do not use.
+            </summary>
+            <param name="t">The type of this event</param>
+        </member>
+        <member name="M:Byn.Awrtc.NetworkEvent.#ctor(Byn.Awrtc.NetEventType,Byn.Awrtc.ConnectionId)">
+            <summary>
+            Events without data connected
+            </summary>
+            <param name="t"></param>
+            <param name="conId"></param>
+        </member>
+        <member name="M:Byn.Awrtc.NetworkEvent.#ctor(Byn.Awrtc.NetEventType,Byn.Awrtc.ConnectionId,Byn.Awrtc.MessageDataBuffer)">
+            <summary>
+            Creates a network event with the given content
+            Internal only. Do not use.
+            </summary>
+            <param name="t">Type name</param>
+            <param name="conId">ConnectionId the event is from / relates to</param>
+            <param name="dt">MessageDataBuffer (should be ByteArrayBuffer)</param>
+        </member>
+        <member name="M:Byn.Awrtc.NetworkEvent.#ctor(Byn.Awrtc.NetEventType,Byn.Awrtc.ConnectionId,System.String)">
+            <summary>
+            ServerInit events with address info
+            </summary>
+            <param name="t"></param>
+            <param name="conId"></param>
+            <param name="address"></param>
+        </member>
+        <member name="M:Byn.Awrtc.NetworkEvent.#ctor(Byn.Awrtc.NetEventType,Byn.Awrtc.ConnectionId,Byn.Awrtc.ErrorInfo)">
+            <summary>
+            Network event with ErrorInfo attached.
+            ErrorInfo can't be serialized yet!
+            </summary>
+            <param name="t"></param>
+            <param name="conId"></param>
+            <param name="errorInfo"></param>
+        </member>
+        <member name="M:Byn.Awrtc.NetworkEvent.ToString">
+            <summary>
+            Converts the event to string. Use for debugging only.
+            </summary>
+            <returns>A string representation of the network event.</returns>
+        </member>
+        <member name="M:Byn.Awrtc.NetworkEvent.IsMetaEvent(System.Byte[])">
+            <summary>
+            Checks if this is a special event that isn't suppose to be
+            processed as NetworkEvent.
+            Special events are null, empty byte[0] and any values 
+            starting with a byte equal or above NetEventType.ReservedStart;
+            
+            
+            </summary>
+            <param name="arr"></param>
+            <returns>
+            true - means the message needs special handling and can't be
+            passed to FromByteArray.
+            
+            false - means the message can be a NetworkEvent but
+            could still be invalid.
+            </returns>
+        </member>
+        <member name="M:Byn.Awrtc.NetworkEvent.FromByteArray(System.Byte[])">
+            <summary>
+            Reverse of ToByteArray.
+            </summary>
+            <param name="arr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Byn.Awrtc.NetworkEvent.ToByteArray(Byn.Awrtc.NetworkEvent)">
+            <summary>
+            Mainly used by WebsocketNetwork. It serializes network events into a byte array to allow
+            to process the events on a different system than where it actually occurred.
+            
+            e.g. WebsocketNetwork uses a server that will receive incoming connects and then
+            serializes that event into a byte array and send it to the client which holds the
+            address of the incoming connection to process the event
+            
+            NOTE: This method is not optimized and shouldn't be used with a lot of data!
+            </summary>
+            <param name="evt">Network event to be serialized</param>
+            <returns>Newly created byte array representing the network event</returns>
+        </member>
+        <member name="M:Byn.Awrtc.NetworkEvent.AttachError(Byn.Awrtc.ErrorInfo)">
+            <summary>
+            Internal use only. Used to attach additional error information.
+            </summary>
+            <param name="error"></param>
+        </member>
+        <member name="T:Byn.Awrtc.FramePixelFormat">
+            <summary>
+            Only ABGR format is supported everywhere so far.
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.FramePixelFormat.Invalid">
+            <summary>
+            No pixel format set.
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.FramePixelFormat.ABGR">
+            <summary>
+            Default format due to browser restrictions
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.FramePixelFormat.YUY2">
+            <summary>
+            DO NOT USE. FOR TESTING ONLY
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.FramePixelFormat.I420p">
+            <summary>
+            DO NOT USE. FOR TESTING ONLY
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.FramePixelFormat.Native">
+            <summary>
+            DO NOT USE. FOR TESTING ONLY
+            </summary>
+        </member>
+        <member name="T:Byn.Awrtc.RawFrame">
+            <summary>
+            Obosolete. Will be replaced with IFrame. It is used as a parent interface
+            for IFrame at the moment to make it easier for the users to move their code
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.RawFrame.Buffer">
+            <summary>
+            Returns the image as byte[]. 
+            Depending on the platform this can either be a copy or a direct access
+            to the buffer.
+            Do not store this reference. It might be reused for further images.
+            
+            
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.RawFrame.Buffered">
+            <summary>
+            True if the image is already buffered and available as byte[]. This
+            is the default value.
+            
+            If platform specific optimization is used the value might be false meaning
+            calling Buffer can either be slow causing the data to be copied into byte[] 
+            or even return null if accessing as byte[] isn't supported.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.RawFrame.Height">
+            <summary>
+            Height of the image in pixels.
+            (before rotation is applied)
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.RawFrame.Width">
+            <summary>
+            With of the image in pixels.
+            (before rotation is applied)
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.RawFrame.Rotation">
+            <summary>
+            Rotation of the image. Apply this rotation to the image
+            before showing it to the user. 
+            
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.RawFrame.IsTopRowFirst">
+            <summary>
+            If true the top row of the image
+            will be at the start of the buffer.
+            
+            For Unity users: If this value is true the image needs to
+            be flipped vertically as Unity expects the top row to be
+            at the end of the buffer thus Unity will read the image 
+            up-side-down. To undo this you can set the object scaleY to -1.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.RawFrame.Format">
+            <summary>
+            Image format. 
+            </summary>
+        </member>
+        <member name="T:Byn.Awrtc.IFrame">
+            <summary>
+            General interface to access frames. All platforms will at least support
+            this interface using their default settings.
+            </summary>
+        </member>
+        <member name="T:Byn.Awrtc.IDirectMemoryFrame">
+            <summary>
+            Interface for frames that support accessing the memort directly via
+            pointers.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.IDirectMemoryFrame.GetIntPtr">
+            <summary>
+            Returns the underlaying pointer
+            </summary>
+            <returns>IntPtr or IntPtr.Zero if something went wrong</returns>
+        </member>
+        <member name="M:Byn.Awrtc.IDirectMemoryFrame.GetSize">
+            <summary>
+            Returns the byte size of the underlaying chunk of memory
+            </summary>
+            <returns>Length or -1 if something went wrong</returns>
+        </member>
+        <member name="T:Byn.Awrtc.BufferedFrame">
+            <summary>
+            A raw video frame of a webcam.
+            References to these objects will be reused after the next
+            call to ICall.Update! Do not keep references for longer!
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.BufferedFrame.Buffer">
+            <summary>
+            Byte array containing the raw pixel data of the current webcam frame.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.BufferedFrame.Buffered">
+            <summary>
+            Always returns true.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.BufferedFrame.Width">
+            <summary>
+            Width of the image.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.BufferedFrame.Height">
+            <summary>
+            Height of the image
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.BufferedFrame.Rotation">
+            <summary>
+            Can be 0, 90, 180 or 270. Before showing the image to the user
+            rotate the image by this value.
+            
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.BufferedFrame.IsTopRowFirst">
+            <summary>
+            True if first line in the buffer is the top
+            of the image. False if it starts with the bottom of the image.
+            </summary>
+        </member>
+        <member name="P:Byn.Awrtc.BufferedFrame.Format">
+            <summary>
+            Image format. Default is ARGB.
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.BufferedFrame.#ctor(System.Byte[],System.Int32,System.Int32,Byn.Awrtc.FramePixelFormat,System.Int32,System.Boolean)">
+            <summary>
+            Constructs a new raw BufferedFrame.
+            </summary>
+            <param name="buffer">Byte buffer. Reference will be stored to avoid copies! Do not reuse the array later!</param>
+            <param name="width">Width</param>
+            <param name="height">Height</param>
+            <param name="format"></param>
+            <param name="rotation">Rotation of the raw image.</param>
+            <param name="isTopRowFirst">True if the top pixels of the image are expected to be at the start of the buffer.
+            False if it starts with the bottom.</param>
+        </member>
+        <member name="M:Byn.Awrtc.BufferedFrame.Dispose">
+            <summary>
+            Not needed
+            </summary>
+        </member>
+        <member name="T:Byn.Awrtc.SLog">
+            <summary>
+            Logger used in the Byn namespace. Use SetLogger
+            to log custom messages and implement your own filter.
+            Object is the source of the log and string contains a list of
+            tags related to the message to make filtering easier.
+            
+            
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.SLog.TAG_WARNING">
+            <summary>
+            Special tag always used in LW calls
+            
+            Used for calls that might negatively affect the program.
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.SLog.TAG_ERROR">
+            <summary>
+            Always used in LE calls.
+            Used for calls that affect the behavior of the program
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.SLog.TAG_EXCEPTION">
+            <summary>
+            Always used in LogException calls
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.SLog.TAG_INFO">
+            <summary>
+            Always used L calls.
+            Log message that should always be delivered to the end user but
+            are not essential.
+            
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.SLog.TAG_DEBUG">
+            <summary>
+            Used for LD calls
+            </summary>
+        </member>
+        <member name="F:Byn.Awrtc.SLog.TAG_VERBOSE">
+            <summary>
+            Used for LV calls
+            </summary>
+        </member>
+        <member name="M:Byn.Awrtc.SLog.SetLogger(System.Action{System.Object,System.String[]})">
+            <summary>
+            Used to receive the logging messages.
+            
+            Use the string[] in the callback to filter the log messages
+            based on tags.
+            
+            Repeated calls will overwrite the last previous logger.
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Byn.Awrtc.SLog.LogException(System.Object,System.String[])">
+            <summary>
+            Logs an exception.
+            </summary>
+            <param name="msg">message as string or object that implements toString</param>
+            <param name="tags"></param>
+        </member>
+        <member name="M:Byn.Awrtc.SLog.LE(System.Object,System.String[])">
+            <summary>
+            Logs an error.
+            </summary>
+            <param name="msg">message as string or object that implements toString</param>
+            <param name="tags"></param>
+        </member>
+        <member name="M:Byn.Awrtc.SLog.LW(System.Object,System.String[])">
+            <summary>
+            Logs a warning
+            </summary>
+            <param name="msg">message as string or object that implements toString</param>
+            <param name="tags"></param>
+        </member>
+        <member name="M:Byn.Awrtc.SLog.LV(System.Object,System.String[])">
+            <summary>
+            Verbose log. Only available in debug mode!
+            Used for logging pretty much anything.
+            
+            Might require an additional flag for verbose mode in the future to avoid
+            wasting CPU time / generating too much garbage for the GC
+            </summary>
+            <param name="msg">message as string or object that implements toString</param>
+            <param name="tags"></param>
+        </member>
+        <member name="M:Byn.Awrtc.SLog.LD(System.Object,System.String[])">
+            <summary>
+            Used for debugging. Only used for current updates that need to be tested!
+            </summary>
+            <param name="msg"></param>
+            <param name="tags"></param>
+        </member>
+        <member name="M:Byn.Awrtc.SLog.L(System.Object,System.String[])">
+            <summary>
+            Default log. Unless LD and LV this log will always be available.
+            
+            Used to log important events that might help debugging crashes but not
+            something that happens on a frame - frame basis!
+            </summary>
+            <param name="msg"></param>
+            <param name="tags"></param>
+        </member>
+    </members>
+</doc>
