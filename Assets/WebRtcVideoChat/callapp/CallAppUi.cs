@@ -429,8 +429,12 @@ public class CallAppUi : MonoBehaviour
             {
                 UnityMediaHelper.UpdateTexture(frame, ref mRemoteVideoTexture);
                 uRemoteVideoImage.texture = mRemoteVideoTexture;
-                
-                videoMeshRenderer.material.mainTexture = mLocalVideoTexture;
+
+
+                Texture2D myTex = (Texture2D) videoMeshRenderer.material.mainTexture;
+                UnityMediaHelper.UpdateTexture(frame, ref  myTex);
+
+                videoMeshRenderer.material.mainTexture = myTex;
                 
                 //watch out: due to conversion from WebRTC to Unity format the image is flipped (top to bottom)
                 //this also inverts the rotation
