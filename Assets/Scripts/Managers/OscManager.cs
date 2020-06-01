@@ -132,7 +132,7 @@ public class OscManager : MonoBehaviour {
 
     private void ReceiveLanguageChange(OSCMessage message)
     {
-        LocalizationManager.instance.LoadLocalizedText(message.ToString(), true);
+        LocalizationManager.instance.LoadLocalizedText(message.ToString() + ".json");
     }
     
     private void SendHeadTracking()

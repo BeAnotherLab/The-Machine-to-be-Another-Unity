@@ -40,7 +40,7 @@ public class LocalizationManager : MonoBehaviour {
         if (Input.GetKeyDown("v")) LoadLocalizedText(localizationTexts[3]);
     }
 
-    public void LoadLocalizedText(string fileName, bool fromOSC = false)
+    public void LoadLocalizedText(string fileName, bool resend = false)
     {
         localizedText = new Dictionary<string, string> ();
         string filePath = Path.Combine (Application.streamingAssetsPath, fileName);
@@ -62,7 +62,7 @@ public class LocalizationManager : MonoBehaviour {
 
         isReady = true;
         
-        if (!fromOSC) OscManager.instance.SendLanguageChange(fileName + ".json");
+        if (resend) OscManager.instance.SendLanguageChange(fileName);
     }
 
     public string GetLocalizedValue(string key)
