@@ -13,9 +13,7 @@ public class OscManager : MonoBehaviour {
 
     public static OscManager instance;
 
-    public string othersIP { get { return othersIP; } set { SetOthersIP(value); } }
-
-    public bool sendHeadTracking;
+    public string othersIP { get { return othersIP; } set { SetOthersIP(value); } }   
     
     public delegate void OtherStatus();
     public static OtherStatus OnOtherStatus;
@@ -31,6 +29,7 @@ public class OscManager : MonoBehaviour {
     
     private bool _repeater;
     private bool _serialStatusOKReceived;
+    private bool _sendHeadTracking;
     
     #endregion
 
@@ -71,6 +70,11 @@ public class OscManager : MonoBehaviour {
 
     #region Public Methods   
 
+    public void SetSendHeadtracking(bool send)
+    {
+        _sendHeadTracking = true;
+    }
+    
     public void EnableRepeater(bool enable) 
     {
         if (enable)
@@ -87,26 +91,6 @@ public class OscManager : MonoBehaviour {
         _repeater = r;
         if (r) PlayerPrefs.SetInt("repeater", 1);
         else PlayerPrefs.SetInt("repeater", 0);
-    }
-
-    public void SendHeadTracking()
-    {
-        if (sendHeadTracking)
-        {
-            Quaternion q = _mainCamera.transform.rotation;
-
-            OSCMessage message = new OSCMessage ("/pose");
-            var array = OSCValue.Array();
-
-            array.AddValue(OSCValue.Float(q.x));
-            array.AddValue(OSCValue.Float(q.y));
-            array.AddValue(OSCValue.Float(q.z));
-            array.AddValue(OSCValue.Float(q.w));
-
-            message.AddValue(array);
-
-            _oscTransmitter.Send(message);    
-        }
     }
 
     public void SendThisUserStatus(UserStatus status)
@@ -138,6 +122,26 @@ public class OscManager : MonoBehaviour {
 
     #region Private Methods
 
+    private void SendHeadTracking()
+    {
+        if (_sendHeadTracking)
+        {
+            Quaternion q = _mainCamera.transform.rotation;
+
+            OSCMessage message = new OSCMessage ("/pose");
+            var array = OSCValue.Array();
+
+            array.AddValue(OSCValue.Float(q.x));
+            array.AddValue(OSCValue.Float(q.y));
+            array.AddValue(OSCValue.Float(q.z));
+            array.AddValue(OSCValue.Float(q.w));
+
+            message.AddValue(array);
+
+            _oscTransmitter.Send(message);    
+        }
+    }
+    
     private void SetOthersIP(string othersIP)
     {
         PlayerPrefs.SetString("othersIP", othersIP);

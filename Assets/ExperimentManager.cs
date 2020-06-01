@@ -52,7 +52,7 @@ public class ExperimentManager : MonoBehaviour
         
             if (condition == ConditionType.experimental)
             {
-                OscManager.instance.sendHeadTracking = true; //enable sending/receiving headtracking
+                OscManager.instance.SetSendHeadtracking(true);//enable sending/receiving headtracking
                 VideoFeed.instance.twoWayWap = true; //move POV according to other headtracking
             }
             else 
@@ -101,8 +101,7 @@ public class ExperimentManager : MonoBehaviour
     
     public void EndIntervention()
     {
-        OscManager.instance.sendHeadTracking = false;
-        
+        OscManager.instance.SetSendHeadtracking(false);
         Debug.Log("End of intervention");
     }
 

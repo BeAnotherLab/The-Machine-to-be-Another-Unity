@@ -46,6 +46,8 @@ public class SwapModeManager : MonoBehaviour
 
                 //enable OSC repeat
                 OscManager.instance.EnableRepeater(true);
+                //send headtracking
+                OscManager.instance.SetSendHeadtracking(true);
 
                 //enable serial depending on if we are using the curtain or not
                 ArduinoManager.instance.ActivateSerial(false, useCurtain);
@@ -72,6 +74,7 @@ public class SwapModeManager : MonoBehaviour
 
                 //enable OSC repeat
                 OscManager.instance.EnableRepeater(true);
+                OscManager.instance.SetSendHeadtracking(true);
 
                 break;
 
@@ -93,6 +96,7 @@ public class SwapModeManager : MonoBehaviour
 
                 //disable OSC repeat
                 OscManager.instance.EnableRepeater(false);
+                OscManager.instance.SetSendHeadtracking(true);
 
                 break;
         }
