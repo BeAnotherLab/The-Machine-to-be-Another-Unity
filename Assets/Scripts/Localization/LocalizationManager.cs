@@ -62,7 +62,7 @@ public class LocalizationManager : MonoBehaviour {
 
         isReady = true;
         
-        if (!fromOSC) OscManager.instance.SendLanguageChange(fileName.Split('.')[0]);
+        if (!fromOSC) OscManager.instance.SendLanguageChange(fileName + ".json");
     }
 
     public string GetLocalizedValue(string key)
