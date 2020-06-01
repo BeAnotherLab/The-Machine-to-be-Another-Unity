@@ -147,10 +147,8 @@ public class ArduinoManager : MonoBehaviour
             Debug.Log("ERROR : " + data);
             StatusManager.instance.SerialFailure();
         }
-        else if (data == "lng_de") LocalizationManager.instance.LoadLocalizedText("LocalizedText_de.json");
-        else if (data == "lng_fr") LocalizationManager.instance.LoadLocalizedText("LocalizedText_fr.json");
-        else if (data == "lng_it") LocalizationManager.instance.LoadLocalizedText("LocalizedText_it.json");
-        else if (data == "lng_en") LocalizationManager.instance.LoadLocalizedText("LocalizedText_en.json");
+       
+        else if (data.Contains("lng")) LocalizationManager.instance.LoadLocalizedText(data + ".json");
     }
     
     private void WriteToArduino(string message) //send a command, trigger timeout routine
