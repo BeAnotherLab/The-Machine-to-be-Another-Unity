@@ -129,11 +129,6 @@ public class OscManager : MonoBehaviour {
     #endregion
 
     #region Private Methods
-
-    private void ReceiveLanguageChange(OSCMessage message)
-    {
-        LocalizationManager.instance.LoadLocalizedText(message.ToString() + ".json");
-    }
     
     private void SendHeadTracking()
     {
@@ -161,6 +156,14 @@ public class OscManager : MonoBehaviour {
         GetComponent<OSCTransmitter>().RemoteHost = othersIP;
     }
    
+    
+    private void ReceiveLanguageChange(OSCMessage message)
+    {
+        string value;
+        if(message.ToString(out value))
+            LocalizationManager.instance.LoadLocalizedText(value);
+    }
+    
     private void ReceiveCalibrate(OSCMessage message)
     {
         float value;

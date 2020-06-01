@@ -11,7 +11,6 @@ public class LocalizationManager : MonoBehaviour {
     [SerializeField] private string[] localizationTexts; //TODO autoload
     
     private Dictionary<string, string> localizedText;
-    private bool isReady = false;
     private string missingTextString = "Localized text not found";
 
     // Use this for initialization
@@ -59,8 +58,6 @@ public class LocalizationManager : MonoBehaviour {
         {
             Debug.LogError ("Cannot find file!");
         }
-
-        isReady = true;
         
         if (resend) OscManager.instance.SendLanguageChange(fileName);
     }
