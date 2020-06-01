@@ -60,12 +60,7 @@ public class OscManager : MonoBehaviour {
 
         //set IP address of other 
         SetOthersIP(PlayerPrefs.GetString("othersIP"));
-    }
-
-    private void ReceiveLanguageChange(OSCMessage message)
-    {
-        LocalizationManager.instance.LoadLocalizedText(message.ToString(), true);
-    }
+    }   
     
     private void Update()
     {
@@ -135,6 +130,11 @@ public class OscManager : MonoBehaviour {
 
     #region Private Methods
 
+    private void ReceiveLanguageChange(OSCMessage message)
+    {
+        LocalizationManager.instance.LoadLocalizedText(message.ToString(), true);
+    }
+    
     private void SendHeadTracking()
     {
         if (_sendHeadTracking)
