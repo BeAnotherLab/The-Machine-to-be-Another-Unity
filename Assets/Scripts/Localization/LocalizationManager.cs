@@ -40,7 +40,7 @@ public class LocalizationManager : MonoBehaviour {
         if (Input.GetKeyDown("v")) LoadLocalizedText(localizationTexts[3]);
     }
 
-    public void LoadLocalizedText(string fileName)
+    public void LoadLocalizedText(string fileName, bool fromOSC = false)
     {
         localizedText = new Dictionary<string, string> ();
         string filePath = Path.Combine (Application.streamingAssetsPath, fileName);
@@ -61,6 +61,8 @@ public class LocalizationManager : MonoBehaviour {
         }
 
         isReady = true;
+        
+        if (!fromOSC) OscManager.instance.SendLanguageChange(fileName.Split('.')[0]);
     }
 
     public string GetLocalizedValue(string key)
@@ -73,11 +75,6 @@ public class LocalizationManager : MonoBehaviour {
 
         return result;
 
-    }
-
-    public bool GetIsReady()
-    {
-        return isReady;
     }
 
 }

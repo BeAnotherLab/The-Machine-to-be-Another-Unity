@@ -55,12 +55,18 @@ public class OscManager : MonoBehaviour {
         _oscReceiver.Bind("/ht", ReceiveCalibrate);
         _oscReceiver.Bind("/serialStatus", ReceiveSerialStatus);
         _oscReceiver.Bind("/serialConfirmation", ReceiveSerialStatusOK);
+        _oscReceiver.Bind("/language", ReceiveLanguageChange);
         for (int i = 0; i < 11; i++) _oscReceiver.Bind("/btn" + i.ToString(), ReceiveBtn);
 
         //set IP address of other 
         SetOthersIP(PlayerPrefs.GetString("othersIP"));
     }
 
+    private void ReceiveLanguageChange(OSCMessage message)
+    {
+        LocalizationManager.instance.LoadLocalizedText(message.ToString(), true);
+    }
+    
     private void Update()
     {
         SendHeadTracking();
@@ -70,6 +76,13 @@ public class OscManager : MonoBehaviour {
 
     #region Public Methods   
 
+    public void SendLanguageChange(string language)
+    {
+        OSCMessage message = new OSCMessage("/language");
+        message.AddValue(OSCValue.String(language));
+        _oscTransmitter.Send(message);
+    }
+    
     public void SetSendHeadtracking(bool send)
     {
         _sendHeadTracking = true;

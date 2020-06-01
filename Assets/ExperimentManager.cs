@@ -89,7 +89,6 @@ public class ExperimentManager : MonoBehaviour
     public void StartTactilePhase()
     {
         //play tactile phase instruction audio or text
-
         if (participant == ParticipantType.follower && condition == ConditionType.control)
         {
             //switch back to live video
