@@ -201,7 +201,9 @@ public class OscManager : MonoBehaviour {
                 else if (x == 1) StatusManager.instance.OtherPutHeadsetOn();
                 if (x == 2)  StatusManager.instance.OtherUserIsReady();
             }
-            OnOtherStatus(); //TODO Fix error triggered here 
+
+            try { OnOtherStatus(); } //when receiving other status over OSC we get an error?
+            catch (Exception e) { }
         }
     }
     
