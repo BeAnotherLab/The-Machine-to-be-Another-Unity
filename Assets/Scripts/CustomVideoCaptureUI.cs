@@ -15,7 +15,10 @@ namespace RockVR.Video.Demo
         private bool _videoPlayed;
         private void Awake()
         {
-            _nextButton.onClick.AddListener(() => Next());
+            _nextButton.onClick.AddListener(delegate
+            {
+                if (ExperimentSettingsGUI.instance.subjectIDValidated) Next();
+            });
             CustomVideoPlayer.OnVideoFinished += delegate { VideoFinished(); };
         }
 
@@ -65,6 +68,7 @@ namespace RockVR.Video.Demo
             _captureFinishedOnce = false;
             _processingText.text = "recording";
             _nextButton.GetComponentInChildren<Text>().text = "stop recording";
+            ExperimentManager.instance.StartFamiliarization();
         }
         
         private void VideoFinished()

@@ -10,9 +10,8 @@ public class ExperimentSettingsGUI : MonoBehaviour
 {
 
     //TODO when setting familiarization, disable ip address and participant
-    
-    
     public static ExperimentSettingsGUI instance;
+    public bool subjectIDValidated;
     
     //Experiment settings
     [SerializeField] private InputField _subjectInputField;
@@ -33,6 +32,7 @@ public class ExperimentSettingsGUI : MonoBehaviour
 
         _subjectInputField.onEndEdit.AddListener( delegate {
             PlayerPrefs.SetString("SubjectID", _subjectInputField.text);
+            if(_subjectInputField.text != "") subjectIDValidated = true;
         });
         
         _startButton.onClick.AddListener(delegate
@@ -72,7 +72,7 @@ public class ExperimentSettingsGUI : MonoBehaviour
     {
         StartCoroutine(ShowAndHideExistingSubjectIDError());
     }
-    
+
     private IEnumerator ShowAndHideExistingSubjectIDError()
     {
         _subjectExistingErrorMessage.gameObject.SetActive(true);
