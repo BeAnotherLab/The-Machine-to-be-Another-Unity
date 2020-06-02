@@ -1,55 +1,77 @@
 #include <Technorama.h>
 
-#define BTN_DE 0            //value DE button
-#define BTN_EN 165          //value EN button
-#define BTN_FR 315          //value FR button
-#define BTN_IT 458          //value IT button
-#define BTN_NONE 737        //value no button
-#define RANGE 50            //range for buttons
+bool butAonce = false;
+bool butBonce = false;
+bool butConce = false;
+bool butDonce = false;
 
-byte LngState = 0;          //global
-bool LngChange = false;     //global
-bool LngChangeOnce = true;
-int  LngAnalogValue;        //variable for analog input
+byte state = 0;
 
 void language() {
 
-    LngAnalogValue = analogRead(CONTROLLINO_A4);
-    //Serial.println(LngAnalogValue);
+    if (!mcp.digitalRead(0)) {
+      if (butAonce) {
+      butAonce = false;
+      Serial.println("lng_de");
+      state = 0;
+      }
+    }
+    else butAonce = true;
 
-    if (LngAnalogValue <= (BTN_NONE - RANGE)) { //a button is pressed
-        if (LngChangeOnce) LngChange = true;    //send just once
-        
-        if ((LngAnalogValue <= (BTN_DE + RANGE)) && (LngAnalogValue >= BTN_DE))                 LngState = 0;   //DE language
-        else if ((LngAnalogValue <= (BTN_EN + RANGE)) && (LngAnalogValue >= (BTN_EN - RANGE)))  LngState = 1;   //EN language
-        else if ((LngAnalogValue <= (BTN_FR + RANGE)) && (LngAnalogValue >= (BTN_FR - RANGE)))  LngState = 2;   //FR language
-        else if ((LngAnalogValue <= (BTN_IT + RANGE)) && (LngAnalogValue >= (BTN_IT - RANGE)))  LngState = 3;   //IT language
-        else LngState = 4;
+    if (!mcp.digitalRead(1)) {
+      if (butBonce) {
+      butBonce = false;
+      Serial.println("lng_en");
+      state = 1;
+      }
     }
-    else {
-        LngChangeOnce = true;   //no button is pressed
+    else butBonce = true;
+
+    if (!mcp.digitalRead(2)) {
+      if (butConce) {
+      butConce = false;
+      Serial.println("lng_fr");
+      state = 2;
+      }
     }
-    if (LngChange) {
-        LngChange = false;
-        LngChangeOnce = false;
-        
-        switch (LngState) {     //send the language      
-        case 0:
-            Serial.println("lng_de"); //DE language
-            break;
-        case 1:
-            Serial.println("lng_en"); //EN language
-            break;
-        case 2:
-            Serial.println("lng_fr"); //FR language
-            break;
-        case 3:
-            Serial.println("lng_it"); //IT language
-            break;
-        default:
-            //Serial.println("lng_not_read");
-            //Serial.println(LngAnalogValue);
-            break;
-        }
+    else butConce = true;
+
+    if (!mcp.digitalRead(3)) {
+      if (butDonce) {
+      butDonce = false;
+      Serial.println("but_it");
+      state = 3;
+      }
+    }
+    else butDonce = true;
+
+    switch (state) {
+    case 0:
+      mcp.digitalWrite(4, HIGH);
+      mcp.digitalWrite(5, LOW);
+      mcp.digitalWrite(6, LOW);
+      mcp.digitalWrite(7, LOW);
+    break;
+
+    case 1:
+      mcp.digitalWrite(4, LOW);
+      mcp.digitalWrite(5, HIGH);
+      mcp.digitalWrite(6, LOW);
+      mcp.digitalWrite(7, LOW);
+    break;
+
+    case 2:
+      mcp.digitalWrite(4, LOW);
+      mcp.digitalWrite(5, LOW);
+      mcp.digitalWrite(6, HIGH);
+      mcp.digitalWrite(7, LOW);
+    break;
+
+    case 3:
+      mcp.digitalWrite(4, LOW);
+      mcp.digitalWrite(5, LOW);
+      mcp.digitalWrite(6, LOW);
+      mcp.digitalWrite(7, HIGH);
+    break;    
     }
 }

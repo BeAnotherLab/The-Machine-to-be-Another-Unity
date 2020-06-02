@@ -1,9 +1,10 @@
 #include <Arduino.h>
 #include <Controllino.h>
+#include <Adafruit_MCP23008.h>
+
+extern Adafruit_MCP23008 mcp;
 
 extern bool DEBUG;
-
-extern void blink(void);
 
 extern void curtain(void);
 extern bool Curtain;
@@ -27,5 +28,3 @@ extern bool Wall;
 extern bool WallChange;
 
 extern void language(void);
-extern byte LngState;
-extern bool LngChange;
