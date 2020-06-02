@@ -38,6 +38,12 @@ public class ExperimentManager : MonoBehaviour
         _leaderTrack = timelineAsset.GetOutputTrack(2);        
     }
 
+    public void StartFamiliarization()
+    {
+        if(participant == ParticipantType.follower) VideoCaptureCtrl.instance.StartCapture();
+        _familiarizationTimeline.Play();
+    }
+    
     public void StartExperiment()
     {
         ExperimentSettingsGUI.instance.gameObject.SetActive(false); //disable experiment GUI
@@ -46,31 +52,24 @@ public class ExperimentManager : MonoBehaviour
         _followerTrack.muted = participant != ParticipantType.follower;
         _leaderTrack.muted = participant != ParticipantType.leader; 
         
-        if (condition != ConditionType.familiarization)
+        _interventionTimeline.Play();
+    
+        if (condition == ConditionType.experimental)
         {
-            _interventionTimeline.Play();
-        
-            if (condition == ConditionType.experimental)
-            {
-                OscManager.instance.sendHeadTracking = true; //enable sending/receiving headtracking
-                VideoFeed.instance.twoWayWap = true; //move POV according to other headtracking
-            }
-            else 
-            {
-                VideoFeed.instance.twoWayWap = false; //POV follows own headtracking
-            }
-        
-            if (participant == ParticipantType.follower && condition == ConditionType.control)
-            {
-                var currentSubjectID = PlayerPrefs.GetString("SubjectID");
-                _videoPlayer.url = PlayerPrefs.GetString("VideoCapturePath" + currentSubjectID);
-            }
+            OscManager.instance.sendHeadTracking = true; //enable sending/receiving headtracking
+            VideoFeed.instance.twoWayWap = true; //move POV according to other headtracking
         }
-        else
+        else 
         {
-            if(participant == ParticipantType.follower) VideoCaptureCtrl.instance.StartCapture();
-            _familiarizationTimeline.Play();
+            VideoFeed.instance.twoWayWap = false; //POV follows own headtracking
         }
+    
+        if (participant == ParticipantType.follower && condition == ConditionType.control)
+        {
+            var currentSubjectID = PlayerPrefs.GetString("SubjectID");
+            _videoPlayer.url = PlayerPrefs.GetString("VideoCapturePath" + currentSubjectID);
+        }
+        
     }
 
     public void StartFreePhase()
