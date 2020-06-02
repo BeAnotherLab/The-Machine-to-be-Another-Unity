@@ -184,7 +184,6 @@ namespace RockVR.Video
                 
                 var currentSubjectID = PlayerPrefs.GetString("SubjectID");
                 PlayerPrefs.SetString("VideoCapturePath" + currentSubjectID, videoCapture.filePath);
-                int x = 0;
             }
             if (IsCaptureAudio())
             {
