@@ -10,9 +10,9 @@ void setup(){
 
   pinMode(CONTROLLINO_D0, OUTPUT); //wall start
   pinMode(CONTROLLINO_D1, OUTPUT); //wall direction
-  pinMode(CONTROLLINO_D2, OUTPUT); //mirror
+  pinMode(CONTROLLINO_D2, OUTPUT); //curtain
   pinMode(CONTROLLINO_D3, OUTPUT); 
-  pinMode(CONTROLLINO_D4, OUTPUT); //curtain
+  pinMode(CONTROLLINO_D4, OUTPUT); //mirror
   pinMode(CONTROLLINO_D5, OUTPUT); 
 
   pinMode(CONTROLLINO_A0, INPUT);  //endpoint ON (inverted)
