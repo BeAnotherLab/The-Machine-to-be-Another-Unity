@@ -11,7 +11,10 @@ public class IPInputField : MonoBehaviour
 
     private void Awake()
     {
-        _IPInputField.onEndEdit.AddListener(delegate { OscManager.instance.othersIP = _IPInputField.text; });
+        _IPInputField.onEndEdit.AddListener(delegate
+        {
+            PlayerPrefs.SetString("othersIP", _IPInputField.text);
+        });
     }
 
     private void Start()
