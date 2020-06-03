@@ -22,15 +22,13 @@ namespace RockVR.Video
        
         private void Awake()
         {
-            if (instance == null)
-            {
-                instance = this;
-            }
+            if (instance == null) instance = this;
+            videoPlayerImpl = gameObject.GetComponent<UnityEngine.Video.VideoPlayer>();
+            videoPlayerImpl.loopPointReached += delegate(UnityEngine.Video.VideoPlayer source) { VideoFeed.instance.ShowLiveFeed(true); };
         }
 
         private void Start()
         {
-            videoPlayerImpl = gameObject.GetComponent<UnityEngine.Video.VideoPlayer>();
         }
 
         /// <summary>
