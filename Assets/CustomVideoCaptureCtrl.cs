@@ -190,6 +190,8 @@ namespace RockVR.Video
                 audioCapture.StopCapture();
             }
             status = StatusType.STOPPED;
+            
+            VideoCameraManager.instance.ShowLiveFeed();
         }
         /// <summary>
         /// Pause video capture process.
