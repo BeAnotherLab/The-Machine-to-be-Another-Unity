@@ -8,6 +8,8 @@ namespace RockVR.Video.Demo
 {
     public class CustomVideoCaptureUI : MonoBehaviour
     {
+        public static CustomVideoCaptureUI instance;
+        
         [SerializeField] private Button _nextButton;
         [SerializeField] private Text _processingText;
 
@@ -15,6 +17,7 @@ namespace RockVR.Video.Demo
         private bool _videoPlayed;
         private void Awake()
         {
+            if (instance == null) instance = this;
             _nextButton.onClick.AddListener(delegate
             {
                 if (ExperimentSettingsGUI.instance.subjectIDValidated) Next();
@@ -36,14 +39,16 @@ namespace RockVR.Video.Demo
             }
         }
 
-        private void Next()
+        public void Next(bool fromTimeline = false)
         {
             switch (CustomVideoCaptureCtrl.instance.status)
             {
                 case  CustomVideoCaptureCtrl.StatusType.NOT_START: // before recording, first time around
                     StartRecording();            
                     break;
-                case CustomVideoCaptureCtrl.StatusType.STARTED: // while recording
+                case CustomVideoCaptureCtrl.StatusType.STARTED: // while recording, we pressed stop button or recording time is up
+                    CustomVideoCaptureCtrl.instance.StopCapture();
+                    if (!fromTimeline) FamiliarizationManager.instance.ButtonStopFamiliarization();
                     _processingText.text = "processing";
                     break;
                 case CustomVideoCaptureCtrl.StatusType.FINISH: //we're done processing the recorded video
@@ -73,7 +78,7 @@ namespace RockVR.Video.Demo
         {
             _processingText.text = "ready to capture";
             _nextButton.GetComponentInChildren<Text>().text = "Start Recording";
-            FamiliarizationManager.instance.StopFamiliarization();
+            FamiliarizationManager.instance.TimelineStopFamiliarization();
         }
 
     }

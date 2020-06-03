@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3335802573083775815}
   - component: {fileID: 6865558126048070054}
+  - component: {fileID: 5660517895915204460}
   m_Layer: 0
   m_Name: FamiliarizationManager
   m_TagString: Untagged
@@ -45,6 +46,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _familiarizationTimeline: {fileID: 8105142173311295104}
+--- !u!95 &5660517895915204460
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7233140315951453590}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8137479613770888169
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +114,7 @@ PlayableDirector:
   - key: {fileID: 114178454496993296, guid: f2fe628a313460d41bf574db28df1d3f, type: 2}
     value: {fileID: 0}
   - key: {fileID: 114560304588335100, guid: f2fe628a313460d41bf574db28df1d3f, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 5660517895915204460}
   - key: {fileID: 114469204891427556, guid: f2fe628a313460d41bf574db28df1d3f, type: 2}
     value: {fileID: 0}
   m_ExposedReferences:

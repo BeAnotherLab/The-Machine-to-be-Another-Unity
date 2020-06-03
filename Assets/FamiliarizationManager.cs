@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using RockVR.Video;
+using RockVR.Video.Demo;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -21,10 +22,14 @@ public class FamiliarizationManager : MonoBehaviour
         CustomVideoCaptureCtrl.instance.StartCapture();
         _familiarizationTimeline.Play();
     }
-
-    public void StopFamiliarization()
+    
+    public void TimelineStopFamiliarization()
     {
-        CustomVideoCaptureCtrl.instance.StopCapture();
+        CustomVideoCaptureUI.instance.Next(true);
+    }
+
+    public void ButtonStopFamiliarization()
+    {
         _familiarizationTimeline.Stop();
     }
 }
