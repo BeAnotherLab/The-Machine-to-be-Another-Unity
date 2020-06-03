@@ -28,3 +28,4 @@ extern bool Wall;
 extern bool WallChange;
 
 extern void language(void);
+extern byte Language;
