@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using RockVR.Video;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using VideoPlayer = UnityEngine.Video.VideoPlayer;
@@ -19,7 +14,6 @@ public class ExperimentManager : MonoBehaviour
     public ConditionType condition;
 
     [SerializeField] private PlayableDirector _interventionTimeline;
-    [SerializeField] private PlayableDirector _familiarizationTimeline;
     [SerializeField] private VideoPlayer _videoPlayer;
 
     [SerializeField] private TrackAsset _leaderTrack;
@@ -38,12 +32,6 @@ public class ExperimentManager : MonoBehaviour
         _leaderTrack = timelineAsset.GetOutputTrack(2);        
     }
 
-    public void StartFamiliarization()
-    {
-        if(participant == ParticipantType.follower) VideoCaptureCtrl.instance.StartCapture();
-        _familiarizationTimeline.Play();
-    }
-    
     public void StartExperiment()
     {
         ExperimentSettingsGUI.instance.gameObject.SetActive(false); //disable experiment GUI

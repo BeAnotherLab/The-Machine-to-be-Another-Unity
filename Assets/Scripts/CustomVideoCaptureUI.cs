@@ -44,7 +44,6 @@ namespace RockVR.Video.Demo
                     StartRecording();            
                     break;
                 case VideoCaptureCtrl.StatusType.STARTED: // while recording
-                    VideoCaptureCtrl.instance.StopCapture();
                     _processingText.text = "processing";
                     break;
                 case VideoCaptureCtrl.StatusType.FINISH: //we're done processing the recorded video
@@ -56,7 +55,6 @@ namespace RockVR.Video.Demo
                         _videoPlayed = true;
                     }
                     else StartRecording();
-                        
                     break;    
             }
         }
@@ -68,13 +66,14 @@ namespace RockVR.Video.Demo
             _captureFinishedOnce = false;
             _processingText.text = "recording";
             _nextButton.GetComponentInChildren<Text>().text = "stop recording";
-            ExperimentManager.instance.StartFamiliarization();
+            FamiliarizationManager.instance.StartFamiliarization();
         }
         
         private void VideoFinished()
         {
             _processingText.text = "ready to capture";
             _nextButton.GetComponentInChildren<Text>().text = "Start Recording";
+            FamiliarizationManager.instance.StopFamiliarization();
         }
 
     }
