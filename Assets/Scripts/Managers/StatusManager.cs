@@ -119,6 +119,7 @@ public class StatusManager : MonoBehaviour {
     public void SelfPutHeadsetOn()
     {
         selfStatus = UserStatus.headsetOn;
+        InstructionsTextBehavior.instance.ShowTextFromKey("idle");
         OscManager.instance.SendThisUserStatus(UserStatus.headsetOn);
         if (otherStatus == UserStatus.headsetOn) HeadsetsOn();    
     }
