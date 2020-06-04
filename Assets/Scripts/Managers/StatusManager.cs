@@ -77,7 +77,7 @@ public class StatusManager : MonoBehaviour {
             ArduinoManager.instance.SendCommand("wal_on"); //close curtain
             ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
         }
-
+        InstructionsTextBehavior.instance.ShowInstructionText(false);
         if (_autoStartAndFinishOn) VideoFeed.instance.SetDimmed(false);
     }
 
