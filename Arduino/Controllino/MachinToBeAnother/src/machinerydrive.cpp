@@ -7,6 +7,5 @@ bool MDOk = false;                          //global
 void machinerydrive(){
   MDReady = digitalRead(CONTROLLINO_A3);  //read MDReady
   MDOk = digitalRead(CONTROLLINO_A2);     //read MDOk
-  MDReleased = MDReady && MDOk;         
-  digitalWrite(CONTROLLINO_D6, MDReleased);
+  MDReleased = MDReady && MDOk;
 }

@@ -5,7 +5,7 @@ bool MirrorChange;              //global
 
 void mirror (void) {
   if (MirrorChange) {
-    digitalWrite(CONTROLLINO_D2, Mirror); //on off mirror
+    digitalWrite(CONTROLLINO_D4, Mirror); //on off mirror
     MirrorChange = false;
     error(0);
   }

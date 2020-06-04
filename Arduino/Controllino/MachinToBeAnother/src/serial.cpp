@@ -35,30 +35,27 @@ void serial_curtain_off() {
   CurtainChange=true;
 }
 
+void language_de() {
+  Language=0;
+}
+
+void language_en() {
+  Language=1;
+}
+
+void language_fr() {
+  Language=2;
+}
+
+void language_it() {
+  Language=3;
+}
+
+
 void debug_modus() {
   DEBUG=!DEBUG;
   if (DEBUG) Serial.println("dbg_on");
   else Serial.println("dbg_off");
-}
-
-void language_change_de() {
-    LngChange=true;
-    LngState=0;
-}
-
-void language_change_en() {
-    LngChange=true;
-    LngState=1;
-}
-
-void language_change_fr() {
-    LngChange=true;
-    LngState=2;
-}
-
-void language_change_it() {
-    LngChange=true;
-    LngState=3;
 }
 
 // This gets set as the default handler, and gets called when no other command matches.
@@ -76,11 +73,11 @@ void serial (void) {
     uduino.addCommand("mir_off",  serial_mirror_off);     // close mirror
     uduino.addCommand("cur_on",   serial_curtain_on);     // close curtain
     uduino.addCommand("cur_off",  serial_curtain_off);    // open curtain
-    uduino.addCommand("debug",    debug_modus);           // debug modus
-    uduino.addCommand("lng_de",   language_change_de);    // change language to DE
-    uduino.addCommand("lng_en",   language_change_en);    // change language to EN
-    uduino.addCommand("lng_fr",   language_change_fr);    // change language to FR
-    uduino.addCommand("lng_it",   language_change_it);    // change language to IT
+    uduino.addCommand("lng_de",   language_de);           // language DE
+    uduino.addCommand("lng_en",   language_en);           // language EN
+    uduino.addCommand("lng_fr",   language_fr);           // language FR
+    uduino.addCommand("lng_it",   language_it);           // language IT
+    uduino.addCommand("debug",    debug_modus);           // debug modus 
     uduino.addDefaultHandler(unrecognized);               // Handler for command that isn't matched  (says "What?")
 
     if (MDReleased) Serial.println("sys_rdy");
