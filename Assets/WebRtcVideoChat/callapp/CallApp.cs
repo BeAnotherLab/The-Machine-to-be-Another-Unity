@@ -325,7 +325,11 @@ public class CallApp : MonoBehaviour
                 {
                     //text message received
                     MessageEventArgs args = e as MessageEventArgs;
-                    Append(args.Content);
+                    //Append(args.Content);
+                    mUi.videoMeshRenderer.transform.eulerAngles = new Vector3(
+                        float.Parse(args.Content.Split(',')[0]), 
+                        float.Parse(args.Content.Split(',')[1]),
+                        float.Parse(args.Content.Split(',')[2]));
                     break;
                 }
             case CallEventType.WaitForIncomingCall:
