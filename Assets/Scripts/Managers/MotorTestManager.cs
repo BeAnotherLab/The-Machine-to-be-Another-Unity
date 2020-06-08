@@ -137,15 +137,10 @@ public class MotorTestManager : TestManager
         
         string filepath = Application.dataPath + "/" + "MotorTest" + _experimentData.subjectID + "_log.json";
         
-        if (!File.Exists(filepath))
-        {
-            Debug.Log(" creating new file : " + filepath);
-            _filePath = filepath; 
-            MotorTestInstructionsGUIBehavior.instance.Init();
-            MotorTestSettingsGUI.instance.gameObject.SetActive(false); //hide settings GUI
-            _currentStep = steps.instructions;       
-        }
-        else MotorTestSettingsGUI.instance.ShowExistingSubjectIDError();
+        Debug.Log(" creating new file : " + filepath);
+        _filePath = filepath; 
+        MotorTestInstructionsGUIBehavior.instance.Init();
+        _currentStep = steps.instructions;       
     }
 
     public void StartTest()

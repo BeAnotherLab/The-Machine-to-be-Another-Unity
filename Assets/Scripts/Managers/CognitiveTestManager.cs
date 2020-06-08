@@ -89,7 +89,6 @@ public class CognitiveTestManager : TestManager
         Debug.Log(" creating new file : " + filepath);
         _filePath = filepath; 
         CognitiveTestInstructionsGUIBehavior.instance.Init();
-        CognitiveSettingsGUI.instance.gameObject.SetActive(false); //hide settings GUI
         _currentStep = steps.instructions;       
         VideoFeed.instance.SetDimmed(true);
     }
