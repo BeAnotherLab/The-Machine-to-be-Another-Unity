@@ -16,14 +16,7 @@ public class MotorTestSettingsGUI : MonoBehaviour
     private void Awake()
     {
         if (instance == null) instance = this;
-       
-        _startButton.onClick.AddListener(delegate
-        {
-            MotorTestManager.instance.StartInstructions(
-                _subjectIDInputField.text,
-                _prePostDropdown.options[_prePostDropdown.value].text
-            );
-        });
+        _startButton.onClick.AddListener(delegate { MotorTestManager.instance.StartInstructions(); });
     }
     
     public void ShowExistingSubjectIDError()

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class CognitiveSettingsGUI : MonoBehaviour
 {
+    
     //Cognitive settings
     [SerializeField] private InputField _subjectIDInputField;
     [SerializeField] private GameObject _subjectExistingErrorMessage;
@@ -31,12 +32,7 @@ public class CognitiveSettingsGUI : MonoBehaviour
 
         _startButton.onClick.AddListener(delegate
         {
-            CognitiveTestManager.instance.StartInstructions(
-                _pronounDropdown.options[_pronounDropdown.value].text,
-                _subjectIDInputField.text,
-                _directionDropdown.options[_directionDropdown.value].text,
-                _prePostDropdown.options[_prePostDropdown.value].text
-                );
+            CognitiveTestManager.instance.StartInstructions();
         });
         
         _rotateButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });

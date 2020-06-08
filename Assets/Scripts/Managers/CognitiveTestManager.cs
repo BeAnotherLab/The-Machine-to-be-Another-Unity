@@ -14,10 +14,6 @@ public class CognitiveTestManager : TestManager
     
     #region Private Fields
 
-    //params from settings GUI
-    private string _pronoun;
-    private string _subjectDirection;
-    
     //for parsing the trial structure JSONs
     private JSONObject _trials;
     private JSONObject _results;
@@ -28,6 +24,7 @@ public class CognitiveTestManager : TestManager
     private answer _givenAnswer;
     
     [SerializeField] string[] _blockNames;
+
     [SerializeField] private ExperimentData _experimentData;
     
     #endregion
@@ -60,6 +57,8 @@ public class CognitiveTestManager : TestManager
 
         _finalTrialsList = new JSONObject();
         foreach (string blockName in _blockNames) PrepareBlock(blockName);
+        
+        StartInstructions();  
     }
     
     // Update is called once per frame
@@ -81,17 +80,13 @@ public class CognitiveTestManager : TestManager
 
     #region Public Methods
 
-    public void StartInstructions(string pronoun, string subjectID, string subjectDirection, string prepost)
+    public void StartInstructions()
     {
-        _pronoun = pronoun;
-        _subjectDirection = subjectDirection;
-        _prepost = prepost;
         var files = Directory.GetFiles(Application.dataPath);
 
-        string filepath = Application.dataPath + "/" + "CognitiveTest" + subjectID + "_log.json";
+        string filepath = Application.dataPath + "/" + "CognitiveTest" + _experimentData.subjectID + "_log.json";
 
         Debug.Log(" creating new file : " + filepath);
-        _subjectID = subjectID;
         _filePath = filepath; 
         CognitiveTestInstructionsGUIBehavior.instance.Init();
         CognitiveSettingsGUI.instance.gameObject.SetActive(false); //hide settings GUI
@@ -99,14 +94,14 @@ public class CognitiveTestManager : TestManager
         VideoFeed.instance.SetDimmed(true);
     }
     
-    public void StartTest(ExperimentStep experimentStep)
+    public void StartTest()
     {
-        if (experimentStep == ExperimentStep.post) //if we are testing post intervention, go straight to testing
+        if (_experimentData.experimentState == ExperimentState.post) //if we are testing post intervention, go straight to testing
         {
             _currentStep = steps.testing;
             //if we skip practice, start at the index of the first block 
             _trialIndex = _trials.list.Where(trial => trial.GetField("field8").str == _blockNames[0]).ToList().Count;
-        } else if (experimentStep == ExperimentStep.pre)
+        } else if (_experimentData.experimentState == ExperimentState.pre)
         {
             _currentStep = steps.practice;
         } //if we are testing pre intervention, show instructions and do a practice round
@@ -141,7 +136,7 @@ public class CognitiveTestManager : TestManager
 
         //Make sure to use the right pronoun
         string stim1 = _finalTrialsList[_trialIndex].GetField("stim1").str;
-        if (stim1.Contains("SHE")) stim1 = _pronoun + " " + stim1[3];
+        if (stim1.Contains("SHE")) stim1 = "" + "SHE" + stim1[3];
         else stim1 = "You : " + stim1[3]; 
         InstructionsTextBehavior.instance.ShowInstructionText(true, stim1); //show pronoun + number of balls
     
@@ -239,7 +234,7 @@ public class CognitiveTestManager : TestManager
     {
         _finalTrialsList[_trialIndex].AddField("answer", answer);
         _finalTrialsList[_trialIndex].AddField("time", time.ToString());
-        _finalTrialsList[_trialIndex].AddField("prepost", _prepost);
+        _finalTrialsList[_trialIndex].AddField("prepost", _experimentData.experimentState.ToString());
 
         File.WriteAllText(_filePath, _finalTrialsList.Print());
         _trialIndex++;
@@ -248,14 +243,14 @@ public class CognitiveTestManager : TestManager
     
     private void MatchDirection(char desiredDirection)
     {
-        if (desiredDirection == 'R' && _subjectDirection == "Left")
+        if (desiredDirection == 'R' && _experimentData.subjectDirection == "Left")
         {
             VideoFeed.instance.FlipHorizontal();
-            _subjectDirection = "Right";
-        } else if (desiredDirection == 'L' && _subjectDirection == "Right")
+            _experimentData.subjectDirection = "Right";
+        } else if (desiredDirection == 'L' && _experimentData.subjectDirection == "Right")
         {
             VideoFeed.instance.FlipHorizontal();
-            _subjectDirection = "Left";
+            _experimentData.subjectDirection = "Left";
         }
     }
     

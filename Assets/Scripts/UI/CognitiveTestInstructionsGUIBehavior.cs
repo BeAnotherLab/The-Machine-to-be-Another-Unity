@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-public enum ExperimentStep { pre, intervention, post };
-
 public class CognitiveTestInstructionsGUIBehavior : MonoBehaviour
 {
 
@@ -31,7 +29,7 @@ public class CognitiveTestInstructionsGUIBehavior : MonoBehaviour
       }
       else
       {
-         CognitiveTestManager.instance.StartTest(ExperimentStep.pre);
+         CognitiveTestManager.instance.StartTest();
       }
    }
 }

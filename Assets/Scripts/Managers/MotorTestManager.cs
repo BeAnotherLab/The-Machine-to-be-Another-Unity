@@ -59,7 +59,7 @@ public class MotorTestManager : TestManager
         if (instance == null) instance = this;
         OnTimerStart += TimerStart;
     }
-
+    
     private void TimerStart()
     {
         _timer.Start();   
@@ -93,6 +93,9 @@ public class MotorTestManager : TestManager
                 _stimuli.Add(condition);
 
         _results = new JSONObject();
+        
+        if(_experimentData.experimentState == ExperimentState.pre) StartInstructions();
+        else StartTest();
     }
 
     private void Update()    
@@ -128,18 +131,15 @@ public class MotorTestManager : TestManager
     
     #region Public Methods
     
-    public void StartInstructions(string subjectID, string prepost)
+    public void StartInstructions()
     {
-        _prepost = prepost;
-        _subjectID = subjectID;
         var files = Directory.GetFiles(Application.dataPath);
         
-        string filepath = Application.dataPath + "/" + "MotorTest" + subjectID + "_log.json";
+        string filepath = Application.dataPath + "/" + "MotorTest" + _experimentData.subjectID + "_log.json";
         
         if (!File.Exists(filepath))
         {
             Debug.Log(" creating new file : " + filepath);
-            _subjectID = subjectID;
             _filePath = filepath; 
             MotorTestInstructionsGUIBehavior.instance.Init();
             MotorTestSettingsGUI.instance.gameObject.SetActive(false); //hide settings GUI
@@ -176,7 +176,7 @@ public class MotorTestManager : TestManager
         stimulusResult.AddField("condition", Enum.GetName(typeof(Condition), _stimuli[_trialIndex]));
         stimulusResult.AddField("answer", Enum.GetName(typeof(answer), theAnswer));
         stimulusResult.AddField("time", time.ToString());
-        stimulusResult.AddField("prepost", _prepost);
+        stimulusResult.AddField("prepost", _experimentData.experimentState.ToString());
         
         _results.Add(stimulusResult);
         
