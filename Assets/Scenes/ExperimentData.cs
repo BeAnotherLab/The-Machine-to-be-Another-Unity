@@ -14,5 +14,10 @@ public class ExperimentData : ScriptableObject
     public ParticipantType participantType;
     public string subjectDirection;
     public ExperimentState experimentState;
-    public string videoPath;
+
+    public void Clear()
+    {
+        subjectID = "";
+        experimentState = ExperimentState.familiarization;
+    }
 }

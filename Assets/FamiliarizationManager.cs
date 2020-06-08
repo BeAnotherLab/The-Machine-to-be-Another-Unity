@@ -21,6 +21,11 @@ public class FamiliarizationManager : MonoBehaviour
         if (instance == null) instance = this;
     }
 
+    private void Start()
+    {
+        _experimentData.Clear();
+    }
+
     public void StartFamiliarization()
     {
         CustomVideoCaptureCtrl.instance.StartCapture();
@@ -73,7 +78,16 @@ public class FamiliarizationManager : MonoBehaviour
         if (fileOK)
             ExperimentSettingsGUI.instance.ShowExistingSubjectIDError();
 
+        CustomVideoCaptureUI.instance.EnableRecordButton();
+        
         return fileOK;
+
+        
+    }
+
+    public string GetSubjectID()
+    {
+        return _experimentData.subjectID;
     }
     
 }
