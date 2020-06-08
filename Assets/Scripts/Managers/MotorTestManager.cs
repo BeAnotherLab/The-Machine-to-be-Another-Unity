@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 using Random = System.Random;
@@ -187,6 +188,7 @@ public class MotorTestManager : TestManager
         {
             FinishTest();
             MotorTestInstructionsGUIBehavior.instance.Stop();
+            SceneManager.LoadScene("CognitiveTest");
         }
     }
 

@@ -52,7 +52,6 @@ public class FamiliarizationManager : MonoBehaviour
         if (participant == "Leader")  _experimentData.participantType = ParticipantType.leader;
         else  _experimentData.participantType = ParticipantType.follower;
         
-        _experimentData.experimentState = ExperimentState.pre;
         _experimentData.subjectDirection = direction;
         
         var subjectIDOK = SetSubjectID(subjectID);
@@ -63,7 +62,10 @@ public class FamiliarizationManager : MonoBehaviour
         {
             ExperimentSettingsGUI.instance.NotifyVideoNotFoundError();
         }
-        else SceneManager.LoadScene("MotorTest");
+        else {
+            _experimentData.experimentState = ExperimentState.pre;
+            SceneManager.LoadScene("MotorTest"); //TODO counter balance
+        }
     }
     
     public bool SetSubjectID(string id)  

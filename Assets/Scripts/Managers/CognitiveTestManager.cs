@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System.IO;
 using System.Diagnostics;
 using System.Linq;
+using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
 
 public class CognitiveTestManager : TestManager
@@ -166,8 +167,12 @@ public class CognitiveTestManager : TestManager
         _timer.Reset();
     
         yield return new WaitForSeconds(3);
-    
-        if (_trialIndex == _finalTrialsList.Count) FinishTest();
+
+        if (_trialIndex == _finalTrialsList.Count)
+        {
+            FinishTest();
+            if (_experimentData.experimentState == ExperimentState.pre) SceneManager.LoadScene("SparkSwap");
+        }
         else _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
     }
 
@@ -209,8 +214,13 @@ public class CognitiveTestManager : TestManager
             WriteTestResults("no", _timer.Elapsed.Milliseconds);
             _givenAnswer = answer.no;
         }
-        
-        if (_trialIndex == _finalTrialsList.Count) FinishTest();
+
+        if (_trialIndex == _finalTrialsList.Count)
+        {
+            FinishTest();
+            if (_experimentData.experimentState == ExperimentState.pre) SceneManager.LoadScene("SparkSwap");
+                
+        }
         else if (_finalTrialsList[_trialIndex].GetField("type").str == "practice") StartCoroutine(ShowFeedbackCoroutine());
         else if (_finalTrialsList[_trialIndex].GetField("type").str == "test")
         {

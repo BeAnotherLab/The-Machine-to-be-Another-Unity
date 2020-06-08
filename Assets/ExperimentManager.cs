@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 using UnityEngine.Timeline;
 using VideoPlayer = UnityEngine.Video.VideoPlayer;
 
@@ -29,6 +30,7 @@ public class ExperimentManager : MonoBehaviour
         TimelineAsset timelineAsset = (TimelineAsset) _interventionTimeline.playableAsset;
         _followerTrack = timelineAsset.GetOutputTrack(1);
         _leaderTrack = timelineAsset.GetOutputTrack(2);        
+        _experimentData.experimentState == ExperimentState.intervention
     }
 
     public void StartExperiment()
@@ -88,8 +90,9 @@ public class ExperimentManager : MonoBehaviour
     public void EndIntervention()
     {
         OscManager.instance.sendHeadTracking = false;
-        
         Debug.Log("End of intervention");
+        _experimentData.experimentState = ExperimentState.post;
+        SceneManager.LoadScene("MotorTest");
     }
 
 }
