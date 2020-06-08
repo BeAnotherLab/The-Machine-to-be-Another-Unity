@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1983499656887503797
+--- !u!1 &7233140315951453590
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,58 +8,52 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1983499656887503796}
-  - component: {fileID: 1983499656887503803}
-  - component: {fileID: 756559593}
+  - component: {fileID: 3335802573083775815}
+  - component: {fileID: 6865558126048070054}
+  - component: {fileID: 5660517895915204460}
   m_Layer: 0
-  m_Name: ExperimentManager
+  m_Name: FamiliarizationManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1983499656887503796
+--- !u!4 &3335802573083775815
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1983499656887503797}
+  m_GameObject: {fileID: 7233140315951453590}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 5730681617032869162}
+  - {fileID: 6056466124097206663}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1983499656887503803
+--- !u!114 &6865558126048070054
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1983499656887503797}
+  m_GameObject: {fileID: 7233140315951453590}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 708ed747dfac39e4c906c1312577b114, type: 3}
+  m_Script: {fileID: 11500000, guid: 86bf0926a32db034ebcbd4f92a4e1df7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  participant: 0
-  condition: 0
-  _interventionTimeline: {fileID: 7465947616314317610}
-  _familiarizationTimeline: {fileID: 0}
-  _videoPlayer: {fileID: 0}
-  _leaderTrack: {fileID: 0}
-  _followerTrack: {fileID: 0}
---- !u!95 &756559593
+  _familiarizationTimeline: {fileID: 8105142173311295104}
+--- !u!95 &5660517895915204460
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1983499656887503797}
+  m_GameObject: {fileID: 7233140315951453590}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 0}
@@ -71,7 +65,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!1 &4952680142004288286
+--- !u!1 &8137479613770888169
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -79,53 +73,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5730681617032869162}
-  - component: {fileID: 7465947616314317610}
+  - component: {fileID: 6056466124097206663}
+  - component: {fileID: 8105142173311295104}
   m_Layer: 0
-  m_Name: InterventionlTimeline
+  m_Name: FamiliarizationTimeline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5730681617032869162
+--- !u!4 &6056466124097206663
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4952680142004288286}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 8137479613770888169}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1983499656887503796}
+  m_Father: {fileID: 3335802573083775815}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!320 &7465947616314317610
+--- !u!320 &8105142173311295104
 PlayableDirector:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4952680142004288286}
+  m_GameObject: {fileID: 8137479613770888169}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 4750f71301b514b47b0d9649ce44f8a9, type: 2}
+  m_PlayableAsset: {fileID: 11400000, guid: f2fe628a313460d41bf574db28df1d3f, type: 2}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
   m_SceneBindings:
-  - key: {fileID: 114295862990490492, guid: 4750f71301b514b47b0d9649ce44f8a9, type: 2}
-    value: {fileID: 756559593}
-  - key: {fileID: 114485392915293706, guid: 4750f71301b514b47b0d9649ce44f8a9, type: 2}
+  - key: {fileID: 114178454496993296, guid: f2fe628a313460d41bf574db28df1d3f, type: 2}
     value: {fileID: 0}
-  - key: {fileID: 114784214849087588, guid: 4750f71301b514b47b0d9649ce44f8a9, type: 2}
-    value: {fileID: 0}
-  - key: {fileID: 114284915484591446, guid: 4750f71301b514b47b0d9649ce44f8a9, type: 2}
-    value: {fileID: 0}
-  - key: {fileID: 114592288645506500, guid: 4750f71301b514b47b0d9649ce44f8a9, type: 2}
+  - key: {fileID: 114560304588335100, guid: f2fe628a313460d41bf574db28df1d3f, type: 2}
+    value: {fileID: 5660517895915204460}
+  - key: {fileID: 114469204891427556, guid: f2fe628a313460d41bf574db28df1d3f, type: 2}
     value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
