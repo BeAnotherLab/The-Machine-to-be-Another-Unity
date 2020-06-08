@@ -18,10 +18,7 @@ namespace RockVR.Video.Demo
         private void Awake()
         {
             if (instance == null) instance = this;
-            _nextButton.onClick.AddListener(delegate
-            {
-                if (ExperimentSettingsGUI.instance.subjectIDValidated) Next();
-            });
+            _nextButton.onClick.AddListener(delegate { if (FamiliarizationManager.instance.GetSubjectID() != "") Next(); });
             CustomVideoPlayer.OnVideoFinished += delegate { VideoFinished(); };
         }
 
@@ -39,6 +36,11 @@ namespace RockVR.Video.Demo
             }
         }
 
+        public void EnableRecordButton()
+        {
+            _nextButton.interactable = true;
+        }
+        
         public void Next(bool fromTimeline = false)
         {
             switch (CustomVideoCaptureCtrl.instance.status)
