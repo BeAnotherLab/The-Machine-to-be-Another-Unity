@@ -12,9 +12,11 @@ public class FamiliarizationManager : MonoBehaviour
     
     [SerializeField] private PlayableDirector _familiarizationTimeline;
 
+    [SerializeField] private ExperimentData _experimentData;
+    
     private void Awake()
     {
-        if (instance == null) instance = this;    
+        if (instance == null) instance = this;
     }
 
     public void StartFamiliarization()
@@ -32,4 +34,10 @@ public class FamiliarizationManager : MonoBehaviour
     {
         _familiarizationTimeline.Stop();
     }
+
+    public void StartExperiment()
+    {
+        
+    }
+
 }

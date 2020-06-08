@@ -27,6 +27,7 @@ public class CognitiveTestManager : TestManager
     private answer _givenAnswer;
     
     [SerializeField] string[] _blockNames;
+    [SerializeField] private ExperimentData _experimentData;
     
     #endregion
 

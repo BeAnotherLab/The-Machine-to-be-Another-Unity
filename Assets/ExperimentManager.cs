@@ -3,9 +3,6 @@ using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using VideoPlayer = UnityEngine.Video.VideoPlayer;
 
-public enum ParticipantType { leader, follower };
-public enum ConditionType { control, experimental, familiarization };
-
 public class ExperimentManager : MonoBehaviour
 {
     public static ExperimentManager instance;
@@ -18,6 +15,8 @@ public class ExperimentManager : MonoBehaviour
 
     [SerializeField] private TrackAsset _leaderTrack;
     [SerializeField] private TrackAsset _followerTrack;
+
+    [SerializeField] private ExperimentData _experimentData;
     
     private void Awake()
     {

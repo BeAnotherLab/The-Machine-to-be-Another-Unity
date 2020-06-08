@@ -38,6 +38,8 @@ public class MotorTestManager : TestManager
     private List<Condition> _stimuli;
 
     private JSONObject _results;
+
+    [SerializeField] private ExperimentData _experimentData;
     
     #endregion
     
