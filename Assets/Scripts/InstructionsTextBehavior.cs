@@ -24,7 +24,6 @@ public class InstructionsTextBehavior : MonoBehaviour
 
     public void ShowInstructionText(bool show, string text = "")
     {
-        transform.parent.gameObject.SetActive(show); //Show instructions canvas
         GetComponent <CanvasGroup>().alpha = show ? 1 : 0;
         _textGameObject.GetComponent<Text>().text = text; //give feedback
     }
