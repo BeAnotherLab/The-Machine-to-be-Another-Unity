@@ -8,9 +8,6 @@ public class ExperimentManager : MonoBehaviour
 {
     public static ExperimentManager instance;
 
-    public ParticipantType participant;
-    public ConditionType condition;
-
     [SerializeField] private PlayableDirector _interventionTimeline;
     [SerializeField] private VideoPlayer _videoPlayer;
 
@@ -36,12 +33,12 @@ public class ExperimentManager : MonoBehaviour
     public void StartExperiment()
     {
         //activate/deactivate clip tracks depending on if leader or follower
-        _followerTrack.muted = participant != ParticipantType.follower;
-        _leaderTrack.muted = participant != ParticipantType.leader; 
+        _followerTrack.muted = _experimentData.participantType != ParticipantType.follower;
+        _leaderTrack.muted = _experimentData.participantType != ParticipantType.leader; 
         
         _interventionTimeline.Play();
     
-        if (condition == ConditionType.experimental)
+        if (_experimentData.conditionType == ConditionType.experimental)
         {
             OscManager.instance.sendHeadTracking = true; //enable sending/receiving headtracking
             VideoFeed.instance.twoWayWap = true; //move POV according to other headtracking
@@ -51,7 +48,7 @@ public class ExperimentManager : MonoBehaviour
             VideoFeed.instance.twoWayWap = false; //POV follows own headtracking
         }
     
-        if (participant == ParticipantType.follower && condition == ConditionType.control)
+        if (_experimentData.participantType == ParticipantType.follower && _experimentData.conditionType == ConditionType.control)
         {
             var currentSubjectID = PlayerPrefs.GetString("SubjectID");
             _videoPlayer.url = PlayerPrefs.GetString("VideoCapturePath" + currentSubjectID);
@@ -62,27 +59,27 @@ public class ExperimentManager : MonoBehaviour
     public void StartFreePhase()
     {
         //play free phase instruction audio or text
-        if (participant == ParticipantType.follower && condition == ConditionType.control)
+        if (_experimentData.participantType == ParticipantType.follower && _experimentData.conditionType == ConditionType.control)
         {
             //switch to pre recorded video
             VideoFeed.instance.ShowLiveFeed(false);
             _videoPlayer.Play();
         }
         
-        Debug.Log("start free phase for " + condition + " " + participant);
+        Debug.Log("start free phase for " + _experimentData.conditionType + " " + _experimentData.participantType);
     }
 
     public void StartTactilePhase()
     {
         //play tactile phase instruction audio or text
 
-        if (participant == ParticipantType.follower && condition == ConditionType.control)
+        if (_experimentData.participantType == ParticipantType.follower && _experimentData.conditionType == ConditionType.control)
         {
             //switch back to live video
             VideoFeed.instance.ShowLiveFeed(true);
         }
         
-        Debug.Log("start tactile phase for " + condition + " " + participant);
+        Debug.Log("start tactile phase for " + _experimentData.conditionType + " " + _experimentData.participantType);
     }
     
     public void EndIntervention()
