@@ -26,6 +26,8 @@ public class CognitiveTestManager : TestManager
     [SerializeField] string[] _blockNames;
 
     [SerializeField] private ExperimentData _experimentData;
+
+    [SerializeField] private bool debug;
     
     #endregion
 
@@ -51,12 +53,15 @@ public class CognitiveTestManager : TestManager
         VideoFeed.instance.twoWayWap = true;
         
         //Read the task structure from JSON
-        StreamReader reader = new StreamReader(Application.streamingAssetsPath + "/task structure.json"); 
+        var appendDebug = debug ? "debug" : "";
+        StreamReader reader = new StreamReader(Application.streamingAssetsPath + appendDebug + "/task structure.json"); 
         _trials = new JSONObject(reader.ReadToEnd());
         reader.Close();
 
         _finalTrialsList = new JSONObject();
         foreach (string blockName in _blockNames) PrepareBlock(blockName);
+
+        if (_experimentData.debug) _trialIndex = _finalTrialsList.Count - 5;
         
         StartInstructions();  
     }

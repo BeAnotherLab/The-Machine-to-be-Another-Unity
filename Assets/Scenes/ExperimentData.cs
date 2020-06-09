@@ -14,6 +14,7 @@ public class ExperimentData : ScriptableObject
     public ParticipantType participantType;
     public string subjectDirection;
     public ExperimentState experimentState;
+    public bool debug;
 
     public void Clear()
     {

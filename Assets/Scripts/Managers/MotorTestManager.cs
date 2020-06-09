@@ -70,6 +70,8 @@ public class MotorTestManager : TestManager
     private void Start()
     {
         base.Start();
+
+        if (_experimentData.debug) _numberTrials = 1;
         
         //first create an array with "_numberTrials" repetitions of each of the 6 stiumulus combinations and randomize their order
         Condition[][] conditions = new Condition [_numberTrials][];
