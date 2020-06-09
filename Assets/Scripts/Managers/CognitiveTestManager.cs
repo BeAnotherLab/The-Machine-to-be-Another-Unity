@@ -27,8 +27,6 @@ public class CognitiveTestManager : TestManager
 
     [SerializeField] private ExperimentData _experimentData;
 
-    [SerializeField] private bool debug;
-    
     #endregion
 
     
@@ -53,16 +51,14 @@ public class CognitiveTestManager : TestManager
         VideoFeed.instance.twoWayWap = true;
         
         //Read the task structure from JSON
-        var appendDebug = debug ? "debug" : "";
-        StreamReader reader = new StreamReader(Application.streamingAssetsPath + appendDebug + "/task structure.json"); 
+        var appendDebug = _experimentData.debug ? "debug" : "";
+        StreamReader reader = new StreamReader(Application.streamingAssetsPath + "/" + appendDebug + "task structure.json"); 
         _trials = new JSONObject(reader.ReadToEnd());
         reader.Close();
 
         _finalTrialsList = new JSONObject();
         foreach (string blockName in _blockNames) PrepareBlock(blockName);
 
-        if (_experimentData.debug) _trialIndex = _finalTrialsList.Count - 5;
-        
         StartInstructions();  
     }
     
@@ -100,16 +96,7 @@ public class CognitiveTestManager : TestManager
     
     public void StartTest()
     {
-        if (_experimentData.experimentState == ExperimentState.post) //if we are testing post intervention, go straight to testing
-        {
-            _currentStep = steps.testing;
-            //if we skip practice, start at the index of the first block 
-            _trialIndex = _trials.list.Where(trial => trial.GetField("field8").str == _blockNames[0]).ToList().Count;
-        } else if (_experimentData.experimentState == ExperimentState.pre)
-        {
-            _currentStep = steps.practice;
-        } //if we are testing pre intervention, show instructions and do a practice round
-        
+        _currentStep = steps.practice;
         _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
     }
 
@@ -120,7 +107,6 @@ public class CognitiveTestManager : TestManager
     
     private void PrepareBlock(string blockName)
     {
-        
         List<JSONObject> jsonObjects = _trials.list.Where(trial => trial.GetField("field8").str == blockName).ToList();
         ListExtensions.Shuffle(jsonObjects); //shuffle that list
         foreach (JSONObject jsonObject in jsonObjects) _finalTrialsList.Add(jsonObject); //add it to the final list
@@ -218,7 +204,6 @@ public class CognitiveTestManager : TestManager
         {
             FinishTest();
             if (_experimentData.experimentState == ExperimentState.pre) SceneManager.LoadScene("SparkSwap");
-                
         }
         else if (_finalTrialsList[_trialIndex].GetField("type").str == "practice") StartCoroutine(ShowFeedbackCoroutine());
         else if (_finalTrialsList[_trialIndex].GetField("type").str == "test")
