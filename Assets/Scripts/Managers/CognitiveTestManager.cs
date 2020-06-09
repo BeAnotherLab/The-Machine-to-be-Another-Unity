@@ -95,7 +95,7 @@ public class CognitiveTestManager : TestManager
         _filePath = filepath; 
         CognitiveTestInstructionsGUIBehavior.instance.Init();
         _currentStep = steps.instructions;       
-        VideoFeed.instance.SetDimmed(true);
+       // VideoFeed.instance.SetDimmed(true);
     }
     
     public void StartTest()
