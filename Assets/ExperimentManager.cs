@@ -35,8 +35,6 @@ public class ExperimentManager : MonoBehaviour
 
     public void StartExperiment()
     {
-        ExperimentSettingsGUI.instance.gameObject.SetActive(false); //disable experiment GUI
-        
         //activate/deactivate clip tracks depending on if leader or follower
         _followerTrack.muted = participant != ParticipantType.follower;
         _leaderTrack.muted = participant != ParticipantType.leader; 
