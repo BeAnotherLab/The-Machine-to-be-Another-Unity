@@ -59,14 +59,7 @@ public class MotorTestManager : TestManager
         if (instance == null) instance = this;
         OnTimerStart += TimerStart;
     }
-    
-    private void TimerStart()
-    {
-        _timer.Start();   
-        _waitingForAnswer = true;
-        Debug.Log("timer start");
-    }
-    
+
     private void Start()
     {
         base.Start();
@@ -109,17 +102,17 @@ public class MotorTestManager : TestManager
         }
         else if (_waitingForAnswer && _givenAnswer == answer.none) //get answer
         {
-            if (Input.GetKeyUp(KeyCode.LeftArrow)) GetButtonUp(0);
-            else if (Input.GetKeyUp(KeyCode.RightArrow)) GetButtonUp(1);
+            if (Input.GetMouseButtonUp(0)) GetButtonUp(0);
+            else if (Input.GetMouseButtonUp(1)) GetButtonUp(1);
         }
         //if we just just pressed both busttons
-        else if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow) && !_bothFingersOn && _currentStep == steps.testing) 
+        else if (Input.GetMouseButton(0) && Input.GetMouseButton(0) && !_bothFingersOn && _currentStep == steps.testing) 
         {
             _bothFingersOn = true;
             _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
         }
         //if we just lifted one finger during testing
-        else if ((!Input.GetKey(KeyCode.LeftArrow) || !Input.GetKey(KeyCode.RightArrow)) && _bothFingersOn && _currentStep == steps.testing) 
+        else if ((!Input.GetMouseButton(0) || !Input.GetMouseButton(1)) && _bothFingersOn && _currentStep == steps.testing) 
         {
             StopCoroutine(_trialCoroutine);
             if(!_waitingForAnswer) MotorTestInstructionsGUIBehavior.instance.Stop();
@@ -128,7 +121,7 @@ public class MotorTestManager : TestManager
         }
     }
 
-    #endregion
+    #endregion    
     
     
     #region Public Methods
@@ -154,6 +147,13 @@ public class MotorTestManager : TestManager
 
     
     #region private methods
+    
+    private void TimerStart()
+    {
+        _timer.Start();   
+        _waitingForAnswer = true;
+        Debug.Log("timer start");
+    }
     
     private IEnumerator ShowTrialCoroutine()
     {
