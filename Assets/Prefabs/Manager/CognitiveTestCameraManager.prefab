@@ -29,7 +29,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5618610949124843087}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -56,19 +56,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1015dbb0b69fdd446b617191771ffcce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _deviceSelection: 0
+  _deviceSelection: 1
   _desiredDeviceNames:
-  - Logitech Webcam Pro 9000
-  - Decklink Video Capture
+  - HD Webcam
   _desiredDeviceIndex: 0
-  _modeSelection: 0
-  _desiredAnyResolution: 1
+  _modeSelection: 1
+  _desiredAnyResolution: 0
   _desiredResolutions:
   - {x: 1280, y: 720}
-  - {x: 640, y: 480}
   _desiredModeIndex: -1
   _maintainAspectRatio: 0
-  _desiredFrameRate: 0
+  _desiredFrameRate: 30
   _desiredFormatAny: 1
   _desiredTransparencyFormat: 0
   _desiredFormat: 4
