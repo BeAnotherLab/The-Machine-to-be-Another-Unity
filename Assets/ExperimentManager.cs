@@ -25,7 +25,7 @@ public class ExperimentManager : MonoBehaviour
     private void Start()
     {
         TimelineAsset timelineAsset = (TimelineAsset) _interventionTimeline.playableAsset;
-        _followerTrack = timelineAsset.GetOutputTrack(1);
+        _followerTrack = timelineAsset.GetOutputTrack(3);
         _leaderTrack = timelineAsset.GetOutputTrack(2);
         _experimentData.experimentState = ExperimentState.intervention;
     }
