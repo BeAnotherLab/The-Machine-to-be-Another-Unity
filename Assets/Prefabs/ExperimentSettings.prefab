@@ -2427,7 +2427,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e84ca425e0afa945a93cba742b55262, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subjectIDValidated: 0
   _subjectInputField: {fileID: 9184845422351088208}
   _conditionDropdown: {fileID: 1128833819395997094}
   _participantDropdown: {fileID: 5849208797639305354}
@@ -2819,21 +2818,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9184845423536298249}
     m_Modifications:
-    - target: {fileID: 8288188328124821977, guid: dbc9938b9067bdb43949055c54f76a88,
+    - target: {fileID: 8288188328124821979, guid: dbc9938b9067bdb43949055c54f76a88,
         type: 3}
-      propertyPath: m_TargetGraphic
-      value: 
-      objectReference: {fileID: 9184845422351088209}
-    - target: {fileID: 8288188328124821977, guid: dbc9938b9067bdb43949055c54f76a88,
-        type: 3}
-      propertyPath: m_TextComponent
-      value: 
-      objectReference: {fileID: 9184845423000511879}
-    - target: {fileID: 8288188328124821977, guid: dbc9938b9067bdb43949055c54f76a88,
-        type: 3}
-      propertyPath: m_Placeholder
-      value: 
-      objectReference: {fileID: 9184845422790984263}
+      propertyPath: m_Name
+      value: SubjectIDInputField
+      objectReference: {fileID: 0}
     - target: {fileID: 8288188328124821978, guid: dbc9938b9067bdb43949055c54f76a88,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2939,11 +2928,21 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 8288188328124821979, guid: dbc9938b9067bdb43949055c54f76a88,
+    - target: {fileID: 8288188328124821977, guid: dbc9938b9067bdb43949055c54f76a88,
         type: 3}
-      propertyPath: m_Name
-      value: SubjectIDInputField
-      objectReference: {fileID: 0}
+      propertyPath: m_TargetGraphic
+      value: 
+      objectReference: {fileID: 9184845422351088209}
+    - target: {fileID: 8288188328124821977, guid: dbc9938b9067bdb43949055c54f76a88,
+        type: 3}
+      propertyPath: m_TextComponent
+      value: 
+      objectReference: {fileID: 9184845423000511879}
+    - target: {fileID: 8288188328124821977, guid: dbc9938b9067bdb43949055c54f76a88,
+        type: 3}
+      propertyPath: m_Placeholder
+      value: 
+      objectReference: {fileID: 9184845422790984263}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbc9938b9067bdb43949055c54f76a88, type: 3}
 --- !u!114 &9184845422351088208 stripped
@@ -3150,11 +3149,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7860560627116620342}
     m_Modifications:
-    - target: {fileID: 2569689422636635711, guid: 60afdd489dd1b184788caf98c5f5015f,
+    - target: {fileID: 9160482203693056027, guid: 60afdd489dd1b184788caf98c5f5015f,
         type: 3}
-      propertyPath: m_TargetGraphic
-      value: 
-      objectReference: {fileID: 292131557865350028}
+      propertyPath: m_Name
+      value: RotateCamera
+      objectReference: {fileID: 0}
     - target: {fileID: 4556823959084188293, guid: 60afdd489dd1b184788caf98c5f5015f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3260,11 +3259,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 9160482203693056027, guid: 60afdd489dd1b184788caf98c5f5015f,
+    - target: {fileID: 2569689422636635711, guid: 60afdd489dd1b184788caf98c5f5015f,
         type: 3}
-      propertyPath: m_Name
-      value: RotateCamera
-      objectReference: {fileID: 0}
+      propertyPath: m_TargetGraphic
+      value: 
+      objectReference: {fileID: 292131557865350028}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60afdd489dd1b184788caf98c5f5015f, type: 3}
 --- !u!224 &2259398296340097886 stripped
@@ -3304,6 +3303,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9023058548476772607}
     m_Modifications:
+    - target: {fileID: 4658731473000229627, guid: a575acfb1f175c346a06f0e150c34db7,
+        type: 3}
+      propertyPath: m_Name
+      value: IPInputField
+      objectReference: {fileID: 0}
     - target: {fileID: 4658731473000229604, guid: a575acfb1f175c346a06f0e150c34db7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3408,11 +3412,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4658731473000229627, guid: a575acfb1f175c346a06f0e150c34db7,
-        type: 3}
-      propertyPath: m_Name
-      value: IPInputField
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a575acfb1f175c346a06f0e150c34db7, type: 3}
