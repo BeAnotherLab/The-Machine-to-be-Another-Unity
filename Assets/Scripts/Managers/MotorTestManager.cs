@@ -89,8 +89,7 @@ public class MotorTestManager : TestManager
 
         _results = new JSONObject();
         
-        if(_experimentData.experimentState == ExperimentState.pre) StartInstructions();
-        else StartTest();
+        StartInstructions();
     }
 
     private void Update()    
