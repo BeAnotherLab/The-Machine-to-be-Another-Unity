@@ -327,10 +327,12 @@ public class CallApp : MonoBehaviour
                     MessageEventArgs args = e as MessageEventArgs;
                     //Append(args.Content);
                     var betweenParentheses = args.Content.Split('(', ')')[1];
-                    mUi.videoMeshRenderer.transform.eulerAngles = new Vector3(
+                    mUi.videoMeshRenderer.transform.localRotation = new Quaternion(
                         float.Parse(betweenParentheses.Split(',')[0]), 
                         float.Parse(betweenParentheses.Split(',')[1]),
-                        float.Parse(betweenParentheses.Split(',')[2]));
+                        float.Parse(betweenParentheses.Split(',')[2]),
+                        float.Parse(betweenParentheses.Split(',')[3]));
+
                     break;
                 }
             case CallEventType.WaitForIncomingCall:
