@@ -1,4 +1,6 @@
 # The-Machine-to-be-Another-Unity
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FBeAnotherLab%2FThe-Machine-to-be-Another-Unity.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FBeAnotherLab%2FThe-Machine-to-be-Another-Unity?ref=badge_shield)
+
 
 This is the repository for all things body swap with The Machine to be Another. Three different setups are supported. Manual body swap, Auto body swap, and Servo swap
 
@@ -30,3 +32,7 @@ You can choose between Automatic swap (the software will automatically start and
 - Open the project from Unity and run. Select the mode you want to use from the dropdown. When setting up the swap, enter the computer's IP in the input field and make sure only one of the two computers is set as repeater.
 - All changes in settings are automatically saved  other 
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FBeAnotherLab%2FThe-Machine-to-be-Another-Unity.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FBeAnotherLab%2FThe-Machine-to-be-Another-Unity?ref=badge_large)
