@@ -15,7 +15,7 @@ public class FamiliarizationManager : MonoBehaviour
     [SerializeField] private PlayableDirector _familiarizationTimeline;
 
     [SerializeField] private ExperimentData _experimentData;
-    
+
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -26,6 +26,12 @@ public class FamiliarizationManager : MonoBehaviour
         _experimentData.Clear();
     }
 
+    public void SetVideoCapturePath(string filePath)
+    {
+        _experimentData.controlVideos.Remove(GetSubjectID());
+        _experimentData.controlVideos.Add(GetSubjectID(), filePath);
+    }
+    
     public void StartFamiliarization()
     {
         CustomVideoCaptureCtrl.instance.StartCapture();
