@@ -86,14 +86,11 @@ public class FamiliarizationManager : MonoBehaviour
         string motorFilePath = Application.dataPath + "/" + "MotorTest" + id + "_log.json";
 
         var fileOK = File.Exists(cognitiveFilePath) || File.Exists(motorFilePath);
-        if (fileOK)
-            ExperimentSettingsGUI.instance.ShowExistingSubjectIDError();
+        if (fileOK) ExperimentSettingsGUI.instance.ShowExistingSubjectIDError();
 
         CustomVideoCaptureUI.instance.EnableRecordButton();
         
         return fileOK;
-
-        
     }
 
     public string GetSubjectID()

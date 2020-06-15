@@ -50,8 +50,6 @@ public class ExperimentManager : MonoBehaviour
     
         if (_experimentData.participantType == ParticipantType.follower && _experimentData.conditionType == ConditionType.control)
         {
-            //var currentSubjectID = PlayerPrefs.GetString("SubjectID");
-            //_videoPlayer.url = PlayerPrefs.GetString("VideoCapturePath" + currentSubjectID);
             string filePath;
             if (_experimentData.controlVideos.TryGetValue(_experimentData.subjectID, out filePath))
                 _videoPlayer.url = filePath;
