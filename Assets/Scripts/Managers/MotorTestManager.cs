@@ -101,17 +101,17 @@ public class MotorTestManager : TestManager
         }
         else if (_waitingForAnswer && _givenAnswer == answer.none) //get answer
         {
-            if (Input.GetMouseButtonUp(0)) GetButtonUp(0);
-            else if (Input.GetMouseButtonUp(1)) GetButtonUp(1);
+            if (Input.GetKeyUp(KeyCode.Mouse0)) GetButtonUp(0);
+            else if (Input.GetKeyUp(KeyCode.Mouse1)) GetButtonUp(1);
         }
         //if we just just pressed both busttons
-        else if (Input.GetMouseButton(0) && Input.GetMouseButton(0) && !_bothFingersOn && _currentStep == steps.testing) 
+        else if (Input.GetKey(KeyCode.Mouse0) && Input.GetKey(KeyCode.Mouse1) && !_bothFingersOn && _currentStep == steps.testing) 
         {
             _bothFingersOn = true;
             _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
         }
         //if we just lifted one finger during testing
-        else if ((!Input.GetMouseButton(0) || !Input.GetMouseButton(1)) && _bothFingersOn && _currentStep == steps.testing) 
+        else if ((!Input.GetKey(KeyCode.Mouse0) || !Input.GetKey(KeyCode.Mouse1)) && _bothFingersOn && _currentStep == steps.testing) 
         {
             StopCoroutine(_trialCoroutine);
             if(!_waitingForAnswer) MotorTestInstructionsGUIBehavior.instance.Stop();
