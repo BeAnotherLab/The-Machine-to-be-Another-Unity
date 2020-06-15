@@ -69,6 +69,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
         if (Input.GetKeyDown("b")) SetDimmed();
         if (Input.GetKeyDown("n")) RecenterPose();
+        if (Input.GetKeyDown("r")) Rotate();
 
         if (!twoWayWap) //if servo setup
         {

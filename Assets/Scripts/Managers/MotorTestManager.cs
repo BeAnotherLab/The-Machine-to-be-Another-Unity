@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 using Random = System.Random;
@@ -38,6 +39,8 @@ public class MotorTestManager : TestManager
     private List<Condition> _stimuli;
 
     private JSONObject _results;
+
+    [SerializeField] private ExperimentData _experimentData;
     
     #endregion
     
@@ -57,16 +60,11 @@ public class MotorTestManager : TestManager
         OnTimerStart += TimerStart;
     }
 
-    private void TimerStart()
-    {
-        _timer.Start();   
-        _waitingForAnswer = true;
-        Debug.Log("timer start");
-    }
-    
     private void Start()
     {
         base.Start();
+
+        if (_experimentData.debug) _numberTrials = 1;
         
         //first create an array with "_numberTrials" repetitions of each of the 6 stiumulus combinations and randomize their order
         Condition[][] conditions = new Condition [_numberTrials][];
@@ -90,6 +88,8 @@ public class MotorTestManager : TestManager
                 _stimuli.Add(condition);
 
         _results = new JSONObject();
+        
+        StartInstructions();
     }
 
     private void Update()    
@@ -101,17 +101,17 @@ public class MotorTestManager : TestManager
         }
         else if (_waitingForAnswer && _givenAnswer == answer.none) //get answer
         {
-            if (Input.GetKeyUp(KeyCode.LeftArrow)) GetButtonUp(0);
-            else if (Input.GetKeyUp(KeyCode.RightArrow)) GetButtonUp(1);
+            if (Input.GetMouseButtonUp(0)) GetButtonUp(0);
+            else if (Input.GetMouseButtonUp(1)) GetButtonUp(1);
         }
         //if we just just pressed both busttons
-        else if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow) && !_bothFingersOn && _currentStep == steps.testing) 
+        else if (Input.GetMouseButton(0) && Input.GetMouseButton(0) && !_bothFingersOn && _currentStep == steps.testing) 
         {
             _bothFingersOn = true;
             _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
         }
         //if we just lifted one finger during testing
-        else if ((!Input.GetKey(KeyCode.LeftArrow) || !Input.GetKey(KeyCode.RightArrow)) && _bothFingersOn && _currentStep == steps.testing) 
+        else if ((!Input.GetMouseButton(0) || !Input.GetMouseButton(1)) && _bothFingersOn && _currentStep == steps.testing) 
         {
             StopCoroutine(_trialCoroutine);
             if(!_waitingForAnswer) MotorTestInstructionsGUIBehavior.instance.Stop();
@@ -120,29 +120,21 @@ public class MotorTestManager : TestManager
         }
     }
 
-    #endregion
+    #endregion    
     
     
     #region Public Methods
     
-    public void StartInstructions(string subjectID, string prepost)
+    public void StartInstructions()
     {
-        _prepost = prepost;
-        _subjectID = subjectID;
         var files = Directory.GetFiles(Application.dataPath);
         
-        string filepath = Application.dataPath + "/" + "MotorTest" + subjectID + "_log.json";
+        string filepath = Application.dataPath + "/" + "MotorTest" + _experimentData.subjectID + "_log.json";
         
-        if (!File.Exists(filepath))
-        {
-            Debug.Log(" creating new file : " + filepath);
-            _subjectID = subjectID;
-            _filePath = filepath; 
-            MotorTestInstructionsGUIBehavior.instance.Init();
-            MotorTestSettingsGUI.instance.gameObject.SetActive(false); //hide settings GUI
-            _currentStep = steps.instructions;       
-        }
-        else MotorTestSettingsGUI.instance.ShowExistingSubjectIDError();
+        Debug.Log(" creating new file : " + filepath);
+        _filePath = filepath; 
+        MotorTestInstructionsGUIBehavior.instance.Init();
+        _currentStep = steps.instructions;       
     }
 
     public void StartTest()
@@ -154,6 +146,13 @@ public class MotorTestManager : TestManager
 
     
     #region private methods
+    
+    private void TimerStart()
+    {
+        _timer.Start();   
+        _waitingForAnswer = true;
+        Debug.Log("timer start");
+    }
     
     private IEnumerator ShowTrialCoroutine()
     {
@@ -173,7 +172,7 @@ public class MotorTestManager : TestManager
         stimulusResult.AddField("condition", Enum.GetName(typeof(Condition), _stimuli[_trialIndex]));
         stimulusResult.AddField("answer", Enum.GetName(typeof(answer), theAnswer));
         stimulusResult.AddField("time", time.ToString());
-        stimulusResult.AddField("prepost", _prepost);
+        stimulusResult.AddField("prepost", _experimentData.experimentState.ToString());
         
         _results.Add(stimulusResult);
         
@@ -185,6 +184,7 @@ public class MotorTestManager : TestManager
         {
             FinishTest();
             MotorTestInstructionsGUIBehavior.instance.Stop();
+            SceneManager.LoadScene("CognitiveTest");
         }
     }
 

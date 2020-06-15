@@ -8,66 +8,44 @@ using RenderHeads.Media.AVProLiveCamera;
 
 public class ExperimentSettingsGUI : MonoBehaviour
 {
-
     //TODO when setting familiarization, disable ip address and participant
-    
-    
     public static ExperimentSettingsGUI instance;
     
     //Experiment settings
     [SerializeField] private InputField _subjectInputField;
-    
     [SerializeField] private Dropdown _conditionDropdown;
     [SerializeField] private Dropdown _participantDropdown;
-
     [SerializeField] private Button _startButton;
-    
     [SerializeField] private Button _rotateButton;
-    
     [SerializeField] private GameObject _subjectExistingErrorMessage;
     [SerializeField] private GameObject _videoNotFoundErrorMessage;
-
+    [SerializeField] private Dropdown _directionDropdown;
+    
     private void Awake()
     {
         if (instance == null) instance = this;
 
         _subjectInputField.onEndEdit.AddListener( delegate {
-            PlayerPrefs.SetString("SubjectID", _subjectInputField.text);
+            FamiliarizationManager.instance.SetSubjectID(_subjectInputField.text);
         });
         
         _startButton.onClick.AddListener(delegate
         {
-            if (_conditionDropdown.options[_conditionDropdown.value].text == "Experimental")
-                ExperimentManager.instance.condition = ConditionType.experimental;
-            else if (_conditionDropdown.options[_conditionDropdown.value].text == "Control")
-                ExperimentManager.instance.condition = ConditionType.control;
-            else if (_conditionDropdown.options[_conditionDropdown.value].text == "Familiarization")
-                ExperimentManager.instance.condition = ConditionType.familiarization;
-
-            if (_participantDropdown.options[_participantDropdown.value].text == "Leader")
-                ExperimentManager.instance.participant = ParticipantType.leader;
-            else
-                ExperimentManager.instance.participant = ParticipantType.follower;
-            
-            //check if follower control video file could be found before starting
-            var currentSubjectID = PlayerPrefs.GetString("SubjectID");
-            if (ExperimentManager.instance.condition == ConditionType.control &&
-                ExperimentManager.instance.participant == ParticipantType.follower && 
-                !File.Exists(PlayerPrefs.GetString("VideoCapturePath" + currentSubjectID)))
-            {
-                StartCoroutine(ShowAndHideVideoNotFoundError());
-            }
-            else
-            {
-                PlayerPrefs.SetString("SubjectID", _subjectInputField.text);
-                ExperimentManager.instance.StartExperiment();
-            }
-            
+            FamiliarizationManager.instance.StartExperiment(
+                _conditionDropdown.options[_conditionDropdown.value].text,
+                _participantDropdown.options[_participantDropdown.value].text,
+                _subjectInputField.text, 
+                _directionDropdown.options[_directionDropdown.value].text);
         });
 
         _rotateButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
     }
 
+    public void NotifyVideoNotFoundError()
+    {
+        StartCoroutine(ShowAndHideVideoNotFoundError());
+    }
+    
     public void ShowExistingSubjectIDError()
     {
         StartCoroutine(ShowAndHideExistingSubjectIDError());
@@ -79,7 +57,7 @@ public class ExperimentSettingsGUI : MonoBehaviour
         yield return new WaitForSeconds(5);
         _subjectExistingErrorMessage.gameObject.SetActive(false);
     }
-
+    
     private IEnumerator ShowAndHideVideoNotFoundError()
     {
         _videoNotFoundErrorMessage.gameObject.SetActive(true);

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1191502925427211514}
   - component: {fileID: 1191502925427211519}
   - component: {fileID: 1191502925427211518}
-  - component: {fileID: 5327114238500435544}
   - component: {fileID: 6918895090249978050}
   m_Layer: 0
   m_Name: VideoCaptureCtrl
@@ -46,7 +45,7 @@ VideoPlayer:
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
-  m_TargetTexture: {fileID: 8400000, guid: a4dae89f3cb2b294e93556d9fcc1ab61, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: a42fdc43a0d927a46afb8880b8b27f7d, type: 2}
   m_TimeReference: 0
   m_TargetMaterialRenderer: {fileID: 0}
   m_TargetMaterialProperty: _MainTex
@@ -79,25 +78,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoFiles: []
---- !u!95 &5327114238500435544
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1191502925427211517}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &6918895090249978050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,5 +94,6 @@ MonoBehaviour:
   startOnAwake: 0
   captureTime: 10
   quitAfterCapture: 0
-  _videoCaptures: []
+  _videoCaptures:
+  - {fileID: 0}
   _audioCapture: {fileID: 0}

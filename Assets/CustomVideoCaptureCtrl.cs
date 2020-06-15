@@ -116,20 +116,10 @@ namespace RockVR.Video
             for (int i = 0; i < videoCaptures.Length; i++)
             {
                 VideoCapture videoCapture = (VideoCapture)videoCaptures[i];
-                if (videoCapture == null || !videoCapture.gameObject.activeSelf)
-                {
-                    continue;
-                }
+                if (videoCapture == null || !videoCapture.gameObject.activeSelf) continue;
                 videoCaptureRequiredCount++;
-                if (videoCapture.status != StatusType.NOT_START &&
-                videoCapture.status != StatusType.FINISH)
-                {
-                    return;
-                }
-                if (videoCapture.offlineRender)
-                {
-                    isOfflineRender = true;
-                }
+                if (videoCapture.status != StatusType.NOT_START && videoCapture.status != StatusType.FINISH) return;
+                if (videoCapture.offlineRender) isOfflineRender = true;
                 videoCapture.StartCapture();
                 videoCapture.eventDelegate.OnComplete += OnVideoCaptureComplete;
             }
@@ -139,15 +129,16 @@ namespace RockVR.Video
                 audioCapture.StartCapture();
                 audioCapture.eventDelegate.OnComplete += OnAudioCaptureComplete;
             }
-            // Reset record session count.
-            videoCaptureFinishCount = 0;
+            
+            videoCaptureFinishCount = 0; // Reset record session count.
+            
             // Start garbage collect thread.
             garbageCollectionThread = new Thread(GarbageCollectionThreadFunction);
             garbageCollectionThread.Priority = System.Threading.ThreadPriority.Lowest;
             garbageCollectionThread.IsBackground = true;
             garbageCollectionThread.Start();
-            // Update current status.
-            status = StatusType.STARTED;
+            
+            status = StatusType.STARTED; // Update current status.
         }
         /// <summary>
         /// Stop capturing and produce the finalized video. Note that the video file
@@ -164,10 +155,7 @@ namespace RockVR.Video
             }
             foreach (VideoCapture videoCapture in videoCaptures)
             {
-                if (!videoCapture.gameObject.activeSelf)
-                {
-                    continue;
-                }
+                if (!videoCapture.gameObject.activeSelf) continue;
                 if (videoCapture.status != StatusType.STARTED && status != StatusType.PAUSED)
                 {
                     if (IsCaptureAudio())
@@ -182,15 +170,12 @@ namespace RockVR.Video
                 videoCapture.StopCapture();
                 PathConfig.lastVideoFile = videoCapture.filePath;
                 
-                var currentSubjectID = PlayerPrefs.GetString("SubjectID");
-                PlayerPrefs.SetString("VideoCapturePath" + currentSubjectID, videoCapture.filePath);
-                int x = 0;
+                PlayerPrefs.SetString("VideoCapturePath" + FamiliarizationManager.instance.GetSubjectID(), videoCapture.filePath);
             }
-            if (IsCaptureAudio())
-            {
-                audioCapture.StopCapture();
-            }
+            if (IsCaptureAudio()) audioCapture.StopCapture(); 
             status = StatusType.STOPPED;
+            
+            VideoCameraManager.instance.ShowLiveFeed();
         }
         /// <summary>
         /// Pause video capture process.
@@ -198,22 +183,10 @@ namespace RockVR.Video
         public override void ToggleCapture()
         {
             base.ToggleCapture();
-            foreach (VideoCapture videoCapture in videoCaptures)
-            {
-                videoCapture.ToggleCapture();
-            }
-            if (IsCaptureAudio())
-            {
-                audioCapture.PauseCapture();
-            }
-            if (status != StatusType.PAUSED)
-            {
-                status = StatusType.PAUSED;
-            }
-            else
-            {
-                status = StatusType.STARTED;
-            }
+            foreach (VideoCapture videoCapture in videoCaptures) videoCapture.ToggleCapture();
+            if (IsCaptureAudio()) audioCapture.PauseCapture();
+            if (status != StatusType.PAUSED) status = StatusType.PAUSED;
+            else status = StatusType.STARTED;
         }
         /// <summary>
         /// Handle callbacks for the <c>VideoCapture</c> complete.
@@ -249,10 +222,7 @@ namespace RockVR.Video
         private void VideoMergeThreadFunction()
         {
             // Wait for all video record finish.
-            while (videoCaptureFinishCount < videoCaptureRequiredCount)
-            {
-                Thread.Sleep(1000);
-            }
+            while (videoCaptureFinishCount < videoCaptureRequiredCount) Thread.Sleep(1000);
             foreach (VideoCapture videoCapture in videoCaptures)
             {
                 // TODO, make audio live streaming work
@@ -272,8 +242,7 @@ namespace RockVR.Video
                 PathConfig.lastVideoFile = muxing.filePath;
             }
             status = StatusType.FINISH;
-            if (eventDelegate.OnComplete != null)
-                eventDelegate.OnComplete();
+            if (eventDelegate.OnComplete != null) eventDelegate.OnComplete();
             Cleanup();
         }
         /// <summary>

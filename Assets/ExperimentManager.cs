@@ -1,29 +1,20 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using RockVR.Video;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 using UnityEngine.Timeline;
 using VideoPlayer = UnityEngine.Video.VideoPlayer;
-
-public enum ParticipantType { leader, follower };
-public enum ConditionType { control, experimental, familiarization };
 
 public class ExperimentManager : MonoBehaviour
 {
     public static ExperimentManager instance;
 
-    public ParticipantType participant;
-    public ConditionType condition;
-
     [SerializeField] private PlayableDirector _interventionTimeline;
-    [SerializeField] private PlayableDirector _familiarizationTimeline;
     [SerializeField] private VideoPlayer _videoPlayer;
 
     [SerializeField] private TrackAsset _leaderTrack;
     [SerializeField] private TrackAsset _followerTrack;
+
+    [SerializeField] private ExperimentData _experimentData;
     
     private void Awake()
     {
@@ -34,74 +25,69 @@ public class ExperimentManager : MonoBehaviour
     private void Start()
     {
         TimelineAsset timelineAsset = (TimelineAsset) _interventionTimeline.playableAsset;
-        _followerTrack = timelineAsset.GetOutputTrack(1);
-        _leaderTrack = timelineAsset.GetOutputTrack(2);        
+        _followerTrack = timelineAsset.GetOutputTrack(3);
+        _leaderTrack = timelineAsset.GetOutputTrack(2);
+        _experimentData.experimentState = ExperimentState.intervention;
     }
 
     public void StartExperiment()
     {
-        ExperimentSettingsGUI.instance.gameObject.SetActive(false); //disable experiment GUI
-        
         //activate/deactivate clip tracks depending on if leader or follower
-        _followerTrack.muted = participant != ParticipantType.follower;
-        _leaderTrack.muted = participant != ParticipantType.leader; 
+        _followerTrack.muted = _experimentData.participantType != ParticipantType.follower;
+        _leaderTrack.muted = _experimentData.participantType != ParticipantType.leader; 
         
-        if (condition != ConditionType.familiarization)
+        _interventionTimeline.Play();
+    
+        if (_experimentData.conditionType == ConditionType.experimental)
         {
-            _interventionTimeline.Play();
-        
-            if (condition == ConditionType.experimental)
-            {
-                OscManager.instance.SetSendHeadtracking(true);//enable sending/receiving headtracking
-                VideoFeed.instance.twoWayWap = true; //move POV according to other headtracking
-            }
-            else 
-            {
-                VideoFeed.instance.twoWayWap = false; //POV follows own headtracking
-            }
-        
-            if (participant == ParticipantType.follower && condition == ConditionType.control)
-            {
-                var currentSubjectID = PlayerPrefs.GetString("SubjectID");
-                _videoPlayer.url = PlayerPrefs.GetString("VideoCapturePath" + currentSubjectID);
-            }
+            OscManager.instance.sendHeadTracking = true; //enable sending/receiving headtracking
+            VideoFeed.instance.twoWayWap = true; //move POV according to other headtracking
         }
-        else
+        else 
         {
-            if(participant == ParticipantType.follower) VideoCaptureCtrl.instance.StartCapture();
-            _familiarizationTimeline.Play();
+            VideoFeed.instance.twoWayWap = false; //POV follows own headtracking
         }
+    
+        if (_experimentData.participantType == ParticipantType.follower && _experimentData.conditionType == ConditionType.control)
+        {
+            var currentSubjectID = PlayerPrefs.GetString("SubjectID");
+            _videoPlayer.url = PlayerPrefs.GetString("VideoCapturePath" + currentSubjectID);
+        }
+        
     }
 
     public void StartFreePhase()
     {
         //play free phase instruction audio or text
-        if (participant == ParticipantType.follower && condition == ConditionType.control)
+        if (_experimentData.participantType == ParticipantType.follower && _experimentData.conditionType == ConditionType.control)
         {
             //switch to pre recorded video
             VideoFeed.instance.ShowLiveFeed(false);
             _videoPlayer.Play();
         }
         
-        Debug.Log("start free phase for " + condition + " " + participant);
+        Debug.Log("start free phase for " + _experimentData.conditionType + " " + _experimentData.participantType);
     }
 
     public void StartTactilePhase()
     {
         //play tactile phase instruction audio or text
-        if (participant == ParticipantType.follower && condition == ConditionType.control)
+
+        if (_experimentData.participantType == ParticipantType.follower && _experimentData.conditionType == ConditionType.control)
         {
             //switch back to live video
             VideoFeed.instance.ShowLiveFeed(true);
         }
         
-        Debug.Log("start tactile phase for " + condition + " " + participant);
+        Debug.Log("start tactile phase for " + _experimentData.conditionType + " " + _experimentData.participantType);
     }
     
     public void EndIntervention()
     {
-        OscManager.instance.SetSendHeadtracking(false);
+        OscManager.instance.sendHeadTracking = false;
         Debug.Log("End of intervention");
+        _experimentData.experimentState = ExperimentState.post;
+        SceneManager.LoadScene("MotorTest");
     }
 
 }

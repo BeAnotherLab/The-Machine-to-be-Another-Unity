@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public abstract class TestManager : MonoBehaviour
 {
-    protected string _subjectID;
-    protected string _prepost;
-
     //the timer to measure reaction time
     protected Stopwatch _timer;
     protected Coroutine _trialCoroutine;
