@@ -154,6 +154,7 @@ public class CognitiveTestManager : TestManager
         if (_trialIndex == _finalTrialsList.Count)
         {
             FinishTest();
+            VideoFeed.instance.CancelTweens();
             if (_experimentData.experimentState == ExperimentState.pre) SceneManager.LoadScene("SparkSwap");
         }
         else _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
@@ -201,6 +202,7 @@ public class CognitiveTestManager : TestManager
         if (_trialIndex == _finalTrialsList.Count)
         {
             FinishTest();
+            VideoFeed.instance.CancelTweens();
             if (_experimentData.experimentState == ExperimentState.pre) SceneManager.LoadScene("SparkSwap");
         }
         else if (_finalTrialsList[_trialIndex].GetField("type").str == "practice") StartCoroutine(ShowFeedbackCoroutine());
@@ -240,7 +242,7 @@ public class CognitiveTestManager : TestManager
             _experimentData.subjectDirection = "Left";
         }
     }
-    
+
     #endregion
     
 }

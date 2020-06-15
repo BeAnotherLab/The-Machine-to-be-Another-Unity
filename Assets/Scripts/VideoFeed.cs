@@ -60,7 +60,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     }
 
     // Update is called once per frame
-    void Update()
+    void Update()    
     {
         Quaternion nextOtherPose = new Quaternion();
 
@@ -96,6 +96,11 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     #region Public Methods
 
+    public void CancelTweens()
+    {
+        LeanTween.cancelAll();
+    }
+    
     public void FlipHorizontal()
     {
         transform.parent.localScale = new Vector3(- transform.parent.localScale.x, transform.parent.localScale.y, transform.parent.localScale.z);
