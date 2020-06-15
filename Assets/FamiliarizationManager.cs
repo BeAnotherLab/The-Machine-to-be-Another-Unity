@@ -61,10 +61,13 @@ public class FamiliarizationManager : MonoBehaviour
         _experimentData.subjectDirection = direction;
         
         var subjectIDOK = SetSubjectID(subjectID);
+
+        string filePath;
+        _experimentData.controlVideos.TryGetValue(subjectID, out filePath);
         
         if (_experimentData.conditionType == ConditionType.control &&
             _experimentData.participantType == ParticipantType.follower &&
-            !File.Exists(PlayerPrefs.GetString("VideoCapturePath" + subjectID)))
+            !File.Exists(filePath))
         {
             ExperimentSettingsGUI.instance.NotifyVideoNotFoundError();
         }
