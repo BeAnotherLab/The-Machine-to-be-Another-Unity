@@ -41,6 +41,9 @@ public class MotorTestManager : TestManager
     private JSONObject _results;
 
     [SerializeField] private ExperimentData _experimentData;
+
+    [SerializeField] private KeyCode _leftKey;
+    [SerializeField] private KeyCode _rightKey;
     
     #endregion
     
