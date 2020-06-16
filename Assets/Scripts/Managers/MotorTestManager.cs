@@ -94,7 +94,7 @@ public class MotorTestManager : TestManager
 
     private void Update()    
     {
-        if (Input.GetKeyUp(KeyCode.Space) && _currentStep == steps.instructions) //use space bar to go past instructions
+        if (Input.GetKeyUp(KeyCode.Mouse0) && _currentStep == steps.instructions) //use space bar to go past instructions
         {
             MotorTestInstructionsGUIBehavior.instance.Next();
             _currentStep = steps.testing;

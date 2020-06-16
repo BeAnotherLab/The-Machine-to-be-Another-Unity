@@ -30,7 +30,7 @@ public class MotorTestInstructionsGUIBehavior : MonoBehaviour
 
         You will see different hand movements shown on the screen. However, your task is to focus on the number that appears on the screen and to raise you index or middle finger as soon as possible, once a number has been displayed.
 
-        Ready? Press the spacebar to start!";
+        Ready? Click to start!";
         
         InstructionsTextBehavior.instance.ShowInstructionText(true, initText);
     }

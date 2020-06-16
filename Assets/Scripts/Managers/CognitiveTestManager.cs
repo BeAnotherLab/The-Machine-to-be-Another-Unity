@@ -65,7 +65,7 @@ public class CognitiveTestManager : TestManager
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Space) && _currentStep == steps.instructions)
+        if (Input.GetKeyUp(KeyCode.Mouse0) && _currentStep == steps.instructions)
         {
             CognitiveTestInstructionsGUIBehavior.instance.Next();
         }
