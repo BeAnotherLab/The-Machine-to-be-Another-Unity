@@ -97,24 +97,24 @@ public class MotorTestManager : TestManager
 
     private void Update()    
     {
-        if (Input.GetKeyUp(KeyCode.Mouse0) && _currentStep == steps.instructions) //use space bar to go past instructions
+        if (Input.GetKeyUp(_leftKey) && _currentStep == steps.instructions) //use space bar to go past instructions
         {
             MotorTestInstructionsGUIBehavior.instance.Next();
             _currentStep = steps.testing;
         }
         else if (_waitingForAnswer && _givenAnswer == answer.none) //get answer
         {
-            if (Input.GetKeyUp(KeyCode.Mouse0)) GetButtonUp(0);
-            else if (Input.GetKeyUp(KeyCode.Mouse1)) GetButtonUp(1);
+            if (Input.GetKeyUp(_leftKey)) GetButtonUp(0);
+            else if (Input.GetKeyUp(_rightKey)) GetButtonUp(1);
         }
         //if we just just pressed both busttons
-        else if (Input.GetKey(KeyCode.Mouse0) && Input.GetKey(KeyCode.Mouse1) && !_bothFingersOn && _currentStep == steps.testing) 
+        else if (Input.GetKey(_leftKey) && Input.GetKey(_rightKey) && !_bothFingersOn && _currentStep == steps.testing) 
         {
             _bothFingersOn = true;
             _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
         }
         //if we just lifted one finger during testing
-        else if ((!Input.GetKey(KeyCode.Mouse0) || !Input.GetKey(KeyCode.Mouse1)) && _bothFingersOn && _currentStep == steps.testing) 
+        else if ((!Input.GetKey(_leftKey) || !Input.GetKey(_rightKey)) && _bothFingersOn && _currentStep == steps.testing) 
         {
             StopCoroutine(_trialCoroutine);
             if(!_waitingForAnswer) MotorTestInstructionsGUIBehavior.instance.Stop();
