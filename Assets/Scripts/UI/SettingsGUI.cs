@@ -17,7 +17,6 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private GameObject _panel;
     [SerializeField] private Slider _pitchSlider, _yawSlider, _rollSlider, _zoomSlider;
     [SerializeField] private Dropdown _serialDropdown;
-    [SerializeField] private Text _FPSText;
     [SerializeField] private IPInputField _ipInputField;
     [SerializeField] private Toggle _serialControlToggle;
     [SerializeField] private Button _dimButton;
@@ -111,7 +110,6 @@ public class SettingsGUI : MonoBehaviour
             _zoomSlider.value = VideoFeed.instance.zoom;
         }
 
-        ShowFPS();
     }
 
     #endregion
@@ -234,15 +232,5 @@ public class SettingsGUI : MonoBehaviour
         SelectSerialOption(_serialDropdown.value);
     }
     
-    private void ShowFPS()
-    {
-        _deltaTime += (Time.deltaTime - _deltaTime) * 0.1f;
-        int w = Screen.width, h = Screen.height;
-        float msec = _deltaTime * 1000.0f;
-        float fps = 1.0f / _deltaTime;
-        string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
-        _FPSText.text = text;
-    }
-
     #endregion
 }
