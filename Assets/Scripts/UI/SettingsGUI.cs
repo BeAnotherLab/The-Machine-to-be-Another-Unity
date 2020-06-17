@@ -16,7 +16,6 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private Dropdown _swapModeDropdown;
     [SerializeField] private GameObject _panel;
     [SerializeField] private Slider _pitchSlider, _yawSlider, _rollSlider, _zoomSlider;
-    [SerializeField] private Dropdown _serialDropdown;
     [SerializeField] private IPInputField _ipInputField;
     [SerializeField] private Toggle _serialControlToggle;
     [SerializeField] private Button _dimButton;
@@ -64,7 +63,6 @@ public class SettingsGUI : MonoBehaviour
         _yawSlider.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetYaw(_yawSlider.value); });
         _zoomSlider.onValueChanged.AddListener(delegate { VideoFeed.instance.SetZoom(_zoomSlider.value); });
         
-        _serialDropdown.onValueChanged.AddListener(delegate { SelectSerialOption(_serialDropdown.value); });
         _headTrackingOnButton.onClick.AddListener(delegate { VideoFeed.instance.SwitchHeadtracking(); });
 
         //Assign swap mode dropdown handler
@@ -145,8 +143,6 @@ public class SettingsGUI : MonoBehaviour
                 
     public void SetSwapMode(bool useCurtain = false) 
     {
-        //show serial dropdown depending on if we're using the curtain or not
-        EnableSerialDropdown(useCurtain);
         _serialControlToggle.gameObject.SetActive(useCurtain);
         
         //show two way swap related networking GUI
@@ -156,8 +152,6 @@ public class SettingsGUI : MonoBehaviour
 
     public void SetServoMode()
     {
-        EnableSerialDropdown(true);
-
         //hide two way swap related networking GUI
         _ipInputField.gameObject.SetActive(false);
         _repeaterToggle.gameObject.SetActive(false);
@@ -166,16 +160,6 @@ public class SettingsGUI : MonoBehaviour
     #endregion
 
     #region Private Methods
-
-    private void SelectSerialOption(int index)
-    {
-        //if found, set the port by options index
-        if (index != -1)
-        {
-            ArduinoManager.instance.Open(index);
-            PlayerPrefs.SetString("Serial Port", _serialDropdown.options[index].text);
-        } //TODO notify there was an error if port = -1
-    }
     
     private int GetSerialIndexByOptionName(Dropdown dropDown, string name)
     {
@@ -185,16 +169,6 @@ public class SettingsGUI : MonoBehaviour
             if (list[i].text.Equals(name)) { return i; }
         }
         return -1;
-    }
-    
-    private void EnableSerialDropdown(bool enable) //shows/hides serial dropdown
-    {        
-        _serialDropdown.gameObject.SetActive(enable);
-        if (enable)
-        {
-            SetSerialPortDropdownOptions();
-            _serialDropdown.RefreshShownValue();
-        }
     }
 
     private void SetLanguageText(int language)
@@ -213,23 +187,6 @@ public class SettingsGUI : MonoBehaviour
 
         _swapModeDropdown.value = PlayerPrefs.GetInt("swapMode");
         _swapModeDropdown.RefreshShownValue();
-    }
-
-    private void SetSerialPortDropdownOptions() //get available ports and add them as options to the dropdown
-    {
-        string[] ports ={""};
-        
-        _serialDropdown.options.Clear();
-        foreach (string c in ports)
-        {
-            _serialDropdown.options.Add(new Dropdown.OptionData() { text = c });
-        }
-        
-        //TODO only if it is in available options
-        var name = PlayerPrefs.GetString("Serial Port");
-        _serialDropdown.value = GetSerialIndexByOptionName(_serialDropdown, name); //assign the value that was saved in PlayerPrefs
-        ArduinoManager.instance.Open(_serialDropdown.value);
-        SelectSerialOption(_serialDropdown.value);
     }
     
     #endregion
