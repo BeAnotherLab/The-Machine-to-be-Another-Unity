@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using RockVR.Video;
 
@@ -55,7 +56,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     {
         _tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
         RecenterPose();
-        if (dimOnStart) SetDimmed(true);
+        if (dimOnStart) StartCoroutine(StartupDim());
         otherPose = new Quaternion();
     }
 
@@ -149,6 +150,16 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         _videoPlaybackMeshRenderer.enabled = !show;
     }
     
+    #endregion
+
+    #region Private Methods
+
+    private IEnumerator StartupDim()
+    {
+        yield return new WaitForSeconds(2);
+        SetDimmed(true);
+    }
+
     #endregion
     
 }
