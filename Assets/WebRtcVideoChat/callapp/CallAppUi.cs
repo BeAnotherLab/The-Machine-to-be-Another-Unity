@@ -439,8 +439,15 @@ public class CallAppUi : MonoBehaviour
                 UnityMediaHelper.UpdateTexture(frame, ref  myTex);
 
                 videoMeshRenderer.material.mainTexture = myTex;
-                SendMsg("angles " + _mainCamera.gameObject.transform.rotation);
 
+                var msg = "angles (" +
+                _mainCamera.gameObject.transform.rotation.x.ToString() + "," +
+                _mainCamera.gameObject.transform.rotation.y.ToString() + "," +
+                _mainCamera.gameObject.transform.rotation.z.ToString() + "," +
+                _mainCamera.gameObject.transform.rotation.w.ToString() + ")";
+                
+                SendMsg(msg);
+                
                 //watch out: due to conversion from WebRTC to Unity format the image is flipped (top to bottom)
                 //this also inverts the rotation
                 uRemoteVideoImage.transform.localRotation = Quaternion.Euler(0, 0, frame.Rotation * -1);
