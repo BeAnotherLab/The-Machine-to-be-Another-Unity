@@ -197,6 +197,8 @@ public class CallAppUi : MonoBehaviour
 
     public bool uLoadSettings = true;
 
+    private Camera _mainCamera;
+
     protected virtual void Awake()
     {
         mApp = GetComponent<CallApp>();
@@ -209,6 +211,8 @@ public class CallAppUi : MonoBehaviour
             LoadSettings();
         }
         CheckSettings();
+
+        _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
     protected virtual void Start()
@@ -435,7 +439,7 @@ public class CallAppUi : MonoBehaviour
                 UnityMediaHelper.UpdateTexture(frame, ref  myTex);
 
                 videoMeshRenderer.material.mainTexture = myTex;
-                SendMsg("angles " + Camera.main.transform.rotation);
+                SendMsg("angles " + _mainCamera.gameObject.transform.rotation);
 
                 //watch out: due to conversion from WebRTC to Unity format the image is flipped (top to bottom)
                 //this also inverts the rotation
