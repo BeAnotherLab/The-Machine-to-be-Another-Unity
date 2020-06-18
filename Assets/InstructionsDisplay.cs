@@ -17,6 +17,12 @@ public class InstructionsDisplay : MonoBehaviour
         if (instance == null) instance = this;
     }
 
+    private void Start()
+    {
+        if(Display.displays.Length > 1)
+            Display.displays[1].Activate();
+    }
+
     public void ShowWelcomeVideo()
     {
         _waitForTurnLoopVideo.Stop();
