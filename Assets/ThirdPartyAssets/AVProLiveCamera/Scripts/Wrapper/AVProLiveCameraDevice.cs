@@ -17,6 +17,7 @@ namespace RenderHeads.Media.AVProLiveCamera
 		private Dictionary<int, AVProLiveCameraSettingBase> _settingsByType;
 		private List<string> _videoInputs;
 		private AVProLiveCameraFormatConverter _formatConverter;
+		private AVProLiveCameraDeviceMode _mode;
 		private int _width;
 		private int _height;
 		private float _frameRate;
@@ -134,6 +135,11 @@ namespace RenderHeads.Media.AVProLiveCamera
 		public Texture OutputTexture
 		{
 			get { if (_formatConverter != null && _formatConverter.ValidPicture) return _formatConverter.OutputTexture; return null; }
+		}
+
+		public AVProLiveCameraDeviceMode CurrentMode
+		{
+			get { return _mode; }
 		}
 
 		public int CurrentWidth
@@ -310,9 +316,15 @@ namespace RenderHeads.Media.AVProLiveCamera
 			{
 				internalModeIndex = mode.InternalIndex;
 			}
+			// Resolve the frame rate index
+			int modeFrameRateIndex = -1;
+			if (mode != null)
+			{
+				modeFrameRateIndex = mode.FrameRateIndex;
+			}
 
 			// Start the device
-			if (AVProLiveCameraPlugin.StartDevice(_deviceIndex, internalModeIndex, videoInputIndex))
+			if (AVProLiveCameraPlugin.StartDevice(_deviceIndex, internalModeIndex, modeFrameRateIndex, videoInputIndex))
 			{
 				int modeIndex = -1;
 				if (mode != null)
@@ -332,12 +344,28 @@ namespace RenderHeads.Media.AVProLiveCamera
 				int width = AVProLiveCameraPlugin.GetWidth(_deviceIndex);
 				int height = AVProLiveCameraPlugin.GetHeight(_deviceIndex);
 				AVProLiveCameraPlugin.VideoFrameFormat format = (AVProLiveCameraPlugin.VideoFrameFormat)AVProLiveCameraPlugin.GetFormat(_deviceIndex);
+				_mode = mode;
 				_width = width;
 				_height = height;
 				_format = format.ToString();
 				_deviceFormat = AVProLiveCameraPlugin.GetDeviceFormat(_deviceIndex);
 				_frameRate = AVProLiveCameraPlugin.GetFrameRate(_deviceIndex);
 				_frameDurationHNS = AVProLiveCameraPlugin.GetFrameDurationHNS(_deviceIndex);
+
+				// The default mode has been used so try to work out which one this is
+				if (_mode == null)
+				{
+					foreach (AVProLiveCameraDeviceMode m in _modes)
+					{
+						if (m.Width == _width &&
+							m.Height == _height &&
+							m.Format == _deviceFormat)
+							{
+								_mode = m;
+								break;
+							}
+					}
+				}
 
 				// Validate properties
 				if (width <= 0 || width > MaxVideoResolution || height <= 0 || height > MaxVideoResolution)
@@ -534,6 +562,7 @@ namespace RenderHeads.Media.AVProLiveCamera
 		public void Close()
 		{
 			ResetDisplayFPS();
+			_mode = null;
 			_width = _height = 0;
 			_lastVideoInputIndex = _lastModeIndex = -1;
 			_frameDurationHNS = 0;
@@ -637,7 +666,7 @@ namespace RenderHeads.Media.AVProLiveCamera
 			return result;
 		}
 
-		public AVProLiveCameraDeviceMode GetClosestMode(int width, int height, bool maintainAspectRatio, float frameRate, bool anyPixelFormat, bool transparentPixelFormat, AVProLiveCameraPlugin.VideoFrameFormat pixelFormat)
+		public AVProLiveCameraDeviceMode GetClosestMode(int width, int height, bool maintainAspectRatio, bool anyPixelFormat, bool transparentPixelFormat, AVProLiveCameraPlugin.VideoFrameFormat pixelFormat)
 		{
 			AVProLiveCameraDeviceMode result = null;
 
@@ -712,7 +741,7 @@ namespace RenderHeads.Media.AVProLiveCamera
 				}
 				else
 				{
-					bool findHighestFrameRate = (frameRate <= 0f);
+					/*bool findHighestFrameRate = (frameRate <= 0f);
 					if (findHighestFrameRate)
 					{
 						float highestFps = 0f;
@@ -760,7 +789,7 @@ namespace RenderHeads.Media.AVProLiveCamera
 								i = -1;
 							}
 						}
-					}
+					}*/
 
 					if (result == null)
 					{
@@ -883,11 +912,12 @@ namespace RenderHeads.Media.AVProLiveCamera
 			for (int i = 0; i < numModes; i++)
 			{
 				int width, height;
-				float fps;
 				string format;
-				if (AVProLiveCameraPlugin.GetModeInfo(_deviceIndex, i, out width, out height, out fps, out format))
+				float[] frameRates;
+				int frameRateIndex;
+				if (AVProLiveCameraPlugin.GetModeInfo(_deviceIndex, i, out width, out height, out frameRates, out frameRateIndex, out format))
 				{
-					AVProLiveCameraDeviceMode mode = new AVProLiveCameraDeviceMode(this, i, width, height, fps, format.ToString());
+					AVProLiveCameraDeviceMode mode = new AVProLiveCameraDeviceMode(this, i, width, height, frameRates, frameRateIndex, format.ToString());
 					_modes.Add(mode);
 				}
 			}

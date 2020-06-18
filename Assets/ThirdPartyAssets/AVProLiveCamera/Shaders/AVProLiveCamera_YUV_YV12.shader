@@ -23,6 +23,7 @@ CGPROGRAM
 //#pragma fragmentoption ARB_precision_hint_fastest
 #pragma fragmentoption ARB_precision_hint_nicest
 #pragma multi_compile SWAP_RED_BLUE_ON SWAP_RED_BLUE_OFF
+#pragma multi_compile AVPRO_GAMMACORRECTION AVPRO_GAMMACORRECTION_OFF
 #include "UnityCG.cginc"
 #include "AVProLiveCamera_Shared.cginc"
 
@@ -104,7 +105,13 @@ float4 frag (v2f i) : COLOR
 		v = vPacked.a;
 	}
 
-	return convertYUV(y, v, u);
+	float4 oCol = convertYUV(y, v, u);
+
+#if defined(AVPRO_GAMMACORRECTION)
+	oCol.rgb = pow(oCol.rgb, 2.2);
+#endif
+
+	return oCol;
 } 
 
 ENDCG

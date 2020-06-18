@@ -150,8 +150,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 20}
   - 20: {fileID: 21}
-  - 92: {fileID: 35}
-  - 124: {fileID: 37}
   - 81: {fileID: 34}
   - 114: {fileID: 47}
   - 114: {fileID: 45}
@@ -364,13 +362,6 @@ AudioListener:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 12}
   m_Enabled: 1
---- !u!92 &35
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 12}
-  m_Enabled: 1
 --- !u!108 &36
 Light:
   m_ObjectHideFlags: 0
@@ -406,13 +397,6 @@ Light:
   m_ShadowAngle: 0
   m_IndirectIntensity: 1
   m_AreaSize: {x: 1, y: 1}
---- !u!124 &37
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 12}
-  m_Enabled: 1
 --- !u!114 &43
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,8 +421,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f963f7811140b46977bceaf97cc51f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _material: {fileID: 2100000, guid: 5fc1a71e55ce15e4d97e8e5778771e99, type: 2}
   _liveCamera: {fileID: 47}
+  _material: {fileID: 2100000, guid: 5fc1a71e55ce15e4d97e8e5778771e99, type: 2}
+  _texturePropertyName: _MainTex
 --- !u!114 &45
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,16 +485,22 @@ MonoBehaviour:
   - Decklink Video Capture
   _desiredDeviceIndex: 0
   _modeSelection: 0
+  _desiredAnyResolution: 1
   _desiredResolutions:
   - {x: 1280, y: 720}
   - {x: 640, y: 480}
   _desiredModeIndex: -1
   _maintainAspectRatio: 0
+  _desiredFrameRate: 0
+  _desiredFormatAny: 1
+  _desiredTransparencyFormat: 0
+  _desiredFormat: 4
   _videoInputSelection: 0
   _desiredVideoInputs: 
   _desiredVideoInputIndex: 0
   _playOnStart: 0
   _deinterlace: 0
+  _allowTransparency: 1
   _flipX: 0
   _flipY: 0
   _updateHotSwap: 0

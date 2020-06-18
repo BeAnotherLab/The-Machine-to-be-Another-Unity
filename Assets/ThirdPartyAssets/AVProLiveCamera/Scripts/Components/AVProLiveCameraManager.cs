@@ -86,7 +86,7 @@ namespace RenderHeads.Media.AVProLiveCamera
 			{
 				if (AVProLiveCameraPlugin.Init(_supportInternalFormatConversion))
 				{
-					Debug.Log("[AVProLiveCamera] version " + AVProLiveCameraPlugin.GetPluginVersionString() + " initialised");
+					Debug.Log("[AVProLiveCamera] version " + AVProLiveCameraPlugin.GetPluginVersionString() + " initialised. " + SystemInfo.graphicsDeviceName);
 				}
 				else
 				{

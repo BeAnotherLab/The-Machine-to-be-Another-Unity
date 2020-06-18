@@ -90,8 +90,12 @@ namespace RenderHeads.Media.AVProLiveCamera
 			_desiredVideoInputs = new List<AVProLiveCameraPlugin.VideoInput>(4);
 			_desiredDeviceNames.Add("Logitech BRIO");
 			_desiredDeviceNames.Add("XSplit VCam");
+			_desiredDeviceNames.Add("OBS-Camera");
+			_desiredDeviceNames.Add("Integrated Webcam");
 			_desiredDeviceNames.Add("Logitech HD Pro Webcam C922");
 			_desiredDeviceNames.Add("Logitech HD Pro Webcam C920");
+			_desiredDeviceNames.Add("HD Pro Webcam C922");
+			_desiredDeviceNames.Add("HD Pro Webcam C920");
 			_desiredDeviceNames.Add("Decklink Video Capture");
 			_desiredDeviceNames.Add("Logitech Webcam Pro 9000");
 			_desiredResolutions.Add(new Vector2(1920, 1080));
@@ -152,7 +156,7 @@ namespace RenderHeads.Media.AVProLiveCamera
 				}
 				else
 				{
-					if (_renderRoutine == null)
+					if (_renderRoutine == null && this.gameObject.activeInHierarchy)
 					{
 						_renderRoutine = StartCoroutine(RenderRoutine());
 					}
@@ -303,7 +307,7 @@ namespace RenderHeads.Media.AVProLiveCamera
 				case SelectModeBy.Resolution:
 					if (_desiredResolutions.Count > 0)
 					{
-						result = GetClosestMode(_device, _desiredAnyResolution, _desiredResolutions, _maintainAspectRatio, _desiredFrameRate, _desiredFormatAny, _desiredTransparencyFormat, _desiredFormat);
+						result = GetClosestMode(_device, _desiredAnyResolution, _desiredResolutions, _maintainAspectRatio, _desiredFormatAny, _desiredTransparencyFormat, _desiredFormat);
 						if (result == null)
 						{
 							Debug.LogWarning("[AVProLiveCamera] Could not find desired mode, using default mode.");
@@ -320,6 +324,18 @@ namespace RenderHeads.Media.AVProLiveCamera
 						}
 					}
 					break;
+			}
+
+			if (result != null)
+			{
+				if (_desiredFrameRate <= 0)
+				{
+					result.SelectHighestFrameRate();
+				}
+				else
+				{
+					result.SelectClosestFrameRate(_desiredFrameRate);
+				}
 			}
 
 			return result;
@@ -393,17 +409,20 @@ namespace RenderHeads.Media.AVProLiveCamera
 
 		void OnEnable()
 		{
-			if (_device != null)
-			{
-				_device.IsActive = true;
-			}
-
 #if UNITY_5_4_OR_NEWER || (UNITY_5 && !UNITY_5_0 && !UNITY_5_1)
 			if (_renderFunc == System.IntPtr.Zero)
 			{
 				_renderFunc = AVProLiveCameraPlugin.GetRenderEventFunc();
 			}
 #endif
+			if (_device != null)
+			{
+				_device.IsActive = true;
+				if (_renderRoutine == null && _device.IsRunning)
+				{
+					_renderRoutine = StartCoroutine(RenderRoutine());
+				}
+			}
 		}
 
 		void OnDisable()
@@ -411,21 +430,26 @@ namespace RenderHeads.Media.AVProLiveCamera
 			if (_device != null)
 			{
 				_device.IsActive = false;
+				if (_renderRoutine != null)
+				{
+					StopCoroutine(_renderRoutine);
+					_renderRoutine = null;
+				}
 			}
 		}
 
-		private static AVProLiveCameraDeviceMode GetClosestMode(AVProLiveCameraDevice device, bool anyResolution, List<Vector2> resolutions, bool maintainApectRatio, float frameRate, bool anyPixelFormat, bool transparentPixelFormat, AVProLiveCameraPlugin.VideoFrameFormat pixelFormat)
+		private static AVProLiveCameraDeviceMode GetClosestMode(AVProLiveCameraDevice device, bool anyResolution, List<Vector2> resolutions, bool maintainApectRatio, bool anyPixelFormat, bool transparentPixelFormat, AVProLiveCameraPlugin.VideoFrameFormat pixelFormat)
 		{
 			AVProLiveCameraDeviceMode result = null;
 			if (anyResolution)
 			{
-				result = device.GetClosestMode(-1, -1, maintainApectRatio, frameRate, anyPixelFormat, transparentPixelFormat, pixelFormat);
+				result = device.GetClosestMode(-1, -1, maintainApectRatio, anyPixelFormat, transparentPixelFormat, pixelFormat);
 			}
 			else
 			{
 				for (int i = 0; i < resolutions.Count; i++)
 				{
-					result = device.GetClosestMode(Mathf.FloorToInt(resolutions[i].x), Mathf.FloorToInt(resolutions[i].y), maintainApectRatio, frameRate, anyPixelFormat, transparentPixelFormat, pixelFormat);
+					result = device.GetClosestMode(Mathf.FloorToInt(resolutions[i].x), Mathf.FloorToInt(resolutions[i].y), maintainApectRatio, anyPixelFormat, transparentPixelFormat, pixelFormat);
 					if (result != null)
 						break;
 				}

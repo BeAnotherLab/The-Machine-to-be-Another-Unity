@@ -34,10 +34,7 @@ namespace RenderHeads.Media.AVProLiveCamera
 
 		private int _lastWidth;
 		private int _lastHeight;
-
-		protected AVProLiveCameraUGUIComponent()
-		{ }
-
+		private Texture _lastTexture;
 
 		/// <summary>
 		/// Returns the texture used to draw this Graphic.
@@ -88,6 +85,12 @@ namespace RenderHeads.Media.AVProLiveCamera
 					SetVerticesDirty();
 					SetMaterialDirty();
 				}
+			}
+
+			if (mainTexture != _lastTexture)
+			{
+				SetMaterialDirty();
+				_lastTexture = mainTexture;
 			}
 		}
 

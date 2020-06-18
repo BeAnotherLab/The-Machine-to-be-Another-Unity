@@ -134,16 +134,41 @@ namespace RenderHeads.Media.AVProLiveCamera
 		public static extern int GetNumModes(int index);
 
 		[DllImport("AVProLiveCamera")]
-		private static extern bool GetModeInfo(int deviceIndex, int modeIndex, out int width, out int height, out float fps, StringBuilder format);
+		private static extern bool GetModeInfo(int deviceIndex, int modeIndex, out int width, out int height, out int frameRateCount, out int frameRateIndex, StringBuilder format);
 
-		public static bool GetModeInfo(int deviceIndex, int modeIndex, out int width, out int height, out float fps, out string format)
+		[DllImport("AVProLiveCamera")]
+		private static extern bool GetModeFrameRates(int deviceIndex, int modeIndex, int frameRateCount, [MarshalAs(UnmanagedType.LPArray)] float[] frameRates);
+
+		public static bool GetModeInfo(int deviceIndex, int modeIndex, out int width, out int height, out float[] frameRates, out int frameRateIndex, out string format)
 		{
 			StringBuilder formatStr = new StringBuilder(512);
-			if (GetModeInfo(deviceIndex, modeIndex, out width, out height, out fps, formatStr))
+			
+			int frameRateCount = 0;
+			if (GetModeInfo(deviceIndex, modeIndex, out width, out height, out frameRateCount, out frameRateIndex, formatStr))
 			{
 				format = formatStr.ToString();
-				return true;
+				if (frameRateCount > 0 && frameRateCount < 1024)
+				{
+					frameRates = new float[frameRateCount];
+					if (GetModeFrameRates(deviceIndex, modeIndex, frameRateCount, frameRates))
+					{
+						return true;
+					}
+					else
+					{
+						UnityEngine.Debug.LogWarning("[AVProLiveCamera] Failed to retrieve frame rates");
+					}
+				}
+				else
+				{
+					UnityEngine.Debug.LogWarning("[AVProLiveCamera] FrameRates out of range");
+				}
 			}
+			else
+			{
+				UnityEngine.Debug.LogWarning("[AVProLiveCamera] Failed to retrieve mode info");
+			}
+			frameRates = null;
 			format = string.Empty;
 			return false;
 		}
@@ -208,7 +233,7 @@ namespace RenderHeads.Media.AVProLiveCamera
 		// Open & Close Devices
 
 		[DllImport("AVProLiveCamera")]
-		public static extern bool StartDevice(int index, int modeIndex, int videoInputIndex);
+		public static extern bool StartDevice(int index, int modeIndex, int frameRateIndex, int videoInputIndex);
 
 		[DllImport("AVProLiveCamera")]
 		public static extern void StopDevice(int index);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 //-----------------------------------------------------------------------------
-// Copyright 2012-2018 RenderHeads Ltd.  All rights reserverd.
+// Copyright 2012-2020 RenderHeads Ltd.  All rights reserverd.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProLiveCamera.Demos
@@ -15,6 +15,7 @@ namespace RenderHeads.Media.AVProLiveCamera.Demos
 			public Vector2 scrollVideoInputPos;
 			public bool showSettings;
 			public bool showModes;
+			public bool showFrameRates;
 			public Material material;
 		}
 
@@ -31,11 +32,11 @@ namespace RenderHeads.Media.AVProLiveCamera.Demos
 		private float _zoomTimer;
 		private bool _zoomUp;
 		private Rect _zoomSrcDest;
+		private Material _zoomedMaterial;
 
 		private static int _propApplyGamma;
 		private static Shader _shaderGammaConversion;
 		private static Shader _shaderGammaConversionTransparent;
-		private Material _material;
 
 		void Awake()
 		{
@@ -58,7 +59,7 @@ namespace RenderHeads.Media.AVProLiveCamera.Demos
 				_shaderGammaConversionTransparent = Shader.Find("Hidden/AVProLiveCamera/IMGUI Transparent");
 			}
 
-			EnumerateDevices();
+			EnumerateDevices(true);
 
 			int numDevices = AVProLiveCameraManager.Instance.NumDevices;
 			for (int i = 0; i < numDevices; i++)
@@ -74,61 +75,70 @@ namespace RenderHeads.Media.AVProLiveCamera.Demos
 
 		void OnDestroy()
 		{
-			// Destroy existing material
-			if (_material != null)
+			for (int i = 0; i < _instances.Count; i++)
 			{
+				UIData uidata = _instances[i];
+				if (uidata.material != null)
+				{
 #if UNITY_EDITOR
-				Material.DestroyImmediate(_material);
+					Material.DestroyImmediate(uidata.material);
 #else
-				Material.Destroy(_material);
+					Material.Destroy(uidata.material);
 #endif
-				_material = null;
+					uidata.material = null;
+				}
 			}
 		}
 
-		private void EnumerateDevices()
+		private void EnumerateDevices(bool logDevices)
 		{
 			// Enumerate all cameras
 			int numDevices = AVProLiveCameraManager.Instance.NumDevices;
-			print("num devices: " + numDevices);
+			if (logDevices)
+			{
+				print("num devices: " + numDevices);
+			}
 			for (int i = 0; i < numDevices; i++)
 			{
 				AVProLiveCameraDevice device = AVProLiveCameraManager.Instance.GetDevice(i);
 
-				// Enumerate video inputs (only for devices with multiple analog input sources, eg TV cards)
-				print("device " + i + ": " + device.Name + " (" + device.GUID + ") has " + device.NumVideoInputs + " videoInputs");
-				for (int j = 0; j < device.NumVideoInputs; j++)
+				if (logDevices)
 				{
-					print("  videoInput " + j + ": " + device.GetVideoInputName(j));
-				}
-
-				// Enumerate camera modes
-				print("device " + i + ": " + device.Name + " (" + device.GUID + ") has " + device.NumModes + " modes");
-				for (int j = 0; j < device.NumModes; j++)
-				{
-					AVProLiveCameraDeviceMode mode = device.GetMode(j);
-					print("  mode " + j + ": " + mode.Width + "x" + mode.Height + " @" + mode.FPS.ToString("F2") + "fps [" + mode.Format + "]");
-				}
-
-				// Enumerate camera settings
-				print("device " + i + ": " + device.Name + " (" + device.GUID + ") has " + device.NumSettings + " video settings");
-				for (int j = 0; j < device.NumSettings; j++)
-				{
-					AVProLiveCameraSettingBase settingBase = device.GetVideoSettingByIndex(j);
-					switch (settingBase.DataTypeValue)
+					// Enumerate video inputs (only for devices with multiple analog input sources, eg TV cards)
+					print("device " + i + ": " + device.Name + " (" + device.GUID + ") has " + device.NumVideoInputs + " videoInputs");
+					for (int j = 0; j < device.NumVideoInputs; j++)
 					{
-						case AVProLiveCameraSettingBase.DataType.Boolean:
-							{
-								AVProLiveCameraSettingBoolean settingBool = (AVProLiveCameraSettingBoolean)settingBase;
-								print(string.Format("  setting {0}: {1}({2}) value:{3} default:{4} canAuto:{5} isAuto:{6}", j, settingBase.Name, settingBase.PropertyIndex, settingBool.CurrentValue, settingBool.DefaultValue, settingBase.CanAutomatic, settingBase.IsAutomatic));
-							}
-							break;
-						case AVProLiveCameraSettingBase.DataType.Float:
-							{
-								AVProLiveCameraSettingFloat settingFloat = (AVProLiveCameraSettingFloat)settingBase;
-								print(string.Format("  setting {0}: {1}({2}) value:{3} default:{4} range:{5}-{6} canAuto:{7} isAuto:{8}", j, settingBase.Name, settingBase.PropertyIndex, settingFloat.CurrentValue, settingFloat.DefaultValue, settingFloat.MinValue, settingFloat.MaxValue, settingBase.CanAutomatic, settingBase.IsAutomatic));
-							}
-							break;
+						print("  videoInput " + j + ": " + device.GetVideoInputName(j));
+					}
+
+					// Enumerate camera modes
+					print("device " + i + ": " + device.Name + " (" + device.GUID + ") has " + device.NumModes + " modes");
+					for (int j = 0; j < device.NumModes; j++)
+					{
+						AVProLiveCameraDeviceMode mode = device.GetMode(j);
+						print("  mode " + j + ": " + mode.Width + "x" + mode.Height + " @" + mode.FPS.ToString("F2") + "fps [" + mode.Format + "]");
+					}
+
+					// Enumerate camera settings
+					print("device " + i + ": " + device.Name + " (" + device.GUID + ") has " + device.NumSettings + " video settings");
+					for (int j = 0; j < device.NumSettings; j++)
+					{
+						AVProLiveCameraSettingBase settingBase = device.GetVideoSettingByIndex(j);
+						switch (settingBase.DataTypeValue)
+						{
+							case AVProLiveCameraSettingBase.DataType.Boolean:
+								{
+									AVProLiveCameraSettingBoolean settingBool = (AVProLiveCameraSettingBoolean)settingBase;
+									print(string.Format("  setting {0}: {1}({2}) value:{3} default:{4} canAuto:{5} isAuto:{6}", j, settingBase.Name, settingBase.PropertyIndex, settingBool.CurrentValue, settingBool.DefaultValue, settingBase.CanAutomatic, settingBase.IsAutomatic));
+								}
+								break;
+							case AVProLiveCameraSettingBase.DataType.Float:
+								{
+									AVProLiveCameraSettingFloat settingFloat = (AVProLiveCameraSettingFloat)settingBase;
+									print(string.Format("  setting {0}: {1}({2}) value:{3} default:{4} range:{5}-{6} canAuto:{7} isAuto:{8}", j, settingBase.Name, settingBase.PropertyIndex, settingFloat.CurrentValue, settingFloat.DefaultValue, settingFloat.MinValue, settingFloat.MaxValue, settingBase.CanAutomatic, settingBase.IsAutomatic));
+								}
+								break;
+						}
 					}
 				}
 
@@ -138,6 +148,7 @@ namespace RenderHeads.Media.AVProLiveCamera.Demos
 					scrollVideoInputPos = Vector2.zero,
 					showSettings = false,
 					showModes = false,
+					showFrameRates = false,
 					material = null
 				});
 			}
@@ -283,7 +294,7 @@ namespace RenderHeads.Media.AVProLiveCamera.Demos
 
 		public void NewDeviceAdded()
 		{
-			EnumerateDevices();
+			EnumerateDevices(false);
 		}
 
 		public void OnGUI()
@@ -320,6 +331,7 @@ namespace RenderHeads.Media.AVProLiveCamera.Demos
 						_zoomedTexture = device.OutputTexture;
 						_zoomedDevice = device;
 						_zoomSrcDest = cameraRect;
+						_zoomedMaterial = uiData.material;
 						_zoomUp = true;
 					}
 				}
@@ -327,9 +339,9 @@ namespace RenderHeads.Media.AVProLiveCamera.Demos
 				// Thumbnail image
 				if (device.OutputTexture != null && _zoomedTexture != device.OutputTexture)
 				{
-					if (_material != null)
+					if (uiData.material != null)
 					{
-						DrawTexture(cameraRect, device.OutputTexture, ScaleMode.ScaleToFit, _material);
+						DrawTexture(cameraRect, device.OutputTexture, ScaleMode.ScaleToFit, uiData.material);
 					}
 					else
 					{
@@ -479,7 +491,12 @@ namespace RenderHeads.Media.AVProLiveCamera.Demos
 					for (int j = 0; j < device.NumModes; j++)
 					{
 						AVProLiveCameraDeviceMode mode = device.GetMode(j);
-						if (GUILayout.Button("" + mode.Width + "x" + mode.Height + " " + mode.FPS.ToString("F2") + "hz " + "[" + mode.Format + "]", _buttonStyle))
+						bool isSelected = (device.CurrentMode == mode);
+						if (isSelected)
+						{
+							GUI.color = Color.green;
+						}
+						if (GUILayout.Button("" + mode.Width + "x" + mode.Height + " [" + mode.Format + "]", _buttonStyle))
 						{
 							if (_zoomedTexture == null)
 							{
@@ -487,6 +504,44 @@ namespace RenderHeads.Media.AVProLiveCamera.Demos
 								device.Close();
 								Debug.Log("Selecting mode: " + j);
 								device.Start(mode);
+							}
+						}
+						if (isSelected)
+						{
+							GUI.color = Color.white;
+						}
+					}
+				}
+
+				if (device.IsRunning && device.CurrentMode != null)
+				{
+					GUI.color = Color.cyan;
+					uiData.showFrameRates = GUILayout.Toggle(uiData.showFrameRates, "Frame Rates ▶", GUILayout.ExpandWidth(true));
+					GUI.color = Color.white;
+					if (uiData.showFrameRates)
+					{
+						for (int j = 0; j < device.CurrentMode.FrameRates.Length; j++)
+						{
+							bool isSelected = (device.CurrentMode.FrameRateIndex == j);
+							if (isSelected)
+							{
+								GUI.color = Color.green;
+							}
+							if (GUILayout.Button(device.CurrentMode.FrameRates[j].ToString("F2") + "hz ", _buttonStyle))
+							{
+								device.CurrentMode.FrameRateIndex = j;
+								if (_zoomedTexture == null)
+								{
+									// Start selected device
+									AVProLiveCameraDeviceMode mode = device.CurrentMode;
+									device.Close();
+									Debug.Log("Selecting mode: " + j);
+									device.Start(mode);
+								}
+							}
+							if (isSelected)
+							{
+								GUI.color = Color.white;
 							}
 						}
 					}
@@ -514,9 +569,9 @@ namespace RenderHeads.Media.AVProLiveCamera.Demos
 				r.width = Mathf.Lerp(_zoomSrcDest.width, fullScreenRect.width, t);
 				r.height = Mathf.Lerp(_zoomSrcDest.height, fullScreenRect.height, t);
 
-				if (_material != null)
+				if (_zoomedMaterial != null)
 				{
-					DrawTexture(r, _zoomedTexture, ScaleMode.ScaleToFit, _material);
+					DrawTexture(r, _zoomedTexture, ScaleMode.ScaleToFit, _zoomedMaterial);
 				}
 				else
 				{

@@ -122,21 +122,25 @@ namespace RenderHeads.Media.AVProLiveCamera.Demos
 						string resName = string.Format("{0}x{1}", mode.Width, mode.Height);
 						if (resName == matchName)
 						{
-							string name = string.Format("{0}", mode.FPS.ToString("F2"));
-							if (!usedNames.Contains(name))
+							foreach (float frameRate in mode.FrameRates)
 							{
-								GUI.color = Color.white;
-								if (_liveCamera.Device.CurrentFrameRate.ToString("F2") == mode.FPS.ToString("F2"))
+								string name = string.Format("{0}", frameRate.ToString("F2"));
+								if (!usedNames.Contains(name))
 								{
-									GUI.color = Color.green;
-								}
+									GUI.color = Color.white;
+									if (_liveCamera.Device.CurrentFrameRate.ToString("F2") == frameRate.ToString("F2"))
+									{
+										GUI.color = Color.green;
+									}
 
-								usedNames.Add(name);
-								if (GUILayout.Button(name))
-								{
-									_liveCamera._modeSelection = AVProLiveCamera.SelectModeBy.Index;
-									_liveCamera._desiredModeIndex = i;
-									_liveCamera.Begin();
+									usedNames.Add(name);
+									if (GUILayout.Button(name))
+									{
+										_liveCamera._modeSelection = AVProLiveCamera.SelectModeBy.Index;
+										_liveCamera._desiredModeIndex = i;
+										_liveCamera._desiredFrameRate = frameRate;
+										_liveCamera.Begin();
+									}
 								}
 							}
 						}
@@ -150,11 +154,11 @@ namespace RenderHeads.Media.AVProLiveCamera.Demos
 					GUILayout.Button("FORMAT");
 					for (int i = 0; i < _liveCamera.Device.NumModes; i++)
 					{
-						string matchName = string.Format("{0}x{1}@{2}", _liveCamera.Device.CurrentWidth, _liveCamera.Device.CurrentHeight, _liveCamera.Device.CurrentFrameRate.ToString("F2"));
+						string matchName = string.Format("{0}x{1}", _liveCamera.Device.CurrentWidth, _liveCamera.Device.CurrentHeight);//, _liveCamera.Device.CurrentFrameRate.ToString("F2"));
 
 						AVProLiveCameraDeviceMode mode = _liveCamera.Device.GetMode(i);
 
-						string resName = string.Format("{0}x{1}@{2}", mode.Width, mode.Height, mode.FPS.ToString("F2"));
+						string resName = string.Format("{0}x{1}", mode.Width, mode.Height);//, mode.FPS.ToString("F2"));
 						if (resName == matchName)
 						{
 							string name = string.Format("{0}", mode.Format);

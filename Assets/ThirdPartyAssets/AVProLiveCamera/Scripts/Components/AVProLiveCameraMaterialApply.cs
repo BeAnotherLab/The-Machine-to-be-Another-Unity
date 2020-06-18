@@ -1,7 +1,7 @@
 using UnityEngine;
 
 //-----------------------------------------------------------------------------
-// Copyright 2012-2018 RenderHeads Ltd.  All rights reserverd.
+// Copyright 2012-2020 RenderHeads Ltd.  All rights reserverd.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProLiveCamera
@@ -9,18 +9,60 @@ namespace RenderHeads.Media.AVProLiveCamera
 	[AddComponentMenu("AVPro Live Camera/Material Apply")]
 	public class AVProLiveCameraMaterialApply : MonoBehaviour
 	{
-		public Material _material;
-		public AVProLiveCamera _liveCamera;
+		[SerializeField] AVProLiveCamera _liveCamera = null;
+		[SerializeField] Material _material = null;
+		[SerializeField] string _texturePropertyName = "_MainTex";
+
+		private int _propTexture = -1;
 		private Texture _lastTexture;
 
-		void Start()
+		public AVProLiveCamera LiveCamera
 		{
-			if (_liveCamera != null && _liveCamera.OutputTexture != null)
+			get { return _liveCamera; }
+			set
 			{
-				ApplyMapping(_liveCamera.OutputTexture);
+				if (_liveCamera != value)
+				{
+					_liveCamera = value;
+					Update();
+				}
 			}
 		}
 
+		public Material Material
+		{
+			get { return _material; }
+			set
+			{
+				if (_material != value)
+				{
+					ApplyMapping(null);
+					_material = value;
+					Update();
+				}
+			}
+		}
+
+		public string TexturePropertyName
+		{
+			get { return _texturePropertyName; }
+			set
+			{
+				if (_texturePropertyName != value)
+				{
+					ApplyMapping(null);
+					_texturePropertyName = value;
+					_propTexture = Shader.PropertyToID(_texturePropertyName);
+					Update();
+				}
+			}
+		}
+
+		void Awake()
+		{
+			_propTexture = Shader.PropertyToID(_texturePropertyName);
+		}
+		
 		void Update()
 		{
 			if (_liveCamera != null && _liveCamera.OutputTexture != null)
@@ -33,19 +75,22 @@ namespace RenderHeads.Media.AVProLiveCamera
 			}
 		}
 
-		private void ApplyMapping(Texture texture)
+		void ApplyMapping(Texture texture)
 		{
 			if (_lastTexture != texture)
 			{
 				if (_material != null)
 				{
-					_material.mainTexture = texture;
+					if (_propTexture != -1)
+					{
+						_material.SetTexture(_propTexture, texture);
+						_lastTexture = texture;
+					}
 				}
-				_lastTexture = texture;
 			}
 		}
-
-		public void OnDisable()
+		
+		void OnDisable()
 		{
 			ApplyMapping(null);
 		}

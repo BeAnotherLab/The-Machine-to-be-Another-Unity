@@ -73,6 +73,7 @@ NavMeshSettings:
     minRegionArea: 2
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
+    tileSizeHint: 0
   m_NavMesh: {fileID: 0}
 --- !u!1 &295334171
 GameObject:
@@ -314,8 +315,8 @@ MonoBehaviour:
   m_Script: {fileID: 1301386320, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoreReversedGraphics: 1
-  blockingObjects: 0
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -611,6 +612,7 @@ MonoBehaviour:
   - Logitech Webcam Pro 9000
   _desiredDeviceIndex: -1
   _modeSelection: 0
+  _desiredAnyResolution: 1
   _desiredResolutions:
   - {x: 1920, y: 1080}
   - {x: 1280, y: 720}
@@ -618,11 +620,16 @@ MonoBehaviour:
   - {x: 640, y: 480}
   _desiredModeIndex: -1
   _maintainAspectRatio: 0
+  _desiredFrameRate: 0
+  _desiredFormatAny: 1
+  _desiredTransparencyFormat: 0
+  _desiredFormat: 4
   _videoInputSelection: 0
   _desiredVideoInputs: 0600000003000000
   _desiredVideoInputIndex: 0
   _playOnStart: 0
   _deinterlace: 0
+  _allowTransparency: 1
   _flipX: 0
   _flipY: 0
   _updateHotSwap: 0
@@ -712,8 +719,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 2100879874}
   - 20: {fileID: 2100879873}
-  - 92: {fileID: 2100879872}
-  - 124: {fileID: 2100879871}
   - 81: {fileID: 2100879870}
   m_Layer: 0
   m_Name: Main Camera
@@ -724,20 +729,6 @@ GameObject:
   m_IsActive: 1
 --- !u!81 &2100879870
 AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2100879869}
-  m_Enabled: 1
---- !u!124 &2100879871
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2100879869}
-  m_Enabled: 1
---- !u!92 &2100879872
-Behaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
