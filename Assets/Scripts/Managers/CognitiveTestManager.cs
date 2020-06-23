@@ -65,7 +65,7 @@ public class CognitiveTestManager : TestManager
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Space) && _currentStep == steps.instructions)
+        if (Input.GetKeyUp(KeyCode.Mouse0) && _currentStep == steps.instructions)
         {
             CognitiveTestInstructionsGUIBehavior.instance.Next();
         }
@@ -84,9 +84,7 @@ public class CognitiveTestManager : TestManager
     public void StartInstructions()
     {
         var files = Directory.GetFiles(Application.dataPath);
-
-        string filepath = Application.dataPath + "/" + "CognitiveTest" + _experimentData.subjectID + "_log.json";
-
+        string filepath = Application.dataPath + "/" + "CognitiveTest" + "-" + _experimentData.subjectID + "-" + _experimentData.experimentState.ToString() + "_log.json";
         Debug.Log(" creating new file : " + filepath);
         _filePath = filepath; 
         CognitiveTestInstructionsGUIBehavior.instance.Init();
@@ -156,6 +154,7 @@ public class CognitiveTestManager : TestManager
         if (_trialIndex == _finalTrialsList.Count)
         {
             FinishTest();
+            VideoFeed.instance.CancelTweens();
             if (_experimentData.experimentState == ExperimentState.pre) SceneManager.LoadScene("SparkSwap");
         }
         else _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
@@ -203,6 +202,7 @@ public class CognitiveTestManager : TestManager
         if (_trialIndex == _finalTrialsList.Count)
         {
             FinishTest();
+            VideoFeed.instance.CancelTweens();
             if (_experimentData.experimentState == ExperimentState.pre) SceneManager.LoadScene("SparkSwap");
         }
         else if (_finalTrialsList[_trialIndex].GetField("type").str == "practice") StartCoroutine(ShowFeedbackCoroutine());
@@ -242,7 +242,7 @@ public class CognitiveTestManager : TestManager
             _experimentData.subjectDirection = "Left";
         }
     }
-    
+
     #endregion
     
 }

@@ -15,7 +15,8 @@ public class ExperimentData : ScriptableObject
     public string subjectDirection;
     public ExperimentState experimentState;
     public bool debug;
-
+    public StringStringDictionary controlVideos;
+    
     public void Clear()
     {
         subjectID = "";

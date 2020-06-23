@@ -41,6 +41,9 @@ public class MotorTestManager : TestManager
     private JSONObject _results;
 
     [SerializeField] private ExperimentData _experimentData;
+
+    [SerializeField] private KeyCode _leftKey;
+    [SerializeField] private KeyCode _rightKey;
     
     #endregion
     
@@ -94,24 +97,24 @@ public class MotorTestManager : TestManager
 
     private void Update()    
     {
-        if (Input.GetKeyUp(KeyCode.Space) && _currentStep == steps.instructions) //use space bar to go past instructions
+        if (Input.GetKeyUp(_leftKey) && _currentStep == steps.instructions) //use space bar to go past instructions
         {
             MotorTestInstructionsGUIBehavior.instance.Next();
             _currentStep = steps.testing;
         }
         else if (_waitingForAnswer && _givenAnswer == answer.none) //get answer
         {
-            if (Input.GetMouseButtonUp(0)) GetButtonUp(0);
-            else if (Input.GetMouseButtonUp(1)) GetButtonUp(1);
+            if (Input.GetKeyUp(_leftKey)) GetButtonUp(0);
+            else if (Input.GetKeyUp(_rightKey)) GetButtonUp(1);
         }
         //if we just just pressed both busttons
-        else if (Input.GetMouseButton(0) && Input.GetMouseButton(0) && !_bothFingersOn && _currentStep == steps.testing) 
+        else if (Input.GetKey(_leftKey) && Input.GetKey(_rightKey) && !_bothFingersOn && _currentStep == steps.testing) 
         {
             _bothFingersOn = true;
             _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
         }
         //if we just lifted one finger during testing
-        else if ((!Input.GetMouseButton(0) || !Input.GetMouseButton(1)) && _bothFingersOn && _currentStep == steps.testing) 
+        else if ((!Input.GetKey(_leftKey) || !Input.GetKey(_rightKey)) && _bothFingersOn && _currentStep == steps.testing) 
         {
             StopCoroutine(_trialCoroutine);
             if(!_waitingForAnswer) MotorTestInstructionsGUIBehavior.instance.Stop();
@@ -128,9 +131,7 @@ public class MotorTestManager : TestManager
     public void StartInstructions()
     {
         var files = Directory.GetFiles(Application.dataPath);
-        
-        string filepath = Application.dataPath + "/" + "MotorTest" + _experimentData.subjectID + "_log.json";
-        
+        string filepath = Application.dataPath + "/" + "MotorTest" + "-" + _experimentData.subjectID + "-" + _experimentData.experimentState.ToString() + "_log.json";
         Debug.Log(" creating new file : " + filepath);
         _filePath = filepath; 
         MotorTestInstructionsGUIBehavior.instance.Init();

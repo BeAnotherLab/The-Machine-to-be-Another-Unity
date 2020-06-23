@@ -170,7 +170,7 @@ namespace RockVR.Video
                 videoCapture.StopCapture();
                 PathConfig.lastVideoFile = videoCapture.filePath;
                 
-                PlayerPrefs.SetString("VideoCapturePath" + FamiliarizationManager.instance.GetSubjectID(), videoCapture.filePath);
+                FamiliarizationManager.instance.SetVideoCapturePath(videoCapture.filePath);
             }
             if (IsCaptureAudio()) audioCapture.StopCapture(); 
             status = StatusType.STOPPED;

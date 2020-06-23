@@ -15,7 +15,7 @@ public class FamiliarizationManager : MonoBehaviour
     [SerializeField] private PlayableDirector _familiarizationTimeline;
 
     [SerializeField] private ExperimentData _experimentData;
-    
+
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -26,6 +26,12 @@ public class FamiliarizationManager : MonoBehaviour
         _experimentData.Clear();
     }
 
+    public void SetVideoCapturePath(string filePath)
+    {
+        _experimentData.controlVideos.Remove(GetSubjectID());
+        _experimentData.controlVideos.Add(GetSubjectID(), filePath);
+    }
+    
     public void StartFamiliarization()
     {
         CustomVideoCaptureCtrl.instance.StartCapture();
@@ -55,10 +61,13 @@ public class FamiliarizationManager : MonoBehaviour
         _experimentData.subjectDirection = direction;
         
         var subjectIDOK = SetSubjectID(subjectID);
+
+        string filePath;
+        _experimentData.controlVideos.TryGetValue(subjectID, out filePath);
         
         if (_experimentData.conditionType == ConditionType.control &&
             _experimentData.participantType == ParticipantType.follower &&
-            !File.Exists(PlayerPrefs.GetString("VideoCapturePath" + subjectID)))
+            !File.Exists(filePath))
         {
             ExperimentSettingsGUI.instance.NotifyVideoNotFoundError();
         }
@@ -77,14 +86,11 @@ public class FamiliarizationManager : MonoBehaviour
         string motorFilePath = Application.dataPath + "/" + "MotorTest" + id + "_log.json";
 
         var fileOK = File.Exists(cognitiveFilePath) || File.Exists(motorFilePath);
-        if (fileOK)
-            ExperimentSettingsGUI.instance.ShowExistingSubjectIDError();
+        if (fileOK) ExperimentSettingsGUI.instance.ShowExistingSubjectIDError();
 
         CustomVideoCaptureUI.instance.EnableRecordButton();
         
         return fileOK;
-
-        
     }
 
     public string GetSubjectID()
