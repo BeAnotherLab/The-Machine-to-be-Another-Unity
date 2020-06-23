@@ -18,8 +18,6 @@ namespace UnityPsychBasics
         public string minVASLabel, midVASLabel, maxVASLabel;
         public List<string> likertItems = new List<string>();
 
-        public int numberOfConditions;
-
         public List<bool> shuffle = new List<bool>();
         public List<bool> useImage = new List<bool>();
         public List<bool> analogueScale = new List<bool>();
@@ -83,8 +81,6 @@ namespace UnityPsychBasics
         }
 
         private void SetWithinScene(bool isLast) {
-
-
             if (currentTask < useImage.Count) {
 
                 _mouseClickResponse.ActivateSelector(useMouseClickSelector[currentTask]);

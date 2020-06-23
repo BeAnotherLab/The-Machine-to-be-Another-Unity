@@ -22,9 +22,6 @@ namespace UnityPsychBasics {
 
         public static TaskManager instance;
 
-        private CsvWrite _csvWriter;
-        private CsvRead _csvReader;
-        private ImageRead _imageReader;
         private Timer _timer;
         private ScaleManager _scaleManager;
 
@@ -34,17 +31,8 @@ namespace UnityPsychBasics {
 
         private int currentItem;
 
-        private Vector2 imageProjectionSize;
-    
         private void Awake() {
-
-            if (instance == null)
-                instance = this;
-
-            _csvWriter = CsvWrite.instance;
-            _imageReader = ImageRead.instance;
-            _csvReader = CsvRead.instance;
-           
+            if (instance == null) instance = this;
         }
 
         void Start() {
@@ -76,35 +64,23 @@ namespace UnityPsychBasics {
             }
 
             if (useImages) {
-
-                imageProjectionSize = new Vector2(_image.rectTransform.rect.width, _image.rectTransform.rect.height);             
-                
-                for (int i = 0; i < _imageReader.imageSprites.Count; i++)
-                    imageList.Add(_imageReader.imageSprites[i]);
-
-                if (shuffle)
-                    CreateShuffleList();
-
+                for (int i = 0; i < ImageRead.instance.imageSprites.Count; i++) imageList.Add(ImageRead.instance.imageSprites[i]);
+                if (shuffle) CreateShuffleList();
                 SetImage();
-
             }
 
             else {
-                _csvReader.SetFileToLoad();
+                CsvRead.instance.SetFileToLoad();
 
-                for (int i = 0; i < _csvReader.questionnaireInput.Count; i++)
-                    questionList.Add(_csvReader.questionnaireInput[i]);
+                for (int i = 0; i < CsvRead.instance.questionnaireInput.Count; i++)
+                    questionList.Add(CsvRead.instance.questionnaireInput[i]);
 
-                if (shuffle)
-                    CreateShuffleList();
-
+                if (shuffle) CreateShuffleList();
                 textUI.text = questionList[currentItem];
             }
-
-
         }
 
-        private void ShowGameObjects(GameObject[] objectToShow)
+        private void ShowGameObjects(GameObject[] objectToShow) //TODO use Canvas Grop instead
         {
             GameObject[] _gameObjectsToShow = {_toggleGroup.gameObject, _scrollbar.gameObject, _nextButton.gameObject, _image.gameObject, textUI.gameObject};
 
@@ -115,9 +91,7 @@ namespace UnityPsychBasics {
                     if (objectToShow[i] == _object)
                         _object.SetActive(true);
                 }
-
             }
-
         }
 
         private void CreateShuffleList(){
@@ -147,26 +121,16 @@ namespace UnityPsychBasics {
         }
 
         public void OnNextButton() {
-
             CsvWrite.instance.responseTime = _timer.ElapsedTimeAndRestart();
-
             _nextButton.interactable = false;
-
-            _csvWriter.item = currentItem;
-
-            if (!setValueOutside)
-                _csvWriter.response = ResponseValue();
-
-            _csvWriter.LogTrial();
-
+            CsvWrite.instance.item = currentItem;
+            if (!setValueOutside) CsvWrite.instance.response = ResponseValue();
+            CsvWrite.instance.LogTrial();
             _scrollbar.value = 0.5f;
-
             DoAfterSeletion();
         }
 
-
         public float ResponseValue() {
-
             float currentValue = 0;
 
                 if (!useAnalogueScale) {
@@ -178,16 +142,14 @@ namespace UnityPsychBasics {
 
                     _toggleGroup.SetAllTogglesOff();
                     _nextButton.interactable = false;
-            }
+                }
+                else currentValue = _scrollbar.value;
 
-                else
-                    currentValue = _scrollbar.value;          
-            
             return currentValue;
         }
 
         public void OutsideResponseValue(float outsideValue){
-            _csvWriter.response = outsideValue;
+            CsvWrite.instance.response = outsideValue;
         }
 
         private void DoAfterSeletion(){
@@ -241,7 +203,7 @@ namespace UnityPsychBasics {
 
         private void QuestionsExhausted() {
 
-            _csvWriter.condition++;
+            CsvWrite.instance.condition++;
             currentItem = 0;
             questionList.Clear();
             imageList.Clear();
@@ -255,10 +217,10 @@ namespace UnityPsychBasics {
             }
 
             else {
-                if (_csvWriter.condition < ConditionDictionary.selectedOrder.Length)
+                if (CsvWrite.instance.condition < ConditionDictionary.selectedOrder.Length)
                     TaskSettings.instance.LoadBeforeLast();
 
-                else if (_csvWriter.condition == ConditionDictionary.selectedOrder.Length)
+                else if (CsvWrite.instance.condition == ConditionDictionary.selectedOrder.Length)
                     TaskSettings.instance.LoadAfterLast();
             }
         }
