@@ -17,7 +17,7 @@ namespace UnityPsychBasics {
            var myScript = target as TaskSettings;
 
             myScript.sceneBeforeLastCondition = EditorGUILayout.TextField("Scene Before Last", myScript.sceneBeforeLastCondition);
-            myScript.sceneAfterLastCondition = EditorGUILayout.TextField("Scene After Last", myScript.sceneAfterLastCondition);
+            myScript.sceneAfterLastCondition = EditorGUILayout.TextField("Scene Before Last", myScript.sceneAfterLastCondition);
             EditorGUILayout.Space();
 
             scaleLegendsFoldout = EditorGUILayout.Foldout(scaleLegendsFoldout,"Set legends for scales"); //GUILayout.Label("Set legends for scales");
