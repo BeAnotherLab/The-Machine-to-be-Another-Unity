@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 
 namespace UnityPsychBasics {
 
-    public class TaskManager : MonoBehaviour {
-
+    public class TaskManager : MonoBehaviour 
+    {
         #region public variables
         
         public Text textUI;
@@ -26,8 +26,6 @@ namespace UnityPsychBasics {
         
         #region private variables
         
-        private ScaleManager _scaleManager;
-
         private List<string> _questionList = new List<string>();
         private List<Sprite> _imageList = new List<Sprite>();
         private List<int> _indexList = new List<int>();
@@ -38,11 +36,13 @@ namespace UnityPsychBasics {
         
         #region MonoBehavior methods
         
-        private void Awake() {
+        private void Awake() 
+        {
             if (instance == null) instance = this;
         }
 
-        void Start() {
+        void Start() 
+        {
             _nextButton.interactable = false;
             Timer.instance.stopwatch.Start();
         }
@@ -52,9 +52,9 @@ namespace UnityPsychBasics {
 
         #region Public methods
 
-        public void InitializeValuesListsAndObjects() {
-            _scaleManager = ScaleManager.instance;
-            _scaleManager.CreateToggles();
+        public void InitializeValuesListsAndObjects() 
+        {
+            ScaleManager.instance.CreateToggles();
 
             if(setValueOutside) ShowGameObjects(new GameObject[]{ }); 
                       
@@ -86,11 +86,13 @@ namespace UnityPsychBasics {
             }
         }
         
-        public void OnResponseSelection() {
+        public void OnResponseSelection() 
+        {
             _nextButton.interactable = true;
         }
 
-        public void OnNextButton() {
+        public void OnNextButton() //TODO split into two methods, one for GUI, the other for CSVWrite 
+        { 
             CsvWrite.instance.responseTime = Timer.instance.ElapsedTimeAndRestart();
             _nextButton.interactable = false;
             CsvWrite.instance.item = _currentItem;
@@ -100,11 +102,13 @@ namespace UnityPsychBasics {
             DoAfterSeletion();
         }
 
-        public void OutsideResponseValue(float outsideValue){
+        public void OutsideResponseValue(float outsideValue) 
+        {
             CsvWrite.instance.response = outsideValue;
         }
 
-        public void LoadScene(string scene) {
+        public void LoadScene(string scene) 
+        {
             SceneManager.LoadScene(scene);
         }
         
@@ -113,7 +117,8 @@ namespace UnityPsychBasics {
 
         #region Private methods
 
-        private float ResponseValue() {
+        private float ResponseValue() 
+        {
             float currentValue = 0;
 
             if (!useAnalogueScale) {
@@ -131,7 +136,7 @@ namespace UnityPsychBasics {
             return currentValue;
         }
         
-        private void ShowGameObjects(GameObject[] objectToShow) //TODO use Canvas Grop instead
+        private void ShowGameObjects(GameObject[] objectToShow) //TODO use Canvas Groups instead
         {
             GameObject[] _gameObjectsToShow = {_toggleGroup.gameObject, _scrollbar.gameObject, _nextButton.gameObject, _image.gameObject, textUI.gameObject};
 
@@ -145,8 +150,8 @@ namespace UnityPsychBasics {
             }
         }
 
-        private void CreateShuffleList(){
-
+        private void CreateShuffleList()
+        {
             if(useImages)
                 for (int i = 0; i < _imageList.Count; i++)
                     _indexList.Add(i);
@@ -157,8 +162,8 @@ namespace UnityPsychBasics {
             _currentItem = ShuffleValue();
         }
 
-        private int ShuffleValue() {
-
+        private int ShuffleValue() 
+        {
             int randomIndex = Random.Range(0, _indexList.Count);
             int selectedItem = _indexList[randomIndex];
             _indexList.RemoveAt(randomIndex);
@@ -168,7 +173,8 @@ namespace UnityPsychBasics {
 
         #endregion
 
-        private void DoAfterSeletion(){
+        private void DoAfterSeletion()
+        {
             if (!shuffle) {
                 _currentItem++;
 
@@ -195,12 +201,14 @@ namespace UnityPsychBasics {
             }
         }
 
-        private void SetImage(){
+        private void SetImage()
+        {
             _image.sprite = _imageList[_currentItem];
             _image.GetComponent<RectTransform>().sizeDelta = new Vector2(_image.sprite.rect.width, (float)_image.sprite.rect.height);
         }
 
-        private void QuestionsExhausted() {
+        private void QuestionsExhausted() 
+        {
             CsvWrite.instance.condition++;
             _currentItem = 0;
             _questionList.Clear();
@@ -224,5 +232,4 @@ namespace UnityPsychBasics {
         }
 
     }
-
 }

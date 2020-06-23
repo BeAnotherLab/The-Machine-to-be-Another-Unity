@@ -6,30 +6,28 @@ using System.IO;
 
 namespace UnityPsychBasics
 { 
-    public class ImageRead : MonoBehaviour {
+    public class ImageRead : MonoBehaviour 
+    {
 
         [HideInInspector]
 	    public List<Sprite> imageSprites = new List<Sprite>();
         public string format;
-
         public static ImageRead instance;
 
         private void Awake()
         {
-            if (instance == null)
-                instance = this;
+            if (instance == null) instance = this;
         }
 
         // Use this for initialization
-        void Start () {
-
+        void Start () 
+        {
             string[] filePaths = Directory.GetFiles("./Images/", "*" + format);
 
             foreach(string path in filePaths) {
                 Texture2D spriteTexture = LoadTexture(path);
                 imageSprites.Add(Sprite.Create(spriteTexture, new Rect(0, 0, spriteTexture.width, spriteTexture.height), new Vector2(0, 0), 100f, 0, SpriteMeshType.Tight));
             }
-        
         }
 
         public Texture2D LoadTexture(string FilePath) //adapted from https://forum.unity.com/threads/generating-sprites-dynamically-from-png-or-jpeg-files-in-c.343735/

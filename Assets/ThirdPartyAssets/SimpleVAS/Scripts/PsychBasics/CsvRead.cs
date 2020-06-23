@@ -14,11 +14,13 @@ namespace UnityPsychBasics {
         public static CsvRead instance;
 
         // Use this for initialization
-        void Awake () {
+        void Awake () 
+        {
             if (instance == null) instance = this;
         }
 
-        public void SetFileToLoad(){
+        public void SetFileToLoad()
+        {
             questionnaireInput.Clear();
             
             string file;
@@ -32,7 +34,8 @@ namespace UnityPsychBasics {
             Load(file, questionnaireInput);
         }
 		
-	    private void Load(string fileName, List<string> arrayToTransferTo) {
+	    private void Load(string fileName, List<string> arrayToTransferTo) 
+	    {
 		    // Handle any problems that might arise when reading the text
 		    try {
 			    string line;

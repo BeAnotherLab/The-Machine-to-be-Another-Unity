@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace UnityPsychBasics
 {
-        public class TaskSettings : MonoBehaviour {
+    public class TaskSettings : MonoBehaviour 
+    {
 
         public string sceneBeforeLastCondition, sceneAfterLastCondition;
 
@@ -22,11 +23,13 @@ namespace UnityPsychBasics
         public List<bool> analogueScale = new List<bool>();
         public List<bool> useMouseClickSelector = new List<bool>();
 
-        private void Awake() {
+        private void Awake() 
+        {
             if (instance == null) instance = this;
         }
 
-        private void Start() {
+        private void Start() 
+        {
             if (withinScene) SetWithinScene(false);
             else { //set for separate scenes
                 MouseClickResponse.instance.ActivateSelector(shuffleBool);
@@ -44,17 +47,20 @@ namespace UnityPsychBasics
                 ScaleManager.instance.likertItems.Add(likertItems[i]);
         }
 
-        public void LoadBeforeLast() {
+        public void LoadBeforeLast() 
+        {
             if (!withinScene) TaskManager.instance.LoadScene(sceneBeforeLastCondition);
             else SetWithinScene(false); 
         }
 
-        public void LoadAfterLast() {
+        public void LoadAfterLast() 
+        {
             if (!withinScene) TaskManager.instance.LoadScene(sceneAfterLastCondition);
             else SetWithinScene(true);
         }
         
-        private void SetWithinScene(bool isLast) {
+        private void SetWithinScene(bool isLast) 
+        {
             if (currentTask < useImage.Count) {
                 MouseClickResponse.instance.ActivateSelector(useMouseClickSelector[currentTask]);
                 TaskManager.instance.useImages = useImage[currentTask];
@@ -68,6 +74,5 @@ namespace UnityPsychBasics
                 else TaskManager.instance.LoadScene(sceneAfterLastCondition);
             }
         }
-                
     }
 }

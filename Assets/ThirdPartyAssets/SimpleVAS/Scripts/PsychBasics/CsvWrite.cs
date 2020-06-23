@@ -24,16 +24,19 @@ namespace UnityPsychBasics {
 			DontDestroyOnLoad(gameObject); 
 		}
 
-		private void Start () {
+		private void Start () 
+		{
             foreach (var item in varNames) varValues.Add(null); //initialize varNames array  
         }
 
-        public void SetColumnNames(){
+        public void SetColumnNames()
+        {
             WriteToFile(varNames);
         }
 			
-		public void LogTrial(){
-            SetVariables();
+		public void LogTrial()
+		{
+			SetVariables();
             if (BasicDataConfigurations.ID == null) //load null
 	            for (int i = 0; i < varValues.Count; i++) varValues[i] = "na";
             else
@@ -42,8 +45,8 @@ namespace UnityPsychBasics {
             WriteToFile(varValues);
         }
 
-		private void WriteToFile(List<string> stringList){
-
+		private void WriteToFile(List<string> stringList)
+		{
             string stringLine = string.Join(",", stringList.ToArray());
 			System.IO.StreamWriter file = new System.IO.StreamWriter("./Logs/" + BasicDataConfigurations.ID + "_log.csv", true);
 			file.WriteLine(stringLine);

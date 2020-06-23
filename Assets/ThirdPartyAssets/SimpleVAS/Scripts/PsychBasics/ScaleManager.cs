@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 namespace UnityPsychBasics
 {
-    public class ScaleManager : MonoBehaviour {
+    public class ScaleManager : MonoBehaviour 
+    {
 
         public GameObject togglePrefab;
         public ToggleGroup toggleGroup;
@@ -20,8 +21,8 @@ namespace UnityPsychBasics
             if (instance == null) instance = this;
         }
 
-        public void CreateToggles(){
-
+        public void CreateToggles()
+        {
             foreach(Transform child in toggleGroup.GetComponent<Transform>())
                 Destroy(child.gameObject);
 
