@@ -13,40 +13,28 @@ namespace UnityPsychBasics {
 
         public static CsvRead instance;
 
-        private TaskManager _taskManager;
         // Use this for initialization
         void Awake () {
-            if (instance == null)
-                instance = this;
+            if (instance == null) instance = this;
         }
 
         public void SetFileToLoad(){
-
             questionnaireInput.Clear();
-
-            _taskManager = TaskManager.instance;
             
-            string file = null;
+            string file;
 
-            if (!_taskManager.setValueOutside) {
-                if (_taskManager.useAnalogueScale)
-                    file = fileVAS;
-                else
-                    file = fileLikert;
+            if (! TaskManager.instance.setValueOutside) {
+                if (TaskManager.instance.useAnalogueScale) file = fileVAS;
+                else file = fileLikert;
             }
-            else
-                file = fileOther;
+            else file = fileOther;
 
             Load(file, questionnaireInput);
-
         }
 		
-
-
-	    private bool Load(string fileName, List<string> arrayToTransferTo) {
+	    private void Load(string fileName, List<string> arrayToTransferTo) {
 		    // Handle any problems that might arise when reading the text
 		    try {
-
 			    string line;
 
 			    // Create a new StreamReader, tell it which file to read and what encoding the file was saved as
@@ -82,15 +70,12 @@ namespace UnityPsychBasics {
 				    // Done reading, close the reader and return true to broadcast success    
 				    csvFileReader.Close();
 				    //Debug.Log("Read all that jass, like " + arrayToTransferTo[0]);
-				    return true;
 			    }
 		    }
-
 
 		    // If anything broke in the try block, we throw an exception with information on what didn't work
 		    catch (System.Exception e) {
 			    Debug.Log("{0}\n" + e.Message);
-			    return false;
 		    }
 	    }
     }
