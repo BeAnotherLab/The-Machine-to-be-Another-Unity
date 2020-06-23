@@ -104,7 +104,7 @@ public class ArduinoControl : MonoBehaviour
             }
 
             //sum = 15;
-            Debug.Log("pitch " + sum);
+            //Debug.Log("pitch " + sum);
             WriteToArduino("Pitch " + sum);
         }
     }
@@ -128,7 +128,7 @@ public class ArduinoControl : MonoBehaviour
                 sum = delayedYaw;
             }
             //sum = 15;
-            Debug.Log("yaw " + sum);
+            //Debug.Log("yaw " + sum);
             WriteToArduino("Yaw " + sum);
         }
     }
