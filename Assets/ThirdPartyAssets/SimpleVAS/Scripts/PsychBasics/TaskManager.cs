@@ -53,12 +53,10 @@ namespace UnityPsychBasics {
         #region Public methods
 
         public void InitializeValuesListsAndObjects() {
-
             _scaleManager = ScaleManager.instance;
             _scaleManager.CreateToggles();
 
-            if(setValueOutside) 
-                ShowGameObjects(new GameObject[]{  });
+            if(setValueOutside) ShowGameObjects(new GameObject[]{ }); 
                       
             else {
                 if (useAnalogueScale && useImages) 
@@ -102,7 +100,20 @@ namespace UnityPsychBasics {
             DoAfterSeletion();
         }
 
-        public float ResponseValue() {
+        public void OutsideResponseValue(float outsideValue){
+            CsvWrite.instance.response = outsideValue;
+        }
+
+        public void LoadScene(string scene) {
+            SceneManager.LoadScene(scene);
+        }
+        
+        #endregion
+
+
+        #region Private methods
+
+        private float ResponseValue() {
             float currentValue = 0;
 
             if (!useAnalogueScale) {
@@ -119,20 +130,7 @@ namespace UnityPsychBasics {
 
             return currentValue;
         }
-
-        public void OutsideResponseValue(float outsideValue){
-            CsvWrite.instance.response = outsideValue;
-        }
-
-        public void LoadScene(string scene) {
-            SceneManager.LoadScene(scene);
-        }
         
-        #endregion
-
-
-        #region Private methods
-
         private void ShowGameObjects(GameObject[] objectToShow) //TODO use Canvas Grop instead
         {
             GameObject[] _gameObjectsToShow = {_toggleGroup.gameObject, _scrollbar.gameObject, _nextButton.gameObject, _image.gameObject, textUI.gameObject};
