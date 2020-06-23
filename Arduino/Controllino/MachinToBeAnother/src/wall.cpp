@@ -11,16 +11,9 @@ void wall() {
     case 0: //Start
       if (WallChange) {  //receive wall
         if (MDReleased) {
-          digitalWrite(CONTROLLINO_D1, Wall); //set direction
+          digitalWrite(OUT_WALL_DIRE, Wall); //set direction
           status=2;
           Timeout=0;
-
-          if(DEBUG) {
-            Serial.println("DEBUG wall start");
-            Serial.print("DEBUG direction ");
-            if (Wall) Serial.println("ON");
-            else Serial.println("OFF");
-          }
         }
         else {
           if (!MDOk) status = 6;
@@ -32,12 +25,9 @@ void wall() {
 
     case 2: //start motor
       if (MDReleased) {
-        digitalWrite(CONTROLLINO_D0, HIGH);
+        digitalWrite(OUT_WALL_START, HIGH);
         status=3;
-
-        if(DEBUG) Serial.println("DEBUG wall started ");
       }
-
       else {
           if (!MDOk) status = 6;
           else status = 7;
@@ -48,21 +38,18 @@ void wall() {
     case 3: //waiting for endpoint detection
       if (MDReleased) {
         if (Wall) {
-          if (!digitalRead(CONTROLLINO_A0)) { //endpoint ON
+          if (!digitalRead(IN_ENDPOINT_ON)) { //endpoint ON
             status=4;
-            if(DEBUG) Serial.println("DEBUG endpoint ON done");
           }
         }
         else {
-          if (!digitalRead(CONTROLLINO_A1)) { //endpoint OFF
+          if (!digitalRead(IN_ENDPOINT_OFF)) { //endpoint OFF
             status=4;
-            if(DEBUG) Serial.println("DEBUG endpoint OFF done");
           }
         }
         if (Timeout>=500) status=5; //5s timeout (500 x 10ms)
         Timeout++;
       }
-
       else {
           if (!MDOk) status = 6;
           else status = 7;
@@ -71,17 +58,16 @@ void wall() {
 
 
     case 4: //stop wall
-      digitalWrite(CONTROLLINO_D0, LOW); //stop motor
-      if(DEBUG) Serial.println("DEBUG wall stopped");
+      digitalWrite(OUT_WALL_START, LOW); //stop motor
       WallChange=false;
       error(0);
-      digitalWrite(CONTROLLINO_D1, !Wall); //preset other direction
+      digitalWrite(OUT_WALL_DIRE, !Wall); //preset other direction
       status=0;
     break;
 
 
     case 5: //TIMEOUT
-      digitalWrite(CONTROLLINO_D0, LOW); //stop motor
+      digitalWrite(OUT_WALL_START, LOW); //stop motor
       error(1);
       WallChange=false;
       status=0;
@@ -89,7 +75,7 @@ void wall() {
 
 
     case 6: //MD_FAULT
-      digitalWrite(CONTROLLINO_D0, LOW); //stop motor
+      digitalWrite(OUT_WALL_START, LOW); //stop motor
       error(2);
       WallChange=false;
       status=0;
@@ -97,7 +83,7 @@ void wall() {
 
 
     case 7: //MD_BLOCK
-      digitalWrite(CONTROLLINO_D0, LOW); //stop motor
+      digitalWrite(OUT_WALL_START, LOW); //stop motor
       error(3);
       WallChange=false;
       status=0;

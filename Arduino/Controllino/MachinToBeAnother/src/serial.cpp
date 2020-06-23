@@ -1,8 +1,7 @@
 #include <Technorama.h>
-#include <SerialCommand.h>
 #include <Uduino.h>
 
-Uduino uduino("dataSender");
+Uduino uduino("MachineToBeAnother");
 bool FirstRunSerial=true;
 
 void serial_wall_on() {
@@ -51,7 +50,6 @@ void language_it() {
   Language=3;
 }
 
-
 void debug_modus() {
   DEBUG=!DEBUG;
   if (DEBUG) Serial.println("dbg_on");
@@ -78,7 +76,7 @@ void serial (void) {
     uduino.addCommand("lng_fr",   language_fr);           // language FR
     uduino.addCommand("lng_it",   language_it);           // language IT
     uduino.addCommand("debug",    debug_modus);           // debug modus 
-    uduino.addDefaultHandler(unrecognized);               // Handler for command that isn't matched  (says "What?")
+    uduino.addDefaultHandler(unrecognized);               // Handler for command that isn't matched  (says "cmd_bad")
 
     if (MDReleased) Serial.println("sys_rdy");
     else {

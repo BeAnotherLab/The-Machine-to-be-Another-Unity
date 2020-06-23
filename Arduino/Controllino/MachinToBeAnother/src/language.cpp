@@ -12,14 +12,14 @@ bool FirstRunLanguage = true;
 
 void language() {
   if (FirstRunLanguage) {
-    mcp.digitalWrite(4, HIGH); //set language DE
-    mcp.digitalWrite(5, LOW);
-    mcp.digitalWrite(6, LOW);
-    mcp.digitalWrite(7, LOW);
+    digitalWrite(OUT_LANG_IND_DE, HIGH); //set language DE
+    digitalWrite(OUT_LANG_IND_EN, LOW);
+    digitalWrite(OUT_LANG_IND_FR, LOW);
+    digitalWrite(OUT_LANG_IND_IT, LOW);
     FirstRunLanguage = false;
   }
 
-  if (!mcp.digitalRead(0)) { //language button DE pressed
+  if (digitalRead(IN_LANG_BUT_DE)) { //language button DE pressed
     if (butAonce) {
     butAonce = false;
     Language = 0;
@@ -27,7 +27,7 @@ void language() {
   }
   else butAonce = true;
 
-  if (!mcp.digitalRead(1)) { //language button EN pressed
+  if (digitalRead(IN_LANG_BUT_EN)) { //language button EN pressed
     if (butBonce) {
     butBonce = false;
     Language = 1;
@@ -35,7 +35,7 @@ void language() {
   }
   else butBonce = true;
 
-  if (!mcp.digitalRead(2)) { //language button FR pressed
+  if (digitalRead(IN_LANG_BUT_FR)) { //language button FR pressed
     if (butConce) {
     butConce = false;
     Language = 2;
@@ -43,7 +43,7 @@ void language() {
   }
   else butConce = true;
 
-  if (!mcp.digitalRead(3)) { //language button IT pressed
+  if (digitalRead(IN_LANG_BUT_IT)) { //language button IT pressed
     if (butDonce) {
     butDonce = false;
     Language = 3;
@@ -57,34 +57,34 @@ void language() {
     switch (Language) {
       case 0:
         Serial.println("lng_de");
-        mcp.digitalWrite(4, HIGH);
-        mcp.digitalWrite(5, LOW);
-        mcp.digitalWrite(6, LOW);
-        mcp.digitalWrite(7, LOW);
+        digitalWrite(OUT_LANG_IND_DE, HIGH);
+        digitalWrite(OUT_LANG_IND_EN, LOW);
+        digitalWrite(OUT_LANG_IND_FR, LOW);
+        digitalWrite(OUT_LANG_IND_IT, LOW);
       break;
 
       case 1:
         Serial.println("lng_en");
-        mcp.digitalWrite(4, LOW);
-        mcp.digitalWrite(5, HIGH);
-        mcp.digitalWrite(6, LOW);
-        mcp.digitalWrite(7, LOW);
+        digitalWrite(OUT_LANG_IND_DE, LOW);
+        digitalWrite(OUT_LANG_IND_EN, HIGH);
+        digitalWrite(OUT_LANG_IND_FR, LOW);
+        digitalWrite(OUT_LANG_IND_IT, LOW);
       break;
 
       case 2:
         Serial.println("lng_fr");
-        mcp.digitalWrite(4, LOW);
-        mcp.digitalWrite(5, LOW);
-        mcp.digitalWrite(6, HIGH);
-        mcp.digitalWrite(7, LOW);
+        digitalWrite(OUT_LANG_IND_DE, LOW);
+        digitalWrite(OUT_LANG_IND_EN, LOW);
+        digitalWrite(OUT_LANG_IND_FR, HIGH);
+        digitalWrite(OUT_LANG_IND_IT, LOW);
       break;
 
       case 3:
         Serial.println("lng_it");
-        mcp.digitalWrite(4, LOW);
-        mcp.digitalWrite(5, LOW);
-        mcp.digitalWrite(6, LOW);
-        mcp.digitalWrite(7, HIGH);
+        digitalWrite(OUT_LANG_IND_DE, LOW);
+        digitalWrite(OUT_LANG_IND_EN, LOW);
+        digitalWrite(OUT_LANG_IND_FR, LOW);
+        digitalWrite(OUT_LANG_IND_IT, HIGH);
       break;    
     }
   }

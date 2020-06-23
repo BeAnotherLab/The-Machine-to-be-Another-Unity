@@ -5,7 +5,7 @@ bool CurtainChange;              //global
 
 void curtain (void) {
   if (CurtainChange) {
-    digitalWrite(CONTROLLINO_D2, Curtain); //on off curtain
+    digitalWrite(OUT_CURTAIN, Curtain); //on off curtain
     CurtainChange = false;
     error(0);
   }
