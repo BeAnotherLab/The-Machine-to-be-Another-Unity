@@ -10,7 +10,7 @@ namespace UnityPsychBasics
         public ToggleGroup toggleGroup;
         public GameObject scrollbar;
 
-        [HideInInspector] public string minVASLabel, midVASLabel, maxVASLabel;
+        public string minVASLabel, midVASLabel, maxVASLabel;
         [HideInInspector] public List<string> likertItems = new List<string>();
 
         public static CustomScaleManager instance;
