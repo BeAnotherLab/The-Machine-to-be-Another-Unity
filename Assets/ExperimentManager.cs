@@ -57,7 +57,7 @@ public class ExperimentManager : MonoBehaviour
         OscManager.instance.SetSendHeadtracking(false);
         Debug.Log("End of intervention");
         experimentData.experimentState = ExperimentState.post;
-        SceneManager.LoadScene("MotorTest");
+        SceneManager.LoadScene("Questionnaire");
     }
     
     public void StartFreePhase()
