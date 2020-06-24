@@ -9,32 +9,36 @@ namespace UnityPsychBasics {
         public List<string> conditions = new List<string>();
         public Dropdown conditionDropdown;
 
-        [HideInInspector]
-        public static string[] selectedOrder;
+        public static string[] selectedOrder = {"visuomotor", "visuotactile", "passive", "active"};
 
         // Use this for initialization
-        void Start () {
+        void Start () 
+        {
+            if (conditionDropdown != null)
+            {
+                conditionDropdown.ClearOptions();
 
-            conditionDropdown.ClearOptions();
+                List<string> _dropDownOptions = new List<string>();
 
-            List<string> _dropDownOptions = new List<string>();
+                foreach (List<string> permu in Permutate(conditions, conditions.Count)) {
+                    string _option = string.Join(" ", permu.ToArray());
+                    _dropDownOptions.Add(_option);
+                }
 
-            foreach (List<string> permu in Permutate(conditions, conditions.Count)) {
-                string _option = string.Join(" ", permu.ToArray());
-                _dropDownOptions.Add(_option);
+                conditionDropdown.AddOptions(_dropDownOptions);    
             }
-
-            conditionDropdown.AddOptions(_dropDownOptions);
         }
 	
-        private void RotateRight(List<string> sequence, int count) {
+        private void RotateRight(List<string> sequence, int count) 
+        {
             string tmp = sequence[count - 1];
             sequence.RemoveAt(count - 1);
             sequence.Insert(0, tmp);
         }
 
         //from https://www.codeproject.com/Articles/43767/A-C-List-Permutation-Iterator
-        private IEnumerable<IList> Permutate(List<string> sequence, int count) {
+        private IEnumerable<IList> Permutate(List<string> sequence, int count) 
+        {
             if (count == 1) yield return sequence;
             else {
                 for (int i = 0; i < count; i++) {
@@ -42,11 +46,11 @@ namespace UnityPsychBasics {
                         yield return perm;
                     RotateRight(sequence, count);
                 }
-            }
+            } 
         }
 
-
-        public void SelectOrder() {
+        public void SelectOrder() 
+        {
             selectedOrder = conditionDropdown.options[conditionDropdown.value].text.Split(' ');
         }
     }
