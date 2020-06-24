@@ -21,7 +21,6 @@ namespace UnityPsychBasics
         public List<bool> shuffle = new List<bool>();
         public List<bool> useImage = new List<bool>();
         public List<bool> analogueScale = new List<bool>();
-        public List<bool> useMouseClickSelector = new List<bool>();
 
         private void Awake() 
         {
@@ -32,7 +31,6 @@ namespace UnityPsychBasics
         {
             if (withinScene) SetWithinScene(false);
             else { //set for separate scenes
-                MouseClickResponse.instance.ActivateSelector(shuffleBool);
                 CustomTaskManager.instance.useImages = useImageBool;
                 CustomTaskManager.instance.useAnalogueScale = useAnalogueScaleBool;
                 CustomTaskManager.instance.shuffle = shuffleBool;
@@ -62,7 +60,6 @@ namespace UnityPsychBasics
         private void SetWithinScene(bool isLast) 
         {
             if (currentTask < useImage.Count) {
-                MouseClickResponse.instance.ActivateSelector(useMouseClickSelector[currentTask]);
                 CustomTaskManager.instance.useImages = useImage[currentTask];
                 CustomTaskManager.instance.useAnalogueScale = analogueScale[currentTask];
                 CustomTaskManager.instance.shuffle = shuffle[currentTask];

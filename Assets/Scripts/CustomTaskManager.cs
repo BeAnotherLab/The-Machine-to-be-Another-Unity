@@ -93,11 +93,34 @@ namespace UnityPsychBasics {
 
         public void OnNextButton() //TODO split into two methods, one for GUI, the other for CustomCSVWrite 
         {
-            CustomCSVWrite.instance.WriteResult(_currentItem);
+            CustomCSVWrite.instance.WriteResult(_currentItem, ResponseValue());
             _nextButton.interactable = false;
-            if (!setValueOutside) CustomCSVWrite.instance.response = ResponseValue();
             _scrollbar.value = 0.5f;
-            DoAfterSeletion();
+            
+            if (!shuffle) {
+                _currentItem++;
+
+                if (useImages) {
+                    if (_currentItem < _imageList.Count) SetImage();
+                    else if (_currentItem == _imageList.Count) QuestionsExhausted();
+                    Timer.instance.stopwatch.Start();
+                }
+
+                else {
+                    if (_currentItem < _questionList.Count) textUI.text = _questionList[_currentItem];
+                    else if (_currentItem == _questionList.Count) QuestionsExhausted();
+                }
+            }
+
+            else {
+                if (_indexList.Count != 0) {
+                    _currentItem = ShuffleValue();
+                    if (useImages) SetImage();
+                    else textUI.text = _questionList[_currentItem];
+                    Timer.instance.stopwatch.Start();
+                }
+                else if (_indexList.Count == 0) QuestionsExhausted();
+            }
         }
 
         public void OutsideResponseValue(float outsideValue) 
@@ -167,35 +190,6 @@ namespace UnityPsychBasics {
             _indexList.RemoveAt(randomIndex);
 
             return selectedItem;
-        }
-
-        
-        private void DoAfterSeletion()
-        {
-            if (!shuffle) {
-                _currentItem++;
-
-                if (useImages) {
-                    if (_currentItem < _imageList.Count) SetImage();
-                    else if (_currentItem == _imageList.Count) QuestionsExhausted();
-                    Timer.instance.stopwatch.Start();
-                }
-
-                else {
-                    if (_currentItem < _questionList.Count) textUI.text = _questionList[_currentItem];
-                    else if (_currentItem == _questionList.Count) QuestionsExhausted();
-                }
-            }
-
-            else {
-                if (_indexList.Count != 0) {
-                    _currentItem = ShuffleValue();
-                    if (useImages) SetImage();
-                    else textUI.text = _questionList[_currentItem];
-                    Timer.instance.stopwatch.Start();
-                }
-                else if (_indexList.Count == 0) QuestionsExhausted();
-            }
         }
 
         private void SetImage()

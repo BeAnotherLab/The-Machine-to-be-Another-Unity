@@ -10,14 +10,13 @@ namespace UnityPsychBasics {
         public static CustomCSVWrite instance;
 
         [Tooltip("Note that 9 variables are coded in, edit script if this has to change, here you can only change the name")]
-        public List<string> varNames = new List<string>();
+        [SerializeField] private List<string> varNames = new List<string>();
         
-        [HideInInspector] public List<string> varValues = new List<string>();
-        [HideInInspector] public string responseTime;
-        [HideInInspector] public int item;
+        [HideInInspector] public int item, condition;
         [HideInInspector] public float response;
 
         [SerializeField] private ExperimentData _experimentData;
+        private List<string> varValues = new List<string>();
         
 		//This allows the start function to be called only once.
 		private void Awake()
@@ -27,40 +26,34 @@ namespace UnityPsychBasics {
 
 		private void Start () 
 		{
-            foreach (var item in varNames) varValues.Add(null); //initialize varNames array  
+            foreach (var item in varNames) varValues.Add(null); //initialize varNames array
+            WriteToFile(varNames); //write column names
         }
-
-        public void SetColumnNames()
-        {
-            WriteToFile(varNames);
-        }
-			
+		
 		public void LogTrial()
 		{
-			SetVariables();
-            if (BasicDataConfigurations.ID == null) //load null
-	            for (int i = 0; i < varValues.Count; i++) varValues[i] = "na";
-            else
-                SetVariables();
-
+			varValues[0] = _experimentData.subjectID;
+			varValues[1] = SceneManager.GetActiveScene().name;
+			varValues[2] = item.ToString();
+			varValues[3] = response.ToString();
+			
             WriteToFile(varValues);
         }
 
+		public void WriteResult(int currentItem, float responseValue)
+		{
+			response = responseValue;
+			item = currentItem;
+			instance.LogTrial();
+		}
+		
 		private void WriteToFile(List<string> stringList)
 		{
             string stringLine = string.Join(",", stringList.ToArray());
-			System.IO.StreamWriter file = new System.IO.StreamWriter("./Logs/" + BasicDataConfigurations.ID + "_log.csv", true);
+            string path = "./Logs/" + _experimentData.subjectID + "_log.csv";
+			System.IO.StreamWriter file = new System.IO.StreamWriter(path, true);
 			file.WriteLine(stringLine);
 			file.Close();	
-		}
-		
-		private void SetVariables()
-		{
-			varValues[0] = _experimentData.subjectID;
-			varValues[4] = SceneManager.GetActiveScene().name;
-			varValues[6] = item.ToString();
-			varValues[7] = response.ToString();
-			varValues[8] = responseTime;
 		}
 
 	}

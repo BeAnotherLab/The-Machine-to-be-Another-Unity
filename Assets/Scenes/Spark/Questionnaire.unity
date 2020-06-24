@@ -355,7 +355,6 @@ GameObject:
   - component: {fileID: 817193645}
   - component: {fileID: 817193644}
   - component: {fileID: 817193643}
-  - component: {fileID: 817193642}
   - component: {fileID: 817193641}
   - component: {fileID: 817193640}
   m_Layer: 0
@@ -395,7 +394,6 @@ MonoBehaviour:
   shuffle: 00000000
   useImage: 00000000
   analogueScale: 00000000
-  useMouseClickSelector: 
 --- !u!114 &817193641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,20 +406,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b6495a89d4e50944a24bf1f9a54c2a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &817193642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 817193639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fffea33e1e665b54ab414344607eb76c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useMouseClickSelector: 0
-  orderLeft1Right2: 0
 --- !u!114 &817193643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1149,17 +1133,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   varNames:
-  - ID
-  - age
-  - gender
-  - handedness
+  - subjectID
   - scene
-  - condition
-  - item
+  - conditoin
   - response
-  - response time
-  varValues: []
-  responseTime: 
   item: 0
   condition: 0
   response: 0
