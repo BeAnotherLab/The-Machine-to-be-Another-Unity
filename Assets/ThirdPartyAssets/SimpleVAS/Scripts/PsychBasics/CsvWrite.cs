@@ -21,7 +21,6 @@ namespace UnityPsychBasics {
 		private void Awake()
 		{
             if (instance == null) instance = this;
-			DontDestroyOnLoad(gameObject); 
 		}
 
 		private void Start () 
