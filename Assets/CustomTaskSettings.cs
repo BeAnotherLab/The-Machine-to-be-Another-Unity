@@ -39,12 +39,12 @@ namespace UnityPsychBasics
                 CustomTaskManager.instance.InitializeValuesListsAndObjects();
             } 
 
-            ScaleManager.instance.minVASLabel = minVASLabel;
-            ScaleManager.instance.midVASLabel = midVASLabel;
-            ScaleManager.instance.maxVASLabel = maxVASLabel;
+            CustomScaleManager.instance.minVASLabel = minVASLabel;
+            CustomScaleManager.instance.midVASLabel = midVASLabel;
+            CustomScaleManager.instance.maxVASLabel = maxVASLabel;
 
             for (int i = 0; i < likertItems.Count; i++) 
-                ScaleManager.instance.likertItems.Add(likertItems[i]);
+                CustomScaleManager.instance.likertItems.Add(likertItems[i]);
         }
 
         public void LoadBeforeLast() 

@@ -25,8 +25,8 @@ namespace UnityPsychBasics {
             
             string file;
 
-            if (! TaskManager.instance.setValueOutside) {
-                if (TaskManager.instance.useAnalogueScale) file = fileVAS;
+            if (! CustomTaskManager.instance.setValueOutside) {
+                if (CustomTaskManager.instance.useAnalogueScale) file = fileVAS;
                 else file = fileLikert;
             }
             else file = fileOther;

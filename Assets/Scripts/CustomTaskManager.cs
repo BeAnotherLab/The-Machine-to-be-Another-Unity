@@ -54,7 +54,7 @@ namespace UnityPsychBasics {
 
         public void InitializeValuesListsAndObjects() 
         {
-            ScaleManager.instance.CreateToggles();
+            CustomScaleManager.instance.CreateToggles();
 
             if(setValueOutside) ShowGameObjects(new GameObject[]{ }); 
                       
@@ -76,10 +76,10 @@ namespace UnityPsychBasics {
             }
 
             else {
-                CsvRead.instance.SetFileToLoad();
+                CustomCSVRead.instance.SetFileToLoad();
 
-                for (int i = 0; i < CsvRead.instance.questionnaireInput.Count; i++)
-                    _questionList.Add(CsvRead.instance.questionnaireInput[i]);
+                for (int i = 0; i < CustomCSVRead.instance.questionnaireInput.Count; i++)
+                    _questionList.Add(CustomCSVRead.instance.questionnaireInput[i]);
 
                 if (shuffle) CreateShuffleList();
                 textUI.text = _questionList[_currentItem];
@@ -91,20 +91,18 @@ namespace UnityPsychBasics {
             _nextButton.interactable = true;
         }
 
-        public void OnNextButton() //TODO split into two methods, one for GUI, the other for CSVWrite 
-        { 
-            CsvWrite.instance.responseTime = Timer.instance.ElapsedTimeAndRestart();
+        public void OnNextButton() //TODO split into two methods, one for GUI, the other for CustomCSVWrite 
+        {
+            CustomCSVWrite.instance.WriteResult(_currentItem);
             _nextButton.interactable = false;
-            CsvWrite.instance.item = _currentItem;
-            if (!setValueOutside) CsvWrite.instance.response = ResponseValue();
-            CsvWrite.instance.LogTrial();
+            if (!setValueOutside) CustomCSVWrite.instance.response = ResponseValue();
             _scrollbar.value = 0.5f;
             DoAfterSeletion();
         }
 
         public void OutsideResponseValue(float outsideValue) 
         {
-            CsvWrite.instance.response = outsideValue;
+            CustomCSVWrite.instance.response = outsideValue;
         }
 
         public void LoadScene(string scene) 
@@ -208,7 +206,7 @@ namespace UnityPsychBasics {
 
         private void QuestionsExhausted() 
         {
-            CsvWrite.instance.condition++;
+            CustomCSVWrite.instance.condition++;
             _currentItem = 0;
             _questionList.Clear();
             _imageList.Clear();
@@ -216,17 +214,17 @@ namespace UnityPsychBasics {
 
             _nextButton.interactable = false;
             
-            if (TaskSettings.instance == null) {
+            if (CustomTaskSettings.instance == null) {
                 Debug.Log("You must attach the LoadSceneAfterTask object somewhere in the scene and add Scene names to it");//else the call is ambiguous for the diagnostics library
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             }
 
             else {
-                if (CsvWrite.instance.condition < ConditionDictionary.selectedOrder.Length)
-                    TaskSettings.instance.LoadBeforeLast();
+                if (CustomCSVWrite.instance.condition < ConditionDictionary.selectedOrder.Length)
+                    CustomTaskSettings.instance.LoadBeforeLast();
 
-                else if (CsvWrite.instance.condition == ConditionDictionary.selectedOrder.Length)
-                    TaskSettings.instance.LoadAfterLast();
+                else if (CustomCSVWrite.instance.condition == ConditionDictionary.selectedOrder.Length)
+                    CustomTaskSettings.instance.LoadAfterLast();
             }
         }
         
