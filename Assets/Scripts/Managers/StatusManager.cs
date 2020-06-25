@@ -99,7 +99,7 @@ public class StatusManager : MonoBehaviour {
     {
         if (statusManagementOn) OscManager.instance.SendThisUserStatus(UserStatus.readyToStart);
 
-        EnableConfirmationGUI(false); //hide status confirmation GUI elements
+        EnableConfirmationGUI(false); 
 
         //start experience or wait for the other if they're not ready yet
         if (otherStatus == UserStatus.readyToStart) StartPlaying();
@@ -135,20 +135,12 @@ public class StatusManager : MonoBehaviour {
         else InstructionsDisplay.instance.ShowWelcomeVideo();
     }
 
-    public void Standby(bool start = false)
+    public void Standby(bool start = false) //go back to initial state where users must read instructions before starting experience
     {
         if (!start) VideoFeed.instance.SetDimmed(true); //TODO somehow this messses with Video Feed dimming when called on Start?
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
-
-        _instructionsTimeline.Stop();
-        AudioPlayer.instance.StopAudioInstructions();
-
-        //reset user status as it is not ready
-        EnableConfirmationGUI(true);
-
-        if (_readyForStandby) //TODO is check necessary? 
-            ArduinoManager.instance.InitialPositions();
-
+        EnableConfirmationGUI(true); //show "ready" button
+        if (_readyForStandby) ArduinoManager.instance.InitialPositions(); 
         InstructionsDisplay.instance.ShowWelcomeVideo();
     }
 
@@ -175,11 +167,7 @@ public class StatusManager : MonoBehaviour {
 
     public void SerialReady(bool serialControlComputer = false)
     {
-        if (serialControlComputer) //if this computer is the one connected to the Arduino board
-        {
-            ArduinoManager.instance.InitialPositions();
-        }
-        
+        if (serialControlComputer) ArduinoManager.instance.InitialPositions(); //if this computer is the one connected to the Arduino board
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
         _readyForStandby = true;    
     }
@@ -187,8 +175,9 @@ public class StatusManager : MonoBehaviour {
     public void SelfRemovedHeadset()
     {
         _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
-        if (selfStatus == UserStatus.readyToStart) Standby(); //if we were ready and we took off the headset
-        if (selfStatus == UserStatus.headsetOn) InstructionsDisplay.instance.ShowWelcomeVideo(); //if we just had headset on
+
+        if (_experienceStarted) EndExperience(); //if experience had started, stop it
+        else Standby(); //else standby
         selfStatus = UserStatus.headsetOff;
         OscManager.instance.SendThisUserStatus(selfStatus);
     }
