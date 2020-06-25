@@ -132,6 +132,7 @@ public class StatusManager : MonoBehaviour {
     {
         otherStatus = UserStatus.headsetOff;
         if (_experienceStarted) StartCoroutine(MessageGoneAndEndExperience()); //show "other is gone" message and stop experience
+        else if (selfStatus == UserStatus.headsetOff) Standby();
         else InstructionsDisplay.instance.ShowWelcomeVideo();
     }
 
@@ -177,7 +178,7 @@ public class StatusManager : MonoBehaviour {
         _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
 
         if (_experienceStarted) EndExperience(); //if experience had started, stop it
-        else Standby(); //else standby
+        else if(otherStatus == UserStatus.headsetOff) Standby(); //only go to standby if both headsets off
         selfStatus = UserStatus.headsetOff;
         OscManager.instance.SendThisUserStatus(selfStatus);
     }
