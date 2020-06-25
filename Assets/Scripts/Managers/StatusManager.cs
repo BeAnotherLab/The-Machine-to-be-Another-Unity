@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.XR;
-using UnityEngine.UI;
 using VRStandardAssets.Menu;
 using VRStandardAssets.Utils;
 using Uduino;
@@ -32,6 +30,8 @@ public class StatusManager : MonoBehaviour {
     private GameObject _mainCamera;
     private bool _readyForStandby; //when we use serial, only go to standby if Arduino is ready.
     private GameObject _confirmationMenu;
+
+    private bool _experienceStarted;
     
     #endregion
 
@@ -60,8 +60,6 @@ public class StatusManager : MonoBehaviour {
                 SelfRemovedHeadset();
             else if (XRDevice.userPresence == UserPresenceState.Present && selfStatus == UserStatus.headsetOff) //if we just put the headset on 
                 SelfPutHeadsetOn(); 
-            
-            if (Input.GetKeyDown("o")) IsOver();
         } 
     }
 
@@ -133,19 +131,8 @@ public class StatusManager : MonoBehaviour {
     public void OtherLeft()
     {
         otherStatus = UserStatus.headsetOff;
-        if (selfStatus == UserStatus.readyToStart)
-        {
-            //different than self is gone in case there is an audio for this case
-            VideoFeed.instance.SetDimmed(true);
-
-            InstructionsTextBehavior.instance.ShowTextFromKey("otherIsGone");
-            _instructionsTimeline.Stop();
-            StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
-        }
-        else
-        {
-            InstructionsDisplay.instance.ShowWelcomeVideo();
-        }
+        if (_experienceStarted) StartCoroutine(MessageGoneAndEndExperience()); //show "other is gone" message and stop experience
+        else InstructionsDisplay.instance.ShowWelcomeVideo();
     }
 
     public void Standby(bool start = false)
@@ -181,6 +168,8 @@ public class StatusManager : MonoBehaviour {
         InstructionsDisplay.instance.ShowTechnicalFailureMessage();
         InstructionsTextBehavior.instance.ShowTextFromKey("systemFailure");
         _instructionsTimeline.Stop();
+        _experienceStarted = false;
+
         Destroy(gameObject);
     }
 
@@ -233,22 +222,32 @@ public class StatusManager : MonoBehaviour {
         {
             InstructionsTextBehavior.instance.ShowTextFromKey("instructions");
             _instructionsTimeline.Play();
+            _experienceStarted = true;
         }
     }
 
-    private void IsOver() //called at the the end of the experience
+    private void EndExperience() //called at the the end of the experience
+    {
+        InstructionsTextBehavior.instance.ShowTextFromKey("finished");
+        DimAndStop();
+    }
+
+    private IEnumerator MessageGoneAndEndExperience(bool otherGone = false)
+    {
+        InstructionsTextBehavior.instance.ShowInstructionText("otherIsGone", 3);
+        DimAndStop();
+        
+        yield return new WaitForSeconds(3);
+        
+        InstructionsTextBehavior.instance.ShowInstructionText("finished", 7);
+    }
+    
+    private void DimAndStop()
     {
         VideoFeed.instance.SetDimmed(true);
-        InstructionsTextBehavior.instance.ShowTextFromKey("finished");
         _instructionsTimeline.Stop();
+        _experienceStarted = false;
     }
-
-    private IEnumerator WaitBeforeResetting()
-    {
-        yield return new WaitForSeconds(4f); //make sure this value is inferior or equal to the confirmation radial time to avoid bugs
-        Standby();
-    }
-
+    
     #endregion
 }
- 
