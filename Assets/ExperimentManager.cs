@@ -44,6 +44,19 @@ public class ExperimentManager : MonoBehaviour
     public void StartFreePhase()
     {
         SparkSwapInstructionsGUI.instance.ShowInstructionText("Please start moving slowly, the other person will try to follow your movement. Please move slowly", 6);
+      
+        if (experimentData.participantType == ParticipantType.follower && experimentData.conditionType == ConditionType.control)
+        {
+            string filePath;
+            if (experimentData.controlVideos.TryGetValue(experimentData.subjectID, out filePath))
+                _videoPlayer.url = filePath;
+            else 
+                Debug.Log("file not found!");
+            
+            //switch to pre recorded video
+            VideoFeed.instance.ShowLiveFeed(false);
+            _videoPlayer.Play();
+            }
     }
     
     public void StartTactilePhase()
@@ -80,23 +93,6 @@ public class ExperimentManager : MonoBehaviour
         else if (experimentData.conditionType == ConditionType.control)
         {
             VideoFeed.instance.twoWayWap = false; //POV follows own headtracking
-            
-            if (experimentData.participantType == ParticipantType.follower)
-            {
-                string filePath;
-                if (experimentData.controlVideos.TryGetValue(experimentData.subjectID, out filePath))
-                    _videoPlayer.url = filePath;
-                else 
-                    Debug.Log("file not found!");
-            }
-            
-            //play free phase instruction audio or text
-            else if (experimentData.participantType == ParticipantType.follower)
-            {
-                //switch to pre recorded video
-                VideoFeed.instance.ShowLiveFeed(false);
-                _videoPlayer.Play();
-            }
         }
         
         Debug.Log("start instructed phase for " + experimentData.conditionType + " " + experimentData.participantType);
