@@ -32,6 +32,24 @@ public class SparkSwapInstructionsGUI : MonoBehaviour
     {
         _slideIndex++;
         if (_slideIndex < instructions.Length) _instructionsText.text = instructions[_slideIndex];
-        else ExperimentManager.instance.ReadyForFreePhase();
+        else ExperimentManager.instance.ReadyForInstructedPhase();
+    }
+    
+    public void ShowInstructionText(bool show, string text = "")
+    {
+        GetComponent <CanvasGroup>().alpha = show ? 1 : 0;
+        _instructionsText.GetComponent<Text>().text = text; //give feedback
+    }
+    
+    public void ShowInstructionText(string text, int time)
+    {
+        StartCoroutine(TimedTextCoroutine(text, time));
+    }
+    
+    private IEnumerator TimedTextCoroutine(string text, int time)
+    {
+        ShowInstructionText(true, text);
+        yield return new WaitForSeconds(time);
+        ShowInstructionText(false);       
     }
 }
