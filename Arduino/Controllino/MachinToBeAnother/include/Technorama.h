@@ -1,12 +1,12 @@
 #include <Arduino.h>
 #include <Controllino.h>
 
-//machinery drive INPUTS
+//INPUTS
 #define IN_ENDPOINT_ON      CONTROLLINO_A0
 #define IN_ENDPOINT_OFF     CONTROLLINO_A1
 #define IN_MD_FAULT         CONTROLLINO_A2
 #define IN_MD_READY         CONTROLLINO_A3
-//machenery drive OUTPUTS
+//OUTPUTS
 #define OUT_WALL_START      CONTROLLINO_D0
 #define OUT_WALL_DIRE       CONTROLLINO_D1
 #define OUT_CURTAIN         CONTROLLINO_D2

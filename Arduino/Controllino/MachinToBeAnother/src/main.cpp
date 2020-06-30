@@ -6,12 +6,12 @@ void setup(){
   Serial.begin(9600); //start serial communication
   Serial.println();
 
-  //machinery drive INPUTS
+  //INPUTS
   pinMode(IN_ENDPOINT_ON, INPUT);   //endpoint ON (inverted)
-  pinMode(IN_ENDPOINT_OFF, INPUT);   //endpoint OFF (inverted)
+  pinMode(IN_ENDPOINT_OFF, INPUT);  //endpoint OFF (inverted)
   pinMode(IN_MD_FAULT, INPUT);      //machinery drive fault (true=ok)
   pinMode(IN_MD_READY, INPUT);      //machinery drive ready (true=ready)
-  //machenery drive OUTPUTS
+  //OUTPUTS
   pinMode(OUT_WALL_START, OUTPUT);  //wall start
   pinMode(OUT_WALL_START, OUTPUT);  //wall direction
   pinMode(OUT_CURTAIN, OUTPUT);     //curtain
