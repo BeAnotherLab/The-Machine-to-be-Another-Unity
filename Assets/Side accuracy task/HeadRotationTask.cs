@@ -107,7 +107,6 @@ public class HeadRotationTask : MonoBehaviour {
             else
                 Debug.Log("missed trial");
 
-            Debug.Log(count);
 		}
 
 		else yield return null;//so not each head turn is a trial
