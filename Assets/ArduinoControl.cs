@@ -256,7 +256,7 @@ public class ArduinoControl : MonoBehaviour
             }
             else
                 _stream = new SerialPort(port, baudrate);
-            Debug.Log(port);
+            //Debug.Log(port);
             _stream.Open();
         }
     }
