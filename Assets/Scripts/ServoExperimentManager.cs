@@ -6,7 +6,10 @@ public class ServoExperimentManager : MonoBehaviour
 {
     public Transform videoFlipParent;
 
-    public bool startFlashing, invertDirection, flipImage;
+    //public bool startFlashing; 
+    public bool invertDirection;
+    [HideInInspector]
+    public bool flipImage;
 
     private bool wasFlashing, wasInverted, wasFlipped;
 
@@ -16,19 +19,15 @@ public class ServoExperimentManager : MonoBehaviour
         if (instance == null)
             instance = this;
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
+        /*
         if(startFlashing != wasFlashing) {
             Blinker.instance.SetBlink(startFlashing);
             wasFlashing = startFlashing;
-        }
+        }*/
 
         if (invertDirection != wasInverted)
         {
