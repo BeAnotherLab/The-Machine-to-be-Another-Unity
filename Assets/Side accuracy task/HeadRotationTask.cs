@@ -7,6 +7,7 @@ public class HeadRotationTask : MonoBehaviour {
 	public Transform head;
     public AudioSource sound;
     public bool activateRandomly;
+    public bool beginTask;
     public int totalTrials;   
     [Tooltip("left min, left max, right min, right max")]
     public int[] bounds = new int[4];
@@ -18,6 +19,12 @@ public class HeadRotationTask : MonoBehaviour {
     private string[] mouseResponse = new string[] {"left", "right"};
     private int count;
 
+    public static HeadRotationTask instance;
+
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+    }
 
     void Start() {
 		string[] directions = new string[] {"left", "right"};
@@ -28,21 +35,21 @@ public class HeadRotationTask : MonoBehaviour {
 
     void Update() {
 
-        if (count < totalTrials){
+        if(beginTask) {
+            if (count < totalTrials){
      
-		    if(!isInRange){          
-			    if(lastDirection == "right")//last direction is used so that only when entering the range coming from the center
-				    if(head.eulerAngles.y > bounds[0] && head.eulerAngles.y < bounds[1])
-					    StartCoroutine(Trial("left")); 
+		        if(!isInRange){          
+			        if(lastDirection == "right")//last direction is used so that only when entering the range coming from the center
+				        if(head.eulerAngles.y > bounds[0] && head.eulerAngles.y < bounds[1])
+					        StartCoroutine(Trial("left")); 
 			
-			    if(lastDirection == "left") 
-				    if(head.eulerAngles.y > bounds[2] && head.eulerAngles.y < bounds[3])
-					    StartCoroutine(Trial("right"));			
-		    }
+			        if(lastDirection == "left") 
+				        if(head.eulerAngles.y > bounds[2] && head.eulerAngles.y < bounds[3])
+					        StartCoroutine(Trial("right"));			
+		        }
+            }
         }
 
-        if (Input.GetKeyDown("space"))//space restarts count
-            count = 0;
     }
 
 	public IEnumerator Trial(string side) {
@@ -87,8 +94,11 @@ public class HeadRotationTask : MonoBehaviour {
 
 		else yield return null;//so not each head turn is a trial
 
-        if (count == totalTrials)
+        if (count == totalTrials) {
             Debug.Log("condition is over");
+            beginTask = false;
+            count = 0;
+        }
 
 		lastDirection = side;
 		isInRange = false;		
