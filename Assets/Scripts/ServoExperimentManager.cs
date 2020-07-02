@@ -7,13 +7,14 @@ public class ServoExperimentManager : MonoBehaviour
     public Transform videoFlipParent;
 
     //public bool startFlashing; 
-    public bool invertDirection, calibrate, screenOnOff;
+    public bool invertDirection, calibrate, screenOnOff, beginTask;
     [HideInInspector]
     public bool flipImage;
 
     private bool wasFlashing, wasInverted, wasFlipped;
 
     public static ServoExperimentManager instance;
+
     private void Awake()
     {
         if (instance == null)
@@ -33,6 +34,9 @@ public class ServoExperimentManager : MonoBehaviour
             Blinker.instance.SetBlink(startFlashing);
             wasFlashing = startFlashing;
         }*/
+
+        if (beginTask) HeadRotationTask.instance.beginTask = true;
+        else HeadRotationTask.instance.beginTask = false;
 
         if (invertDirection != wasInverted)
         {

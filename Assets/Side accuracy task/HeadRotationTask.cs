@@ -7,6 +7,7 @@ public class HeadRotationTask : MonoBehaviour {
 	public Transform head;
     public AudioSource sound;
     public bool activateRandomly;
+    [HideInInspector]
     public bool beginTask;
     public int totalTrials;   
     [Tooltip("left min, left max, right min, right max")]
@@ -38,7 +39,7 @@ public class HeadRotationTask : MonoBehaviour {
         if(beginTask) {
             if (count < totalTrials){
      
-		        if(!isInRange){          
+		        if(!isInRange) {          
 			        if(lastDirection == "right")//last direction is used so that only when entering the range coming from the center
 				        if(head.eulerAngles.y > bounds[0] && head.eulerAngles.y < bounds[1])
 					        StartCoroutine(Trial("left")); 
@@ -70,12 +71,12 @@ public class HeadRotationTask : MonoBehaviour {
                 yield return null;
 
             if (Input.GetMouseButton(0)) //if the pressed key is left
-                if (side == mouseResponse[0]) answer = "correct";
-                else answer = "incorrect";
+                if (side == mouseResponse[0]) answer = "incorrect";
+                else answer = "correct";
 
             else if (Input.GetMouseButton(1))//if the pressed key is right
-                if (side == mouseResponse[1]) answer = "correct";
-                else answer = "incorrect";
+                if (side == mouseResponse[1]) answer = "incorrect";
+                else answer = "correct";
 
             string invertion;
             if (ServoExperimentManager.instance.invertDirection) invertion = "inverted";
@@ -97,6 +98,7 @@ public class HeadRotationTask : MonoBehaviour {
         if (count == totalTrials) {
             Debug.Log("condition is over");
             beginTask = false;
+            ServoExperimentManager.instance.beginTask = false;
             count = 0;
         }
 
