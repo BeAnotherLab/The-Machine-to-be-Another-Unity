@@ -816,9 +816,9 @@ GameObject:
   m_Component:
   - component: {fileID: 726359598}
   - component: {fileID: 726359597}
+  - component: {fileID: 726359599}
   - component: {fileID: 726359601}
   - component: {fileID: 726359600}
-  - component: {fileID: 726359599}
   m_Layer: 0
   m_Name: Experiment settings
   m_TagString: Untagged
@@ -839,8 +839,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoFlipParent: {fileID: 1168572008}
-  startFlashing: 0
   invertDirection: 0
+  calibrate: 0
+  screenOnOff: 0
+  beginTask: 0
   flipImage: 0
 --- !u!4 &726359598
 Transform:
@@ -869,9 +871,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   participantData:
-  - test03
-  - 22
-  - male
+  - Name
+  - age
+  - gender
+  - handedness
   log: 1
 --- !u!114 &726359600
 MonoBehaviour:
@@ -900,7 +903,9 @@ MonoBehaviour:
   head: {fileID: 1358158911}
   sound: {fileID: 1664580448}
   activateRandomly: 1
-  totalTrials: 5
+  beginTask: 0
+  totalTrials: 3
+  trialDuration: 2
   bounds: 2d0000005a0000000e0100003b010000
 --- !u!1 &791430705
 GameObject:

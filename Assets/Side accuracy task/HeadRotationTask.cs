@@ -9,13 +9,16 @@ public class HeadRotationTask : MonoBehaviour {
     public bool activateRandomly;
     [HideInInspector]
     public bool beginTask;
-    public int totalTrials;   
+    public int totalTrials;
+    public float trialDuration;
     [Tooltip("left min, left max, right min, right max")]
     public int[] bounds = new int[4];
 
 	private bool isInRange;
 	private string lastDirection;
     private Timer _timer;
+
+    private float _time;
 
     private string[] mouseResponse = new string[] {"left", "right"};
     private int count;
@@ -57,6 +60,7 @@ public class HeadRotationTask : MonoBehaviour {
        
         int trialOrNot;
         string answer = null;
+        bool _response = true;
 
         if (activateRandomly) trialOrNot = Random.Range(0, 2);
         else trialOrNot = 1;
@@ -65,18 +69,26 @@ public class HeadRotationTask : MonoBehaviour {
 
 		if(trialOrNot == 1) {
 			sound.Play();
+            _time = Time.realtimeSinceStartup;
             _timer.stopwatch.Start();
 
-            while (!Input.anyKeyDown) //while there is no key pressed, wait.
-                yield return null;
+            while((Time.realtimeSinceStartup - _time < trialDuration) && !Input.anyKeyDown) {
+                    yield return null;
 
-            if (Input.GetMouseButton(0)) //if the pressed key is left
-                if (side == mouseResponse[0]) answer = "incorrect";
-                else answer = "correct";
+                if (Input.GetMouseButton(0)) {//if the pressed key is left
+                    if (side == mouseResponse[0]) answer = "incorrect";
+                    else answer = "correct";
+                    _response = true;
+                }
 
-            else if (Input.GetMouseButton(1))//if the pressed key is right
-                if (side == mouseResponse[1]) answer = "incorrect";
-                else answer = "correct";
+                else if (Input.GetMouseButton(1)) {//if the pressed key is right
+                    if (side == mouseResponse[1]) answer = "incorrect";
+                    else answer = "correct";
+                    _response = true;
+                }
+
+                else _response = false;
+            }
 
             string invertion;
             if (ServoExperimentManager.instance.invertDirection) invertion = "inverted";
@@ -89,8 +101,13 @@ public class HeadRotationTask : MonoBehaviour {
 
             while (Input.anyKey) //waits while key is still pressed before proceeding
                 yield return null;
-            
-            count++;
+
+            if (_response)
+                count++;
+            else
+                Debug.Log("missed trial");
+
+            Debug.Log(count);
 		}
 
 		else yield return null;//so not each head turn is a trial
