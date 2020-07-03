@@ -1453,8 +1453,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1098951243067935733}
   m_HandleRect: {fileID: 993207105128230755}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.99999964
+  m_Value: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2734,7 +2734,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1068299088959479828}
         m_MethodName: OnVideoSettingsChanged
         m_Mode: 1
         m_Arguments:
@@ -4471,7 +4471,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1068299088959479828}
         m_MethodName: ShutdownButtonPressed
         m_Mode: 1
         m_Arguments:
@@ -4600,8 +4600,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: AudioToggle
+      - m_Target: {fileID: 1068299088959479829}
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4698,7 +4698,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1068299088959479828}
         m_MethodName: OnVolumeChanged
         m_Mode: 0
         m_Arguments:
@@ -4898,7 +4898,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1068299088959479828}
         m_MethodName: ToggleSettings
         m_Mode: 1
         m_Arguments:
@@ -5394,7 +5394,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1068299088959479828}
           m_MethodName: OnMuteToggle
           m_Mode: 1
           m_Arguments:
@@ -5963,7 +5963,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1068299088959479828}
         m_MethodName: JoinButtonPressed
         m_Mode: 1
         m_Arguments:
@@ -6604,8 +6604,8 @@ GameObject:
   - component: {fileID: 993437103317210483}
   - component: {fileID: 991608821011773481}
   - component: {fileID: 1099056736169124967}
-  - component: {fileID: 1098978711556493935}
   - component: {fileID: 1098998086049924113}
+  - component: {fileID: 8699235408423622012}
   m_Layer: 5
   m_Name: remoteVideoImage
   m_TagString: Untagged
@@ -6665,18 +6665,6 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &1098978711556493935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1068277348995229789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dbcad62b8f3d9448a1fee3e56145d24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1098998086049924113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6687,6 +6675,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b63b56b50abc46429657bba522e6633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8699235408423622012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068277348995229789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81663526038accf48b005d6946337498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1068283757179301927
@@ -7202,7 +7202,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1068299088959479828}
         m_MethodName: ToggleSettings
         m_Mode: 1
         m_Arguments:
@@ -7420,7 +7420,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1068299088959479828}
         m_MethodName: VideoDropdownOnValueChanged
         m_Mode: 0
         m_Arguments:
@@ -9136,7 +9136,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000038146973}
+  m_AnchoredPosition: {x: 0, y: -0.000015258789}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1099982914873331811
@@ -9270,7 +9270,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1068299088959479828}
         m_MethodName: OnAudioSettingsChanged
         m_Mode: 1
         m_Arguments:
@@ -9381,7 +9381,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1068299088959479828}
           m_MethodName: OnLoudspeakerToggle
           m_Mode: 1
           m_Arguments:
