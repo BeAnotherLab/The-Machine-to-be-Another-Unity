@@ -416,8 +416,8 @@ public class CallApp : MonoBehaviour
         mediaConfig.MaxHeight = 1080;
 
         //will be overwritten by UI in normal use
-        mediaConfig.IdealWidth = 160;
-        mediaConfig.IdealHeight = 120;
+        mediaConfig.IdealWidth = 1920;
+        mediaConfig.IdealHeight = 1080;
         mediaConfig.IdealFrameRate = 30;
         return mediaConfig;
     }
