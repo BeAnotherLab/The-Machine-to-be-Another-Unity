@@ -45,8 +45,7 @@ public class CallAppUi : MonoBehaviour
     /// </summary>
     protected Texture2D mRemoteVideoTexture = null;
 
-    public MeshRenderer videoMeshRenderer;
-    
+
     [Header("Setup panel")]
     /// <summary>
     /// Panel with the join button. Will be hidden after setup
@@ -197,8 +196,6 @@ public class CallAppUi : MonoBehaviour
 
     public bool uLoadSettings = true;
 
-    private Camera _mainCamera;
-
     protected virtual void Awake()
     {
         mApp = GetComponent<CallApp>();
@@ -211,8 +208,6 @@ public class CallAppUi : MonoBehaviour
             LoadSettings();
         }
         CheckSettings();
-
-        _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
     protected virtual void Start()
@@ -393,7 +388,6 @@ public class CallAppUi : MonoBehaviour
             {
                 UnityMediaHelper.UpdateTexture(frame, ref mLocalVideoTexture);
                 uLocalVideoImage.texture = mLocalVideoTexture;
-                
                 if (uLocalVideoImage.gameObject.activeSelf == false)
                 {
                     uLocalVideoImage.gameObject.SetActive(true);
@@ -433,21 +427,6 @@ public class CallAppUi : MonoBehaviour
             {
                 UnityMediaHelper.UpdateTexture(frame, ref mRemoteVideoTexture);
                 uRemoteVideoImage.texture = mRemoteVideoTexture;
-
-
-                Texture2D myTex = (Texture2D) videoMeshRenderer.material.mainTexture;
-                UnityMediaHelper.UpdateTexture(frame, ref  myTex);
-
-                videoMeshRenderer.material.mainTexture = myTex;
-
-                var msg = "angles (" +
-                _mainCamera.gameObject.transform.rotation.x.ToString() + "," +
-                _mainCamera.gameObject.transform.rotation.y.ToString() + "," +
-                _mainCamera.gameObject.transform.rotation.z.ToString() + "," +
-                _mainCamera.gameObject.transform.rotation.w.ToString() + ")";
-                
-                SendMsg(msg);
-                
                 //watch out: due to conversion from WebRTC to Unity format the image is flipped (top to bottom)
                 //this also inverts the rotation
                 uRemoteVideoImage.transform.localRotation = Quaternion.Euler(0, 0, frame.Rotation * -1);

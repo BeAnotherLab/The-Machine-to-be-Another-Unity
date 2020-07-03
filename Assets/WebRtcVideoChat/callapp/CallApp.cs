@@ -325,14 +325,7 @@ public class CallApp : MonoBehaviour
                 {
                     //text message received
                     MessageEventArgs args = e as MessageEventArgs;
-                    //Append(args.Content);
-                    var betweenParentheses = args.Content.Split('(', ')')[1];
-                    mUi.videoMeshRenderer.transform.localRotation = new Quaternion(
-                        float.Parse(betweenParentheses.Split(',')[0]), 
-                        float.Parse(betweenParentheses.Split(',')[1]),
-                        float.Parse(betweenParentheses.Split(',')[2]),
-                        float.Parse(betweenParentheses.Split(',')[3]));
-
+                    Append(args.Content);
                     break;
                 }
             case CallEventType.WaitForIncomingCall:
@@ -416,8 +409,8 @@ public class CallApp : MonoBehaviour
         mediaConfig.MaxHeight = 1080;
 
         //will be overwritten by UI in normal use
-        mediaConfig.IdealWidth = 1920;
-        mediaConfig.IdealHeight = 1080;
+        mediaConfig.IdealWidth = 160;
+        mediaConfig.IdealHeight = 120;
         mediaConfig.IdealFrameRate = 30;
         return mediaConfig;
     }
