@@ -111,10 +111,8 @@ public class CognitiveTestManager : TestManager
         foreach (JSONObject jsonObject in jsonObjects) _finalTrialsList.Add(jsonObject); //add it to the final list
     }
     
-    private IEnumerator ShowTrialCoroutine(bool firstTest = false)
+    private IEnumerator ShowTrialCoroutine()
     {
-        if (firstTest) InstructionsTextBehavior.instance.ShowInstructionText("Ok, the trial is now finished! We will start the proper testing", 3);
-
         //initialize trial answer values
         _givenAnswer = answer.none;
         InstructionsTextBehavior.instance.ShowInstructionText(true, "+");
@@ -161,9 +159,9 @@ public class CognitiveTestManager : TestManager
         else _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
     }
 
-    private IEnumerator ShowFeedbackCoroutine(bool practiceFinished = false)
+    private IEnumerator ShowFeedbackCoroutine(answer givenAnswer, bool practiceFinished = false)
     {
-        if (_givenAnswer != answer.none)
+        if (givenAnswer != answer.none)
         {
             //write reaction time
             Debug.Log("correct answer : " + _finalTrialsList[_trialIndex].GetField("key").str);
@@ -179,7 +177,13 @@ public class CognitiveTestManager : TestManager
         
         yield return new WaitForSeconds(4);
 
-        _trialCoroutine = StartCoroutine(ShowTrialCoroutine(practiceFinished));
+        if (practiceFinished) //if we just finished practicing
+        {
+            InstructionsTextBehavior.instance.ShowInstructionText("Ok, the trial is now finished! We will start the proper testing", 3);
+            yield return new WaitForSeconds(3);
+        }
+        
+        _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
     }
 
     private void GetClick(answer givenAnswer)
@@ -188,27 +192,18 @@ public class CognitiveTestManager : TestManager
         _timer.Stop();
         Debug.Log("time elapsed "  + _timer.ElapsedMilliseconds);
         StopCoroutine(_trialCoroutine);
-        
+
+        var practiceFinished = 
+            _currentStep == steps.practice && 
+            _finalTrialsList[_trialIndex + 1].GetField("type").str == "test";
+            
+        //if we're practicing, show feedback before continuing
+        if (_currentStep == steps.practice) StartCoroutine(ShowFeedbackCoroutine(givenAnswer, practiceFinished));
+        //else show go to next trial
+        else _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
+    
+        if (practiceFinished) _currentStep = steps.testing;
         WriteTestResults(givenAnswer, _timer.Elapsed.Milliseconds);
-        
-        if (_trialIndex == _finalTrialsList.Count) //if we arrived at end of trial
-        {
-            FinishTest();
-            VideoFeed.instance.CancelTweens();
-            if (_experimentData.experimentState == ExperimentState.pre) SceneManager.LoadScene("SparkSwap");
-        }
-        else if (_finalTrialsList[_trialIndex].GetField("type").str == "practice") StartCoroutine(ShowFeedbackCoroutine());
-        else if (_finalTrialsList[_trialIndex].GetField("type").str == "test")
-        {
-            if (_currentStep == steps.practice) //if we just went from practice to proper testing
-            {
-                _trialCoroutine = StartCoroutine(ShowFeedbackCoroutine(true));
-                _currentStep = steps.testing;
-            } 
-            else if (_currentStep == steps.testing) _trialCoroutine = StartCoroutine(ShowTrialCoroutine()); //show next step
-                    
-        }
-        
     }
 
     private void WriteTestResults(answer givenAnswer, double time)
