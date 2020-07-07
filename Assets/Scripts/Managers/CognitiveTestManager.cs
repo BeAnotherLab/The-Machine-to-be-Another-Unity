@@ -235,11 +235,9 @@ public class CognitiveTestManager : TestManager
         if (desiredDirection == 'R' && _experimentData.subjectDirection == "Left")
         {
             VideoFeed.instance.FlipHorizontal();
-            _experimentData.subjectDirection = "Right";
         } else if (desiredDirection == 'L' && _experimentData.subjectDirection == "Right")
         {
             VideoFeed.instance.FlipHorizontal();
-            _experimentData.subjectDirection = "Left";
         }
     }
 
