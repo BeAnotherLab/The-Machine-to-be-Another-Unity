@@ -72,8 +72,8 @@ public class CognitiveTestManager : TestManager
         }
         else if (_waitingForAnswer && _givenAnswer == answer.none)
         {
-            if (Input.GetMouseButtonDown(0)) GetClick(0);
-            else if (Input.GetMouseButtonDown(1)) GetClick(1);
+            if (Input.GetMouseButtonDown(0)) GetClick(answer.yes);
+            else if (Input.GetMouseButtonDown(1)) GetClick(answer.no);
         }
     }    
 
@@ -145,7 +145,7 @@ public class CognitiveTestManager : TestManager
         yield return new WaitForSeconds(4);
 
         _waitingForAnswer = false;
-        WriteTestResults("none", _timer.ElapsedMilliseconds);
+        WriteTestResults(answer.none, _timer.ElapsedMilliseconds);
         InstructionsTextBehavior.instance.ShowInstructionText(true, "Out of time!");
         _timer.Stop();
         _timer.Reset();
@@ -182,25 +182,16 @@ public class CognitiveTestManager : TestManager
         _trialCoroutine = StartCoroutine(ShowTrialCoroutine(practiceFinished));
     }
 
-    private void GetClick(int button)
+    private void GetClick(answer givenAnswer)
     {
         _waitingForAnswer = false;
         _timer.Stop();
         Debug.Log("time elapsed "  + _timer.ElapsedMilliseconds);
         StopCoroutine(_trialCoroutine);
         
-        if (button == 0)
-        {
-            WriteTestResults("yes", _timer.Elapsed.Milliseconds);
-            _givenAnswer = answer.yes;
-        }
-        else if (button == 1)
-        {
-            WriteTestResults("no", _timer.Elapsed.Milliseconds);
-            _givenAnswer = answer.no;
-        }
-
-        if (_trialIndex == _finalTrialsList.Count)
+        WriteTestResults(givenAnswer, _timer.Elapsed.Milliseconds);
+        
+        if (_trialIndex == _finalTrialsList.Count) //if we arrived at end of trial
         {
             FinishTest();
             VideoFeed.instance.CancelTweens();
@@ -213,22 +204,25 @@ public class CognitiveTestManager : TestManager
             {
                 _trialCoroutine = StartCoroutine(ShowFeedbackCoroutine(true));
                 _currentStep = steps.testing;
-            } else if (_currentStep == steps.testing)
-            {
-                _trialCoroutine = StartCoroutine(ShowTrialCoroutine());    
-            }
+            } 
+            else if (_currentStep == steps.testing) _trialCoroutine = StartCoroutine(ShowTrialCoroutine()); //show next step
+                    
         }
+        
     }
 
-    private void WriteTestResults(string answer, double time)
+    private void WriteTestResults(answer givenAnswer, double time)
     {
-        _finalTrialsList[_trialIndex].AddField("answer", answer);
+        _finalTrialsList[_trialIndex].AddField("answer", givenAnswer.ToString());
         _finalTrialsList[_trialIndex].AddField("time", time.ToString());
         _finalTrialsList[_trialIndex].AddField("prepost", _experimentData.experimentState.ToString());
 
         File.WriteAllText(_filePath, _finalTrialsList.Print());
         _trialIndex++;
         _timer.Reset();
+        Debug.Log("Index is " + _trialIndex);
+
+        _givenAnswer = givenAnswer;
     }
     
     #endregion
