@@ -189,7 +189,9 @@ public class CognitiveTestManager : TestManager
     private void GetClick(answer givenAnswer)
     {
         _waitingForAnswer = false;
-        _timer.Stop();
+        _givenAnswer = givenAnswer;
+        _timer.Stop();        
+
         Debug.Log("time elapsed "  + _timer.ElapsedMilliseconds);
         StopCoroutine(_trialCoroutine);
 
@@ -216,8 +218,6 @@ public class CognitiveTestManager : TestManager
         _trialIndex++;
         _timer.Reset();
         Debug.Log("Index is " + _trialIndex);
-
-        _givenAnswer = givenAnswer;
     }
     
     #endregion
