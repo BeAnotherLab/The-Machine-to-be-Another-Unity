@@ -165,11 +165,11 @@ public class CognitiveTestManager : TestManager
         {
             //write reaction time
             Debug.Log("correct answer : " + _finalTrialsList[_trialIndex].GetField("key").str);
-            Debug.Log("given answer : " + _givenAnswer);
+            Debug.Log("given answer : " + givenAnswer);
             
             //add answer
-            if(    _finalTrialsList[_trialIndex].GetField("key").str == "c" && _givenAnswer == answer.yes 
-                   || _finalTrialsList[_trialIndex].GetField("key").str == "n" && _givenAnswer == answer.no)
+            if(    _finalTrialsList[_trialIndex].GetField("key").str == "c" && givenAnswer == answer.yes 
+                   || _finalTrialsList[_trialIndex].GetField("key").str == "n" && givenAnswer == answer.no)
                 InstructionsTextBehavior.instance.ShowInstructionText(true, "Correct answer!"); 
             else 
                 InstructionsTextBehavior.instance.ShowInstructionText(true, "Wrong answer!");
