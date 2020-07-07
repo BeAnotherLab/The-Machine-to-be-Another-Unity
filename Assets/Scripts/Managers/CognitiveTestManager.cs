@@ -49,6 +49,7 @@ public class CognitiveTestManager : TestManager
         base.Start();
         
         VideoFeed.instance.twoWayWap = true;
+        VideoFeed.instance.SetDirection(_experimentData.subjectDirection);
         
         //Read the task structure from JSON
         var appendDebug = _experimentData.debug ? "debug" : "";
@@ -137,7 +138,7 @@ public class CognitiveTestManager : TestManager
         _timer.Start();
         InstructionsTextBehavior.instance.ShowInstructionText(false);
         VideoFeed.instance.SetDimmed(false); //display video feed
-        MatchDirection(_finalTrialsList[_trialIndex].GetField("stim2").str[7]); //Make sure 
+        VideoFeed.instance.MatchDirection(_finalTrialsList[_trialIndex].GetField("stim2").str[7]);  
         RedDotsController.instance.Show(_finalTrialsList[_trialIndex].GetField("stim2").str); //show dots as indicated in file
         _waitingForAnswer = true;
 
@@ -230,17 +231,6 @@ public class CognitiveTestManager : TestManager
         _timer.Reset();
     }
     
-    private void MatchDirection(char desiredDirection)
-    {
-        if (desiredDirection == 'R' && _experimentData.subjectDirection == "Left")
-        {
-            VideoFeed.instance.FlipHorizontal();
-        } else if (desiredDirection == 'L' && _experimentData.subjectDirection == "Right")
-        {
-            VideoFeed.instance.FlipHorizontal();
-        }
-    }
-
     #endregion
     
 }
