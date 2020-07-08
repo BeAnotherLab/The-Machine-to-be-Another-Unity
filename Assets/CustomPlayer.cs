@@ -25,10 +25,10 @@ namespace Mirror.Examples.Basic
         }
 
         // This is called by the hook of playerData SyncVar above
-        void OnPlayerDataChanged(int oldPlayerData, int newPlayerData)
+        void OnPlayerDataChanged(Quaternion oldPlayerData, Quaternion newPlayerData)
         {
             // Show the data in the UI
-            playerData = string.Format("Data: {0:000}", newPlayerData);
+            VideoFeed.instance.otherPose = newPlayerData;
         }
 
         // This fires on server when this player object is network-ready
