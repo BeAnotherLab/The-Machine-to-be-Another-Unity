@@ -27,9 +27,9 @@ namespace Mirror.Examples.Basic
 
         private void Update()
         {
-            if (isLocalPlayer)
+            if (playerNo == 1)
             {
-                SendPose(_mainCamera.transform.rotation);
+                CmdSendPose(_mainCamera.transform.rotation);
             }
         }
 
@@ -76,7 +76,7 @@ namespace Mirror.Examples.Basic
         }
 
         [Command]
-        private void SendPose(Quaternion pose)
+        private void CmdSendPose(Quaternion pose)
         {
             this.pose = pose;
         }
