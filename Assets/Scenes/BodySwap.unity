@@ -1639,12 +1639,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1023772408}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1035839687 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 466960672388089699, guid: 94e02a587a63f594582e4abdde83cfb9,
-    type: 3}
-  m_PrefabInstance: {fileID: 466960672030764964}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1035839692 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 466960672388089704, guid: 94e02a587a63f594582e4abdde83cfb9,
@@ -1758,7 +1752,7 @@ MonoBehaviour:
   offlineScene: 
   onlineScene: 
   transport: {fileID: 1106621678}
-  networkAddress: localhost
+  networkAddress: 192.168.178.29
   maxConnections: 4
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
@@ -2009,7 +2003,7 @@ PrefabInstance:
         type: 3}
       propertyPath: pointOfView
       value: 
-      objectReference: {fileID: 1035839687}
+      objectReference: {fileID: 0}
     - target: {fileID: 6000371050300007033, guid: 69a9fa9c1c14edf438348430b7ab81c2,
         type: 3}
       propertyPath: audioManager
@@ -2207,41 +2201,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &1395565907
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1395565908}
-  m_Layer: 5
-  m_Name: NetworkPanel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1395565908
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1395565907}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 940146117}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1513471181
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3067,6 +3026,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3764543425201336818, guid: 94e02a587a63f594582e4abdde83cfb9,
+        type: 3}
+      propertyPath: sceneId
+      value: 3060806404
       objectReference: {fileID: 0}
     - target: {fileID: 6044354570613304044, guid: 94e02a587a63f594582e4abdde83cfb9,
         type: 3}
