@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Mirror.Examples.Basic
@@ -22,6 +23,14 @@ namespace Mirror.Examples.Basic
         private void Start()
         {
             _mainCamera = GameObject.Find("Main Camera");
+        }
+
+        private void Update()
+        {
+            if (isLocalPlayer)
+            {
+                SendPose(_mainCamera.transform.rotation);
+            }
         }
 
         // This is called by the hook of playerData SyncVar above
@@ -64,6 +73,12 @@ namespace Mirror.Examples.Basic
         public override void OnStartLocalPlayer()
         {
             base.OnStartLocalPlayer();
+        }
+
+        [Command]
+        private void SendPose(Quaternion pose)
+        {
+            this.pose = pose;
         }
     }
 }
