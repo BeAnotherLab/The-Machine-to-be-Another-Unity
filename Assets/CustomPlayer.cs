@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Mirror.Examples.Basic
 {
@@ -15,7 +15,14 @@ namespace Mirror.Examples.Basic
 
         // This is updated by UpdateData which is called from OnStartServer via InvokeRepeating
         [SyncVar(hook = nameof(OnPlayerDataChanged))]
-        public int playerDataInt;
+        public Quaternion pose;
+
+        private GameObject _mainCamera;
+        
+        private void Start()
+        {
+            _mainCamera = GameObject.Find("Main Camera");
+        }
 
         // This is called by the hook of playerData SyncVar above
         void OnPlayerDataChanged(int oldPlayerData, int newPlayerData)
@@ -41,7 +48,7 @@ namespace Mirror.Examples.Basic
         [ServerCallback]
         void UpdateData()
         {
-            playerDataInt = Random.Range(100, 1000);
+            pose = _mainCamera.transform.rotation;
         }
 
         // This fires on all clients when this player object is network-ready
@@ -51,7 +58,6 @@ namespace Mirror.Examples.Basic
 
             // Make this a child of the layout panel in the Canvas
             transform.SetParent(GameObject.Find("VideoFeedFlipParent").transform);
-
         }
 
         // This only fires on the local client when this player object is network-ready
