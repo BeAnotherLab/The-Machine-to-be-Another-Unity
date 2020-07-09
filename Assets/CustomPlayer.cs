@@ -1,84 +1,27 @@
 ﻿using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-namespace Mirror.Examples.Basic
+namespace Mirror.Examples.Pong
 {
-    public class CustomPlayer: NetworkBehaviour
+    public class CustomPlayer : NetworkBehaviour
     {
-        public string playerData;
-        
-        // These are set in OnStartServer and used in OnStartClient
-        [SyncVar]
-        public int playerNo;
-        [SyncVar]
-        public Color playerColor;
-
-        // This is updated by UpdateData which is called from OnStartServer via InvokeRepeating
-        [SyncVar(hook = nameof(OnPlayerDataChanged))]
-        public Quaternion pose;
+        public float speed = 30;
+        public Rigidbody rigidbody;
 
         private GameObject _mainCamera;
         
-        private void Start()
+        private void Awake()
         {
             _mainCamera = GameObject.Find("Main Camera");
         }
 
-        private void Update()
+        // need to use FixedUpdate for rigidbody
+        void FixedUpdate()
         {
-            if (playerNo == 1)
-            {
-                CmdSendPose(_mainCamera.transform.rotation);
-            }
-        }
-
-        // This is called by the hook of playerData SyncVar above
-        void OnPlayerDataChanged(Quaternion oldPlayerData, Quaternion newPlayerData)
-        {
-            // Show the data in the UI
-            VideoFeed.instance.otherPose = newPlayerData;
-        }
-
-        // This fires on server when this player object is network-ready
-        public override void OnStartServer()
-        {
-            base.OnStartServer();
-
-            // Set SyncVar values
-            playerNo = connectionToClient.connectionId;
-            playerColor = Random.ColorHSV(0f, 1f, 0.9f, 0.9f, 1f, 1f);
-
-            // Start generating updates
-            InvokeRepeating(nameof(UpdateData), 1, 1);
-        }
-
-        // This only runs on the server, called from OnStartServer via InvokeRepeating
-        [ServerCallback]
-        void UpdateData()
-        {
-            pose = _mainCamera.transform.rotation;
-        }
-
-        // This fires on all clients when this player object is network-ready
-        public override void OnStartClient()
-        {
-            base.OnStartClient();
-
-            // Make this a child of the layout panel in the Canvas
-            transform.SetParent(GameObject.Find("VideoFeedFlipParent").transform);
-        }
-
-        // This only fires on the local client when this player object is network-ready
-        public override void OnStartLocalPlayer()
-        {
-            base.OnStartLocalPlayer();
-        }
-
-        [Command]
-        private void CmdSendPose(Quaternion pose)
-        {
-            this.pose = pose;
+            // only let the local player control the racket.
+            // don't control other player's rackets
+            if (isLocalPlayer)
+                rigidbody.velocity = new Vector2(0, Input.GetAxisRaw("Vertical")) * speed * Time.fixedDeltaTime;
         }
     }
 }
