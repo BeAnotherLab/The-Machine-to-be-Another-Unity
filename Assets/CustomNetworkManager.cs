@@ -11,11 +11,20 @@ namespace Mirror.Examples.Pong
         public Transform leftRacketSpawn;
         public Transform rightRacketSpawn;
 
+        private GameObject _mainCamera;
+        
+        private void Awake()
+        {
+            _mainCamera = GameObject.Find("Main Camera");
+        }
+        
         public override void OnServerAddPlayer(NetworkConnection conn)
         {
             // add player at correct spawn position
             Transform start = numPlayers == 0 ? leftRacketSpawn : rightRacketSpawn;
-            GameObject player = Instantiate(playerPrefab, start.position, start.rotation);
+            GameObject player = Instantiate(playerPrefab, start.position, start.rotation, start);
+            player.gameObject.name = "Player" + numPlayers + 1;
+            _mainCamera.transform.SetParent(start, false);
             NetworkServer.AddPlayerForConnection(conn, player);
         }
 

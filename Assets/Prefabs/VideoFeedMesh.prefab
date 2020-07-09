@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 6114524555445263981}
   - component: {fileID: 5152009612991551791}
   - component: {fileID: 8665615411845004277}
-  - component: {fileID: 6689518230479575549}
   m_Layer: 0
   m_Name: VideoFeedMesh
   m_TagString: Untagged
@@ -111,7 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0
-  clientAuthority: 0
+  clientAuthority: 1
   localPositionSensitivity: 0.01
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
@@ -130,20 +129,4 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   speed: 30
-  rigidbody: {fileID: 6689518230479575549}
---- !u!54 &6689518230479575549
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3227047079650416445}
-  serializedVersion: 2
-  m_Mass: 0.0000001
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  rigidbody: {fileID: 0}
