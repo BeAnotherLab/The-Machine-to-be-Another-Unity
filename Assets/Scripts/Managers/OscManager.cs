@@ -2,10 +2,12 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Net;
 using VRStandardAssets.Menu;
 using extOSC;
+using Debug = UnityEngine.Debug;
 
 public class OscManager : MonoBehaviour {
 
@@ -17,6 +19,8 @@ public class OscManager : MonoBehaviour {
     
     public delegate void OtherStatus();
     public static OtherStatus OnOtherStatus;
+
+    public float interval;
     
     #endregion
 
@@ -30,6 +34,8 @@ public class OscManager : MonoBehaviour {
     private bool _repeater;
     private bool _serialStatusOKReceived;
     private bool _sendHeadTracking;
+
+    private double delta;
     
     #endregion
 
@@ -60,11 +66,19 @@ public class OscManager : MonoBehaviour {
 
         //set IP address of other 
         SetOthersIP(PlayerPrefs.GetString("othersIP"));
+
     }   
     
-    private void Update()
+    private void LateUpdate()
     {
-        SendHeadTracking();
+        delta += Time.deltaTime;
+        
+        if (delta > interval)
+        {
+            delta = 0;
+            Debug.Log("send");
+            SendHeadTracking();
+        }
     }
 
     #endregion
