@@ -7,10 +7,27 @@ namespace Mirror.Examples.Pong
     public class CustomPlayer : NetworkBehaviour
     {
         private GameObject _mainCamera;
+        private GameObject _videoFeedFlipParent;
         
         private void Awake()
         {
             _mainCamera = GameObject.Find("Main Camera");
+            _videoFeedFlipParent = GameObject.Find("VideoFeedFlipParent");
+        }
+
+        private void Start()
+        {
+            if (!isLocalPlayer)
+            {
+                transform.SetParent(_videoFeedFlipParent.transform, false);
+                VideoFeed.instance.targetTransform = transform;
+                gameObject.name = "remote player";
+            }
+            else
+            {
+                gameObject.name = "local player";
+            }
+            
         }
 
         // need to use FixedUpdate for rigidbody
@@ -23,7 +40,6 @@ namespace Mirror.Examples.Pong
                 transform.rotation = _mainCamera.transform.rotation;
                 GetComponent<MeshRenderer>().enabled = false;
             }
-                
         }
     }
 }
