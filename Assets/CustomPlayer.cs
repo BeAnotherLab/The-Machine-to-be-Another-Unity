@@ -14,7 +14,7 @@ namespace Mirror.Examples.Pong
         }
 
         // need to use FixedUpdate for rigidbody
-        void FixedUpdate()
+        void Update()
         {
             // only let the local player control the racket.
             // don't control other player's rackets
