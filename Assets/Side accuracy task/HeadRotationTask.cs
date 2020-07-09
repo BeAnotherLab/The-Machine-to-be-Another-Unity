@@ -60,7 +60,7 @@ public class HeadRotationTask : MonoBehaviour {
 
     public void WriteHeadRotation(){
         string[] orientationLine = new string[] { count.ToString(), invertion, head.eulerAngles.x.ToString(), head.eulerAngles.y.ToString(), head.eulerAngles.z.ToString(), Time.realtimeSinceStartup.ToString(), _hasResponded.ToString()};
-        CsvWrite.instance.WriteFastLine(orientationLine);
+        //CsvWrite.instance.WriteFastLine(orientationLine);
     }
 
 	public IEnumerator Trial(string side) {
