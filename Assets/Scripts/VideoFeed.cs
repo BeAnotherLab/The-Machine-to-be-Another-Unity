@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using RockVR.Video;
@@ -38,6 +39,8 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     private bool _dimmed;
 
     private MeshRenderer _meshRenderer;
+    
+    private float _smoothSpeed = 0.125f;
     
     #endregion
 
@@ -82,9 +85,13 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         }
         else //if two way swap
         {
-            transform.rotation = otherPose; //Move image according to the other person's head orientation
+            //ransform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(0, Vector3.up); //to adjust for webcam physical orientation
+            
+            Quaternion smoothedRotation = Quaternion.Lerp(transform.rotation, otherPose, _smoothSpeed);
+            transform.rotation = smoothedRotation;
+            
             transform.localScale = new Vector3(0.9f, 1, -1);
-            transform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(0, Vector3.up); //to adjust for webcam physical orientation
+            
         }
     }
 
