@@ -49,6 +49,7 @@ public class StatusManager : MonoBehaviour {
 
     private void Start()
     {
+        Screen.fullScreen = true;
         InstructionsTextBehavior.instance.ShowTextFromKey("waitingForSerial");
     }
 
