@@ -8,6 +8,24 @@ namespace Mirror.Examples.Pong
     [AddComponentMenu("")]
     public class CustomNetworkManager : NetworkManager
     {
+
+        public static CustomNetworkManager instance;
+
+        private void Awake()
+        {
+            if (instance == null) instance = this;
+        }
+
+        private void Start()
+        {
+            networkAddress = PlayerPrefs.GetString("othersIP");
+            
+            if (PlayerPrefs.GetInt("serialControlOn", 0) == 1) //TODO rename property
+                StartHost();
+            else 
+                StartClient();
+        }
+        
         public override void OnServerAddPlayer(NetworkConnection conn)
         {
             // add player at correct spawn position
@@ -20,5 +38,6 @@ namespace Mirror.Examples.Pong
             // call base functionality (actually destroys the player)
             base.OnServerDisconnect(conn);
         }
+
     }
 }
