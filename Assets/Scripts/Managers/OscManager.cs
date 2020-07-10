@@ -48,7 +48,6 @@ public class OscManager : MonoBehaviour {
     private void Start()
     {
         //assign handlers to messages
-        _oscReceiver.Bind("/pose", ReceivedHeadTracking);
         _oscReceiver.Bind("/otherUser", ReceivedOtherStatus);
         _oscReceiver.Bind("/dimon", ReceiveDimOn);
         _oscReceiver.Bind("/dimoff", ReceiveDimOff);
@@ -62,11 +61,6 @@ public class OscManager : MonoBehaviour {
         SetOthersIP(PlayerPrefs.GetString("othersIP"));
     }   
     
-    private void Update()
-    {
-        SendHeadTracking();
-    }
-
     #endregion
 
     #region Public Methods   
@@ -130,33 +124,12 @@ public class OscManager : MonoBehaviour {
 
     #region Private Methods
     
-    private void SendHeadTracking()
-    {
-        if (_sendHeadTracking)
-        {
-            Quaternion q = _mainCamera.transform.rotation;
-
-            OSCMessage message = new OSCMessage ("/pose");
-            var array = OSCValue.Array();
-
-            array.AddValue(OSCValue.Float(q.x));
-            array.AddValue(OSCValue.Float(q.y));
-            array.AddValue(OSCValue.Float(q.z));
-            array.AddValue(OSCValue.Float(q.w));
-
-            message.AddValue(array);
-
-            _oscTransmitter.Send(message);    
-        }
-    }
-    
     private void SetOthersIP(string othersIP)
     {
         PlayerPrefs.SetString("othersIP", othersIP);
         GetComponent<OSCTransmitter>().RemoteHost = othersIP;
     }
    
-    
     private void ReceiveLanguageChange(OSCMessage message)
     {
         string value;
@@ -221,19 +194,6 @@ public class OscManager : MonoBehaviour {
             try { OnOtherStatus(); } //when receiving other status over OSC we get an error?
             catch (Exception e) { }
         }
-    }
-    
-    private void ReceivedHeadTracking(OSCMessage message)
-    {
-        List<OSCValue> arrayValues = null;
-        List<float> quaternionValues = new List<float>();
-
-        if (message.ToArray(out arrayValues)){ // Get all values from first array in message.
-            foreach (var value in arrayValues) 
-                quaternionValues.Add(value.FloatValue); //add them to a float list
-        }
-
-        VideoFeed.instance.GetComponent<VideoFeed>().otherPose = new Quaternion(quaternionValues[0], quaternionValues[1], quaternionValues[2], quaternionValues[3]);
     }
 
     private void ReceiveSerialStatus(OSCMessage message)

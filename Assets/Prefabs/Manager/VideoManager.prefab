@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8208434292311000962}
   - component: {fileID: 8208434292311001012}
-  - component: {fileID: 8208434292311001017}
-  - component: {fileID: 8208434292311001016}
+  - component: {fileID: 6984983847143865257}
+  - component: {fileID: 1499656944388269065}
   - component: {fileID: 1988415107881604546}
   - component: {fileID: 2326994558544268790}
   - component: {fileID: 58903214467696527}
@@ -44,7 +44,7 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8208434292311000986}
   m_Enabled: 1
---- !u!114 &8208434292311001017
+--- !u!114 &6984983847143865257
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -56,32 +56,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1015dbb0b69fdd446b617191771ffcce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _deviceSelection: 1
+  _deviceSelection: 0
   _desiredDeviceNames:
-  - HD USB Camera
+  - Logitech BRIO
+  - XSplit VCam
+  - OBS-Camera
+  - Integrated Webcam
+  - Logitech HD Pro Webcam C922
+  - Logitech HD Pro Webcam C920
+  - HD Pro Webcam C922
+  - HD Pro Webcam C920
+  - Decklink Video Capture
+  - Logitech Webcam Pro 9000
   _desiredDeviceIndex: 0
-  _modeSelection: 1
-  _desiredAnyResolution: 0
+  _modeSelection: 0
+  _desiredAnyResolution: 1
   _desiredResolutions:
   - {x: 1920, y: 1080}
+  - {x: 1280, y: 720}
+  - {x: 640, y: 360}
+  - {x: 640, y: 480}
   _desiredModeIndex: -1
   _maintainAspectRatio: 0
-  _desiredFrameRate: 30
+  _desiredFrameRate: 0
   _desiredFormatAny: 1
   _desiredTransparencyFormat: 0
   _desiredFormat: 4
   _videoInputSelection: 0
-  _desiredVideoInputs: 
+  _desiredVideoInputs: 0600000003000000
   _desiredVideoInputIndex: 0
   _playOnStart: 1
   _deinterlace: 0
-  _allowTransparency: 1
+  _allowTransparency: 0
   _flipX: 0
   _flipY: 0
-  _updateHotSwap: 1
+  _updateHotSwap: 0
   _updateFrameRates: 0
   _updateSettings: 0
---- !u!114 &8208434292311001016
+--- !u!114 &1499656944388269065
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edba0400f2985f145bfd6428f24d2110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _supportHotSwapping: 1
+  _supportHotSwapping: 0
   _supportInternalFormatConversion: 1
   _shaderBGRA32: {fileID: 4800000, guid: 55de6cd535b200d4c9e41052d04ec1e5, type: 3}
   _shaderMONO8: {fileID: 4800000, guid: 48acad89159eb1e448777379baab7384, type: 3}
@@ -129,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _material: {fileID: 2100000, guid: 42d3233844697f34eb8ed0b217a7222c, type: 2}
-  _liveCamera: {fileID: 8208434292311001017}
+  _liveCamera: {fileID: 6984983847143865257}
   _videoRenderTexture: {fileID: 8400000, guid: a4dae89f3cb2b294e93556d9fcc1ab61, type: 2}
 --- !u!114 &58903214467696527
 MonoBehaviour:
@@ -143,6 +155,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad43af36df273084f8ac3b1fa71ae729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _liveCamera: {fileID: 8208434292311001017}
-  _liveCameraManager: {fileID: 8208434292311001016}
+  _liveCamera: {fileID: 6984983847143865257}
+  _liveCameraManager: {fileID: 1499656944388269065}
   _guiSkin: {fileID: 0}
