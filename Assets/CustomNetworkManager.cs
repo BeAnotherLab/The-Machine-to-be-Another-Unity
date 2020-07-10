@@ -33,6 +33,11 @@ namespace Mirror.Examples.Pong
             NetworkServer.AddPlayerForConnection(conn, player);
         }
 
+        public void EnableNetworkGUI(bool show)
+        {
+            GetComponent<NetworkManagerHUD>().showGUI = show;
+        }         
+        
         public override void OnServerDisconnect(NetworkConnection conn)
         {
             // call base functionality (actually destroys the player)

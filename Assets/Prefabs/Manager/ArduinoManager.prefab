@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _servosOn: 0
-  _curtainOn: 0
   pitchOffset: 0
   yawOffset: 0
   _timeOut: 5
@@ -80,12 +79,12 @@ MonoBehaviour:
   readAfterCommand: 1
   skipMessageQueue: 0
   messageQueueLength: 10
-  defaultArduinoBoardType: 0
+  defaultArduinoBoardType: 4
   useCuPort: 0
   sendRateSpeed: 20
   discoverTries: 10
   autoDiscover: 1
-  delayBeforeDiscover: 0.5
+  delayBeforeDiscover: 1.5
   stopAllOnQuit: 1
   stopAllOnPause: 0
   autoReconnect: 1
@@ -95,22 +94,16 @@ MonoBehaviour:
   OnDataReceivedEvent:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Uduino.UduinoManager+eventValueReceived, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   OnBoardConnectedEvent:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Uduino.UduinoManager+eventBoard, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   OnBoardDisconnectedEvent:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Uduino.UduinoManager+eventBoard, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   displayAndroidTextGUI: 0
   autoConnectToLastDevice: 1
   bleScanDuration: 3
-  interfaceType: 2
+  interfaceType: 0
   uduinoIpAddress: 192.168.x.x
   uduinoWifiPort: 4222
   isApplicationQuiting: 0

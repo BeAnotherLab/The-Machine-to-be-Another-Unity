@@ -25,7 +25,7 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private Text _languageText;
     
     private GameObject _mainCamera;
-    private bool _monitorGuiEnabled, _oculusGuiEnabled;
+    private bool _oculusGuiEnabled;
     private float _deltaTime = 0.0f;
  
     [SerializeField] private bool serialDebug;
@@ -72,8 +72,6 @@ public class SettingsGUI : MonoBehaviour
     // Use this for initialization
     private void Start()
     {        
-        _monitorGuiEnabled = true;
-
         SetSwapModeDropdownOptions();
         
         _zoomSlider.value = PlayerPrefs.GetFloat("zoom", 39.5f);
@@ -92,7 +90,7 @@ public class SettingsGUI : MonoBehaviour
     private void Update()
     {     
         //TODO move out of settings GUI
-        if (Input.GetKeyDown("m")) SetMonitorGuiEnabled();
+        if (Input.GetKeyDown("m")) ToggleDisplay();
 
         if (Input.GetKeyDown("f"))
         {
@@ -130,15 +128,11 @@ public class SettingsGUI : MonoBehaviour
         _swapModeDropdown.value = (int) mode;
         _swapModeDropdown.RefreshShownValue();
     }
-
-    public void SetMonitorGuiEnabled()
+    
+    public void SetMonitorGuiEnabled(bool show)
     {
-        _monitorGuiEnabled = !_monitorGuiEnabled;
-
-       if (_monitorGuiEnabled)
-            _panel.GetComponent<CanvasGroup>().alpha = 0f;
-       else
-            _panel.GetComponent<CanvasGroup>().alpha = 1f;
+       if (show) _panel.GetComponent<CanvasGroup>().alpha = 1f;
+       else _panel.GetComponent<CanvasGroup>().alpha = 0f;
     }
                 
     public void SetSwapMode(bool useCurtain = false) 
@@ -160,6 +154,12 @@ public class SettingsGUI : MonoBehaviour
     #endregion
 
     #region Private Methods
+    
+    private void ToggleDisplay()
+    {
+        if (_panel.GetComponent<CanvasGroup>().alpha == 0f) _panel.GetComponent<CanvasGroup>().alpha = 1f;
+        else _panel.GetComponent<CanvasGroup>().alpha = 0f;
+    }
     
     private int GetSerialIndexByOptionName(Dropdown dropDown, string name)
     {

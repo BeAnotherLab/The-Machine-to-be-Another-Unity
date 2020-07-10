@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using RenderHeads.Media.AVProLiveCamera;
+using RenderHeads.Media.AVProLiveCamera.Demos;
 using RockVR.Video;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,12 +21,11 @@ public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
         ShowLiveFeed();
     }
 
-    // Update is called once per frame
-    private void Update()
+    public void EnableDeviceMenu(bool show)
     {
-       
+        GetComponent<QuickDeviceMenu>().enabled = show;
     }
-
+    
     public void ShowRecordedVideo()
     {
         VideoFeed.instance.ShowLiveFeed(false);
