@@ -28,6 +28,11 @@ public class InstructionsTextBehavior : MonoBehaviour
         _textGameObject.GetComponent<Text>().text = text; //give feedback
     }
 
+    public void ShowinstructionsText(string text)
+    {
+        _textGameObject.GetComponent<Text>().text = text; //give feedback
+    }
+    
     public void ShowInstructionText(string text, int time)
     {
         StartCoroutine(TimedTextCoroutine(text, time));
