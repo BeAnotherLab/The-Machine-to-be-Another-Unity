@@ -138,6 +138,7 @@ public class StatusManager : MonoBehaviour {
 
     public void Standby(bool start = false) //go back to initial state where users must read instructions before starting experience
     {
+        Debug.Log("Standby");
         if (!start) VideoFeed.instance.SetDimmed(true); //TODO somehow this messses with Video Feed dimming when called on Start?
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
         EnableConfirmationGUI(true); //show "ready" button
@@ -190,6 +191,7 @@ public class StatusManager : MonoBehaviour {
     
     private void HeadsetsOn()
     {
+        Debug.Log("Headesets on");
         InstructionsDisplay.instance.ShowWaitForTurnVideo();
     }
     
@@ -211,6 +213,7 @@ public class StatusManager : MonoBehaviour {
         if (_readyForStandby)
         {
             InstructionsTextBehavior.instance.ShowTextFromKey("instructions");
+            Debug.Log("Experience started");
             _instructionsTimeline.Play();
             _experienceStarted = true;
         }
@@ -218,6 +221,7 @@ public class StatusManager : MonoBehaviour {
 
     private void EndExperience() //called at the the end of the experience
     {
+        Debug.Log("finished");
         InstructionsTextBehavior.instance.ShowTextFromKey("finished");
         DimAndStop();
     }
