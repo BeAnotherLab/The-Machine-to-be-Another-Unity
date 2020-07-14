@@ -50,6 +50,7 @@ public class StatusManager : MonoBehaviour {
     private void Start()
     {
         InstructionsTextBehavior.instance.ShowTextFromKey("waitingForSerial");
+        if (!SwapModeManager.instance.useCurtain) _readyForStandby = true;
     }
 
     private void Update()
