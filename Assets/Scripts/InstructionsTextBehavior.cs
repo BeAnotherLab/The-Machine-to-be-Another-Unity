@@ -21,7 +21,7 @@ public class InstructionsTextBehavior : MonoBehaviour
     public void ShowTextFromKey(string key)
     {
         GetComponent<CanvasGroup>().alpha = 1;
-        _textGameObject.GetComponent<LocalizedText>().key = key;
+        _textGameObject.GetComponent<LocalizedText>().SetTextFromKey(key);
     }
 
     public void ShowTextFromKey(string key, int time)

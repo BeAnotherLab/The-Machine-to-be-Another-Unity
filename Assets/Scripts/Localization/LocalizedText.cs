@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class LocalizedText : MonoBehaviour
 {
-    public string key;
-
     private Text text;
     
     // Use this for initialization
@@ -16,7 +14,7 @@ public class LocalizedText : MonoBehaviour
         text = GetComponent<Text>();
     }
 
-    private void Update()
+    public void SetTextFromKey(string key)
     {
         text.text = LocalizationManager.instance.GetLocalizedValue(key);
     }
