@@ -226,7 +226,6 @@ public class StatusManager : MonoBehaviour {
 
     private void EndExperience() //called at the the end of the experience
     {
-        Debug.Log("finished");
         InstructionsTextBehavior.instance.ShowTextFromKey("finished");
         DimAndStop();
     }
@@ -246,6 +245,7 @@ public class StatusManager : MonoBehaviour {
         VideoFeed.instance.SetDimmed(true);
         _instructionsTimeline.Stop();
         _experienceStarted = false;
+        Debug.Log("finished");
     }
     
     #endregion
