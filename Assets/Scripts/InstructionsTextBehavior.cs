@@ -15,6 +15,8 @@ public class InstructionsTextBehavior : MonoBehaviour
     {
         if (instance == null) instance = this;
     }
+
+    #region  Public methods
     
     public void ShowTextFromKey(string key)
     {
@@ -22,6 +24,11 @@ public class InstructionsTextBehavior : MonoBehaviour
         _textGameObject.GetComponent<LocalizedText>().key = key;
     }
 
+    public void ShowTextFromKey(string key, int time)
+    {
+        StartCoroutine(TimedTextKeyCoroutine(key, time));
+    }
+    
     public void ShowInstructionText(bool show, string text = "")
     {
         GetComponent <CanvasGroup>().alpha = show ? 1 : 0;
@@ -38,11 +45,23 @@ public class InstructionsTextBehavior : MonoBehaviour
         StartCoroutine(TimedTextCoroutine(text, time));
     }
 
+    #endregion
+    
+    #region Private Methods
+    
     private IEnumerator TimedTextCoroutine(string text, int time)
     {
         ShowInstructionText(true, text);
         yield return new WaitForSeconds(time);
         ShowInstructionText(false);       
     }
+
+    private IEnumerator TimedTextKeyCoroutine(string key, int time)
+    {
+        ShowTextFromKey(key);
+        yield return new WaitForSeconds(time);
+        ShowInstructionText(false);
+    }
     
+    #endregion
 }

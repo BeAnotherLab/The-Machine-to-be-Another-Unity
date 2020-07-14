@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.XR;
-using UnityEngine.UI;
 using VRStandardAssets.Menu;
 using VRStandardAssets.Utils;
 using Uduino;
@@ -32,6 +30,8 @@ public class StatusManager : MonoBehaviour {
     private GameObject _mainCamera;
     private bool _readyForStandby; //when we use serial, only go to standby if Arduino is ready.
     private GameObject _confirmationMenu;
+
+    private bool _experienceStarted;
     
     #endregion
 
@@ -51,6 +51,11 @@ public class StatusManager : MonoBehaviour {
     {
         Screen.fullScreen = true;
         InstructionsTextBehavior.instance.ShowTextFromKey("waitingForSerial");
+        if (!SwapModeManager.instance.useCurtain)
+        {
+            _readyForStandby = true;
+            ArduinoManager.instance.SetSerialControlComputer(false, false);
+        }
     }
 
     private void Update()
@@ -61,8 +66,6 @@ public class StatusManager : MonoBehaviour {
                 SelfRemovedHeadset();
             else if (XRDevice.userPresence == UserPresenceState.Present && selfStatus == UserStatus.headsetOff) //if we just put the headset on 
                 SelfPutHeadsetOn(); 
-            
-            if (Input.GetKeyDown("o")) IsOver();
         } 
     }
 
@@ -102,7 +105,7 @@ public class StatusManager : MonoBehaviour {
     {
         if (statusManagementOn) OscManager.instance.SendThisUserStatus(UserStatus.readyToStart);
 
-        EnableConfirmationGUI(false); //hide status confirmation GUI elements
+        EnableConfirmationGUI(false); 
 
         //start experience or wait for the other if they're not ready yet
         if (otherStatus == UserStatus.readyToStart) StartPlaying();
@@ -134,35 +137,18 @@ public class StatusManager : MonoBehaviour {
     public void OtherLeft()
     {
         otherStatus = UserStatus.headsetOff;
-        if (selfStatus == UserStatus.readyToStart)
-        {
-            //different than self is gone in case there is an audio for this case
-            VideoFeed.instance.SetDimmed(true);
-
-            InstructionsTextBehavior.instance.ShowTextFromKey("otherIsGone");
-            _instructionsTimeline.Stop();
-            StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
-        }
-        else
-        {
-            InstructionsDisplay.instance.ShowWelcomeVideo();
-        }
+        if (_experienceStarted) StartCoroutine(MessageGoneAndEndExperience()); //show "other is gone" message and stop experience
+        else if (selfStatus == UserStatus.headsetOff) Standby();
+        else InstructionsDisplay.instance.ShowWelcomeVideo();
     }
 
-    public void Standby(bool start = false)
+    public void Standby(bool start = false) //go back to initial state where users must read instructions before starting experience
     {
+        Debug.Log("Standby");
         if (!start) VideoFeed.instance.SetDimmed(true); //TODO somehow this messses with Video Feed dimming when called on Start?
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
-
-        _instructionsTimeline.Stop();
-        AudioPlayer.instance.StopAudioInstructions();
-
-        //reset user status as it is not ready
-        EnableConfirmationGUI(true);
-
-        if (_readyForStandby) //TODO is check necessary? 
-            ArduinoManager.instance.InitialPositions();
-
+        EnableConfirmationGUI(true); //show "ready" button
+        if (_readyForStandby) ArduinoManager.instance.InitialPositions(); 
         InstructionsDisplay.instance.ShowWelcomeVideo();
     }
 
@@ -182,16 +168,14 @@ public class StatusManager : MonoBehaviour {
         InstructionsDisplay.instance.ShowTechnicalFailureMessage();
         InstructionsTextBehavior.instance.ShowTextFromKey("systemFailure");
         _instructionsTimeline.Stop();
+        _experienceStarted = false;
+
         Destroy(gameObject);
     }
 
     public void SerialReady(bool serialControlComputer = false)
     {
-        if (serialControlComputer) //if this computer is the one connected to the Arduino board
-        {
-            ArduinoManager.instance.InitialPositions();
-        }
-        
+        if (serialControlComputer) ArduinoManager.instance.InitialPositions(); //if this computer is the one connected to the Arduino board
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
         _readyForStandby = true;    
     }
@@ -199,8 +183,9 @@ public class StatusManager : MonoBehaviour {
     public void SelfRemovedHeadset()
     {
         _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
-        if (selfStatus == UserStatus.readyToStart) Standby(); //if we were ready and we took off the headset
-        if (selfStatus == UserStatus.headsetOn) InstructionsDisplay.instance.ShowWelcomeVideo(); //if we just had headset on
+
+        if (_experienceStarted) EndExperience(); //if experience had started, stop it
+        else if(otherStatus == UserStatus.headsetOff) Standby(); //only go to standby if both headsets off
         selfStatus = UserStatus.headsetOff;
         OscManager.instance.SendThisUserStatus(selfStatus);
     }
@@ -212,6 +197,7 @@ public class StatusManager : MonoBehaviour {
     
     private void HeadsetsOn()
     {
+        Debug.Log("Headesets on");
         InstructionsDisplay.instance.ShowWaitForTurnVideo();
     }
     
@@ -233,23 +219,35 @@ public class StatusManager : MonoBehaviour {
         if (_readyForStandby)
         {
             InstructionsTextBehavior.instance.ShowTextFromKey("instructions");
+            Debug.Log("Experience started");
             _instructionsTimeline.Play();
+            _experienceStarted = true;
         }
     }
 
-    private void IsOver() //called at the the end of the experience
+    private void EndExperience() //called at the the end of the experience
+    {
+        InstructionsTextBehavior.instance.ShowTextFromKey("finished");
+        DimAndStop();
+    }
+
+    private IEnumerator MessageGoneAndEndExperience(bool otherGone = false)
+    {
+        InstructionsTextBehavior.instance.ShowTextFromKey("otherIsGone", 3);
+        DimAndStop();
+        
+        yield return new WaitForSeconds(3);
+        
+        InstructionsTextBehavior.instance.ShowTextFromKey("finished", 7);
+    }
+    
+    private void DimAndStop()
     {
         VideoFeed.instance.SetDimmed(true);
-        InstructionsTextBehavior.instance.ShowTextFromKey("finished");
         _instructionsTimeline.Stop();
+        _experienceStarted = false;
+        Debug.Log("finished");
     }
-
-    private IEnumerator WaitBeforeResetting()
-    {
-        yield return new WaitForSeconds(4f); //make sure this value is inferior or equal to the confirmation radial time to avoid bugs
-        Standby();
-    }
-
+    
     #endregion
 }
- 
