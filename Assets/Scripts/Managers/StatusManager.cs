@@ -232,12 +232,12 @@ public class StatusManager : MonoBehaviour {
 
     private IEnumerator MessageGoneAndEndExperience(bool otherGone = false)
     {
-        InstructionsTextBehavior.instance.ShowInstructionText("otherIsGone", 3);
+        InstructionsTextBehavior.instance.ShowTextFromKey("otherIsGone", 3);
         DimAndStop();
         
         yield return new WaitForSeconds(3);
         
-        InstructionsTextBehavior.instance.ShowInstructionText("finished", 7);
+        InstructionsTextBehavior.instance.ShowTextFromKey("finished", 7);
     }
     
     private void DimAndStop()
