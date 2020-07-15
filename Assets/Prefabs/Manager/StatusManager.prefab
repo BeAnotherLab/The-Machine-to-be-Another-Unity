@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 420745702}
   - component: {fileID: 420745704}
   m_Layer: 5
-  m_Name: StatusTimeline3
+  m_Name: LongTimeline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3197596539171407804}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -59,6 +59,12 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: 114982158705275348, guid: 44609566f7d6b204caf66eae0fadea02, type: 2}
     value: {fileID: 92365315}
+  - key: {fileID: 114252499553117156, guid: 44609566f7d6b204caf66eae0fadea02, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 114135857408751022, guid: 44609566f7d6b204caf66eae0fadea02, type: 2}
+    value: {fileID: 92365315}
+  - key: {fileID: 114251537705306928, guid: 44609566f7d6b204caf66eae0fadea02, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!1 &795887284
@@ -137,7 +143,7 @@ GameObject:
   - component: {fileID: 1017013997}
   - component: {fileID: 1017013999}
   m_Layer: 5
-  m_Name: StatusTimeline2
+  m_Name: ShortTimeline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155,7 +161,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3197596539171407804}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -185,6 +191,8 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: 114550760556172224, guid: 0adcfa56ba8423f41b9165ee46bfeb1a, type: 2}
     value: {fileID: 92365315}
+  - key: {fileID: 114451342502751280, guid: 0adcfa56ba8423f41b9165ee46bfeb1a, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!1 &1961511176
@@ -216,7 +224,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3197596539171407804}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -275,9 +283,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1961511177}
   - {fileID: 1017013997}
   - {fileID: 420745702}
+  - {fileID: 1961511177}
   - {fileID: 795887285}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -303,8 +311,8 @@ MonoBehaviour:
   selfStatus: 0
   otherStatus: 0
   _autoStartAndFinishOn: 0
-  _serialReady: 1
-  _instructionsTimeline: {fileID: 1017013999}
+  _shortTimeline: {fileID: 1017013999}
+  _longTimeline: {fileID: 420745704}
 --- !u!95 &92365315
 Animator:
   serializedVersion: 3

@@ -14,6 +14,7 @@ public class SettingsGUI : MonoBehaviour
     #region Private Fields
 
     [SerializeField] private Dropdown _swapModeDropdown;
+    [SerializeField] private Dropdown _timelineDropdown;
     [SerializeField] private GameObject _panel;
     [SerializeField] private Slider _pitchSlider, _yawSlider, _rollSlider, _zoomSlider;
     [SerializeField] private IPInputField _ipInputField;
@@ -54,6 +55,11 @@ public class SettingsGUI : MonoBehaviour
         _serialControlToggle.onValueChanged.AddListener(delegate
         {
             ArduinoManager.instance.SetSerialControlComputer(_serialControlToggle.isOn);
+        });
+        
+        _timelineDropdown.onValueChanged.AddListener(delegate(int val)
+        { 
+            StatusManager.instance.SetInstructionsTimeline(val);
         });
         
         _controlsText.text = _controlsText.text + "\n \nlocal IP adress : " + OSCUtilities.GetLocalHost();

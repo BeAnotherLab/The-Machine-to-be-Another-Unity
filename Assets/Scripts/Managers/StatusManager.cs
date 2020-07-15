@@ -25,8 +25,11 @@ public class StatusManager : MonoBehaviour {
     #region Private Fields
 
     [SerializeField] private bool _autoStartAndFinishOn; //TODO check if can remove
-    [SerializeField] private PlayableDirector _instructionsTimeline;
-
+    
+    [SerializeField] private PlayableDirector _shortTimeline;
+    [SerializeField] private PlayableDirector _longTimeline;
+    private PlayableDirector _instructionsTimeline;
+    
     private GameObject _mainCamera;
     private bool _readyForStandby; //when we use serial, only go to standby if Arduino is ready.
     private GameObject _confirmationMenu;
@@ -56,6 +59,7 @@ public class StatusManager : MonoBehaviour {
             _readyForStandby = true;
             ArduinoManager.instance.SetSerialControlComputer(false, false);
         }
+        _instructionsTimeline = _shortTimeline; //use short experience by default
     }
 
     private void Update()
@@ -74,6 +78,14 @@ public class StatusManager : MonoBehaviour {
 
     #region Public Methods
 
+    public void SetInstructionsTimeline(int index)
+    {
+        if (index == 0)
+            _instructionsTimeline = _shortTimeline;
+        else if (index == 1)
+            _instructionsTimeline = _longTimeline;
+    }
+    
     public void StartExperience()
     {
         if (_autoStartAndFinishOn) //if we are in auto swap
