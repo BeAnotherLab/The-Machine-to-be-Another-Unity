@@ -427,21 +427,6 @@ MonoBehaviour:
   m_Clip: {fileID: 8300000, guid: 8c539a1e5c710db4ca63765f4dfb8784, type: 3}
   m_Loop: 0
   m_bufferingTime: 0.1
---- !u!114 &114241034043647144
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1977359656, guid: 6a10b2909283487f913b00d94cd3faf5, type: 3}
-  m_Name: AudioPlayableAsset
-  m_EditorClassIdentifier: 
-  m_Clip: {fileID: 8300000, guid: 8c539a1e5c710db4ca63765f4dfb8784, type: 3}
-  m_Loop: 0
-  m_bufferingTime: 0.1
 --- !u!114 &114241868747345506
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -653,39 +638,6 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: ankle_on_knee
     m_Version: 1
-  - m_Start: 160.63333333333333
-    m_ClipIn: 143.7833333333333
-    m_Asset: {fileID: 114241034043647144}
-    m_Duration: 12.200000000000003
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: 114252499553117156}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: -1
-    m_BlendOutDuration: -1
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: ankle_on_knee
-    m_Version: 1
   - m_Start: 227.60000000000014
     m_ClipIn: 163.86666666666662
     m_Asset: {fileID: 114090578842753502}
@@ -821,6 +773,39 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: ankle_on_knee
     m_Version: 1
+  - m_Start: 159.21666666666667
+    m_ClipIn: 0
+    m_Asset: {fileID: 114455129240965954}
+    m_Duration: 12.6
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 114252499553117156}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: strokeArm
+    m_Version: 1
   m_Version: 2
 --- !u!114 &114307625781328096
 MonoBehaviour:
@@ -864,6 +849,21 @@ MonoBehaviour:
   m_ApplyFootIK: 1
   m_Version: 1
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
+--- !u!114 &114455129240965954
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1977359656, guid: 6a10b2909283487f913b00d94cd3faf5, type: 3}
+  m_Name: AudioPlayableAsset
+  m_EditorClassIdentifier: 
+  m_Clip: {fileID: 8300000, guid: 5b5e19ba3bf8e2642845375db34d3ef2, type: 3}
+  m_Loop: 0
+  m_bufferingTime: 0.1
 --- !u!114 &114470879451358870
 MonoBehaviour:
   m_ObjectHideFlags: 1
