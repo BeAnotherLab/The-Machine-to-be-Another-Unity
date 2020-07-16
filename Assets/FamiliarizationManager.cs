@@ -72,8 +72,7 @@ public class FamiliarizationManager : MonoBehaviour
             ExperimentSettingsGUI.instance.NotifyVideoNotFoundError();
         }
         else {
-            _experimentData.experimentState = ExperimentState.pre;
-            SceneManager.LoadScene("MotorTest"); //TODO counter balance
+            _experimentData.LoadNextScene();
         }
     }
     
@@ -95,7 +94,7 @@ public class FamiliarizationManager : MonoBehaviour
     
     public void SelectOrder(string dropdownValue) 
     {
-        _experimentData.tasksOrder = dropdownValue.Split(' ');
+        _experimentData.tasks = dropdownValue.Split(' ');
     } 
 
     public string GetSubjectID()

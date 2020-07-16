@@ -23,11 +23,6 @@ public class ExperimentManager : MonoBehaviour
       _startButton.onClick.AddListener(delegate { StartInstructedPhase(); });
     }
 
-    private void Start()
-    {
-        experimentData.experimentState = ExperimentState.intervention;
-    }
-
     private void Update()
     {
         if (!_readyForFreePhase)
@@ -75,8 +70,7 @@ public class ExperimentManager : MonoBehaviour
     {
         OscManager.instance.SetSendHeadtracking(false);
         Debug.Log("End of intervention");
-        experimentData.experimentState = ExperimentState.post;
-        SceneManager.LoadScene("Questionnaire");
+        experimentData.LoadNextScene();
     }
     
     public void StartInstructedPhase()

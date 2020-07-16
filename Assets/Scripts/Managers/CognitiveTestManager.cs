@@ -154,7 +154,7 @@ public class CognitiveTestManager : TestManager
         {
             FinishTest();
             VideoFeed.instance.CancelTweens();
-            if (_experimentData.experimentState == ExperimentState.pre) SceneManager.LoadScene("SparkSwap");
+            _experimentData.LoadNextScene();
         }
         else _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
     }
