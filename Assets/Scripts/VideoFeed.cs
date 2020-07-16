@@ -39,6 +39,10 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     //Dim params
     private bool _dimmed;
 
+    private MeshRenderer _meshRenderer;
+
+    private string _currentDirection;
+    
     #endregion
 
 
@@ -101,6 +105,24 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     #region Public Methods
 
+    public void SetDirection(string direction)
+    {
+        _currentDirection = direction;
+    }
+    
+    public void MatchDirection(char desiredDirection)
+    {
+        if (desiredDirection == 'R' && _currentDirection == "Left")
+        {
+            FlipHorizontal();
+            _currentDirection = "Right";
+        } else if (desiredDirection == 'L' && _currentDirection == "Right")
+        {
+            FlipHorizontal();
+            _currentDirection = "Left";
+        }
+    }
+    
     public void CancelTweens()
     {
         LeanTween.cancelAll();
