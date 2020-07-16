@@ -92,6 +92,11 @@ public class FamiliarizationManager : MonoBehaviour
         
         return fileOK;
     }
+    
+    public void SelectOrder(string dropdownValue) 
+    {
+        _experimentData.tasksOrder = dropdownValue.Split(' ');
+    } 
 
     public string GetSubjectID()
     {

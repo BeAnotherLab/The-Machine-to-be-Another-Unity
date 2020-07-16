@@ -13,6 +13,7 @@ public class ExperimentSettingsGUI : MonoBehaviour
     
     //Experiment settings
     [SerializeField] private InputField _subjectInputField;
+    [SerializeField] private Dropdown _taskCounterbalancingDropdown;
     [SerializeField] private Dropdown _conditionDropdown;
     [SerializeField] private Dropdown _participantDropdown;
     [SerializeField] private Button _startButton;
@@ -20,6 +21,7 @@ public class ExperimentSettingsGUI : MonoBehaviour
     [SerializeField] private GameObject _subjectExistingErrorMessage;
     [SerializeField] private GameObject _videoNotFoundErrorMessage;
     [SerializeField] private Dropdown _directionDropdown;
+    [SerializeField] private List<String> tasks = new List<string>();
     
     private void Awake()
     {
@@ -27,6 +29,11 @@ public class ExperimentSettingsGUI : MonoBehaviour
 
         _subjectInputField.onEndEdit.AddListener( delegate {
             FamiliarizationManager.instance.SetSubjectID(_subjectInputField.text);
+        });
+        
+        _taskCounterbalancingDropdown.onValueChanged.AddListener(delegate(int arg0)
+        {
+            FamiliarizationManager.instance.SelectOrder(_taskCounterbalancingDropdown.options[arg0].text);
         });
         
         _startButton.onClick.AddListener(delegate
@@ -39,6 +46,18 @@ public class ExperimentSettingsGUI : MonoBehaviour
         });
 
         _rotateButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
+    }
+
+    private void Start()
+    {
+        List<string> _dropDownOptions = new List<string>();
+
+        foreach (List<string> permutation in Permutate(tasks, tasks.Count)) {
+            string _option = string.Join(" ", permutation.ToArray());
+            _dropDownOptions.Add(_option);
+        }
+
+        _taskCounterbalancingDropdown.AddOptions(_dropDownOptions);    
     }
 
     public void NotifyVideoNotFoundError()
@@ -63,6 +82,26 @@ public class ExperimentSettingsGUI : MonoBehaviour
         _videoNotFoundErrorMessage.gameObject.SetActive(true);
         yield return new WaitForSeconds(5);
         _videoNotFoundErrorMessage.gameObject.SetActive(false);
+    }
+    
+    //from https://www.codeproject.com/Articles/43767/A-C-List-Permutation-Iterator
+    private IEnumerable<IList> Permutate(List<string> sequence, int count) 
+    {
+        if (count == 1) yield return sequence;
+        else {
+            for (int i = 0; i < count; i++) {
+                foreach (var perm in Permutate(sequence, count - 1))
+                    yield return perm;
+                RotateRight(sequence, count);
+            }
+        } 
+    }
+
+    private void RotateRight(List<string> sequence, int count) 
+    {
+        string tmp = sequence[count - 1];
+        sequence.RemoveAt(count - 1);
+        sequence.Insert(0, tmp);
     }
 
 }
