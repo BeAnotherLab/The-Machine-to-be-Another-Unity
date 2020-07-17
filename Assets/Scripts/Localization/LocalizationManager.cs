@@ -24,10 +24,6 @@ public class LocalizationManager : MonoBehaviour {
         }
 
         DontDestroyOnLoad (gameObject);
-    }
-
-    private void Start()
-    {
         LoadLocalizedText(localizationTexts[0]);
     }
 
@@ -71,7 +67,6 @@ public class LocalizationManager : MonoBehaviour {
         } else Debug.Log("key not found");
 
         return result;
-
     }
 
 }

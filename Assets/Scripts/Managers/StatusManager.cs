@@ -48,12 +48,12 @@ public class StatusManager : MonoBehaviour {
         _mainCamera = GameObject.Find("Main Camera");
         _confirmationMenu = GameObject.Find("ConfirmationMenu");
         UduinoManager.Instance.OnBoardDisconnectedEvent.AddListener(delegate { SerialFailure(); });
+        _instructionsTimeline = _shortTimeline; //use short experience by default
     }
 
     private void Start()
     {
         InstructionsTextBehavior.instance.ShowTextFromKey("waitingForSerial");
-        _instructionsTimeline = _shortTimeline; //use short experience by default
     }
 
     private void Update()
