@@ -140,7 +140,6 @@ public class StatusManager : MonoBehaviour {
         otherStatus = UserStatus.headsetOff;
         if (selfStatus == UserStatus.readyToStart)
         {
-            //different than self is gone in case there is an audio for this case
             VideoFeed.instance.SetDimmed(true);
 
             InstructionsTextBehavior.instance.ShowTextFromKey("otherIsGone");
@@ -261,6 +260,7 @@ public class StatusManager : MonoBehaviour {
     {
         yield return new WaitForSeconds(4f); //make sure this value is inferior or equal to the confirmation radial time to avoid bugs
         Standby();
+        SelfPutHeadsetOn();
     }
 
     #endregion
