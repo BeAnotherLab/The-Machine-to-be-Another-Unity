@@ -39,7 +39,7 @@ public class SwapModeManager : MonoBehaviour
                 //move video with other pose
                 VideoFeed.instance.twoWayWap = true;
 
-                //enable status management, self, other, autoplay, autofinish, reset timer      
+                //enable status management, self, other, autoplay, autofinish, reset timer
                 StatusManager.instance.Standby(true);
                 StatusManager.instance.SetAutoStartAndFinish(true, 0);
                 StatusManager.instance.statusManagementOn = true;
@@ -50,7 +50,8 @@ public class SwapModeManager : MonoBehaviour
                 OscManager.instance.SetSendHeadtracking(true);
 
                 //enable serial depending on if we are using the curtain or not
-                ArduinoManager.instance.ActivateSerial(false, useCurtain);
+                if (useCurtain) ArduinoManager.instance.ActivateSerial(false, useCurtain); //TODO remove?
+                else ArduinoManager.instance.DisableSerial();
                 
                 break;
 
