@@ -40,6 +40,7 @@ public class SwapModeManager : MonoBehaviour
                 VideoFeed.instance.twoWayWap = true;
 
                 //enable status management, self, other, autoplay, autofinish, reset timer      
+                StatusManager.instance.Standby(true);
                 StatusManager.instance.SetAutoStartAndFinish(true, 0);
                 StatusManager.instance.statusManagementOn = true;
 
