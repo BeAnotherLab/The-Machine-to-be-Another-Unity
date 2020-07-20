@@ -51,7 +51,7 @@ public class ExperimentManager : MonoBehaviour
             //switch to pre recorded video
             VideoFeed.instance.ShowLiveFeed(false);
             _videoPlayer.Play();
-            }
+        }
     }
     
     public void StartTactilePhase()
