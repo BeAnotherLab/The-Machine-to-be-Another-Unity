@@ -85,7 +85,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
                 targetTransform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(0, Vector3.up); //to adjust for webcam physical orientation
                 targetTransform.localScale = new Vector3(0.9f, 1, -1);
             }
-            else //if two way swap
+            else //TODO this is no longer needed when using Mirror's Network Transform. Check if can be rmemoved
             {
                 /*
                 targetTransform.rotation = otherPose; //Move image according to the other person's head orientation
@@ -130,7 +130,8 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     
     public void FlipHorizontal()
     {
-        transform.localScale = new Vector3(- transform.parent.localScale.x, transform.parent.localScale.y, transform.parent.localScale.z);
+        //TODO This was broken by using network transform
+        transform.parent.localScale = new Vector3(- transform.parent.localScale.x, transform.parent.localScale.y, transform.parent.localScale.z);
     }
 
     public void SetDimmed(bool dim)
@@ -186,6 +187,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     
     #endregion
 
+    
     #region Private Methods
 
     private IEnumerator StartupDim()
