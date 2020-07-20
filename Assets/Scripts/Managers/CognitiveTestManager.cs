@@ -72,8 +72,8 @@ public class CognitiveTestManager : TestManager
         }
         else if (_waitingForAnswer && _givenAnswer == answer.none)
         {
-            if (Input.GetMouseButtonDown(0)) GetClick(answer.yes);
-            else if (Input.GetMouseButtonDown(1)) GetClick(answer.no);
+            if (Input.GetMouseButtonDown(0)) StartCoroutine(GetClick(answer.yes));
+            else if (Input.GetMouseButtonDown(1)) StartCoroutine(GetClick(answer.no));
         }
     }    
 
@@ -143,25 +143,17 @@ public class CognitiveTestManager : TestManager
         yield return new WaitForSeconds(4);
 
         _waitingForAnswer = false;
-        WriteTestResults(answer.none, _timer.ElapsedMilliseconds);
         InstructionsTextBehavior.instance.ShowInstructionText(true, "Out of time!");
         _timer.Stop();
-        _timer.Reset();
-    
-        yield return new WaitForSeconds(3);
+        
+        yield return new WaitForSeconds(2);
 
-        if (_trialIndex == _finalTrialsList.Count)
-        {
-            FinishTest();
-            VideoFeed.instance.CancelTweens();
-            _experimentData.LoadNextScene();
-        }
-        else _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
+        WriteTestResults(answer.none, _timer.ElapsedMilliseconds);
     }
 
     private IEnumerator ShowFeedbackCoroutine(answer givenAnswer, bool practiceFinished = false)
     {
-        if (givenAnswer != answer.none)
+        if (givenAnswer != answer.none) //TODO why is this condition here?
         {
             //write reaction time
             Debug.Log("correct answer : " + _finalTrialsList[_trialIndex].GetField("key").str);
@@ -180,13 +172,14 @@ public class CognitiveTestManager : TestManager
         if (practiceFinished) //if we just finished practicing
         {
             InstructionsTextBehavior.instance.ShowInstructionText("Ok, the trial is now finished! We will start the proper testing", 3);
+            _currentStep = steps.finished;
             yield return new WaitForSeconds(3);
         }
         
-        _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
+        WriteTestResults();
     }
 
-    private void GetClick(answer givenAnswer)
+    private IEnumerator GetClick(answer givenAnswer)
     {
         _waitingForAnswer = false;
         _givenAnswer = givenAnswer;
@@ -201,11 +194,8 @@ public class CognitiveTestManager : TestManager
             
         //if we're practicing, show feedback before continuing
         if (_currentStep == steps.practice) StartCoroutine(ShowFeedbackCoroutine(givenAnswer, practiceFinished));
-        //else show go to next trial
-        else _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
-    
-        if (practiceFinished) _currentStep = steps.testing;
-        WriteTestResults(givenAnswer, _timer.Elapsed.Milliseconds);
+        else WriteTestResults(givenAnswer, _timer.Elapsed.Milliseconds);
+
     }
 
     private void WriteTestResults(answer givenAnswer, double time)
@@ -217,6 +207,15 @@ public class CognitiveTestManager : TestManager
         File.WriteAllText(_filePath, _finalTrialsList.Print());
         _trialIndex++;
         _timer.Reset();
+        
+        if (_trialIndex == _finalTrialsList.Count)
+        {
+            FinishTest();
+            VideoFeed.instance.CancelTweens();
+            _experimentData.LoadNextScene();
+        }
+        else _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
+        
         Debug.Log("Index is " + _trialIndex);
     }
     
