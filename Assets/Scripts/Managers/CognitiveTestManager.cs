@@ -72,8 +72,8 @@ public class CognitiveTestManager : TestManager
         }
         else if (_waitingForAnswer && _givenAnswer == answer.none)
         {
-            if (Input.GetMouseButtonDown(0)) StartCoroutine(GetClick(answer.yes));
-            else if (Input.GetMouseButtonDown(1)) StartCoroutine(GetClick(answer.no));
+            if (Input.GetMouseButtonDown(0)) GetAnswer(answer.yes);
+            else if (Input.GetMouseButtonDown(1)) GetAnswer(answer.no);
         }
     }    
 
@@ -148,7 +148,7 @@ public class CognitiveTestManager : TestManager
         
         yield return new WaitForSeconds(2);
 
-        WriteTestResults(answer.none, _timer.ElapsedMilliseconds);
+        GetAnswer(answer.none);
     }
 
     private IEnumerator ShowFeedbackCoroutine(answer givenAnswer, bool practiceFinished = false)
@@ -176,10 +176,10 @@ public class CognitiveTestManager : TestManager
             yield return new WaitForSeconds(3);
         }
         
-        WriteTestResults();
+        WriteTestResults(givenAnswer);
     }
 
-    private IEnumerator GetClick(answer givenAnswer)
+    private void GetAnswer(answer givenAnswer)
     {
         _waitingForAnswer = false;
         _givenAnswer = givenAnswer;
@@ -194,14 +194,14 @@ public class CognitiveTestManager : TestManager
             
         //if we're practicing, show feedback before continuing
         if (_currentStep == steps.practice) StartCoroutine(ShowFeedbackCoroutine(givenAnswer, practiceFinished));
-        else WriteTestResults(givenAnswer, _timer.Elapsed.Milliseconds);
+        else WriteTestResults(givenAnswer);
 
     }
 
-    private void WriteTestResults(answer givenAnswer, double time)
+    private void WriteTestResults(answer givenAnswer)
     {
         _finalTrialsList[_trialIndex].AddField("answer", givenAnswer.ToString());
-        _finalTrialsList[_trialIndex].AddField("time", time.ToString());
+        _finalTrialsList[_trialIndex].AddField("time", _timer.Elapsed.Milliseconds.ToString());
         _finalTrialsList[_trialIndex].AddField("prepost", _experimentData.experimentState.ToString());
 
         File.WriteAllText(_filePath, _finalTrialsList.Print());
