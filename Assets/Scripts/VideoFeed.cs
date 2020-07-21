@@ -58,7 +58,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     void Start()
     {
         _tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
-        RecenterPose();
         if (dimOnStart) StartCoroutine(StartupDim());
         otherPose = new Quaternion();
     }
