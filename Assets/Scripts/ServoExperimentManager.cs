@@ -11,14 +11,17 @@ public class ServoExperimentManager : MonoBehaviour
     [HideInInspector]
     public bool flipImage;
 
+    public ArduinoControl _arduinoControl;
+    public string port; 
+
     private bool wasFlashing, wasInverted, wasFlipped;
 
     public static ServoExperimentManager instance;
 
     private void Awake()
     {
-        if (instance == null)
-            instance = this;
+        if (instance == null)     instance = this;
+        _arduinoControl.manualPort = port;
     }
 
     private void Start()

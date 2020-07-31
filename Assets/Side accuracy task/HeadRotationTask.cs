@@ -18,6 +18,7 @@ public class HeadRotationTask : MonoBehaviour {
 	private string lastDirection;
     private Timer _timer;
     private bool _hasResponded = false;
+    private bool _initFastWrite = false;
 
     private float _time;
 
@@ -60,16 +61,18 @@ public class HeadRotationTask : MonoBehaviour {
 
     public void WriteHeadRotation(){
         string[] orientationLine = new string[] { count.ToString(), invertion, head.eulerAngles.x.ToString(), head.eulerAngles.y.ToString(), head.eulerAngles.z.ToString(), Time.realtimeSinceStartup.ToString(), _hasResponded.ToString()};
-        //CsvWrite.instance.WriteFastLine(orientationLine);
+        CsvWrite.instance.WriteFastLine(orientationLine);
     }
 
 	public IEnumerator Trial(string side) {
-
         if (ServoExperimentManager.instance.invertDirection) invertion = "inverted";
         else invertion = "not inverted";
 
-        InvokeRepeating("WriteHeadRotation", 0, 0.1f);
-
+        if (!_initFastWrite)
+        {
+            InvokeRepeating("WriteHeadRotation", 0, 0.1f);
+            _initFastWrite = true;
+        }
         int trialOrNot;
         string answer = null;
 
@@ -121,10 +124,13 @@ public class HeadRotationTask : MonoBehaviour {
 		else yield return null;//so not each head turn is a trial
 
         if (count == totalTrials) {
+            CancelInvoke();
+            _initFastWrite = false;
             Debug.Log("condition is over");
             beginTask = false;
             ServoExperimentManager.instance.beginTask = false;
             count = 0;
+
         }
 
 		lastDirection = side;
