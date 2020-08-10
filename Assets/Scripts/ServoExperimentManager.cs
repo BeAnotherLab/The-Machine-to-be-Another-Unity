@@ -7,12 +7,13 @@ public class ServoExperimentManager : MonoBehaviour
     public Transform videoFlipParent;
 
     //public bool startFlashing; 
-    public bool invertDirection, calibrate, screenOnOff, beginTask;
+    public bool invertDirection, calibrate, screenOnOff, beginTask, audioOn;
     [HideInInspector]
     public bool flipImage;
 
     public ArduinoControl _arduinoControl;
-    public string port; 
+    public string port;
+    public AudioSource _noise;
 
     private bool wasFlashing, wasInverted, wasFlipped;
 
@@ -65,6 +66,11 @@ public class ServoExperimentManager : MonoBehaviour
             VideoFeed.instance.SetDimmed();
             screenOnOff = false;
         }
+
+        if (audioOn)
+            _noise.volume = 0.33f;
+        else
+            _noise.volume = 0f;
 
     }
 }
