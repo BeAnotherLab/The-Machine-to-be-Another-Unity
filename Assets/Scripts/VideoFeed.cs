@@ -9,6 +9,8 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     public static VideoFeed instance;
 
     public float zoom;
+
+    public float offset;
     
     [HideInInspector]
     public Quaternion otherPose;
@@ -80,17 +82,17 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
             {
                 targetTransform.position = _mainCamera.transform.position + _mainCamera.transform.forward * 35; //keep webcam at a certain distance from head.
                 targetTransform.rotation = _mainCamera.transform.rotation; //keep webcam feed aligned with head
-                targetTransform.rotation *= Quaternion.Euler(0, 0, 1) * Quaternion.AngleAxis(-utilities.toEulerAngles(_mainCamera.transform.rotation).x, Vector3.forward); //compensate for absence of roll servo
+                targetTransform.rotation *= Quaternion.Euler(0, 0, 1) * Quaternion.AngleAxis(-utilities.toEulerAngles(_mainCamera.transform.rotation).x+offset, Vector3.forward); //compensate for absence of roll servo
                 targetTransform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(0, Vector3.up); //to adjust for webcam physical orientation
                 targetTransform.localScale = new Vector3(0.9f, 1, -1);
             }
             else //TODO this is no longer needed when using Mirror's Network Transform. Check if can be rmemoved
             {
-                /*
+                
                 targetTransform.rotation = otherPose; //Move image according to the other person's head orientation
                 targetTransform.localScale = new Vector3(0.9f, 1, -1);
                 targetTransform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(0, Vector3.up); //to adjust for webcam physical orientation
-                */
+                
             }    
         }
     }
