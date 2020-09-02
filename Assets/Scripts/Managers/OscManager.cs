@@ -66,10 +66,10 @@ public class OscManager : MonoBehaviour {
 
     #region Public Methods
 
-    public void SendThreatTaskStart()
+    public void SendThreatTaskStart(string target)
     {
         OSCMessage message = new OSCMessage("/threatTask");
-        message.AddValue(OSCValue.Int(1));
+        message.AddValue(OSCValue.String(target));
         _oscTransmitter.Send(message);
     }
     
@@ -134,7 +134,9 @@ public class OscManager : MonoBehaviour {
 
     private void ReceiveThreatStart(OSCMessage message)
     {
-        ThreatManager.instance.StartTask();        
+        string value;
+        if (message.ToString(out value))
+            ThreatManager.instance.StartTask(value);            
     }
     
     private void SetOthersIP(string othersIP)

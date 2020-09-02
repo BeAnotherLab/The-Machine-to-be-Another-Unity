@@ -301,7 +301,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 232834981}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -845,17 +845,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 864063026}
-    - target: {fileID: 2633340570300559472, guid: bf01d15302351a342a0bfb4f6460e03a,
+      objectReference: {fileID: 7968468514234042893}
+    - target: {fileID: 2633340570300559478, guid: bf01d15302351a342a0bfb4f6460e03a,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SendTCPMessage
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2633340570300559472, guid: bf01d15302351a342a0bfb4f6460e03a,
+    - target: {fileID: 6725648900916048088, guid: bf01d15302351a342a0bfb4f6460e03a,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: testMessage
-      objectReference: {fileID: 0}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7968468514234042893}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf01d15302351a342a0bfb4f6460e03a, type: 3}
 --- !u!224 &556450611 stripped
@@ -864,18 +864,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 556450610}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &864063026 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1818197308020878792, guid: 1309d9d6b98a88f4b8dc63414c694a10,
-    type: 3}
-  m_PrefabInstance: {fileID: 1876802715}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4eeb70439d628304c8191a96496edc54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &958194503
 GameObject:
   m_ObjectHideFlags: 0
@@ -1070,7 +1058,7 @@ PrefabInstance:
     - target: {fileID: 8293358735044733245, guid: 69a9fa9c1c14edf438348430b7ab81c2,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69a9fa9c1c14edf438348430b7ab81c2, type: 3}
@@ -1406,3 +1394,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7968468514234042893 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7968468514050517200, guid: 904c5fe95401f31419a3489690c54708,
+    type: 3}
+  m_PrefabInstance: {fileID: 7968468514234042890}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7968468514234042891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7396dca52a5b1e44b152693b0472ad5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
