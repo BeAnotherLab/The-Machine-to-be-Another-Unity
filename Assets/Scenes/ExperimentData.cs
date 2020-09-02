@@ -18,7 +18,9 @@ public class ExperimentData : ScriptableObject
     public bool debug;
     public StringStringDictionary controlVideos;
     public string[] tasks;
-
+    //TODO set in GUI
+    public bool mainComputer; //defines if this computer send sync signals to the other in threat task
+    
     [SerializeField] private int taskIndex;
 
     public void LoadNextScene()

@@ -14,6 +14,8 @@ public class TCPClient : MonoBehaviour
     public string ip;
     [HideInInspector]
     public bool isConnected;
+
+    public static TCPClient instance;
     
     #region private members 	
     private TcpClient socketConnection;
@@ -22,19 +24,12 @@ public class TCPClient : MonoBehaviour
 
     void Awake()
     {
+        if (instance == null) instance = this;
         if(sustainConnectionAcrossScenes) { 
             GameObject thisGameObject = this.gameObject;
             DontDestroyOnLoad(this.gameObject);
         }
     }
-
-    // Use this for initialization 	
-    void Start()
-    {
-        // ConnectToTcpServer();//currently called from elsewhere
-
-    }
-        
     
     public void ConnectToTcpServer()
     {
@@ -52,7 +47,6 @@ public class TCPClient : MonoBehaviour
     /// Runs in background clientReceiveThread; Listens for incomming data. 	
     private void ListenForData()
     {
-
         try {
             socketConnection = new TcpClient(ip, 4012);
             Byte[] bytes = new Byte[1024];
@@ -76,7 +70,6 @@ public class TCPClient : MonoBehaviour
             Debug.Log("Socket exception: " + socketException);
             if (isConnected) isConnected = false; //perhaps not the most elegant way to report if its connected
         }
-
     }
 
     /// Send message to server using socket connection. 	

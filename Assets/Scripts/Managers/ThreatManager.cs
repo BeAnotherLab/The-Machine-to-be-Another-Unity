@@ -1,21 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Net.Mime;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.UI;
 
 public class ThreatManager : MonoBehaviour
 {
+    public static ThreatManager instance;
     
-    //Trigger for threat
+    [SerializeField] private ExperimentData _experimentData;
+    [SerializeField] private PlayableDirector _threatTimeline;
+    private GameObject _threatSyncCanvas;
     
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        if (instance == null) instance = this;
+        _threatSyncCanvas = GameObject.Find("ThreatSyncCanvas");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void StartTask()
     {
+        if (_experimentData.mainComputer)
+            OscManager.instance.SendThreatTaskStart();
         
+        _threatTimeline.Play();
+    }
+
+    public void ShowSyncText(bool show)
+    {
+        _threatSyncCanvas.GetComponent<CanvasGroup>().alpha = show ? 1 : 0;
+    }
+    
+    public void SetText(string text)
+    {
+        _threatSyncCanvas.GetComponentInChildren<Text>().text = text;
     }
 }

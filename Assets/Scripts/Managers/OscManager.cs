@@ -55,6 +55,7 @@ public class OscManager : MonoBehaviour {
         _oscReceiver.Bind("/serialStatus", ReceiveSerialStatus);
         _oscReceiver.Bind("/serialConfirmation", ReceiveSerialStatusOK);
         _oscReceiver.Bind("/language", ReceiveLanguageChange);
+        _oscReceiver.Bind("/startThreatTask", ReceiveThreatStart);
         for (int i = 0; i < 11; i++) _oscReceiver.Bind("/btn" + i.ToString(), ReceiveBtn);
 
         //set IP address of other 
@@ -63,8 +64,15 @@ public class OscManager : MonoBehaviour {
     
     #endregion
 
-    #region Public Methods   
+    #region Public Methods
 
+    public void SendThreatTaskStart()
+    {
+        OSCMessage message = new OSCMessage("/threatTask");
+        message.AddValue(OSCValue.Int(1));
+        _oscTransmitter.Send(message);
+    }
+    
     public void SendLanguageChange(string language)
     {
         OSCMessage message = new OSCMessage("/language");
@@ -123,6 +131,11 @@ public class OscManager : MonoBehaviour {
     #endregion
 
     #region Private Methods
+
+    private void ReceiveThreatStart(OSCMessage message)
+    {
+        ThreatManager.instance.StartTask();        
+    }
     
     private void SetOthersIP(string othersIP)
     {
