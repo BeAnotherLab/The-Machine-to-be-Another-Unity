@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class IPConnectionTest : MonoBehaviour {
 
-    public Text inputIP, placeHolderIP;
     private TCPClient tcpClient;
     public Button connectionButton;
 
@@ -14,20 +13,10 @@ public class IPConnectionTest : MonoBehaviour {
         tcpClient = FindObjectOfType<TCPClient>();
 	}
 
-    private void Start()
-    {
-        placeHolderIP.text = PlayerPrefs.GetString("server_ip");
-    }
-
     public void SetConnection()
     {
-        if (inputIP.text != "") PlayerPrefs.SetString("server_ip", inputIP.text);
-            
-
-        tcpClient.ip = PlayerPrefs.GetString("server_ip");
-
+        tcpClient.ip = "localhost";
         tcpClient.ConnectToTcpServer();
-
         StartCoroutine(WaitForServerStatus());
     }
 
