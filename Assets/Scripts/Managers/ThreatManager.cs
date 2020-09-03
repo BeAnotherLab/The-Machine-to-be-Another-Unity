@@ -10,7 +10,7 @@ public class ThreatManager : MonoBehaviour
     [SerializeField] private ExperimentData _experimentData;
     [SerializeField] private PlayableDirector _threatTimeline;
     private GameObject _threatSyncCanvas;
-    private string _target; 
+    private string _target; //TODO counterbalance
     
     private void Awake()
     {
