@@ -76,7 +76,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Threaten self
+  m_Text: First Threat
 --- !u!1 &2633340568916780847
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,6 +212,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2633340569239146555}
   - component: {fileID: 2633340569239146554}
+  - component: {fileID: 2200078010303095888}
   m_Layer: 5
   m_Name: Connection UI
   m_TagString: Untagged
@@ -254,6 +255,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connectionButton: {fileID: 2633340568916780841}
+--- !u!114 &2200078010303095888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2633340569239146552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fed9de304c364542b13e5a5ceadb2c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _experimentData: {fileID: 11400000, guid: ba2d3d06b50e59040b6ea91d09ced951, type: 2}
+  _firstThreatButton: {fileID: 2633340570300559472}
+  _secondThreatButton: {fileID: 6725648900916048088}
 --- !u!1 &2633340569516957211
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,7 +459,7 @@ GameObject:
   - component: {fileID: 2633340570300559475}
   - component: {fileID: 2633340570300559472}
   m_Layer: 5
-  m_Name: ThreatSelfButton
+  m_Name: FirstThreatButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -543,18 +559,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2633340570300559475}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: StartTask
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: self
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &3091241075980776890
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,7 +636,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Threaten other
+  m_Text: Second Threat
 --- !u!1 &5295152821999291670
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,7 +650,7 @@ GameObject:
   - component: {fileID: 1015116072284029366}
   - component: {fileID: 6725648900916048088}
   m_Layer: 5
-  m_Name: ThreatentOtherButton
+  m_Name: SecondthreatButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -745,15 +750,4 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1015116072284029366}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: StartTask
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: other
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []

@@ -21,10 +21,10 @@ public class ThreatManager : MonoBehaviour
     public void StartTask(string target)
     {
         //flip target when sending to other computer
-        if (_experimentData.mainComputer && _target == "self")
-            OscManager.instance.SendThreatTaskStart("other");
-        else if (_experimentData.mainComputer && _target == "other")
-            OscManager.instance.SendThreatTaskStart("self");
+        if (_experimentData.mainComputer && _target == "Self")
+            OscManager.instance.SendThreatTaskStart("Other");
+        else if (_experimentData.mainComputer && _target == "Other")
+            OscManager.instance.SendThreatTaskStart("Self");
             
         _threatTimeline.Play();
         _target = target;
@@ -43,7 +43,7 @@ public class ThreatManager : MonoBehaviour
 
     public void Knife()
     {
-        _threatSyncCanvas.GetComponentInChildren<Text>().text = "Knife!";
+        _threatSyncCanvas.GetComponentInChildren<Text>().text = "Knife " + _target + " !";
         TCPClient.instance.SendTCPMessage("knife " + _target);
     }
     

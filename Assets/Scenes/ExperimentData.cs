@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using NUnit.Framework.Constraints;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public enum ParticipantType { leader, follower }
@@ -25,11 +21,6 @@ public class ExperimentData : ScriptableObject
     public bool mainComputer; //defines if this computer send sync signals to the other in threat task
     
     [SerializeField] private int taskIndex;
-
-    private void Awake()
-    {
-        threatOrder = "self";
-    }
 
     public void LoadNextScene()
     {
