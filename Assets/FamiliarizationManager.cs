@@ -11,9 +11,7 @@ using UnityEngine.SceneManagement;
 public class FamiliarizationManager : MonoBehaviour
 {
     public static FamiliarizationManager instance;
-    
     [SerializeField] private PlayableDirector _familiarizationTimeline;
-
     [SerializeField] private ExperimentData _experimentData;
 
     private void Awake()
@@ -92,10 +90,15 @@ public class FamiliarizationManager : MonoBehaviour
         return fileOK;
     }
     
-    public void SelectOrder(string dropdownValue) 
+    public void SelectTaskOrder(string dropdownValue) 
     {
         _experimentData.tasks = dropdownValue.Split(' ');
-    } 
+    }
+
+    public void SelectThreatOrder(string order)
+    {
+        _experimentData.threatOrder = order;
+    }
 
     public string GetSubjectID()
     {

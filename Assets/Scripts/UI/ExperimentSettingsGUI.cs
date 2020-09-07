@@ -14,6 +14,7 @@ public class ExperimentSettingsGUI : MonoBehaviour
     //Experiment settings
     [SerializeField] private InputField _subjectInputField;
     [SerializeField] private Dropdown _taskCounterbalancingDropdown;
+    [SerializeField] private Dropdown _threatCounterbalancingDropdown;
     [SerializeField] private Dropdown _conditionDropdown;
     [SerializeField] private Dropdown _participantDropdown;
     [SerializeField] private Button _startButton;
@@ -33,9 +34,13 @@ public class ExperimentSettingsGUI : MonoBehaviour
         
         _taskCounterbalancingDropdown.onValueChanged.AddListener(delegate(int arg0)
         {
-            FamiliarizationManager.instance.SelectOrder(_taskCounterbalancingDropdown.options[arg0].text);
+            FamiliarizationManager.instance.SelectTaskOrder(_taskCounterbalancingDropdown.options[arg0].text);
         });
         
+        _threatCounterbalancingDropdown.onValueChanged.AddListener(delegate(int arg0) {
+            FamiliarizationManager.instance.SelectThreatOrder(_threatCounterbalancingDropdown.options[arg0].text);
+        });
+            
         _startButton.onClick.AddListener(delegate
         {
             FamiliarizationManager.instance.StartExperiment(

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum ParticipantType { leader, follower };
-public enum ConditionType { control, experimental, familiarization };
-public enum ExperimentState { familiarization, threatPre, swap1, threatPost, task1, swap2, task2, task3 };
+public enum ParticipantType { leader, follower }
+public enum ConditionType { control, experimental, familiarization }
+public enum ExperimentState { familiarization, threatPre, swap1, threatPost, task1, swap2, task2, task3 }
 
 [CreateAssetMenu]
 public class ExperimentData : ScriptableObject
@@ -18,6 +18,7 @@ public class ExperimentData : ScriptableObject
     public bool debug;
     public StringStringDictionary controlVideos;
     public string[] tasks;
+    public string threatOrder;
     //TODO set in GUI
     public bool mainComputer; //defines if this computer send sync signals to the other in threat task
     
