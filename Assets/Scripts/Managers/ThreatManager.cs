@@ -20,7 +20,12 @@ public class ThreatManager : MonoBehaviour
 
     public void StartTask(string target)
     {
-        if (_experimentData.mainComputer) OscManager.instance.SendThreatTaskStart(target); //trigger threat task on other computer
+        //flip target when sending to other computer
+        if (_experimentData.mainComputer && _target == "self")
+            OscManager.instance.SendThreatTaskStart("other");
+        else if (_experimentData.mainComputer && _target == "other")
+            OscManager.instance.SendThreatTaskStart("self");
+            
         _threatTimeline.Play();
         _target = target;
     }
