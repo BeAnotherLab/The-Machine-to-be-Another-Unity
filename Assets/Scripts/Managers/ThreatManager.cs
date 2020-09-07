@@ -44,7 +44,7 @@ public class ThreatManager : MonoBehaviour
     public void Knife()
     {
         _threatSyncCanvas.GetComponentInChildren<Text>().text = "Knife " + _target + " !";
-        TCPClient.instance.SendTCPMessage("knife " + _target);
+        TCPClient.instance.SendTCPMessage(_experimentData.experimentState + " knife " + _target);
     }
     
     public void SetText(string text)
