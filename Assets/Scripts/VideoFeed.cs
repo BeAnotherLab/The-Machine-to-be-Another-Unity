@@ -89,9 +89,9 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
             else //TODO this is no longer needed when using Mirror's Network Transform. Check if can be rmemoved
             {
                 
-                targetTransform.rotation = otherPose; //Move image according to the other person's head orientation
-                targetTransform.localScale = new Vector3(0.9f, 1, -1);
-                targetTransform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(0, Vector3.up); //to adjust for webcam physical orientation
+               // targetTransform.rotation = otherPose; //Move image according to the other person's head orientation
+               // targetTransform.localScale = new Vector3(0.9f, 1, -1);
+               // targetTransform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(0, Vector3.up); //to adjust for webcam physical orientation
                 
             }    
         }
