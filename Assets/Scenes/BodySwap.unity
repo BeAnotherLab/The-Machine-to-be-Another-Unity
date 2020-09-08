@@ -720,6 +720,11 @@ PrefabInstance:
       propertyPath: delayBeforeDiscover
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3610201268164942279, guid: 80b1d0bee570ed54681850145e75354a,
+        type: 3}
+      propertyPath: interfaceType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4467387727433931582, guid: 80b1d0bee570ed54681850145e75354a,
         type: 3}
       propertyPath: m_Name
@@ -1235,7 +1240,7 @@ PrefabInstance:
     - target: {fileID: 6984983847143865257, guid: 29ad19a4d683a5040b94c312cae13ca5,
         type: 3}
       propertyPath: _desiredDeviceNames.Array.data[0]
-      value: HD USB Camera
+      value: USB Camera
       objectReference: {fileID: 0}
     - target: {fileID: 6984983847143865257, guid: 29ad19a4d683a5040b94c312cae13ca5,
         type: 3}
@@ -1285,7 +1290,12 @@ PrefabInstance:
     - target: {fileID: 6984983847143865257, guid: 29ad19a4d683a5040b94c312cae13ca5,
         type: 3}
       propertyPath: _desiredModeIndex
-      value: 13
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6984983847143865257, guid: 29ad19a4d683a5040b94c312cae13ca5,
+        type: 3}
+      propertyPath: _videoInputSelection
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8208434292311000962, guid: 29ad19a4d683a5040b94c312cae13ca5,
         type: 3}
@@ -2149,6 +2159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoom: 39.5
+  offset: 0
   otherPose: {x: 0, y: 0, z: 0, w: 0}
   useHeadTracking: 1
   cameraID: 0
@@ -2365,6 +2376,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DisplayManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6449884447465419288, guid: c09e1a208f78c974a9c23e646dbfe814,
+        type: 3}
+      propertyPath: displayMode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5683433967798502209, guid: c09e1a208f78c974a9c23e646dbfe814, type: 3}
