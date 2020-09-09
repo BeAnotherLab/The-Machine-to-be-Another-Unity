@@ -20,6 +20,7 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private IPInputField _ipInputField;
     [SerializeField] private Toggle _serialControlToggle;
     [SerializeField] private Button _dimButton;
+    [SerializeField] private Button _rotateCameraButton;
     [SerializeField] private Button _headTrackingOnButton;
     [SerializeField] private Toggle _repeaterToggle;
     [SerializeField] private Text _controlsText;
@@ -73,6 +74,8 @@ public class SettingsGUI : MonoBehaviour
 
         //Assign swap mode dropdown handler
         _swapModeDropdown.onValueChanged.AddListener(delegate { SwapModeManager.instance.SetSwapMode( (SwapModeManager.SwapModes) _swapModeDropdown.value); });
+        
+        _rotateCameraButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
     }
 
     // Use this for initialization

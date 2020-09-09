@@ -43,7 +43,6 @@ public class TCPClient : MonoBehaviour
         }
     }
 
-
     /// Runs in background clientReceiveThread; Listens for incomming data. 	
     private void ListenForData()
     {
