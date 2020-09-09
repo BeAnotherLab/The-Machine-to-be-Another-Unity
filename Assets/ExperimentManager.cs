@@ -75,6 +75,7 @@ public class ExperimentManager : MonoBehaviour
     
     public void StartInstructedPhase()
     {
+        VideoFeed.instance.SetDimmed(false);
         _startButton.gameObject.SetActive(false);
         _interventionTimeline.Play();
         SparkSwapInstructionsGUI.instance.ShowInstructionText(false);
