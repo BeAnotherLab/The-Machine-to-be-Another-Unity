@@ -22,9 +22,9 @@ public class ThreatManager : MonoBehaviour
     public void StartTask(string target)
     {
         //flip target when sending to other computer
-        if (_experimentData.mainComputer && _target == "Self")
+        if (_experimentData.mainComputer && target == "Self")
             OscManager.instance.SendThreatTaskStart("Other");
-        else if (_experimentData.mainComputer && _target == "Other")
+        else if (_experimentData.mainComputer && target == "Other")
             OscManager.instance.SendThreatTaskStart("Self");
             
         VideoFeed.instance.SetDimmed(false);
