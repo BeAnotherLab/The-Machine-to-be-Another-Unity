@@ -68,7 +68,7 @@ public class OscManager : MonoBehaviour {
 
     public void SendThreatTaskStart(string target)
     {
-        OSCMessage message = new OSCMessage("/threatTask");
+        OSCMessage message = new OSCMessage("/startThreatTask");
         message.AddValue(OSCValue.String(target));
         _oscTransmitter.Send(message);
     }
