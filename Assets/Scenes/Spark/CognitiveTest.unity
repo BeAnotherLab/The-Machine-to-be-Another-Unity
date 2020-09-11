@@ -651,7 +651,7 @@ PrefabInstance:
     - target: {fileID: 5618610949124843116, guid: c88f3da7cc24430478c739570ec5e611,
         type: 3}
       propertyPath: _deviceSelection
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5618610949124843116, guid: c88f3da7cc24430478c739570ec5e611,
         type: 3}
@@ -676,7 +676,12 @@ PrefabInstance:
     - target: {fileID: 5618610949124843116, guid: c88f3da7cc24430478c739570ec5e611,
         type: 3}
       propertyPath: _desiredModeIndex
-      value: 17
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 5618610949124843116, guid: c88f3da7cc24430478c739570ec5e611,
+        type: 3}
+      propertyPath: _desiredDeviceNames.Array.data[0]
+      value: Webcam C170
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c88f3da7cc24430478c739570ec5e611, type: 3}
@@ -1538,6 +1543,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 6044354570613304044, guid: 94e02a587a63f594582e4abdde83cfb9,
+        type: 3}
+      propertyPath: targetTransform
+      value: 
+      objectReference: {fileID: 1035839692}
+    - target: {fileID: 6044354570613304044, guid: 94e02a587a63f594582e4abdde83cfb9,
+        type: 3}
+      propertyPath: _loadAngleFromPlayerPrefs
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6044354570613304044, guid: 94e02a587a63f594582e4abdde83cfb9,
+        type: 3}
+      propertyPath: _loadTiltFromPlayerPrefs
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94e02a587a63f594582e4abdde83cfb9, type: 3}
 --- !u!1001 &3462846770952635453
@@ -1769,6 +1789,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CognitiveTestManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939355071799120268, guid: 83c5799fe5f0bf842ab06a91379e15b6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5939355071799120269, guid: 83c5799fe5f0bf842ab06a91379e15b6,
         type: 3}

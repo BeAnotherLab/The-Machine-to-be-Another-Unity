@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using RockVR.Video;
+using UnityEngine.Serialization;
 
 public class VideoFeed : MonoBehaviour //TODO turn to manager
 {
@@ -29,7 +30,9 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
 
     #region Private Fields
-   
+
+    [SerializeField] private bool _loadTiltFromPlayerPrefs = true;
+    
     private Camera _mainCamera;
 
     //Camera params
@@ -58,7 +61,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     void Start()
     {
-        _tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
+        if(_loadTiltFromPlayerPrefs) _tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
         if (dimOnStart) StartCoroutine(StartupDim());
         otherPose = new Quaternion();
     }
