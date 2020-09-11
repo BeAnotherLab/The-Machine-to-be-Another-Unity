@@ -19,6 +19,7 @@ public class ExperimentSettingsGUI : MonoBehaviour
     [SerializeField] private Dropdown _participantDropdown;
     [SerializeField] private Button _startButton;
     [SerializeField] private Button _rotateButton;
+    [SerializeField] private Button _yawResetButton;
     [SerializeField] private GameObject _subjectExistingErrorMessage;
     [SerializeField] private GameObject _videoNotFoundErrorMessage;
     [SerializeField] private Dropdown _directionDropdown;
@@ -51,6 +52,8 @@ public class ExperimentSettingsGUI : MonoBehaviour
         });
 
         _rotateButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
+        
+        _yawResetButton.onClick.AddListener(delegate { VideoFeed.instance.RecenterPose(); });
     }
 
     private void Start()
