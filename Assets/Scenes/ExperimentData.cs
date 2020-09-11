@@ -20,8 +20,6 @@ public class ExperimentData : ScriptableObject
     //TODO set in GUI
     public bool mainComputer; //defines if this computer send sync signals to the other in threat task
     
-    [SerializeField] private int taskIndex;
-
     public void LoadNextScene()
     {
         if (experimentState == ExperimentState.familiarization) //after initial scene, load threat pre
@@ -39,13 +37,12 @@ public class ExperimentData : ScriptableObject
             experimentState = ExperimentState.threatPost; 
             SceneManager.LoadScene("Threat");
         }
-        else if (taskIndex == 0 && experimentState == ExperimentState.threatPost) //after threat post, load first task
+        else if (experimentState == ExperimentState.threatPost) //after threat post, load first task
         {
-            SceneManager.LoadScene(tasks[taskIndex]);
+            SceneManager.LoadScene(tasks[0]);
             experimentState = ExperimentState.task1; 
-            taskIndex++;
         }
-        else if (taskIndex == 1 &&  experimentState == ExperimentState.task1) //after first task, load second swap
+        else if (experimentState == ExperimentState.task1) //after first task, load second swap
         {
             experimentState = ExperimentState.swap2; 
             SceneManager.LoadScene("SparkSwap");
@@ -53,14 +50,12 @@ public class ExperimentData : ScriptableObject
         else if (experimentState == ExperimentState.swap2) //after second swap, load second task
         {
             experimentState = ExperimentState.task2;
-            SceneManager.LoadScene(tasks[taskIndex]);
-            taskIndex++;
+            SceneManager.LoadScene(tasks[1]);
         }
         else if (experimentState == ExperimentState.task2) //after second task, load third task
         {
             experimentState = ExperimentState.task3;
-            SceneManager.LoadScene(tasks[taskIndex]);
-            taskIndex++;
+            SceneManager.LoadScene(tasks[2]);
         }
         else if (experimentState == ExperimentState.task3) //experiment is over
         {
@@ -71,7 +66,6 @@ public class ExperimentData : ScriptableObject
     public void Clear()
     {
         subjectID = "";
-        taskIndex = 0;
         experimentState = ExperimentState.familiarization;
     }
 }
