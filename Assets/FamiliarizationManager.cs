@@ -86,7 +86,7 @@ public class FamiliarizationManager : MonoBehaviour
         var fileOK = File.Exists(cognitiveFilePath) || File.Exists(motorFilePath);
         if (fileOK) ExperimentSettingsGUI.instance.ShowExistingSubjectIDError();
 
-        CustomVideoCaptureUI.instance.EnableRecordButton();
+        CustomVideoCaptureUI.instance.EnableRecordButton(true);
         
         return fileOK;
     }

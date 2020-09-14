@@ -14,7 +14,6 @@ namespace RockVR.Video.Demo
         [SerializeField] private Text _processingText;
 
         private bool _captureFinishedOnce; //flag to only do processing finished related actions once since we don't have processing finished events from the Video Capture asset
-        private bool _videoPlayed;
         private void Awake()
         {
             if (instance == null) instance = this;
@@ -26,19 +25,19 @@ namespace RockVR.Video.Demo
         {
             if (CustomVideoCaptureCtrl.instance.status == CustomVideoCaptureCtrl.StatusType.STOPPED) //disable button while processing
             {
-                _nextButton.enabled = false;
+                EnableRecordButton(false);
             } else if (CustomVideoCaptureCtrl.instance.status == CustomVideoCaptureCtrl.StatusType.FINISH && !_captureFinishedOnce) //enable when we're ready
             {
-                _nextButton.enabled = true;
+                EnableRecordButton(true);
                 _captureFinishedOnce = true;
                 _processingText.text = "processed";
                 _nextButton.GetComponentInChildren<Text>().text = "play recording";
             }
         }
 
-        public void EnableRecordButton()
+        public void EnableRecordButton(bool enable) 
         {
-            _nextButton.interactable = true;
+            _nextButton.interactable = enable;
         }
         
         public void Next(bool fromTimeline = false)
@@ -50,25 +49,19 @@ namespace RockVR.Video.Demo
                     break;
                 case CustomVideoCaptureCtrl.StatusType.STARTED: // while recording, we pressed stop button or recording time is up
                     CustomVideoCaptureCtrl.instance.StopCapture();
-                    if (!fromTimeline) FamiliarizationManager.instance.ButtonStopFamiliarization();
+                    if (!fromTimeline) FamiliarizationManager.instance.ButtonStopFamiliarization(); //?
                     _processingText.text = "processing";
                     break;
                 case CustomVideoCaptureCtrl.StatusType.FINISH: //we're done processing the recorded video
-                    if (!_videoPlayed) //if we haven't played the video yet (we only play it once
-                    {
-                        CustomVideoPlayer.instance.SetRootFolder();
-                        CustomVideoPlayer.instance.PlayVideo();
-                        _processingText.text = "playing";
-                        _videoPlayed = true;
-                    }
-                    else StartRecording();
+                    CustomVideoPlayer.instance.SetRootFolder();
+                    CustomVideoPlayer.instance.PlayVideo();
+                    _processingText.text = "playing";
                     break;    
             }
         }
 
         public void StartRecording()
         {
-            _videoPlayed = false;
             CustomVideoCaptureCtrl.instance.StartCapture();
             _captureFinishedOnce = false;
             _processingText.text = "recording";
