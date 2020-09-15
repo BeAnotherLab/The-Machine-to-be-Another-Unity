@@ -48,7 +48,6 @@ public class ExperimentManager : MonoBehaviour
             else 
                 Debug.Log("file not found!");
             
-            _videoPlayer.Play();
             VideoCameraManager.instance.ShowLiveFeed(); //switch back to live video
         }
     }
@@ -89,6 +88,7 @@ public class ExperimentManager : MonoBehaviour
             VideoFeed.instance.twoWayWap = false; //POV follows own headtracking
             //switch to pre recorded video
             VideoCameraManager.instance.ShowRecordedVideo();
+            _videoPlayer.Play();
         }
         
         Debug.Log("start instructed phase for " + experimentData.conditionType + " " + experimentData.participantType);
