@@ -48,9 +48,8 @@ public class ExperimentManager : MonoBehaviour
             else 
                 Debug.Log("file not found!");
             
-            //switch to pre recorded video
-            VideoFeed.instance.ShowLiveFeed(false);
             _videoPlayer.Play();
+            VideoCameraManager.instance.ShowLiveFeed(); //switch back to live video
         }
     }
     
@@ -59,7 +58,7 @@ public class ExperimentManager : MonoBehaviour
         //play tactile phase instruction audio or text
         if (experimentData.participantType == ParticipantType.follower && experimentData.conditionType == ConditionType.control)
         {
-            VideoFeed.instance.ShowLiveFeed(true); //switch back to live video
+            VideoCameraManager.instance.ShowLiveFeed(); //switch back to live video
         }
 
         SparkSwapInstructionsGUI.instance.ShowInstructionText("Please stay still. Someone will come and gently stroke your arm.", 6);
@@ -88,6 +87,8 @@ public class ExperimentManager : MonoBehaviour
         else if (experimentData.conditionType == ConditionType.control)
         {
             VideoFeed.instance.twoWayWap = false; //POV follows own headtracking
+            //switch to pre recorded video
+            VideoCameraManager.instance.ShowRecordedVideo();
         }
         
         Debug.Log("start instructed phase for " + experimentData.conditionType + " " + experimentData.participantType);
