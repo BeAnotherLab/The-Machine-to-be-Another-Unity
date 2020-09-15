@@ -42,12 +42,6 @@ public class ExperimentManager : MonoBehaviour
       
         if (experimentData.participantType == ParticipantType.follower && experimentData.conditionType == ConditionType.control)
         {
-            string filePath;
-            if (experimentData.controlVideos.TryGetValue(experimentData.subjectID, out filePath))
-                _videoPlayer.url = filePath;
-            else 
-                Debug.Log("file not found!");
-            
             VideoCameraManager.instance.ShowLiveFeed(); //switch back to live video
         }
     }
@@ -87,6 +81,11 @@ public class ExperimentManager : MonoBehaviour
         {
             VideoFeed.instance.twoWayWap = false; //POV follows own headtracking
             //switch to pre recorded video
+            string filePath;
+            if (experimentData.controlVideos.TryGetValue(experimentData.subjectID, out filePath))
+                _videoPlayer.url = filePath;
+            else 
+                Debug.Log("file not found!");
             VideoCameraManager.instance.ShowRecordedVideo();
             _videoPlayer.Play();
         }
