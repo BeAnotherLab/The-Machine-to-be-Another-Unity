@@ -32,18 +32,11 @@ public class ExperimentSettingsGUI : MonoBehaviour
         _subjectInputField.onEndEdit.AddListener( delegate {
             FamiliarizationManager.instance.SetSubjectID(_subjectInputField.text);
         });
-        
-        _taskCounterbalancingDropdown.onValueChanged.AddListener(delegate(int arg0)
-        {
-            FamiliarizationManager.instance.SelectTaskOrder(_taskCounterbalancingDropdown.options[arg0].text);
-        });
-        
-        _threatCounterbalancingDropdown.onValueChanged.AddListener(delegate(int arg0) {
-            FamiliarizationManager.instance.SelectThreatOrder(_threatCounterbalancingDropdown.options[arg0].text);
-        });
-            
+
         _startButton.onClick.AddListener(delegate
         {
+            FamiliarizationManager.instance.SelectThreatOrder(_threatCounterbalancingDropdown.options[_threatCounterbalancingDropdown.value].text);
+            FamiliarizationManager.instance.SelectTaskOrder(_taskCounterbalancingDropdown.options[_taskCounterbalancingDropdown.value].text);
             FamiliarizationManager.instance.StartExperiment(
                 _conditionDropdown.options[_conditionDropdown.value].text,
                 _participantDropdown.options[_participantDropdown.value].text,
