@@ -95,7 +95,7 @@ public class CognitiveTestManager : TestManager
     
     public void StartTest()
     {
-        _currentStep = steps.practice;
+        _currentStep = steps.testing;
         _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
     }
 
@@ -151,34 +151,6 @@ public class CognitiveTestManager : TestManager
         GetAnswer(answer.none);
     }
 
-    private IEnumerator ShowFeedbackCoroutine(answer givenAnswer, bool practiceFinished = false)
-    {
-        if (givenAnswer != answer.none) //TODO why is this condition here?
-        {
-            //write reaction time
-            Debug.Log("correct answer : " + _finalTrialsList[_trialIndex].GetField("key").str);
-            Debug.Log("given answer : " + givenAnswer);
-            
-            //add answer
-            if(    _finalTrialsList[_trialIndex].GetField("key").str == "c" && givenAnswer == answer.yes 
-                   || _finalTrialsList[_trialIndex].GetField("key").str == "n" && givenAnswer == answer.no)
-                InstructionsTextBehavior.instance.ShowInstructionText(true, "Correct answer!"); 
-            else 
-                InstructionsTextBehavior.instance.ShowInstructionText(true, "Wrong answer!");
-        }
-        
-        yield return new WaitForSeconds(4);
-
-        if (practiceFinished) //if we just finished practicing
-        {
-            InstructionsTextBehavior.instance.ShowInstructionText("Ok, the trial is now finished! We will start the proper testing", 3);
-            _currentStep = steps.finished;
-            yield return new WaitForSeconds(3);
-        }
-        
-        WriteTestResults(givenAnswer);
-    }
-
     private void GetAnswer(answer givenAnswer)
     {
         _waitingForAnswer = false;
@@ -187,15 +159,8 @@ public class CognitiveTestManager : TestManager
 
         Debug.Log("time elapsed "  + _timer.ElapsedMilliseconds);
         StopCoroutine(_trialCoroutine);
-
-        var practiceFinished = 
-            _currentStep == steps.practice && 
-            _finalTrialsList[_trialIndex + 1].GetField("type").str == "test";
-            
-        //if we're practicing, show feedback before continuing
-        if (_currentStep == steps.practice) StartCoroutine(ShowFeedbackCoroutine(givenAnswer, practiceFinished));
-        else WriteTestResults(givenAnswer);
-
+        
+        WriteTestResults(givenAnswer);
     }
 
     private void WriteTestResults(answer givenAnswer)

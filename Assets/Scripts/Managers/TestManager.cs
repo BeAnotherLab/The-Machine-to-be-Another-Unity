@@ -11,12 +11,10 @@ public abstract class TestManager : MonoBehaviour
     protected Stopwatch _timer;
     protected Coroutine _trialCoroutine;
     protected string _filePath;
-
-    
     protected int _trialIndex;
     
     //The different steps in our test
-    public enum steps { init, instructions, practice, testing, finished };
+    public enum steps { init, instructions, testing };
     protected steps _currentStep;
     
     //flag to define the time frame in which we accept answers
@@ -32,6 +30,5 @@ public abstract class TestManager : MonoBehaviour
     protected void FinishTest()
     {
         InstructionsTextBehavior.instance.ShowInstructionText("Ok, the test is now finished! We will proceed with the next step now", 15);
-        _currentStep = steps.finished;
     }
 }
