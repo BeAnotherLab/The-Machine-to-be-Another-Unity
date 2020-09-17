@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 1920px-Flag_of_the_United_Kingdom.svg
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
+  m_Name: FlagOfUK
+  m_Shader: {fileID: 4800000, guid: eb44a525a7e2c6640a8cd90fd7fabce4, type: 3}
+  m_ShaderKeywords: STEREO_NONE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -56,6 +56,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Stereo: 0
+    - _ApplyGamma: 0
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -73,5 +75,5 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

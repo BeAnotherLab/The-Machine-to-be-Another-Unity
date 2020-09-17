@@ -127,8 +127,8 @@ GameObject:
   - component: {fileID: 4391206}
   - component: {fileID: 4391205}
   - component: {fileID: 4391204}
-  - component: {fileID: 4391203}
   - component: {fileID: 4391202}
+  - component: {fileID: 4391203}
   m_Layer: 0
   m_Name: ItalianButton
   m_TagString: Untagged
@@ -185,9 +185,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4391200}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb60e28450a020042ba4212d2e32c8a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 642cb2095ff1eee4a93a287b0d8234c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _scaleOut: {x: 1.5, y: 1, z: 1}
+  _scaleOn: {x: 1.8, y: 1.2, z: 1}
+  _action: lng_it.json
   m_SelectionRadial: {fileID: 2076889787}
   m_InteractiveItem: {fileID: 4391204}
 --- !u!114 &4391204
@@ -2068,8 +2071,8 @@ GameObject:
   - component: {fileID: 979913667}
   - component: {fileID: 979913666}
   - component: {fileID: 979913665}
-  - component: {fileID: 979913664}
   - component: {fileID: 979913663}
+  - component: {fileID: 979913664}
   m_Layer: 0
   m_Name: GermanButton
   m_TagString: Untagged
@@ -2126,9 +2129,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 979913661}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb60e28450a020042ba4212d2e32c8a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 642cb2095ff1eee4a93a287b0d8234c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _scaleOut: {x: 1.5, y: 1, z: 1}
+  _scaleOn: {x: 1.8, y: 1.2, z: 1}
+  _action: lng_de.json
   m_SelectionRadial: {fileID: 2076889787}
   m_InteractiveItem: {fileID: 979913665}
 --- !u!114 &979913665
@@ -2667,6 +2673,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1162852583}
+  - component: {fileID: 1162852584}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -2691,6 +2698,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1162852584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162852582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0742577183eb7964686ad45f844edd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneToLoad: 
+  m_CameraFade: {fileID: 0}
+  m_SelectionRadial: {fileID: 0}
+  m_InteractiveItem: {fileID: 0}
 --- !u!1001 &1166231238
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2860,8 +2883,8 @@ GameObject:
   - component: {fileID: 1290146852}
   - component: {fileID: 1290146851}
   - component: {fileID: 1290146850}
-  - component: {fileID: 1290146849}
   - component: {fileID: 1290146848}
+  - component: {fileID: 1290146849}
   m_Layer: 0
   m_Name: EnglishButton
   m_TagString: Untagged
@@ -2918,9 +2941,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1290146846}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb60e28450a020042ba4212d2e32c8a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 642cb2095ff1eee4a93a287b0d8234c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _scaleOut: {x: 1.5, y: 1, z: 1}
+  _scaleOn: {x: 1.8, y: 1.2, z: 1}
+  _action: lng_en.json
   m_SelectionRadial: {fileID: 2076889787}
   m_InteractiveItem: {fileID: 1290146850}
 --- !u!114 &1290146850
@@ -5424,7 +5450,7 @@ PrefabInstance:
     - target: {fileID: 1379381038382601400, guid: 001b3698894d90f4eb7027aa882aad96,
         type: 3}
       propertyPath: useCurtain
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7308667568398848440, guid: 001b3698894d90f4eb7027aa882aad96,
         type: 3}
@@ -5832,20 +5858,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f00baa8facab504c84081460f38c958, type: 3}
---- !u!114 &7866388125219572065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8555137733076484266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb60e28450a020042ba4212d2e32c8a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SelectionRadial: {fileID: 2076889787}
-  m_InteractiveItem: {fileID: 8555137733071089990}
 --- !u!114 &8555137733071089990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5873,8 +5885,8 @@ GameObject:
   - component: {fileID: 6705289374803647170}
   - component: {fileID: 8743209913375618622}
   - component: {fileID: 8555137733071089990}
-  - component: {fileID: 7866388125219572065}
   - component: {fileID: 6663716828185021559}
+  - component: {fileID: 8555137733076484267}
   m_Layer: 0
   m_Name: FrenchButton
   m_TagString: Untagged
@@ -5882,6 +5894,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8555137733076484267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8555137733076484266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 642cb2095ff1eee4a93a287b0d8234c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scaleOut: {x: 1.5, y: 1, z: 1}
+  _scaleOn: {x: 1.8, y: 1.2, z: 1}
+  _action: lng_fr.json
+  m_SelectionRadial: {fileID: 2076889787}
+  m_InteractiveItem: {fileID: 8555137733071089990}
 --- !u!23 &8691360106803978039
 MeshRenderer:
   m_ObjectHideFlags: 0
