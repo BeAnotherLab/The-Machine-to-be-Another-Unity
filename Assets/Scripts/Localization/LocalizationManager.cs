@@ -50,6 +50,7 @@ public class LocalizationManager : MonoBehaviour {
             }
 
             Debug.Log ("Data loaded, dictionary contains: " + localizedText.Count + " entries");
+            InstructionsTextBehavior.instance.ShowTextFromKey("idle");
         } else 
         {
             Debug.LogError ("Cannot find file!");
