@@ -3,12 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.Playables;
+using UnityEngine.Serialization;
+using UnityEngine.Timeline;
 
 public class LocalizationManager : MonoBehaviour {
 
     public static LocalizationManager instance;
 
     [SerializeField] private string[] localizationTexts; //TODO autoload
+
+    [SerializeField] private TrackAsset _germanTrack;
+    [SerializeField] private TrackAsset _englishTrack;
     
     private Dictionary<string, string> localizedText;
     private string missingTextString = "Localized text not found";
@@ -24,7 +30,14 @@ public class LocalizationManager : MonoBehaviour {
         }
 
         DontDestroyOnLoad (gameObject);
+    }
+
+    private void Start()
+    {
         LoadLocalizedText(localizationTexts[0]);
+        TimelineAsset timelineAsset = (TimelineAsset) StatusManager.instance.instructionsTimeline.playableAsset;
+        _englishTrack = timelineAsset.GetOutputTrack(0);
+        _germanTrack = timelineAsset.GetOutputTrack(1);        
     }
 
     private void Update()
@@ -51,7 +64,11 @@ public class LocalizationManager : MonoBehaviour {
 
             Debug.Log ("Data loaded, dictionary contains: " + localizedText.Count + " entries");
             InstructionsTextBehavior.instance.ShowTextFromKey("idle");
-        } else 
+            //activate/deactivate clip tracks depending on if leader or follower
+            _englishTrack.muted = fileName != "lng_en.json";
+            _germanTrack.muted = fileName != "lng_de.json";
+        } 
+        else 
         {
             Debug.LogError ("Cannot find file!");
         }
