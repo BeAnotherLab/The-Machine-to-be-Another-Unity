@@ -58,8 +58,8 @@ namespace VRStandardAssets.Menu
 
         private void HandleSelectionComplete()
         {
+            if (m_GazeOver) LocalizationManager.instance.LoadLocalizedText(_action);
             HandleOut();            
-            LocalizationManager.instance.LoadLocalizedText(_action);
         }
 
     }
