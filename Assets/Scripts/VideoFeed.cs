@@ -145,9 +145,12 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
             float dimValue = targetTransform.GetComponent<MeshRenderer>().material.color.a;
 
             LeanTween.value(dimValue, next, 1).setEaseInOutQuad().setOnUpdate((val) => {
-                Color c = targetTransform.GetComponent<MeshRenderer>().material.color;
-                c.a = val;
-                targetTransform.GetComponent<MeshRenderer>().material.SetColor("_Color", c);
+                if (targetTransform != null)
+                {
+                    Color c = targetTransform.GetComponent<MeshRenderer>().material.color;
+                    c.a = val;
+                    targetTransform.GetComponent<MeshRenderer>().material.SetColor("_Color", c);                    
+                }
             });    
         }
     }
