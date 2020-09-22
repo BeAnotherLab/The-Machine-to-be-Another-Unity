@@ -24,7 +24,6 @@ namespace RockVR.Video
         {
             if (instance == null) instance = this;
             videoPlayerImpl = gameObject.GetComponent<UnityEngine.Video.VideoPlayer>();
-            videoPlayerImpl.loopPointReached += delegate(UnityEngine.Video.VideoPlayer source) { VideoFeed.instance.ShowLiveFeed(true); };
         }
 
         private void Start()
@@ -52,7 +51,7 @@ namespace RockVR.Video
             // Init VideoPlayer properties.
             videoPlayerImpl.enabled = true;
             videoPlayerImpl.targetCamera = Camera.main;
-            videoPlayerImpl.loopPointReached += delegate(UnityEngine.Video.VideoPlayer source) { FinishVideo(); };
+            videoPlayerImpl.loopPointReached += delegate { FinishVideo(); };
             if (gameObject.GetComponent<AudioSource>() != null)
             {
                 videoPlayerImpl.SetTargetAudioSource(0, gameObject.GetComponent<AudioSource>());
@@ -78,6 +77,7 @@ namespace RockVR.Video
         private void FinishVideo()
         {
             videoPlayerImpl.enabled = false;
+            VideoCameraManager.instance.ShowLiveFeed(); 
             OnVideoFinished();
         }
     }
