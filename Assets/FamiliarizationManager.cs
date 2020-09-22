@@ -39,12 +39,7 @@ public class FamiliarizationManager : MonoBehaviour
     
     public void TimelineStopFamiliarization()
     {
-        CustomVideoCaptureUI.instance.Next(true);
-    }
-
-    public void ButtonStopFamiliarization()
-    {
-        _familiarizationTimeline.Stop();
+        CustomVideoCaptureUI.instance.Next();
     }
 
     public void StartExperiment(string condition, string participant, string subjectID, string direction)
