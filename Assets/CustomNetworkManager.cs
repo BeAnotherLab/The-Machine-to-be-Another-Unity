@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Mirror.Examples.Pong
 {
@@ -19,11 +20,11 @@ namespace Mirror.Examples.Pong
         private void Start()
         {
             networkAddress = PlayerPrefs.GetString("othersIP");
-            
+
             if (PlayerPrefs.GetInt("serialControlOn", 0) == 1) //TODO rename property
                 StartHost();
-            else 
-                StartClient();
+            else
+                StartCoroutine(TryConnect());
         }
         
         public override void OnServerAddPlayer(NetworkConnection conn)
@@ -44,5 +45,15 @@ namespace Mirror.Examples.Pong
             base.OnServerDisconnect(conn);
         }
 
+        private IEnumerator TryConnect()
+        {
+            while (!NetworkClient.isConnected)
+            {
+                Debug.Log("trying to connect to host.");
+                StartClient();
+                yield return new WaitForSeconds(4);
+            }
+        }
+        
     }
 }
