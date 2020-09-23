@@ -7,8 +7,9 @@ using UnityEngine.UI;
 using VRStandardAssets.Menu;
 using VRStandardAssets.Utils;
 using Uduino;
+using UnityEngine.Serialization;
 
-public enum UserStatus { headsetOff, headsetOn, readyToStart }
+public enum UserStatus { headsetOff, headsetOn, readyToStart } 
 
 public class StatusManager : MonoBehaviour {
 
@@ -20,6 +21,7 @@ public class StatusManager : MonoBehaviour {
 
     public UserStatus selfStatus;
     public UserStatus otherStatus;
+    public PlayableDirector instructionsTimeline;
     
     #endregion
 
@@ -30,7 +32,6 @@ public class StatusManager : MonoBehaviour {
     
     [SerializeField] private PlayableDirector _shortTimeline;
     [SerializeField] private PlayableDirector _longTimeline;
-    private PlayableDirector _instructionsTimeline;
 
     private GameObject _mainCamera;
     private bool _readyForStandby; //when we use serial, only go to standby if Arduino is ready.
@@ -48,7 +49,7 @@ public class StatusManager : MonoBehaviour {
         _mainCamera = GameObject.Find("Main Camera");
         _confirmationMenu = GameObject.Find("ConfirmationMenu");
         UduinoManager.Instance.OnBoardDisconnectedEvent.AddListener(delegate { SerialFailure(); });
-        _instructionsTimeline = _shortTimeline; //use short experience by default
+        instructionsTimeline = _longTimeline; //use short experience by default
     }
 
     private void Start()
@@ -143,7 +144,7 @@ public class StatusManager : MonoBehaviour {
             VideoFeed.instance.SetDimmed(true);
 
             InstructionsTextBehavior.instance.ShowTextFromKey("otherIsGone");
-            _instructionsTimeline.Stop();
+            instructionsTimeline.Stop();
             StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
         }
         else
@@ -157,7 +158,7 @@ public class StatusManager : MonoBehaviour {
         if (!start) VideoFeed.instance.SetDimmed(true); //TODO somehow this messses with Video Feed dimming when called on Start?
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
 
-        _instructionsTimeline.Stop();
+        instructionsTimeline.Stop();
         AudioPlayer.instance.StopAudioInstructions();
 
         //reset user status as it is not ready
@@ -184,7 +185,7 @@ public class StatusManager : MonoBehaviour {
         AudioPlayer.instance.StopAudioInstructions();    
         InstructionsDisplay.instance.ShowTechnicalFailureMessage();
         InstructionsTextBehavior.instance.ShowTextFromKey("systemFailure");
-        _instructionsTimeline.Stop();
+        instructionsTimeline.Stop();
         Destroy(gameObject);
     }
 
@@ -211,9 +212,9 @@ public class StatusManager : MonoBehaviour {
     public void SetInstructionsTimeline(int index)
     {
         if (index == 0)
-            _instructionsTimeline = _shortTimeline;
+            instructionsTimeline = _shortTimeline;
         else if (index == 1)
-            _instructionsTimeline = _longTimeline;
+            instructionsTimeline = _longTimeline;
     }
 
     
@@ -245,7 +246,7 @@ public class StatusManager : MonoBehaviour {
         if (_readyForStandby)
         {
             InstructionsTextBehavior.instance.ShowTextFromKey("instructions");
-            _instructionsTimeline.Play();
+            instructionsTimeline.Play();
         }
     }
 
@@ -253,7 +254,7 @@ public class StatusManager : MonoBehaviour {
     {
         VideoFeed.instance.SetDimmed(true);
         InstructionsTextBehavior.instance.ShowTextFromKey("finished");
-        _instructionsTimeline.Stop();
+        instructionsTimeline.Stop();
     }
 
     private IEnumerator WaitBeforeResetting()
