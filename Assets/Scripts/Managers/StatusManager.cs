@@ -78,11 +78,6 @@ public class StatusManager : MonoBehaviour {
 
     public void StartExperience()
     {
-        if (_autoStartAndFinishOn) //if we are in auto swap
-        {
-            ArduinoManager.instance.SendCommand("wal_on"); //close curtain
-            ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
-        }
         InstructionsTextBehavior.instance.ShowInstructionText(false);
         if (_autoStartAndFinishOn) VideoFeed.instance.SetDimmed(false);
     }
