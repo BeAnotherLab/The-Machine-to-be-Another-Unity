@@ -7,11 +7,12 @@ namespace Mirror.Examples.Pong
     // spawning players. The built in RoundRobin spawn method wouldn't work after
     // someone reconnects (both players would be on the same side).
     [AddComponentMenu("")]
+    
     public class CustomNetworkManager : NetworkManager
     {
 
         public static CustomNetworkManager instance;
-
+        
         private void Awake()
         {
             if (instance == null) instance = this;
@@ -21,7 +22,7 @@ namespace Mirror.Examples.Pong
         {
             networkAddress = PlayerPrefs.GetString("othersIP");
 
-            if (PlayerPrefs.GetInt("serialControlOn", 0) == 1) //TODO rename property
+            if (PlayerPrefs.GetInt("repeater", 0) == 1) //TODO rename property
                 StartHost();
             else
                 StartCoroutine(TryConnect());
