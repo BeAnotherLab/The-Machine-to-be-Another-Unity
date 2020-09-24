@@ -19,14 +19,14 @@ public class InstructionsDisplay : MonoBehaviour
         
     public void ShowWelcomeVideo()
     {
-        _waitForTurnLoopVideo.Stop();
-        _welcomeLoopVideo.Play();
+        //_waitForTurnLoopVideo.Stop();
+        //_welcomeLoopVideo.Play();
     }
 
     public void ShowWaitForTurnVideo()
     {
-        _welcomeLoopVideo.Stop();
-        _waitForTurnLoopVideo.Play();
+        //_welcomeLoopVideo.Stop();
+        //_waitForTurnLoopVideo.Play();
     }
     
     public void ShowTechnicalFailureMessage()

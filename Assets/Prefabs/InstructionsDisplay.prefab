@@ -44,7 +44,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1602863095667986192}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 4f1ed953a6fb11242ae5ef994ffc5e7d, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 9be74035416be2844ae49de089b88c86, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -133,8 +133,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 156
@@ -212,8 +210,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
@@ -288,8 +284,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 1
   m_PreserveAspect: 0
@@ -312,6 +306,7 @@ GameObject:
   - component: {fileID: 3042180651550985714}
   - component: {fileID: 6937936194030221584}
   - component: {fileID: 266614807322682409}
+  - component: {fileID: 1629134761}
   m_Layer: 0
   m_Name: InstructionsDisplay
   m_TagString: Untagged
@@ -403,8 +398,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Texture: {fileID: 8400000, guid: 03e2c8f7b6d70be40a33c230cf4522fe, type: 2}
   m_UVRect:
     serializedVersion: 2
@@ -412,6 +405,25 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!95 &1629134761
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8137247501478162090}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8515099294350561006
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,8 +467,8 @@ VideoPlayer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8515099294350561006}
-  m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 7bdde9f4c692a7845b90ad05831eac96, type: 3}
+  m_Enabled: 0
+  m_VideoClip: {fileID: 32900000, guid: 9be74035416be2844ae49de089b88c86, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
