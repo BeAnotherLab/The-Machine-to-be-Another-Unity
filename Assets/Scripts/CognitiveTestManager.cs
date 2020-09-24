@@ -120,17 +120,13 @@ public class CognitiveTestManager : MonoBehaviour
 
         string filepath = Application.dataPath + "/" + subjectID + "_log.json";
         
-        if (!File.Exists(filepath))
-        {
-            Debug.Log(" creating new file : " + filepath);
-            _subjectID = subjectID;
-            _filePath = filepath; 
-            CognitiveTestInstructionsGUIBehavior.instance.Init();
-            CognitiveTestSettingsGUI.instance.gameObject.SetActive(false); //hide settings GUI
-            _currentStep = steps.instructions;       
-            VideoFeed.instance.SetDimmed(true);
-        }
-        else CognitiveTestSettingsGUI.instance.ShowExistingSubjectIDError();
+        Debug.Log(" creating new file : " + filepath);
+        _subjectID = subjectID;
+        _filePath = filepath; 
+        CognitiveTestInstructionsGUIBehavior.instance.Init();
+        CognitiveTestSettingsGUI.instance.gameObject.SetActive(false); //hide settings GUI
+        _currentStep = steps.instructions;       
+        VideoFeed.instance.SetDimmed(true);
     }
     
     public void StartTest()
