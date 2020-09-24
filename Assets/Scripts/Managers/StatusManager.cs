@@ -32,10 +32,12 @@ public class StatusManager : MonoBehaviour {
     
     [SerializeField] private PlayableDirector _shortTimeline;
     [SerializeField] private PlayableDirector _longTimeline;
-
+    [SerializeField] private GameObject _languageButtons;
+    
     private GameObject _mainCamera;
     private bool _readyForStandby; //when we use serial, only go to standby if Arduino is ready.
     private GameObject _confirmationMenu;
+    
     
     #endregion
 
@@ -103,6 +105,7 @@ public class StatusManager : MonoBehaviour {
         if (statusManagementOn) OscManager.instance.SendThisUserStatus(UserStatus.readyToStart);
 
         EnableConfirmationGUI(false); //hide status confirmation GUI elements
+        _languageButtons.gameObject.SetActive(false); //hide language buttons;
 
         //start experience or wait for the other if they're not ready yet
         if (otherStatus == UserStatus.readyToStart) StartPlaying();
@@ -158,7 +161,9 @@ public class StatusManager : MonoBehaviour {
 
         //reset user status as it is not ready
         EnableConfirmationGUI(true);
+        _languageButtons.gameObject.SetActive(true); //show language buttons;
 
+        
         if (_readyForStandby) //TODO is check necessary? 
             ArduinoManager.instance.InitialPositions();
 
