@@ -7,6 +7,7 @@ public class ConfirmationButtonGraphics : MonoBehaviour
 
     public Material buttonOff, buttonOn;
     public static ConfirmationButtonGraphics instance;
+    private bool _loopAnimation = true;
 
     void Awake()
     {
@@ -22,12 +23,16 @@ public class ConfirmationButtonGraphics : MonoBehaviour
     public void SwitchSelection(bool onOff) {
         if (onOff) {
             this.gameObject.GetComponent<MeshRenderer>().material = buttonOn;
+            _loopAnimation = false;
             StopCoroutine(AnimateButton());
+            LeanTween.scale(gameObject, new Vector3(1.3f, 1.3f, 1.3f), 0.5f).setEaseOutBounce();
+            
             }
 
         else {
             this.gameObject.GetComponent<MeshRenderer>().material = buttonOff;
             StartCoroutine(AnimateButton());
+            _loopAnimation = true;
         }
     }
 
@@ -38,6 +43,8 @@ public class ConfirmationButtonGraphics : MonoBehaviour
         yield return new WaitForSeconds(0.6f);
         
         LeanTween.scale(gameObject, new Vector3(1f, 1f, 1f), 0.5f).setEaseOutBounce();
-        StartCoroutine(AnimateButton());
+
+        if(_loopAnimation)
+                StartCoroutine(AnimateButton());
     }
 }
