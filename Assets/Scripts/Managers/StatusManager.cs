@@ -89,9 +89,15 @@ public class StatusManager : MonoBehaviour {
         ArduinoManager.instance.SendCommand("mir_on");
     }
 
-    public void WallOn()
+    public void CloseWall()
     {
-        ArduinoManager.instance.SendCommand("wal_off"); //open curtain
+        ArduinoManager.instance.SendCommand("wal_on"); //close curtain
+        ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
+    }
+    
+    public void WallOn() //TODO rename
+    {
+        ArduinoManager.instance.SendCommand("wal_off"); //close curtain
         ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
     }
     
@@ -154,7 +160,7 @@ public class StatusManager : MonoBehaviour {
     public void Standby(bool start = false)
     {
         if (!start) VideoFeed.instance.SetDimmed(true); //TODO somehow this messses with Video Feed dimming when called on Start?
-        InstructionsTextBehavior.instance.ShowTextFromKey("idle");
+            InstructionsTextBehavior.instance.ShowTextFromKey("idle");
 
         instructionsTimeline.Stop();
         AudioPlayer.instance.StopAudioInstructions();
