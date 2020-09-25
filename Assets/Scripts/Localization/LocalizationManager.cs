@@ -79,11 +79,11 @@ public class LocalizationManager : MonoBehaviour {
     public string GetLocalizedValue(string key)
     {
         string result = missingTextString;
-        if (localizedText.ContainsKey (key)) 
+        if (localizedText != null && localizedText.ContainsKey (key)) 
         {
             result = localizedText [key];
-        } else Debug.Log("key not found");
-
+        } else Debug.Log("key not found or file not loaded yet");
+        
         return result;
     }
 
