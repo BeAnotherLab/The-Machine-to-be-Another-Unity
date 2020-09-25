@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1960320972069205786}
   - component: {fileID: 46874015393943357}
   - component: {fileID: 3600565090234010155}
+  - component: {fileID: 3394650083858442259}
   m_Layer: 0
   m_Name: ConfirmationMenu
   m_TagString: Untagged
@@ -69,7 +70,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5bb8d0c93766bea4f9533401f2a07fb2, type: 2}
+  - {fileID: 2100000, guid: 59758590f4ba1754a88be3552b28e05e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -321,9 +322,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb60e28450a020042ba4212d2e32c8a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scaleOut: {x: 1, y: 1, z: 1}
-  _scaleOn: {x: 1.2, y: 1.2, z: 1.2}
-  _action: confirm
   m_SelectionRadial: {fileID: 0}
   m_InteractiveItem: {fileID: 1960320972069205786}
 --- !u!223 &3600565090234010155
@@ -347,6 +345,20 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &3394650083858442259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960320972057757430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0646bab75cc8f840b4a84966fb2b8f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonOff: {fileID: 2100000, guid: 59758590f4ba1754a88be3552b28e05e, type: 2}
+  buttonOn: {fileID: 2100000, guid: f825bb0750ec28f47a3a0e6a9bf068c0, type: 2}
 --- !u!1 &8953043777332372185
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,7 +376,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6074224020453410285
 RectTransform:
   m_ObjectHideFlags: 0
