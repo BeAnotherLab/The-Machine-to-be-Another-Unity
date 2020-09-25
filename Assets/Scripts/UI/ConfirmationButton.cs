@@ -48,7 +48,9 @@ namespace VRStandardAssets.Menu
                 m_SelectionRadial.Show();
                 LeanTween.scale(gameObject, new Vector3(1.2f, 1.2f, 1.2f), 0.45f).setEaseOutBounce();
                 LeanTween.color(gameObject, Color.white, 0.25f).setEaseOutCubic();
+
                 m_GazeOver = true;
+                ConfirmationButtonGraphics.instance.SwitchSelection(m_GazeOver);
             }
         }
 
@@ -60,6 +62,7 @@ namespace VRStandardAssets.Menu
             LeanTween.color(gameObject, Color.gray, 0.25f).setEaseOutCubic();
 
             m_GazeOver = false;
+            ConfirmationButtonGraphics.instance.SwitchSelection(m_GazeOver);
         }
 
         private void HandleSelectionComplete()
