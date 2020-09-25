@@ -38,8 +38,11 @@ public class DisplayManager : MonoBehaviour //This manager centralizes display o
             SettingsGUI.instance.SetMonitorGuiEnabled(false);
             CustomNetworkManager.instance.EnableNetworkGUI(false);
 
-            InstructionsDisplay.instance.gameObject.GetComponent<Canvas>().targetDisplay = 0;
-            _instructionsDisplayCamera.gameObject.GetComponent<Camera>().targetDisplay = 0;
+            if (Display.displays.Length == 1)
+            {
+                InstructionsDisplay.instance.gameObject.GetComponent<Canvas>().targetDisplay = 0;
+                _instructionsDisplayCamera.gameObject.GetComponent<Camera>().targetDisplay = 0;    
+            }
         }
     }
     
