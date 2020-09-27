@@ -19,6 +19,7 @@ MonoBehaviour:
   - {fileID: 114135857408751022}
   - {fileID: 114251537705306928}
   - {fileID: 114287592240080954}
+  - {fileID: 114989658255083320}
   m_FixedDuration: 0
   m_EditorSettings:
     m_Framerate: 60
@@ -55,7 +56,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 24.983334
+    m_StopTime: 0.016666668
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -82,20 +83,6 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 19
-    functionName: ShowTextFromKey
-    data: moveSlowly
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 24.983334
-    functionName: ShowTextFromKey
-    data: followMovements
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
 --- !u!114 &114006222550707682
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -111,6 +98,18 @@ MonoBehaviour:
   m_Clip: {fileID: 8300000, guid: 6954f899ecd1a1541ae9b1ae976f04df, type: 3}
   m_Loop: 0
   m_bufferingTime: 0.1
+--- !u!114 &114007665977395470
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 442072544, guid: 6a10b2909283487f913b00d94cd3faf5, type: 3}
+  m_Name: ActivationPlayableAsset
+  m_EditorClassIdentifier: 
 --- !u!114 &114017267474232260
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -130,10 +129,10 @@ MonoBehaviour:
   m_Parent: {fileID: 11400000}
   m_Children: []
   m_Clips:
-  - m_Start: 37.766666666666666
-    m_ClipIn: 40.31231456549527
+  - m_Start: 32.45
+    m_ClipIn: 40.15000000000001
     m_Asset: {fileID: 114551568026090988}
-    m_Duration: 8.90000000000001
+    m_Duration: 9.062314565495267
     m_TimeScale: 1
     m_ParentTrack: {fileID: 114017267474232260}
     m_EaseInDuration: 0
@@ -142,25 +141,7 @@ MonoBehaviour:
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -199,10 +180,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-German-v1
     m_Version: 1
-  - m_Start: 330
+  - m_Start: 270.95
     m_ClipIn: 95.42816326530587
     m_Asset: {fileID: 114757138123099376}
-    m_Duration: 18.10000000000025
+    m_Duration: 11.050000000000011
     m_TimeScale: 1
     m_ParentTrack: {fileID: 114017267474232260}
     m_EaseInDuration: 0
@@ -268,7 +249,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-German-v1
     m_Version: 1
-  - m_Start: 120.51666666666667
+  - m_Start: 75.66666666666667
     m_ClipIn: 49.21231456549528
     m_Asset: {fileID: 114452354264196140}
     m_Duration: 9.912169772262374
@@ -301,7 +282,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-German-v1
     m_Version: 1
-  - m_Start: 212.46666666666667
+  - m_Start: 141.43333333333334
     m_ClipIn: 68.79115100442434
     m_Asset: {fileID: 114799001621295108}
     m_Duration: 7.720345594215075
@@ -370,7 +351,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-German-v1
     m_Version: 1
-  - m_Start: 186.65
+  - m_Start: 120.83333333333333
     m_ClipIn: 59.12448433775765
     m_Asset: {fileID: 114959965949013732}
     m_Duration: 4.75
@@ -403,7 +384,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-German-v1
     m_Version: 1
-  - m_Start: 196.98333333333332
+  - m_Start: 130.61666666666667
     m_ClipIn: 63.87448433775765
     m_Asset: {fileID: 114116916801048620}
     m_Duration: 4.916666666666686
@@ -436,7 +417,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-German-v1
     m_Version: 1
-  - m_Start: 227.45
+  - m_Start: 190.18333333333334
     m_ClipIn: 76.51149659863941
     m_Asset: {fileID: 114594946793738530}
     m_Duration: 7.600000000000023
@@ -469,7 +450,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-German-v1
     m_Version: 1
-  - m_Start: 272.5000000000002
+  - m_Start: 239.13333333333333
     m_ClipIn: 84.11149659863943
     m_Asset: {fileID: 114458694824707268}
     m_Duration: 11.316666666666436
@@ -502,7 +483,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-German-v1
     m_Version: 1
-  - m_Start: 25.083333333333336
+  - m_Start: 18.21666666666667
     m_ClipIn: 23.887405568516506
     m_Asset: {fileID: 114327486758906506}
     m_Duration: 3.9625944314834953
@@ -514,25 +495,7 @@ MonoBehaviour:
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -571,10 +534,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-German-v1
     m_Version: 1
-  - m_Start: 31.704352101171406
+  - m_Start: 27.683333333333334
     m_ClipIn: 34.866666666666674
     m_Asset: {fileID: 114090441420046902}
-    m_Duration: 5.445647898828593
+    m_Duration: 4.766666666666666
     m_TimeScale: 1
     m_ParentTrack: {fileID: 114017267474232260}
     m_EaseInDuration: 0
@@ -589,7 +552,25 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_MixOutCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -604,7 +585,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-German-v1
     m_Version: 1
-  - m_Start: 21.416666666666668
+  - m_Start: 14.55
     m_ClipIn: 20.416666666666668
     m_Asset: {fileID: 114653236387879036}
     m_Duration: 3.666666666666668
@@ -616,49 +597,13 @@ MonoBehaviour:
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     m_MixOutCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -673,10 +618,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-German-v1
     m_Version: 1
-  - m_Start: 0.75
-    m_ClipIn: 3.266666666666663
+  - m_Start: 9.966666666666667
+    m_ClipIn: 16.58333333333332
     m_Asset: {fileID: 114795325257747446}
-    m_Duration: 17.150000000000027
+    m_Duration: 3.8333333333333472
     m_TimeScale: 1
     m_ParentTrack: {fileID: 114017267474232260}
     m_EaseInDuration: 0
@@ -685,7 +630,25 @@ MonoBehaviour:
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -710,6 +673,90 @@ MonoBehaviour:
     m_ClipIn: 1.4
     m_Asset: {fileID: 114502210547335892}
     m_Duration: 0.7333333333333334
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 114017267474232260}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: TechnoramaAudio-German-v1
+    m_Version: 1
+  - m_Start: 0.75
+    m_ClipIn: 3.266666666666663
+    m_Asset: {fileID: 114242375253259324}
+    m_Duration: 3.466666666666667
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 114017267474232260}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: TechnoramaAudio-German-v1
+    m_Version: 1
+  - m_Start: 4.833333333333333
+    m_ClipIn: 10.616666666666674
+    m_Asset: {fileID: 114146993413976804}
+    m_Duration: 4.266666666666667
     m_TimeScale: 1
     m_ParentTrack: {fileID: 114017267474232260}
     m_EaseInDuration: 0
@@ -849,7 +896,7 @@ MonoBehaviour:
   m_Parent: {fileID: 11400000}
   m_Children: []
   m_Clips:
-  - m_Start: 32.233333333333334
+  - m_Start: 25.116666666666667
     m_ClipIn: 0
     m_Asset: {fileID: 114408662589922564}
     m_Duration: 14.750000000000007
@@ -914,11 +961,11 @@ MonoBehaviour:
     m_Recordable: 0
     m_PostExtrapolationMode: 1
     m_PreExtrapolationMode: 1
-    m_PostExtrapolationTime: 182.1
-    m_PreExtrapolationTime: 32.233333333333334
+    m_PostExtrapolationTime: 150.31666666666666
+    m_PreExtrapolationTime: 25.116666666666667
     m_DisplayName: StartExperience
     m_Version: 1
-  - m_Start: 229.08333333333334
+  - m_Start: 190.18333333333334
     m_ClipIn: 0
     m_Asset: {fileID: 114936633883181370}
     m_Duration: 13.13333333333334
@@ -965,11 +1012,11 @@ MonoBehaviour:
     m_Recordable: 0
     m_PostExtrapolationMode: 1
     m_PreExtrapolationMode: 1
-    m_PostExtrapolationTime: 26.649999999999977
+    m_PostExtrapolationTime: 29.047059835710883
     m_PreExtrapolationTime: 0
     m_DisplayName: MirrorOn
     m_Version: 1
-  - m_Start: 268.8666666666667
+  - m_Start: 232.36372650237755
     m_ClipIn: 0
     m_Asset: {fileID: 114241868747345506}
     m_Duration: 13.513037098804531
@@ -998,11 +1045,11 @@ MonoBehaviour:
     m_Recordable: 0
     m_PostExtrapolationMode: 1
     m_PreExtrapolationMode: 1
-    m_PostExtrapolationTime: 58.883266756070896
+    m_PostExtrapolationTime: 31.123236398817937
     m_PreExtrapolationTime: 0
     m_DisplayName: WallOn
     m_Version: 1
-  - m_Start: 341.2629705215421
+  - m_Start: 277
     m_ClipIn: 0
     m_Asset: {fileID: 114307625781328096}
     m_Duration: 5
@@ -1088,6 +1135,21 @@ MonoBehaviour:
   m_OpenClipOffsetRotation: {x: 0, y: 0, z: 0, w: 1}
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
   m_ApplyOffsets: 0
+--- !u!114 &114146993413976804
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1977359656, guid: 6a10b2909283487f913b00d94cd3faf5, type: 3}
+  m_Name: AudioPlayableAsset
+  m_EditorClassIdentifier: 
+  m_Clip: {fileID: 8300000, guid: c4beac4ffa67d734d82ccd0366cf73ef, type: 3}
+  m_Loop: 0
+  m_bufferingTime: 0.1
 --- !u!114 &114212357899505854
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1121,6 +1183,21 @@ MonoBehaviour:
   m_ApplyFootIK: 1
   m_Version: 1
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
+--- !u!114 &114242375253259324
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1977359656, guid: 6a10b2909283487f913b00d94cd3faf5, type: 3}
+  m_Name: AudioPlayableAsset
+  m_EditorClassIdentifier: 
+  m_Clip: {fileID: 8300000, guid: c4beac4ffa67d734d82ccd0366cf73ef, type: 3}
+  m_Loop: 0
+  m_bufferingTime: 0.1
 --- !u!114 &114251537705306928
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1143,7 +1220,7 @@ MonoBehaviour:
   - m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: 114470879451358870}
-    m_Duration: 25.083333333333336
+    m_Duration: 27.683333333333334
     m_TimeScale: 1
     m_ParentTrack: {fileID: 114251537705306928}
     m_EaseInDuration: 0
@@ -1245,7 +1322,7 @@ MonoBehaviour:
   m_Parent: {fileID: 11400000}
   m_Children: []
   m_Clips:
-  - m_Start: 32.233333333333334
+  - m_Start: 27.683333333333334
     m_ClipIn: 24.016666666666666
     m_Asset: {fileID: 114282926301239136}
     m_Duration: 13.81666666666667
@@ -1296,7 +1373,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-English-v1
     m_Version: 1
-  - m_Start: 120.51666666666667
+  - m_Start: 74.83333333333333
     m_ClipIn: 37.833333333333336
     m_Asset: {fileID: 114336940006705672}
     m_Duration: 15.649999999999991
@@ -1329,10 +1406,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-English-v1
     m_Version: 1
-  - m_Start: 186.65
-    m_ClipIn: 53.48333333333333
+  - m_Start: 120.83333333333333
+    m_ClipIn: 54.88333333333333
     m_Asset: {fileID: 114738680830553984}
-    m_Duration: 6.150000000000006
+    m_Duration: 4.75
     m_TimeScale: 1
     m_ParentTrack: {fileID: 114252499553117156}
     m_EaseInDuration: 0
@@ -1362,7 +1439,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-English-v1
     m_Version: 1
-  - m_Start: 196.98333333333332
+  - m_Start: 130.61666666666667
     m_ClipIn: 59.63333333333333
     m_Asset: {fileID: 114341206816925874}
     m_Duration: 6.816666666666691
@@ -1395,7 +1472,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-English-v1
     m_Version: 1
-  - m_Start: 212.46666666666667
+  - m_Start: 141.43333333333334
     m_ClipIn: 66.45000000000002
     m_Asset: {fileID: 114672629016981590}
     m_Duration: 9
@@ -1428,7 +1505,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-English-v1
     m_Version: 1
-  - m_Start: 228.98333333333332
+  - m_Start: 191.91666666666669
     m_ClipIn: 75.45000000000002
     m_Asset: {fileID: 114006222550707682}
     m_Duration: 5.866666666666674
@@ -1461,7 +1538,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-English-v1
     m_Version: 1
-  - m_Start: 330
+  - m_Start: 270.95
     m_ClipIn: 92.41666666666649
     m_Asset: {fileID: 114055541903070034}
     m_Duration: 7.527823129251878
@@ -1530,7 +1607,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-English-v1
     m_Version: 1
-  - m_Start: 272.5000000000002
+  - m_Start: 239.34999999999997
     m_ClipIn: 81.31666666666669
     m_Asset: {fileID: 114096920363312142}
     m_Duration: 11.099999999999795
@@ -1563,10 +1640,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-English-v1
     m_Version: 1
-  - m_Start: 9.85
+  - m_Start: 4.766666666666665
     m_ClipIn: 6.066666666666666
     m_Asset: {fileID: 114986720098892548}
-    m_Duration: 5.909892832332602
+    m_Duration: 4.333333333333334
     m_TimeScale: 1
     m_ParentTrack: {fileID: 114252499553117156}
     m_EaseInDuration: 0
@@ -1599,25 +1676,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_MixOutCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -1632,10 +1691,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-English-v1
     m_Version: 1
-  - m_Start: 21.416666666666668
+  - m_Start: 15.133333333333333
     m_ClipIn: 14.859892832332605
     m_Asset: {fileID: 114276012650768100}
-    m_Duration: 9.15677383433406
+    m_Duration: 7.973440501000741
     m_TimeScale: 1
     m_ParentTrack: {fileID: 114252499553117156}
     m_EaseInDuration: 0
@@ -1752,10 +1811,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TechnoramaAudio-English-v1
     m_Version: 1
-  - m_Start: 15.759892832332604
-    m_ClipIn: 11.976559498999269
+  - m_Start: 10.166666666666682
+    m_ClipIn: 12.083333333333332
     m_Asset: {fileID: 114025216412245098}
-    m_Duration: 2.8734405010007293
+    m_Duration: 2.7666666666666657
     m_TimeScale: 1
     m_ParentTrack: {fileID: 114252499553117156}
     m_EaseInDuration: 0
@@ -1886,10 +1945,10 @@ MonoBehaviour:
   m_Parent: {fileID: 11400000}
   m_Children: []
   m_Clips:
-  - m_Start: 18.633333333333333
+  - m_Start: 14.55
     m_ClipIn: 0
     m_Asset: {fileID: 114212357899505854}
-    m_Duration: 13.071018767838073
+    m_Duration: 13.133333333333333
     m_TimeScale: 1
     m_ParentTrack: {fileID: 114287592240080954}
     m_EaseInDuration: 0
@@ -2074,6 +2133,18 @@ MonoBehaviour:
   m_Clip: {fileID: 8300000, guid: c4beac4ffa67d734d82ccd0366cf73ef, type: 3}
   m_Loop: 0
   m_bufferingTime: 0.1
+--- !u!114 &114467492019336288
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 442072544, guid: 6a10b2909283487f913b00d94cd3faf5, type: 3}
+  m_Name: ActivationPlayableAsset
+  m_EditorClassIdentifier: 
 --- !u!114 &114470879451358870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2296,3 +2367,162 @@ MonoBehaviour:
   m_Clip: {fileID: 8300000, guid: 6954f899ecd1a1541ae9b1ae976f04df, type: 3}
   m_Loop: 0
   m_bufferingTime: 0.1
+--- !u!114 &114989658255083320
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 46519060, guid: 6a10b2909283487f913b00d94cd3faf5, type: 3}
+  m_Name: Activation Track (1)
+  m_EditorClassIdentifier: 
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_AnimClip: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips:
+  - m_Start: 0
+    m_ClipIn: 0
+    m_Asset: {fileID: 114467492019336288}
+    m_Duration: 14.55
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 114989658255083320}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: Active
+    m_Version: 1
+  - m_Start: 270.95
+    m_ClipIn: 0
+    m_Asset: {fileID: 114007665977395470}
+    m_Duration: 5
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 114989658255083320}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: Active
+    m_Version: 1
+  m_Version: 2
+  m_PostPlaybackState: 3

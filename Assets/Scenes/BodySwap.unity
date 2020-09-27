@@ -762,7 +762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22400762, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000076293945
+      value: 0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 22426080, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2384,6 +2384,12 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 5683433967798502209, guid: c09e1a208f78c974a9c23e646dbfe814, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c09e1a208f78c974a9c23e646dbfe814, type: 3}
+--- !u!1 &1475604834 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1151431780467876320, guid: f85f128fc9eca2043b6827e5a3603a66,
+    type: 3}
+  m_PrefabInstance: {fileID: 1151431780307563656}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1513471181
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2788,12 +2794,6 @@ Animator:
 --- !u!224 &1692602109 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1151431781991381621, guid: f85f128fc9eca2043b6827e5a3603a66,
-    type: 3}
-  m_PrefabInstance: {fileID: 1151431780307563656}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1767612017 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1767612017, guid: f85f128fc9eca2043b6827e5a3603a66,
     type: 3}
   m_PrefabInstance: {fileID: 1151431780307563656}
   m_PrefabAsset: {fileID: 0}
@@ -3389,13 +3389,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 999283215}
     m_Modifications:
-    - target: {fileID: 1767612017, guid: f85f128fc9eca2043b6827e5a3603a66, type: 3}
+    - target: {fileID: 1151431780467876320, guid: f85f128fc9eca2043b6827e5a3603a66,
+        type: 3}
       propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2004127956, guid: f85f128fc9eca2043b6827e5a3603a66, type: 3}
-      propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1151431781991381617, guid: f85f128fc9eca2043b6827e5a3603a66,
         type: 3}
@@ -3506,21 +3503,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3748398976202385331, guid: f85f128fc9eca2043b6827e5a3603a66,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3748398976202385331, guid: f85f128fc9eca2043b6827e5a3603a66,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5964181368917102989, guid: f85f128fc9eca2043b6827e5a3603a66,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f85f128fc9eca2043b6827e5a3603a66, type: 3}
@@ -3947,7 +3929,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 420745704, guid: ac83e1f85f757314ca0a565297f74bce, type: 3}
       propertyPath: m_SceneBindings.Array.size
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 420745704, guid: ac83e1f85f757314ca0a565297f74bce, type: 3}
       propertyPath: m_SceneBindings.Array.data[6].value
@@ -3970,11 +3952,12 @@ PrefabInstance:
     - target: {fileID: 420745704, guid: ac83e1f85f757314ca0a565297f74bce, type: 3}
       propertyPath: m_SceneBindings.Array.data[9].key
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 114989658255083320, guid: 44609566f7d6b204caf66eae0fadea02,
+        type: 2}
     - target: {fileID: 420745704, guid: ac83e1f85f757314ca0a565297f74bce, type: 3}
       propertyPath: m_SceneBindings.Array.data[9].value
       value: 
-      objectReference: {fileID: 1767612017}
+      objectReference: {fileID: 1475604834}
     - target: {fileID: 1017013999, guid: ac83e1f85f757314ca0a565297f74bce, type: 3}
       propertyPath: m_SceneBindings.Array.data[4].value
       value: 
