@@ -20,12 +20,13 @@ public class ConfirmationButtonGraphics : MonoBehaviour
     }
 
 
-    public void SwitchSelection(bool onOff) {
-        if (onOff) {
+    public void SwitchSelection(bool _on) {
+        if (_on) {
             this.gameObject.GetComponent<MeshRenderer>().material = buttonOn;
             _loopAnimation = false;
             StopCoroutine(AnimateButton());
-            LeanTween.scale(gameObject, new Vector3(1.3f, 1.3f, 1.3f), 0.5f).setEaseOutBounce();
+            LeanTween.resumeAll();
+            LeanTween.scale(gameObject, new Vector3(1.3f, 1.3f, 1.3f), 1f).setEaseOutBounce();
             
             }
 
