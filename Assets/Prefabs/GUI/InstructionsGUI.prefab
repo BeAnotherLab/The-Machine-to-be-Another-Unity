@@ -49,7 +49,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5cd97c4bc3fbf5c4bb77db3d2406ece4, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -141,7 +141,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5cd97c4bc3fbf5c4bb77db3d2406ece4, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -242,7 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 0b02815578247ff4480a6e9b0135122e, type: 2}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
@@ -333,7 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 7d64cec9af91213459f3d12353a93bc1, type: 2}
   m_Color: {r: 0.8773585, g: 0.8773585, b: 0.8773585, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
@@ -363,6 +363,7 @@ GameObject:
   - component: {fileID: 7066050772398278399}
   - component: {fileID: 7399623797463518927}
   - component: {fileID: 1692602106}
+  - component: {fileID: 1566045890865929545}
   m_Layer: 5
   m_Name: InstructionsGUI
   m_TagString: Untagged
@@ -495,6 +496,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1566045890865929545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151431781991381617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23a9c9d445d38724e82ae587244961be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image1: {fileID: 2004127956}
+  image2: {fileID: 1767612017}
+  panel1: {fileID: 5981374168525978966}
+  panel2: {fileID: 1151431780516818683}
+  text: {fileID: 1151431780467876320}
 --- !u!1 &5964181368917102989
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,7 +607,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 7d64cec9af91213459f3d12353a93bc1, type: 2}
   m_Color: {r: 0.9245283, g: 0.10902455, b: 0.10902455, a: 0.69411767}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
