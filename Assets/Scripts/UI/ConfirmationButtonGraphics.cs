@@ -25,14 +25,15 @@ public class ConfirmationButtonGraphics : MonoBehaviour
             this.gameObject.GetComponent<MeshRenderer>().material = buttonOn;
             _loopAnimation = false;
             StopCoroutine(AnimateButton());
-            //LeanTween.resumeAll();
+            LeanTween.resumeAll();
             LeanTween.scale(gameObject, new Vector3(1.3f, 1.3f, 1.3f), 1f).setEaseOutBounce();
             
             }
 
         else {
             this.gameObject.GetComponent<MeshRenderer>().material = buttonOff;
-            StartCoroutine(AnimateButton());
+            if(this.gameObject.activeSelf)
+                StartCoroutine(AnimateButton());
             _loopAnimation = true;
         }
     }
