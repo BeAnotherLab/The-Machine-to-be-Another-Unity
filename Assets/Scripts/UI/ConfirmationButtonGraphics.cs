@@ -32,7 +32,8 @@ public class ConfirmationButtonGraphics : MonoBehaviour
 
         else {
             this.gameObject.GetComponent<MeshRenderer>().material = buttonOff;
-            StartCoroutine(AnimateButton());
+            if(this.gameObject.activeSelf)
+                StartCoroutine(AnimateButton());
             _loopAnimation = true;
         }
     }
