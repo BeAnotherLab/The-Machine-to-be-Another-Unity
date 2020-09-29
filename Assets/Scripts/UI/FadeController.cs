@@ -10,64 +10,91 @@ public class FadeController : MonoBehaviour
     #endregion
 
     #region MonoBehaviour Methods
-    private void Start()
-    {
-        FadeInPanel();
-        FadeInText();
-    }
+    
     #endregion
 
     #region Public Methods
     public void FadeInImages(){
-        StartCoroutine(Fade(true, image1));
-        StartCoroutine(Fade(true, image2));
+        FadeLT(true,image1);
+        FadeLT(true,image2);
     }
 
     public void FadeOutImages()
     {
-        StartCoroutine(Fade(false, image1));
-        StartCoroutine(Fade(false, image2));
+        FadeLT(false,image1);
+        FadeLT(false,image2);
     }
 
     public void FadeInPanel()
     {
-        StartCoroutine(Fade(true, panel));
+        FadeLT(true,panel);
     }
 
     public void FadeOutPanel()
     {
-        StartCoroutine(Fade(false, panel));
+        FadeLT(false,panel);
     }
 
     public void FadeInText()
     {
-        StartCoroutine(Fade(true, text));
+        FadeLT(true,text);
     }
 
     public void FadeOutText()
     {
-        StartCoroutine(Fade(false, text));
+        FadeLT(false,text);
     }
-
     public void FadeOutAll()
     {
-        StartCoroutine(Fade(false, image1));
-        StartCoroutine(Fade(false, image2));
-        StartCoroutine(Fade(false, panel));
-        StartCoroutine(Fade(false, text));
+        FadeLT(false,image1);
+        FadeLT(false,image2);
+        FadeLT(false,panel);
+        FadeLT(false,text);
     }
 
     public void FadeInAll()
     {
-        StartCoroutine(Fade(true, image1));
-        StartCoroutine(Fade(true, image2));
-        StartCoroutine(Fade(true, panel));
-        StartCoroutine(Fade(true, text));
+        FadeLT(true,image1);
+        FadeLT(true,image2);
+        FadeLT(true,panel);
+        FadeLT(true,text);
     }
     #endregion
 
     #region Private Fields
 
+    private void FadeLT(bool fadeIn, GameObject obj)
+    {
+        Color from = new Color();
+        
+        if(obj.GetComponent<Renderer>() != null)
+            from = obj.GetComponent<Renderer>().material.color;
+
+        else if(obj.GetComponent<SpriteRenderer>() != null)
+            from = obj.GetComponent<SpriteRenderer>().material.color;
+
+        else if (obj.GetComponent<Image>() != null)
+            from = obj.GetComponent<Image>().material.color;
+
+        var to = Color.white;
+        if (!fadeIn) to = new Color(1,1,1,0); 
+        
+        LeanTween.value( gameObject, Color.red, Color.yellow, 5f).setOnUpdate( (Color val)=>{
+            Debug.Log("tweened val:"+val);
+        } );
+        
+        LeanTween.value(obj, from,  to, 1).setOnUpdate((val) =>
+        {
+            if (obj.GetComponent<Renderer>() != null)
+                obj.GetComponent<Renderer>().material.color = val;
+            else if (obj.GetComponent<SpriteRenderer>() != null)
+                obj.GetComponent<SpriteRenderer>().material.color = val;
+            else if (obj.GetComponent<Image>() != null)
+                obj.GetComponent<Image>().material.color = val;
+        });
+
+    }
+    
     public IEnumerator Fade(bool _in, GameObject _object)
     {
         Color _color = new Color();
