@@ -167,7 +167,8 @@ public class StatusManager : MonoBehaviour {
 
         InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeInPanel();
         InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeInText();
-
+        InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeOutImages();
+        
         //reset user status as it is not ready
         EnableConfirmationGUI(true);
         _languageButtons.gameObject.SetActive(true); //show language buttons;
