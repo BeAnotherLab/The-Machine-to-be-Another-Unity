@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class FadeController : MonoBehaviour
 {
     #region Public Fields
-    public GameObject image1, image2, panel1, panel2, text;
+    public GameObject image1, image2, panel, text;
     #endregion
 
     #region MonoBehaviour Methods
@@ -31,15 +31,12 @@ public class FadeController : MonoBehaviour
 
     public void FadeInPanel()
     {
-        StartCoroutine(Fade(true, panel1));
-        StartCoroutine(Fade(true, panel2));
-
+        StartCoroutine(Fade(true, panel));
     }
 
     public void FadeOutPanel()
     {
-        StartCoroutine(Fade(false, panel1));
-        StartCoroutine(Fade(false, panel2));
+        StartCoroutine(Fade(false, panel));
     }
 
     public void FadeInText()
@@ -56,8 +53,7 @@ public class FadeController : MonoBehaviour
     {
         StartCoroutine(Fade(false, image1));
         StartCoroutine(Fade(false, image2));
-        StartCoroutine(Fade(false, panel1));
-        StartCoroutine(Fade(false, panel2));
+        StartCoroutine(Fade(false, panel));
         StartCoroutine(Fade(false, text));
     }
 
@@ -65,8 +61,7 @@ public class FadeController : MonoBehaviour
     {
         StartCoroutine(Fade(true, image1));
         StartCoroutine(Fade(true, image2));
-        StartCoroutine(Fade(true, panel1));
-        StartCoroutine(Fade(true, panel2));
+        StartCoroutine(Fade(true, panel));
         StartCoroutine(Fade(true, text));
     }
     #endregion
