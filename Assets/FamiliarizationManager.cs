@@ -47,7 +47,7 @@ public class FamiliarizationManager : MonoBehaviour
         _familiarizationTimeline.Stop();
     }
 
-    public void StartExperiment(string condition, string participant, string subjectID, string direction)
+    public void StartExperiment(string condition, string participant, string subjectID)
     {
         //TODO parse enum to assign from string
         if (condition == "Experimental") _experimentData.conditionType = ConditionType.experimental;
@@ -56,8 +56,6 @@ public class FamiliarizationManager : MonoBehaviour
 
         if (participant == "Leader")  _experimentData.participantType = ParticipantType.leader;
         else  _experimentData.participantType = ParticipantType.follower;
-        
-        _experimentData.subjectDirection = direction;
         
         var subjectIDOK = SetSubjectID(subjectID);
 

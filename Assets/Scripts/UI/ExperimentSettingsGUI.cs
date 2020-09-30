@@ -22,7 +22,6 @@ public class ExperimentSettingsGUI : MonoBehaviour
     [SerializeField] private Button _yawResetButton;
     [SerializeField] private GameObject _subjectExistingErrorMessage;
     [SerializeField] private GameObject _videoNotFoundErrorMessage;
-    [SerializeField] private Dropdown _directionDropdown;
     [SerializeField] private List<String> tasks = new List<string>();
     
     private void Awake()
@@ -40,8 +39,7 @@ public class ExperimentSettingsGUI : MonoBehaviour
             FamiliarizationManager.instance.StartExperiment(
                 _conditionDropdown.options[_conditionDropdown.value].text,
                 _participantDropdown.options[_participantDropdown.value].text,
-                _subjectInputField.text, 
-                _directionDropdown.options[_directionDropdown.value].text);
+                _subjectInputField.text);
         });
 
         _rotateButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
