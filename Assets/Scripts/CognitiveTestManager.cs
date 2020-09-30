@@ -224,12 +224,12 @@ public class CognitiveTestManager : MonoBehaviour
         Debug.Log("time elapsed "  + _timer.ElapsedMilliseconds);
         StopCoroutine(_trialCoroutine);
         
-        if (button == 0)
+        if (button == 1)
         {
             WriteTestResults("yes", _timer.Elapsed.Milliseconds);
             _givenAnswer = answer.yes;
         }
-        else if (button == 1)
+        else if (button == 0)
         {
             WriteTestResults("no", _timer.Elapsed.Milliseconds);
             _givenAnswer = answer.no;
