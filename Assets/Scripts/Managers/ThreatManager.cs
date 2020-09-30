@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Net.Mime;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -27,8 +28,6 @@ public class ThreatManager : MonoBehaviour
         else if (_experimentData.mainComputer && target == "Other")
             OscManager.instance.SendThreatTaskStart("Self");
             
-        VideoFeed.instance.SetDimmed(false);
-        
         _threatTimeline.Play();
         _target = target;
     }
@@ -48,7 +47,6 @@ public class ThreatManager : MonoBehaviour
     {
         _threatSyncCanvas.GetComponentInChildren<Text>().text = "Knife " + _target + " !";
         TCPClient.instance.SendTCPMessage(_experimentData.experimentState + " knife " + _target);
-        StartCoroutine(WaitAndDim());
     }
     
     public void SetText(string text)
@@ -56,9 +54,4 @@ public class ThreatManager : MonoBehaviour
         _threatSyncCanvas.GetComponentInChildren<Text>().text = text;
     }
 
-    private IEnumerator WaitAndDim()
-    {
-        yield return new WaitForSeconds(6f);
-        VideoFeed.instance.SetDimmed(true);
-    }
 }
