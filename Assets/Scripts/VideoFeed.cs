@@ -47,7 +47,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     private MeshRenderer _meshRenderer;
 
-    private string _currentDirection;
+    private SubjectDirection _currentDirection;
     
     #endregion
 
@@ -111,21 +111,21 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     #region Public Methods
 
-    public void SetDirection(string direction)
+    public void SetDirection(SubjectDirection direction)
     {
         _currentDirection = direction;
     }
     
     public void MatchDirection(char desiredDirection)
     {
-        if (desiredDirection == 'R' && _currentDirection == "Left")
+        if (desiredDirection == 'R' && _currentDirection == SubjectDirection.left)
         {
             FlipHorizontal();
-            _currentDirection = "Right";
-        } else if (desiredDirection == 'L' && _currentDirection == "Right")
+            _currentDirection = SubjectDirection.right;
+        } else if (desiredDirection == 'L' && _currentDirection == SubjectDirection.right)
         {
             FlipHorizontal();
-            _currentDirection = "Left";
+            _currentDirection = SubjectDirection.left;
         }
     }
     

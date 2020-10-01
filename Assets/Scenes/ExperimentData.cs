@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public enum ParticipantType { leader, follower }
 public enum ConditionType { control, experimental, familiarization }
 public enum ExperimentState { familiarization, threatPre, swap1, threatPost, task1, swap2, task2, task3 }
+public enum SubjectDirection {left, right}
 
 [CreateAssetMenu]
 public class ExperimentData : ScriptableObject
@@ -11,7 +12,7 @@ public class ExperimentData : ScriptableObject
     public string subjectID;
     public ConditionType conditionType;
     public ParticipantType participantType;
-    public string subjectDirection;
+    public SubjectDirection subjectDirection;
     public ExperimentState experimentState;
     public bool debug;
     public StringStringDictionary controlVideos;
