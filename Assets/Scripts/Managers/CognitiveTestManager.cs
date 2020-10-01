@@ -72,8 +72,8 @@ public class CognitiveTestManager : TestManager
         }
         else if (_waitingForAnswer && _givenAnswer == answer.none)
         {
-            if (Input.GetMouseButtonDown(0)) GetAnswer(answer.yes);
-            else if (Input.GetMouseButtonDown(1)) GetAnswer(answer.no);
+            if (Input.GetMouseButtonDown(0)) GetAnswer(answer.no);
+            else if (Input.GetMouseButtonDown(1)) GetAnswer(answer.yes);
         }
     }    
 
