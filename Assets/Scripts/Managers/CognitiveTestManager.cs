@@ -30,7 +30,7 @@ public class CognitiveTestManager : TestManager
     #endregion
 
     
-    #region  Public Fields
+    #region Public Fields
 
     public static CognitiveTestManager instance;
     

@@ -31,4 +31,5 @@ public abstract class TestManager : MonoBehaviour
     {
         InstructionsTextBehavior.instance.ShowInstructionText("Ok, the test is now finished! We will proceed with the next step now", 15);
     }
+    
 }

@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public enum ParticipantType { leader, follower }
 public enum ConditionType { control, experimental, familiarization }
-public enum ExperimentState { familiarization, threatPre, swap1, threatPost, task1, swap2, task2, task3 }
+public enum ExperimentState { familiarization, baselinePre, threatPre, swap1, threatPost, task1, swap2, task2, task3, baselinePost }
 public enum SubjectDirection {left, right}
 
 [CreateAssetMenu]
@@ -23,7 +23,12 @@ public class ExperimentData : ScriptableObject
     
     public void LoadNextScene()
     {
-        if (experimentState == ExperimentState.familiarization) //after initial scene, load threat pre
+        if (experimentState == ExperimentState.familiarization) //after initial scene, load baseline 
+        {
+            SceneManager.LoadScene("BaselinePre");
+            experimentState = ExperimentState.baselinePre;
+        }
+        if (experimentState == ExperimentState.baselinePre) //after initial scene, load threat pre
         {
             SceneManager.LoadScene("Threat");
             experimentState = ExperimentState.threatPre;
@@ -58,9 +63,16 @@ public class ExperimentData : ScriptableObject
             experimentState = ExperimentState.task3;
             SceneManager.LoadScene(tasks[2]);
         }
-        else if (experimentState == ExperimentState.task3) //experiment is over
+        else if (experimentState == ExperimentState.task3) //after last task, load last baseline step
+        {
+            SceneManager.LoadScene("BaselinePost");
+            experimentState = ExperimentState.baselinePost;
+        }
+        else if (experimentState == ExperimentState.baselinePost) //experiment is over
         {
             SceneManager.LoadScene("End");
+            
+            
         }
     }
     
