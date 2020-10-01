@@ -56,16 +56,14 @@ public class FamiliarizationManager : MonoBehaviour
         if (participant == "Leader")  _experimentData.participantType = ParticipantType.leader;
         else  _experimentData.participantType = ParticipantType.follower;
         
-        var subjectIDOK = SetSubjectID(subjectID);
-
         string filePath;
         _experimentData.controlVideos.TryGetValue(subjectID, out filePath);
         
         if (_experimentData.conditionType == ConditionType.control &&
             _experimentData.participantType == ParticipantType.follower &&
-            !File.Exists(filePath))
+            !File.Exists(filePath)) 
         {
-            ExperimentSettingsGUI.instance.NotifyVideoNotFoundError();
+            ExperimentSettingsGUI.instance.NotifyVideoNotFoundError(); //if in control follower condition, notify video not found before starting
         }
         else {
             _experimentData.LoadNextScene();

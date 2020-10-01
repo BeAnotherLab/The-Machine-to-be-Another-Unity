@@ -28,7 +28,7 @@ public class ExperimentData : ScriptableObject
             SceneManager.LoadScene("BaselinePre");
             experimentState = ExperimentState.baselinePre;
         }
-        if (experimentState == ExperimentState.baselinePre) //after initial scene, load threat pre
+        else if (experimentState == ExperimentState.baselinePre) //after initial scene, load threat pre
         {
             SceneManager.LoadScene("Threat");
             experimentState = ExperimentState.threatPre;
@@ -71,8 +71,6 @@ public class ExperimentData : ScriptableObject
         else if (experimentState == ExperimentState.baselinePost) //experiment is over
         {
             SceneManager.LoadScene("End");
-            
-            
         }
     }
     
