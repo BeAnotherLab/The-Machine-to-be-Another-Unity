@@ -52,7 +52,6 @@ public class FamiliarizationManager : MonoBehaviour
         //TODO parse enum to assign from string
         if (condition == "Experimental") _experimentData.conditionType = ConditionType.experimental;
         else if (condition == "Control") _experimentData.conditionType = ConditionType.control;
-        else if (condition == "Familiarization") _experimentData.conditionType = ConditionType.familiarization;
 
         if (participant == "Leader")  _experimentData.participantType = ParticipantType.leader;
         else  _experimentData.participantType = ParticipantType.follower;

@@ -2,7 +2,7 @@
 using UnityEngine.SceneManagement;
 
 public enum ParticipantType { leader, follower }
-public enum ConditionType { control, experimental, familiarization }
+public enum ConditionType { control, experimental }
 public enum ExperimentState { familiarization, baselinePre, threatPre, swap1, threatPost, task1, swap2, task2, task3, baselinePost }
 public enum SubjectDirection {left, right}
 
