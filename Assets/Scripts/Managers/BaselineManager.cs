@@ -16,10 +16,13 @@ public class BaselineManager : MonoBehaviour
 
     public IEnumerator BaselineCoroutine()
     {
+        TCPClient.instance.SendTCPMessage("baseline start");
         InstructionsTextBehavior.instance.ShowInstructionText(true, "Please look at the cross for a few minutes");
         yield return new WaitForSeconds(5);
         InstructionsTextBehavior.instance.ShowInstructionText(true, "+");
         yield return new WaitForSeconds(120);
+        TCPClient.instance.SendTCPMessage("baseline end");
+        yield return new WaitForSeconds(1);
         _experimentData.LoadNextScene();        
     }
 }
