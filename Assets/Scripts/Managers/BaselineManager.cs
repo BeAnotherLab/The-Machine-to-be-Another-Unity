@@ -5,18 +5,19 @@ using UnityEngine;
 public class BaselineManager : MonoBehaviour
 {
     [SerializeField] private ExperimentData _experimentData;
-    [SerializeField] private bool _pre;
     
     // Start is called before the first frame update
     void Start()
     {
-        if (_pre) _experimentData.experimentState = ExperimentState.baselinePre;
-        else  _experimentData.experimentState = ExperimentState.baselinePost;
+        StartCoroutine(BaselineCoroutine());
     }
 
-    // Update is called once per frame
-    void Update()
+    public IEnumerator BaselineCoroutine()
     {
-        
+        InstructionsTextBehavior.instance.ShowInstructionText(true, "Please look at the cross for a few minutes");
+        yield return new WaitForSeconds(5);
+        InstructionsTextBehavior.instance.ShowInstructionText(true, "+");
+        yield return new WaitForSeconds(120);
+        _experimentData.LoadNextScene();        
     }
 }
