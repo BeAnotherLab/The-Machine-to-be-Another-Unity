@@ -11,6 +11,7 @@ public class IPConnectionTest : MonoBehaviour {
     // Use this for initialization
     void Awake () {
         tcpClient = FindObjectOfType<TCPClient>();
+        connectionButton.onClick.AddListener(delegate { SetConnection(); });
 	}
 
     public void SetConnection()

@@ -10,7 +10,6 @@ using UnityEngine;
 
 public class TCPClient : MonoBehaviour
 {
-    public bool sustainConnectionAcrossScenes;
     public string ip;
     [HideInInspector]
     public bool isConnected;
@@ -25,10 +24,6 @@ public class TCPClient : MonoBehaviour
     void Awake()
     {
         if (instance == null) instance = this;
-        if(sustainConnectionAcrossScenes) { 
-            GameObject thisGameObject = this.gameObject;
-            DontDestroyOnLoad(this.gameObject);
-        }
     }
     
     public void ConnectToTcpServer()
