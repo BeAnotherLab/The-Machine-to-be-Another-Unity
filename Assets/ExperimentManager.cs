@@ -13,6 +13,7 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private PlayableDirector _interventionTimeline;
     [SerializeField] private VideoPlayer _videoPlayer;
     [SerializeField] private Button _startButton;
+    [SerializeField] private GameObject _tcpConnectionCanvas;
     private bool _readyForFreePhase;
     
     public ExperimentData experimentData;
@@ -21,6 +22,11 @@ public class ExperimentManager : MonoBehaviour
     {
       if (instance == null) instance = this;
       _startButton.onClick.AddListener(delegate { StartInstructedPhase(); });
+    }
+
+    private void Start()
+    {
+        if (ThreatCanvas.instance == null) Instantiate(_tcpConnectionCanvas);
     }
 
     private void Update()

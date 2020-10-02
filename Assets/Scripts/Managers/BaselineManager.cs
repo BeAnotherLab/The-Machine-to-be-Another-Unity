@@ -5,11 +5,13 @@ using UnityEngine;
 public class BaselineManager : MonoBehaviour
 {
     [SerializeField] private ExperimentData _experimentData;
+    [SerializeField] private GameObject _tcpConnectionCanvas;
     
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(BaselineCoroutine());
+        if (ThreatCanvas.instance == null) Instantiate(_tcpConnectionCanvas);
     }
 
     public IEnumerator BaselineCoroutine()
