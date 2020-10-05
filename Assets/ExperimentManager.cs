@@ -38,7 +38,7 @@ public class ExperimentManager : MonoBehaviour
 
     public void StartFreePhase()
     {
-        SparkSwapInstructionsGUI.instance.ShowInstructionText("Please start moving slowly, the other person will try to follow your movement. Please move slowly", 6);
+        SparkSwapInstructionsGUI.instance.ShowInstructionText("Bewegen Sie sich frei aber versuchen Sie die Bewegungen, die Sie sehen, mit Ihren eigenen Bewegungen zu synchronisieren. \n \n Hierzu können Sie versuchen die Bewegungen entweder selber führen oder folgen.\n \n Bitte fangen Sie an und bewegen Sie sich langsam an.", 18);
       
         if (experimentData.participantType == ParticipantType.follower && experimentData.conditionType == ConditionType.control)
         {
@@ -54,7 +54,7 @@ public class ExperimentManager : MonoBehaviour
             VideoCameraManager.instance.ShowLiveFeed(); //switch back to live video
         }
 
-        SparkSwapInstructionsGUI.instance.ShowInstructionText("Please stay still. Someone will come and gently stroke your arm.", 6);
+        SparkSwapInstructionsGUI.instance.ShowInstructionText("Bitte bleiben Sie still. Ein Versuchsleiter wird Ihnen jetzt langsam über den Arm streichen.", 6);
         Debug.Log("start tactile phase for " + experimentData.conditionType + " " + experimentData.participantType);
     }
     
