@@ -39,24 +39,24 @@ public class ThreatManager : MonoBehaviour
 
     public void ShowSyncText()
     {
-        ThreatCanvas.instance.gameObject.GetComponent<CanvasGroup>().alpha = 0.7f;
-        ThreatCanvas.instance.gameObject.GetComponentInChildren<Text>().text = "Ready?";
+        ThreatCanvas.instance.threatSyncCanvas.GetComponent<CanvasGroup>().alpha = 0.7f;
+        ThreatCanvas.instance.threatSyncCanvas.GetComponentInChildren<Text>().text = "Ready?";
     }
 
     public void HideSyncText()
     {
-        ThreatCanvas.instance.gameObject.GetComponent<CanvasGroup>().alpha = 0;
+        ThreatCanvas.instance.threatSyncCanvas.GetComponent<CanvasGroup>().alpha = 0;
     }
 
     public void Knife()
     {
-        ThreatCanvas.instance.gameObject.GetComponentInChildren<Text>().text = "Knife " + _target + " !";
+        ThreatCanvas.instance.threatSyncCanvas.GetComponentInChildren<Text>().text = "Knife " + _target + " !";
         TCPClient.instance.SendTCPMessage(_experimentData.experimentState + " knife " + _target);
     }
     
     public void SetText(string text)
     {
-        ThreatCanvas.instance.gameObject.GetComponentInChildren<Text>().text = text;
+        ThreatCanvas.instance.threatSyncCanvas.GetComponentInChildren<Text>().text = text;
     }
 
 }

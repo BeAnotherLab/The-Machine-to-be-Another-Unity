@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class ThreatCanvas : MonoBehaviour
 {
     public static ThreatCanvas instance;
-    
+    public GameObject threatSyncCanvas;
+
     [SerializeField] private ExperimentData _experimentData;
     [SerializeField] private Button _firstThreatButton;
     [SerializeField] private Button _secondThreatButton;
