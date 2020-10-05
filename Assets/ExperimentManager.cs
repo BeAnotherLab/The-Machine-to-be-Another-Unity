@@ -44,6 +44,7 @@ public class ExperimentManager : MonoBehaviour
 
     public void StartFreePhase()
     {
+        TCPClient.instance.SendTCPMessage(experimentData.experimentState + " Free Phase");
         SparkSwapInstructionsGUI.instance.ShowInstructionText("Please start moving slowly, the other person will try to follow your movement. Please move slowly", 6);
       
         if (experimentData.participantType == ParticipantType.follower && experimentData.conditionType == ConditionType.control)
@@ -54,6 +55,8 @@ public class ExperimentManager : MonoBehaviour
     
     public void StartTactilePhase()
     {
+        TCPClient.instance.SendTCPMessage(experimentData.experimentState + " Tactile Phase");
+
         //play tactile phase instruction audio or text
         if (experimentData.participantType == ParticipantType.follower && experimentData.conditionType == ConditionType.control)
         {
@@ -73,6 +76,7 @@ public class ExperimentManager : MonoBehaviour
     
     public void StartInstructedPhase()
     {
+        TCPClient.instance.SendTCPMessage(experimentData.experimentState + " Instructed Phase");
         VideoFeed.instance.SetDimmed(false);
         _startButton.gameObject.SetActive(false);
         _interventionTimeline.Play();
