@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
-using Random = System.Random;
-
-//'Trial_nr','Condition','Congruency','Finger','Resp','T_trial','T_cue','T_resp','RT');
-
 
 public class MotorTestManager : TestManager
 {
@@ -140,7 +133,7 @@ public class MotorTestManager : TestManager
 
     public void StartTest()
     {
-        InstructionsTextBehavior.instance.ShowInstructionText(true, "Now press both buttons");
+        InstructionsTextBehavior.instance.ShowInstructionText(true, "Drücken Sie nun beide Tasten");
     }
 
     #endregion

@@ -14,7 +14,7 @@ public class BaselineManager : MonoBehaviour
 
     public IEnumerator BaselineCoroutine()
     {
-        InstructionsTextBehavior.instance.ShowInstructionText(true, "Please look at the cross for a few minutes");
+        InstructionsTextBehavior.instance.ShowInstructionText(true, "Bitte schauen Sie ein paar Minuten auf das Kreuz.");
         yield return new WaitForSeconds(5);
         InstructionsTextBehavior.instance.ShowInstructionText(true, "+");
         yield return new WaitForSeconds(120);

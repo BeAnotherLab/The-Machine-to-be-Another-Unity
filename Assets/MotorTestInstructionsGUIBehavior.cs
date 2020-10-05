@@ -23,16 +23,15 @@ public class MotorTestInstructionsGUIBehavior : MonoBehaviour
     
     public void Init()
     {
-        var initText = @"Finger exercise task
+        var initText =
+    @"1 = Heben Sie Ihren <b>Zeigefinger</b> hoch,
+    2 = Heben Sie Ihren <b>Mittelfinger</b> hoch.
 
-        1 = Raise your index finger
-        2 = Raise your middle finger
+    Sie werden verschiedene Finger-Bewegungen vor sich sehen. 
 
-        You will see different hand movements shown on the screen. However, your task is to focus on the number that appears on the screen and to raise you index or middle finger as soon as possible, once a number has been displayed.
-
-        Ready? Click to start!";
+    Ihre Aufgabe ist es, auf die Zahl auf dem Bildschirm schnellstmöglich zu reagieren und sobald 1 oder 2 erscheint den passenden Finger zu heben.";
         
-        InstructionsTextBehavior.instance.ShowInstructionText(true, initText);
+    InstructionsTextBehavior.instance.ShowInstructionText(true, initText);
     }
 
     public void Next()

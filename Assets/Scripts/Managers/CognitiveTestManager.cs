@@ -123,8 +123,8 @@ public class CognitiveTestManager : TestManager
 
         //Make sure to use the right pronoun
         string stim1 = _finalTrialsList[_trialIndex].GetField("stim1").str;
-        if (stim1.Contains("SHE")) stim1 = "" + "She : " + stim1[3];
-        else stim1 = "You : " + stim1[3]; 
+        if (stim1.Contains("SHE")) stim1 = "" + "Die PERSON siehst : <b>" + stim1[3] + "</b> punkt(e)";
+        else stim1 = "DU siehst <b>" + stim1[3] + "</b> punkt(e)"; 
         InstructionsTextBehavior.instance.ShowInstructionText(true, stim1); //show pronoun + number of balls
     
         yield return new WaitForSeconds(1.5f);
@@ -143,7 +143,7 @@ public class CognitiveTestManager : TestManager
         yield return new WaitForSeconds(4);
 
         _waitingForAnswer = false;
-        InstructionsTextBehavior.instance.ShowInstructionText(true, "Out of time!");
+        InstructionsTextBehavior.instance.ShowInstructionText(true, "Die Zeit ist vorbei");
         _timer.Stop();
         
         yield return new WaitForSeconds(2);
