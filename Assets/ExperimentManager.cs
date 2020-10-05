@@ -13,6 +13,7 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private PlayableDirector _interventionTimeline;
     [SerializeField] private VideoPlayer _videoPlayer;
     [SerializeField] private Button _startButton;
+    [SerializeField] private GameObject _tcpConnectionCanvas;
     private bool _readyForFreePhase;
     
     public ExperimentData experimentData;
@@ -21,6 +22,11 @@ public class ExperimentManager : MonoBehaviour
     {
       if (instance == null) instance = this;
       _startButton.onClick.AddListener(delegate { StartInstructedPhase(); });
+    }
+
+    private void Start()
+    {
+        if (ThreatCanvas.instance == null) Instantiate(_tcpConnectionCanvas);
     }
 
     private void Update()
@@ -38,6 +44,7 @@ public class ExperimentManager : MonoBehaviour
 
     public void StartFreePhase()
     {
+        TCPClient.instance.SendTCPMessage(experimentData.experimentState + " Free Phase");
         SparkSwapInstructionsGUI.instance.ShowInstructionText("Bewegen Sie sich frei aber versuchen Sie die Bewegungen, die Sie sehen, mit Ihren eigenen Bewegungen zu synchronisieren. \n \n Hierzu können Sie versuchen die Bewegungen entweder selber führen oder folgen.\n \n Bitte fangen Sie an und bewegen Sie sich langsam an.", 18);
       
         if (experimentData.participantType == ParticipantType.follower && experimentData.conditionType == ConditionType.control)
@@ -48,6 +55,8 @@ public class ExperimentManager : MonoBehaviour
     
     public void StartTactilePhase()
     {
+        TCPClient.instance.SendTCPMessage(experimentData.experimentState + " Tactile Phase");
+
         //play tactile phase instruction audio or text
         if (experimentData.participantType == ParticipantType.follower && experimentData.conditionType == ConditionType.control)
         {
@@ -67,6 +76,7 @@ public class ExperimentManager : MonoBehaviour
     
     public void StartInstructedPhase()
     {
+        TCPClient.instance.SendTCPMessage(experimentData.experimentState + " Instructed Phase");
         VideoFeed.instance.SetDimmed(false);
         _startButton.gameObject.SetActive(false);
         _interventionTimeline.Play();

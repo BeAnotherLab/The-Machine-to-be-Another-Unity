@@ -11,13 +11,18 @@ public class ThreatManager : MonoBehaviour
     
     [SerializeField] private ExperimentData _experimentData;
     [SerializeField] private PlayableDirector _threatTimeline;
-    private GameObject _threatSyncCanvas;
+    [SerializeField] private GameObject _tcpConnectionCanvas;
+    
     private string _target; //TODO counterbalance
     
     private void Awake()
     {
         if (instance == null) instance = this;
-        _threatSyncCanvas = GameObject.Find("ThreatSyncCanvas");
+    }
+
+    private void Start()
+    {
+        if (ThreatCanvas.instance == null) Instantiate(_tcpConnectionCanvas);
     }
 
     public void StartTask(string target)
@@ -34,24 +39,24 @@ public class ThreatManager : MonoBehaviour
 
     public void ShowSyncText()
     {
-        _threatSyncCanvas.GetComponent<CanvasGroup>().alpha = 0.7f;
-        _threatSyncCanvas.GetComponentInChildren<Text>().text = "Ready?";
+        ThreatCanvas.instance.gameObject.GetComponent<CanvasGroup>().alpha = 0.7f;
+        ThreatCanvas.instance.gameObject.GetComponentInChildren<Text>().text = "Ready?";
     }
 
     public void HideSyncText()
     {
-        _threatSyncCanvas.GetComponent<CanvasGroup>().alpha = 0;
+        ThreatCanvas.instance.gameObject.GetComponent<CanvasGroup>().alpha = 0;
     }
 
     public void Knife()
     {
-        _threatSyncCanvas.GetComponentInChildren<Text>().text = "Knife " + _target + " !";
+        ThreatCanvas.instance.gameObject.GetComponentInChildren<Text>().text = "Knife " + _target + " !";
         TCPClient.instance.SendTCPMessage(_experimentData.experimentState + " knife " + _target);
     }
     
     public void SetText(string text)
     {
-        _threatSyncCanvas.GetComponentInChildren<Text>().text = text;
+        ThreatCanvas.instance.gameObject.GetComponentInChildren<Text>().text = text;
     }
 
 }
