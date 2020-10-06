@@ -124,7 +124,7 @@ public class MotorTestManager : TestManager
     public void StartInstructions()
     {
         var files = Directory.GetFiles(Application.dataPath);
-        string filepath = Application.dataPath + "/" + "MotorTest" + "-" + _experimentData.subjectID + "-" + _experimentData.experimentState.ToString() + "_log.json";
+        string filepath = Application.dataPath + "/" + "MotorTest" + _experimentData.subjectID  + "_log.json";
         Debug.Log(" creating new file : " + filepath);
         _filePath = filepath; 
         MotorTestInstructionsGUIBehavior.instance.Init();
@@ -166,7 +166,6 @@ public class MotorTestManager : TestManager
         stimulusResult.AddField("condition", Enum.GetName(typeof(Condition), _stimuli[_trialIndex]));
         stimulusResult.AddField("answer", Enum.GetName(typeof(answer), theAnswer));
         stimulusResult.AddField("time", time.ToString());
-        stimulusResult.AddField("prepost", _experimentData.experimentState.ToString());
         
         _results.Add(stimulusResult);
         
