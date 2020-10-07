@@ -35,6 +35,8 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     [SerializeField] private bool _mirrorTransform;
 
+    [SerializeField] private bool _editing;
+    
     private Camera _mainCamera;
 
     //Camera params
@@ -76,9 +78,9 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         // Turn towards our target rotation.
         otherPose = Quaternion.RotateTowards(otherPose, nextOtherPose, _turningRate * Time.deltaTime);
 
-        if (Input.GetKeyDown("b")) SetDimmed();
-        if (Input.GetKeyDown("n")) RecenterPose();
-        if (Input.GetKeyDown("r")) Rotate();
+        if (Input.GetKeyDown("b") && !_editing ) SetDimmed();
+        if (Input.GetKeyDown("n") && !_editing ) RecenterPose();
+        if (Input.GetKeyDown("r") && !_editing ) Rotate();
 
         if (targetTransform != null)
         {
@@ -110,6 +112,11 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
 
     #region Public Methods
+
+    public void IsEditingText(bool editing)
+    {    
+        _editing = editing;
+    }
 
     public void SetDirection(SubjectDirection direction)
     {

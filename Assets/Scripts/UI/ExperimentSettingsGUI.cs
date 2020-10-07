@@ -30,8 +30,14 @@ public class ExperimentSettingsGUI : MonoBehaviour
 
         _subjectInputField.onEndEdit.AddListener( delegate {
             FamiliarizationManager.instance.SetSubjectID(_subjectInputField.text);
+            VideoFeed.instance.IsEditingText(false);
         });
 
+        _subjectInputField.onValueChanged.AddListener(delegate
+        {
+            VideoFeed.instance.IsEditingText(true);
+        });
+        
         _startButton.onClick.AddListener(delegate
         {
             FamiliarizationManager.instance.SelectThreatOrder(_threatCounterbalancingDropdown.options[_threatCounterbalancingDropdown.value].text);
