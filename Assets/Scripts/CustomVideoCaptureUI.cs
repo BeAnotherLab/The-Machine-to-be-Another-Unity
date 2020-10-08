@@ -12,7 +12,8 @@ namespace RockVR.Video.Demo
         
         [SerializeField] private Button _nextButton;
         [SerializeField] private Text _processingText;
-
+        private bool _videoPlayed;
+        
         private bool _captureFinishedOnce; //flag to only do processing finished related actions once since we don't have processing finished events from the Video Capture asset
         private void Awake()
         {
@@ -49,19 +50,27 @@ namespace RockVR.Video.Demo
                     break;
                 case CustomVideoCaptureCtrl.StatusType.STARTED: // while recording, we pressed stop button or recording time is up
                     CustomVideoCaptureCtrl.instance.StopCapture();
-                    if (!fromTimeline) FamiliarizationManager.instance.ButtonStopFamiliarization(); //?
+                    if (!fromTimeline) FamiliarizationManager.instance.ButtonStopFamiliarization(); //if we stopped recording from button, also stop timeline
                     _processingText.text = "processing";
                     break;
-                case CustomVideoCaptureCtrl.StatusType.FINISH: //we're done processing the recorded video
-                    CustomVideoPlayer.instance.SetRootFolder();
-                    VideoCameraManager.instance.ShowRecordedVideoOnGUI();
-                    _processingText.text = "playing";
+                case CustomVideoCaptureCtrl.StatusType.FINISH: //we're done processing the recorded video, 
+                    if (!_videoPlayed) //if we haven't played the video yet
+                    {
+                        CustomVideoPlayer.instance.SetRootFolder();
+                        VideoCameraManager.instance.ShowRecordedVideoOnGUI(true);
+                        _processingText.text = "playing";
+                        _nextButton.GetComponentInChildren<Text>().text = "re-record";    
+                        _videoPlayed = true;
+                    }
+                    else StartRecording();
                     break;    
             }
         }
 
         public void StartRecording()
         {
+            _videoPlayed = false;
+            VideoCameraManager.instance.ShowRecordedVideoOnGUI(false);
             CustomVideoCaptureCtrl.instance.StartCapture();
             _captureFinishedOnce = false;
             _processingText.text = "recording";

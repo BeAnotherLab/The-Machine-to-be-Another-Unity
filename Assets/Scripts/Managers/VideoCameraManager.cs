@@ -18,7 +18,6 @@ public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
     {
         if (instance == null) instance = this;
         _videoController = FindObjectOfType<VideoController>();
-        CustomVideoCaptureCtrl.instance.eventDelegate.OnComplete += ShowRecordedVideoOnGUI;
     }
 
     private void Start()
@@ -36,10 +35,18 @@ public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
         VideoFeed.instance.ShowLiveFeed(false);
     }
 
-    public void ShowRecordedVideoOnGUI()
+    public void ShowRecordedVideoOnGUI(bool show)
     {
-        _videoController.GetComponentInParent<CanvasGroup>().alpha = 1;
-        _videoController.PrepareForUrl("file://" + PathConfig.lastVideoFile);
+        if (show)
+        {
+            _videoController.GetComponentInParent<CanvasGroup>().alpha = 1;
+            _videoController.PrepareForUrl("file://" + PathConfig.lastVideoFile);    
+        }
+        else
+        {
+            _videoController.GetComponentInParent<CanvasGroup>().alpha = 0;
+        }
+        
     }
     
     public void ShowLiveFeed()

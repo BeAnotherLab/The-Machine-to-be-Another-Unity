@@ -24,6 +24,7 @@ namespace RockVR.Video
         
         private void Awake()
         {
+            //TODO this should no longer be necessary?
             if (instance == null) instance = this;
             videoPlayerImpl = gameObject.GetComponent<UnityEngine.Video.VideoPlayer>();
             videoPlayerImpl.loopPointReached += delegate(UnityEngine.Video.VideoPlayer source) { VideoFeed.instance.ShowLiveFeed(true); };
