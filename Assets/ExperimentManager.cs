@@ -96,7 +96,7 @@ public class ExperimentManager : MonoBehaviour
                 _videoPlayer.url = filePath;
             else 
                 Debug.Log("file not found!");
-            VideoCameraManager.instance.ShowRecordedVideo();
+            VideoCameraManager.instance.ShowRecordedVideoForUser();
             _videoPlayer.Play();
         }
         

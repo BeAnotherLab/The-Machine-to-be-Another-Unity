@@ -11,24 +11,22 @@ namespace RockVR.Video
         /// Save the video files.
         /// </summary>
         public List<string> videoFiles = new List<string>();
-        /// <summary>
-        /// Play video properties.
-        /// </summary>
-        private UnityEngine.Video.VideoPlayer videoPlayerImpl;
+      
         public static CustomVideoPlayer instance;
         
         public delegate void VideoFinished();
         public static event VideoFinished OnVideoFinished;
        
+        /// <summary>
+        /// Play video properties.
+        /// </summary>
+        private UnityEngine.Video.VideoPlayer videoPlayerImpl;
+        
         private void Awake()
         {
             if (instance == null) instance = this;
             videoPlayerImpl = gameObject.GetComponent<UnityEngine.Video.VideoPlayer>();
             videoPlayerImpl.loopPointReached += delegate(UnityEngine.Video.VideoPlayer source) { VideoFeed.instance.ShowLiveFeed(true); };
-        }
-
-        private void Start()
-        {
         }
 
         /// <summary>
@@ -64,7 +62,7 @@ namespace RockVR.Video
         /// </summary>
         public void PlayVideo()
         {
-            VideoCameraManager.instance.ShowRecordedVideo();
+            VideoCameraManager.instance.ShowRecordedVideoForUser();
             GetComponent<UnityEngine.Video.VideoPlayer>().url = "file://" + videoFiles.Last();
             Debug.Log("[VideoPlayer::PlayVideo] Video Path:" + videoFiles.Last());
             videoPlayerImpl.Play();

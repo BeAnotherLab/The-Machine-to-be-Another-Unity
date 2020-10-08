@@ -175,7 +175,7 @@ namespace RockVR.Video
             if (IsCaptureAudio()) audioCapture.StopCapture(); 
             status = StatusType.STOPPED;
             
-            VideoCameraManager.instance.ShowLiveFeed();
+            //VideoCameraManager.instance.ShowRecordedVideoOnGUI(PathConfig.lastVideoFile);
         }
         /// <summary>
         /// Pause video capture process.
