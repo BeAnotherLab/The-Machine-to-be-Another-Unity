@@ -149,8 +149,7 @@ namespace RockVR.Video
         {
             if (status != StatusType.STARTED && status != StatusType.PAUSED)
             {
-                Debug.LogWarning("[VideoCaptureCtrl::StopCapture] capture session " +
-                                 "not start yet!");
+                Debug.LogWarning("[VideoCaptureCtrl::StopCapture] capture session " + "not start yet!");
                 return;
             }
             foreach (VideoCapture videoCapture in videoCaptures)
@@ -169,13 +168,10 @@ namespace RockVR.Video
                 }
                 videoCapture.StopCapture();
                 PathConfig.lastVideoFile = videoCapture.filePath;
-                
                 FamiliarizationManager.instance.SetVideoCapturePath(videoCapture.filePath);
             }
             if (IsCaptureAudio()) audioCapture.StopCapture(); 
             status = StatusType.STOPPED;
-            
-            //VideoCameraManager.instance.ShowRecordedVideoOnGUI(PathConfig.lastVideoFile);
         }
         /// <summary>
         /// Pause video capture process.

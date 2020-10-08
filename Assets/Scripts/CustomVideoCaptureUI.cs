@@ -54,7 +54,7 @@ namespace RockVR.Video.Demo
                     break;
                 case CustomVideoCaptureCtrl.StatusType.FINISH: //we're done processing the recorded video
                     CustomVideoPlayer.instance.SetRootFolder();
-                    CustomVideoPlayer.instance.PlayVideo();
+                    VideoCameraManager.instance.ShowRecordedVideoOnGUI();
                     _processingText.text = "playing";
                     break;    
             }
