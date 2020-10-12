@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public enum ParticipantType { leader, follower }
 public enum ConditionType { control, experimental }
-public enum ExperimentState { familiarization, baselinePre, threatPre, swap1, threatPost, task1, swap2, task2, task3, baselinePost }
+public enum ExperimentState { familiarization, baselinePre, threatPre, swap1, threatPost, task1, swap2, swap3, task2, task3, baselinePost }
 public enum SubjectDirection {left, right}
 
 [CreateAssetMenu]
@@ -58,7 +58,12 @@ public class ExperimentData : ScriptableObject
             experimentState = ExperimentState.task2;
             SceneManager.LoadScene(tasks[1]);
         }
-        else if (experimentState == ExperimentState.task2) //after second task, load third task
+        else if (experimentState == ExperimentState.task2) //after second task, load third swap
+        {
+            experimentState = ExperimentState.swap3;
+            SceneManager.LoadScene("SparkSwap");
+        } 
+        else if (experimentState == ExperimentState.swap3) //after third swap, load third task 
         {
             experimentState = ExperimentState.task3;
             SceneManager.LoadScene(tasks[2]);
