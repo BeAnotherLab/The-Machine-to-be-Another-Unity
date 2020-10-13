@@ -86,9 +86,10 @@ public class FamiliarizationManager : MonoBehaviour
         return fileOK;
     }
     
-    public void SelectTaskOrder(string dropdownValue) 
+    public void SelectTaskOrder(string dropdownValue)
     {
-        _experimentData.tasks = dropdownValue.Split(' ');
+        if (dropdownValue == "motor test") _experimentData.taskOrder = FirstTask.motor;
+        else if (dropdownValue == "cognitive test") _experimentData.taskOrder = FirstTask.cognitive;
     }
 
     public void SelectThreatOrder(string order)
