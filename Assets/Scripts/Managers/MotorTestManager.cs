@@ -177,7 +177,7 @@ public class MotorTestManager : TestManager
         {
             FinishTest();
             MotorTestInstructionsGUIBehavior.instance.Stop();
-            SceneManager.LoadScene("CognitiveTest");
+            _experimentData.LoadNextScene();
         }
     }
 
