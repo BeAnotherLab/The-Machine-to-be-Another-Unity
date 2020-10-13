@@ -17,8 +17,8 @@ public class BaselineManager : MonoBehaviour
     public IEnumerator BaselineCoroutine()
     {
         TCPClient.instance.SendTCPMessage("baseline start");
-        InstructionsTextBehavior.instance.ShowInstructionText(true, "Bitte schauen Sie ein paar Minuten auf das Kreuz.");
-        yield return new WaitForSeconds(5);
+        InstructionsTextBehavior.instance.ShowInstructionText(true, "Bitte schauen Sie auf das Kreuz, entspannen Sie sich und bewegen Sie sich nicht. Wir messen ihre Hirnaktivität für ein paar Minuten.");
+        yield return new WaitForSeconds(10);
         InstructionsTextBehavior.instance.ShowInstructionText(true, "+");
         yield return new WaitForSeconds(120);
         TCPClient.instance.SendTCPMessage("baseline end");
