@@ -96,8 +96,8 @@ public class ExperimentManager : MonoBehaviour
                 _videoPlayer.url = filePath;
             else 
                 Debug.Log("file not found!");
-            VideoCameraManager.instance.ShowRecordedVideoForUser();
-            _videoPlayer.Play();
+            if (experimentData.participantType == ParticipantType.follower) VideoCameraManager.instance.ShowRecordedVideoForUser();
+            _videoPlayer.Play(); 
         }
         
         Debug.Log("start instructed phase for " + experimentData.conditionType + " " + experimentData.participantType);
