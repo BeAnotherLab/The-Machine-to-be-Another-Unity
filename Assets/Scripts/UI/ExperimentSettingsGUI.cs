@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using RenderHeads.Media.AVProLiveCamera;
@@ -11,18 +12,21 @@ public class ExperimentSettingsGUI : MonoBehaviour
     //TODO when setting familiarization, disable ip address and participant
     public static ExperimentSettingsGUI instance;
     
-    //Experiment settings
+    [Header("Experiment Data")]
     [SerializeField] private InputField _subjectInputField;
-    [SerializeField] private Dropdown _taskCounterbalancingDropdown;
-    [SerializeField] private Dropdown _threatCounterbalancingDropdown;
     [SerializeField] private Dropdown _conditionDropdown;
     [SerializeField] private Dropdown _participantDropdown;
+    [SerializeField] private Dropdown _taskCounterbalancingDropdown;
+    [SerializeField] private Dropdown _threatCounterbalancingDropdown;
+
+    [Header("Other Data")]
     [SerializeField] private Button _startButton;
     [SerializeField] private Button _rotateButton;
     [SerializeField] private Button _yawResetButton;
     [SerializeField] private GameObject _subjectExistingErrorMessage;
     [SerializeField] private GameObject _videoNotFoundErrorMessage;
     [SerializeField] private List<String> tasks = new List<string>();
+    [SerializeField] private ExperimentData _experimentData;
     
     private void Awake()
     {
@@ -55,12 +59,14 @@ public class ExperimentSettingsGUI : MonoBehaviour
 
     private void Start()
     {
+        //initialize GUI values with experiment data values
+        _subjectInputField.text = _experimentData.subjectID;
+        AssignDropdownValue(_experimentData.conditionType.ToString(), _conditionDropdown);
+        AssignDropdownValue(_experimentData.participantType.ToString(), _participantDropdown);
+        AssignDropdownValue(_experimentData.taskOrder.ToString(), _taskCounterbalancingDropdown);
+        AssignDropdownValue(_experimentData.threatOrder, _threatCounterbalancingDropdown); 
+        
         List<string> _dropDownOptions = new List<string>();
-
-        foreach (List<string> permutation in Permutate(tasks, tasks.Count)) {
-            string _option = string.Join(" ", permutation.ToArray());
-            _dropDownOptions.Add(_option);
-        }
 
         _taskCounterbalancingDropdown.AddOptions(_dropDownOptions);    
     }
@@ -88,25 +94,13 @@ public class ExperimentSettingsGUI : MonoBehaviour
         yield return new WaitForSeconds(5);
         _videoNotFoundErrorMessage.gameObject.SetActive(false);
     }
-    
-    //from https://www.codeproject.com/Articles/43767/A-C-List-Permutation-Iterator
-    private IEnumerable<IList> Permutate(List<string> sequence, int count) 
-    {
-        if (count == 1) yield return sequence;
-        else {
-            for (int i = 0; i < count; i++) {
-                foreach (var perm in Permutate(sequence, count - 1))
-                    yield return perm;
-                RotateRight(sequence, count);
-            }
-        } 
-    }
 
-    private void RotateRight(List<string> sequence, int count) 
+    private void AssignDropdownValue(string value, Dropdown dropdown)
     {
-        string tmp = sequence[count - 1];
-        sequence.RemoveAt(count - 1);
-        sequence.Insert(0, tmp);
-    }
+        // returns a list of the text properties of the options
+        var listAvailableStrings = dropdown.options.Select(option => option.text).ToList();
 
+        // returns the index of the given string
+        dropdown.value = listAvailableStrings.IndexOf(value);
+    }
 }

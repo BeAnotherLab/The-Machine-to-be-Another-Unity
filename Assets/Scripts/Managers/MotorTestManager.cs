@@ -175,7 +175,7 @@ public class MotorTestManager : TestManager
 
         if (_trialIndex == _stimuli.Count)
         {
-            FinishTest();
+            FinishTest(); 
             MotorTestInstructionsGUIBehavior.instance.Stop();
             _experimentData.LoadNextScene();
         }
