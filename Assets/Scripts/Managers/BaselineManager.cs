@@ -16,12 +16,12 @@ public class BaselineManager : MonoBehaviour
 
     public IEnumerator BaselineCoroutine()
     {
-        TCPClient.instance.SendTCPMessage("baseline start");
+        TCPClient.instance.SendTCPMessage("baseline_start");
         InstructionsTextBehavior.instance.ShowInstructionText(true, "Bitte schauen Sie auf das Kreuz, entspannen Sie sich und bewegen Sie sich nicht. Wir messen ihre Hirnaktivität für ein paar Minuten.");
         yield return new WaitForSeconds(10);
         InstructionsTextBehavior.instance.ShowInstructionText(true, "+");
         yield return new WaitForSeconds(120);
-        TCPClient.instance.SendTCPMessage("baseline end");
+        TCPClient.instance.SendTCPMessage("baseline_end");
         yield return new WaitForSeconds(1);
         _experimentData.LoadNextScene();        
     }

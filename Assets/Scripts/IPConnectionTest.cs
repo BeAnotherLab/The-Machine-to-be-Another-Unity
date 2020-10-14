@@ -28,7 +28,7 @@ public class IPConnectionTest : MonoBehaviour {
         if (tcpClient.isConnected)
         {
             connectionButton.GetComponent<Image>().color = Color.green;
-            tcpClient.SendTCPMessage("test connection message");
+            tcpClient.SendTCPMessage("test_connection_message");
         }
 
         else
