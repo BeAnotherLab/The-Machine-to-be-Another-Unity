@@ -22,7 +22,6 @@ public class FamiliarizationManager : MonoBehaviour
     private void Start()
     {
         _experimentData.Clear();
-        _experimentData.threatOrder = "Self";
     }
 
     public void SetVideoCapturePath(string filePath)
