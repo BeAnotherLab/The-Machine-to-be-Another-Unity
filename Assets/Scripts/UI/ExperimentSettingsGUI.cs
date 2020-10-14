@@ -68,11 +68,6 @@ public class ExperimentSettingsGUI : MonoBehaviour
         
         List<string> _dropDownOptions = new List<string>();
 
-        foreach (List<string> permutation in Permutate(tasks, tasks.Count)) {
-            string _option = string.Join(" ", permutation.ToArray());
-            _dropDownOptions.Add(_option);
-        }
-
         _taskCounterbalancingDropdown.AddOptions(_dropDownOptions);    
     }
 
@@ -98,26 +93,6 @@ public class ExperimentSettingsGUI : MonoBehaviour
         _videoNotFoundErrorMessage.gameObject.SetActive(true);
         yield return new WaitForSeconds(5);
         _videoNotFoundErrorMessage.gameObject.SetActive(false);
-    }
-    
-    //from https://www.codeproject.com/Articles/43767/A-C-List-Permutation-Iterator
-    private IEnumerable<IList> Permutate(List<string> sequence, int count) 
-    {
-        if (count == 1) yield return sequence;
-        else {
-            for (int i = 0; i < count; i++) {
-                foreach (var perm in Permutate(sequence, count - 1))
-                    yield return perm;
-                RotateRight(sequence, count);
-            }
-        } 
-    }
-
-    private void RotateRight(List<string> sequence, int count) 
-    {
-        string tmp = sequence[count - 1];
-        sequence.RemoveAt(count - 1);
-        sequence.Insert(0, tmp);
     }
 
     private void AssignDropdownValue(string value, Dropdown dropdown)

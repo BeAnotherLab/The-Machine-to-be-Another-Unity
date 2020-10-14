@@ -49,10 +49,10 @@ public class FamiliarizationManager : MonoBehaviour
     public void StartExperiment(string condition, string participant, string subjectID)
     {
         //TODO parse enum to assign from string
-        if (condition == "Experimental") _experimentData.conditionType = ConditionType.experimental;
-        else if (condition == "Control") _experimentData.conditionType = ConditionType.control;
+        if (condition == "experimental") _experimentData.conditionType = ConditionType.experimental;
+        else if (condition == "control") _experimentData.conditionType = ConditionType.control;
 
-        if (participant == "Leader")  _experimentData.participantType = ParticipantType.leader;
+        if (participant == "leader")  _experimentData.participantType = ParticipantType.leader;
         else  _experimentData.participantType = ParticipantType.follower;
         
         string filePath;
@@ -87,8 +87,8 @@ public class FamiliarizationManager : MonoBehaviour
     
     public void SelectTaskOrder(string dropdownValue)
     {
-        if (dropdownValue == "motor test") _experimentData.taskOrder = FirstTask.motor;
-        else if (dropdownValue == "cognitive test") _experimentData.taskOrder = FirstTask.cognitive;
+        if (dropdownValue == "motor") _experimentData.taskOrder = FirstTask.motor;
+        else if (dropdownValue == "cognitive") _experimentData.taskOrder = FirstTask.cognitive;
     }
 
     public void SelectThreatOrder(string order)
