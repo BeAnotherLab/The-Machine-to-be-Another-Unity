@@ -45,7 +45,7 @@ public class ExperimentManager : MonoBehaviour
     public void StartFreePhase()
     {
         TCPClient.instance.SendTCPMessage(experimentData.experimentState + "_Free_Phase");
-        SparkSwapInstructionsGUI.instance.ShowInstructionText("Bewegen Sie sich frei aber versuchen Sie die Bewegungen, die Sie sehen, mit Ihren eigenen Bewegungen zu synchronisieren. \n \n Hierzu können Sie versuchen die Bewegungen entweder selber führen oder folgen.\n \n Bitte fangen Sie an und bewegen Sie sich langsam an.", 18);
+        SparkSwapInstructionsGUI.instance.ShowInstructionText("Bewegen Sie sich frei aber versuchen Sie die Bewegungen, die Sie sehen, mit Ihren eigenen Bewegungen zu synchronisieren. \n \n Hierzu können Sie versuchen, die Bewegungen entweder selber zu bestimmen oder ihnen zu folgen. \n \n Bitte fangen Sie an und bewegen Sie sich langsam.", 18);
       
         if (experimentData.participantType == ParticipantType.follower && experimentData.conditionType == ConditionType.control)
         {
@@ -63,7 +63,7 @@ public class ExperimentManager : MonoBehaviour
             VideoCameraManager.instance.ShowLiveFeed(); //switch back to live video
         }
 
-        SparkSwapInstructionsGUI.instance.ShowInstructionText("Bitte bleiben Sie still. Ein Versuchsleiter wird Ihnen jetzt langsam über den Arm streichen.", 6);
+        SparkSwapInstructionsGUI.instance.ShowInstructionText("Bitte legen Sie Ihre Hände auf die Knie, und bewegen Sie sich nicht. Ein Versuchsleiter wird Ihnen jetzt langsam über den Arm streichen.", 6);
         Debug.Log("start tactile phase for " + experimentData.conditionType + " " + experimentData.participantType);
     }
     

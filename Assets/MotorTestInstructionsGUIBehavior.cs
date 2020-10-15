@@ -24,12 +24,12 @@ public class MotorTestInstructionsGUIBehavior : MonoBehaviour
     public void Init()
     {
         var initText =
-    @"1 = Heben Sie Ihren <b>Zeigefinger</b> hoch,
-    2 = Heben Sie Ihren <b>Mittelfinger</b> hoch.
+    @"1 = Heben Sie Ihren <b>Zeigefinger</b>,
+    2 = Heben Sie Ihren <b>Mittelfinger</b>.
 
     Sie werden verschiedene Finger-Bewegungen vor sich sehen. 
 
-    Ihre Aufgabe ist es, auf die Zahl auf dem Bildschirm schnellstmöglich zu reagieren und sobald 1 oder 2 erscheint den passenden Finger zu heben.";
+    Ihre Aufgabe ist es, auf die Zahl auf dem Bildschirm schnellstmöglich zu reagieren und sobald 1 oder 2 erscheint, den passenden Finger zu heben.";
         
     InstructionsTextBehavior.instance.ShowInstructionText(true, initText);
     }

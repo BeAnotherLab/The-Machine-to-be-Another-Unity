@@ -123,8 +123,8 @@ public class CognitiveTestManager : TestManager
 
         //Make sure to use the right pronoun
         string stim1 = _finalTrialsList[_trialIndex].GetField("stim1").str;
-        if (stim1.Contains("SHE")) stim1 = "" + "Die PERSON siehst : <b>" + stim1[3] + "</b> punkt(e)";
-        else stim1 = "DU siehst <b>" + stim1[3] + "</b> punkt(e)"; 
+        if (stim1.Contains("SHE")) stim1 = "" + "Sie sieht : <b>" + stim1[3] + "</b> punkt(e)";
+        else stim1 = "Du siehst <b>" + stim1[3] + "</b> punkt(e)"; 
         InstructionsTextBehavior.instance.ShowInstructionText(true, stim1); //show pronoun + number of balls
     
         yield return new WaitForSeconds(1.5f);
