@@ -31,6 +31,8 @@ namespace UnityPsychBasics {
         private List<int> _indexList = new List<int>();
         private int _currentItem;
         
+        [SerializeField] private ExperimentData _experimentData;
+        
         #endregion
         
         
@@ -212,13 +214,8 @@ namespace UnityPsychBasics {
                 Debug.Log("You must attach the LoadSceneAfterTask object somewhere in the scene and add Scene names to it");//else the call is ambiguous for the diagnostics library
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             }
-
             else {
-                if (CustomCSVWrite.instance.condition < ConditionDictionary.selectedOrder.Length)
-                    CustomTaskSettings.instance.LoadBeforeLast();
-
-                else if (CustomCSVWrite.instance.condition == ConditionDictionary.selectedOrder.Length)
-                    CustomTaskSettings.instance.LoadAfterLast();
+                _experimentData.LoadNextScene();
             }
         }
         
