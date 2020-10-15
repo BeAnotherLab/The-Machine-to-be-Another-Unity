@@ -10,8 +10,8 @@ public class BaselineManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(BaselineCoroutine());
         if (ThreatCanvas.instance == null) Instantiate(_tcpConnectionCanvas);
+        StartCoroutine(BaselineCoroutine());
     }
 
     public IEnumerator BaselineCoroutine()
