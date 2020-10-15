@@ -69,7 +69,6 @@ public class ExperimentManager : MonoBehaviour
     
     public void EndIntervention()
     {
-        OscManager.instance.SetSendHeadtracking(false);
         Debug.Log("End of intervention");
         experimentData.LoadNextScene();
     }
@@ -82,14 +81,9 @@ public class ExperimentManager : MonoBehaviour
         _interventionTimeline.Play();
         SparkSwapInstructionsGUI.instance.ShowInstructionText(false);
         
-        if (experimentData.conditionType == ConditionType.experimental)
+        
+        if (experimentData.conditionType == ConditionType.control)
         {
-            OscManager.instance.SetSendHeadtracking(true); //enable sending/receiving headtracking
-            VideoFeed.instance.twoWayWap = true; //move POV according to other headtracking
-        }
-        else if (experimentData.conditionType == ConditionType.control)
-        {
-            VideoFeed.instance.twoWayWap = false; //POV follows own headtracking
             //switch to pre recorded video
             string filePath;
             if (experimentData.controlVideos.TryGetValue(experimentData.subjectID, out filePath))
