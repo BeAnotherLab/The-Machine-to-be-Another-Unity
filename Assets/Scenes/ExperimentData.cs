@@ -60,7 +60,7 @@ public class ExperimentData : ScriptableObject
         }
         else if (experimentState == ExperimentState.swap2) //after second swap, load second task
         {
-            if (taskOrder.ToString() == "cognitiveTest") SceneManager.LoadScene("MotorTest");
+            if (taskOrder.ToString() == "cognitive") SceneManager.LoadScene("MotorTest");
             else SceneManager.LoadScene("CognitiveTest");
             experimentState = ExperimentState.task2;
         }
