@@ -119,7 +119,7 @@ public class CognitiveTestManager : TestManager
         VideoFeed.instance.SetDimmed(true); //hide video feed
         RedDotsController.instance.Show("S0_O0_FR_EN"); //hide the dots
     
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0.7f);
 
         //Make sure to use the right pronoun
         string stim1 = _finalTrialsList[_trialIndex].GetField("stim1").str;
