@@ -147,7 +147,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         transform.parent.localScale = new Vector3(- transform.parent.localScale.x, transform.parent.localScale.y, transform.parent.localScale.z);
     }
 
-    public void SetDimmed(bool dim)
+    public void SetDimmed(bool dim, bool fade = true)
     {
         if (targetTransform != null)
         {
@@ -156,7 +156,10 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
             float dimValue = targetTransform.GetComponent<MeshRenderer>().material.color.a;
 
-            LeanTween.value(dimValue, next, 1).setEaseInOutQuad().setOnUpdate((val) => {
+            float time = 0f;
+            if (fade) time = 1;
+            
+            LeanTween.value(dimValue, next, time).setEaseInOutQuad().setOnUpdate((val) => {
                 if (targetTransform != null)
                 {
                     Color c = targetTransform.GetComponent<MeshRenderer>().material.color;

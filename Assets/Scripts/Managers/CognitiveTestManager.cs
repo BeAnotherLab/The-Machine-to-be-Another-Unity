@@ -116,7 +116,7 @@ public class CognitiveTestManager : TestManager
         //initialize trial answer values
         _givenAnswer = answer.none;
         InstructionsTextBehavior.instance.ShowInstructionText(true, "+");
-        VideoFeed.instance.SetDimmed(true); //hide video feed
+        VideoFeed.instance.SetDimmed(true, false); //hide video feed
         RedDotsController.instance.Show("S0_O0_FR_EN"); //hide the dots
     
         yield return new WaitForSeconds(0.7f);
@@ -135,7 +135,7 @@ public class CognitiveTestManager : TestManager
 
         _timer.Start();
         InstructionsTextBehavior.instance.ShowInstructionText(false);
-        VideoFeed.instance.SetDimmed(false); //display video feed
+        VideoFeed.instance.SetDimmed(false, false); //display video feed
         VideoFeed.instance.MatchDirection(_finalTrialsList[_trialIndex].GetField("stim2").str[7]);  
         RedDotsController.instance.Show(_finalTrialsList[_trialIndex].GetField("stim2").str); //show dots as indicated in file
         _waitingForAnswer = true;
