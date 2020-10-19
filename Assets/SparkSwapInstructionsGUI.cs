@@ -25,14 +25,23 @@ public class SparkSwapInstructionsGUI : MonoBehaviour
     {
         if (ExperimentManager.instance.experimentData.participantType == ParticipantType.leader) instructions = leaderInstructions;
         if (ExperimentManager.instance.experimentData.participantType == ParticipantType.follower) instructions = followerInstructions;
-        _instructionsText.text = instructions[0];
+        ShowInstructionText(false);
     }
 
     public void Next()
     {
-        _slideIndex++;
-        if (_slideIndex < instructions.Length) _instructionsText.text = instructions[_slideIndex];
-        else ExperimentManager.instance.ReadyForInstructedPhase();
+        if (_slideIndex == 0)
+        {
+            ShowInstructionText(true);
+            _instructionsText.text = instructions[0];
+            _slideIndex++;
+        }
+        else
+        {
+            if (_slideIndex < instructions.Length) _instructionsText.text = instructions[_slideIndex];
+            else ExperimentManager.instance.ReadyForInstructedPhase();
+            _slideIndex++;
+        }
     }
     
     public void ShowInstructionText(bool show, string text = "")

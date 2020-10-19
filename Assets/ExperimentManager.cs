@@ -14,7 +14,6 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private VideoPlayer _videoPlayer;
     [SerializeField] private Button _startButton;
     [SerializeField] private GameObject _tcpConnectionCanvas;
-    private bool _readyForFreePhase;
     
     public ExperimentData experimentData;
     
@@ -31,10 +30,7 @@ public class ExperimentManager : MonoBehaviour
 
     private void Update()
     {
-        if (!_readyForFreePhase)
-        {
-            if(Input.GetMouseButtonUp(0)) SparkSwapInstructionsGUI.instance.Next();
-        }
+        if(Input.GetMouseButtonUp(0)) SparkSwapInstructionsGUI.instance.Next();
     }
 
     public void ReadyForInstructedPhase()
@@ -75,12 +71,11 @@ public class ExperimentManager : MonoBehaviour
     
     public void StartInstructedPhase()
     {
+        SparkSwapInstructionsGUI.instance.ShowInstructionText("Sie können jetzt anfangen.", 3);
         TCPClient.instance.SendTCPMessage(experimentData.experimentState + "_Instructed_Phase");
         VideoFeed.instance.SetDimmed(false);
         _startButton.gameObject.SetActive(false);
         _interventionTimeline.Play();
-        SparkSwapInstructionsGUI.instance.ShowInstructionText(false);
-        
         
         if (experimentData.conditionType == ConditionType.control)
         {
