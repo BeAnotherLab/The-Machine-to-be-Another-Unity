@@ -68,6 +68,7 @@ public class ExperimentSettingsGUI : MonoBehaviour
         
         List<string> _dropDownOptions = new List<string>();
 
+        VideoFeed.instance.IsEditingText(false);
         _taskCounterbalancingDropdown.AddOptions(_dropDownOptions);    
     }
 
