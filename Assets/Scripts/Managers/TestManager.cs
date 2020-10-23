@@ -29,7 +29,6 @@ public abstract class TestManager : MonoBehaviour
     
     protected void FinishTest()
     {
-        InstructionsTextBehavior.instance.ShowInstructionText("Ok, the test is now finished! We will proceed with the next step now", 15);
+        InstructionsTextBehavior.instance.ShowInstructionText("Ok, der Test ist jetzt beendet! Wir werden jetzt mit dem nächsten Schritt fortfahren. Wir werden die Maus zurücknehmen", 15);
     }
-    
 }
