@@ -77,12 +77,8 @@ public class FadeController : MonoBehaviour
             from = obj.GetComponent<Image>().material.color;
 
         var to = Color.white;
-        if (!fadeIn) to = new Color(1,1,1,0); 
-        
-        LeanTween.value( gameObject, Color.red, Color.yellow, 5f).setOnUpdate( (Color val)=>{
-            Debug.Log("tweened val:"+val);
-        } );
-        
+        if (!fadeIn) to = new Color(1,1,1,0);
+
         LeanTween.value(obj, from,  to, 1).setOnUpdate((val) =>
         {
             if (obj.GetComponent<Renderer>() != null)
