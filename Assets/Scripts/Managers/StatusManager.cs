@@ -131,13 +131,11 @@ public class StatusManager : MonoBehaviour {
         selfStatus = UserStatus.headsetOn;
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
         OscManager.instance.SendThisUserStatus(UserStatus.headsetOn);
-        if (otherStatus == UserStatus.headsetOn) HeadsetsOn();    
     }
 
     public void OtherPutHeadsetOn()
     {
         otherStatus = UserStatus.headsetOn;
-        if (selfStatus == UserStatus.headsetOn) HeadsetsOn();
     }
     
     public void OtherLeft()
@@ -152,10 +150,6 @@ public class StatusManager : MonoBehaviour {
 
             instructionsTimeline.Stop();
             StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
-        }
-        else
-        {
-            InstructionsDisplay.instance.ShowWelcomeVideo();
         }
     }
 
@@ -179,7 +173,6 @@ public class StatusManager : MonoBehaviour {
         if (_readyForStandby) //TODO is check necessary? 
             ArduinoManager.instance.InitialPositions();
 
-        InstructionsDisplay.instance.ShowWelcomeVideo();
     }
 
     public void DisableStatusManagement()
@@ -195,7 +188,6 @@ public class StatusManager : MonoBehaviour {
         VideoFeed.instance.SetDimmed(true);
         OscManager.instance.SendSerialStatus(false);
         AudioPlayer.instance.StopAudioInstructions();    
-        InstructionsDisplay.instance.ShowTechnicalFailureMessage();
         InstructionsTextBehavior.instance.ShowTextFromKey("systemFailure");
         instructionsTimeline.Stop();
         Destroy(gameObject);
@@ -216,7 +208,6 @@ public class StatusManager : MonoBehaviour {
     {
         _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
         if (selfStatus == UserStatus.readyToStart) Standby(); //if we were ready and we took off the headset
-        if (selfStatus == UserStatus.headsetOn) InstructionsDisplay.instance.ShowWelcomeVideo(); //if we just had headset on
         selfStatus = UserStatus.headsetOff;
         OscManager.instance.SendThisUserStatus(selfStatus);
     }
@@ -234,11 +225,6 @@ public class StatusManager : MonoBehaviour {
 
 
     #region Private Methods
-    
-    private void HeadsetsOn()
-    {
-        InstructionsDisplay.instance.ShowWaitForTurnVideo();
-    }
     
     private void EnableConfirmationGUI(bool enable)
     {
