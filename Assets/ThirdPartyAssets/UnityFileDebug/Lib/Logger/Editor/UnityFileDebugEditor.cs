@@ -89,7 +89,7 @@ namespace SSS
                     copyPath = filePath.stringValue.Replace('\\', '/');
                     if (!copyPath.EndsWith("/")) { copyPath += "/"; }
                     copyPath += "UnityFileDebugViewer.html";
-                    FileUtil.ReplaceFile("Assets/UnityFileDebug/Lib/Viewer/UnityFileDebugViewer.html", copyPath);
+                    FileUtil.ReplaceFile("Assets/ThirdPartyAssets/UnityFileDebug/Lib/Viewer/UnityFileDebugViewer.html", copyPath);
                 }
                 EditorGUILayout.EndHorizontal();
 
