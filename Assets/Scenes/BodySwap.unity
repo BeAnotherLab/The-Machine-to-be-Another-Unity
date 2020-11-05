@@ -597,6 +597,85 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1629134759}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &281646087
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1882683345}
+    m_Modifications:
+    - target: {fileID: 172182, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
+      propertyPath: m_Name
+      value: Unity File Debug
+      objectReference: {fileID: 0}
+    - target: {fileID: 476332, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.052856445
+      objectReference: {fileID: 0}
+    - target: {fileID: 476332, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.85220337
+      objectReference: {fileID: 0}
+    - target: {fileID: 476332, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -232.8995
+      objectReference: {fileID: 0}
+    - target: {fileID: 476332, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476332, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476332, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476332, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 476332, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 476332, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476332, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476332, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11434696, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
+      propertyPath: filePath
+      value: C:/Users/Obert/AppData/LocalLow/DefaultCompany/The-Machine-to-be-Another
+      objectReference: {fileID: 0}
+    - target: {fileID: 11434696, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
+      propertyPath: filePathFull
+      value: C:/Users/Obert/AppData/LocalLow/DefaultCompany/The-Machine-to-be-Another\BodySwap.2020.11.05.11.05.12.json
+      objectReference: {fileID: 0}
+    - target: {fileID: 11434696, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
+      propertyPath: fileType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11434696, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
+      propertyPath: fileName
+      value: BodySwap
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
+--- !u!4 &281646088 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 476332, guid: 481d68ab1d1643c468af0c48a20a93c3,
+    type: 3}
+  m_PrefabInstance: {fileID: 281646087}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &293754757
 GameObject:
   m_ObjectHideFlags: 0
@@ -1058,7 +1137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22400762, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000022888184
+      value: 0.00006866455
       objectReference: {fileID: 0}
     - target: {fileID: 22426080, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2467,6 +2546,7 @@ MonoBehaviour:
   _loadTiltFromPlayerPrefs: 1
   _videoPlaybackMeshRenderer: {fileID: 1786390007}
   _mirrorTransform: 1
+  _editing: 0
   _tiltAngle: 0
 --- !u!4 &1358158911 stripped
 Transform:
@@ -3140,6 +3220,7 @@ Transform:
   m_Children:
   - {fileID: 624184969}
   - {fileID: 1095252077}
+  - {fileID: 281646088}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
