@@ -8,27 +8,27 @@ public class Tester : MonoBehaviour
     }
     void Update()
     {
-        Debug.Log("CPU 1 has done action a", DLogType.AI);
-        Debug.Log("Assertion created with Debug.Log", DLogType.Assert);
-        Debug.Log("Song1 has started playing", DLogType.Audio);
-        Debug.Log("Asset1 has loaded", DLogType.Content);
-        Debug.Log("Couldn't find save file", DLogType.Error);
-        Debug.Log("Database couldn't load", DLogType.Exception);
-        Debug.Log("Showing game over UI", DLogType.GUI);
-        Debug.Log("Player 1 pressed A", DLogType.Input);
-        Debug.Log("Nearby enemy count: 3", DLogType.Log);
-        Debug.Log("Condition 42 has been met", DLogType.Logic);
-        Debug.Log("Connected to Player 2 at 192.168.0.0", DLogType.Network);
-        Debug.Log("Physics collision with Ball1", DLogType.Physics);
-        Debug.Log("Running on mobile", DLogType.System);
-        Debug.Log("This is a bad thing that you should be aware of", DLogType.Warning);
-        Debug.Log("Warning future me, this log will perplex you as it has me. It will depend on XYZ to be fixed before ABC can be implemented which where this log is from depends on to function properly. Thanks, past me", DLogType.Log);
+        DebugFile.Log("CPU 1 has done action a", DLogType.AI);
+        DebugFile.Log("Assertion created with DebugFile.Log", DLogType.Assert);
+        DebugFile.Log("Song1 has started playing", DLogType.Audio);
+        DebugFile.Log("Asset1 has loaded", DLogType.Content);
+        DebugFile.Log("Couldn't find save file", DLogType.Error);
+        DebugFile.Log("Database couldn't load", DLogType.Exception);
+        DebugFile.Log("Showing game over UI", DLogType.GUI);
+        DebugFile.Log("Player 1 pressed A", DLogType.Input);
+        DebugFile.Log("Nearby enemy count: 3", DLogType.Log);
+        DebugFile.Log("Condition 42 has been met", DLogType.Logic);
+        DebugFile.Log("Connected to Player 2 at 192.168.0.0", DLogType.Network);
+        DebugFile.Log("Physics collision with Ball1", DLogType.Physics);
+        DebugFile.Log("Running on mobile", DLogType.System);
+        DebugFile.Log("This is a bad thing that you should be aware of", DLogType.Warning);
+        DebugFile.Log("Warning future me, this log will perplex you as it has me. It will depend on XYZ to be fixed before ABC can be implemented which where this log is from depends on to function properly. Thanks, past me", DLogType.Log);
 
-        Debug.Assert(true == false);
-        Debug.Assert(true == false, "true equals false");
-        Debug.LogWarning("Warning");
-        Debug.LogError("Error");
-        Debug.LogAssertion("Conditionless assertion");
-        Debug.LogFormat("<color=green>This is a green message!</color>");
+        DebugFile.Assert(true == false);
+        DebugFile.Assert(true == false, "true equals false");
+        DebugFile.LogWarning("Warning");
+        DebugFile.LogError("Error");
+        DebugFile.LogAssertion("Conditionless assertion");
+        DebugFile.LogFormat("<color=green>This is a green message!</color>");
     }
 }

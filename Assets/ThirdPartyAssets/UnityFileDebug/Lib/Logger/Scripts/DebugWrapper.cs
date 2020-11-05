@@ -18,7 +18,7 @@ public enum DLogType
     Physics
 }
 
-public static class Debug
+public static class DebugFile
 {
     #region Assert
     public static void Assert(bool condition) { UnityEngine.Debug.Assert(condition); }
