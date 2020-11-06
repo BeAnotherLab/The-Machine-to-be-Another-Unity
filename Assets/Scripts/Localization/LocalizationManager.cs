@@ -6,6 +6,7 @@ using System.IO;
 using UnityEngine.Playables;
 using UnityEngine.Serialization;
 using UnityEngine.Timeline;
+using Debug = DebugFile;
 
 public class LocalizationManager : MonoBehaviour {
 

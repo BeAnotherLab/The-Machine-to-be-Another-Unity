@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Debug = DebugFile;
 
 namespace Mirror.Examples.Pong
 {

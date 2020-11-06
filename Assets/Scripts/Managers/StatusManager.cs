@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using VRStandardAssets.Menu;
 using VRStandardAssets.Utils;
 using Uduino;
-using UnityEngine.Serialization;
+using Debug = DebugFile;
 
 public enum UserStatus { headsetOff, headsetOn, readyToStart } 
 
@@ -82,23 +82,27 @@ public class StatusManager : MonoBehaviour {
     {
         InstructionsTextBehavior.instance.ShowInstructionText(false);
         if (_autoStartAndFinishOn) VideoFeed.instance.SetDimmed(false);
+        Debug.Log("experience started");
     }
 
     public void MirrorOn()
     {
         ArduinoManager.instance.SendCommand("mir_on");
+        Debug.Log("mirrors on");
     }
 
     public void CloseWall()
     {
         ArduinoManager.instance.SendCommand("wal_on"); //close curtain
         ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
+        Debug.Log("wall on");        
     }
     
     public void WallOn() //TODO rename
     {
         ArduinoManager.instance.SendCommand("wal_off"); //close curtain
         ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
+        Debug.Log("wall off");
     }
     
     public void SetAutoStartAndFinish(bool on, float waitTime = 5)
@@ -118,12 +122,14 @@ public class StatusManager : MonoBehaviour {
         else InstructionsTextBehavior.instance.ShowTextFromKey("waitForOther");
 
         selfStatus = UserStatus.readyToStart;
+        Debug.Log("this user is ready", DLogType.Input);
     }
 
     public void OtherUserIsReady()
     {
         otherStatus = UserStatus.readyToStart;
         if (selfStatus == UserStatus.readyToStart) StartPlaying();
+        Debug.Log("the other user is ready", DLogType.Input);
     }
 
     public void SelfPutHeadsetOn()
@@ -132,12 +138,14 @@ public class StatusManager : MonoBehaviour {
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
         OscManager.instance.SendThisUserStatus(UserStatus.headsetOn);
         if (otherStatus == UserStatus.headsetOn) HeadsetsOn();    
+        Debug.Log("this user put on the headset", DLogType.Input);
     }
 
     public void OtherPutHeadsetOn()
     {
         otherStatus = UserStatus.headsetOn;
         if (selfStatus == UserStatus.headsetOn) HeadsetsOn();
+        Debug.Log("the other user put on the headset", DLogType.Input);
     }
     
     public void OtherLeft()
@@ -157,6 +165,7 @@ public class StatusManager : MonoBehaviour {
         {
             InstructionsDisplay.instance.ShowWelcomeVideo();
         }
+        Debug.Log("the other user removed the headset", DLogType.Input);
     }
 
     public void Standby(bool start = false)
@@ -180,6 +189,8 @@ public class StatusManager : MonoBehaviour {
             ArduinoManager.instance.InitialPositions();
 
         InstructionsDisplay.instance.ShowWelcomeVideo();
+        
+        Debug.Log("ready to start");
     }
 
     public void DisableStatusManagement()
@@ -199,6 +210,7 @@ public class StatusManager : MonoBehaviour {
         InstructionsTextBehavior.instance.ShowTextFromKey("systemFailure");
         instructionsTimeline.Stop();
         Destroy(gameObject);
+        Debug.Log("serial failure", DLogType.Error);
     }
 
     public void SerialReady(bool serialControlComputer = false)
@@ -209,7 +221,8 @@ public class StatusManager : MonoBehaviour {
         }
         
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
-        _readyForStandby = true;    
+        _readyForStandby = true;
+        Debug.Log("serial ready", DLogType.System);
     }    
 
     public void SelfRemovedHeadset()
@@ -219,6 +232,7 @@ public class StatusManager : MonoBehaviour {
         if (selfStatus == UserStatus.headsetOn) InstructionsDisplay.instance.ShowWelcomeVideo(); //if we just had headset on
         selfStatus = UserStatus.headsetOff;
         OscManager.instance.SendThisUserStatus(selfStatus);
+        Debug.Log("this user removed his headset", DLogType.Input);
     }
     
     public void SetInstructionsTimeline(int index)
@@ -238,6 +252,7 @@ public class StatusManager : MonoBehaviour {
     private void HeadsetsOn()
     {
         InstructionsDisplay.instance.ShowWaitForTurnVideo();
+        Debug.Log("both headsets on", DLogType.Input);
     }
     
     private void EnableConfirmationGUI(bool enable)
@@ -267,6 +282,7 @@ public class StatusManager : MonoBehaviour {
         VideoFeed.instance.SetDimmed(true);
         InstructionsTextBehavior.instance.ShowTextFromKey("finished");
         instructionsTimeline.Stop();
+        Debug.Log("experience finished");
     }
 
     private IEnumerator WaitBeforeResetting()
@@ -274,6 +290,7 @@ public class StatusManager : MonoBehaviour {
         yield return new WaitForSeconds(4f); //make sure this value is inferior or equal to the confirmation radial time to avoid bugs
         Standby();
         SelfPutHeadsetOn();
+        Debug.Log("about to reset");
     }
 
     #endregion

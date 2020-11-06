@@ -46,7 +46,6 @@ public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
         {
             _videoController.GetComponentInParent<CanvasGroup>().alpha = 0;
         }
-        
     }
     
     public void ShowLiveFeed()

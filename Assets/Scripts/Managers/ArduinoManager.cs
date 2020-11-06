@@ -6,6 +6,8 @@ using System;
 using System.Collections;
 using Uduino;
 
+using Debug = DebugFile;
+
 public class ArduinoManager : MonoBehaviour
 {
 
@@ -137,7 +139,7 @@ public class ArduinoManager : MonoBehaviour
     
     private void DataReceived(string data, UduinoDevice board)
     {
-        Debug.Log("received : " + data);
+        Debug.Log("received : " + data, DLogType.System);
 
         if (data == "sys_rdy")
         {
@@ -147,7 +149,7 @@ public class ArduinoManager : MonoBehaviour
         else if (data == "cmd_ok") _commandOK = true;
         else if (data == "TIMEOUT" || data == "MD_FAULT" || data == "MD_BLOCK")
         {
-            Debug.Log("ERROR : " + data);
+            Debug.Log("ERROR : " + data, DLogType.Error);
             StatusManager.instance.SerialFailure();
         }
        

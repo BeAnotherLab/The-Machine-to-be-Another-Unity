@@ -7,6 +7,8 @@ using System.Net;
 using VRStandardAssets.Menu;
 using extOSC;
 
+using Debug = DebugFile;
+
 public class OscManager : MonoBehaviour {
 
     #region Public Fields
@@ -60,6 +62,7 @@ public class OscManager : MonoBehaviour {
 
         //set IP address of other 
         SetOthersIP(PlayerPrefs.GetString("othersIP"));
+        
     }   
     
     #endregion
@@ -78,6 +81,7 @@ public class OscManager : MonoBehaviour {
         OSCMessage message = new OSCMessage("/language");
         message.AddValue(OSCValue.String(language));
         _oscTransmitter.Send(message);
+        Debug.Log("send language change message", DLogType.Network);
     }
     
     public void SetSendHeadtracking(bool send)
@@ -115,6 +119,7 @@ public class OscManager : MonoBehaviour {
         
         message.AddValue(OSCValue.Int(i));
         _oscTransmitter.Send(message);
+        Debug.Log("sending user status : " + status, DLogType.Network);
     }
 
     public void SendSerialStatus(bool status)
@@ -124,8 +129,9 @@ public class OscManager : MonoBehaviour {
         {
             OSCMessage message = new OSCMessage("/serialStatus");
             message.AddValue(OSCValue.Int(0));
-            _oscTransmitter.Send(message);    
+            _oscTransmitter.Send(message);
         }
+        Debug.Log("sending serial status : " + status, DLogType.Network);
     }
 
     #endregion
@@ -150,6 +156,7 @@ public class OscManager : MonoBehaviour {
         string value;
         if(message.ToString(out value))
             LocalizationManager.instance.LoadLocalizedText(value);
+        Debug.Log("received language change : " + value, DLogType.Network);
     }
     
     private void ReceiveCalibrate(OSCMessage message)
@@ -189,8 +196,7 @@ public class OscManager : MonoBehaviour {
                     if (message.Address == "/btn" + i.ToString()) AudioPlayer.instance.GetComponent<AudioPlayer>().playSound(i);
             }
         }
-            
-
+        
         if (_repeater) _oscTransmitter.Send(message);
     }
 
@@ -227,6 +233,7 @@ public class OscManager : MonoBehaviour {
                     StatusManager.instance.SerialReady();
                 }
             }
+            Debug.Log("received serial confirmation", DLogType.Network);
         }
     }
 
@@ -234,15 +241,15 @@ public class OscManager : MonoBehaviour {
     {
         _serialStatusOKReceived = true;
         StatusManager.instance.SerialReady(true);
+        Debug.Log("acknowledge serial status OK", DLogType.Network);
     }
     
     private IEnumerator SendStatusUntilAnswer()
     {
-        Debug.Log("sending serial status");
+        Debug.Log("sending serial status", DLogType.Network);
         OSCMessage message = new OSCMessage("/serialStatus");
         message.AddValue(OSCValue.Int(1));
         _oscTransmitter.Send(message);
-        
         yield return new WaitForSeconds(1);
 
         if (!_serialStatusOKReceived) StartCoroutine(SendStatusUntilAnswer());
