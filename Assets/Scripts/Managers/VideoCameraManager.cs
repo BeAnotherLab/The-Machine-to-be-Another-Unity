@@ -26,12 +26,18 @@ public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
     private void Start()
     {
         ShowLiveFeed();
-        _avProLiveCamera._deviceSelection = AVProLiveCamera.SelectDeviceBy.Index;
+        _avProLiveCamera._deviceSelection = AVProLiveCamera.SelectDeviceBy.Name;
         _avProLiveCamera._desiredModeIndex = PlayerPrefs.GetInt("CameraModeIndex");
+        _avProLiveCamera._desiredDeviceNames.Add(PlayerPrefs.GetString("CameraName"));
         _avProLiveCamera._desiredFrameRate = Single.MaxValue;
         _avProLiveCamera.Begin();
     }
 
+    public void SetCameraName(string cameraName)
+    {
+        _avProLiveCamera._desiredDeviceNames.Add(cameraName);
+    }
+    
     public void EnableDeviceMenu(bool show)
     {
         GetComponent<QuickDeviceMenu>().enabled = show;

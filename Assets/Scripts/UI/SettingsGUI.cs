@@ -19,6 +19,7 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private Slider _pitchSlider, _yawSlider, _rollSlider, _zoomSlider;
     [SerializeField] private IPInputField _ipInputField;
     [SerializeField] private Toggle _serialControlToggle;
+    [SerializeField] private InputField _cameraNameInputField;
     [SerializeField] private Button _dimButton;
     [SerializeField] private Button _rotateCameraButton;
     [SerializeField] private Button _headTrackingOnButton;
@@ -42,6 +43,12 @@ public class SettingsGUI : MonoBehaviour
 
         //objects in the scene
         _mainCamera = GameObject.Find("Main Camera");
+        
+        _cameraNameInputField.onEndEdit.AddListener(delegate(string arg0)
+        {
+            VideoCameraManager.instance.SetCameraName(_cameraNameInputField.text);
+            PlayerPrefs.SetString("CameraName", _cameraNameInputField.text);
+        });
         
         _dimButton.onClick.AddListener(delegate
         {
@@ -82,6 +89,8 @@ public class SettingsGUI : MonoBehaviour
     private void Start()
     {        
         SetSwapModeDropdownOptions();
+
+        _cameraNameInputField.text = PlayerPrefs.GetString("CameraName");
         
         _zoomSlider.value = PlayerPrefs.GetFloat("zoom", 39.5f);
 
