@@ -13,16 +13,23 @@ public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
     public static VideoCameraManager instance;
 
     private VideoController _videoController;
+
+    private AVProLiveCamera _avProLiveCamera;
     
     private void Awake()
     {
         if (instance == null) instance = this;
         _videoController = FindObjectOfType<VideoController>();
+        _avProLiveCamera = FindObjectOfType<AVProLiveCamera>();
     }
 
     private void Start()
     {
         ShowLiveFeed();
+        _avProLiveCamera._deviceSelection = AVProLiveCamera.SelectDeviceBy.Index;
+        _avProLiveCamera._desiredModeIndex = PlayerPrefs.GetInt("CameraModeIndex");
+        _avProLiveCamera._desiredFrameRate = Single.MaxValue;
+        _avProLiveCamera.Begin();
     }
 
     public void EnableDeviceMenu(bool show)
@@ -52,4 +59,6 @@ public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
     {
         VideoFeed.instance.ShowLiveFeed(true);
     }
+    
+    
 }
