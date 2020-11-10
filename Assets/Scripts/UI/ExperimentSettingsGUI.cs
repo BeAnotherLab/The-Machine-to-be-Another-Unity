@@ -13,10 +13,11 @@ public class ExperimentSettingsGUI : MonoBehaviour
     
     //Experiment settings
     [SerializeField] private InputField _subjectInputField;
-    [SerializeField] private Dropdown _taskCounterbalancingDropdown;
-    [SerializeField] private Dropdown _threatCounterbalancingDropdown;
+    [SerializeField] private InputField _EEGIPInputField;
     [SerializeField] private Dropdown _conditionDropdown;
     [SerializeField] private Dropdown _participantDropdown;
+    [SerializeField] private Dropdown _taskCounterbalancingDropdown;
+    [SerializeField] private Dropdown _threatCounterbalancingDropdown;
     [SerializeField] private Button _startButton;
     [SerializeField] private Button _rotateButton;
     [SerializeField] private Button _yawResetButton;
@@ -33,6 +34,15 @@ public class ExperimentSettingsGUI : MonoBehaviour
             FamiliarizationManager.instance.SetSubjectID(_subjectInputField.text);
         });
 
+        _EEGIPInputField.onEndEdit.AddListener(delegate(string arg0)
+        {
+            FindObjectOfType<IPConnectionTest>().setIP(arg0);
+        });    
+        
+        _subjectInputField.onValueChanged.AddListener(delegate
+        {
+        });
+        
         _startButton.onClick.AddListener(delegate
         {
             FamiliarizationManager.instance.SelectThreatOrder(_threatCounterbalancingDropdown.options[_threatCounterbalancingDropdown.value].text);
@@ -57,6 +67,8 @@ public class ExperimentSettingsGUI : MonoBehaviour
             string _option = string.Join(" ", permutation.ToArray());
             _dropDownOptions.Add(_option);
         }
+
+        _EEGIPInputField.text = PlayerPrefs.GetString("EEGIP");
 
         _taskCounterbalancingDropdown.AddOptions(_dropDownOptions);    
     }

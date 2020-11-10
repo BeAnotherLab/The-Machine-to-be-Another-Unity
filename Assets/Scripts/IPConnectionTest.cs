@@ -5,17 +5,25 @@ using UnityEngine.UI;
 
 public class IPConnectionTest : MonoBehaviour {
 
-    private TCPClient tcpClient;
     public Button connectionButton;
 
+    private TCPClient tcpClient;
+    private string _EEGIP;
+    
     // Use this for initialization
     void Awake () {
         tcpClient = FindObjectOfType<TCPClient>();
 	}
 
+    public void setIP(string IP)
+    {
+        PlayerPrefs.SetString("EEGIP", IP);
+        _EEGIP = IP;
+    } 
+    
     public void SetConnection()
     {
-        tcpClient.ip = "localhost";
+        tcpClient.ip = PlayerPrefs.GetString("EEGIP");
         tcpClient.ConnectToTcpServer();
         StartCoroutine(WaitForServerStatus());
     }
