@@ -7,16 +7,17 @@ public class IPConnectionTest : MonoBehaviour {
 
     private TCPClient tcpClient;
     public Button connectionButton;
+    public string ip;
 
     // Use this for initialization
     void Awake () {
         tcpClient = FindObjectOfType<TCPClient>();
         connectionButton.onClick.AddListener(delegate { SetConnection(); });
-	}
+        tcpClient.ip = ip;
+    }
 
     public void SetConnection()
     {
-        tcpClient.ip = "localhost";
         tcpClient.ConnectToTcpServer();
         StartCoroutine(WaitForServerStatus());
     }
