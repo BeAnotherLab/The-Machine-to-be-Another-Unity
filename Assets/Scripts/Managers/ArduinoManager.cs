@@ -147,14 +147,17 @@ public class ArduinoManager : MonoBehaviour
             OscManager.instance.SendSerialStatus(true);
         } 
         else if (data == "cmd_ok") _commandOK = true;
-        else if (data == "TIMEOUT" || data == "MD_FAULT" || data == "MD_BLOCK")
+        else if (data == "MD_FAULT" || data == "MD_BLOCK")
         {
             Debug.Log("ERROR : " + data, DLogType.Error);
             StatusManager.instance.SerialFailure();
         }
+        else if (data == "TIMEOUT")
+            Debug.Log("ERROR : " + data, DLogType.Error);
+
        
         else if (data.Contains("lng")) LocalizationManager.instance.LoadLocalizedText(data + ".json", true);
-    }
+    }    
     
     private void WriteToArduino(string message) //send a command, trigger timeout routine
     {
