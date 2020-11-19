@@ -15,6 +15,7 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private Button _startButton;
     [SerializeField] private Button _nextButton;
     [SerializeField] private Text _currentPhaseText;
+    [SerializeField] private Text _currentTimeText;
     [SerializeField] private GameObject _tcpConnectionCanvas;
     
     public ExperimentData experimentData;
@@ -29,6 +30,11 @@ public class ExperimentManager : MonoBehaviour
     private void Start()
     {
         if (ThreatCanvas.instance == null) Instantiate(_tcpConnectionCanvas);
+    }
+
+    private void Update()
+    {
+        _currentTimeText.text = "Current Time : " + Mathf.RoundToInt((float)_interventionTimeline.time) + " seconds";
     }
 
     public void ReadyForInstructedPhase()
