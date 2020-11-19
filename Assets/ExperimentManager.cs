@@ -13,6 +13,7 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private PlayableDirector _interventionTimeline;
     [SerializeField] private VideoPlayer _videoPlayer;
     [SerializeField] private Button _startButton;
+    [SerializeField] private Button _nextButton;
     [SerializeField] private GameObject _tcpConnectionCanvas;
     
     public ExperimentData experimentData;
@@ -21,6 +22,7 @@ public class ExperimentManager : MonoBehaviour
     {
       if (instance == null) instance = this;
       _startButton.onClick.AddListener(delegate { StartInstructedPhase(); });
+      _nextButton.onClick.AddListener(delegate { SparkSwapInstructionsGUI.instance.Next(); });
     }
 
     private void Start()
@@ -28,14 +30,10 @@ public class ExperimentManager : MonoBehaviour
         if (ThreatCanvas.instance == null) Instantiate(_tcpConnectionCanvas);
     }
 
-    private void Update()
-    {
-        if(Input.GetMouseButtonUp(0)) SparkSwapInstructionsGUI.instance.Next();
-    }
-
     public void ReadyForInstructedPhase()
     {
         _startButton.interactable = true;
+        _nextButton.interactable = false;
     }
 
     public void StartFreePhase()
