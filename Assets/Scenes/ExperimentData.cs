@@ -79,6 +79,12 @@ public class ExperimentData : ScriptableObject
             SceneManager.LoadScene("End");
         }
     }
+
+    public void ResetScene()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
+    }
     
     public void Clear()
     {
