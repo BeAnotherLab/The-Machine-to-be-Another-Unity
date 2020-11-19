@@ -79,7 +79,57 @@ public class ExperimentData : ScriptableObject
             SceneManager.LoadScene("End");
         }
     }
-
+    
+    public void LoadPreviousScene()
+    {
+        if (experimentState == ExperimentState.baselinePost) //experiment is over
+        {
+            experimentState = ExperimentState.questionnaire;
+            SceneManager.LoadScene("Questionnaire");    
+        }
+        else if (experimentState == ExperimentState.questionnaire) //after last task, load last baseline step
+        {
+            if (taskOrder.ToString() == "cognitive") SceneManager.LoadScene("MotorTest");
+            else SceneManager.LoadScene("CognitiveTest");
+            experimentState = ExperimentState.task2;
+        }
+        else if (experimentState == ExperimentState.task2) //after second task, load third task
+        {
+            experimentState = ExperimentState.swap2; 
+            SceneManager.LoadScene("SparkSwap");
+        }
+        else if (experimentState == ExperimentState.swap2) //after second swap, load second task
+        {
+            if (taskOrder.ToString() == "cognitive") SceneManager.LoadScene("CognitiveTest");
+            else SceneManager.LoadScene("MotorTest");
+            experimentState = ExperimentState.task1; 
+        }
+        else if (experimentState == ExperimentState.task1) //after first task, load second swap
+        {
+            experimentState = ExperimentState.threatPost; 
+            SceneManager.LoadScene("Threat");
+        }
+        else if (experimentState == ExperimentState.threatPost) //after threat post, load first task
+        {
+            SceneManager.LoadScene("SparkSwap");
+            experimentState = ExperimentState.swap1;  
+        }
+        else if (experimentState == ExperimentState.swap1) //after first swap, load threat post
+        {
+            SceneManager.LoadScene("Threat");
+            experimentState = ExperimentState.threatPre;
+        }
+        else if (experimentState == ExperimentState.threatPre) //after threat pre, load first swap 
+        {
+            SceneManager.LoadScene("BaselinePre");
+            experimentState = ExperimentState.baselinePre;
+        }
+        else if (experimentState == ExperimentState.baselinePre) //after initial scene, load threat pre
+        {
+            SceneManager.LoadScene("SparkInitScene");
+        }
+    }
+    
     public void ResetScene()
     {
         Scene scene = SceneManager.GetActiveScene();

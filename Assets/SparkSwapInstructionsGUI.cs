@@ -43,7 +43,7 @@ public class SparkSwapInstructionsGUI : MonoBehaviour
             _slideIndex++;
         }
     }
-    
+
     public void ShowInstructionText(bool show, string text = "")
     {
         GetComponent <CanvasGroup>().alpha = show ? 1 : 0;
