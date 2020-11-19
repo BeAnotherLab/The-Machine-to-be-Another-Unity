@@ -14,6 +14,7 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private VideoPlayer _videoPlayer;
     [SerializeField] private Button _startButton;
     [SerializeField] private Button _nextButton;
+    [SerializeField] private Text _currentPhaseText;
     [SerializeField] private GameObject _tcpConnectionCanvas;
     
     public ExperimentData experimentData;
@@ -38,6 +39,7 @@ public class ExperimentManager : MonoBehaviour
 
     public void StartFreePhase()
     {
+        _currentPhaseText.text = "Current phase : Free Phase";
         TCPClient.instance.SendTCPMessage(experimentData.experimentState + "_Free_Phase");
         SparkSwapInstructionsGUI.instance.ShowInstructionText("Bewegen Sie sich frei aber versuchen Sie die Bewegungen, die Sie sehen, mit Ihren eigenen Bewegungen zu synchronisieren. \n \n Hierzu können Sie versuchen, die Bewegungen entweder selber zu bestimmen oder ihnen zu folgen. \n \n Bitte fangen Sie an und bewegen Sie sich langsam.", 18);
       
@@ -49,6 +51,7 @@ public class ExperimentManager : MonoBehaviour
     
     public void StartTactilePhase()
     {
+        _currentPhaseText.text = "Current phase : Tactile Phase";
         TCPClient.instance.SendTCPMessage(experimentData.experimentState + "_Tactile_Phase");
 
         //play tactile phase instruction audio or text
@@ -69,6 +72,7 @@ public class ExperimentManager : MonoBehaviour
     
     public void StartInstructedPhase()
     {
+        _currentPhaseText.text = "Current phase : Instructed Phase";
         SparkSwapInstructionsGUI.instance.ShowInstructionText("Sie können jetzt anfangen.", 3);
         TCPClient.instance.SendTCPMessage(experimentData.experimentState + "_Instructed_Phase");
         VideoFeed.instance.SetDimmed(false);
