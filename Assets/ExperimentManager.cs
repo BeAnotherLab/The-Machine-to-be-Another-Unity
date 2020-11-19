@@ -14,6 +14,7 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private VideoPlayer _videoPlayer;
     [SerializeField] private Button _startButton;
     [SerializeField] private Button _nextButton;
+    [SerializeField] private Text _mirrorsReminderText;
     [SerializeField] private Text _currentPhaseText;
     [SerializeField] private Text _currentTimeText;
     [SerializeField] private GameObject _tcpConnectionCanvas;
@@ -24,7 +25,11 @@ public class ExperimentManager : MonoBehaviour
     {
       if (instance == null) instance = this;
       _startButton.onClick.AddListener(delegate { StartInstructedPhase(); });
-      _nextButton.onClick.AddListener(delegate { SparkSwapInstructionsGUI.instance.Next(); });
+      _nextButton.onClick.AddListener(delegate
+      {
+          SparkSwapInstructionsGUI.instance.Next();
+          _mirrorsReminderText.enabled = false;
+      });
     }
 
     private void Start()
