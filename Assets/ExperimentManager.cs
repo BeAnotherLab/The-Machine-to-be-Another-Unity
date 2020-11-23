@@ -18,7 +18,8 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private Text _currentPhaseText;
     [SerializeField] private Text _currentTimeText;
     [SerializeField] private GameObject _tcpConnectionCanvas;
-    
+    [SerializeField] private Button _playButton;
+
     public ExperimentData experimentData;
     
     private void Awake()
@@ -29,6 +30,20 @@ public class ExperimentManager : MonoBehaviour
       {
           SparkSwapInstructionsGUI.instance.Next();
           _mirrorsReminderText.enabled = false;
+      });
+      
+      _playButton.onClick.AddListener(delegate
+      {
+          if (_interventionTimeline.state == PlayState.Playing)
+          {
+              _interventionTimeline.Pause();
+              _playButton.GetComponentInChildren<Text>().text = "play";
+          }
+          else if (_interventionTimeline.state == PlayState.Paused)
+          {
+              _interventionTimeline.Play();    
+              _playButton.GetComponentInChildren<Text>().text = "pause";
+          }
       });
     }
 
