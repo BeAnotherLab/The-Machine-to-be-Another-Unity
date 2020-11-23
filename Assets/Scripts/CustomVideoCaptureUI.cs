@@ -51,6 +51,7 @@ namespace RockVR.Video.Demo
                 case CustomVideoCaptureCtrl.StatusType.STARTED: // while recording, we pressed stop button or recording time is up
                     CustomVideoCaptureCtrl.instance.StopCapture();
                     if (!fromTimeline) FamiliarizationManager.instance.ButtonStopFamiliarization(); //if we stopped recording from button, also stop timeline
+                    FamiliarizationManager.instance.DefaultMessage();
                     _processingText.text = "processing";
                     break;
                 case CustomVideoCaptureCtrl.StatusType.FINISH: //we're done processing the recorded video, 
@@ -75,6 +76,7 @@ namespace RockVR.Video.Demo
             _captureFinishedOnce = false;
             _processingText.text = "recording";
             _nextButton.GetComponentInChildren<Text>().text = "stop recording";
+            FamiliarizationManager.instance.MovementMessage();
             FamiliarizationManager.instance.StartFamiliarization();
         }
         

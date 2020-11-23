@@ -24,6 +24,16 @@ public class FamiliarizationManager : MonoBehaviour
         _experimentData.Clear();
     }
 
+    public void MovementMessage()
+    {
+        InstructionsTextBehavior.instance.ShowinstructionsText("Bitte üben Sie die Bewegungen, die wir Ihnen gerade gezeigt haben. Im Moment halten wir Ihre Vision absichtlich schwarz.");
+    }
+
+    public void DefaultMessage()
+    {
+        InstructionsTextBehavior.instance.ShowinstructionsText("Bitte warten Sie einen kurzen Moment. Es werden Vorbereitungen vorgenommen...");
+    }
+    
     public void SetVideoCapturePath(string filePath)
     {
         _experimentData.controlVideos.Remove(GetSubjectID());

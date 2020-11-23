@@ -27,6 +27,9 @@ public class ExperimentSettingsGUI : MonoBehaviour
     [SerializeField] private GameObject _videoNotFoundErrorMessage;
     [SerializeField] private List<String> tasks = new List<string>();
     [SerializeField] private ExperimentData _experimentData;
+    [SerializeField] private Button _moveMessageButton;
+
+    private bool movementMessageBool;
     
     private void Awake()
     {
@@ -55,6 +58,14 @@ public class ExperimentSettingsGUI : MonoBehaviour
         _rotateButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
         
         _yawResetButton.onClick.AddListener(delegate { VideoFeed.instance.RecenterPose(); });
+        
+        _moveMessageButton.onClick.AddListener(delegate
+        {
+            if (!movementMessageBool) FamiliarizationManager.instance.MovementMessage();
+            else FamiliarizationManager.instance.DefaultMessage();
+            
+            movementMessageBool = !movementMessageBool;
+        });
     }
 
     private void Start()
