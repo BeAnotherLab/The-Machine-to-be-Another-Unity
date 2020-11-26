@@ -32,12 +32,12 @@ public class ThreatCanvas : MonoBehaviour
         {
             AssignThreatToButton(_experimentData.threatOrder, _firstThreatButton);
         
-            if (_experimentData.threatOrder == "Self") AssignThreatToButton("Other", _secondThreatButton);
-            else if (_experimentData.threatOrder == "Other") AssignThreatToButton("Self", _secondThreatButton);    
+            if (_experimentData.threatOrder == ThreatOrder.self) AssignThreatToButton(ThreatOrder.other, _secondThreatButton);
+            else if (_experimentData.threatOrder == ThreatOrder.other) AssignThreatToButton(ThreatOrder.self, _secondThreatButton);    
         }
     }
 
-    private void AssignThreatToButton(string threat, Button button)
+    private void AssignThreatToButton(ThreatOrder threat, Button button)
     {
         button.GetComponentInChildren<Text>().text = "threaten " + threat;
         button.onClick.AddListener(delegate { ThreatManager.instance.StartTask(threat); });

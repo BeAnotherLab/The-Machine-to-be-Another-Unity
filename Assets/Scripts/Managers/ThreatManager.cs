@@ -13,7 +13,7 @@ public class ThreatManager : MonoBehaviour
     [SerializeField] private PlayableDirector _threatTimeline;
     [SerializeField] private GameObject _tcpConnectionCanvas;
     
-    private string _target; //TODO counterbalance
+    private ThreatOrder _target;
     
     private void Awake()
     {
@@ -25,13 +25,13 @@ public class ThreatManager : MonoBehaviour
         if (ThreatCanvas.instance == null) Instantiate(_tcpConnectionCanvas);
     }
 
-    public void StartTask(string target)
+    public void StartTask(ThreatOrder target)
     {
         //flip target when sending to other computer
-        if (_experimentData.mainComputer && target == "Self")
-            OscManager.instance.SendThreatTaskStart("Other");
-        else if (_experimentData.mainComputer && target == "Other")
-            OscManager.instance.SendThreatTaskStart("Self");
+        if (_experimentData.mainComputer && target == ThreatOrder.self)
+            OscManager.instance.SendThreatTaskStart(ThreatOrder.other);
+        else if (_experimentData.mainComputer && target == ThreatOrder.other)
+            OscManager.instance.SendThreatTaskStart(ThreatOrder.self);
             
         _threatTimeline.Play();
         _target = target;

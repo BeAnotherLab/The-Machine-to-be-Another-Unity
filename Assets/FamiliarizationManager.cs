@@ -101,7 +101,7 @@ public class FamiliarizationManager : MonoBehaviour
         else if (dropdownValue == "cognitive") _experimentData.taskOrder = FirstTask.cognitive;
     }
 
-    public void SelectThreatOrder(string order)
+    public void SelectThreatOrder(ThreatOrder order)
     {
         _experimentData.threatOrder = order;
     }

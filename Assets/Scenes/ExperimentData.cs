@@ -6,6 +6,7 @@ public enum ConditionType { control, experimental }
 public enum ExperimentState { familiarization, baselinePre, threatPre, swap1, threatPost, task1, swap2, task2, questionnaire, baselinePost }
 public enum SubjectDirection {left, right}
 public enum FirstTask {cognitive, motor}
+public enum ThreatOrder { self, other };
 
 [CreateAssetMenu]
 public class ExperimentData : ScriptableObject
@@ -15,7 +16,7 @@ public class ExperimentData : ScriptableObject
     public ConditionType conditionType;
     public ParticipantType participantType;
     public FirstTask taskOrder;
-    public string threatOrder;
+    public ThreatOrder threatOrder;
     
     [Header("Other Data")]
     public SubjectDirection subjectDirection;

@@ -47,7 +47,7 @@ public class ExperimentSettingsGUI : MonoBehaviour
         
         _startButton.onClick.AddListener(delegate
         {
-            FamiliarizationManager.instance.SelectThreatOrder(_threatCounterbalancingDropdown.options[_threatCounterbalancingDropdown.value].text);
+            FamiliarizationManager.instance.SelectThreatOrder((ThreatOrder) _threatCounterbalancingDropdown.value);
             FamiliarizationManager.instance.SelectTaskOrder(_taskCounterbalancingDropdown.options[_taskCounterbalancingDropdown.value].text);
             FamiliarizationManager.instance.StartExperiment(
                 _conditionDropdown.options[_conditionDropdown.value].text,
@@ -75,7 +75,7 @@ public class ExperimentSettingsGUI : MonoBehaviour
         AssignDropdownValue(_experimentData.conditionType.ToString(), _conditionDropdown);
         AssignDropdownValue(_experimentData.participantType.ToString(), _participantDropdown);
         AssignDropdownValue(_experimentData.taskOrder.ToString(), _taskCounterbalancingDropdown);
-        AssignDropdownValue(_experimentData.threatOrder, _threatCounterbalancingDropdown); 
+        AssignDropdownValue(_experimentData.threatOrder.ToString(), _threatCounterbalancingDropdown); 
         
         List<string> _dropDownOptions = new List<string>();
 
