@@ -26,7 +26,7 @@ public class FamiliarizationManager : MonoBehaviour
 
     public void MovementMessage()
     {
-        InstructionsTextBehavior.instance.ShowinstructionsText("Bitte üben Sie die Bewegungen, die wir Ihnen gerade gezeigt haben. Im Moment halten wir Ihre Vision absichtlich schwarz.");
+        InstructionsTextBehavior.instance.ShowinstructionsText("Bitte üben Sie die Bewegungen, die wir Ihnen gerade gezeigt haben. Sie werden einen schwarzen hintergrund sehen.");
     }
 
     public void DefaultMessage()
