@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1499656944388269065}
   - component: {fileID: 1988415107881604546}
   - component: {fileID: 2326994558544268790}
-  - component: {fileID: 58903214467696527}
+  - component: {fileID: 2142138049744001120}
   m_Layer: 0
   m_Name: VideoManager
   m_TagString: MainCamera
@@ -48,8 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _deviceSelection: 1
-  _desiredDeviceNames:
-  - HD USB Camera
+  _desiredDeviceNames: []
   _desiredDeviceIndex: 0
   _modeSelection: 2
   _desiredAnyResolution: 1
@@ -67,12 +66,12 @@ MonoBehaviour:
   _videoInputSelection: 0
   _desiredVideoInputs: 0600000003000000
   _desiredVideoInputIndex: 0
-  _playOnStart: 1
+  _playOnStart: 0
   _deinterlace: 0
   _allowTransparency: 0
   _flipX: 0
   _flipY: 0
-  _updateHotSwap: 0
+  _updateHotSwap: 1
   _updateFrameRates: 0
   _updateSettings: 0
 --- !u!114 &1499656944388269065
@@ -125,7 +124,7 @@ MonoBehaviour:
   _material: {fileID: 2100000, guid: 42d3233844697f34eb8ed0b217a7222c, type: 2}
   _liveCamera: {fileID: 6984983847143865257}
   _videoRenderTexture: {fileID: 8400000, guid: a4dae89f3cb2b294e93556d9fcc1ab61, type: 2}
---- !u!114 &58903214467696527
+--- !u!114 &2142138049744001120
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,7 +133,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8208434292311000986}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad43af36df273084f8ac3b1fa71ae729, type: 3}
+  m_Script: {fileID: 11500000, guid: 89122bb6666ed604ca3b9ceacbbed86e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _liveCamera: {fileID: 6984983847143865257}
