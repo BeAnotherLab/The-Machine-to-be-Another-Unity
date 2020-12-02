@@ -19,7 +19,10 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private Slider _pitchSlider, _yawSlider, _rollSlider, _zoomSlider;
     [SerializeField] private IPInputField _ipInputField;
     [SerializeField] private Toggle _serialControlToggle;
+    
     [SerializeField] private InputField _cameraNameInputField;
+    [SerializeField] private Button _cameraSettingsButton;
+
     [SerializeField] private Button _dimButton;
     [SerializeField] private Button _rotateCameraButton;
     [SerializeField] private Button _headTrackingOnButton;
@@ -50,25 +53,15 @@ public class SettingsGUI : MonoBehaviour
             PlayerPrefs.SetString("CameraName", _cameraNameInputField.text);
         });
         
-        _dimButton.onClick.AddListener(delegate
-        {
-            VideoFeed.instance.SetDimmed();
-        });
+        _dimButton.onClick.AddListener(delegate { VideoFeed.instance.SetDimmed(); });
         
-        _repeaterToggle.onValueChanged.AddListener(delegate
-        {
-            OscManager.instance.SetRepeater(_repeaterToggle.isOn);
-        });
+        _cameraSettingsButton.onClick.AddListener(delegate { VideoCameraManager.instance.ShowCameraConfigWindow(); });
+        
+        _repeaterToggle.onValueChanged.AddListener(delegate { OscManager.instance.SetRepeater(_repeaterToggle.isOn); });
 
-        _serialControlToggle.onValueChanged.AddListener(delegate
-        {
-            ArduinoManager.instance.SetSerialControlComputer(_serialControlToggle.isOn);
-        });
+        _serialControlToggle.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetSerialControlComputer(_serialControlToggle.isOn); });
         
-        _timelineDropdown.onValueChanged.AddListener(delegate(int val)
-        { 
-            StatusManager.instance.SetInstructionsTimeline(val);
-        });
+        _timelineDropdown.onValueChanged.AddListener(delegate(int val) { StatusManager.instance.SetInstructionsTimeline(val); });
         
         _controlsText.text = _controlsText.text + "\n \nlocal IP adress : " + OSCUtilities.GetLocalHost();
 

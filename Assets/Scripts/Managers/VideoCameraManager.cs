@@ -37,6 +37,11 @@ public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
     {
         _avProLiveCamera._desiredDeviceNames.Add(cameraName);
     }
+
+    public void ShowCameraConfigWindow()
+    {
+        _avProLiveCamera.Device.ShowConfigWindow();
+    }
     
     public void EnableDeviceMenu(bool show)
     {
