@@ -37,7 +37,7 @@ public class StatusManager : MonoBehaviour {
     private GameObject _mainCamera;
     private bool _readyForStandby; //when we use serial, only go to standby if Arduino is ready.
     private GameObject _confirmationMenu;
-    
+    private bool _experienceRunning;
     
     #endregion
 
@@ -142,7 +142,7 @@ public class StatusManager : MonoBehaviour {
     {
         otherStatus = UserStatus.headsetOff;
         //if experience started
-        if (selfStatus == UserStatus.readyToStart && instructionsTimeline.playableGraph.IsPlaying())
+        if (selfStatus == UserStatus.readyToStart && _experienceRunning)
         {
             VideoFeed.instance.SetDimmed(true);
 
@@ -150,6 +150,7 @@ public class StatusManager : MonoBehaviour {
             InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeOutImages();
 
             instructionsTimeline.Stop();
+            _experienceRunning = false;    
             StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
             selfStatus = UserStatus.headsetOn;
         }
@@ -161,6 +162,8 @@ public class StatusManager : MonoBehaviour {
             InstructionsTextBehavior.instance.ShowTextFromKey("idle");
 
         instructionsTimeline.Stop();
+        _experienceRunning = false;
+        
         AudioPlayer.instance.StopAudioInstructions();
 
         InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeInPanel();
@@ -190,6 +193,7 @@ public class StatusManager : MonoBehaviour {
         AudioPlayer.instance.StopAudioInstructions();    
         InstructionsTextBehavior.instance.ShowTextFromKey("systemFailure");
         instructionsTimeline.Stop();
+        _experienceRunning = false;
         Destroy(gameObject);
     }
 
@@ -245,6 +249,7 @@ public class StatusManager : MonoBehaviour {
         {
             InstructionsTextBehavior.instance.ShowTextFromKey("instructions");
             instructionsTimeline.Play();
+            _experienceRunning = true;
         }
     }
 
@@ -253,6 +258,7 @@ public class StatusManager : MonoBehaviour {
         VideoFeed.instance.SetDimmed(true);
         InstructionsTextBehavior.instance.ShowTextFromKey("finished");
         instructionsTimeline.Stop();
+        _experienceRunning = false;
     }
 
     private IEnumerator WaitBeforeResetting()
