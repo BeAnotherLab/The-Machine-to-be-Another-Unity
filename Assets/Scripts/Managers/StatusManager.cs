@@ -37,7 +37,7 @@ public class StatusManager : MonoBehaviour {
     private GameObject _mainCamera;
     private bool _readyForStandby; //when we use serial, only go to standby if Arduino is ready.
     private GameObject _confirmationMenu;
-    
+    private bool _experienceRunning;
     
     #endregion
 
@@ -137,21 +137,20 @@ public class StatusManager : MonoBehaviour {
         selfStatus = UserStatus.headsetOn;
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
         OscManager.instance.SendThisUserStatus(UserStatus.headsetOn);
-        if (otherStatus == UserStatus.headsetOn) HeadsetsOn();    
         Debug.Log("this user put on the headset", DLogType.Input);
     }
 
     public void OtherPutHeadsetOn()
     {
         otherStatus = UserStatus.headsetOn;
-        if (selfStatus == UserStatus.headsetOn) HeadsetsOn();
         Debug.Log("the other user put on the headset", DLogType.Input);
     }
     
     public void OtherLeft()
     {
         otherStatus = UserStatus.headsetOff;
-        if (selfStatus == UserStatus.readyToStart)
+        //if experience started
+        if (selfStatus == UserStatus.readyToStart && _experienceRunning)
         {
             VideoFeed.instance.SetDimmed(true);
 
@@ -159,11 +158,9 @@ public class StatusManager : MonoBehaviour {
             InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeOutImages();
 
             instructionsTimeline.Stop();
+            _experienceRunning = false;    
             StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
-        }
-        else
-        {
-            InstructionsDisplay.instance.ShowWelcomeVideo();
+            selfStatus = UserStatus.headsetOn;
         }
         Debug.Log("the other user removed the headset", DLogType.Input);
     }
@@ -174,6 +171,8 @@ public class StatusManager : MonoBehaviour {
             InstructionsTextBehavior.instance.ShowTextFromKey("idle");
 
         instructionsTimeline.Stop();
+        _experienceRunning = false;
+        
         AudioPlayer.instance.StopAudioInstructions();
 
         InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeInPanel();
@@ -184,11 +183,8 @@ public class StatusManager : MonoBehaviour {
         EnableConfirmationGUI(true);
         _languageButtons.gameObject.SetActive(true); //show language buttons;
 
-        
         if (_readyForStandby) //TODO is check necessary? 
             ArduinoManager.instance.InitialPositions();
-
-        InstructionsDisplay.instance.ShowWelcomeVideo();
         
         Debug.Log("ready to start");
     }
@@ -206,9 +202,9 @@ public class StatusManager : MonoBehaviour {
         VideoFeed.instance.SetDimmed(true);
         OscManager.instance.SendSerialStatus(false);
         AudioPlayer.instance.StopAudioInstructions();    
-        InstructionsDisplay.instance.ShowTechnicalFailureMessage();
         InstructionsTextBehavior.instance.ShowTextFromKey("systemFailure");
         instructionsTimeline.Stop();
+        _experienceRunning = false;
         Destroy(gameObject);
         Debug.Log("serial failure", DLogType.Error);
     }
@@ -229,7 +225,6 @@ public class StatusManager : MonoBehaviour {
     {
         _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
         if (selfStatus == UserStatus.readyToStart) Standby(); //if we were ready and we took off the headset
-        if (selfStatus == UserStatus.headsetOn) InstructionsDisplay.instance.ShowWelcomeVideo(); //if we just had headset on
         selfStatus = UserStatus.headsetOff;
         OscManager.instance.SendThisUserStatus(selfStatus);
         Debug.Log("this user removed his headset", DLogType.Input);
@@ -248,12 +243,6 @@ public class StatusManager : MonoBehaviour {
 
 
     #region Private Methods
-    
-    private void HeadsetsOn()
-    {
-        InstructionsDisplay.instance.ShowWaitForTurnVideo();
-        Debug.Log("both headsets on", DLogType.Input);
-    }
     
     private void EnableConfirmationGUI(bool enable)
     {
@@ -274,6 +263,7 @@ public class StatusManager : MonoBehaviour {
         {
             InstructionsTextBehavior.instance.ShowTextFromKey("instructions");
             instructionsTimeline.Play();
+            _experienceRunning = true;
         }
     }
 
@@ -282,7 +272,8 @@ public class StatusManager : MonoBehaviour {
         VideoFeed.instance.SetDimmed(true);
         InstructionsTextBehavior.instance.ShowTextFromKey("finished");
         instructionsTimeline.Stop();
-        Debug.Log("experience finished");
+		Debug.Log("experience finished");
+        _experienceRunning = false;
     }
 
     private IEnumerator WaitBeforeResetting()
