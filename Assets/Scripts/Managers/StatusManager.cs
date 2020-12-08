@@ -150,6 +150,7 @@ public class StatusManager : MonoBehaviour {
 
             instructionsTimeline.Stop();
             StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
+            selfStatus = UserStatus.headsetOn;
         }
     }
 
@@ -169,10 +170,8 @@ public class StatusManager : MonoBehaviour {
         EnableConfirmationGUI(true);
         _languageButtons.gameObject.SetActive(true); //show language buttons;
 
-        
         if (_readyForStandby) //TODO is check necessary? 
             ArduinoManager.instance.InitialPositions();
-
     }
 
     public void DisableStatusManagement()
