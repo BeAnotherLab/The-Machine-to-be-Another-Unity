@@ -261,7 +261,6 @@ public class StatusManager : MonoBehaviour {
     {
         if (_readyForStandby)
         {
-            InstructionsTextBehavior.instance.ShowTextFromKey("instructions");
             instructionsTimeline.Play();
             _experienceRunning = true;
         }
