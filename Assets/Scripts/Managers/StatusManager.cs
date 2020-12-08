@@ -141,7 +141,8 @@ public class StatusManager : MonoBehaviour {
     public void OtherLeft()
     {
         otherStatus = UserStatus.headsetOff;
-        if (selfStatus == UserStatus.readyToStart)
+        //if experience started
+        if (selfStatus == UserStatus.readyToStart && instructionsTimeline.playableGraph.IsPlaying())
         {
             VideoFeed.instance.SetDimmed(true);
 
