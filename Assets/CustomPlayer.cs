@@ -27,7 +27,7 @@ namespace Mirror.Examples.Pong
             {
                 gameObject.name = "local player";
             }
-            
+            VideoFeed.instance.SetDimmed(true);
         }
 
         // need to use FixedUpdate for rigidbody
