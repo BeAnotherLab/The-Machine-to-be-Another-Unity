@@ -156,6 +156,7 @@ public class StatusManager : MonoBehaviour {
 
             InstructionsTextBehavior.instance.ShowTextFromKey("otherIsGone");
             InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeOutImages();
+            InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeInPanel();
 
             instructionsTimeline.Stop();
             _experienceRunning = false;    
