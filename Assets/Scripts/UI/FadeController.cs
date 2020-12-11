@@ -90,51 +90,5 @@ public class FadeController : MonoBehaviour
         });
 
     }
-    
-    public IEnumerator Fade(bool _in, GameObject _object)
-    {
-        Color _color = new Color();
-
-        if(_object.GetComponent<Renderer>() != null)
-            _color = _object.GetComponent<Renderer>().material.color;
-
-        else if(_object.GetComponent<SpriteRenderer>() != null)
-            _color = _object.GetComponent<SpriteRenderer>().material.color;
-
-        else if (_object.GetComponent<Image>() != null)
-            _color = _object.GetComponent<Image>().material.color;
-
-        float elapsedTime = 0f;
-
-            if (_in)
-                while (elapsedTime < 1f)
-                {
-                    elapsedTime += Time.deltaTime;
-                    _color = new Color(_color.r, _color.g, _color.b, elapsedTime / 1f);
-                if (_object.GetComponent<Renderer>() != null)
-                   _object.GetComponent<Renderer>().material.color = _color;
-                else if (_object.GetComponent<SpriteRenderer>() != null)
-                    _object.GetComponent<SpriteRenderer>().material.color = _color;
-                else if (_object.GetComponent<Image>() != null)
-                    _object.GetComponent<Image>().material.color = _color;
-
-                yield return null;
-                }
-
-            else
-                while (elapsedTime < 1f)
-                {
-                    elapsedTime += Time.deltaTime;
-                    _color = new Color(_color.r, _color.g, _color.b, 1 - (elapsedTime / 1f));
-                if (_object.GetComponent<Renderer>() != null)
-                    _object.GetComponent<Renderer>().material.color = _color;
-                else if (_object.GetComponent<SpriteRenderer>() != null)
-                    _object.GetComponent<SpriteRenderer>().material.color = _color;
-                else if (_object.GetComponent<Image>() != null)
-                    _object.GetComponent<Image>().material.color = _color;
-
-                yield return null;
-                }
-    }
     #endregion
 }
