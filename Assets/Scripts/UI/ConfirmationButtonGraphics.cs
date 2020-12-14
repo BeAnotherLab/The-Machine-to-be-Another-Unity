@@ -14,7 +14,8 @@ public class ConfirmationButtonGraphics : MonoBehaviour
     private float _velocity;
     
     private bool _loopAnimation = true;
-
+    private bool _buttonIsOn = false;
+    
     private Coroutine _idleCoroutine;
 
     [SerializeField] private float _scaleAmount;
@@ -43,30 +44,31 @@ public class ConfirmationButtonGraphics : MonoBehaviour
         transform.localScale = new Vector3(_currentScale, _currentScale, _currentScale);
     }
 
-    public void SwitchSelection(bool _on) {
-        if (_on) {
+    public void SwitchSelection(bool on)
+    {
+        _buttonIsOn = on;
+        if (on) {
             GetComponent<MeshRenderer>().material = buttonOn;
             _loopAnimation = false;
             StopCoroutine(_idleCoroutine);
-            Debug.Log("stop coroutine");
             _scaleTarget = _scaleAmount * 1.2f;
         }
         else {
             GetComponent<MeshRenderer>().material = buttonOff;
-            if(gameObject.activeSelf)
-              _idleCoroutine = StartCoroutine(AnimateButton(true));
-            _loopAnimation = true;
+            if (gameObject.activeSelf)
+            {
+                _loopAnimation = true;
+                _idleCoroutine = StartCoroutine(AnimateButton());
+            }
         }
     }
     
     private IEnumerator AnimateButton(bool fromOn = false) {
-        if (fromOn) _scaleTarget = 1;
-        else _scaleTarget = _scaleAmount;
-        
+        if(!_buttonIsOn) _scaleTarget = 1;
+
         yield return new WaitForSeconds(_delay);
 
-        if (fromOn) _scaleTarget = _scaleAmount;
-        else _scaleTarget = 1;
+        if(!_buttonIsOn) _scaleTarget = _scaleAmount;
 
         yield return new WaitForSeconds(_delay);
         
