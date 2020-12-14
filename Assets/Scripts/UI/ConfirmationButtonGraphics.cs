@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class ConfirmationButtonGraphics : MonoBehaviour
 {
-
     public Material buttonOff, buttonOn;
     public static ConfirmationButtonGraphics instance;
     private bool _loopAnimation = true;
 
+    private LTDescr _idleTween;
+    
     void Awake()
     {
         if (instance == null) instance = this;
@@ -16,37 +17,25 @@ public class ConfirmationButtonGraphics : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(AnimateButton());
+        _idleTween = LeanTween
+            .scale(gameObject, new Vector3(1.3f, 1.3f, 1.3f), 0.7f)
+            .setEaseOutCubic()
+            .setLoopType(LeanTweenType.pingPong);
     }
 
 
     public void SwitchSelection(bool _on) {
         if (_on) {
-            this.gameObject.GetComponent<MeshRenderer>().material = buttonOn;
-            _loopAnimation = false;
-            StopCoroutine(AnimateButton());
-            LeanTween.resumeAll();
-            LeanTween.scale(gameObject, new Vector3(1.3f, 1.3f, 1.3f), 1f).setEaseOutBounce();
-            
-            }
-
-        else {
-            this.gameObject.GetComponent<MeshRenderer>().material = buttonOff;
-            if(this.gameObject.activeSelf)
-                StartCoroutine(AnimateButton());
-            _loopAnimation = true;
+            GetComponent<MeshRenderer>().material = buttonOn;
+            LeanTween.pause(_idleTween.uniqueId);
+            LeanTween
+                .scale(gameObject, new Vector3(1.3f, 1.3f, 1.3f), 0.7f)
+                .setEaseOutCubic();
         }
-    }
-
-    private IEnumerator AnimateButton() {
-        yield return new WaitForSeconds(0.6f);
-        LeanTween.scale(gameObject, new Vector3(1.1f, 1.1f, 1.1f), 0.5f).setEaseOutBounce();
-
-        yield return new WaitForSeconds(0.6f);
-        
-        LeanTween.scale(gameObject, new Vector3(1f, 1f, 1f), 0.5f).setEaseOutBounce();
-
-        if(_loopAnimation)
-                StartCoroutine(AnimateButton());
+        else {
+            GetComponent<MeshRenderer>().material = buttonOff;
+            if(gameObject.activeSelf)
+                LeanTween.resume(_idleTween.uniqueId);
+        }
     }
 }
