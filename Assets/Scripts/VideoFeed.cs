@@ -208,17 +208,11 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         _videoPlaybackMeshRenderer.enabled = !show;
     }
     
-    #endregion
-
-    
-    #region Private Methods
-
-    private IEnumerator StartupDim()
+    public IEnumerator StartupDim()
     {
         yield return new WaitForSeconds(2);
         SetDimmed(true);
     }
-
-    #endregion
     
+    #endregion
 }
