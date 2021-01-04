@@ -78,7 +78,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         // Turn towards our target rotation.
         otherPose = Quaternion.RotateTowards(otherPose, nextOtherPose, _turningRate * Time.deltaTime);
 
-        if (Input.GetKeyDown("b") && !_editing ) SetDimmed();
+        if (Input.GetKeyDown("b") && !_editing ) ToggleDim();
         if (Input.GetKeyDown("n") && !_editing ) RecenterPose();
         if (Input.GetKeyDown("r") && !_editing ) Rotate();
 
@@ -147,7 +147,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         transform.parent.localScale = new Vector3(- transform.parent.localScale.x, transform.parent.localScale.y, transform.parent.localScale.z);
     }
 
-    public void SetDimmed(bool dim, bool fade = true)
+    public void Dim(bool dim, bool fade = true)
     {
         if (targetTransform != null)
         {
@@ -170,10 +170,10 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         }
     }
 
-    public void SetDimmed()
+    public void ToggleDim()
     {
         _dimmed = !_dimmed;
-        SetDimmed(_dimmed);
+        Dim(_dimmed);
     }
 
     public void Rotate()
@@ -211,7 +211,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     public IEnumerator StartupDim()
     {
         yield return new WaitForSeconds(2);
-        SetDimmed(true);
+        Dim(true);
     }
     
     #endregion

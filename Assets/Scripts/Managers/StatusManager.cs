@@ -81,7 +81,7 @@ public class StatusManager : MonoBehaviour {
     public void StartExperience()
     {
         InstructionsTextBehavior.instance.ShowInstructionText(false);
-        if (_autoStartAndFinishOn) VideoFeed.instance.SetDimmed(false);
+        if (_autoStartAndFinishOn) VideoFeed.instance.Dim(false);
         Debug.Log("experience started");
     }
 
@@ -152,7 +152,7 @@ public class StatusManager : MonoBehaviour {
         //if experience started
         if (selfStatus == UserStatus.readyToStart && _experienceRunning)
         {
-            VideoFeed.instance.SetDimmed(true);
+            VideoFeed.instance.Dim(true);
 
             InstructionsTextBehavior.instance.ShowTextFromKey("otherIsGone");
             InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeOutImages();
@@ -168,7 +168,7 @@ public class StatusManager : MonoBehaviour {
 
     public void Standby(bool start = false)
     {
-        if (!start) VideoFeed.instance.SetDimmed(true); //TODO somehow this messes with Video Feed dimming when called on Start?
+        if (!start) VideoFeed.instance.Dim(true); //TODO somehow this messes with Video Feed dimming when called on Start?
             InstructionsTextBehavior.instance.ShowTextFromKey("idle");
 
         instructionsTimeline.Stop();
@@ -194,7 +194,7 @@ public class StatusManager : MonoBehaviour {
     {
         if (!enable)
         {
-            VideoFeed.instance.SetDimmed(true);
+            VideoFeed.instance.Dim(true);
             InstructionsTextBehavior.instance.ShowInstructionText(false);
         }
         
@@ -203,7 +203,7 @@ public class StatusManager : MonoBehaviour {
     
     public void SerialFailure() //if something went wrong with the physical installation
     {
-        VideoFeed.instance.SetDimmed(true);
+        VideoFeed.instance.Dim(true);
         OscManager.instance.SendSerialStatus(false);
         AudioPlayer.instance.StopAudioInstructions();    
         InstructionsTextBehavior.instance.ShowTextFromKey("systemFailure");
@@ -272,7 +272,7 @@ public class StatusManager : MonoBehaviour {
 
     private void IsOver() //called at the the end of the experience
     {
-        VideoFeed.instance.SetDimmed(true);
+        VideoFeed.instance.Dim(true);
         InstructionsTextBehavior.instance.ShowTextFromKey("finished");
         instructionsTimeline.Stop();
 		Debug.Log("experience finished");

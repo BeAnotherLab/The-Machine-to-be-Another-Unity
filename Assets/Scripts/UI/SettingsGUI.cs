@@ -53,7 +53,7 @@ public class SettingsGUI : MonoBehaviour
             PlayerPrefs.SetString("CameraName", _cameraNameInputField.text);
         });
         
-        _dimButton.onClick.AddListener(delegate { VideoFeed.instance.SetDimmed(); });
+        _dimButton.onClick.AddListener(delegate { VideoFeed.instance.ToggleDim(); });
         
         _cameraSettingsButton.onClick.AddListener(delegate { VideoCameraManager.instance.ShowCameraConfigWindow(); });
         

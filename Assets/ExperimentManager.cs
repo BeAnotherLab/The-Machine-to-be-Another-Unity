@@ -101,7 +101,7 @@ public class ExperimentManager : MonoBehaviour
         _currentPhaseText.text = "Current phase : Instructed Phase";
         SparkSwapInstructionsGUI.instance.ShowInstructionText("Sie können jetzt anfangen.", 3);
         TCPClient.instance.SendTCPMessage(experimentData.experimentState + "_Instructed_Phase");
-        VideoFeed.instance.SetDimmed(false);
+        VideoFeed.instance.Dim(false);
         _startButton.gameObject.SetActive(false);
         _interventionTimeline.Play();
         

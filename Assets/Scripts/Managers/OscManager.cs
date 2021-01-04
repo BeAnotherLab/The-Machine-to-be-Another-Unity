@@ -172,7 +172,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) VideoFeed.instance.SetDimmed(true);
+            if (value == 1f) VideoFeed.instance.Dim(true);
 
         if (_repeater) _oscTransmitter.Send(message);
     }
@@ -181,7 +181,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) VideoFeed.instance.SetDimmed(false);
+            if (value == 1f) VideoFeed.instance.Dim(false);
 
         if (_repeater) _oscTransmitter.Send(message);
     }
