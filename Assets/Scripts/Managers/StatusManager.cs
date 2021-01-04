@@ -62,7 +62,7 @@ public class StatusManager : MonoBehaviour {
 
     private void Update()
     {
-        if ( presenceDetection ) //status management is for both autonomous and manual swap
+        if (presenceDetection) //presence is for both autonomous and manual swap
         {
             if (XRDevice.userPresence == UserPresenceState.NotPresent && selfStatus != UserStatus.headsetOff) 
                 SelfRemovedHeadset();
@@ -168,7 +168,7 @@ public class StatusManager : MonoBehaviour {
 
     public void Standby(bool start = false)
     {
-        if (!start) VideoFeed.instance.SetDimmed(true); //TODO somehow this messses with Video Feed dimming when called on Start?
+        if (!start) VideoFeed.instance.SetDimmed(true); //TODO somehow this messes with Video Feed dimming when called on Start?
             InstructionsTextBehavior.instance.ShowTextFromKey("idle");
 
         instructionsTimeline.Stop();
@@ -190,14 +190,17 @@ public class StatusManager : MonoBehaviour {
         Debug.Log("ready to start");
     }
 
-    public void DisableStatusManagement()
+    public void EnablePresenceDetection(bool enable)
     {
-        VideoFeed.instance.SetDimmed(true);
-        InstructionsTextBehavior.instance.ShowInstructionText(false);
-
-        presenceDetection = false;
+        if (!enable)
+        {
+            VideoFeed.instance.SetDimmed(true);
+            InstructionsTextBehavior.instance.ShowInstructionText(false);
+        }
+        
+        presenceDetection = enable;
     }
-
+    
     public void SerialFailure() //if something went wrong with the physical installation
     {
         VideoFeed.instance.SetDimmed(true);

@@ -42,7 +42,7 @@ public class SwapModeManager : MonoBehaviour
                 //enable status management, self, other, autoplay, autofinish, reset timer
                 StatusManager.instance.Standby(true);
                 StatusManager.instance.SetAutoStartAndFinish(true, 0);
-                StatusManager.instance.presenceDetection = true;
+                StatusManager.instance.EnablePresenceDetection(true);
 
                 //enable OSC repeat
                 OscManager.instance.EnableRepeater(true);
@@ -68,7 +68,7 @@ public class SwapModeManager : MonoBehaviour
                 //enable status management, self, other, remove autoplay, autofinish, reset timer               
                 StatusManager.instance.Standby(true);
                 StatusManager.instance.SetAutoStartAndFinish(false, 5);
-                StatusManager.instance.presenceDetection = true;
+                StatusManager.instance.EnablePresenceDetection(true);
 
                 //stop auto swap instructions audio
                 AudioPlayer.instance.StopAudioInstructions();
@@ -90,7 +90,7 @@ public class SwapModeManager : MonoBehaviour
                 VideoFeed.instance.twoWayWap = false;
 
                 //disable status management
-                StatusManager.instance.DisableStatusManagement();
+                StatusManager.instance.EnablePresenceDetection(false);
 
                 //stop auto swap instructions audio
                 AudioPlayer.instance.StopAudioInstructions();
