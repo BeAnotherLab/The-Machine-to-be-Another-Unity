@@ -27,8 +27,6 @@ public class StatusManager : MonoBehaviour {
 
 
     #region Private Fields
-
-    [SerializeField] private bool _dimOutOnExperienceStart; //TODO check if can remove
     
     [SerializeField] private PlayableDirector _shortTimeline;
     [SerializeField] private PlayableDirector _longTimeline;
@@ -38,7 +36,8 @@ public class StatusManager : MonoBehaviour {
     private bool _readyForStandby; //when we use serial, only go to standby if Arduino is ready.
     private GameObject _confirmationMenu;
     private bool _experienceRunning;
-    
+    private bool _dimOutOnExperienceStart;
+
     #endregion
 
 
