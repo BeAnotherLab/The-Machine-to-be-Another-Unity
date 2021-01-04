@@ -29,25 +29,21 @@ public class SwapModeManager : MonoBehaviour
 
     public void SetSwapMode(SwapModes mode)
     {
+        
         switch (mode)
         {
+            
             case SwapModes.AUTO_SWAP:
-
-                //hide serial port dropdown, show repeater toggle, show IP input field
-                SettingsGUI.instance.SetSwapMode(useCurtain);
-
-                //move video with other pose
-                VideoFeed.instance.twoWayWap = true;
+                SettingsGUI.instance.SetSwapMode(useCurtain); //hide serial port dropdown, show repeater toggle, show IP input field
+                VideoFeed.instance.twoWayWap = true; //move video with other pose
 
                 //enable status management, self, other, autoplay, autofinish, reset timer
                 StatusManager.instance.Standby(true);
                 StatusManager.instance.SetAutoStartAndFinish(true, 0);
                 StatusManager.instance.EnablePresenceDetection(true);
 
-                //enable OSC repeat
-                OscManager.instance.EnableRepeater(true);
-                //send headtracking
-                OscManager.instance.SetSendHeadtracking(true);
+                OscManager.instance.EnableRepeater(true); //enable OSC repeat
+                OscManager.instance.SetSendHeadtracking(true); //send headtracking
 
                 //enable serial depending on if we are using the curtain or not
                 if (useCurtain) ArduinoManager.instance.ActivateSerial(false, useCurtain); //TODO remove?
@@ -56,22 +52,16 @@ public class SwapModeManager : MonoBehaviour
                 break;
 
             case SwapModes.MANUAL_SWAP:
-                //deactivate servos
-                ArduinoManager.instance.DisableSerial();
-
-                //hide serial port dropdown, show repeater toggle, show IP input field
-                SettingsGUI.instance.SetSwapMode();
-
-                //move video with other pose
-                VideoFeed.instance.twoWayWap = true;
+                ArduinoManager.instance.DisableSerial(); //deactivate servos
+                SettingsGUI.instance.SetSwapMode(); //hide serial port dropdown, show repeater toggle, show IP input field
+                VideoFeed.instance.twoWayWap = true; //move video with other pose
 
                 //enable status management, self, other, remove autoplay, autofinish, reset timer               
                 StatusManager.instance.Standby(true);
                 StatusManager.instance.SetAutoStartAndFinish(false, 5);
                 StatusManager.instance.EnablePresenceDetection(true);
 
-                //stop auto swap instructions audio
-                AudioPlayer.instance.StopAudioInstructions();
+                AudioPlayer.instance.StopAudioInstructions(); //stop auto swap instructions audio
 
                 //enable OSC repeat
                 OscManager.instance.EnableRepeater(true);
@@ -80,25 +70,13 @@ public class SwapModeManager : MonoBehaviour
                 break;
 
             case SwapModes.SERVO_SWAP:
-                //enable servos
-                ArduinoManager.instance.ActivateSerial(true, false);
-
-                //show serial port dropdown, hide repeater toggle, hide IP input field
-                SettingsGUI.instance.SetServoMode();
-
-                //keep video in front of camera
-                VideoFeed.instance.twoWayWap = false;
-
-                //disable status management
-                StatusManager.instance.EnablePresenceDetection(false);
-
-                //stop auto swap instructions audio
-                AudioPlayer.instance.StopAudioInstructions();
-
-                //disable OSC repeat
-                OscManager.instance.EnableRepeater(false);
+                ArduinoManager.instance.ActivateSerial(true, false); //enable servos
+                SettingsGUI.instance.SetServoMode(); //show serial port dropdown, hide repeater toggle, hide IP input field
+                VideoFeed.instance.twoWayWap = false; //keep video in front of camera
+                StatusManager.instance.EnablePresenceDetection(false); //disable status management
+                AudioPlayer.instance.StopAudioInstructions(); //stop auto swap instructions audio
+                OscManager.instance.EnableRepeater(false); //disable OSC repeat
                 OscManager.instance.SetSendHeadtracking(true);
-
                 break;
         }
 
@@ -106,4 +84,5 @@ public class SwapModeManager : MonoBehaviour
         PlayerPrefs.SetInt("swapMode", (int) mode);
 
     }
+    
 }
