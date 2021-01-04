@@ -28,7 +28,7 @@ public class StatusManager : MonoBehaviour {
 
     #region Private Fields
 
-    [SerializeField] private bool _autoStartAndFinishOn; //TODO check if can remove
+    [SerializeField] private bool _dimOutOnExperienceStart; //TODO check if can remove
     
     [SerializeField] private PlayableDirector _shortTimeline;
     [SerializeField] private PlayableDirector _longTimeline;
@@ -81,7 +81,7 @@ public class StatusManager : MonoBehaviour {
     public void StartExperience()
     {
         InstructionsTextBehavior.instance.ShowInstructionText(false);
-        if (_autoStartAndFinishOn) VideoFeed.instance.Dim(false);
+        if (_dimOutOnExperienceStart) VideoFeed.instance.Dim(false);
         Debug.Log("experience started");
     }
 
@@ -105,9 +105,9 @@ public class StatusManager : MonoBehaviour {
         Debug.Log("wall off");
     }
     
-    public void SetAutoStartAndFinish(bool on, float waitTime = 5)
+    public void DimOutOnExperienceStart(bool on)
     {
-        _autoStartAndFinishOn = on;
+        _dimOutOnExperienceStart = on;
     }
 
     public void ThisUserIsReady() //called when user has aimed at the confirmation dialog and waited through the countdown.
