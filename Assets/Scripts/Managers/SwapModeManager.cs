@@ -34,14 +34,10 @@ public class SwapModeManager : MonoBehaviour
         {
             
             case SwapModes.AUTO_SWAP:
+                
                 SettingsGUI.instance.SetSwapMode(useCurtain); //hide serial port dropdown, show repeater toggle, show IP input field
                 VideoFeed.instance.twoWayWap = true; //move video with other pose
-
-                //enable status management, self, other, autoplay, autofinish, reset timer
-                StatusManager.instance.Standby(true);
-                StatusManager.instance.DimOutOnExperienceStart(true);
-                StatusManager.instance.EnablePresenceDetection(true);
-
+                StatusManager.instance.Standby(true, true, true); //go to initial state
                 OscManager.instance.EnableRepeater(true); //enable OSC repeat
                 OscManager.instance.SetSendHeadtracking(true); //send headtracking
 
@@ -52,15 +48,11 @@ public class SwapModeManager : MonoBehaviour
                 break;
 
             case SwapModes.MANUAL_SWAP:
+                
                 ArduinoManager.instance.DisableSerial(); //deactivate servos
                 SettingsGUI.instance.SetSwapMode(); //hide serial port dropdown, show repeater toggle, show IP input field
                 VideoFeed.instance.twoWayWap = true; //move video with other pose
-
-                //enable status management, self, other, remove autoplay, autofinish, reset timer               
-                StatusManager.instance.Standby(true);
-                StatusManager.instance.DimOutOnExperienceStart(false);
-                StatusManager.instance.EnablePresenceDetection(true);
-
+                StatusManager.instance.Standby(true, false, true); //go to initial state
                 AudioPlayer.instance.StopAudioInstructions(); //stop auto swap instructions audio
 
                 //enable OSC repeat
@@ -70,10 +62,11 @@ public class SwapModeManager : MonoBehaviour
                 break;
 
             case SwapModes.SERVO_SWAP:
+                
                 ArduinoManager.instance.ActivateSerial(true, false); //enable servos
                 SettingsGUI.instance.SetServoMode(); //show serial port dropdown, hide repeater toggle, hide IP input field
                 VideoFeed.instance.twoWayWap = false; //keep video in front of camera
-                StatusManager.instance.EnablePresenceDetection(false); //disable status management
+                StatusManager.instance.EnablePresenceDetection(false); //disable presence detection
                 AudioPlayer.instance.StopAudioInstructions(); //stop auto swap instructions audio
                 OscManager.instance.EnableRepeater(false); //disable OSC repeat
                 OscManager.instance.SetSendHeadtracking(true);

@@ -104,11 +104,6 @@ public class StatusManager : MonoBehaviour {
         ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
         Debug.Log("wall off");
     }
-    
-    public void DimOutOnExperienceStart(bool on)
-    {
-        _dimOutOnExperienceStart = on;
-    }
 
     public void ThisUserIsReady() //called when user has aimed at the confirmation dialog and waited through the countdown.
     {
@@ -166,7 +161,7 @@ public class StatusManager : MonoBehaviour {
         Debug.Log("the other user removed the headset", DLogType.Input);
     }
 
-    public void Standby(bool start = false)
+    public void Standby(bool start = false, bool dimOutOnExperienceStart = true, bool enablePresenceDetection = true)
     {
         if (!start) VideoFeed.instance.Dim(true); //TODO somehow this messes with Video Feed dimming when called on Start?
             InstructionsTextBehavior.instance.ShowTextFromKey("idle");
@@ -188,17 +183,22 @@ public class StatusManager : MonoBehaviour {
             ArduinoManager.instance.InitialPositions();
         
         Debug.Log("ready to start");
-    }
-
-    public void EnablePresenceDetection(bool enable)
-    {
-        if (!enable)
+        
+        if (!enablePresenceDetection)
         {
             VideoFeed.instance.Dim(true);
             InstructionsTextBehavior.instance.ShowInstructionText(false);
         }
         
-        presenceDetection = enable;
+        presenceDetection = enablePresenceDetection;
+
+        _dimOutOnExperienceStart = dimOutOnExperienceStart;
+
+    }
+
+    public void EnablePresenceDetection(bool enablePresenceDetection)
+    {
+        
     }
     
     public void SerialFailure() //if something went wrong with the physical installation
