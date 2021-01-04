@@ -202,7 +202,7 @@ public class OscManager : MonoBehaviour {
 
     private void ReceivedOtherStatus(OSCMessage message)
     {
-        if (StatusManager.instance.statusManagementOn)
+        if (StatusManager.instance.presenceDetection)
         {
             int x;
             if (message.ToInt(out x))
@@ -219,7 +219,7 @@ public class OscManager : MonoBehaviour {
 
     private void ReceiveSerialStatus(OSCMessage message)
     {
-        if (StatusManager.instance.statusManagementOn)
+        if (StatusManager.instance.presenceDetection)
         {
             int x;
             if (message.ToInt(out x))

@@ -17,7 +17,7 @@ public class StatusManager : MonoBehaviour {
 
     public static StatusManager instance;
 
-    public bool statusManagementOn;
+    [HideInInspector] public bool presenceDetection;
 
     public UserStatus selfStatus;
     public UserStatus otherStatus;
@@ -62,7 +62,7 @@ public class StatusManager : MonoBehaviour {
 
     private void Update()
     {
-        if ( statusManagementOn ) //status management is for both autonomous and manual swap
+        if ( presenceDetection ) //status management is for both autonomous and manual swap
         {
             if (XRDevice.userPresence == UserPresenceState.NotPresent && selfStatus != UserStatus.headsetOff) 
                 SelfRemovedHeadset();
@@ -112,7 +112,7 @@ public class StatusManager : MonoBehaviour {
 
     public void ThisUserIsReady() //called when user has aimed at the confirmation dialog and waited through the countdown.
     {
-        if (statusManagementOn) OscManager.instance.SendThisUserStatus(UserStatus.readyToStart);
+        if (presenceDetection) OscManager.instance.SendThisUserStatus(UserStatus.readyToStart);
 
         EnableConfirmationGUI(false); //hide status confirmation GUI elements
         _languageButtons.gameObject.SetActive(false); //hide language buttons;
@@ -195,7 +195,7 @@ public class StatusManager : MonoBehaviour {
         VideoFeed.instance.SetDimmed(true);
         InstructionsTextBehavior.instance.ShowInstructionText(false);
 
-        statusManagementOn = false;
+        presenceDetection = false;
     }
 
     public void SerialFailure() //if something went wrong with the physical installation
