@@ -11,7 +11,7 @@ public class SwapModeManager : MonoBehaviour
 
     public SwapModes swapMode;
 
-    public bool useCurtain;
+    public bool ArduinoControl; //for auto swap, enable if we are using an Arduino controlled system.
 
     private void Awake()
     {
@@ -35,14 +35,14 @@ public class SwapModeManager : MonoBehaviour
             
             case SwapModes.AUTO_SWAP:
                 
-                SettingsGUI.instance.SetSwapMode(useCurtain); //hide serial port dropdown, show repeater toggle, show IP input field
+                SettingsGUI.instance.SetSwapMode(ArduinoControl); //hide serial port dropdown, show repeater toggle, show IP input field
                 VideoFeed.instance.twoWayWap = true; //move video with other pose
                 StatusManager.instance.Standby(true, true, true); //go to initial state
                 OscManager.instance.EnableRepeater(true); //enable OSC repeat
                 OscManager.instance.SetSendHeadtracking(true); //send headtracking
 
                 //enable serial depending on if we are using the curtain or not
-                if (useCurtain) ArduinoManager.instance.ActivateSerial(false, useCurtain); //TODO remove?
+                if (ArduinoControl) ArduinoManager.instance.ActivateSerial(false, ArduinoControl); //TODO remove?
                 else ArduinoManager.instance.DisableSerial();
                 
                 break;

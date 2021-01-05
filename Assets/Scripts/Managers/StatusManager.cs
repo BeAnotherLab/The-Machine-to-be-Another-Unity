@@ -56,7 +56,7 @@ public class StatusManager : MonoBehaviour {
     private void Start()
     {
         InstructionsTextBehavior.instance.ShowTextFromKey("waitingForSerial");
-        if (!SwapModeManager.instance.useCurtain) _readyForStandby = true; //if we're not using the serial control, we don't have to wait for the arduino
+        if (!SwapModeManager.instance.ArduinoControl) _readyForStandby = true; //if we're not using the serial control, we don't have to wait for the arduino
     }
 
     private void Update()

@@ -14,10 +14,7 @@ public class ArduinoManager : MonoBehaviour
     #region Public Fields
 
     public static ArduinoManager instance;
-
-    [SerializeField] private bool _servosOn; //for one way swap.
-    private bool _serialControlOn; //for technorama swap. determine if this computer is in charge of controlling the curtain and mirrors
-
+    
     public float pitchOffset, yawOffset; //use those values to compensate
     
     #endregion
@@ -28,9 +25,12 @@ public class ArduinoManager : MonoBehaviour
     [SerializeField] private int _timeOut;
     [SerializeField] private bool _commandOK;
 
+    [SerializeField] private bool _servosOn; //for one way swap.
+    private bool _serialControlOn; //for technorama swap. determine if this computer is in charge of controlling the curtain and mirrors
+    
     private Coroutine _timeoutCoroutine;
     private Coroutine _waitForSysReadyCoroutine;
-        
+    
     #endregion
     
     
