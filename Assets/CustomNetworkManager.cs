@@ -13,6 +13,8 @@ namespace Mirror.Examples.Pong
     {
 
         public static CustomNetworkManager instance;
+
+        public bool offlineMode;
         
         private void Awake()
         {
@@ -21,6 +23,8 @@ namespace Mirror.Examples.Pong
 
         private void Start()
         {
+            if (offlineMode) Instantiate(playerPrefab);
+
             networkAddress = PlayerPrefs.GetString("othersIP");
 
             if (PlayerPrefs.GetInt("repeater", 0) == 1) //TODO rename property
