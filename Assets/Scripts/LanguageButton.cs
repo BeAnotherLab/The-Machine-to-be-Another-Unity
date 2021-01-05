@@ -38,13 +38,10 @@ namespace VRStandardAssets.Menu
         private void HandleOver()
         {
             // When the user looks at the rendering of the scene, show the radial.
-            if (XRDevice.userPresence == UserPresenceState.Present)
-            {
-                m_SelectionRadial.Show();
-                LeanTween.scale(gameObject, _scaleOn, 0.45f).setEaseOutBounce();
-                LeanTween.color(gameObject, Color.white, 0.25f).setEaseOutCubic();
-                m_GazeOver = true;
-            }
+            m_SelectionRadial.Show();
+            LeanTween.scale(gameObject, _scaleOn, 0.45f).setEaseOutBounce();
+            LeanTween.color(gameObject, Color.white, 0.25f).setEaseOutCubic();
+            m_GazeOver = true;
         }
 
         private void HandleOut()
