@@ -146,9 +146,9 @@ public class SettingsGUI : MonoBehaviour
        else _panel.GetComponent<CanvasGroup>().alpha = 0f;
     }
                 
-    public void SetSwapMode(bool useCurtain = false) 
+    public void SetSwapMode(bool withArduino = false) 
     {
-        _serialControlToggle.gameObject.SetActive(useCurtain);
+        _serialControlToggle.gameObject.SetActive(withArduino);
         
         //show two way swap related networking GUI
         _repeaterToggle.gameObject.SetActive(true);
