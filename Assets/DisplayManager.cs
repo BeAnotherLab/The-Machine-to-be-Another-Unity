@@ -9,7 +9,6 @@ public enum DisplayMode{Debug, Prod}
 
 public class DisplayManager : MonoBehaviour //This manager centralizes display of screens and menus on multidisplay setups
 {
-
     public DisplayMode displayMode;
 
     // Start is called before the first frame update
