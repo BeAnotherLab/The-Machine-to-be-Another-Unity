@@ -23,9 +23,9 @@ public class ArduinoManager : MonoBehaviour
     #region Private Fields
 
     [SerializeField] private int _timeOut;
-    [SerializeField] private bool _commandOK;
-
     [SerializeField] private bool _servosOn; //for one way swap.
+    
+    private bool _commandOK;
     private bool _serialControlOn; //for technorama swap. determine if this computer is in charge of controlling the curtain and mirrors
     
     private Coroutine _timeoutCoroutine;
