@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using VRStandardAssets.Menu;
 using VRStandardAssets.Utils;
 using Uduino;
+using VRTK;
 using Debug = DebugFile;
 
 public enum UserStatus { headsetOff, headsetOn, readyToStart } 
@@ -47,7 +48,6 @@ public class StatusManager : MonoBehaviour {
     {
         if (instance == null) instance = this;
 
-        _mainCamera = GameObject.Find("Main Camera");
         _confirmationMenu = GameObject.Find("ConfirmationMenu");
         UduinoManager.Instance.OnBoardDisconnectedEvent.AddListener(delegate { SerialFailure(); });
         instructionsTimeline = _longTimeline; //use short experience by default
@@ -59,6 +59,14 @@ public class StatusManager : MonoBehaviour {
             InstructionsTextBehavior.instance.ShowTextFromKey("waitingForSerial");
         else
             _readyForStandby = true; //if we're not using the serial control, we don't have to wait for the arduino
+        
+        StartCoroutine(FindCamera());
+    }
+    
+    private IEnumerator FindCamera()
+    {
+        yield return new WaitForSeconds(3);
+        _mainCamera = VRTK_DeviceFinder.DeviceTransform(VRTK_DeviceFinder.Devices.Headset).gameObject;
     }
 
     private void Update()

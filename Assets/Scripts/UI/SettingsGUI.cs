@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using extOSC;
+using VRTK;
 
 public class SettingsGUI : MonoBehaviour
 {
@@ -45,8 +47,6 @@ public class SettingsGUI : MonoBehaviour
         if (instance == null) instance = this;
 
         //objects in the scene
-        _mainCamera = GameObject.Find("Main Camera");
-        
         _cameraNameInputField.onEndEdit.AddListener(delegate(string arg0)
         {
             VideoCameraManager.instance.SetCameraName(_cameraNameInputField.text);
@@ -96,8 +96,14 @@ public class SettingsGUI : MonoBehaviour
         OSCUtilities.GetLocalHost();
 
         SetLanguageText(PlayerPrefs.GetInt("language"));
+        StartCoroutine(FindCamera());
     }
 
+    private IEnumerator FindCamera()
+    {
+        yield return new WaitForSeconds(3);
+        _mainCamera = VRTK_DeviceFinder.DeviceTransform(VRTK_DeviceFinder.Devices.Headset).gameObject;
+    }
     private void Update()
     {     
         //TODO move out of settings GUI
@@ -116,7 +122,6 @@ public class SettingsGUI : MonoBehaviour
             _pitchSlider.value = pitchYawRoll.z + 90;
             _zoomSlider.value = VideoFeed.instance.zoom;
         }
-
     }
 
     #endregion

@@ -6,7 +6,7 @@ using System.Text;
 using System.Net;
 using VRStandardAssets.Menu;
 using extOSC;
-
+using VRTK;
 using Debug = DebugFile;
 
 public class OscManager : MonoBehaviour {
@@ -41,8 +41,6 @@ public class OscManager : MonoBehaviour {
     {
         if (instance == null) instance = this;
 
-        _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        
         _oscReceiver = GetComponent<OSCReceiver>();
         _oscTransmitter = GetComponent<OSCTransmitter>();
     }
@@ -63,7 +61,14 @@ public class OscManager : MonoBehaviour {
         //set IP address of other 
         SetOthersIP(PlayerPrefs.GetString("othersIP"));
         
+        StartCoroutine(FindCamera());
     }   
+      
+    private IEnumerator FindCamera()
+    {
+        yield return new WaitForSeconds(3);
+        _mainCamera = VRTK_DeviceFinder.DeviceTransform(VRTK_DeviceFinder.Devices.Headset).GetComponent<Camera>();
+    }
     
     #endregion
 

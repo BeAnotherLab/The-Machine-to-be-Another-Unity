@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using RockVR.Video;
 using UnityEngine.Serialization;
+using VRTK;
 
 public class VideoFeed : MonoBehaviour //TODO turn to manager
 {
@@ -59,8 +60,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     private void Awake()
     {
         if (instance == null) instance = this;
-
-        _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
     void Start()
@@ -68,8 +67,15 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         if(_loadTiltFromPlayerPrefs) _tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
         if (dimOnStart) StartCoroutine(StartupDim());
         otherPose = new Quaternion();
+        StartCoroutine(FindCamera());
     }
 
+    private IEnumerator FindCamera()
+    {
+        yield return new WaitForSeconds(3);
+        _mainCamera = VRTK_DeviceFinder.DeviceTransform(VRTK_DeviceFinder.Devices.Headset).GetComponent<Camera>();
+    }
+    
     // Update is called once per frame
     void Update()    
     {
