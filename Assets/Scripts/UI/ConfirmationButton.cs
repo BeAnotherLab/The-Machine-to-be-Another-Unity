@@ -19,6 +19,8 @@ namespace VRStandardAssets.Menu
         [SerializeField] private CustomSelectionRadial m_SelectionRadial;         // This controls when the selection is complete.
         [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
 
+        [SerializeField] private bool _checkForPresence;
+
         private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
 
         private void Awake()
@@ -43,7 +45,7 @@ namespace VRStandardAssets.Menu
         private void HandleOver()
         {
             // When the user looks at the rendering of the scene, show the radial.
-            if (XRDevice.userPresence == UserPresenceState.Present)
+            if (XRDevice.userPresence == UserPresenceState.Present || !_checkForPresence)
             {
                 m_SelectionRadial.Show();
                 //LeanTween.scale(gameObject, new Vector3(1.2f, 1.2f, 1.2f), 0.45f).setEaseOutBounce();
