@@ -38,7 +38,7 @@ namespace Mirror.Examples.Pong
             if (isLocalPlayer)
             {
                 transform.rotation = _mainCamera.transform.rotation;
-                GetComponent<MeshRenderer>().enabled = false;
+                GetComponentInChildren<MeshRenderer>().enabled = false;
             }
         }
     }
