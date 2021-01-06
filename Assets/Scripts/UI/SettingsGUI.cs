@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using extOSC;
+using VRTK;
 
 public class SettingsGUI : MonoBehaviour
 {
@@ -40,13 +42,19 @@ public class SettingsGUI : MonoBehaviour
 
     #region MonoBehaviour Methods
 
+    protected virtual void OnEnable() {
+        _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+    }
+    protected virtual void OnDestroy() {
+        VRTK_SDKManager.instance.RemoveBehaviourToToggleOnLoadedSetupChange(this);
+    }
+    
     private void Awake()
     {
         if (instance == null) instance = this;
 
-        //objects in the scene
-        _mainCamera = GameObject.Find("Main Camera");
-        
+        VRTK_SDKManager.instance.AddBehaviourToToggleOnLoadedSetupChange (this);
+
         _cameraNameInputField.onEndEdit.AddListener(delegate(string arg0)
         {
             VideoCameraManager.instance.SetCameraName(_cameraNameInputField.text);

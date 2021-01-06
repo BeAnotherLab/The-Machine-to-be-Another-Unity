@@ -6,7 +6,7 @@ using System.Text;
 using System.Net;
 using VRStandardAssets.Menu;
 using extOSC;
-
+using VRTK;
 using Debug = DebugFile;
 
 public class OscManager : MonoBehaviour {
@@ -36,12 +36,19 @@ public class OscManager : MonoBehaviour {
     #endregion
 
     #region MonoBehaviour Methods
-
+    
+    protected virtual void OnEnable() {
+        _mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+    }
+    protected virtual void OnDestroy() {
+        VRTK_SDKManager.instance.RemoveBehaviourToToggleOnLoadedSetupChange(this);
+    }
+    
     private void Awake()
     {
         if (instance == null) instance = this;
 
-        _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        VRTK_SDKManager.instance.AddBehaviourToToggleOnLoadedSetupChange (this);
         
         _oscReceiver = GetComponent<OSCReceiver>();
         _oscTransmitter = GetComponent<OSCTransmitter>();

@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using RockVR.Video;
 using UnityEngine.Serialization;
+using VRTK;
 
 public class VideoFeed : MonoBehaviour //TODO turn to manager
 {
@@ -55,12 +56,19 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
 
     #region MonoBehaviour Methods
-
+    
+    protected virtual void OnEnable() {
+        _mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+    }
+    protected virtual void OnDestroy() {
+        VRTK_SDKManager.instance.RemoveBehaviourToToggleOnLoadedSetupChange(this);
+        PlayerPrefs.SetInt("cameraID", cameraID);
+    }
+    
     private void Awake()
     {
         if (instance == null) instance = this;
-
-        _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        VRTK_SDKManager.instance.AddBehaviourToToggleOnLoadedSetupChange (this);
     }
 
     void Start()
@@ -104,10 +112,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         }
     }
 
-    void OnDestroy()
-    {
-        PlayerPrefs.SetInt("cameraID", cameraID);
-    }
     #endregion
 
 

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using VRStandardAssets.Menu;
 using VRStandardAssets.Utils;
 using Uduino;
+using VRTK;
 using Debug = DebugFile;
 
 public enum UserStatus { headsetOff, headsetOn, readyToStart } 
@@ -43,11 +44,19 @@ public class StatusManager : MonoBehaviour {
 
     #region MonoBehaviour Methods
 
+    protected virtual void OnEnable() {
+        _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+    }
+    protected virtual void OnDestroy() {
+        VRTK_SDKManager.instance.RemoveBehaviourToToggleOnLoadedSetupChange(this);
+    }
+
     private void Awake()
     {
         if (instance == null) instance = this;
 
-        _mainCamera = GameObject.Find("Main Camera");
+        VRTK_SDKManager.instance.AddBehaviourToToggleOnLoadedSetupChange (this);
+
         _confirmationMenu = GameObject.Find("ConfirmationMenu");
         UduinoManager.Instance.OnBoardDisconnectedEvent.AddListener(delegate { SerialFailure(); });
         instructionsTimeline = _longTimeline; //use short experience by default
