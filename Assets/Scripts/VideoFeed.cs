@@ -136,14 +136,13 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         transform.parent.localScale = new Vector3(- transform.parent.localScale.x, transform.parent.localScale.y, transform.parent.localScale.z);
     }
 
-    public void Dim(bool dim, bool fade = true)
+    public void Dim(bool dim, bool fade = true) 
     {
         if (targetTransform != null)
         {
             float next = 1;
             if (dim) next = 0;
-
-            float dimValue = targetTransform.GetComponent<MeshRenderer>().material.color.a;
+            float dimValue = targetTransform.GetComponentInChildren<MeshRenderer>().material.color.a;
 
             float time = 0f;
             if (fade) time = 1;
@@ -151,9 +150,9 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
             LeanTween.value(dimValue, next, time).setEaseInOutQuad().setOnUpdate((val) => {
                 if (targetTransform != null)
                 {
-                    Color c = targetTransform.GetComponent<MeshRenderer>().material.color;
+                    Color c = targetTransform.GetComponentInChildren<MeshRenderer>().material.color;
                     c.a = val;
-                    targetTransform.GetComponent<MeshRenderer>().material.SetColor("_Color", c);                    
+                    targetTransform.GetComponentInChildren<MeshRenderer>().material.SetColor("_Color", c);                    
                 }
             });    
         }
