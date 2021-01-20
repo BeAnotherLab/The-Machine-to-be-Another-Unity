@@ -48,7 +48,8 @@ public class OscManager : MonoBehaviour {
     {
         if (instance == null) instance = this;
 
-        VRTK_SDKManager.instance.AddBehaviourToToggleOnLoadedSetupChange (this);
+        if(VRTK_SDKManager.instance != null)
+            VRTK_SDKManager.instance.AddBehaviourToToggleOnLoadedSetupChange (this);
         
         _oscReceiver = GetComponent<OSCReceiver>();
         _oscTransmitter = GetComponent<OSCTransmitter>();

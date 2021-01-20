@@ -48,14 +48,16 @@ public class StatusManager : MonoBehaviour {
         _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
     }
     protected virtual void OnDestroy() {
-        VRTK_SDKManager.instance.RemoveBehaviourToToggleOnLoadedSetupChange(this);
+        if(VRTK_SDKManager.instance != null)
+            VRTK_SDKManager.instance.RemoveBehaviourToToggleOnLoadedSetupChange(this);
     }
 
     private void Awake()
     {
         if (instance == null) instance = this;
-
-        VRTK_SDKManager.instance.AddBehaviourToToggleOnLoadedSetupChange (this);
+        
+        if(VRTK_SDKManager.instance != null)
+            VRTK_SDKManager.instance.AddBehaviourToToggleOnLoadedSetupChange (this);
 
         _confirmationMenu = GameObject.Find("ConfirmationMenu");
         UduinoManager.Instance.OnBoardDisconnectedEvent.AddListener(delegate { SerialFailure(); });

@@ -53,7 +53,8 @@ public class SettingsGUI : MonoBehaviour
     {
         if (instance == null) instance = this;
 
-        VRTK_SDKManager.instance.AddBehaviourToToggleOnLoadedSetupChange (this);
+        if(VRTK_SDKManager.instance != null)
+            VRTK_SDKManager.instance.AddBehaviourToToggleOnLoadedSetupChange (this);
 
         _cameraNameInputField.onEndEdit.AddListener(delegate(string arg0)
         {

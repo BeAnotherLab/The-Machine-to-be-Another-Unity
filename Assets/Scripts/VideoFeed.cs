@@ -34,8 +34,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     [SerializeField] private MeshRenderer _videoPlaybackMeshRenderer;
 
-    [SerializeField] private bool _mirrorTransform;
-
     [SerializeField] private bool _editing;
     
     private Camera _mainCamera;
@@ -68,7 +66,8 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     private void Awake()
     {
         if (instance == null) instance = this;
-        VRTK_SDKManager.instance.AddBehaviourToToggleOnLoadedSetupChange (this);
+        if(VRTK_SDKManager.instance != null)
+            VRTK_SDKManager.instance.AddBehaviourToToggleOnLoadedSetupChange (this);
     }
 
     void Start()
@@ -100,15 +99,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
                 targetTransform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(0, Vector3.up); //to adjust for webcam physical orientation
                 targetTransform.localScale = new Vector3(0.9f, 1, -1);
             }
-            else //TODO this is no longer needed with mirrors network transform.Find way to make it work with tilt angle
-            {
-                if (!_mirrorTransform)
-                {
-                    targetTransform.rotation = otherPose; //Move image according to the other person's head orientation
-                    targetTransform.localScale = new Vector3(0.9f, 1, -1);
-                    targetTransform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(0, Vector3.up); //to adjust for webcam physical orientation
-                }
-            }    
         }
     }
 
@@ -183,6 +173,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     public void Rotate()
     {
         _tiltAngle += 90;
+        if(twoWayWap) targetTransform.GetChild(0).transform.rotation = Quaternion.Euler(0,0, _tiltAngle);
         PlayerPrefs.SetFloat("tiltAngle", _tiltAngle);
     }
 
