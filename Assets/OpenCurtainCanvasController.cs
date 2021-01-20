@@ -13,17 +13,20 @@ public class OpenCurtainCanvasController : MonoBehaviour
         if (instance == null) instance = this;
     }
 
-    public void Show(bool show, string message = "")
+    public void Show(string message = "")
     {
-        
-       var to = 0;
-       if (show) to = 1;
-
        GetComponentInChildren<Text>().text = message;
        var canvasGroup = GetComponent<CanvasGroup>();
-       
-        LeanTween.value(gameObject, canvasGroup.alpha,  to, 1).setOnUpdate((val) => { canvasGroup.alpha = val; });
+           
+       var seq = LeanTween.sequence();
+       seq.append( 
+           LeanTween.value(gameObject, 0, 1, 1).setOnUpdate((val) => { canvasGroup.alpha = val; })
+       );
+       seq.append(30f); 
+       seq.append(
+           LeanTween.value(gameObject, 1, 0, 1).setOnUpdate((val) => { canvasGroup.alpha = val; })
+           ); // do a tween
+
     }
     
-    //close curtain on start
 }
