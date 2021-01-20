@@ -88,6 +88,7 @@ public class StatusManager : MonoBehaviour {
 
     public void MirrorOn()
     {
+        OpenCurtainCanvasController.instance.Show(false);
         ArduinoManager.instance.SendCommand("mir_on");
         Debug.Log("mirrors on");
     }
@@ -101,6 +102,7 @@ public class StatusManager : MonoBehaviour {
     
     public void WallOn() //TODO rename
     {
+        OpenCurtainCanvasController.instance.Show(true, "Open Curtain");
         ArduinoManager.instance.SendCommand("wal_off"); //close curtain
         ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
         Debug.Log("wall off");
@@ -266,6 +268,7 @@ public class StatusManager : MonoBehaviour {
     {
         if (_readyForStandby)
         {
+            OpenCurtainCanvasController.instance.Show(true, "Close Curtain");
             instructionsTimeline.Play();
             _experienceRunning = true;
         }
@@ -275,6 +278,7 @@ public class StatusManager : MonoBehaviour {
     {
         VideoFeed.instance.Dim(true);
         InstructionsTextBehavior.instance.ShowTextFromKey("finished");
+        OpenCurtainCanvasController.instance.Show(false);
         instructionsTimeline.Stop();
 		Debug.Log("experience finished");
         _experienceRunning = false;
