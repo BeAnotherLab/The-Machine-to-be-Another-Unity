@@ -16,20 +16,15 @@ public class AudioManager : MonoBehaviour {
     
     #region Private Fields
 
-
-    [SerializeField]
-    private AudioSource[] _englishClips; //english audios
-    [SerializeField]
-    private AudioSource[] _frenchClips; //french audios
-    [SerializeField]
-    private AudioSource[] _portugueseClips; //italian audios
+    [SerializeField] private AudioSource[] _englishClips; //english audios
+    [SerializeField] private AudioSource[] _frenchClips; //french audios
+    [SerializeField] private AudioSource[] _portugueseClips; //italian audios
+    [SerializeField] private AudioSource[] _spanishClips; //italian audios
 
     private List<AudioSource[]> _audioClips;
 
-    [SerializeField]
-    private AudioSource _music; //the background music
-    [SerializeField]
-    private AudioSource[] _autoModeInstructions; //the audio file played when in automatic mode
+    [SerializeField] private AudioSource _music; //the background music
+    [SerializeField] private AudioSource[] _autoModeInstructions; //the audio file played when in automatic mode
     
     private bool _somethingIsPlaying;
 
@@ -54,7 +49,10 @@ public class AudioManager : MonoBehaviour {
 
         _portugueseClips = GameObject.Find("PortugueseAudios").GetComponentsInChildren<AudioSource>();
         _audioClips.Add(_portugueseClips);
-
+        
+        _portugueseClips = GameObject.Find("PortugueseAudios").GetComponentsInChildren<AudioSource>();
+        _audioClips.Add(_portugueseClips);
+        
         _autoModeInstructions = GameObject.Find("AutoModeInstructions").GetComponentsInChildren<AudioSource>();
     }
 
@@ -79,27 +77,27 @@ public class AudioManager : MonoBehaviour {
             if (Input.GetKey(vKey))
             {
                 if (vKey == UnityEngine.KeyCode.Q)
-                    playSound(0);
+                    PlaySound(0);
                 else if (vKey == UnityEngine.KeyCode.W)
-                    playSound(5);
+                    PlaySound(5);
                 else if (vKey == UnityEngine.KeyCode.E)
-                    playSound(4);
+                    PlaySound(4);
                 else if (vKey == UnityEngine.KeyCode.R)
-                    playSound(6);
+                    PlaySound(6);
                 else if (vKey == UnityEngine.KeyCode.T)
-                    playSound(7);
+                    PlaySound(7);
                 else if (vKey == UnityEngine.KeyCode.Y)
-                    playSound(1);
+                    PlaySound(1);
                 else if (vKey == UnityEngine.KeyCode.U)
-                    playSound(2);
+                    PlaySound(2);
                 else if (vKey == UnityEngine.KeyCode.I)
-                    playSound(3);
+                    PlaySound(3);
                 else if (vKey == UnityEngine.KeyCode.J)
-                    playSound(8);
+                    PlaySound(8);
                 else if (vKey == UnityEngine.KeyCode.K)
-                    playSound(9);
+                    PlaySound(9);
                 else if (vKey == UnityEngine.KeyCode.L)
-                    playSound(10);
+                    PlaySound(10);
             }
         }
 
@@ -133,11 +131,11 @@ public class AudioManager : MonoBehaviour {
             _instruction.Stop();
     }
 
-    public void playSound(int id)
+    public void PlaySound(int id)
     {
         if (!_somethingIsPlaying)
         {
-            Debug.Log("playing sound" + id.ToString());
+            Debug.Log("playing sound" + id());
             _audioClips[language][id].Play();
             _music.volume = 0.45f;
         }
