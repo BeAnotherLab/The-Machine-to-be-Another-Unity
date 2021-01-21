@@ -45,7 +45,7 @@ public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
     
     public void EnableDeviceMenu(bool show)
     {
-        GetComponent<QuickDeviceMenu>().enabled = show;
+        GetComponent<CustomQuickDeviceMenu>().enabled = show;
     }
     
     public void ShowRecordedVideoForUser()

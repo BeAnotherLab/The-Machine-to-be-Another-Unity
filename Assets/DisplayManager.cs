@@ -15,6 +15,7 @@ public class DisplayManager : MonoBehaviour //This manager centralizes display o
     void Start()
     {
         if(Display.displays.Length > 1) Display.displays[1].Activate();
+        SetDisplayMode(displayMode);
     }
 
     public void SetDisplayMode(DisplayMode displayMode)
