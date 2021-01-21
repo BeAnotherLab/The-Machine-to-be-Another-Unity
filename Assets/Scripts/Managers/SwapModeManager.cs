@@ -52,7 +52,7 @@ public class SwapModeManager : MonoBehaviour
                 OscManager.instance.EnableRepeater(true); //enable OSC repeat
                 OscManager.instance.SetSendHeadtracking(true); //send headtracking
                 ArduinoManager.instance.DisableSerial(); //deactivate servos
-                AudioPlayer.instance.StopAudioInstructions(); //stop auto swap instructions audio
+                AudioManager.instance.StopAudioInstructions(); //stop auto swap instructions audio
                 
                 break;
 
@@ -62,7 +62,7 @@ public class SwapModeManager : MonoBehaviour
                 SettingsGUI.instance.SetServoMode(); //show serial port dropdown, hide repeater toggle, hide IP input field
                 VideoFeed.instance.twoWayWap = false; //keep video in front of camera
                 StatusManager.instance.EnablePresenceDetection(false); //disable presence detection
-                AudioPlayer.instance.StopAudioInstructions(); //stop auto swap instructions audio
+                AudioManager.instance.StopAudioInstructions(); //stop auto swap instructions audio
                 OscManager.instance.EnableRepeater(false); //disable OSC repeat
                 OscManager.instance.SetSendHeadtracking(true);
                 break;

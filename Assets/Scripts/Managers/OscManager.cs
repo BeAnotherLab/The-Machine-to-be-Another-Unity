@@ -193,7 +193,7 @@ public class OscManager : MonoBehaviour {
         {
             if (value == 1f) {
                 for (int i = 0; i < 11; i++)
-                    if (message.Address == "/btn" + i.ToString()) AudioPlayer.instance.GetComponent<AudioPlayer>().playSound(i);
+                    if (message.Address == "/btn" + i.ToString()) AudioManager.instance.GetComponent<AudioManager>().playSound(i);
             }
         }
         

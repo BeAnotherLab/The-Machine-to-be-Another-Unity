@@ -172,7 +172,7 @@ public class StatusManager : MonoBehaviour {
         instructionsTimeline.Stop();
         _experienceRunning = false;
         
-        AudioPlayer.instance.StopAudioInstructions();
+        AudioManager.instance.StopAudioInstructions();
 
         InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeInPanel();
         InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeInText();
@@ -208,7 +208,7 @@ public class StatusManager : MonoBehaviour {
     {
         VideoFeed.instance.Dim(true);
         OscManager.instance.SendSerialStatus(false);
-        AudioPlayer.instance.StopAudioInstructions();    
+        AudioManager.instance.StopAudioInstructions();    
         InstructionsTextBehavior.instance.ShowTextFromKey("systemFailure");
         instructionsTimeline.Stop();
         _experienceRunning = false;

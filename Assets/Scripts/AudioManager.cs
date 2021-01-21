@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 
 
-public class AudioPlayer : MonoBehaviour {
+public class AudioManager : MonoBehaviour {
 
     #region Public Fields
 
-    public static AudioPlayer instance;
+    public static AudioManager instance;
 
     public int language;
 

@@ -117,7 +117,7 @@ public class SettingsGUI : MonoBehaviour
 
     public void SetLanguage(int language)
     {
-        AudioPlayer.instance.language = language;
+        AudioManager.instance.language = language;
 
         SetLanguageText(language);
 
