@@ -182,8 +182,11 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         UnityEngine.XR.InputTracking.Recenter();
         //The following will also move the camera positional reference.
         //taken from https://forum.unity.com/threads/openvr-how-to-reset-camera-properly.417509/#post-2792972
-        Valve.VR.OpenVR.System.ResetSeatedZeroPose();
-        Valve.VR.OpenVR.Compositor.SetTrackingSpace(Valve.VR.ETrackingUniverseOrigin.TrackingUniverseSeated);
+        if (Valve.VR.OpenVR.System != null)
+        {
+            Valve.VR.OpenVR.System.ResetSeatedZeroPose();
+            Valve.VR.OpenVR.Compositor.SetTrackingSpace(Valve.VR.ETrackingUniverseOrigin.TrackingUniverseSeated);    
+        }
     }
 
     public void SwitchHeadtracking() //Use to map the pitch and yaw sliders to headtracking or not
