@@ -83,6 +83,7 @@ public class StatusManager : MonoBehaviour {
     {
         InstructionsTextBehavior.instance.ShowInstructionText(false);
         if (_dimOutOnExperienceStart) VideoFeed.instance.Dim(false);
+        else instructionsTimeline.Stop();
         Debug.Log("experience started");
     }
 

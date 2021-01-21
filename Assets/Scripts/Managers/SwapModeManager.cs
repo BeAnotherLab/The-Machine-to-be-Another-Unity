@@ -21,10 +21,7 @@ public class SwapModeManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //load swap mode from player prefs
-        if (PlayerPrefs.GetInt("swapMode", 0) == 0 ) SetSwapMode(SwapModes.AUTO_SWAP);
-        else if (PlayerPrefs.GetInt("swapMode", 0) == 1 ) SetSwapMode(SwapModes.MANUAL_SWAP);
-        else if (PlayerPrefs.GetInt("swapMode", 0) == 2 ) SetSwapMode(SwapModes.SERVO_SWAP);
+        SetSwapMode(swapMode);
     }
 
     public void SetSwapMode(SwapModes mode)
