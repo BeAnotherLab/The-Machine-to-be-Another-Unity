@@ -26,6 +26,7 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private Button _dimButton;
     [SerializeField] private Button _rotateCameraButton;
     [SerializeField] private Button _headTrackingOnButton;
+    [SerializeField] private Button _resetYawButton;
     [SerializeField] private Toggle _repeaterToggle;
     [SerializeField] private Text _controlsText;
     [SerializeField] private Text _languageText;
@@ -71,7 +72,8 @@ public class SettingsGUI : MonoBehaviour
         _zoomSlider.onValueChanged.AddListener(delegate { VideoFeed.instance.SetZoom(_zoomSlider.value); });
         
         _headTrackingOnButton.onClick.AddListener(delegate { VideoFeed.instance.SwitchHeadtracking(); });
-
+        _resetYawButton.onClick.AddListener(delegate { VideoFeed.instance.RecenterPose(); });
+        
         //Assign swap mode dropdown handler
         _swapModeDropdown.onValueChanged.AddListener(delegate { SwapModeManager.instance.SetSwapMode( (SwapModeManager.SwapModes) _swapModeDropdown.value); });
         
