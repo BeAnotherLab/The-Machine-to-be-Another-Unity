@@ -20,7 +20,6 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private IPInputField _ipInputField;
     [SerializeField] private Toggle _serialControlToggle;
     
-    [SerializeField] private InputField _cameraNameInputField;
     [SerializeField] private Button _cameraSettingsButton;
 
     [SerializeField] private Button _dimButton;
@@ -28,8 +27,7 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private Button _headTrackingOnButton;
     [SerializeField] private Button _resetYawButton;
     [SerializeField] private Toggle _repeaterToggle;
-    [SerializeField] private Text _controlsText;
-    [SerializeField] private Text _languageText;
+    //[SerializeField] private Text _controlsText;
     
     private GameObject _mainCamera;
     private bool _oculusGuiEnabled;
@@ -48,12 +46,6 @@ public class SettingsGUI : MonoBehaviour
         //objects in the scene
         _mainCamera = GameObject.Find("Main Camera");
         
-        _cameraNameInputField.onEndEdit.AddListener(delegate(string arg0)
-        {
-            VideoCameraManager.instance.SetCameraName(_cameraNameInputField.text);
-            PlayerPrefs.SetString("CameraName", _cameraNameInputField.text);
-        });
-        
         _dimButton.onClick.AddListener(delegate { VideoFeed.instance.ToggleDim(); });
         
         _cameraSettingsButton.onClick.AddListener(delegate { VideoCameraManager.instance.ShowCameraConfigWindow(); });
@@ -64,7 +56,7 @@ public class SettingsGUI : MonoBehaviour
         
         _timelineDropdown.onValueChanged.AddListener(delegate(int val) { StatusManager.instance.SetInstructionsTimeline(val); });
         
-        _controlsText.text = _controlsText.text + "\n \nlocal IP adress : " + OSCUtilities.GetLocalHost();
+        //_controlsText.text = _controlsText.text + "\n \nlocal IP adress : " + OSCUtilities.GetLocalHost();
 
         //Assign servos control buttons handlers
         _pitchSlider.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetPitch(_pitchSlider.value); });
@@ -85,8 +77,6 @@ public class SettingsGUI : MonoBehaviour
     {        
         SetSwapModeDropdownOptions();
 
-        _cameraNameInputField.text = PlayerPrefs.GetString("CameraName");
-        
         _zoomSlider.value = PlayerPrefs.GetFloat("zoom", 39.5f);
 
         if (PlayerPrefs.GetInt("repeater") == 1) _repeaterToggle.isOn = true;
@@ -189,7 +179,6 @@ public class SettingsGUI : MonoBehaviour
         string languageString = "English";
         if (language == 1) languageString = "French";
         else if (language == 2) languageString = "Italian";
-        _languageText.text = "Language : " + languageString;
     }
 
     private void SetSwapModeDropdownOptions()
