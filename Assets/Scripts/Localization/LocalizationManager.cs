@@ -41,14 +41,6 @@ public class LocalizationManager : MonoBehaviour {
         LoadLocalizedText(localizationTexts[0]);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown("z")) LoadLocalizedText(localizationTexts[0]);
-        if (Input.GetKeyDown("x")) LoadLocalizedText(localizationTexts[1]);
-        if (Input.GetKeyDown("c")) LoadLocalizedText(localizationTexts[2]);
-        if (Input.GetKeyDown("v")) LoadLocalizedText(localizationTexts[3]);
-    }
-
     public void LoadLocalizedText(string fileName, bool resend = false)
     {
         localizedText = new Dictionary<string, string> ();
