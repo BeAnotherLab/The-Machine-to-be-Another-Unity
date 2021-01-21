@@ -15,15 +15,17 @@ public class DisplayManager : MonoBehaviour //This manager centralizes display o
     void Start()
     {
         if(Display.displays.Length > 1) Display.displays[1].Activate();
+    }
 
-        if (displayMode == DisplayMode.Prod)
-        {
-            //hide menus
-            GameObject.Find("Utilities").SetActive(false);
-            VideoCameraManager.instance.EnableDeviceMenu(false);
-            SettingsGUI.instance.SetMonitorGuiEnabled(false);
-            CustomNetworkManager.instance.EnableNetworkGUI(false);
-        }
+    public void SetDisplayMode(DisplayMode displayMode)
+    {
+        var show = this.displayMode == DisplayMode.Debug;
+        
+        //hide menus
+        GameObject.Find("Utilities").SetActive(show);
+        VideoCameraManager.instance.EnableDeviceMenu(show);
+        SettingsGUI.instance.SetMonitorGuiEnabled(show);
+        CustomNetworkManager.instance.EnableNetworkGUI(show);
     }
     
 }
