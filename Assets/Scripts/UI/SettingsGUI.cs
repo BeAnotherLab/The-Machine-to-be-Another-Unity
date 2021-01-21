@@ -124,14 +124,6 @@ public class SettingsGUI : MonoBehaviour
         PlayerPrefs.SetInt("language", language);
     }
     
-    public void SetSwapMode(SwapModeManager.SwapModes mode) //this is called from swap mode manager since we cannot change dropdown value without triggering event
-    {
-        Debug.Log("set mode " + mode);
-        Debug.Log("set mode (int value)" + (int) mode);
-        _swapModeDropdown.value = (int) mode;
-        _swapModeDropdown.RefreshShownValue();
-    }
-    
     public void SetMonitorGuiEnabled(bool show)
     {
        if (show) _panel.GetComponent<CanvasGroup>().alpha = 1f;

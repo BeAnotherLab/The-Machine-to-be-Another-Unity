@@ -49,16 +49,14 @@ public class SwapModeManager : MonoBehaviour
 
             case SwapModes.MANUAL_SWAP:
                 
-                ArduinoManager.instance.DisableSerial(); //deactivate servos
                 SettingsGUI.instance.SetSwapMode(); //hide serial port dropdown, show repeater toggle, show IP input field
                 VideoFeed.instance.twoWayWap = true; //move video with other pose
                 StatusManager.instance.Standby(true, false, true); //go to initial state
+                OscManager.instance.EnableRepeater(true); //enable OSC repeat
+                OscManager.instance.SetSendHeadtracking(true); //send headtracking
+                ArduinoManager.instance.DisableSerial(); //deactivate servos
                 AudioPlayer.instance.StopAudioInstructions(); //stop auto swap instructions audio
-
-                //enable OSC repeat
-                OscManager.instance.EnableRepeater(true);
-                OscManager.instance.SetSendHeadtracking(true);
-
+                
                 break;
 
             case SwapModes.SERVO_SWAP:
