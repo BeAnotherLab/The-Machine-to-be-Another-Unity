@@ -135,7 +135,7 @@ public class AudioManager : MonoBehaviour {
     {
         if (!_somethingIsPlaying)
         {
-            Debug.Log("playing sound" + id());
+            Debug.Log("playing sound" + id);
             _audioClips[language][id].Play();
             _music.volume = 0.45f;
         }
