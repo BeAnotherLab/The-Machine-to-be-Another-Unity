@@ -50,6 +50,7 @@ public class AudioManager : MonoBehaviour {
         _portugueseClips = GameObject.Find("PortugueseAudios").GetComponentsInChildren<AudioSource>();
         _audioClips.Add(_portugueseClips);
         
+        _autoModeInstructions = GameObject.Find("AutoModeInstructions").GetComponentsInChildren<AudioSource>();
         _spanishClips = GameObject.Find("SpanishAudios").GetComponentsInChildren<AudioSource>();
         _audioClips.Add(_spanishClips);
     }
@@ -61,7 +62,7 @@ public class AudioManager : MonoBehaviour {
         _music.loop = true;
         _music.Play();
 
-        language = PlayerPrefs.GetInt("language");
+        language = 0;
 
         foreach (AudioSource clip in _audioClips[language])
             clip.Pause();
