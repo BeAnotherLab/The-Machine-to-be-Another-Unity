@@ -146,6 +146,11 @@ public class SettingsGUI : MonoBehaviour
         _repeaterToggle.gameObject.SetActive(false);
     }
 
+    public void ToggleDebugDisplayGUI()
+    {
+        DisplayManager.instance.ToggleDisplayMode();
+    }
+    
     #endregion
 
     #region Private Methods

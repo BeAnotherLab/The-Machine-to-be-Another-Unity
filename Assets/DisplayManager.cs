@@ -10,6 +10,14 @@ public enum DisplayMode{Debug, Prod}
 public class DisplayManager : MonoBehaviour //This manager centralizes display of screens and menus on multidisplay setups
 {
     public DisplayMode displayMode;
+    public static DisplayManager instance;
+
+    [SerializeField] private GameObject _utilities;
+
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -20,13 +28,21 @@ public class DisplayManager : MonoBehaviour //This manager centralizes display o
 
     public void SetDisplayMode(DisplayMode displayMode)
     {
-        var show = this.displayMode == DisplayMode.Debug;
+        var show = displayMode == DisplayMode.Debug;
         
         //hide menus
-        GameObject.Find("Utilities").SetActive(show);
+        _utilities.SetActive(show);
         VideoCameraManager.instance.EnableDeviceMenu(show);
-        SettingsGUI.instance.SetMonitorGuiEnabled(show);
         CustomNetworkManager.instance.EnableNetworkGUI(show);
+
+        this.displayMode = displayMode;
     }
-    
+
+    public void ToggleDisplayMode()
+    {
+        if (displayMode == DisplayMode.Debug)
+            SetDisplayMode(DisplayMode.Prod);
+        else 
+            SetDisplayMode(DisplayMode.Debug);
+    }
 }
