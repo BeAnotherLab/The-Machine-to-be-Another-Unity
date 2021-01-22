@@ -50,10 +50,8 @@ public class AudioManager : MonoBehaviour {
         _portugueseClips = GameObject.Find("PortugueseAudios").GetComponentsInChildren<AudioSource>();
         _audioClips.Add(_portugueseClips);
         
-        _portugueseClips = GameObject.Find("PortugueseAudios").GetComponentsInChildren<AudioSource>();
-        _audioClips.Add(_portugueseClips);
-        
-        _autoModeInstructions = GameObject.Find("AutoModeInstructions").GetComponentsInChildren<AudioSource>();
+        _spanishClips = GameObject.Find("SpanishAudios").GetComponentsInChildren<AudioSource>();
+        _audioClips.Add(_spanishClips);
     }
 
     // Use this for initialization
