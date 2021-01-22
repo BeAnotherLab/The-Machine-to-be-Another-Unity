@@ -12,4 +12,9 @@ public class AudioInstructionsGUI : MonoBehaviour
     {
         AudioManager.instance.PlaySound(id);
     }
+
+    public void LanguageChanged(string language)
+    {
+        LocalizationManager.instance.LoadLocalizedText(language);
+    }
 }
