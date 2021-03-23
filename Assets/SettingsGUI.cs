@@ -118,6 +118,7 @@ public class SettingsGUI : MonoBehaviour
             _yawSlider.value = 90 - pitchYawRoll.y;
             _pitchSlider.value = pitchYawRoll.z + 90;
             _zoomSlider.value = VideoFeed.instance.zoom;
+            //Debug.Log("values yaw: " + _yawSlider.value);
         }
 
         _cameraDropdown.RefreshShownValue();

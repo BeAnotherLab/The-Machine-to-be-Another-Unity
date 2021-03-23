@@ -843,9 +843,11 @@ MonoBehaviour:
   calibrate: 0
   screenOnOff: 0
   beginTask: 0
+  audioOn: 0
   flipImage: 0
   _arduinoControl: {fileID: 1035839688}
   port: COM6
+  _noise: {fileID: 1890241252}
 --- !u!4 &726359598
 Transform:
   m_ObjectHideFlags: 0
@@ -873,8 +875,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   participantData:
-  - Test-gianluca-2
-  - 30
+  - Test_marte
+  - 33
   - male
   - right
   log: 1
@@ -1357,6 +1359,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: OSCManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8293358735044733245, guid: 69a9fa9c1c14edf438348430b7ab81c2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69a9fa9c1c14edf438348430b7ab81c2, type: 3}
@@ -1944,7 +1951,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5dabdb1419b1ee343b442d210d165a6c, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 0.33
   m_Pitch: 1
   Loop: 1
@@ -2300,6 +2307,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 999283215}
     m_Modifications:
+    - target: {fileID: 1151431780516818683, guid: f85f128fc9eca2043b6827e5a3603a66,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1151431781991381617, guid: f85f128fc9eca2043b6827e5a3603a66,
         type: 3}
       propertyPath: m_Name
@@ -2539,6 +2551,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SettingsGUI
       objectReference: {fileID: 0}
+    - target: {fileID: 1613411259630618356, guid: d0f5f11935d80fe409f504c5ccb1b7a4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1613411259803563598, guid: d0f5f11935d80fe409f504c5ccb1b7a4,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2557,6 +2574,11 @@ PrefabInstance:
     - target: {fileID: 1613411260763346163, guid: d0f5f11935d80fe409f504c5ccb1b7a4,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613411260899232504, guid: d0f5f11935d80fe409f504c5ccb1b7a4,
+        type: 3}
+      propertyPath: m_WholeNumbers
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1613411261002539132, guid: d0f5f11935d80fe409f504c5ccb1b7a4,
@@ -2583,6 +2605,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613411261489497535, guid: d0f5f11935d80fe409f504c5ccb1b7a4,
+        type: 3}
+      propertyPath: m_WholeNumbers
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1613411261519800317, guid: d0f5f11935d80fe409f504c5ccb1b7a4,
         type: 3}

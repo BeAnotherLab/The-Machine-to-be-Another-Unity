@@ -91,9 +91,10 @@ public class ArduinoControl : MonoBehaviour
 
             float sum;
             sum = value + pitchOffset;
-            if ((value + pitchOffset) > 180) sum = 179.5f;
-            if ((value + pitchOffset) < 0) sum = 0.5f;
+            if ((value + pitchOffset) > 150) sum = 149.5f;
+            if ((value + pitchOffset) < 30) sum = 30.5f;
 
+            /*
             if(inverse && !horizontalOnly)
                 sum = 180 - sum;
             if (useRandomTargets)
@@ -101,11 +102,12 @@ public class ArduinoControl : MonoBehaviour
             if (delay) { 
                 StartCoroutine(DelayPitchValue(sum, time));
                 sum = delayedPitch;
-            }
+            }*/
 
             //sum = 15;
-            //Debug.Log("pitch " + sum);
+            sum = sum + 15;
             WriteToArduino("Pitch " + sum);
+            //Debug.Log("p " + sum);
         }
     }
 
@@ -130,6 +132,7 @@ public class ArduinoControl : MonoBehaviour
             //sum = 15;
             //Debug.Log("yaw " + sum);
             WriteToArduino("Yaw " + sum);
+            //Debug.Log("yaw " + sum);
         }
     }
 
