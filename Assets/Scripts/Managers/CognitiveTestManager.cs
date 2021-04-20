@@ -166,7 +166,7 @@ public class CognitiveTestManager : TestManager
     private void WriteTestResults(answer givenAnswer)
     {
         _finalTrialsList[_trialIndex].AddField("answer", givenAnswer.ToString());
-        _finalTrialsList[_trialIndex].AddField("time", _timer.Elapsed.Milliseconds.ToString());
+        _finalTrialsList[_trialIndex].AddField("time", _timer.ElapsedMilliseconds.ToString());
 
         File.WriteAllText(_filePath, _finalTrialsList.Print());
         _trialIndex++;

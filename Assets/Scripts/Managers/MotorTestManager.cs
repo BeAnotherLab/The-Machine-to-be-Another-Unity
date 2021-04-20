@@ -191,12 +191,12 @@ public class MotorTestManager : TestManager
         if (button == 0)
         {
             _givenAnswer = answer.indexFinger;
-            WriteTestResults(_stimuli[_trialIndex], _givenAnswer, _timer.Elapsed.Milliseconds);
+            WriteTestResults(_stimuli[_trialIndex], _givenAnswer, _timer.ElapsedMilliseconds);
         }
         else if (button == 1)
         {
             _givenAnswer = answer.middleFinger;
-            WriteTestResults(_stimuli[_trialIndex], _givenAnswer, _timer.Elapsed.Milliseconds);
+            WriteTestResults(_stimuli[_trialIndex], _givenAnswer, _timer.ElapsedMilliseconds);
         }
     }
 
