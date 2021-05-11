@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 466960672388089704}
   - component: {fileID: 466960672388089711}
   - component: {fileID: 466960672388089709}
+  - component: {fileID: 6044354570613304044}
   m_Layer: 0
   m_Name: VideoFeed
   m_TagString: Untagged
@@ -78,6 +79,25 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &6044354570613304044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466960672388089699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fcebb7b628d87b479f8e18a9f97506b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zoom: 39.5
+  otherPose: {x: 0, y: 0, z: 0, w: 0}
+  useHeadTracking: 1
+  cameraID: 0
+  twoWayWap: 0
+  dimOnStart: 0
+  _videoPlaybackMeshRenderer: {fileID: 3984059033562266924}
 --- !u!1 &9031167482211458324
 GameObject:
   m_ObjectHideFlags: 0
