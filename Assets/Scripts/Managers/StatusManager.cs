@@ -85,24 +85,50 @@ public class StatusManager : MonoBehaviour {
         if (_dimOutOnExperienceStart) VideoFeed.instance.Dim(false);
         else instructionsTimeline.Stop();
         Debug.Log("experience started");
+        SettingsGUI.instance._monitorState.text = "start!";
     }
 
-    public void MirrorOn()
+    public void FirstTouch()
     {
+        SettingsGUI.instance._monitorState.text = "touch hands";
+    }
+
+    public void SecondTouch()
+    {
+        SettingsGUI.instance._monitorState.text = "stroke hand";
+    }
+
+
+    public void ThirdTouch()
+    {
+        SettingsGUI.instance._monitorState.text = "touch foot";
+    }
+
+
+public void MirrorOn()
+    {
+        SettingsGUI.instance._monitorState.text = "mirror on";
         ArduinoManager.instance.SendCommand("mir_on");
         Debug.Log("mirrors on");
+        //SettingsGUI.instance._monitorState.text = "mirror on";
+    }
+
+    public void MirrorOff()
+    {
+        SettingsGUI.instance._monitorState.text = "remove";
     }
 
     public void CloseWall()
     {
         ArduinoManager.instance.SendCommand("wal_on"); //close curtain
         ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
-        Debug.Log("wall on");        
+        Debug.Log("wall on");
     }
     
     public void WallOn() //TODO rename
     {
-        OpenCurtainCanvasController.instance.Show("Open Curtain");
+        //OpenCurtainCanvasController.instance.Show("Open Curtain");
+        SettingsGUI.instance._monitorState.text = "open wall";
         ArduinoManager.instance.SendCommand("wal_off"); //close curtain
         ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
         Debug.Log("wall off");
@@ -278,8 +304,10 @@ public class StatusManager : MonoBehaviour {
     {
         VideoFeed.instance.Dim(true);
         InstructionsTextBehavior.instance.ShowTextFromKey("finished");
+        SettingsGUI.instance._monitorState.text = "finish";
         instructionsTimeline.Stop();
 		Debug.Log("experience finished");
+        OpenCurtainCanvasController.instance.Show("Finish");
         _experienceRunning = false;
     }
 

@@ -8,7 +8,7 @@ public class SettingsGUI : MonoBehaviour
     #region Public field
 
     public static SettingsGUI instance;
-
+    public Text _monitorState;
     #endregion
 
     #region Private Fields
@@ -28,6 +28,7 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private Button _resetYawButton;
     [SerializeField] private Toggle _repeaterToggle;
     //[SerializeField] private Text _controlsText;
+
     
     private GameObject _mainCamera;
     private bool _oculusGuiEnabled;
