@@ -11,6 +11,8 @@ public class MotorTestManager : TestManager
 
     #region Public Fields
 
+    public GameObject finishedTaskUI;
+
     public enum Condition {congruentIndex, incongruentIndex, congruentMiddle, incongruentMiddle, baseIndex, baseMiddle};
 
     public delegate void MyTimerStart();
@@ -174,10 +176,11 @@ public class MotorTestManager : TestManager
         _timer.Reset();
 
         if (_trialIndex == _stimuli.Count)
-        {
+        {   
             FinishTest(); 
             MotorTestInstructionsGUIBehavior.instance.Stop();
-            _experimentData.LoadNextScene();
+            //_experimentData.LoadNextScene();
+            finishedTaskUI.SetActive(true);
         }
     }
 
