@@ -11,6 +11,10 @@ using Debug = UnityEngine.Debug;
 
 public class CognitiveTestManager : TestManager
 {
+
+    #region Public Fields
+    public GameObject finishedTaskUI;
+    #endregion
     
     #region Private Fields
 
@@ -174,9 +178,12 @@ public class CognitiveTestManager : TestManager
         
         if (_trialIndex == _finalTrialsList.Count)
         {
+            finishedTaskUI.SetActive(true);
+            /*
             FinishTest();
             VideoFeed.instance.CancelTweens();
             _experimentData.LoadNextScene();
+            */
         }
         else _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
         
