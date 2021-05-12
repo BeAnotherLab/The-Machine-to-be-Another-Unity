@@ -177,13 +177,11 @@ public class CognitiveTestManager : TestManager
         _timer.Reset();
         
         if (_trialIndex == _finalTrialsList.Count)
-        {
-            finishedTaskUI.SetActive(true);
-            /*
+        {        
             FinishTest();
             VideoFeed.instance.CancelTweens();
-            _experimentData.LoadNextScene();
-            */
+            //_experimentData.LoadNextScene();
+            finishedTaskUI.SetActive(true);
         }
         else _trialCoroutine = StartCoroutine(ShowTrialCoroutine());
         
