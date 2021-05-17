@@ -294,7 +294,7 @@ public void MirrorOn()
     {
         if (_readyForStandby)
         {
-            OpenCurtainCanvasController.instance.Show("Close Curtain");
+            //OpenCurtainCanvasController.instance.Show("Close Curtain");
             instructionsTimeline.Play();
             _experienceRunning = true;
         }
@@ -307,7 +307,7 @@ public void MirrorOn()
         SettingsGUI.instance._monitorState.text = "finish";
         instructionsTimeline.Stop();
 		Debug.Log("experience finished");
-        OpenCurtainCanvasController.instance.Show("Finish");
+        //OpenCurtainCanvasController.instance.Show("Finish");
         _experienceRunning = false;
     }
 
