@@ -89,7 +89,7 @@ public class CognitiveTestManager : TestManager
     public void StartInstructions()
     {
         var files = Directory.GetFiles(Application.dataPath);
-        string filepath = Application.dataPath + "/" + "CognitiveTest" + _experimentData.subjectID + "_log.json";
+        string filepath =  "./Logs/" + "CognitiveTest" + _experimentData.subjectID + "_log.json";
         Debug.Log(" creating new file : " + filepath);
         _filePath = filepath; 
         CognitiveTestInstructionsGUIBehavior.instance.Init();
