@@ -89,7 +89,7 @@ public class CognitiveTestManager : TestManager
     public void StartInstructions()
     {
         var files = Directory.GetFiles(Application.dataPath);
-        string filepath =  "./Logs/" + "CognitiveTest" + _experimentData.subjectID + "_log.json";
+        string filepath =  "./Logs/" + "CognitiveTest_" + _experimentData.subjectID + "_" + _experimentData.conditionType + ".json";
         Debug.Log(" creating new file : " + filepath);
         _filePath = filepath; 
         CognitiveTestInstructionsGUIBehavior.instance.Init();
@@ -172,7 +172,8 @@ public class CognitiveTestManager : TestManager
         _finalTrialsList[_trialIndex].AddField("answer", givenAnswer.ToString());
         _finalTrialsList[_trialIndex].AddField("time", _timer.ElapsedMilliseconds.ToString());
 
-        File.WriteAllText(_filePath, _finalTrialsList.Print());
+        File.AppendAllText(_filePath, _finalTrialsList.Print());
+        //File.WriteAllText(_filePath, _finalTrialsList.Print());
         _trialIndex++;
         _timer.Reset();
         

@@ -126,7 +126,7 @@ public class MotorTestManager : TestManager
     public void StartInstructions()
     {
         var files = Directory.GetFiles(Application.dataPath);
-        string filepath =  "./Logs/" + "MotorTest_" + _experimentData.subjectID  + "_log.json";
+        string filepath =  "./Logs/" + "MotorTest_" + _experimentData.subjectID + "_" + _experimentData.conditionType + ".json";
         Debug.Log(" creating new file : " + filepath);
         _filePath = filepath; 
         MotorTestInstructionsGUIBehavior.instance.Init();
@@ -171,7 +171,7 @@ public class MotorTestManager : TestManager
         
         _results.Add(stimulusResult);
         
-        File.WriteAllText(_filePath, _results.Print());
+        File.AppendAllText(_filePath, _results.Print());
         _trialIndex++;
         _timer.Reset();
 
