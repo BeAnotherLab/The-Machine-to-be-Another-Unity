@@ -11,10 +11,12 @@ void setup()
 
 void wallOn() {
   digitalWrite(13, HIGH);
+  Serial.println("cmd_ok");  //command executed
 }
 
 void wallOff() {
   digitalWrite(13, LOW);
+  Serial.println("cmd_ok");  //command executed
 }
 
 void loop()
