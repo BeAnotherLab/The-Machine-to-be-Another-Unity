@@ -7,6 +7,7 @@ void setup()
   pinMode(13, OUTPUT);
   uduino.addCommand("wall_on", wallOn);
   uduino.addCommand("wall_off", wallOff);
+  Serial.println("sys_rdy");  //command executed
 }
 
 void wallOn() {
