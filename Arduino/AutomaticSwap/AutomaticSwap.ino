@@ -7,8 +7,11 @@ void setup()
 {
   Serial.begin(9600);
   pinMode(13, OUTPUT);
-  uduino.addCommand("wal_on", wallOn);
+  uduino.addCommand("wal_on", wallOn);  
   uduino.addCommand("wal_off", wallOff);
+
+  uduino.addCommand("mir_on", mirOn);
+  uduino.addCommand("mir_off", mirOff);
 }
 
 void wallOn() {
@@ -20,6 +23,15 @@ void wallOff() {
   digitalWrite(13, LOW);
   Serial.println("cmd_ok");  //command executed
 }
+
+void mirOn(){
+  Serial.println("cmd_ok");  //command executed
+}
+
+void mirOff(){
+  Serial.println("cmd_ok");  //command executed
+}
+
 
 void loop()
 {
