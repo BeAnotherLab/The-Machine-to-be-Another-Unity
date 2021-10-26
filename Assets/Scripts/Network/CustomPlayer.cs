@@ -28,7 +28,7 @@ namespace Mirror.Examples.Pong
                 gameObject.name = "local player";
             }
             StartCoroutine(VideoFeed.instance.StartupDim());
-            transform.GetChild(0).transform.rotation = Quaternion.Euler(0,0, PlayerPrefs.GetFloat("tiltAngle"));
+            transform.GetChild(0).transform.localRotation = Quaternion.Euler(0,0, PlayerPrefs.GetFloat("tiltAngle"));
         }
 
         // need to use FixedUpdate for rigidbody

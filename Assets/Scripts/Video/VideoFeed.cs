@@ -167,7 +167,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     public void Rotate()
     {
         _tiltAngle += 90;
-        if(twoWayWap) targetTransform.GetChild(0).transform.rotation = Quaternion.Euler(0,0, _tiltAngle);
+        if(twoWayWap) targetTransform.GetChild(0).transform.localRotation = Quaternion.Euler(0,0, _tiltAngle);
         PlayerPrefs.SetFloat("tiltAngle", _tiltAngle);
     }
 
