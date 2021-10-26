@@ -29,7 +29,6 @@ public class ArduinoManager : MonoBehaviour
     private bool _serialControlOn; //for technorama swap. determine if this computer is in charge of controlling the curtain and mirrors
     
     private Coroutine _timeoutCoroutine;
-    private Coroutine _waitForSysReadyCoroutine;
     
     #endregion
     
@@ -65,7 +64,6 @@ public class ArduinoManager : MonoBehaviour
         else if (_serialControlOn && useCurtain){
             UduinoManager.Instance.OnDataReceived += DataReceived;
             UduinoManager.Instance.BaudRate = 9600; //if we are in Technorama and this computer is connected to the Arduino
-            _waitForSysReadyCoroutine = StartCoroutine(WaitForSerial());
         }
         _servosOn = servosOn;
     }
@@ -121,6 +119,11 @@ public class ArduinoManager : MonoBehaviour
        
     }
 
+    public void ArduinoBoardConnected()
+    {
+        OscManager.instance.SendSerialStatus(true);
+    }
+    
     #endregion
 
 
@@ -137,13 +140,8 @@ public class ArduinoManager : MonoBehaviour
     private void DataReceived(string data, UduinoDevice board)
     {
         Debug.Log("received : " + data, DLogType.System);
-
-        if (data == "sys_rdy")
-        {
-            if(_waitForSysReadyCoroutine != null) StopCoroutine(_waitForSysReadyCoroutine);
-            OscManager.instance.SendSerialStatus(true);
-        } 
-        else if (data == "cmd_ok") _commandOK = true;
+        
+        if (data == "cmd_ok") _commandOK = true;
         else if (data == "MD_FAULT" || data == "MD_BLOCK")
         {
             Debug.Log("ERROR : " + data, DLogType.Error);

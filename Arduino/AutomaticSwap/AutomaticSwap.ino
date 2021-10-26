@@ -7,8 +7,8 @@ void setup()
 {
   Serial.begin(9600);
   pinMode(13, OUTPUT);
-  uduino.addCommand("wall_on", wallOn);
-  uduino.addCommand("wall_off", wallOff);
+  uduino.addCommand("wal_on", wallOn);
+  uduino.addCommand("wal_off", wallOff);
 }
 
 void wallOn() {
@@ -25,12 +25,4 @@ void loop()
 {
   uduino.readSerial();
   delay(10);
-  
-  if (uduino.isConnected()) {
-    if (!firstTime) 
-    { 
-      Serial.println("sys_rdy");  //command executed
-      firstTime = true;
-    }
-  }
 }
