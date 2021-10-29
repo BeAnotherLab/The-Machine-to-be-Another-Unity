@@ -1,12 +1,18 @@
 #include<Uduino.h>
 Uduino uduino("serialControl");
 
-bool firstTime;
+int relay1 = 11;
+int relay2 = 12;
+int timeOn = 25000;
+int timeOff = 1000;
 
 void setup()
 {
+  pinMode(relay1, OUTPUT);
+  pinMode(relay2, OUTPUT);
+  digitalWrite(relay1, HIGH);
+  digitalWrite(relay2, HIGH);
   Serial.begin(9600);
-  pinMode(13, OUTPUT);
   uduino.addCommand("wal_on", wallOn);  
   uduino.addCommand("wal_off", wallOff);
 
@@ -15,13 +21,17 @@ void setup()
 }
 
 void wallOn() {
-  digitalWrite(13, HIGH);
   Serial.println("cmd_ok");  //command executed
+  digitalWrite(relay2, LOW);   // turn the LED on (HIGH is the voltage level)
+  delay(timeOn);   
+  digitalWrite(relay2, HIGH);    // turn the LED off by making the voltage LOW
 }
 
 void wallOff() {
-  digitalWrite(13, LOW);
   Serial.println("cmd_ok");  //command executed
+  digitalWrite(relay1, LOW);   // turn the LED on (HIGH is the voltage level)
+  delay(timeOn);
+  digitalWrite(relay1, HIGH);    // turn the LED off by making the voltage LOW
 }
 
 void mirOn(){
