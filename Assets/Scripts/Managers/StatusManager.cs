@@ -231,7 +231,10 @@ public class StatusManager : MonoBehaviour {
     public void SelfRemovedHeadset()
     {
         _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
-        if (selfStatus == UserStatus.readyToStart) Standby(); //if we were ready and we took off the headset
+        if (selfStatus == UserStatus.readyToStart) {
+            Standby(false, _dimOutOnExperienceStart, true); //if we were ready and we took off the headset go to initial state
+        }
+
         selfStatus = UserStatus.headsetOff;
         OscManager.instance.SendThisUserStatus(selfStatus);
         Debug.Log("this user removed his headset", DLogType.Input);
