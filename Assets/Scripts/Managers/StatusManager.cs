@@ -289,7 +289,7 @@ public class StatusManager : MonoBehaviour {
     private IEnumerator WaitBeforeResetting()
     {
         yield return new WaitForSeconds(4f); //make sure this value is inferior or equal to the confirmation radial time to avoid bugs
-        Standby();
+        Standby(false, _dimOutOnExperienceStart, true); //if we were ready and we took off the headset go to initial state
         SelfPutHeadsetOn();
         Debug.Log("about to reset");
     }
