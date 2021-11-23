@@ -196,7 +196,7 @@ public class StatusManager : MonoBehaviour {
         presenceDetection = enablePresenceDetection;
 
         _dimOutOnExperienceStart = dimOutOnExperienceStart;
-
+        Debug.Log("setting dimOutOnExperienceStat to " + _dimOutOnExperienceStart);
     }
 
     public void EnablePresenceDetection(bool enablePresenceDetection)
