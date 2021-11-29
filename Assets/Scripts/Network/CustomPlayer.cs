@@ -1,14 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using ScriptableObjectArchitecture;
 using UnityEngine;
 
 namespace Mirror.Examples.Pong
 {
     public class CustomPlayer : NetworkBehaviour
     {
+        public bool consentGiven;
+
         private GameObject _mainCamera;
         private GameObject _videoFeedFlipParent;
-        
+        //[SerializeField] private BoolVariable _consentGiven;
+        [SerializeField] private StringVariable _userID;
+        [SerializeField] private BoolGameEvent _consentAnswerGivenEvent;
+            
         private void Awake()
         {
             _mainCamera = GameObject.Find("Main Camera");
@@ -42,5 +49,20 @@ namespace Mirror.Examples.Pong
                 GetComponentInChildren<MeshRenderer>().enabled = false;
             }
         }
+
+        public void ConsentButtonPressed(bool answer)
+        {
+            if (!isLocalPlayer)
+                return;
+            CmdGiveConsent("id", answer);            
+        }
+        
+        [Command]
+        public void CmdGiveConsent(string id, bool answer)
+        {
+            consentGiven = answer;
+            _consentAnswerGivenEvent.Raise(answer);
+        }
+
     }
 }

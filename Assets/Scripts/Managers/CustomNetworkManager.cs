@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using ScriptableObjectArchitecture;
 using UnityEngine;
 using Debug = DebugFile;
 
@@ -11,11 +13,12 @@ namespace Mirror.Examples.Pong
     
     public class CustomNetworkManager : NetworkManager
     {
-
         public static CustomNetworkManager instance;
-
+        [SerializeField] private BoolEvent bothConsentGiven;
+            
         public bool offlineMode;
-        
+        private int _consentCount;
+        private int _consentsGiven;
         private void Awake()
         {
             if (instance == null) instance = this;
@@ -51,6 +54,19 @@ namespace Mirror.Examples.Pong
             base.OnServerDisconnect(conn);
         }
 
+        public void ConsentAnswerGiven(bool consent)
+        {
+            _consentCount++;
+            if (consent) _consentsGiven++;
+            if (_consentCount == 2)
+            {
+                if (_consentsGiven == 2)
+                {
+                    bothConsentGiven.Invoke(true);
+                }
+            }
+        }
+        
         private IEnumerator TryConnect()
         {
             while (!NetworkClient.isConnected)
