@@ -67,6 +67,7 @@ namespace Mirror.Examples.Pong
         [ClientRpc]
         public void RpcBothConsentGiven(bool consent)
         {
+            if (isLocalPlayer) return;
             _readyToShowQuestionnaire.Raise(consent);
         }
 
