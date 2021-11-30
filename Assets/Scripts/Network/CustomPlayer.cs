@@ -69,6 +69,8 @@ namespace Mirror.Examples.Pong
         {
             if (isLocalPlayer) return;
             _readyToShowQuestionnaire.Raise(consent);
+            if (consent) Debug.Log("both consent given, showing questionaire");
+            if (!consent) Debug.Log("one user refused, NOT showing questionaire!");
         }
 
     }
