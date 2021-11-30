@@ -14,7 +14,7 @@ namespace Mirror.Examples.Pong
     public class CustomNetworkManager : NetworkManager
     {
         public static CustomNetworkManager instance;
-        [SerializeField] private BoolEvent bothConsentGiven;
+        [SerializeField] private  BoolGameEvent bothConsentGiven;
             
         public bool offlineMode;
         private int _consentCount;
@@ -62,10 +62,15 @@ namespace Mirror.Examples.Pong
             {
                 if (_consentsGiven == 2)
                 {
-                    bothConsentGiven.Invoke(true);
+                    bothConsentGiven.Raise(true);
+                }
+                else
+                {
+                    bothConsentGiven.Raise(false);
                 }
             }
         }
+        
         
         private IEnumerator TryConnect()
         {

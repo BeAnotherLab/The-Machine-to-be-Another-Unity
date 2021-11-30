@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5152009612991551791}
   - component: {fileID: 8665615411845004277}
   - component: {fileID: 2631202722320971883}
+  - component: {fileID: 6223507381376180274}
   m_Layer: 0
   m_Name: VideoFeedMesh
   m_TagString: Untagged
@@ -87,6 +88,8 @@ MonoBehaviour:
   _userID: {fileID: 0}
   _consentAnswerGivenEvent: {fileID: 11400000, guid: 233cfa55cbf85453a94eab5d18990784,
     type: 2}
+  _readyToShowQuestionnaire: {fileID: 11400000, guid: c66629fc8af0c4003b0522bffed86084,
+    type: 2}
 --- !u!114 &2631202722320971883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,6 +112,38 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8665615411845004277}
         m_MethodName: ConsentButtonPressed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _debugValue: 0
+--- !u!114 &6223507381376180274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227047079650416445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791e3eca91bfc2e41b38477d0ecfaf1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: b2a8ee2f4c9da4ef288b4e50ec27af3b, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8665615411845004277}
+        m_MethodName: RpcBothConsentGiven
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

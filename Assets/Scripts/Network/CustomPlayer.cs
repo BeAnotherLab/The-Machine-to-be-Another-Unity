@@ -15,7 +15,7 @@ namespace Mirror.Examples.Pong
         //[SerializeField] private BoolVariable _consentGiven;
         [SerializeField] private StringVariable _userID;
         [SerializeField] private BoolGameEvent _consentAnswerGivenEvent;
-            
+        [SerializeField] private BoolGameEvent _readyToShowQuestionnaire;
         private void Awake()
         {
             _mainCamera = GameObject.Find("Main Camera");
@@ -62,6 +62,12 @@ namespace Mirror.Examples.Pong
         {
             consentGiven = answer;
             _consentAnswerGivenEvent.Raise(answer);
+        }
+        
+        [ClientRpc]
+        public void RpcBothConsentGiven(bool consent)
+        {
+            _readyToShowQuestionnaire.Raise(consent);
         }
 
     }
