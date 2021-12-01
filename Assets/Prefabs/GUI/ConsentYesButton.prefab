@@ -92,9 +92,9 @@ GameObject:
   - component: {fileID: 9046364981465791198}
   - component: {fileID: 6471887326510257698}
   - component: {fileID: 6214730389243318618}
-  - component: {fileID: 5597370147473074557}
   - component: {fileID: 9006243823735581803}
   - component: {fileID: 7068229814051884627}
+  - component: {fileID: 6152953310869621635}
   m_Layer: 0
   m_Name: ConsentYesButton
   m_TagString: Untagged
@@ -387,20 +387,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fea6f8eea666334aaf9869ad8f7bcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5597370147473074557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6214730389232214198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb60e28450a020042ba4212d2e32c8a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SelectionRadial: {fileID: 0}
-  m_InteractiveItem: {fileID: 6214730389243318618}
 --- !u!223 &9006243823735581803
 Canvas:
   m_ObjectHideFlags: 0
@@ -440,3 +426,20 @@ MonoBehaviour:
   _scaleAmount: 1.4
   _dampTime: 0.2
   _delay: 1
+--- !u!114 &6152953310869621635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6214730389232214198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e984fa2caf0cfdf4aaa9b486894b2389, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _handleSelectionCompleteEvent: {fileID: 11400000, guid: e3241d5e5d90f4b06890529fd2579ff8,
+    type: 2}
+  m_SelectionRadial: {fileID: 0}
+  m_InteractiveItem: {fileID: 6214730389243318618}
+  _answer: 1

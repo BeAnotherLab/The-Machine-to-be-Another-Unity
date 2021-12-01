@@ -1,30 +1,18 @@
 ﻿using System;
-using System.Collections;
+using ScriptableObjectArchitecture;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using VRStandardAssets.Utils;
 using UnityEngine.XR;
+using VRStandardAssets.Menu;
+using VRStandardAssets.Utils;
 
-namespace VRStandardAssets.Menu
+public class ConsentConfirmationButton : MonoBehaviour
 {
-    // This script is for loading scenes from the main menu.
-    // Each 'button' will be a rendering showing the scene
-    // that will be loaded and use the SelectionRadial.
-    public class ConfirmationButton : MonoBehaviour
-    {
-        public static ConfirmationButton instance;
-
-        public event Action<ConfirmationButton> OnButtonSelected;           // This event is triggered when the selection of the button has finished.
-
+        [SerializeField] private BoolGameEvent _handleSelectionCompleteEvent;
+        
         [SerializeField] private CustomSelectionRadial m_SelectionRadial;         // This controls when the selection is complete.
         [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
-
+        [SerializeField] private bool _answer;
         private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
-
-        private void Awake()
-        {
-            if (instance == null) instance = this;
-        }
 
         private void OnEnable()
         {
@@ -61,16 +49,19 @@ namespace VRStandardAssets.Menu
             //LeanTween.scale(gameObject, new Vector3(1, 1, 1), 0.45f).setEaseOutBounce();
             //LeanTween.color(gameObject, Color.gray, 0.25f).setEaseOutCubic();
 
-            m_GazeOver = false;     
+            m_GazeOver = false;
             GetComponent<ConfirmationButtonGraphics>().SwitchSelection(m_GazeOver);
-
         }
 
         private void HandleSelectionComplete()
         {
-            if (m_GazeOver) StatusManager.instance.ThisUserIsReady(); //the user is ready
+            if (m_GazeOver)// StatusManager.instance.ThisUserIsReady(); //the user is ready
+                _handleSelectionCompleteEvent.Raise(_answer);
             HandleOut();            
         }
 
-    }
+        
 }
+
+
+
