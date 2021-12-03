@@ -55,8 +55,11 @@ public class ConsentConfirmationButton : MonoBehaviour
 
         private void HandleSelectionComplete()
         {
-            if (m_GazeOver)// StatusManager.instance.ThisUserIsReady(); //the user is ready
+            if (m_GazeOver)
+            {
                 _handleSelectionCompleteEvent.Raise(_answer);
+                gameObject.SetActive(false);
+            }
             HandleOut();            
         }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ScriptableObjectArchitecture;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.XR;
@@ -9,7 +10,6 @@ using VRStandardAssets.Utils;
 using Uduino;
 using Debug = DebugFile;
 
-public enum UserStatus { headsetOff, headsetOn, readyToStart } 
 
 public class StatusManager : MonoBehaviour {
 
@@ -19,8 +19,8 @@ public class StatusManager : MonoBehaviour {
 
     [HideInInspector] public bool presenceDetection;
 
-    public UserStatus selfStatus;
-    public UserStatus otherStatus;
+    [SerializeField] private UserStatesVariable userStates;
+    
     public PlayableDirector instructionsTimeline;
     
     #endregion
@@ -51,8 +51,11 @@ public class StatusManager : MonoBehaviour {
         _confirmationMenu = GameObject.Find("ConfirmationMenu");
         UduinoManager.Instance.OnBoardDisconnectedEvent.AddListener(delegate { SerialFailure(); });
         instructionsTimeline = _longTimeline; //use short experience by default
+        userStates.AddListener(delegate(UserStates value) { UserStatesChanged(value); });
+        
+        userStates.AddListener();
     }
-
+    
     private void Start()
     {
         if (SwapModeManager.instance.ArduinoControl)
@@ -65,9 +68,9 @@ public class StatusManager : MonoBehaviour {
     {
         if (presenceDetection) //presence is for both autonomous and manual swap
         {
-            if (XRDevice.userPresence == UserPresenceState.NotPresent && selfStatus != UserStatus.headsetOff) 
+            if (XRDevice.userPresence == UserPresenceState.NotPresent && userStates.Value.selfStatus != UserStatus.headsetOff) 
                 SelfRemovedHeadset();
-            else if (XRDevice.userPresence == UserPresenceState.Present && selfStatus == UserStatus.headsetOff) //if we just put the headset on 
+            else if (XRDevice.userPresence == UserPresenceState.Present && userStates.Value.selfStatus == UserStatus.headsetOff) //if we just put the headset on 
                 SelfPutHeadsetOn(); 
             
             if (Input.GetKeyDown("o")) IsOver();
@@ -116,23 +119,23 @@ public class StatusManager : MonoBehaviour {
         _languageButtons.gameObject.SetActive(false); //hide language buttons;
 
         //start experience or wait for the other if they're not ready yet
-        if (otherStatus == UserStatus.readyToStart) StartPlaying();
-        else InstructionsTextBehavior.instance.ShowTextFromKey("waitForOther");
+        //if (otherStatus == UserStatus.readyToStart) StartPlaying();
+        InstructionsTextBehavior.instance.ShowTextFromKey("waitForOther");
 
-        selfStatus = UserStatus.readyToStart;
+        userStates.Value.selfStatus = UserStatus.readyToStart;
         Debug.Log("this user is ready", DLogType.Input);
     }
 
     public void OtherUserIsReady()
     {
-        otherStatus = UserStatus.readyToStart;
-        if (selfStatus == UserStatus.readyToStart) StartPlaying();
+        userStates.Value.otherStatus = UserStatus.readyToStart;
+        if (userStates.Value.selfStatus == UserStatus.readyToStart) StartPlaying();
         Debug.Log("the other user is ready", DLogType.Input);
     }
 
     public void SelfPutHeadsetOn()
     {
-        selfStatus = UserStatus.headsetOn;
+        userStates.Value.selfStatus = UserStatus.headsetOn;
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
         OscManager.instance.SendThisUserStatus(UserStatus.headsetOn);
         Debug.Log("this user put on the headset", DLogType.Input);
@@ -140,15 +143,15 @@ public class StatusManager : MonoBehaviour {
 
     public void OtherPutHeadsetOn()
     {
-        otherStatus = UserStatus.headsetOn;
+        userStates.Value.otherStatus = UserStatus.headsetOn;
         Debug.Log("the other user put on the headset", DLogType.Input);
     }
     
     public void OtherLeft()
     {
-        otherStatus = UserStatus.headsetOff;
+        userStates.Value.otherStatus = UserStatus.headsetOff;
         //if experience started
-        if (selfStatus == UserStatus.readyToStart && _experienceRunning)
+        if (userStates.Value.selfStatus == UserStatus.readyToStart && _experienceRunning)
         {
             VideoFeed.instance.Dim(true);
 
@@ -159,7 +162,7 @@ public class StatusManager : MonoBehaviour {
             instructionsTimeline.Stop();
             _experienceRunning = false;    
             StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
-            selfStatus = UserStatus.headsetOn;
+            userStates.Value.selfStatus = UserStatus.headsetOn;
         }
         Debug.Log("the other user removed the headset", DLogType.Input);
     }
@@ -198,7 +201,7 @@ public class StatusManager : MonoBehaviour {
         _dimOutOnExperienceStart = dimOutOnExperienceStart;
         Debug.Log("setting dimOutOnExperienceStat to " + _dimOutOnExperienceStart);
     }
-
+    
     public void EnablePresenceDetection(bool enablePresenceDetection)
     {
         
@@ -231,12 +234,12 @@ public class StatusManager : MonoBehaviour {
     public void SelfRemovedHeadset()
     {
         _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
-        if (selfStatus == UserStatus.readyToStart) {
+        if (userStates.Value.selfStatus == UserStatus.readyToStart) {
             Standby(false, _dimOutOnExperienceStart, true); //if we were ready and we took off the headset go to initial state
         }
 
-        selfStatus = UserStatus.headsetOff;
-        OscManager.instance.SendThisUserStatus(selfStatus);
+        userStates.Value.selfStatus = UserStatus.headsetOff;
+        OscManager.instance.SendThisUserStatus(userStates.Value.selfStatus);
         Debug.Log("this user removed his headset", DLogType.Input);
     }
     
@@ -248,13 +251,16 @@ public class StatusManager : MonoBehaviour {
             instructionsTimeline = _longTimeline;
     }
 
-    
-    
     #endregion
 
 
     #region Private Methods
-    
+
+    private void UserStatesChanged(UserStates state)
+    {
+        
+    }
+
     private void EnableConfirmationGUI(bool enable)
     {
         ConfirmationButton.instance.gameObject.SetActive(enable);

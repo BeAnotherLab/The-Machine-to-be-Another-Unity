@@ -6,7 +6,7 @@ using System.Text;
 using System.Net;
 using VRStandardAssets.Menu;
 using extOSC;
-
+using ScriptableObjectArchitecture;
 using Debug = DebugFile;
 
 public class OscManager : MonoBehaviour {
@@ -24,6 +24,8 @@ public class OscManager : MonoBehaviour {
 
     #region Private Fields
 
+    [SerializeField] private UserStatesGameEvent _userStatesGameEvent;
+    [SerializeField] private UserStatesVariable _userStates;
     private Camera _mainCamera;
 
     private OSCTransmitter _oscTransmitter;
@@ -207,9 +209,11 @@ public class OscManager : MonoBehaviour {
             int x;
             if (message.ToInt(out x))
             {
-                if (x == 0) StatusManager.instance.OtherLeft();
-                else if (x == 1) StatusManager.instance.OtherPutHeadsetOn();
-                if (x == 2)  StatusManager.instance.OtherUserIsReady();
+                //_userStates.SetValue()
+                //_userStatesGameEvent.Raise(_userStates);
+                if (x == 0) _userStates.Value.otherStatus = UserStatus.headsetOff; //StatusManager.instance.OtherLeft();
+                else if (x == 1) _userStates.Value.otherStatus = UserStatus.headsetOn; //StatusManager.instance.OtherPutHeadsetOn();
+                if (x == 2) _userStates.Value.otherStatus = UserStatus.readyToStart; //StatusManager.instance.OtherUserIsReady();
             }
 
             try { OnOtherStatus(); } //when receiving other status over OSC we get an error?

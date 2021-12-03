@@ -9,7 +9,7 @@ public enum UserStatus { headsetOff, headsetOn, readyToStart }
 [Serializable]
 public class UserStates
 {
-    [SerializeField] public UserStatus selfStatus;
-    [SerializeField] public UserStatus otherStatus;
+    public UserStatus selfStatus;
+    public UserStatus otherStatus;
     public bool dataCollectionConsent;
 }

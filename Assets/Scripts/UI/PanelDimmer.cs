@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class PanelDimmer : MonoBehaviour
 {
+
+    public void Show(bool show)
+    {
+        Show(show, 1f);
+    }
+
     public void Show(bool show, float opacity, float time = 0.7f, bool loop = false, float delay = 0f)
     {
         var from = GetComponent<CanvasGroup>().alpha;
