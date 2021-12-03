@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using ScriptableObjectArchitecture;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using VRStandardAssets.Utils;
@@ -7,9 +8,6 @@ using UnityEngine.XR;
 
 namespace VRStandardAssets.Menu
 {
-    // This script is for loading scenes from the main menu.
-    // Each 'button' will be a rendering showing the scene
-    // that will be loaded and use the SelectionRadial.
     public class ConfirmationButton : MonoBehaviour
     {
         public static ConfirmationButton instance;
@@ -18,6 +16,8 @@ namespace VRStandardAssets.Menu
 
         [SerializeField] private CustomSelectionRadial m_SelectionRadial;         // This controls when the selection is complete.
         [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
+
+        [SerializeField] private UserStatesVariable _userStatesVariable;
 
         private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
 
@@ -68,7 +68,7 @@ namespace VRStandardAssets.Menu
 
         private void HandleSelectionComplete()
         {
-            if (m_GazeOver) StatusManager.instance.ThisUserIsReady(); //the user is ready
+            if (m_GazeOver) _userStatesVariable.Value.selfStatus = UserStatus.readyToStart; //StatusManager.instance.ThisUserIsReady(); //the user is ready
             HandleOut();            
         }
 

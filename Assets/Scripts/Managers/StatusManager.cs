@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using VRStandardAssets.Menu;
 using VRStandardAssets.Utils;
 using Uduino;
+using UnityEngine.Serialization;
 using Debug = DebugFile;
 
 
@@ -17,9 +18,10 @@ public class StatusManager : MonoBehaviour {
 
     public static StatusManager instance;
 
-    [HideInInspector] public bool presenceDetection;
+    [HideInInspector] public bool presenceDetection; //TODD check if still necessary
 
-    [SerializeField] private UserStatesVariable userStates;
+    public UserStatesVariable userStatesVariable;
+    private UserStates _currentUserStates;
     
     public PlayableDirector instructionsTimeline;
     
@@ -51,9 +53,8 @@ public class StatusManager : MonoBehaviour {
         _confirmationMenu = GameObject.Find("ConfirmationMenu");
         UduinoManager.Instance.OnBoardDisconnectedEvent.AddListener(delegate { SerialFailure(); });
         instructionsTimeline = _longTimeline; //use short experience by default
-        userStates.AddListener(delegate(UserStates value) { UserStatesChanged(value); });
-        
-        userStates.AddListener();
+        userStatesVariable.AddListener(delegate(UserStates value) { UserStatesChanged(value); });
+        _currentUserStates = userStatesVariable.Value;
     }
     
     private void Start()
@@ -68,10 +69,10 @@ public class StatusManager : MonoBehaviour {
     {
         if (presenceDetection) //presence is for both autonomous and manual swap
         {
-            if (XRDevice.userPresence == UserPresenceState.NotPresent && userStates.Value.selfStatus != UserStatus.headsetOff) 
-                SelfRemovedHeadset();
-            else if (XRDevice.userPresence == UserPresenceState.Present && userStates.Value.selfStatus == UserStatus.headsetOff) //if we just put the headset on 
-                SelfPutHeadsetOn(); 
+            if (XRDevice.userPresence == UserPresenceState.NotPresent && userStatesVariable.Value.selfStatus != UserStatus.headsetOff)
+                userStatesVariable.Value.selfStatus = UserStatus.headsetOff; //SelfRemovedHeadset();
+            else if (XRDevice.userPresence == UserPresenceState.Present && userStatesVariable.Value.selfStatus == UserStatus.headsetOff) //if we just put the headset on 
+                userStatesVariable.Value.selfStatus = UserStatus.headsetOn; //SelfPutHeadsetOn(); 
             
             if (Input.GetKeyDown("o")) IsOver();
         } 
@@ -119,23 +120,20 @@ public class StatusManager : MonoBehaviour {
         _languageButtons.gameObject.SetActive(false); //hide language buttons;
 
         //start experience or wait for the other if they're not ready yet
-        //if (otherStatus == UserStatus.readyToStart) StartPlaying();
+        if (_currentUserStates.otherStatus == UserStatus.readyToStart) StartPlaying();
         InstructionsTextBehavior.instance.ShowTextFromKey("waitForOther");
 
-        userStates.Value.selfStatus = UserStatus.readyToStart;
         Debug.Log("this user is ready", DLogType.Input);
     }
 
     public void OtherUserIsReady()
     {
-        userStates.Value.otherStatus = UserStatus.readyToStart;
-        if (userStates.Value.selfStatus == UserStatus.readyToStart) StartPlaying();
+        if (_currentUserStates.selfStatus == UserStatus.readyToStart) StartPlaying();
         Debug.Log("the other user is ready", DLogType.Input);
     }
 
     public void SelfPutHeadsetOn()
     {
-        userStates.Value.selfStatus = UserStatus.headsetOn;
         InstructionsTextBehavior.instance.ShowTextFromKey("idle");
         OscManager.instance.SendThisUserStatus(UserStatus.headsetOn);
         Debug.Log("this user put on the headset", DLogType.Input);
@@ -143,15 +141,13 @@ public class StatusManager : MonoBehaviour {
 
     public void OtherPutHeadsetOn()
     {
-        userStates.Value.otherStatus = UserStatus.headsetOn;
         Debug.Log("the other user put on the headset", DLogType.Input);
     }
     
     public void OtherLeft()
     {
-        userStates.Value.otherStatus = UserStatus.headsetOff;
         //if experience started
-        if (userStates.Value.selfStatus == UserStatus.readyToStart && _experienceRunning)
+        if (userStatesVariable.Value.selfStatus == UserStatus.readyToStart && _experienceRunning)
         {
             VideoFeed.instance.Dim(true);
 
@@ -162,7 +158,7 @@ public class StatusManager : MonoBehaviour {
             instructionsTimeline.Stop();
             _experienceRunning = false;    
             StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
-            userStates.Value.selfStatus = UserStatus.headsetOn;
+            userStatesVariable.Value.selfStatus = UserStatus.headsetOn;
         }
         Debug.Log("the other user removed the headset", DLogType.Input);
     }
@@ -234,12 +230,12 @@ public class StatusManager : MonoBehaviour {
     public void SelfRemovedHeadset()
     {
         _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
-        if (userStates.Value.selfStatus == UserStatus.readyToStart) {
+        if (userStatesVariable.Value.selfStatus == UserStatus.readyToStart) {
             Standby(false, _dimOutOnExperienceStart, true); //if we were ready and we took off the headset go to initial state
         }
 
-        userStates.Value.selfStatus = UserStatus.headsetOff;
-        OscManager.instance.SendThisUserStatus(userStates.Value.selfStatus);
+        userStatesVariable.Value.selfStatus = UserStatus.headsetOff;
+        OscManager.instance.SendThisUserStatus(userStatesVariable.Value.selfStatus);
         Debug.Log("this user removed his headset", DLogType.Input);
     }
     
@@ -256,9 +252,21 @@ public class StatusManager : MonoBehaviour {
 
     #region Private Methods
 
-    private void UserStatesChanged(UserStates state)
+    private void UserStatesChanged(UserStates newState)
     {
-        
+        if (newState.otherStatus != _currentUserStates.otherStatus) //if other status changed 
+        {
+            if (newState.otherStatus == UserStatus.headsetOff) OtherLeft();
+            else if (newState.otherStatus == UserStatus.headsetOn) OtherPutHeadsetOn(); //TODO only if previous one was ready to start?
+            else if (newState.otherStatus == UserStatus.readyToStart) OtherUserIsReady();
+        } 
+        else if (newState.selfStatus != _currentUserStates.selfStatus)
+        {
+            if (newState.selfStatus == UserStatus.headsetOff) SelfRemovedHeadset();
+            else if (newState.selfStatus == UserStatus.headsetOn) SelfPutHeadsetOn();
+            else if (newState.selfStatus == UserStatus.readyToStart) ThisUserIsReady();
+        }
+        _currentUserStates = newState;
     }
 
     private void EnableConfirmationGUI(bool enable)
