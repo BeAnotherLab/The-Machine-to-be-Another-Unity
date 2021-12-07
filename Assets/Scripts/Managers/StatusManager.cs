@@ -23,8 +23,6 @@ public class StatusManager : MonoBehaviour {
     public UserStatesVariable userStatesVariable;
     public UserStatesGameEvent _userStatesGameEvent;
     
-    private UserStates _currentUserStates;
-    
     public PlayableDirector instructionsTimeline;
     
     #endregion
@@ -55,7 +53,6 @@ public class StatusManager : MonoBehaviour {
         _confirmationMenu = GameObject.Find("ConfirmationMenu");
         UduinoManager.Instance.OnBoardDisconnectedEvent.AddListener(delegate { SerialFailure(); });
         instructionsTimeline = _longTimeline; //use short experience by default
-        _currentUserStates = userStatesVariable.Value;
     }
     
     private void Start()
@@ -127,7 +124,7 @@ public class StatusManager : MonoBehaviour {
         _languageButtons.gameObject.SetActive(false); //hide language buttons;
 
         //start experience or wait for the other if they're not ready yet
-        if (_currentUserStates.otherStatus == UserStatus.readyToStart) StartPlaying();
+        if (userStatesVariable.Value.otherStatus == UserStatus.readyToStart) StartPlaying();
         InstructionsTextBehavior.instance.ShowTextFromKey("waitForOther");
 
         Debug.Log("this user is ready", DLogType.Input);
@@ -135,7 +132,7 @@ public class StatusManager : MonoBehaviour {
 
     public void OtherUserIsReady()
     {
-        if (_currentUserStates.selfStatus == UserStatus.readyToStart) StartPlaying();
+        if (userStatesVariable.Value.selfStatus == UserStatus.readyToStart) StartPlaying();
         Debug.Log("the other user is ready", DLogType.Input);
     }
 
@@ -254,32 +251,21 @@ public class StatusManager : MonoBehaviour {
             instructionsTimeline = _longTimeline;
     }
 
+    public void UserStatesChanged(UserStates newState)
+    {
+        if (newState.otherStatus == UserStatus.headsetOff) OtherLeft();
+        else if (newState.otherStatus == UserStatus.headsetOn) OtherPutHeadsetOn(); //TODO only if previous one was ready to start?
+        else if (newState.otherStatus == UserStatus.readyToStart) OtherUserIsReady();
+            
+        if (newState.selfStatus == UserStatus.headsetOff) SelfRemovedHeadset();
+        else if (newState.selfStatus == UserStatus.headsetOn) SelfPutHeadsetOn();
+        else if (newState.selfStatus == UserStatus.readyToStart) ThisUserIsReady();
+    }
+    
     #endregion
 
 
     #region Private Methods
-
-    private void UserStatesChanged(UserStates newState)
-    {
-        if (newState.otherStatus != _currentUserStates.otherStatus) //if other status changed 
-        {
-            if (newState.otherStatus == UserStatus.headsetOff) OtherLeft();
-            else if (newState.otherStatus == UserStatus.headsetOn) OtherPutHeadsetOn(); //TODO only if previous one was ready to start?
-            else if (newState.otherStatus == UserStatus.readyToStart) OtherUserIsReady();
-        } 
-        else if (newState.selfStatus != _currentUserStates.selfStatus)
-        {
-            if (newState.selfStatus == UserStatus.headsetOff) SelfRemovedHeadset();
-            else if (newState.selfStatus == UserStatus.headsetOn) SelfPutHeadsetOn();
-            else if (newState.selfStatus == UserStatus.readyToStart) ThisUserIsReady();
-        }
-        _currentUserStates = newState;
-    }
-
-    public void UserStatesChanged()
-    {
-        var x = 3;
-    }
 
     private void EnableConfirmationGUI(bool enable)
     {
