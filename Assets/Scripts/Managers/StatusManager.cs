@@ -17,8 +17,6 @@ public class StatusManager : MonoBehaviour {
 
     public static StatusManager instance;
 
-    [HideInInspector] public bool presenceDetection;
-
     public UserStatus selfStatus;
     public UserStatus otherStatus;
     public PlayableDirector instructionsTimeline;
@@ -63,15 +61,12 @@ public class StatusManager : MonoBehaviour {
 
     private void Update()
     {
-        if (presenceDetection) //presence is for both autonomous and manual swap
-        {
-            if (XRDevice.userPresence == UserPresenceState.NotPresent && selfStatus != UserStatus.headsetOff) 
-                SelfRemovedHeadset();
-            else if (XRDevice.userPresence == UserPresenceState.Present && selfStatus == UserStatus.headsetOff) //if we just put the headset on 
-                SelfPutHeadsetOn(); 
-            
-            if (Input.GetKeyDown("o")) IsOver();
-        } 
+        if (XRDevice.userPresence == UserPresenceState.NotPresent && selfStatus != UserStatus.headsetOff) 
+            SelfRemovedHeadset();
+        else if (XRDevice.userPresence == UserPresenceState.Present && selfStatus == UserStatus.headsetOff) //if we just put the headset on 
+            SelfPutHeadsetOn(); 
+        
+        if (Input.GetKeyDown("o")) IsOver();
     }
 
     #endregion
@@ -110,7 +105,7 @@ public class StatusManager : MonoBehaviour {
 
     public void ThisUserIsReady() //called when user has aimed at the confirmation dialog and waited through the countdown.
     {
-        if (presenceDetection) OscManager.instance.SendThisUserStatus(UserStatus.readyToStart);
+        OscManager.instance.SendThisUserStatus(UserStatus.readyToStart);
 
         EnableConfirmationGUI(false); //hide status confirmation GUI elements
         _languageButtons.gameObject.SetActive(false); //hide language buttons;
@@ -164,7 +159,7 @@ public class StatusManager : MonoBehaviour {
         Debug.Log("the other user removed the headset", DLogType.Input);
     }
 
-    public void Standby(bool start = false, bool dimOutOnExperienceStart = true, bool enablePresenceDetection = true)
+    public void Standby(bool start = false, bool dimOutOnExperienceStart = true)
     {
         if (!start) VideoFeed.instance.Dim(true); //TODO somehow this messes with Video Feed dimming when called on Start?
             InstructionsTextBehavior.instance.ShowTextFromKey("idle");
@@ -187,23 +182,13 @@ public class StatusManager : MonoBehaviour {
         
         Debug.Log("ready to start");
         
-        if (!enablePresenceDetection)
-        {
-            VideoFeed.instance.Dim(true);
-            InstructionsTextBehavior.instance.ShowInstructionText(false);
-        }
-        
-        presenceDetection = enablePresenceDetection;
+        VideoFeed.instance.Dim(true);
+        InstructionsTextBehavior.instance.ShowInstructionText(false);
 
         _dimOutOnExperienceStart = dimOutOnExperienceStart;
         Debug.Log("setting dimOutOnExperienceStat to " + _dimOutOnExperienceStart);
     }
 
-    public void EnablePresenceDetection(bool enablePresenceDetection)
-    {
-        
-    }
-    
     public void SerialFailure() //if something went wrong with the physical installation
     {
         VideoFeed.instance.Dim(true);

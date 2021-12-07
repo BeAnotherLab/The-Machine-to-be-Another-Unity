@@ -202,39 +202,33 @@ public class OscManager : MonoBehaviour {
 
     private void ReceivedOtherStatus(OSCMessage message)
     {
-        if (StatusManager.instance.presenceDetection)
+        int x;
+        if (message.ToInt(out x))
         {
-            int x;
-            if (message.ToInt(out x))
-            {
-                if (x == 0) StatusManager.instance.OtherLeft();
-                else if (x == 1) StatusManager.instance.OtherPutHeadsetOn();
-                if (x == 2)  StatusManager.instance.OtherUserIsReady();
-            }
-
-            try { OnOtherStatus(); } //when receiving other status over OSC we get an error?
-            catch (Exception e) { }
+            if (x == 0) StatusManager.instance.OtherLeft();
+            else if (x == 1) StatusManager.instance.OtherPutHeadsetOn();
+            if (x == 2)  StatusManager.instance.OtherUserIsReady();
         }
+
+        try { OnOtherStatus(); } //when receiving other status over OSC we get an error?
+        catch (Exception e) { }
     }
 
     private void ReceiveSerialStatus(OSCMessage message)
     {
-        if (StatusManager.instance.presenceDetection)
+        int x;
+        if (message.ToInt(out x))
         {
-            int x;
-            if (message.ToInt(out x))
+            if (x == 0) StatusManager.instance.SerialFailure();
+            else if (x == 1) //when we receive serial ready from computer connected to Arduino
             {
-                if (x == 0) StatusManager.instance.SerialFailure();
-                else if (x == 1) //when we receive serial ready from computer connected to Arduino
-                {
-                    //confirm we've received the message
-                    OSCMessage oscMessage = new OSCMessage("/serialConfirmation");
-                    _oscTransmitter.Send(oscMessage);
-                    StatusManager.instance.SerialReady();
-                }
+                //confirm we've received the message
+                OSCMessage oscMessage = new OSCMessage("/serialConfirmation");
+                _oscTransmitter.Send(oscMessage);
+                StatusManager.instance.SerialReady();
             }
-            Debug.Log("received serial confirmation", DLogType.Network);
         }
+        Debug.Log("received serial confirmation", DLogType.Network);
     }
 
     private void ReceiveSerialStatusOK(OSCMessage message) //the receiver computer acknowledges serial status OK

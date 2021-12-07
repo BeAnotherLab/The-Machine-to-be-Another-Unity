@@ -34,7 +34,7 @@ public class SwapModeManager : MonoBehaviour
                 
                 SettingsGUI.instance.SetSwapMode(ArduinoControl); //hide serial port dropdown, show repeater toggle, show IP input field
                 VideoFeed.instance.twoWayWap = true; //move video with other pose
-                StatusManager.instance.Standby(true, true, true); //go to initial state
+                StatusManager.instance.Standby(true, true); //go to initial state
                 OscManager.instance.EnableRepeater(true); //enable OSC repeat
                 OscManager.instance.SetSendHeadtracking(true); //send headtracking
 
@@ -48,7 +48,7 @@ public class SwapModeManager : MonoBehaviour
                 
                 SettingsGUI.instance.SetSwapMode(); //hide serial port dropdown, show repeater toggle, show IP input field
                 VideoFeed.instance.twoWayWap = true; //move video with other pose
-                StatusManager.instance.Standby(true, false, true); //go to initial state
+                StatusManager.instance.Standby(true, false); //go to initial state
                 OscManager.instance.EnableRepeater(true); //enable OSC repeat
                 OscManager.instance.SetSendHeadtracking(true); //send headtracking
                 ArduinoManager.instance.DisableSerial(); //deactivate servos
@@ -56,12 +56,11 @@ public class SwapModeManager : MonoBehaviour
                 
                 break;
 
-            case SwapModes.SERVO_SWAP:
+            case SwapModes.SERVO_SWAP: //No longer used
                 
                 ArduinoManager.instance.ActivateSerial(true, false); //enable servos
                 SettingsGUI.instance.SetServoMode(); //show serial port dropdown, hide repeater toggle, hide IP input field
                 VideoFeed.instance.twoWayWap = false; //keep video in front of camera
-                StatusManager.instance.EnablePresenceDetection(false); //disable presence detection
                 AudioManager.instance.StopAudioInstructions(); //stop auto swap instructions audio
                 OscManager.instance.EnableRepeater(false); //disable OSC repeat
                 OscManager.instance.SetSendHeadtracking(true);
