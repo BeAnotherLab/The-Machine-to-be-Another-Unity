@@ -183,7 +183,6 @@ public class StatusManager : MonoBehaviour {
         Debug.Log("ready to start");
         
         VideoFeed.instance.Dim(true);
-        InstructionsTextBehavior.instance.ShowInstructionText(false);
 
         _dimOutOnExperienceStart = dimOutOnExperienceStart;
         Debug.Log("setting dimOutOnExperienceStat to " + _dimOutOnExperienceStart);
