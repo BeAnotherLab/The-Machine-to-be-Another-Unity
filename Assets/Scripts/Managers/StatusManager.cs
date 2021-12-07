@@ -217,7 +217,7 @@ public class StatusManager : MonoBehaviour {
     {
         _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
         if (selfStatus == UserStatus.readyToStart) {
-            Standby(false, _dimOutOnExperienceStart, true); //if we were ready and we took off the headset go to initial state
+            Standby(false, _dimOutOnExperienceStart); //if we were ready and we took off the headset go to initial state
         }
 
         selfStatus = UserStatus.headsetOff;
@@ -274,7 +274,7 @@ public class StatusManager : MonoBehaviour {
     private IEnumerator WaitBeforeResetting()
     {
         yield return new WaitForSeconds(4f); //make sure this value is inferior or equal to the confirmation radial time to avoid bugs
-        Standby(false, _dimOutOnExperienceStart, true); //if we were ready and we took off the headset go to initial state
+        Standby(false, _dimOutOnExperienceStart); //if we were ready and we took off the headset go to initial state
         SelfPutHeadsetOn();
         Debug.Log("about to reset");
     }
