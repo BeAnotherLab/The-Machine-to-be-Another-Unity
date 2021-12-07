@@ -21,7 +21,7 @@ public class StatusManager : MonoBehaviour {
     public bool presenceDetection; //TODD check if still necessary
 
     public UserStatesVariable userStatesVariable;
-    public UserStatesGameEvent _userStatesGameEvent;
+    public UserStatesGameEvent userStatesGameEvent;
     
     public PlayableDirector instructionsTimeline;
     
@@ -70,12 +70,12 @@ public class StatusManager : MonoBehaviour {
             if (XRDevice.userPresence == UserPresenceState.NotPresent && userStatesVariable.Value.selfStatus != UserStatus.headsetOff) 
             {
                 userStatesVariable.Value.selfStatus = UserStatus.headsetOff; //SelfRemovedHeadset();
-                _userStatesGameEvent.Raise(userStatesVariable.Value);
+                userStatesGameEvent.Raise(userStatesVariable.Value);
             } 
             else if (XRDevice.userPresence == UserPresenceState.Present && userStatesVariable.Value.selfStatus == UserStatus.headsetOff) //if we just put the headset on 
             {
                 userStatesVariable.Value.selfStatus = UserStatus.headsetOn; //SelfPutHeadsetOn();
-                _userStatesGameEvent.Raise(userStatesVariable.Value);
+                userStatesGameEvent.Raise(userStatesVariable.Value);
             } 
             
             if (Input.GetKeyDown("o")) IsOver();

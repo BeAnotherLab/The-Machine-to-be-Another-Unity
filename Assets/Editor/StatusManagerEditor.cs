@@ -14,24 +14,48 @@ public class StatusManagerEditor : Editor
 
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-        if (GUILayout.Button("Other is ready")) 
-            statusManager.userStatesVariable.Value.otherStatus = UserStatus.readyToStart; //statusManager.OtherUserIsReady();
-        if (GUILayout.Button("Other is gone"))  
+        var userStates = statusManager.userStatesVariable.Value;
+        var userStatesEvent = statusManager.userStatesGameEvent;
+        
+        if (GUILayout.Button("Other is ready"))
+        {
+            userStates.otherStatus = UserStatus.readyToStart; //statusManager.OtherUserIsReady();
+            userStatesEvent.Raise(userStates);
+        }
+
+        if (GUILayout.Button("Other is gone"))
+        {
             statusManager.userStatesVariable.Value.otherStatus = UserStatus.headsetOff; //statusManager.OtherLeft();
-
-        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-        if (GUILayout.Button("Other put headset on")) 
-            statusManager.userStatesVariable.Value.otherStatus = UserStatus.headsetOn; //statusManager.OtherPutHeadsetOn();
-        if (GUILayout.Button("Self put headset on")) 
-            statusManager.userStatesVariable.Value.selfStatus = UserStatus.headsetOn; //statusManager.SelfPutHeadsetOn();
+            userStatesEvent.Raise(userStates);
+        }
         
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-        if (GUILayout.Button("Self is ready")) 
+        if (GUILayout.Button("Other put headset on"))
+        {
+            statusManager.userStatesVariable.Value.otherStatus = UserStatus.headsetOn; //statusManager.OtherPutHeadsetOn();
+            userStatesEvent.Raise(userStates);
+        }
+
+        if (GUILayout.Button("Self put headset on"))
+        {
+            statusManager.userStatesVariable.Value.selfStatus = UserStatus.headsetOn; //statusManager.SelfPutHeadsetOn();
+            userStatesEvent.Raise(userStates);
+        } 
+        
+        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+        if (GUILayout.Button("Self is ready"))
+        {
             statusManager.userStatesVariable.Value.otherStatus = UserStatus.readyToStart; //statusManager.ThisUserIsReady();
-        if (GUILayout.Button("Self is gone")) 
+            userStatesEvent.Raise(userStates);
+        }
+
+        if (GUILayout.Button("Self is gone"))
+        {
             statusManager.userStatesVariable.Value.otherStatus = UserStatus.headsetOff; //statusManager.SelfRemovedHeadset();
+            userStatesEvent.Raise(userStates);
+        } 
         
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         
