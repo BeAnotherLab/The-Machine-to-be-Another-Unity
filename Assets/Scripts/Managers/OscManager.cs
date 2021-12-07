@@ -209,11 +209,23 @@ public class OscManager : MonoBehaviour {
             int x;
             if (message.ToInt(out x))
             {
-                //_userStates.SetValue()
-                //_userStatesGameEvent.Raise(_userStates);
-                if (x == 0) _userStates.Value.otherStatus = UserStatus.headsetOff; //StatusManager.instance.OtherLeft();
-                else if (x == 1) _userStates.Value.otherStatus = UserStatus.headsetOn; //StatusManager.instance.OtherPutHeadsetOn();
-                if (x == 2) _userStates.Value.otherStatus = UserStatus.readyToStart; //StatusManager.instance.OtherUserIsReady();
+                if (x == 0)
+                {
+                    _userStates.Value.otherStatus = UserStatus.headsetOff; //StatusManager.instance.OtherLeft();
+                    //_userStates.Raise();
+                    _userStatesGameEvent.Raise(_userStates);
+                }
+                else if (x == 1)
+                {
+                    _userStates.Value.otherStatus = UserStatus.headsetOn; //StatusManager.instance.OtherPutHeadsetOn();
+                    _userStatesGameEvent.Raise(_userStates);
+                }
+                else if (x == 2)
+                {
+                    _userStates.Value.otherStatus =
+                        UserStatus.readyToStart; //StatusManager.instance.OtherUserIsReady();
+                    _userStatesGameEvent.Raise(_userStates);
+                }
             }
 
             try { OnOtherStatus(); } //when receiving other status over OSC we get an error?

@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 3197596539171407804}
   - component: {fileID: 3197596539171407805}
   - component: {fileID: 92365315}
+  - component: {fileID: 6244842372085710053}
   m_Layer: 5
   m_Name: StatusManager
   m_TagString: Untagged
@@ -183,6 +184,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   presenceDetection: 0
   userStatesVariable: {fileID: 11400000, guid: 73e66dd7e3a0547f797f071fa0d7ce4d, type: 2}
+  _userStatesGameEvent: {fileID: 11400000, guid: c5c049531dab44a65b0856239c2b8263,
+    type: 2}
   instructionsTimeline: {fileID: 0}
   _shortTimeline: {fileID: 1017013999}
   _longTimeline: {fileID: 420745704}
@@ -206,3 +209,38 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6244842372085710053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3197596539171407807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 254dcf9fa3eb74f2496e489a68b6746a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: c5c049531dab44a65b0856239c2b8263, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3197596539171407805}
+        m_MethodName: UserStatesChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _debugValue:
+    selfStatus: 0
+    otherStatus: 0
+    dataCollectionConsent: 0

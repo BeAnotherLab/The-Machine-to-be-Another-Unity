@@ -18,9 +18,11 @@ public class StatusManager : MonoBehaviour {
 
     public static StatusManager instance;
 
-    [HideInInspector] public bool presenceDetection; //TODD check if still necessary
+    public bool presenceDetection; //TODD check if still necessary
 
     public UserStatesVariable userStatesVariable;
+    public UserStatesGameEvent _userStatesGameEvent;
+    
     private UserStates _currentUserStates;
     
     public PlayableDirector instructionsTimeline;
@@ -53,7 +55,6 @@ public class StatusManager : MonoBehaviour {
         _confirmationMenu = GameObject.Find("ConfirmationMenu");
         UduinoManager.Instance.OnBoardDisconnectedEvent.AddListener(delegate { SerialFailure(); });
         instructionsTimeline = _longTimeline; //use short experience by default
-        userStatesVariable.AddListener(delegate(UserStates value) { UserStatesChanged(value); });
         _currentUserStates = userStatesVariable.Value;
     }
     
@@ -69,10 +70,16 @@ public class StatusManager : MonoBehaviour {
     {
         if (presenceDetection) //presence is for both autonomous and manual swap
         {
-            if (XRDevice.userPresence == UserPresenceState.NotPresent && userStatesVariable.Value.selfStatus != UserStatus.headsetOff)
+            if (XRDevice.userPresence == UserPresenceState.NotPresent && userStatesVariable.Value.selfStatus != UserStatus.headsetOff) 
+            {
                 userStatesVariable.Value.selfStatus = UserStatus.headsetOff; //SelfRemovedHeadset();
+                _userStatesGameEvent.Raise(userStatesVariable.Value);
+            } 
             else if (XRDevice.userPresence == UserPresenceState.Present && userStatesVariable.Value.selfStatus == UserStatus.headsetOff) //if we just put the headset on 
-                userStatesVariable.Value.selfStatus = UserStatus.headsetOn; //SelfPutHeadsetOn(); 
+            {
+                userStatesVariable.Value.selfStatus = UserStatus.headsetOn; //SelfPutHeadsetOn();
+                _userStatesGameEvent.Raise(userStatesVariable.Value);
+            } 
             
             if (Input.GetKeyDown("o")) IsOver();
         } 
@@ -267,6 +274,11 @@ public class StatusManager : MonoBehaviour {
             else if (newState.selfStatus == UserStatus.readyToStart) ThisUserIsReady();
         }
         _currentUserStates = newState;
+    }
+
+    public void UserStatesChanged()
+    {
+        var x = 3;
     }
 
     private void EnableConfirmationGUI(bool enable)
