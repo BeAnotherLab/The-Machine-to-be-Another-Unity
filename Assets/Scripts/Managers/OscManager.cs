@@ -24,8 +24,9 @@ public class OscManager : MonoBehaviour {
 
     #region Private Fields
 
-    [SerializeField] private UserStatesGameEvent _userStatesGameEvent;
-    [SerializeField] private UserStatesVariable _userStates;
+    public UserStateVariable otherState;
+    public UserStateGameEvent otherStateGameEvent;
+    
     private Camera _mainCamera;
 
     private OSCTransmitter _oscTransmitter;
@@ -211,21 +212,17 @@ public class OscManager : MonoBehaviour {
             {
                 if (x == 0)
                 {
-                    _userStates.Value.otherStatus = UserStatus.headsetOff; //StatusManager.instance.OtherLeft();
-                    //_userStates.Raise();
-                    _userStatesGameEvent.Raise(_userStates);
+                    otherState.Value.status = UserStatus.headsetOff; //StatusManager.instance.OtherLeft();
                 }
                 else if (x == 1)
                 {
-                    _userStates.Value.otherStatus = UserStatus.headsetOn; //StatusManager.instance.OtherPutHeadsetOn();
-                    _userStatesGameEvent.Raise(_userStates);
+                    otherState.Value.status = UserStatus.headsetOn; //StatusManager.instance.OtherPutHeadsetOn();
                 }
                 else if (x == 2)
                 {
-                    _userStates.Value.otherStatus =
-                        UserStatus.readyToStart; //StatusManager.instance.OtherUserIsReady();
-                    _userStatesGameEvent.Raise(_userStates);
+                    otherState.Value.status = UserStatus.readyToStart; //StatusManager.instance.OtherUserIsReady();
                 }
+                otherStateGameEvent.Raise(otherState);
             }
 
             try { OnOtherStatus(); } //when receiving other status over OSC we get an error?
