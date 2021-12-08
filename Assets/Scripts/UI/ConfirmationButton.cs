@@ -17,7 +17,8 @@ namespace VRStandardAssets.Menu
         [SerializeField] private CustomSelectionRadial m_SelectionRadial;         // This controls when the selection is complete.
         [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
 
-        [SerializeField] private UserStatesVariable _userStatesVariable;
+        [SerializeField] private UserStateGameEvent selfStateGameEvent;
+        [SerializeField] private UserStateVariable selfState;
 
         private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
 
@@ -68,7 +69,10 @@ namespace VRStandardAssets.Menu
 
         private void HandleSelectionComplete()
         {
-            if (m_GazeOver) _userStatesVariable.Value.selfStatus = UserStatus.readyToStart; //StatusManager.instance.ThisUserIsReady(); //the user is ready
+            if (m_GazeOver) {
+                selfState.Value = UserState.readyToStart;
+                selfStateGameEvent.Raise(selfState.Value);
+            }
             HandleOut();            
         }
 

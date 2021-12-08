@@ -21,13 +21,13 @@ public class StatusManagerEditor : Editor
         
         if (GUILayout.Button("Other is ready"))
         {
-            otherState.status = UserStatus.readyToStart; //statusManager.OtherUserIsReady();
+            otherState = UserState.readyToStart; //statusManager.OtherUserIsReady();
             otherStateEvent.Raise(otherState);
         }
 
         if (GUILayout.Button("Other is gone"))
         {
-            otherState.status = UserStatus.headsetOff; //statusManager.OtherLeft();
+            otherState = UserState.headsetOff; //statusManager.OtherLeft();
             otherStateEvent.Raise(otherState);
         }
         
@@ -35,13 +35,13 @@ public class StatusManagerEditor : Editor
 
         if (GUILayout.Button("Other put headset on"))
         {
-            otherState.status = UserStatus.headsetOn; //statusManager.OtherPutHeadsetOn();
+            otherState = UserState.headsetOn; //statusManager.OtherPutHeadsetOn();
             otherStateEvent.Raise(otherState);
         }
 
         if (GUILayout.Button("Self put headset on"))
         {
-            selfState.status = UserStatus.headsetOn; //statusManager.SelfPutHeadsetOn();
+            selfState = UserState.headsetOn; //statusManager.SelfPutHeadsetOn();
             selfStateEvent.Raise(selfState);
         } 
         
@@ -49,13 +49,13 @@ public class StatusManagerEditor : Editor
 
         if (GUILayout.Button("Self is ready"))
         {
-            selfState.status = UserStatus.readyToStart; //statusManager.ThisUserIsReady();
+            selfState = UserState.readyToStart; //statusManager.ThisUserIsReady();
             selfStateEvent.Raise(selfState);
         }
 
         if (GUILayout.Button("Self is gone"))
         {
-            selfState.status = UserStatus.headsetOff; //statusManager.SelfRemovedHeadset();
+            selfState = UserState.headsetOff; //statusManager.SelfRemovedHeadset();
             selfStateEvent.Raise(selfState);
         } 
         

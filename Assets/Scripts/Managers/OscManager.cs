@@ -110,15 +110,15 @@ public class OscManager : MonoBehaviour {
         else PlayerPrefs.SetInt("repeater", 0);
     }
 
-    public void SendThisUserStatus(UserStatus status)
+    public void SendThisUserStatus(UserState status)
     {
         OSCMessage message = new OSCMessage("/otherUser");
 
         int i = 0;
         
-        if (status == UserStatus.headsetOff) i = 0;
-        else if (status == UserStatus.headsetOn) i = 1;
-        else if (status == UserStatus.readyToStart) i = 2;
+        if (status == UserState.headsetOff) i = 0;
+        else if (status == UserState.headsetOn) i = 1;
+        else if (status == UserState.readyToStart) i = 2;
         
         message.AddValue(OSCValue.Int(i));
         _oscTransmitter.Send(message);
@@ -212,15 +212,15 @@ public class OscManager : MonoBehaviour {
             {
                 if (x == 0)
                 {
-                    otherState.Value.status = UserStatus.headsetOff; //StatusManager.instance.OtherLeft();
+                    otherState.Value = UserState.headsetOff; //StatusManager.instance.OtherLeft();
                 }
                 else if (x == 1)
                 {
-                    otherState.Value.status = UserStatus.headsetOn; //StatusManager.instance.OtherPutHeadsetOn();
+                    otherState.Value = UserState.headsetOn; //StatusManager.instance.OtherPutHeadsetOn();
                 }
                 else if (x == 2)
                 {
-                    otherState.Value.status = UserStatus.readyToStart; //StatusManager.instance.OtherUserIsReady();
+                    otherState.Value = UserState.readyToStart; //StatusManager.instance.OtherUserIsReady();
                 }
                 otherStateGameEvent.Raise(otherState);
             }
