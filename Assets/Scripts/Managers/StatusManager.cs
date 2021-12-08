@@ -64,6 +64,10 @@ public class StatusManager : MonoBehaviour {
             InstructionsTextBehavior.instance.ShowTextFromKey("waitingForSerial");
         else
             _readyForStandby = true; //if we're not using the serial control, we don't have to wait for the arduino
+
+        selfState.Value = UserState.headsetOff;
+        otherState.Value = UserState.headsetOff;
+
     }
 
     private void Update()
