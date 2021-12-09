@@ -77,12 +77,12 @@ public class StatusManager : MonoBehaviour {
             if (XRDevice.userPresence == UserPresenceState.NotPresent && selfState.Value != UserState.headsetOff) 
             {
                 selfState.Value = UserState.headsetOff; //SelfRemovedHeadset();
-                selfStateGameEvent.Raise(selfState.Value);
+                selfStateGameEvent.Raise(UserState.headsetOff);
             } 
             else if (XRDevice.userPresence == UserPresenceState.Present && selfState.Value == UserState.headsetOff) //if we just put the headset on 
             {
-                selfState.Value = UserState.headsetOn; //SelfPutHeadsetOn();
-                selfStateGameEvent.Raise(selfState.Value);
+                selfState.Value = UserState.headsetOn; 
+                selfStateGameEvent.Raise(UserState.headsetOn);
             } 
             
             if (Input.GetKeyDown("o")) IsOver();

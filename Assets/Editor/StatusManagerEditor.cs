@@ -14,49 +14,49 @@ public class StatusManagerEditor : Editor
 
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-        var selfState = statusManager.selfState.Value;
-        var otherState = statusManager.otherState.Value;
+        var selfState = statusManager.selfState;
+        var otherState = statusManager.otherState;
         var selfStateEvent = statusManager.selfStateGameEvent;
         var otherStateEvent = statusManager.otherStateGameEvent;
         
         if (GUILayout.Button("Other is ready"))
         {
-            otherState = UserState.readyToStart; //statusManager.OtherUserIsReady();
-            otherStateEvent.Raise(otherState);
+            otherState.Value = UserState.readyToStart; //statusManager.OtherUserIsReady();
+            otherStateEvent.Raise(UserState.readyToStart);
         }
 
         if (GUILayout.Button("Other is gone"))
         {
-            otherState = UserState.headsetOff; //statusManager.OtherLeft();
-            otherStateEvent.Raise(otherState);
+            otherState.Value = UserState.headsetOff; //statusManager.OtherLeft();
+            otherStateEvent.Raise(UserState.headsetOff);
         }
         
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
         if (GUILayout.Button("Other put headset on"))
         {
-            otherState = UserState.headsetOn; //statusManager.OtherPutHeadsetOn();
-            otherStateEvent.Raise(otherState);
+            otherState.Value = UserState.headsetOn; 
+            otherStateEvent.Raise(UserState.headsetOn);
         }
 
         if (GUILayout.Button("Self put headset on"))
         {
-            selfState = UserState.headsetOn; //statusManager.SelfPutHeadsetOn();
-            selfStateEvent.Raise(selfState);
+            selfState.Value = UserState.headsetOn; //statusManager.SelfPutHeadsetOn();
+            selfStateEvent.Raise(UserState.headsetOn);
         } 
         
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
         if (GUILayout.Button("Self is ready"))
         {
-            selfState = UserState.readyToStart; //statusManager.ThisUserIsReady();
-            selfStateEvent.Raise(selfState);
+            selfState.Value = UserState.readyToStart; //statusManager.ThisUserIsReady();
+            selfStateEvent.Raise(UserState.readyToStart);
         }
 
         if (GUILayout.Button("Self is gone"))
         {
-            selfState = UserState.headsetOff; //statusManager.SelfRemovedHeadset();
-            selfStateEvent.Raise(selfState);
+            selfState.Value = UserState.headsetOff; //statusManager.SelfRemovedHeadset();
+            selfStateEvent.Raise(UserState.headsetOff);
         } 
         
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
