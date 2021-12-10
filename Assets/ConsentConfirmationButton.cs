@@ -62,8 +62,6 @@ public class ConsentConfirmationButton : MonoBehaviour
             }
             HandleOut();            
         }
-
-        
 }
 
 

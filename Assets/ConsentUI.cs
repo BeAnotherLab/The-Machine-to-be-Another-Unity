@@ -13,15 +13,17 @@ public class ConsentUI : MonoBehaviour
 
     [SerializeField] private GameObject _yesButton;
     [SerializeField] private GameObject _noButton;
+
+    [SerializeField] private GameObject _textPanel;
     
-    public void SelfStateChanged(UserState otherState)
+    public void SelfStateChanged(UserState selfState)
     {
-        //if other consented or other did not consent yet, ask for consent
-        if (_otherConsented.Value || UserStateOperations.IsBeforeConsent(otherState))
+        //if self is now ready to start and other consented or other did not consent yet, ask for consent
+        if ( selfState == UserState.readyToStart && (_otherConsented.Value || UserStateOperations.IsBeforeConsent(_otherState)))
         {
             _yesButton.gameObject.SetActive(true); 
             _noButton.gameObject.SetActive(true);
-            GetComponent<PanelDimmer>().Show(true, 0.6f);    
+            _textPanel.GetComponent<PanelDimmer>().Show(true, 0.6f);    
         } 
     }
 

@@ -178,6 +178,7 @@ GameObject:
   - component: {fileID: 8896218958505837350}
   - component: {fileID: 2145128089735267091}
   - component: {fileID: 1143048963586427077}
+  - component: {fileID: 8460050013873777800}
   m_Layer: 5
   m_Name: ConsentMessagePanel
   m_TagString: Untagged
@@ -308,6 +309,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de05442fa049c4a24890186cb42d0881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8460050013873777800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314967233334736792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 11400000, guid: 233cfa55cbf85453a94eab5d18990784,
+    type: 2}
+  _event: {fileID: 11400000, guid: 233cfa55cbf85453a94eab5d18990784, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1143048963586427077}
+        m_MethodName: Show
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7446580013050441714
 GameObject:
   m_ObjectHideFlags: 0
@@ -355,12 +388,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 786337d1f6099534197c086b5a57c676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _selfState: {fileID: 0}
-  _otherState: {fileID: 0}
+  _selfState: {fileID: 11400000, guid: 363d5d6f5bd2c4781ab93c705014d6f3, type: 2}
+  _otherState: {fileID: 11400000, guid: 9d92648ad173541cda9193e84cc5ea94, type: 2}
   _selfConsented: {fileID: 0}
-  _otherConsented: {fileID: 0}
+  _otherConsented: {fileID: 11400000, guid: d2506bce221424b588ce911fe2d98abc, type: 2}
   _yesButton: {fileID: 3560299249025443690}
   _noButton: {fileID: 6293335767279565086}
+  _textPanel: {fileID: 1314967233334736792}
 --- !u!114 &2417247077044410933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,7 +414,18 @@ MonoBehaviour:
   _event: {fileID: 11400000, guid: ca8fd7f8d546d4a209ab5b1348851dba, type: 2}
   _response:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2358207166597989730}
+        m_MethodName: SelfStateChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _debugValue: 0
 --- !u!1001 &7446580012049986386
 PrefabInstance:
@@ -399,10 +444,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConsentNoButton
       objectReference: {fileID: 0}
+    - target: {fileID: 3459321520968829516, guid: c2bd06e55067f4cd5a89f06524d45463,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4478239525904831953, guid: c2bd06e55067f4cd5a89f06524d45463,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8324827995209536913, guid: c2bd06e55067f4cd5a89f06524d45463,
         type: 3}
@@ -650,10 +700,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConsentYesButton
       objectReference: {fileID: 0}
+    - target: {fileID: 6214730389232214198, guid: 986663f92e2eb410ba1abeadb1f41677,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6348727317587509035, guid: 986663f92e2eb410ba1abeadb1f41677,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9006243823735581803, guid: 986663f92e2eb410ba1abeadb1f41677,
         type: 3}

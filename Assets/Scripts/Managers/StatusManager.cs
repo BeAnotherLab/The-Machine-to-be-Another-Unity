@@ -134,6 +134,7 @@ public class StatusManager : MonoBehaviour {
         //if (otherState.Value == UserState.readyToStart) StartPlaying();
         //InstructionsTextBehavior.instance.ShowTextFromKey("waitForOther");
 
+        InstructionsTextBehavior.instance.ShowInstructionText(false);
         
         Debug.Log("this user is ready", DLogType.Input);
     }
