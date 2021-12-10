@@ -131,9 +131,10 @@ public class StatusManager : MonoBehaviour {
         _languageButtons.gameObject.SetActive(false); //hide language buttons;
 
         //start experience or wait for the other if they're not ready yet
-        if (otherState.Value == UserState.readyToStart) StartPlaying();
-        InstructionsTextBehavior.instance.ShowTextFromKey("waitForOther");
+        //if (otherState.Value == UserState.readyToStart) StartPlaying();
+        //InstructionsTextBehavior.instance.ShowTextFromKey("waitForOther");
 
+        
         Debug.Log("this user is ready", DLogType.Input);
     }
 

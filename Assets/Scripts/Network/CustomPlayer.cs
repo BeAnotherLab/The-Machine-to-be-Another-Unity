@@ -8,7 +8,7 @@ namespace Mirror.Examples.Pong
 {
     public class CustomPlayer : NetworkBehaviour
     {
-        public bool consentGiven;
+        public BoolVariable consentGiven;
 
         private GameObject _mainCamera;
         private GameObject _videoFeedFlipParent;
@@ -60,7 +60,7 @@ namespace Mirror.Examples.Pong
         [Command]
         public void CmdGiveConsent(string id, bool answer)
         {
-            consentGiven = answer;
+            //consentGiven = answer;
             _consentAnswerGivenEvent.Raise(answer);
         }
         
