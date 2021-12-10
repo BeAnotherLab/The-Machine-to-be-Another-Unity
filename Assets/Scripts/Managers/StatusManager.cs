@@ -127,7 +127,7 @@ public class StatusManager : MonoBehaviour {
     {
         if (presenceDetection) OscManager.instance.SendThisUserStatus(UserState.readyToStart);
 
-        EnableConfirmationGUI(false); //hide status confirmation GUI elements
+        //EnableConfirmationGUI(false); //hide status confirmation GUI elements
         _languageButtons.gameObject.SetActive(false); //hide language buttons;
 
         //start experience or wait for the other if they're not ready yet
@@ -281,8 +281,6 @@ public class StatusManager : MonoBehaviour {
 
     private void EnableConfirmationGUI(bool enable)
     {
-        ConfirmationButton.instance.gameObject.SetActive(enable);
-
         if (enable)
             _mainCamera.GetComponent<Reticle>().Show();
         else

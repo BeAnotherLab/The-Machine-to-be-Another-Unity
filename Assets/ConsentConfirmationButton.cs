@@ -58,7 +58,6 @@ public class ConsentConfirmationButton : MonoBehaviour
             if (m_GazeOver)
             {
                 _handleSelectionCompleteEvent.Raise(_answer);
-                gameObject.SetActive(false);
             }
             HandleOut();            
         }

@@ -72,6 +72,8 @@ namespace VRStandardAssets.Menu
             if (m_GazeOver) {
                 selfState.Value = UserState.readyToStart;
                 selfStateGameEvent.Raise(selfState.Value);
+                GetComponent<MeshRenderer>().enabled = false;
+                GetComponent<MeshCollider>().enabled = false;
             }
             HandleOut();            
         }

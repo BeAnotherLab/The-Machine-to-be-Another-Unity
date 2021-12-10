@@ -5,5 +5,8 @@ using UnityEngine;
 
 public class QuestionnaireUI : MonoBehaviour
 {
-        
+    public void ReadyToShowQuestionnaire(bool answer)
+    {
+        GetComponent<PanelDimmer>().Show(answer);
+    }    
 }
