@@ -42,7 +42,8 @@ public class StatusManager : MonoBehaviour {
     private GameObject _confirmationMenu;
     private bool _experienceRunning;
     private bool _dimOutOnExperienceStart;
-
+    
+    public UserState previousSelfState;
     #endregion
 
 
@@ -73,8 +74,9 @@ public class StatusManager : MonoBehaviour {
     {
         if (presenceDetection) //presence is for both autonomous and manual swap
         {
-            if (XRDevice.userPresence == UserPresenceState.NotPresent && selfState.Value != UserState.headsetOff) 
+            if (XRDevice.userPresence == UserPresenceState.NotPresent && selfState.Value != UserState.headsetOff)
             {
+                previousSelfState = selfState.Value;
                 selfState.Value = UserState.headsetOff; //SelfRemovedHeadset();
                 selfStateGameEvent.Raise(UserState.headsetOff);
             } 
@@ -242,7 +244,7 @@ public class StatusManager : MonoBehaviour {
     public void SelfRemovedHeadset()
     {
         _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
-        if (selfState.Value == UserState.readyToStart) {
+        if (previousSelfState == UserState.readyToStart) {
             Standby(false, _dimOutOnExperienceStart, true); //if we were ready and we took off the headset go to initial state
         }
 
