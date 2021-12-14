@@ -27,7 +27,7 @@ namespace Mirror.Examples.Pong
         private void Start()    
         {
             if (offlineMode) Instantiate(playerPrefab);
-
+            _consentsGiven.Value = 0;
             networkAddress = PlayerPrefs.GetString("othersIP");
 
             if (PlayerPrefs.GetInt("repeater", 0) == 1) //TODO rename property
