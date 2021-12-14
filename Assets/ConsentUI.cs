@@ -18,8 +18,14 @@ public class ConsentUI : MonoBehaviour
         {
             _yesButton.gameObject.SetActive(true); 
             _noButton.gameObject.SetActive(true);
-            _textPanel.GetComponent<PanelDimmer>().Show(true, 0.6f);    
+            _textPanel.GetComponent<PanelDimmer>().Show(true, 1f);    
         } 
+        else if (selfState == UserState.headsetOff)
+        {
+            _yesButton.gameObject.SetActive(false); 
+            _noButton.gameObject.SetActive(false);
+            _textPanel.GetComponent<PanelDimmer>().Show(false, 0f);
+        }
     }
 
     public void ConsentButtonPressed()

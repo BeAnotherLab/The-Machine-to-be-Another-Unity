@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4798578607988876300}
   - component: {fileID: 7048053968635201436}
   - component: {fileID: 8345416278668479722}
+  - component: {fileID: 223051487469282114}
   m_Layer: 0
   m_Name: Questionnaire
   m_TagString: Untagged
@@ -68,6 +69,38 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7048053968635201436}
         m_MethodName: ReadyToShowQuestionnaire
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _debugValue: 0
+--- !u!114 &223051487469282114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2834379280832980167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbf3049867acf4e98b57a68ca8ffdf10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: ca8fd7f8d546d4a209ab5b1348851dba, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7048053968635201436}
+        m_MethodName: OnSelfStateChanged
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -208,7 +241,7 @@ PrefabInstance:
     - target: {fileID: 3046924239983294786, guid: ad0886d55688c4fd48c8673ee44aa15d,
         type: 3}
       propertyPath: m_Text
-      value: 
+      value: Questionnaire UI
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad0886d55688c4fd48c8673ee44aa15d, type: 3}
