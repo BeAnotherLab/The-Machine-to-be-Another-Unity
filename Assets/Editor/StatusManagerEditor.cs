@@ -41,7 +41,7 @@ public class StatusManagerEditor : Editor
 
         if (GUILayout.Button("Self put headset on"))
         {
-            statusManager.previousSelfState = selfState.Value;
+            statusManager.previousSelfState.Value = selfState.Value;
             selfState.Value = UserState.headsetOn;
             selfStateEvent.Raise(UserState.headsetOn);
         } 
@@ -50,14 +50,14 @@ public class StatusManagerEditor : Editor
 
         if (GUILayout.Button("Self is ready"))
         {
-            statusManager.previousSelfState = selfState.Value;
+            statusManager.previousSelfState.Value = selfState.Value;
             selfState.Value = UserState.readyToStart; 
             selfStateEvent.Raise(UserState.readyToStart);
         }
 
         if (GUILayout.Button("Self is gone"))
         {
-            statusManager.previousSelfState = selfState.Value;
+            statusManager.previousSelfState.Value = selfState.Value;
             selfState.Value = UserState.headsetOff; 
             selfStateEvent.Raise(UserState.headsetOff);
         } 

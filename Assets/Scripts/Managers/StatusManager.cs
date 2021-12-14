@@ -19,8 +19,11 @@ public class StatusManager : MonoBehaviour {
     public static StatusManager instance;
 
     public bool presenceDetection; //TODD check if still necessary
-
+    
+    public UserStateVariable previousOtherState;
     public UserStateVariable otherState;
+    
+    public UserStateVariable previousSelfState;
     public UserStateVariable selfState;
     
     public UserStateGameEvent selfStateGameEvent;
@@ -43,7 +46,6 @@ public class StatusManager : MonoBehaviour {
     private bool _experienceRunning;
     private bool _dimOutOnExperienceStart;
     
-    public UserState previousSelfState;
     #endregion
 
 
@@ -76,12 +78,13 @@ public class StatusManager : MonoBehaviour {
         {
             if (XRDevice.userPresence == UserPresenceState.NotPresent && selfState.Value != UserState.headsetOff)
             {
-                previousSelfState = selfState.Value;
+                previousSelfState.Value = selfState.Value;
                 selfState.Value = UserState.headsetOff; //SelfRemovedHeadset();
                 selfStateGameEvent.Raise(UserState.headsetOff);
             } 
             else if (XRDevice.userPresence == UserPresenceState.Present && selfState.Value == UserState.headsetOff) //if we just put the headset on 
             {
+                previousSelfState.Value = selfState.Value;
                 selfState.Value = UserState.headsetOn; 
                 selfStateGameEvent.Raise(UserState.headsetOn);
             } 
@@ -161,7 +164,7 @@ public class StatusManager : MonoBehaviour {
     public void OtherLeft()
     {
         //if experience started
-        if (otherState.Value == UserState.readyToStart && _experienceRunning)
+        if (previousOtherState.Value == UserState.readyToStart && _experienceRunning)
         {
             VideoFeed.instance.Dim(true);
 
@@ -244,11 +247,10 @@ public class StatusManager : MonoBehaviour {
     public void SelfRemovedHeadset()
     {
         _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
-        if (previousSelfState == UserState.readyToStart) {
+        if (previousSelfState.Value == UserState.readyToStart) {
             Standby(false, _dimOutOnExperienceStart, true); //if we were ready and we took off the headset go to initial state
         }
-
-        //userStatesVariable.Value.selfStatus = UserStatus.headsetOff;
+        
         OscManager.instance.SendThisUserStatus(selfState);
         Debug.Log("this user removed his headset", DLogType.Input);
     }

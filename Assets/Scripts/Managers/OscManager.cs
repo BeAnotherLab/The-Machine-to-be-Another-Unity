@@ -24,6 +24,7 @@ public class OscManager : MonoBehaviour {
 
     #region Private Fields
 
+    public UserStateVariable previousOtherState;
     public UserStateVariable otherState;
     public UserStateGameEvent otherStateGameEvent;
     
@@ -212,16 +213,20 @@ public class OscManager : MonoBehaviour {
             {
                 if (x == 0)
                 {
+                    previousOtherState.Value = otherState.Value;
                     otherState.Value = UserState.headsetOff; //StatusManager.instance.OtherLeft();
                 }
                 else if (x == 1)
                 {
+                    previousOtherState.Value = otherState.Value;
                     otherState.Value = UserState.headsetOn; //StatusManager.instance.OtherPutHeadsetOn();
                 }
                 else if (x == 2)
                 {
+                    previousOtherState.Value = otherState.Value;
                     otherState.Value = UserState.readyToStart; //StatusManager.instance.OtherUserIsReady();
                 }
+                
                 otherStateGameEvent.Raise(otherState);
             }
 
