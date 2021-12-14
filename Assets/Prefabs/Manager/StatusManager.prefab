@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 92365315}
   - component: {fileID: 7721244601803253380}
   - component: {fileID: 7947564878593234129}
+  - component: {fileID: 4819380094899561898}
   m_Layer: 5
   m_Name: StatusManager
   m_TagString: Untagged
@@ -268,6 +269,38 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3197596539171407805}
         m_MethodName: SelfStateChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _debugValue: 0
+--- !u!114 &4819380094899561898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3197596539171407807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791e3eca91bfc2e41b38477d0ecfaf1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: b2a8ee2f4c9da4ef288b4e50ec27af3b, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3197596539171407805}
+        m_MethodName: OnBothConsentsGiven
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

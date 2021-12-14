@@ -67,7 +67,6 @@ public class StatusManager : MonoBehaviour {
 
         selfState.Value = UserState.headsetOff;
         otherState.Value = UserState.headsetOff;
-
     }
 
     private void Update()
@@ -273,7 +272,12 @@ public class StatusManager : MonoBehaviour {
         else if (newState == UserState.headsetOn) OtherPutHeadsetOn(); //TODO only if previous one was ready to start?
         else if (newState == UserState.readyToStart) OtherUserIsReady();
     }
-
+    
+    public void OnBothConsentsGiven(bool bothGiven)
+    {
+        if(!bothGiven) StartPlaying();
+    }
+    
     #endregion
 
 
