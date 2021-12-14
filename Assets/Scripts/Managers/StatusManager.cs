@@ -141,7 +141,7 @@ public class StatusManager : MonoBehaviour {
 
     public void OtherUserIsReady()
     {
-        if (selfState.Value == UserState.readyToStart) StartPlaying();
+        //if (selfState.Value == UserState.readyToStart) StartPlaying();
         Debug.Log("the other user is ready", DLogType.Input);
     }
 

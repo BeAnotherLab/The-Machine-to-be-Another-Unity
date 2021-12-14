@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class QuestionnaireUI : MonoBehaviour
 {
+    [SerializeField] private GameObject _questionnairePanelGameObject;
+
     public void ReadyToShowQuestionnaire(bool answer)
     {
-        GetComponent<PanelDimmer>().Show(answer);
+        _questionnairePanelGameObject.GetComponent<PanelDimmer>().Show(answer);
     }    
 }

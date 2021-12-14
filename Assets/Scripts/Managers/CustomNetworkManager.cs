@@ -18,13 +18,13 @@ namespace Mirror.Examples.Pong
             
         public bool offlineMode;
         private int _consentCount;
-        private int _consentsGiven;
+        [SerializeField] private IntVariable _consentsGiven;
         private void Awake()
         {
             if (instance == null) instance = this;
         }
 
-        private void Start()
+        private void Start()    
         {
             if (offlineMode) Instantiate(playerPrefab);
 
@@ -57,10 +57,10 @@ namespace Mirror.Examples.Pong
         public void ConsentAnswerGiven(bool consent)
         {
             _consentCount++;
-            if (consent) _consentsGiven++;
+            if (consent) _consentsGiven.Value++;
             if (_consentCount == 2)
             {
-                if (_consentsGiven == 2)
+                if (_consentsGiven.Value == 2)
                 {
                     bothConsentGiven.Raise(true);
                 }
