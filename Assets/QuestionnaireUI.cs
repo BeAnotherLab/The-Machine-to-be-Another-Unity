@@ -12,7 +12,7 @@ public class QuestionnaireUI : MonoBehaviour
         _questionnairePanelGameObject.GetComponent<PanelDimmer>().Show(answer);
     }
 
-    public void OnSelfStateChanged(UserState selfState)
+    public void UserStateChanged(UserState selfState)
     {
         if (selfState == UserState.headsetOff) //hide if user left 
             _questionnairePanelGameObject.GetComponent<PanelDimmer>().Show(false);   
