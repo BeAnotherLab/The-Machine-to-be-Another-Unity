@@ -16,20 +16,29 @@ public class ConsentUI : MonoBehaviour
         //if self is now ready to start 
         if ( selfState == UserState.readyToStart)
         {
-            _yesButton.gameObject.SetActive(true); 
-            _noButton.gameObject.SetActive(true);
-            _textPanel.GetComponent<PanelDimmer>().Show(true, 1f);    
+            Show(true);
         } 
         else if (selfState == UserState.headsetOff)
         {
-            _yesButton.gameObject.SetActive(false); 
-            _noButton.gameObject.SetActive(false);
-            _textPanel.GetComponent<PanelDimmer>().Show(false, 0f);
+            Show(true);
         }
     }
 
+    public void ReadyToShowQuestionnaire()
+    {
+        Show(false);
+    }
+    
+    
     public void ConsentButtonPressed()
     {
         _text.text = "Wait for a moment...";
+    }
+    
+    private void Show(bool show)
+    {
+        _yesButton.gameObject.SetActive(show); 
+        _noButton.gameObject.SetActive(show);
+        _textPanel.GetComponent<PanelDimmer>().Show(show, 1f);
     }
 }
