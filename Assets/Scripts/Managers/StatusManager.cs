@@ -166,14 +166,12 @@ public class StatusManager : MonoBehaviour {
     public void OtherLeft()
     {
         //if experience started
-        if (previousOtherState.Value == UserState.readyToStart && _experienceRunning)
+        if (previousOtherState.Value == UserState.readyToStart)
         {
-            VideoFeed.instance.Dim(true);
-
-            InstructionsTextBehavior.instance.ShowTextFromKey("otherIsGone");
-            InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeOutImages();
-            InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeInPanel();
-
+            if (_experienceRunning)
+            {
+                
+            }
             instructionsTimeline.Stop();
             _experienceRunning = false;    
             StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
