@@ -21,7 +21,20 @@ namespace VRStandardAssets.Menu
         [SerializeField] private UserStateVariable selfState;
 
         private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
-
+        
+        public void SelfUserStateChanged(UserState selfUserState)
+        {
+            if (selfUserState == UserState.readyToStart)
+            {
+                GetComponent<MeshRenderer>().enabled = false;
+                GetComponent<MeshCollider>().enabled = false;    
+            } else if (selfUserState == UserState.headsetOff)
+            {
+                GetComponent<MeshRenderer>().enabled = true;
+                GetComponent<MeshCollider>().enabled = true;
+            }
+            }
+        
         private void Awake()
         {
             if (instance == null) instance = this;
