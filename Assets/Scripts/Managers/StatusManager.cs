@@ -39,6 +39,8 @@ public class StatusManager : MonoBehaviour {
     [SerializeField] private PlayableDirector _shortTimeline;
     [SerializeField] private PlayableDirector _longTimeline;
     [SerializeField] private GameObject _languageButtons;
+
+    [SerializeField] private GameEvent _standbyGameEvent;
     
     private GameObject _mainCamera;
     private bool _readyForStandby; //when we use serial, only go to standby if Arduino is ready.
@@ -213,6 +215,8 @@ public class StatusManager : MonoBehaviour {
 
         _dimOutOnExperienceStart = dimOutOnExperienceStart;
         Debug.Log("setting dimOutOnExperienceStat to " + _dimOutOnExperienceStart);
+        
+        _standbyGameEvent.Raise();
     }
     
     public void EnablePresenceDetection(bool enablePresenceDetection)

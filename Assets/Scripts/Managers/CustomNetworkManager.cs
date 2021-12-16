@@ -17,8 +17,10 @@ namespace Mirror.Examples.Pong
         [SerializeField] private  BoolGameEvent bothConsentGiven;
             
         public bool offlineMode;
-        private int _consentCount;
-        [SerializeField] private IntVariable _consentsGiven;
+        
+        private int _consentCount; //how many times consent answers were given
+        [SerializeField] private IntVariable _consentsGiven; //how many positive answers were given
+        
         private void Awake()
         {
             if (instance == null) instance = this;
@@ -34,6 +36,12 @@ namespace Mirror.Examples.Pong
                 StartHost();
             else
                 StartCoroutine(TryConnect());
+        }
+
+        public void OnStandby()
+        {
+           if (_consentsGiven.Value > 0) _consentsGiven.Value--;
+           if (_consentCount > 0) _consentCount--;
         }
         
         public override void OnServerAddPlayer(NetworkConnection conn)
