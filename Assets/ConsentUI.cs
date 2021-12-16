@@ -14,16 +14,21 @@ public class ConsentUI : MonoBehaviour
     public void SelfStateChanged(UserState selfState)
     {
         //if self is now ready to start 
-        if ( selfState == UserState.readyToStart)
+        if (selfState == UserState.readyToStart)
         {
             Show(true);
         } 
         else if (selfState == UserState.headsetOff)
         {
-            Show(true);
+            Show(false);
         }
     }
 
+    public void OtherStateChanged(UserState otherState)
+    {
+        
+    }
+    
     public void ReadyToShowQuestionnaire()
     {
         Show(false);
