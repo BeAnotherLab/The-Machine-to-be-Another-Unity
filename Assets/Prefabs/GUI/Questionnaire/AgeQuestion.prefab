@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 4828653519463388783}
   - component: {fileID: 2716352723497391706}
   - component: {fileID: 4011447438948343180}
+  - component: {fileID: 7588223438979554984}
   m_Layer: 5
   m_Name: AgeQuestion
   m_TagString: Untagged
@@ -200,9 +201,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3046924238157636305}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
-  m_BlocksRaycasts: 0
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!95 &2716352723497391706
 Animator:
@@ -235,6 +236,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de05442fa049c4a24890186cb42d0881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7588223438979554984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3046924238157636305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d03bf4704634d4be099c162d7024aff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _labelText: {fileID: 5261425357117087790}
 --- !u!1 &3046924239896966747
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,11 +576,26 @@ PrefabInstance:
     - target: {fileID: 7745418753158685632, guid: 31a37600d588249d6981b2c2388eaf85,
         type: 3}
       propertyPath: m_NumberOfSteps
-      value: 0
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 7745418753158685632, guid: 31a37600d588249d6981b2c2388eaf85,
         type: 3}
       propertyPath: m_Size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7745418753158685632, guid: 31a37600d588249d6981b2c2388eaf85,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7588223438979554984}
+    - target: {fileID: 7745418753158685632, guid: 31a37600d588249d6981b2c2388eaf85,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetText
+      objectReference: {fileID: 0}
+    - target: {fileID: 7745418753158685632, guid: 31a37600d588249d6981b2c2388eaf85,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7745418753158685634, guid: 31a37600d588249d6981b2c2388eaf85,
@@ -728,3 +757,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 2484042154144787037}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5261425357117087790 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7745418754386233971, guid: 31a37600d588249d6981b2c2388eaf85,
+    type: 3}
+  m_PrefabInstance: {fileID: 2484042154144787037}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
