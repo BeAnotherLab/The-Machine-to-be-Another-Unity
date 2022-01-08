@@ -90,10 +90,10 @@ GameObject:
   - component: {fileID: 964094921944979728}
   - component: {fileID: 964094921944979729}
   - component: {fileID: 964094921944979948}
-  - component: {fileID: 964094921944979949}
   - component: {fileID: 964094921944979950}
+  - component: {fileID: 5703089764323307651}
   m_Layer: 5
-  m_Name: Next
+  m_Name: NextButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -217,19 +217,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fea6f8eea666334aaf9869ad8f7bcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &964094921944979949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 964094921944979731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d93815b55bc5d4149975537d007a4477, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gazeTimeForSelection: 1
 --- !u!65 &964094921944979950
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -243,3 +230,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 160, y: 30, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5703089764323307651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964094921944979731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0baf3391dbbb44c14b3d071409a423d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gazeTimeForSelection: 0
