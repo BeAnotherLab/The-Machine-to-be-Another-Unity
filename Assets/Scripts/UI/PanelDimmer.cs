@@ -5,6 +5,16 @@ using UnityEngine;
 public class PanelDimmer : MonoBehaviour
 {
 
+    public void Show()
+    {
+        Show(true, 1f);
+    }
+
+    public void Hide()
+    {
+        Show(false, 0f);
+    }   
+    
     public void Show(bool show)
     {
         Show(show, 1f);
