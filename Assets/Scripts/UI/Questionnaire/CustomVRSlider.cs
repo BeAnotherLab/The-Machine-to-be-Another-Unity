@@ -9,7 +9,7 @@ public class CustomVRSlider : MonoBehaviour {
 
 	private Scrollbar vScale;
 	private VRInteractiveItem m_InteractiveItem; 
-	private SelectionRadial m_SelectionRadial;
+	private CustomSelectionRadial m_SelectionRadial;
 
 	private Transform reticlePosition;
 
@@ -44,11 +44,11 @@ public class CustomVRSlider : MonoBehaviour {
 		if (this.GetComponent<Scrollbar>().handleRect.gameObject != null) sliderHandle =  this.GetComponent<Scrollbar>().handleRect.gameObject;
 		else Debug.Log ("No child Handle (GameObject) attached to this GameObject, it's required");
 
-		if (Camera.main.gameObject.GetComponent<SelectionRadial>() != null)
-			m_SelectionRadial = Camera.main.gameObject.GetComponent<SelectionRadial>();
+		if (Camera.main.gameObject.GetComponent<CustomSelectionRadial>() != null)
+			m_SelectionRadial = Camera.main.gameObject.GetComponent<CustomSelectionRadial>();
 		else Debug.Log("No SelectionRadial Script attached to the VR Interactive Camera, it's required");
 
-		if (Camera.main.gameObject.GetComponent<SelectionRadial>() != null)
+		if (Camera.main.gameObject.GetComponent<Reticle>() != null)
 			reticlePosition = Camera.main.gameObject.GetComponent<Reticle>().ReticleTransform;
 		else Debug.Log ("No Reticle Script attached to the VR Interactive Camera, it's required with it's references");
 
