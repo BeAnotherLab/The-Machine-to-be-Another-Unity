@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 5383355534129283210}
   - component: {fileID: 6561763198172351065}
   - component: {fileID: 3313209547184422397}
+  - component: {fileID: 7936677263345611339}
   m_Layer: 5
   m_Name: Video Consent
   m_TagString: Untagged
@@ -288,6 +289,23 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _debugValue: 0
+--- !u!114 &7936677263345611339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6293457311921586135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a713d02cf8f474b979c7c0ad2ef851f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _responseData: {fileID: 11400000, guid: 63e3e56377d7044b793dcb8145fd743d, type: 2}
+  _answerType: 0
+  _questionnaireState: 0
+  _newDataAvailableEvent: {fileID: 11400000, guid: 32120d940dcd9463a96a240eb03d5638,
+    type: 2}
 --- !u!1 &6293457312010560582
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,7 +590,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: e65a3917c02c746e9a61882ac578b28f, type: 2}
+      - m_Target: {fileID: 7936677263345611339}
         m_MethodName: OnNextButton
         m_Mode: 1
         m_Arguments:
@@ -828,7 +846,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: e65a3917c02c746e9a61882ac578b28f, type: 2}
+      - m_Target: {fileID: 7936677263345611339}
         m_MethodName: OnNextButton
         m_Mode: 1
         m_Arguments:

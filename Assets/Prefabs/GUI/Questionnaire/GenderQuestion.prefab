@@ -149,10 +149,21 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1823051507573537362}
   toggleTransition: 1
   graphic: {fileID: 2603953022616432464}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 4541432047439941085}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6652048472794148539}
+        m_MethodName: SetValue
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Male
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &626309255164102226
 GameObject:
@@ -234,7 +245,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6652048472794148539}
+        m_MethodName: SetValue
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Other
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &1218888288050901893
 GameObject:
@@ -860,6 +882,7 @@ GameObject:
   - component: {fileID: 6061519192971604162}
   - component: {fileID: 3651972023459836151}
   - component: {fileID: 2357497433638599457}
+  - component: {fileID: 6652048472794148539}
   m_Layer: 5
   m_Name: GenderQuestion
   m_TagString: Untagged
@@ -990,6 +1013,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de05442fa049c4a24890186cb42d0881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6652048472794148539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4419399226022102140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a713d02cf8f474b979c7c0ad2ef851f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _responseData: {fileID: 11400000, guid: 63e3e56377d7044b793dcb8145fd743d, type: 2}
+  _answerType: 0
+  _questionnaireState: 0
+  _newDataAvailableEvent: {fileID: 11400000, guid: 32120d940dcd9463a96a240eb03d5638,
+    type: 2}
 --- !u!1 &4762392270198920313
 GameObject:
   m_ObjectHideFlags: 0
@@ -1252,10 +1292,21 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5795443428972083980}
   toggleTransition: 1
   graphic: {fileID: 8880692207586806943}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 4541432047439941085}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6652048472794148539}
+        m_MethodName: SetValue
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Female
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &8074853181926221972
 GameObject:

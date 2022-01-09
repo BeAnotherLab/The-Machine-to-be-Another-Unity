@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using ScriptableObjectArchitecture;
 using UnityEngine;
 
+
+
 public class QuestionnaireUI : MonoBehaviour
 {
     [SerializeField] private Transform _preRoot;
@@ -14,12 +16,6 @@ public class QuestionnaireUI : MonoBehaviour
 
     [SerializeField] private QuestionnaireState _questionnaireState;
 
-    private enum QuestionnaireState
-    {
-        videoConsent,
-        pre,
-        post
-    };
 
     private List<GameObject> _preSlides;
     private List<GameObject> _postSlides;
