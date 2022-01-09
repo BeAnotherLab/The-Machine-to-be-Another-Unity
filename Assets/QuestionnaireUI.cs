@@ -68,12 +68,12 @@ public class QuestionnaireUI : MonoBehaviour
         if (_questionnaireState == QuestionnaireState.pre)
         {
             _preSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
-            if (_slideIndex + 1 <= _preSlides.Count) _preSlides[_slideIndex + 1].GetComponent<PanelDimmer>().Show(true);
+            if (_slideIndex + 1 < _preSlides.Count) _preSlides[_slideIndex + 1].GetComponent<PanelDimmer>().Show(true);
         }
         else if (_questionnaireState == QuestionnaireState.post)
         {
             _postSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
-            if (_slideIndex + 1 <= _postSlides.Count) _postSlides[_slideIndex + 1].GetComponent<PanelDimmer>().Show(true);
+            if (_slideIndex + 1 < _postSlides.Count) _postSlides[_slideIndex + 1].GetComponent<PanelDimmer>().Show(true);
         }
         _slideIndex++;
     }
