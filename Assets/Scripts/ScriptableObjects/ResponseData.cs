@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public enum QuestionnaireState
@@ -25,11 +26,11 @@ public enum AnswerType {
 
 [CreateAssetMenu]
 public class ResponseData : ScriptableObject
-{
-    public string userID;   
+{   
+    public string subjectID;   
     public string pairID;
     public AnswerType answerType;
     public string answerValue;
     public QuestionnaireState questionnaireState;
-
+    public DateTime timestamp;
 }
