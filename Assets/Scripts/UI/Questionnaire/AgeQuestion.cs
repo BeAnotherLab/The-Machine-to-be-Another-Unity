@@ -7,8 +7,11 @@ public class AgeQuestion : MonoBehaviour
 {
     [SerializeField] private Text _labelText;
     
-    public void SetText(float value)
+    public void ValueUpdated(float value)
     {
-        _labelText.text = Mathf.RoundToInt(value * 100).ToString();
+        var age = Mathf.RoundToInt(value * 100).ToString();
+        _labelText.text = age;
+        GetComponent<ResponseLogger>().SetValue(value);
     }
+    
 }

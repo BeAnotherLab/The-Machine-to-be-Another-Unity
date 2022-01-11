@@ -165,6 +165,7 @@ GameObject:
   - component: {fileID: 567582950920483428}
   - component: {fileID: 1583472631418354098}
   - component: {fileID: 5409251784649573874}
+  - component: {fileID: 9095164636147671496}
   m_Layer: 5
   m_Name: SelbstAndereQuestion
   m_TagString: Untagged
@@ -312,6 +313,19 @@ MonoBehaviour:
   _questionnaireState: 1
   _newDataAvailableEvent: {fileID: 11400000, guid: 32120d940dcd9463a96a240eb03d5638,
     type: 2}
+--- !u!114 &9095164636147671496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 583990986435004143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1184210157, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AllowSwitchOff: 0
 --- !u!1 &1474359840769090472
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,10 +547,21 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7942552296620914146}
   toggleTransition: 1
   graphic: {fileID: 5743057504978087516}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 9095164636147671496}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5409251784649573874}
+        m_MethodName: SetValue
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 6
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &2207122078453172631
 GameObject:
@@ -686,10 +711,21 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7811261716985341724}
   toggleTransition: 1
   graphic: {fileID: 139741595100184954}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 9095164636147671496}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5409251784649573874}
+        m_MethodName: SetValue
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &3188361034787689796
 GameObject:
@@ -1557,10 +1593,21 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8755514096246167414}
   toggleTransition: 1
   graphic: {fileID: 2577684058705203082}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 9095164636147671496}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5409251784649573874}
+        m_MethodName: SetValue
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 5
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &5855325701284032732
 GameObject:
@@ -1856,10 +1903,21 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2285838812096172007}
   toggleTransition: 1
   graphic: {fileID: 1228020612290286875}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 9095164636147671496}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5409251784649573874}
+        m_MethodName: SetValue
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 4
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &6693470446116284360
 GameObject:
@@ -2246,10 +2304,21 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2761867625411858502}
   toggleTransition: 1
   graphic: {fileID: 3898350089931953159}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 9095164636147671496}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5409251784649573874}
+        m_MethodName: SetValue
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &8209775436674241617
 GameObject:
@@ -2327,10 +2396,21 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3384688682076948710}
   toggleTransition: 1
   graphic: {fileID: 7485011111117961984}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 9095164636147671496}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5409251784649573874}
+        m_MethodName: SetValue
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 2
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &8577789237055218436
 GameObject:
@@ -2408,10 +2488,21 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1269886635313610018}
   toggleTransition: 1
   graphic: {fileID: 3775738510489947668}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 9095164636147671496}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5409251784649573874}
+        m_MethodName: SetValue
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 3
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &8733675718322098108
 GameObject:
@@ -2562,6 +2653,36 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 12800000, guid: 1270c14450eda014c9c0de2354e74810,
         type: 3}
+    - target: {fileID: 964094921944979729, guid: 4e328670ff4b44f14ab770191e6b6670,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 964094921944979729, guid: 4e328670ff4b44f14ab770191e6b6670,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 964094921944979729, guid: 4e328670ff4b44f14ab770191e6b6670,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 964094921944979729, guid: 4e328670ff4b44f14ab770191e6b6670,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 5409251784649573874}
+    - target: {fileID: 964094921944979729, guid: 4e328670ff4b44f14ab770191e6b6670,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: NextButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 964094921944979729, guid: 4e328670ff4b44f14ab770191e6b6670,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 964094921944979730, guid: 4e328670ff4b44f14ab770191e6b6670,
         type: 3}
       propertyPath: m_LocalPosition.x

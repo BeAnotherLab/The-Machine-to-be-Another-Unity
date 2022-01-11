@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using ScriptableObjectArchitecture;
 using UnityEngine;
 
-
-
 public class QuestionnaireUI : MonoBehaviour
 {
     [SerializeField] private Transform _preRoot;
@@ -15,7 +13,6 @@ public class QuestionnaireUI : MonoBehaviour
     [SerializeField] private GameEvent _postQuestionnaireFinished;
 
     [SerializeField] private QuestionnaireState _questionnaireState;
-
 
     private List<GameObject> _preSlides;
     private List<GameObject> _postSlides;

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using ScriptableObjectArchitecture;
 using UnityEngine;
@@ -14,9 +15,10 @@ public class ResponseLogger : MonoBehaviour
     {
         _responseData.answerType = _answerType;
         _responseData.questionnaireState = _questionnaireState;
+        _responseData.timestamp = DateTime.Now;
         _newDataAvailableEvent.Raise();
     }
-
+    
     public void SetValue(bool value)
     {
         if (value) _responseData.answerValue = value.ToString();

@@ -242,7 +242,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8914190946778555665}
   toggleTransition: 1
   graphic: {fileID: 2864916148966990703}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 4541432047439941085}
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -1026,8 +1026,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _responseData: {fileID: 11400000, guid: 63e3e56377d7044b793dcb8145fd743d, type: 2}
-  _answerType: 0
-  _questionnaireState: 0
+  _answerType: 2
+  _questionnaireState: 1
   _newDataAvailableEvent: {fileID: 11400000, guid: 32120d940dcd9463a96a240eb03d5638,
     type: 2}
 --- !u!1 &4762392270198920313
@@ -1471,6 +1471,36 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 12800000, guid: 1270c14450eda014c9c0de2354e74810,
         type: 3}
+    - target: {fileID: 964094921944979729, guid: 4e328670ff4b44f14ab770191e6b6670,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 964094921944979729, guid: 4e328670ff4b44f14ab770191e6b6670,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 964094921944979729, guid: 4e328670ff4b44f14ab770191e6b6670,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 964094921944979729, guid: 4e328670ff4b44f14ab770191e6b6670,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 6652048472794148539}
+    - target: {fileID: 964094921944979729, guid: 4e328670ff4b44f14ab770191e6b6670,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: NextButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 964094921944979729, guid: 4e328670ff4b44f14ab770191e6b6670,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 964094921944979730, guid: 4e328670ff4b44f14ab770191e6b6670,
         type: 3}
       propertyPath: m_LocalPosition.x
