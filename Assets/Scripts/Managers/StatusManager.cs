@@ -41,6 +41,7 @@ public class StatusManager : MonoBehaviour {
     [SerializeField] private GameObject _languageButtons;
 
     [SerializeField] private GameEvent _standbyGameEvent;
+    [SerializeField] private GameEvent _experienceFinishedGameEvent;
     
     private GameObject _mainCamera;
     private bool _readyForStandby; //when we use serial, only go to standby if Arduino is ready.
@@ -317,6 +318,7 @@ public class StatusManager : MonoBehaviour {
         instructionsTimeline.Stop();
 		Debug.Log("experience finished");
         _experienceRunning = false;
+        _experienceFinishedGameEvent.Raise();
     }
 
     private IEnumerator WaitBeforeResetting()

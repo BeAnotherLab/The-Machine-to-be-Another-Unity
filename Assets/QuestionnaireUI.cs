@@ -27,6 +27,11 @@ public class QuestionnaireUI : MonoBehaviour
         foreach (Transform postSlide in _postRoot)  _postSlides.Add(postSlide.gameObject); 
     }
 
+    public void ExperienceFinished()
+    {
+        _postSlides[0].GetComponent<PanelDimmer>().Show();
+    }
+    
     public void ReadyToShowQuestionnaire(bool answer)
     {
         _questionnaireState = QuestionnaireState.videoConsent;
@@ -46,27 +51,32 @@ public class QuestionnaireUI : MonoBehaviour
 
     public void NextButton()
     {
-        if (_questionnaireState == QuestionnaireState.pre && _slideIndex == _preSlides.Count)
+        if (_questionnaireState == QuestionnaireState.pre && _slideIndex == _preSlides.Count - 1)
         {
             _preQuestionnaireFinished.Raise();
+            _preSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
             _slideIndex = 0;
+            _questionnaireState = QuestionnaireState.post;
             return;
         }
-        if (_questionnaireState == QuestionnaireState.post && _slideIndex == _postSlides.Count)
+        if (_questionnaireState == QuestionnaireState.post && _slideIndex == _postSlides.Count - 1)
         {
             _postQuestionnaireFinished.Raise();
+            _postSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
             _slideIndex = 0;
             return;
         }
         if (_questionnaireState == QuestionnaireState.pre)
         {
             _preSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
-            if (_slideIndex + 1 < _preSlides.Count) _preSlides[_slideIndex + 1].GetComponent<PanelDimmer>().Show(true);
+            if (_slideIndex + 1 < _preSlides.Count)
+                _preSlides[_slideIndex + 1].GetComponent<PanelDimmer>().Show(true);
         }
         else if (_questionnaireState == QuestionnaireState.post)
         {
             _postSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
-            if (_slideIndex + 1 < _postSlides.Count) _postSlides[_slideIndex + 1].GetComponent<PanelDimmer>().Show(true);
+            if (_slideIndex + 1 < _postSlides.Count)
+                _postSlides[_slideIndex + 1].GetComponent<PanelDimmer>().Show(true);
         }
         _slideIndex++;
     }

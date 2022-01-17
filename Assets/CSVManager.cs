@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
 
-
 public class CSVManager : MonoBehaviour
 {
     [SerializeField] private ResponseData _responseData;
