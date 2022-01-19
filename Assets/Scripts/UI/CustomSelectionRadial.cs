@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System;
+using ScriptableObjectArchitecture;
 
 namespace VRStandardAssets.Utils
 {
@@ -11,18 +12,18 @@ namespace VRStandardAssets.Utils
     // coroutine which returns once the bar is filled.
     public class CustomSelectionRadial : MonoBehaviour
     {
-        public event Action OnSelectionComplete;                                                // This event is triggered when the bar has filled.
+        public event Action OnSelectionComplete;  //TODO no longer needed
+
+        [SerializeField] private GameEvent _selectionCompleteEvent;
 
         [SerializeField] private float m_SelectionDuration = 2f;                                // How long it takes for the bar to fill.
         [SerializeField] private bool m_HideOnStart = true;                                     // Whether or not the bar should be visible at the start.
         [SerializeField] private Image m_Selection;                                             // Reference to the image who's fill amount is adjusted to display the bar.
         [SerializeField] private VRInput m_VRInput;                                             // Reference to the VRInput so that input events can be subscribed to.
 
-
         private Coroutine m_SelectionFillRoutine;                                               // Used to start and stop the filling coroutine based on input.
         private bool m_IsSelectionRadialActive;                                                    // Whether or not the bar is currently useable.
         private bool m_RadialFilled;                                                               // Used to allow the coroutine to wait for the bar to fill.
-
 
         public float SelectionDuration { get { return m_SelectionDuration; } }                  //Make sure this time is superior to the time the "other is gone" message to avoid sync issues
 
@@ -35,6 +36,11 @@ namespace VRStandardAssets.Utils
                 Hide();
         }
 
+        public void Show(bool show)
+        {
+            if (show) Show();
+            else Hide();
+        }
         public void Show()
         {
             m_Selection.gameObject.SetActive(true);
@@ -98,6 +104,8 @@ namespace VRStandardAssets.Utils
             // If there is anything subscribed to OnSelectionComplete call it.
             if (OnSelectionComplete != null)
                 OnSelectionComplete();
+            
+            _selectionCompleteEvent.Raise();
         }
 
 

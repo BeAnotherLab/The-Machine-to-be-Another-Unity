@@ -91,8 +91,9 @@ GameObject:
   - component: {fileID: 964094921944979729}
   - component: {fileID: 964094921944979948}
   - component: {fileID: 964094921944979950}
-  - component: {fileID: 5703089764323307651}
   - component: {fileID: 4859327565623360869}
+  - component: {fileID: 1875917818822200208}
+  - component: {fileID: 7859570634311036346}
   m_Layer: 5
   m_Name: NextButton
   m_TagString: Untagged
@@ -231,19 +232,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 160, y: 30, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5703089764323307651
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 964094921944979731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0baf3391dbbb44c14b3d071409a423d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gazeTimeForSelection: 0
 --- !u!114 &4859327565623360869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,7 +247,7 @@ MonoBehaviour:
   _showDebugFields: 0
   _enableGizmoDebugging: 1
   _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 11400000, guid: 8b940ecc285a545bea13178ff7ec286a,
+  _previouslyRegisteredEvent: {fileID: 11400000, guid: c66629fc8af0c4003b0522bffed86084,
     type: 2}
   _event: {fileID: 11400000, guid: c66629fc8af0c4003b0522bffed86084, type: 2}
   _response:
@@ -268,6 +256,53 @@ MonoBehaviour:
       - m_Target: {fileID: 964094921944979729}
         m_MethodName: set_interactable
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1875917818822200208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964094921944979731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70e67ea4fdd81480da24ba3f8f8a168b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InteractiveItem: {fileID: 964094921944979948}
+  m_SelectionRadial: {fileID: 0}
+  _button: {fileID: 964094921944979729}
+--- !u!114 &7859570634311036346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964094921944979731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49,
+    type: 2}
+  _event: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1875917818822200208}
+        m_MethodName: HandleSelectionComplete
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

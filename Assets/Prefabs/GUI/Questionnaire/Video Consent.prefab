@@ -488,6 +488,7 @@ GameObject:
   - component: {fileID: 1014110337571949513}
   - component: {fileID: 4279992873759705905}
   - component: {fileID: 1692938081231989027}
+  - component: {fileID: 3877786063402600269}
   m_Layer: 5
   m_Name: DisagreeButton
   m_TagString: Untagged
@@ -660,6 +661,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e67ea4fdd81480da24ba3f8f8a168b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_InteractiveItem: {fileID: 1014110337571949513}
+  _button: {fileID: 7246233779716267420}
+  _showSelectionRadialEvent: {fileID: 11400000, guid: fca922ce2ea0e27469c01e2ccaac7d83,
+    type: 2}
+  _hideSelectionRadialEvent: {fileID: 11400000, guid: a9b5696b04e2e4848aebe4889581a852,
+    type: 2}
+--- !u!114 &3877786063402600269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6409857985465033899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1692938081231989027}
+        m_MethodName: HandleSelectionComplete
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7331875033658294027
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,6 +803,7 @@ GameObject:
   - component: {fileID: 7771345615176120353}
   - component: {fileID: 7771345615176120355}
   - component: {fileID: 5792554364600818626}
+  - component: {fileID: 5255444114570276943}
   m_Layer: 5
   m_Name: AgreeButton
   m_TagString: Untagged
@@ -937,6 +976,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e67ea4fdd81480da24ba3f8f8a168b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_InteractiveItem: {fileID: 7771345615176120353}
+  _button: {fileID: 7771345615176120540}
+  _showSelectionRadialEvent: {fileID: 11400000, guid: fca922ce2ea0e27469c01e2ccaac7d83,
+    type: 2}
+  _hideSelectionRadialEvent: {fileID: 11400000, guid: a9b5696b04e2e4848aebe4889581a852,
+    type: 2}
+--- !u!114 &5255444114570276943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7771345615176120542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5792554364600818626}
+        m_MethodName: HandleSelectionComplete
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7771345615586858323
 GameObject:
   m_ObjectHideFlags: 0
