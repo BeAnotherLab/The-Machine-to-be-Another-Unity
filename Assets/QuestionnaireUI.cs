@@ -27,6 +27,16 @@ public class QuestionnaireUI : MonoBehaviour
         foreach (Transform postSlide in _postRoot)  _postSlides.Add(postSlide.gameObject); 
     }
 
+    private void Start()
+    {
+        foreach(Transform child in _preRoot){
+            child.GetComponent<PanelDimmer>().Hide();
+        }
+        foreach(Transform child in _postRoot){
+            child.GetComponent<PanelDimmer>().Hide();
+        }
+    }
+
     public void ExperienceFinished()
     {
         _postSlides[0].GetComponent<PanelDimmer>().Show();
@@ -35,12 +45,6 @@ public class QuestionnaireUI : MonoBehaviour
     public void ReadyToShowQuestionnaire(bool answer)
     {
         _questionnaireState = QuestionnaireState.videoConsent;
-        foreach(Transform child in _preRoot){
-            child.GetComponent<PanelDimmer>().Hide();
-        }
-        foreach(Transform child in _postRoot){
-            child.GetComponent<PanelDimmer>().Hide();
-        }
     }
 
     public void VideoConsentGiven(bool consent)
