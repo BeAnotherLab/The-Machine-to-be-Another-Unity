@@ -1,9 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PanelDimmer : MonoBehaviour
 {
+    private Vector3 _initialScale;
+    
+    private void Awake()
+    {
+        _initialScale = transform.localScale;
+    }
 
     public void Show()
     {
@@ -30,11 +37,12 @@ public class PanelDimmer : MonoBehaviour
         if (loop) loopType = LeanTweenType.pingPong;
 
         if(!loop) GetComponent<CanvasGroup>().blocksRaycasts = show;
-        
-        LeanTween.value(gameObject, from, to, time )
+
+        LeanTween.value(gameObject, from, to, time)
             .setOnUpdate(delegate(float val)
             {
                 GetComponent<CanvasGroup>().alpha = val;
+                transform.localScale = new Vector3(val * _initialScale.x, val * _initialScale.y, val * _initialScale.z);
             })
             .setLoopCount(2)
             .setLoopType(loopType)

@@ -35,6 +35,12 @@ public class QuestionnaireUI : MonoBehaviour
     public void ReadyToShowQuestionnaire(bool answer)
     {
         _questionnaireState = QuestionnaireState.videoConsent;
+        foreach(Transform child in _preRoot){
+            child.GetComponent<PanelDimmer>().Hide();
+        }
+        foreach(Transform child in _postRoot){
+            child.GetComponent<PanelDimmer>().Hide();
+        }
     }
 
     public void VideoConsentGiven(bool consent)
