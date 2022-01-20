@@ -121,8 +121,10 @@ GameObject:
   - component: {fileID: 7745418753158685633}
   - component: {fileID: 7745418753158685632}
   - component: {fileID: 7745418753158685660}
-  - component: {fileID: 2698279304231703562}
   - component: {fileID: 1312706485457365103}
+  - component: {fileID: 6000260876394929708}
+  - component: {fileID: 5449289098671320717}
+  - component: {fileID: 838859183239410273}
   m_Layer: 5
   m_Name: VRScrollbar
   m_TagString: Untagged
@@ -256,19 +258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fea6f8eea666334aaf9869ad8f7bcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2698279304231703562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7745418753158685634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28297a1070df44c6ca173b9d3962e3ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gazeTimeForSelection: 1
 --- !u!114 &1312706485457365103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,7 +273,8 @@ MonoBehaviour:
   _showDebugFields: 0
   _enableGizmoDebugging: 1
   _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 0}
+  _previouslyRegisteredEvent: {fileID: 11400000, guid: c66629fc8af0c4003b0522bffed86084,
+    type: 2}
   _event: {fileID: 11400000, guid: c66629fc8af0c4003b0522bffed86084, type: 2}
   _response:
     m_PersistentCalls:
@@ -300,6 +290,68 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6000260876394929708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7745418753158685634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49,
+    type: 2}
+  _event: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5449289098671320717}
+        m_MethodName: HandleSelectionComplete
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5449289098671320717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7745418753158685634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1be049fc69cde1489f55d27fffdc553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InteractiveItem: {fileID: 7745418753158685660}
+  _showSelectionRadialEvent: {fileID: 11400000, guid: fca922ce2ea0e27469c01e2ccaac7d83,
+    type: 2}
+  _hideSelectionRadialEvent: {fileID: 11400000, guid: a9b5696b04e2e4848aebe4889581a852,
+    type: 2}
+--- !u!65 &838859183239410273
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7745418753158685634}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 400, y: 30, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7745418753886854147
 GameObject:
   m_ObjectHideFlags: 0
