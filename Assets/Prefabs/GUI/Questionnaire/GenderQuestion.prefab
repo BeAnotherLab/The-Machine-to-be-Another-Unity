@@ -82,6 +82,8 @@ GameObject:
   m_Component:
   - component: {fileID: 220968656295285169}
   - component: {fileID: 5264459015672207692}
+  - component: {fileID: 2773822515600104943}
+  - component: {fileID: 5532455999065377286}
   m_Layer: 5
   m_Name: Toggle (1)
   m_TagString: Untagged
@@ -176,6 +178,36 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 0
+--- !u!114 &2773822515600104943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443318964816699030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fea6f8eea666334aaf9869ad8f7bcda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5532455999065377286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443318964816699030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9182828e8bf04bdd8fd9fbc6a322856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InteractiveItem: {fileID: 2773822515600104943}
+  _toggle: {fileID: 5264459015672207692}
+  _showSelectionRadialEvent: {fileID: 11400000, guid: fca922ce2ea0e27469c01e2ccaac7d83,
+    type: 2}
+  _hideSelectionRadialEvent: {fileID: 11400000, guid: a9b5696b04e2e4848aebe4889581a852,
+    type: 2}
 --- !u!1 &626309255164102226
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,6 +218,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8148680298066550619}
   - component: {fileID: 4183279349369296226}
+  - component: {fileID: 942806724225210394}
+  - component: {fileID: 8599012375810161670}
   m_Layer: 5
   m_Name: Toggle (2)
   m_TagString: Untagged
@@ -280,6 +314,36 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 0
+--- !u!114 &942806724225210394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626309255164102226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fea6f8eea666334aaf9869ad8f7bcda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8599012375810161670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626309255164102226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9182828e8bf04bdd8fd9fbc6a322856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InteractiveItem: {fileID: 942806724225210394}
+  _toggle: {fileID: 4183279349369296226}
+  _showSelectionRadialEvent: {fileID: 11400000, guid: fca922ce2ea0e27469c01e2ccaac7d83,
+    type: 2}
+  _hideSelectionRadialEvent: {fileID: 11400000, guid: a9b5696b04e2e4848aebe4889581a852,
+    type: 2}
 --- !u!1 &1218888288050901893
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,7 +1224,8 @@ MonoBehaviour:
   _showDebugFields: 0
   _enableGizmoDebugging: 1
   _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 0}
+  _previouslyRegisteredEvent: {fileID: 11400000, guid: c66629fc8af0c4003b0522bffed86084,
+    type: 2}
   _event: {fileID: 11400000, guid: c66629fc8af0c4003b0522bffed86084, type: 2}
   _response:
     m_PersistentCalls:
@@ -1294,6 +1359,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7224765934820203168}
   - component: {fileID: 8722014704182424159}
+  - component: {fileID: 636896132195376686}
+  - component: {fileID: 7607751356816578943}
   m_Layer: 5
   m_Name: Toggle
   m_TagString: Untagged
@@ -1388,6 +1455,36 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 0
+--- !u!114 &636896132195376686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6565983786489178773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fea6f8eea666334aaf9869ad8f7bcda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7607751356816578943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6565983786489178773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9182828e8bf04bdd8fd9fbc6a322856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InteractiveItem: {fileID: 636896132195376686}
+  _toggle: {fileID: 8722014704182424159}
+  _showSelectionRadialEvent: {fileID: 11400000, guid: fca922ce2ea0e27469c01e2ccaac7d83,
+    type: 2}
+  _hideSelectionRadialEvent: {fileID: 11400000, guid: a9b5696b04e2e4848aebe4889581a852,
+    type: 2}
 --- !u!1 &8074853181926221972
 GameObject:
   m_ObjectHideFlags: 0
