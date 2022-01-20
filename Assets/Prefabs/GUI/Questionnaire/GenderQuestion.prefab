@@ -84,6 +84,8 @@ GameObject:
   - component: {fileID: 5264459015672207692}
   - component: {fileID: 2773822515600104943}
   - component: {fileID: 5532455999065377286}
+  - component: {fileID: 2974813623055439316}
+  - component: {fileID: 596635073810297006}
   m_Layer: 5
   m_Name: Toggle (1)
   m_TagString: Untagged
@@ -208,6 +210,51 @@ MonoBehaviour:
     type: 2}
   _hideSelectionRadialEvent: {fileID: 11400000, guid: a9b5696b04e2e4848aebe4889581a852,
     type: 2}
+--- !u!65 &2974813623055439316
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443318964816699030}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 15, y: 15, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &596635073810297006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443318964816699030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49,
+    type: 2}
+  _event: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5532455999065377286}
+        m_MethodName: HandleSelectionComplete
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &626309255164102226
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,6 +267,8 @@ GameObject:
   - component: {fileID: 4183279349369296226}
   - component: {fileID: 942806724225210394}
   - component: {fileID: 8599012375810161670}
+  - component: {fileID: 3439580044915840204}
+  - component: {fileID: 802193503009233637}
   m_Layer: 5
   m_Name: Toggle (2)
   m_TagString: Untagged
@@ -344,6 +393,50 @@ MonoBehaviour:
     type: 2}
   _hideSelectionRadialEvent: {fileID: 11400000, guid: a9b5696b04e2e4848aebe4889581a852,
     type: 2}
+--- !u!65 &3439580044915840204
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626309255164102226}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 15, y: 15, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &802193503009233637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626309255164102226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8599012375810161670}
+        m_MethodName: HandleSelectionComplete
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1218888288050901893
 GameObject:
   m_ObjectHideFlags: 0
@@ -1361,6 +1454,8 @@ GameObject:
   - component: {fileID: 8722014704182424159}
   - component: {fileID: 636896132195376686}
   - component: {fileID: 7607751356816578943}
+  - component: {fileID: 8051134625766717520}
+  - component: {fileID: 3672996451521135068}
   m_Layer: 5
   m_Name: Toggle
   m_TagString: Untagged
@@ -1485,6 +1580,51 @@ MonoBehaviour:
     type: 2}
   _hideSelectionRadialEvent: {fileID: 11400000, guid: a9b5696b04e2e4848aebe4889581a852,
     type: 2}
+--- !u!65 &8051134625766717520
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6565983786489178773}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 15, y: 15, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3672996451521135068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6565983786489178773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49,
+    type: 2}
+  _event: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7607751356816578943}
+        m_MethodName: HandleSelectionComplete
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8074853181926221972
 GameObject:
   m_ObjectHideFlags: 0

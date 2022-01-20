@@ -31,7 +31,7 @@ public class QuestionnaireVRToggle : MonoBehaviour
     private void HandleOver()
     {
         // When the user looks at the rendering of the scene, show the radial.
-        if (XRDevice.userPresence == UserPresenceState.Present && GetComponent<Button>().interactable)
+        if (XRDevice.userPresence == UserPresenceState.Present)
         {
             _showSelectionRadialEvent.Raise();
             LeanTween.scale(gameObject, new Vector3(1.2f, 1.2f, 1.2f), 0.45f).setEaseOutBounce();
