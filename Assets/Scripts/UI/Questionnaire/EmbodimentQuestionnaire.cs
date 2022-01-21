@@ -38,6 +38,8 @@ public class EmbodimentQuestionnaire : MonoBehaviour
         catch (System.Exception e) {
             Debug.Log("{0}\n" + e.Message);
         }
+
+        Initialize();
     }
 
     public void Initialize()
@@ -49,6 +51,7 @@ public class EmbodimentQuestionnaire : MonoBehaviour
     
     public void NextButton()
     {
+        currentQuestion++;
         if (currentQuestion < questionnaireInput.Count)
         {
             _questionText.text = questionnaireInput[currentQuestion];
@@ -58,7 +61,6 @@ public class EmbodimentQuestionnaire : MonoBehaviour
             _questionnaireNextEvent.Raise();
         }
 
-        currentQuestion++;
         _responseSlider.value = 0.5f;
     }
 }

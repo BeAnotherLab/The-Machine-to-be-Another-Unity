@@ -24,7 +24,7 @@ public class QuestionnaireUI : MonoBehaviour
         _preSlides = new List<GameObject>();
         _postSlides = new List<GameObject>();
         foreach (Transform preSlide in _preRoot) _preSlides.Add(preSlide.gameObject); 
-        foreach (Transform postSlide in _postRoot)  _postSlides.Add(postSlide.gameObject); 
+        foreach (Transform postSlide in _postRoot) _postSlides.Add(postSlide.gameObject); 
     }
 
     private void Start()

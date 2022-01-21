@@ -16,12 +16,7 @@ public enum AnswerType {
     closeness,
     intimacy,
     selfOther,
-    embodiment1,
-    embodiment2,
-    embodiment3,
-    embodiment4,
-    embodiment5,
-    embodiment6,
+    embodiment,
     boundaries}
 
 [CreateAssetMenu]
