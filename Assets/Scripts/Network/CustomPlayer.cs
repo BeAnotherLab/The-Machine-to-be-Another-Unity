@@ -14,7 +14,7 @@ namespace Mirror.Examples.Pong
         private GameObject _videoFeedFlipParent;
         //[SerializeField] private BoolVariable _consentGiven;
         
-        [SyncVar] private string _pairId;
+        [SyncVar (hook = nameof(SetPairID))] private string _pairId;
         [SerializeField] private BoolGameEvent _consentAnswerGivenEvent;
         [SerializeField] private BoolGameEvent _readyToShowQuestionnaire;
         [SerializeField] private ResponseData _responseData;
@@ -64,6 +64,10 @@ namespace Mirror.Examples.Pong
                 CmdGiveConsent(answer);
         }
         
+        private void SetPairID(string oldpairId, string newPairId){
+            _responseData.pairID = newPairId;
+        }
+        
         [Command] //Commands are sent from player objects on the client to player objects on the server. 
         public void CmdGiveConsent(bool answer, string pairId = "")
         {
@@ -76,7 +80,6 @@ namespace Mirror.Examples.Pong
         public void RpcBothConsentGiven(bool consent)
         {
             if (isLocalPlayer) return;
-            _responseData.pairID = _pairId;
             _readyToShowQuestionnaire.Raise(consent);
             if (consent) Debug.Log("both consent given, showing questionaire");
             if (!consent) Debug.Log("one user refused, NOT showing questionaire!");
