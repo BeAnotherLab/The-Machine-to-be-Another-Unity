@@ -10,8 +10,8 @@ public class AgeQuestion : MonoBehaviour
     public void ValueUpdated(float value)
     {
         var age = Mathf.RoundToInt(value * 100).ToString();
-        _labelText.text = age;
-        GetComponent<ResponseLogger>().SetValue(value);
+        _labelText.text = age + " years old";
+        GetComponent<ResponseLogger>().SetValue(age);
     }
     
 }
