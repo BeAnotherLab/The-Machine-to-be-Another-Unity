@@ -58,6 +58,8 @@ namespace Mirror.Examples.Pong
             if (!isLocalPlayer)
                 return;
 
+            _responseData.subjectID = Guid.NewGuid().ToString();
+
             if (_pairId == "") //pair ID is empty if it has not been set yet this session, generate a new one
                 CmdGiveConsent(answer, Guid.NewGuid().ToString());
             else //we already have a pair ID, no need for another one
@@ -85,6 +87,7 @@ namespace Mirror.Examples.Pong
         {
             _pairId = "";
             _responseData.pairID = "";
+            _responseData.subjectID = "";
         }
         
         private void SetPairID(string oldpairId, string newPairId){
