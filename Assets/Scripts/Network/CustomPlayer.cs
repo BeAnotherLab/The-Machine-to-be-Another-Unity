@@ -61,7 +61,7 @@ namespace Mirror.Examples.Pong
             if (_pairId == "") //pair ID is empty if it has not been set yet this session, generate a new one
                 CmdGiveConsent(answer, Guid.NewGuid().ToString());
             else //we already have a pair ID, no need for another one
-                CmdGiveConsent(answer);
+                CmdGiveConsent(answer, "");
         }
         
         private void SetPairID(string oldpairId, string newPairId){
@@ -69,9 +69,9 @@ namespace Mirror.Examples.Pong
         }
         
         [Command] //Commands are sent from player objects on the client to player objects on the server. 
-        public void CmdGiveConsent(bool answer, string pairId = "")
+        public void CmdGiveConsent(bool answer, string pairId)
         {
-            _pairId = pairId; //assign the syncvar
+            if(pairId != "") _pairId = pairId; //assign the syncvar
             
             _consentAnswerGivenEvent.Raise(answer);
         }
