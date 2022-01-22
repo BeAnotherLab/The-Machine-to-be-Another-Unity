@@ -14,7 +14,7 @@ namespace Mirror.Examples.Pong
         private GameObject _videoFeedFlipParent;
         //[SerializeField] private BoolVariable _consentGiven;
         
-        [SyncVar (hook = nameof(SetPairID))] private string _pairId;
+        [SerializeField] [SyncVar (hook = nameof(SetPairID))] private string _pairId;
         [SerializeField] private BoolGameEvent _consentAnswerGivenEvent;
         [SerializeField] private BoolGameEvent _readyToShowQuestionnaire;
         [SerializeField] private ResponseData _responseData;
@@ -66,6 +66,7 @@ namespace Mirror.Examples.Pong
         
         private void SetPairID(string oldpairId, string newPairId){
             _responseData.pairID = newPairId;
+            _pairId = newPairId;
         }
         
         [Command] //Commands are sent from player objects on the client to player objects on the server. 
