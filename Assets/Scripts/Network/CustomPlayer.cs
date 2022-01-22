@@ -42,7 +42,7 @@ namespace Mirror.Examples.Pong
         }
 
         // need to use FixedUpdate for rigidbody
-        void Update()
+        private void Update()
         {
             // only let the local player control the racket.
             // don't control other player's rackets
@@ -64,11 +64,6 @@ namespace Mirror.Examples.Pong
                 CmdGiveConsent(answer, "");
         }
         
-        private void SetPairID(string oldpairId, string newPairId){
-            _responseData.pairID = newPairId;
-            _pairId = newPairId;
-        }
-        
         [Command] //Commands are sent from player objects on the client to player objects on the server. 
         public void CmdGiveConsent(bool answer, string pairId)
         {
@@ -84,6 +79,17 @@ namespace Mirror.Examples.Pong
             _readyToShowQuestionnaire.Raise(consent);
             if (consent) Debug.Log("both consent given, showing questionaire");
             if (!consent) Debug.Log("one user refused, NOT showing questionaire!");
+        }
+
+        public void ResetId()
+        {
+            _pairId = "";
+            _responseData.pairID = "";
+        }
+        
+        private void SetPairID(string oldpairId, string newPairId){
+            _responseData.pairID = newPairId;
+            _pairId = newPairId; //this shouldn't be necessary but is
         }
 
     }
