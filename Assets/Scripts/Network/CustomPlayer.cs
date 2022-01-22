@@ -13,9 +13,12 @@ namespace Mirror.Examples.Pong
         private GameObject _mainCamera;
         private GameObject _videoFeedFlipParent;
         //[SerializeField] private BoolVariable _consentGiven;
-        [SerializeField] private StringVariable _userID;
+        
+        [SyncVar] private string _pairId;
         [SerializeField] private BoolGameEvent _consentAnswerGivenEvent;
         [SerializeField] private BoolGameEvent _readyToShowQuestionnaire;
+        [SerializeField] private ResponseData _responseData;
+        
         private void Awake()
         {
             _mainCamera = GameObject.Find("Main Camera");
@@ -54,20 +57,26 @@ namespace Mirror.Examples.Pong
         {
             if (!isLocalPlayer)
                 return;
-            CmdGiveConsent("id", answer);            
+
+            if (_pairId == "") //pair ID is empty if it has not been set yet this session, generate a new one
+                CmdGiveConsent(answer, Guid.NewGuid().ToString());
+            else //we already have a pair ID, no need for another one
+                CmdGiveConsent(answer);
         }
         
-        [Command]
-        public void CmdGiveConsent(string id, bool answer)
+        [Command] //Commands are sent from player objects on the client to player objects on the server. 
+        public void CmdGiveConsent(bool answer, string pairId = "")
         {
-            //consentGiven = answer;
+            _pairId = pairId; //assign the syncvar
+            
             _consentAnswerGivenEvent.Raise(answer);
         }
         
-        [ClientRpc]
+        [ClientRpc] //ClientRpc calls are sent from objects on the server to objects on clients. 
         public void RpcBothConsentGiven(bool consent)
         {
             if (isLocalPlayer) return;
+            _responseData.pairID = _pairId;
             _readyToShowQuestionnaire.Raise(consent);
             if (consent) Debug.Log("both consent given, showing questionaire");
             if (!consent) Debug.Log("one user refused, NOT showing questionaire!");
