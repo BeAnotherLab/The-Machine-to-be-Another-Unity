@@ -26,8 +26,7 @@ public class ConsentUI : MonoBehaviour
 
     public void OtherStateChanged(UserState otherState)
     {
-        Show(false);
-
+        if(otherState == UserState.headsetOff) Show(false);
     }
     
     public void ReadyToShowQuestionnaire()
