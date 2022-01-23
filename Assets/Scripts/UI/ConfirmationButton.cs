@@ -35,6 +35,15 @@ namespace VRStandardAssets.Menu
             }
             }
         
+        public void OtherUserStateChanged(UserState otherUserState)
+        {
+            if (otherUserState == UserState.headsetOff)
+            {
+                GetComponent<MeshRenderer>().enabled = true;
+                GetComponent<MeshCollider>().enabled = true;
+            }
+        }
+        
         private void Awake()
         {
             if (instance == null) instance = this;
