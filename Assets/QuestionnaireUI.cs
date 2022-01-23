@@ -42,9 +42,10 @@ public class QuestionnaireUI : MonoBehaviour
         _postSlides[0].GetComponent<PanelDimmer>().Show();
     }
     
-    public void ReadyToShowQuestionnaire(bool answer)
+    public void ReadyToShowQuestionnaire(bool ready)
     {
-        _questionnaireState = QuestionnaireState.videoConsent;
+        if(ready)
+            _questionnaireState = QuestionnaireState.videoConsent;
     }
 
     public void VideoConsentGiven(bool consent)
@@ -55,8 +56,8 @@ public class QuestionnaireUI : MonoBehaviour
 
     public void UserStateChanged(UserState selfState)
     {
-        if (selfState == UserState.headsetOff) //hide if user left 
-            GetComponent<PanelDimmer>().Show(false);   
+//        if (selfState == UserState.headsetOff) //hide if user left 
+//            GetComponent<PanelDimmer>().Show(false);   
     }
 
     public void NextButton()
