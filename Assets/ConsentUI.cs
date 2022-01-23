@@ -44,6 +44,7 @@ public class ConsentUI : MonoBehaviour
     {
         _yesButton.gameObject.SetActive(show); 
         _noButton.gameObject.SetActive(show);
+        if (show) _text.text = "Do you consent to having your data recorded?";
         _textPanel.GetComponent<PanelDimmer>().Show(show, 1f);
     }
 }
