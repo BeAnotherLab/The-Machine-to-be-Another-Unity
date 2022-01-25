@@ -1,50 +1,133 @@
 #include<Uduino.h>
 Uduino uduino("serialControl");
 
-int relay1 = 11;
-int relay2 = 12;
-int timeOn = 25000;
-int timeOff = 1000;
+int step = 9;
+int dir = 8;
+int stepsPerRev = 200;
+int numTurns = 2;
+int numTurnsHoming = 1;
+int delayTime = 750; //us
 
-void setup()
-{
-  pinMode(relay1, OUTPUT);
-  pinMode(relay2, OUTPUT);
-  digitalWrite(relay1, HIGH);
-  digitalWrite(relay2, HIGH);
+int relayPin = 5;
+int eStopPin = 4;
+int eStopState;
+bool homing = false;
+unsigned long steps = 0;
+
+
+void setup() {
   Serial.begin(9600);
-  uduino.addCommand("wal_on", wallOn);  
-  uduino.addCommand("wal_off", wallOff);
+  
+  pinMode(step, OUTPUT);
+  pinMode(dir, OUTPUT);
+  pinMode(relayPin, OUTPUT);
+  pinMode(eStopPin, INPUT_PULLUP);
 
-  uduino.addCommand("mir_on", mirOn);
-  uduino.addCommand("mir_off", mirOff);
+  uduino.addCommand("wallTo", wallTo);  
+  uduino.addCommand("homing", doHoming);
+
+  delay(1000);
+  doHoming();
 }
 
-void wallOn() {
+void loop() {
+  
+  /*wallTo(9000);
+  Serial.println(steps);
+  wallTo(1000);
+  Serial.println(steps);
+  doHoming();
+  Serial.println(steps);*/
+}
+
+void doHoming(){
+
   Serial.println("cmd_ok");  //command executed
-  digitalWrite(relay2, LOW);   // turn the LED on (HIGH is the voltage level)
-  delay(timeOn);   
-  digitalWrite(relay2, HIGH);    // turn the LED off by making the voltage LOW
+  
+  delayTime = 1500;
+
+  //look for estop
+  brakeOFF();
+  homing=false;
+  digitalWrite(dir,HIGH); //UP
+  while(!homing){
+    eStopState = digitalRead(eStopPin);
+    if(eStopState==0){
+      homing=true;
+    }else{
+       moveMotor();
+    }
+  }
+
+  //goto zero
+  digitalWrite(dir,LOW); //DOWN
+
+  for(unsigned long i=0;i<stepsPerRev*numTurnsHoming;i++){
+    moveMotor();
+  }
+
+  brakeON();
+  delayTime = 750;
+  steps = 0;
+
+  Serial.println("homing_ok");  //command executed
 }
 
-void wallOff() {
+void wallTo(){
+
   Serial.println("cmd_ok");  //command executed
-  digitalWrite(relay1, LOW);   // turn the LED on (HIGH is the voltage level)
-  delay(timeOn);
-  digitalWrite(relay1, HIGH);    // turn the LED off by making the voltage LOW
+  
+  int stepTo = -1;
+  int parameters = uduino.getNumberOfParameters(); // returns 2
+  
+  if(parameters > 0) {
+    int stepTo = uduino.charToInt(uduino.getParameter(0)); 
+  }
+
+  if(stepTo==-1) return;
+  
+  int d;
+  
+  if(stepTo>steps){
+    digitalWrite(dir,LOW); //DOWN
+    d = 1;
+  }
+  
+  if(stepTo<steps){
+    digitalWrite(dir,HIGH); //UP
+    d = 0;
+  }
+
+  int stepsToMove = abs(stepTo - steps);
+  brakeOFF();
+  for(int i=0;i<stepsToMove;i++){
+    moveMotor();
+    if(d==0){
+      steps--;
+    }
+    if(d==1){
+      steps++;
+    }
+  }
+  brakeON();
+  
+  
 }
 
-void mirOn(){
-  Serial.println("cmd_ok");  //command executed
+void moveMotor(){
+  digitalWrite(step,HIGH);
+  delayMicroseconds(delayTime);
+  digitalWrite(step,LOW);
+  delayMicroseconds(delayTime);
 }
 
-void mirOff(){
-  Serial.println("cmd_ok");  //command executed
+void brakeOFF(){
+  digitalWrite(relayPin,LOW);
+  delay(100);
+
 }
 
+void brakeON(){
+  digitalWrite(relayPin,HIGH);
 
-void loop()
-{
-  uduino.readSerial();
-  delay(10);
 }
