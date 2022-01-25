@@ -12,7 +12,7 @@ int relayPin = 5;
 int eStopPin = 4;
 int eStopState;
 bool homing = false;
-unsigned long steps = 0;
+int steps = 0;
 
 
 void setup() {
@@ -27,7 +27,7 @@ void setup() {
   uduino.addCommand("homing", doHoming);
 
   delay(1000);
-  doHoming();
+  //doHoming();
 }
 
 void loop() {
@@ -38,6 +38,8 @@ void loop() {
   Serial.println(steps);
   doHoming();
   Serial.println(steps);*/
+  uduino.readSerial();
+  delay(10);
 }
 
 void doHoming(){
@@ -70,8 +72,9 @@ void doHoming(){
   delayTime = 750;
   steps = 0;
 
-  Serial.println("homing_ok");  //command executed
+  //Serial.println("homing_ok");  //command executed
 }
+
 
 void wallTo(){
 
@@ -81,7 +84,7 @@ void wallTo(){
   int parameters = uduino.getNumberOfParameters(); // returns 2
   
   if(parameters > 0) {
-    int stepTo = uduino.charToInt(uduino.getParameter(0)); 
+    stepTo = uduino.charToInt(uduino.getParameter(0)); 
   }
 
   if(stepTo==-1) return;
@@ -99,8 +102,14 @@ void wallTo(){
   }
 
   int stepsToMove = abs(stepTo - steps);
+  Serial.println(stepsToMove);
   brakeOFF();
+  
   for(int i=0;i<stepsToMove;i++){
+    if(steps>=11000){
+      Serial.println("steps_error");  //command error
+      break;
+    }
     moveMotor();
     if(d==0){
       steps--;
@@ -109,9 +118,7 @@ void wallTo(){
       steps++;
     }
   }
-  brakeON();
-  
-  
+  brakeON(); 
 }
 
 void moveMotor(){
