@@ -24,7 +24,7 @@ void setup() {
   pinMode(eStopPin, INPUT_PULLUP);
 
   uduino.addCommand("wallTo", wallTo);  
-  uduino.addCommand("homing", doHoming);
+  uduino.addCommand("init", doHoming);
 
   delay(1000);
   //doHoming();
@@ -43,8 +43,6 @@ void loop() {
 }
 
 void doHoming(){
-
-  Serial.println("cmd_ok");  //command executed
   
   delayTime = 1500;
 
@@ -72,7 +70,7 @@ void doHoming(){
   delayTime = 750;
   steps = 0;
 
-  //Serial.println("homing_ok");  //command executed
+  Serial.println("sysReady");  //command executed
 }
 
 

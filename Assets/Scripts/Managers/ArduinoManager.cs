@@ -23,6 +23,8 @@ public class ArduinoManager : MonoBehaviour
     #region Private Fields
 
     [SerializeField] private int _timeOut;
+    [SerializeField] private int _curtainStart; 
+    [SerializeField] private int _curtainEnd; 
     
     private bool _servosOn; //for one way swap.
     private bool _commandOK;
@@ -104,6 +106,12 @@ public class ArduinoManager : MonoBehaviour
         }
     }
 
+    public void WallOn(bool on)
+    {
+        if (on) SendCommand("wallTo " + _curtainEnd);
+        else if (!on) SendCommand("wallTo " + _curtainStart);
+    }
+    
     public void SendCommand(string command) //used to send commands to control technorama walls, curtains, etc
     {
         if (_serialControlOn)
@@ -121,7 +129,8 @@ public class ArduinoManager : MonoBehaviour
 
     public void ArduinoBoardConnected()
     {
-        OscManager.instance.SendSerialStatus(true);
+        Debug.Log("board connected");
+        SendCommand("init");
     }
     
     #endregion
@@ -132,9 +141,8 @@ public class ArduinoManager : MonoBehaviour
     private IEnumerator DelayedInitialPositions()
     {
         yield return new WaitForSeconds(3);
-        SendCommand("wal_off");
+        WallOn(false);
         SendCommand("mir_off");
-        SendCommand("cur_on");
     }
     
     private void DataReceived(string data, UduinoDevice board)
@@ -149,8 +157,12 @@ public class ArduinoManager : MonoBehaviour
         }
         else if (data == "TIMEOUT")
             Debug.Log("ERROR : " + data, DLogType.Error);
+        else if (data == "sysReady")
+        {
+            OscManager.instance.SendSerialStatus(true);
+            Debug.Log("homing done, ready to start");            
+        }
 
-       
         else if (data.Contains("lng")) LocalizationManager.instance.LoadLocalizedText(data + ".json", true);
     }    
     
