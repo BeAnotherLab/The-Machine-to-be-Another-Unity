@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using ScriptableObjectArchitecture;
 using UnityEngine;
 using Debug = DebugFile;
 
@@ -11,26 +13,35 @@ namespace Mirror.Examples.Pong
     
     public class CustomNetworkManager : NetworkManager
     {
-
         public static CustomNetworkManager instance;
-
+        [SerializeField] private  BoolGameEvent bothConsentGiven;
+            
         public bool offlineMode;
+        
+        private int _consentCount; //how many times consent answers were given
+        [SerializeField] private IntVariable _consentsGiven; //how many positive answers were given
         
         private void Awake()
         {
             if (instance == null) instance = this;
         }
 
-        private void Start()
+        private void Start()    
         {
             if (offlineMode) Instantiate(playerPrefab);
-
+            _consentsGiven.Value = 0;
             networkAddress = PlayerPrefs.GetString("othersIP");
 
             if (PlayerPrefs.GetInt("repeater", 0) == 1) //TODO rename property
                 StartHost();
             else
                 StartCoroutine(TryConnect());
+        }
+
+        public void OnStandby()
+        {
+           if (_consentsGiven.Value > 0) _consentsGiven.Value--;
+           if (_consentCount > 0) _consentCount--;
         }
         
         public override void OnServerAddPlayer(NetworkConnection conn)
@@ -51,6 +62,24 @@ namespace Mirror.Examples.Pong
             base.OnServerDisconnect(conn);
         }
 
+        public void ConsentAnswerGiven(bool consent)
+        {
+            _consentCount++;
+            if (consent) _consentsGiven.Value++;
+            if (_consentCount == 2)
+            {
+                if (_consentsGiven.Value == 2)
+                {
+                    bothConsentGiven.Raise(true);
+                }
+                else
+                {
+                    bothConsentGiven.Raise(false);
+                }
+            }
+        }
+        
+        
         private IEnumerator TryConnect()
         {
             while (!NetworkClient.isConnected)

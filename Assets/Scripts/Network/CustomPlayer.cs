@@ -1,13 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using ScriptableObjectArchitecture;
 using UnityEngine;
 
 namespace Mirror.Examples.Pong
 {
     public class CustomPlayer : NetworkBehaviour
     {
+        public BoolVariable consentGiven;
+
         private GameObject _mainCamera;
         private GameObject _videoFeedFlipParent;
+        //[SerializeField] private BoolVariable _consentGiven;
+        
+        [SerializeField] [SyncVar (hook = nameof(SetPairID))] private string _pairId;
+        [SerializeField] private BoolGameEvent _consentAnswerGivenEvent;
+        [SerializeField] private BoolGameEvent _readyToShowQuestionnaire;
+        [SerializeField] private ResponseData _responseData;
         
         private void Awake()
         {
@@ -32,7 +42,7 @@ namespace Mirror.Examples.Pong
         }
 
         // need to use FixedUpdate for rigidbody
-        void Update()
+        private void Update()
         {
             // only let the local player control the racket.
             // don't control other player's rackets
@@ -42,5 +52,48 @@ namespace Mirror.Examples.Pong
                 GetComponentInChildren<MeshRenderer>().enabled = false;
             }
         }
+
+        public void ConsentButtonPressed(bool answer)
+        {
+            if (!isLocalPlayer)
+                return;
+
+            _responseData.subjectID = Guid.NewGuid().ToString();
+
+            if (_pairId == "") //pair ID is empty if it has not been set yet this session, generate a new one
+                CmdGiveConsent(answer, Guid.NewGuid().ToString());
+            else //we already have a pair ID, no need for another one
+                CmdGiveConsent(answer, "");
+        }
+        
+        [Command] //Commands are sent from player objects on the client to player objects on the server. 
+        public void CmdGiveConsent(bool answer, string pairId)
+        {
+            if(pairId != "") _pairId = pairId; //assign the syncvar
+            
+            _consentAnswerGivenEvent.Raise(answer);
+        }
+        
+        [ClientRpc] //ClientRpc calls are sent from objects on the server to objects on clients. 
+        public void RpcBothConsentGiven(bool consent)
+        {
+            if (isLocalPlayer) return;
+            _readyToShowQuestionnaire.Raise(consent);
+            if (consent) Debug.Log("both consent given, showing questionaire");
+            if (!consent) Debug.Log("one user refused, NOT showing questionaire!");
+        }
+
+        public void ResetId()
+        {
+            _pairId = "";
+            _responseData.pairID = "";
+            _responseData.subjectID = "";
+        }
+        
+        private void SetPairID(string oldpairId, string newPairId){
+            _responseData.pairID = newPairId;
+            _pairId = newPairId; //this shouldn't be necessary but is
+        }
+
     }
 }

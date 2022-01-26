@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using ScriptableObjectArchitecture;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using VRStandardAssets.Utils;
@@ -7,9 +8,6 @@ using UnityEngine.XR;
 
 namespace VRStandardAssets.Menu
 {
-    // This script is for loading scenes from the main menu.
-    // Each 'button' will be a rendering showing the scene
-    // that will be loaded and use the SelectionRadial.
     public class ConfirmationButton : MonoBehaviour
     {
         public static ConfirmationButton instance;
@@ -19,8 +17,33 @@ namespace VRStandardAssets.Menu
         [SerializeField] private CustomSelectionRadial m_SelectionRadial;         // This controls when the selection is complete.
         [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
 
-        private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
+        [SerializeField] private UserStateGameEvent selfStateGameEvent;
+        [SerializeField] private UserStateVariable selfState;
 
+        private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
+        
+        public void SelfUserStateChanged(UserState selfUserState)
+        {
+            if (selfUserState == UserState.readyToStart)
+            {
+                GetComponent<MeshRenderer>().enabled = false;
+                GetComponent<MeshCollider>().enabled = false;    
+            } else if (selfUserState == UserState.headsetOff)
+            {
+                GetComponent<MeshRenderer>().enabled = true;
+                GetComponent<MeshCollider>().enabled = true;
+            }
+            }
+        
+        public void OtherUserStateChanged(UserState otherUserState)
+        {
+            if (otherUserState == UserState.headsetOff)
+            {
+                GetComponent<MeshRenderer>().enabled = true;
+                GetComponent<MeshCollider>().enabled = true;
+            }
+        }
+        
         private void Awake()
         {
             if (instance == null) instance = this;
@@ -50,7 +73,7 @@ namespace VRStandardAssets.Menu
                 //LeanTween.color(gameObject, Color.white, 0.25f).setEaseOutCubic();
 
                 m_GazeOver = true;
-                ConfirmationButtonGraphics.instance.SwitchSelection(m_GazeOver);
+                GetComponent<ConfirmationButtonGraphics>().SwitchSelection(m_GazeOver);
             }
         }
 
@@ -61,13 +84,19 @@ namespace VRStandardAssets.Menu
             //LeanTween.scale(gameObject, new Vector3(1, 1, 1), 0.45f).setEaseOutBounce();
             //LeanTween.color(gameObject, Color.gray, 0.25f).setEaseOutCubic();
 
-            m_GazeOver = false;
-            ConfirmationButtonGraphics.instance.SwitchSelection(m_GazeOver);
+            m_GazeOver = false;     
+            GetComponent<ConfirmationButtonGraphics>().SwitchSelection(m_GazeOver);
+
         }
 
         private void HandleSelectionComplete()
         {
-            if (m_GazeOver) StatusManager.instance.ThisUserIsReady(); //the user is ready
+            if (m_GazeOver) {
+                selfState.Value = UserState.readyToStart;
+                selfStateGameEvent.Raise(selfState.Value);
+                GetComponent<MeshRenderer>().enabled = false;
+                GetComponent<MeshCollider>().enabled = false;
+            }
             HandleOut();            
         }
 

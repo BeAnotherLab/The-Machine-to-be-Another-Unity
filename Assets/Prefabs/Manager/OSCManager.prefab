@@ -45,11 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 858c59bdde37e9546a7f4f48ba1005f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointOfView: {fileID: 0}
-  audioManager: {fileID: 0}
-  mainCamera: {fileID: 0}
-  gui: {fileID: 0}
-  othersIP: 
+  previousOtherState: {fileID: 11400000, guid: d0addde542cc2804c8dc89ae4c145f72, type: 2}
+  otherState: {fileID: 11400000, guid: 9d92648ad173541cda9193e84cc5ea94, type: 2}
+  otherStateGameEvent: {fileID: 11400000, guid: fa8ca749ca9ad4876827002f647bcaf6,
+    type: 2}
 --- !u!114 &243077806299512245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,6 +85,6 @@ MonoBehaviour:
   localPortMode: 2
   localReceiver: {fileID: 0}
   localPort: 7000
-  remoteHost: 127.0.0.1
+  remoteHost: 172.24.0.45
   remotePort: 8015
   useBundle: 0

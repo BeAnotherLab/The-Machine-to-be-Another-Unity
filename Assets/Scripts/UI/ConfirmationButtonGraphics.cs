@@ -6,8 +6,7 @@ using UnityEngine;
 public class ConfirmationButtonGraphics : MonoBehaviour
 {
     public Material buttonOff, buttonOn;
-    public static ConfirmationButtonGraphics instance;
-    
+
     private float _currentScale;
     [SerializeField] private float _scaleTarget;
 
@@ -22,11 +21,6 @@ public class ConfirmationButtonGraphics : MonoBehaviour
     [SerializeField] private float _dampTime;
     [SerializeField] private float _delay;
     
-    void Awake()
-    {
-        if (instance == null) instance = this;
-    }
-
     private void Start()
     {
         _idleCoroutine = StartCoroutine(AnimateButton());

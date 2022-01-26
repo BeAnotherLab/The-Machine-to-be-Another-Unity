@@ -6,7 +6,7 @@ using System.Text;
 using System.Net;
 using VRStandardAssets.Menu;
 using extOSC;
-
+using ScriptableObjectArchitecture;
 using Debug = DebugFile;
 
 public class OscManager : MonoBehaviour {
@@ -24,6 +24,10 @@ public class OscManager : MonoBehaviour {
 
     #region Private Fields
 
+    public UserStateVariable previousOtherState;
+    public UserStateVariable otherState;
+    public UserStateGameEvent otherStateGameEvent;
+    
     private Camera _mainCamera;
 
     private OSCTransmitter _oscTransmitter;
@@ -107,15 +111,15 @@ public class OscManager : MonoBehaviour {
         else PlayerPrefs.SetInt("repeater", 0);
     }
 
-    public void SendThisUserStatus(UserStatus status)
+    public void SendThisUserStatus(UserState status)
     {
         OSCMessage message = new OSCMessage("/otherUser");
 
         int i = 0;
         
-        if (status == UserStatus.headsetOff) i = 0;
-        else if (status == UserStatus.headsetOn) i = 1;
-        else if (status == UserStatus.readyToStart) i = 2;
+        if (status == UserState.headsetOff) i = 0;
+        else if (status == UserState.headsetOn) i = 1;
+        else if (status == UserState.readyToStart) i = 2;
         
         message.AddValue(OSCValue.Int(i));
         _oscTransmitter.Send(message);
@@ -202,16 +206,31 @@ public class OscManager : MonoBehaviour {
 
     private void ReceivedOtherStatus(OSCMessage message)
     {
-        int x;
-        if (message.ToInt(out x))
-        {
-            if (x == 0) StatusManager.instance.OtherLeft();
-            else if (x == 1) StatusManager.instance.OtherPutHeadsetOn();
-            if (x == 2)  StatusManager.instance.OtherUserIsReady();
-        }
+            int x;
+            if (message.ToInt(out x))
+            {
+                if (x == 0)
+                {
+                    previousOtherState.Value = otherState.Value;
+                    otherState.Value = UserState.headsetOff; //StatusManager.instance.OtherLeft();
+                }
+                else if (x == 1)
+                {
+                    previousOtherState.Value = otherState.Value;
+                    otherState.Value = UserState.headsetOn; //StatusManager.instance.OtherPutHeadsetOn();
+                }
+                else if (x == 2)
+                {
+                    previousOtherState.Value = otherState.Value;
+                    otherState.Value = UserState.readyToStart; //StatusManager.instance.OtherUserIsReady();
+                }
+                
+                otherStateGameEvent.Raise(otherState);
+            }
 
-        try { OnOtherStatus(); } //when receiving other status over OSC we get an error?
-        catch (Exception e) { }
+            try { OnOtherStatus(); } //when receiving other status over OSC we get an error?
+            catch (Exception e) { }
+            
     }
 
     private void ReceiveSerialStatus(OSCMessage message)

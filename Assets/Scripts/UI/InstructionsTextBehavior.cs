@@ -18,6 +18,8 @@ public class InstructionsTextBehavior : MonoBehaviour
 
     #region  Public methods
     
+    
+    
     public void ShowTextFromKey(string key)
     {
         GetComponent<CanvasGroup>().alpha = 1;
