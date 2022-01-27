@@ -1,8 +1,8 @@
 #include<Uduino.h>
 Uduino uduino("serialControl");
 
-//Pins
-int eStopPin = 4;
+//Pin definitions
+int stopPin = 4;
 int relayPin = 5;
 int dir = 8;
 int step = 9;
@@ -25,7 +25,7 @@ void setup()
   pinMode(step, OUTPUT);
   pinMode(dir, OUTPUT);
   pinMode(relayPin, OUTPUT);
-  pinMode(eStopPin, INPUT_PULLUP);
+  pinMode(stopPin, INPUT_PULLUP);
 
   uduino.addCommand("wallTo", wallTo);  
   uduino.addCommand("wallOn", wallOnHandler);  
@@ -53,7 +53,7 @@ void doHoming()
   
   while (!homing)
   {
-    stopState = digitalRead(eStopPin);
+    stopState = digitalRead(stopPin);
     
     if (stopState==0)
     {
@@ -93,11 +93,11 @@ void wallTo()
     stepTo = uduino.charToInt(uduino.getParameter(0)); 
   }
 
-  if(stepTo==-1) return;
+  if (stepTo==-1) return;
   
   int d;
   
-  if(stepTo>steps)
+  if (stepTo>steps)
   {
     digitalWrite(dir,LOW); //DOWN
     d = 1;
@@ -114,7 +114,7 @@ void wallTo()
   
   for (int i=0;i<stepsToMove;i++)
   {
-    if(steps>=11000)
+    if (steps>=11000)
     {
       Serial.println("steps_error");  //command error
       break;
@@ -122,10 +122,11 @@ void wallTo()
     
     moveMotor();
     
-    if(d==0)
+    if (d==0)
     {
       steps--;
     }
+    
     if (d==1)
     {
       steps++;
@@ -137,27 +138,39 @@ void wallTo()
 
 void wallOnHandler() 
 {
-  Serial.println("cmd_ok");  //command executed
-  
-  int stepTo = wallOn;
+  wallHandler(true);
+}
 
-  if(stepTo==-1) return;
+
+void wallOffHandler()
+{
+  wallHandler(false);
+}
+
+void wallHandler(bool on){
+  Serial.println("cmd_ok");  //command executed
+
+  int stepTo;
   
+  if (on) stepTo = wallOn;  
+  else stepTo = wallOff;  
+    
+  if (stepTo==-1) return;
   int d;
   
-  if(stepTo>steps){
+  if (stepTo>steps)
+  {
     digitalWrite(dir,LOW); //DOWN
     d = 1;
   }
   
-  if(stepTo<steps)
+  if (stepTo<steps)
   {
     digitalWrite(dir,HIGH); //UP
     d = 0;
   }
 
   int stepsToMove = abs(stepTo - steps);
-  //Serial.println("stepto " + String(stepTo) + " steps " + String(steps));
   brakeOFF();
   
   for (int i=0; i<stepsToMove; i++)
@@ -174,56 +187,8 @@ void wallOnHandler()
     {
       steps--;
     }
+    
     if (d==1)
-    {
-      steps++;
-    }
-  }
-  
-  brakeON(); 
-}
-
-
-void wallOffHandler()
-{
-  Serial.println("cmd_ok");  //command executed
-  
-  int stepTo = wallOff;
-
-  if(stepTo==-1) return;
-  
-  int d;
-  
-  if (stepTo>steps)
-  {
-    digitalWrite(dir,LOW); //DOWN
-    d = 1;
-  }
-  
-  if(stepTo<steps)
-  {
-    digitalWrite(dir,HIGH); //UP
-    d = 0;
-  }
-
-  int stepsToMove = abs(stepTo - steps);
-  brakeOFF();
-  
-  for(int i=0; i<stepsToMove; i++)
-  {
-    if(steps>=11000)
-    {
-      Serial.println("steps_error");  //command error
-      break;
-    }
-    
-    moveMotor();
-    
-    if(d==0)
-    {
-      steps--;
-    }
-    if(d==1)
     {
       steps++;
     }
