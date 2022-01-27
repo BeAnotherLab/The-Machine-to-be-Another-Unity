@@ -1,24 +1,25 @@
 #include<Uduino.h>
 Uduino uduino("serialControl");
 
-int wallOn = 1500;
-int wallOff = 40;
-
-int step = 9;
-int dir = 8;
-int stepsPerRev = 200;
-int numTurns = 2;
-int numTurnsHoming = 1;
-int delayTime = 750; //us
-
-int relayPin = 5;
+//Pins
 int eStopPin = 4;
-int eStopState;
+int relayPin = 5;
+int dir = 8;
+int step = 9;
+
+//Constants
+int wallOn = 1500; //curtain bottom position
+int wallOff = 40; //curtain top position
+int stepsPerRev = 200; //number of steps to go to after homing
+int delayTime = 750; //the time beween digital writes when moving the curtain
+
+//State variables
+int stopState; //course end sensor value
 bool homing = false;
 int steps = 0;
 
-
-void setup() {
+void setup() 
+{
   Serial.begin(9600);
   
   pinMode(step, OUTPUT);
@@ -31,46 +32,45 @@ void setup() {
   uduino.addCommand("wallOff", wallOffHandler);  
   
   uduino.addCommand("init", doHoming);
-
-  delay(1000);
-  //doHoming();
 }
 
-void loop() {
-  
-  /*wallTo(9000);
-  Serial.println(steps);
-  wallTo(1000);
-  Serial.println(steps);
-  doHoming();
-  Serial.println(steps);*/
+void loop() 
+{
   uduino.readSerial();
   delay(10);
 }
 
-void doHoming(){
-
+void doHoming()
+{
   Serial.println("cmd_ok");  //command executed
   
   delayTime = 1500;
 
-  //look for estop
+  //Move up until reaching the top
   brakeOFF();
   homing=false;
   digitalWrite(dir,HIGH); //UP
-  while(!homing){
-    eStopState = digitalRead(eStopPin);
-    if(eStopState==0){
+  
+  while (!homing)
+  {
+    stopState = digitalRead(eStopPin);
+    
+    if (stopState==0)
+    {
       homing=true;
-    }else{
+    }
+    
+    else
+    {
        moveMotor();
     }
   }
 
-  //goto zero
+  //Go to initial position
   digitalWrite(dir,LOW); //DOWN
 
-  for(unsigned long i=0;i<stepsPerRev*numTurnsHoming;i++){
+  for (unsigned long i=0; i < stepsPerRev; i++)
+  {
     moveMotor();
   }
 
@@ -81,15 +81,15 @@ void doHoming(){
   Serial.println("sysReady");  //command executed
 }
 
-
-void wallTo(){
-
+void wallTo()
+{
   Serial.println("cmd_ok");  //command executed
   
   int stepTo = -1;
   int parameters = uduino.getNumberOfParameters(); 
   
-  if(parameters > 0) {
+  if (parameters > 0)
+  {
     stepTo = uduino.charToInt(uduino.getParameter(0)); 
   }
 
@@ -97,38 +97,46 @@ void wallTo(){
   
   int d;
   
-  if(stepTo>steps){
+  if(stepTo>steps)
+  {
     digitalWrite(dir,LOW); //DOWN
     d = 1;
   }
   
-  if(stepTo<steps){
+  if (stepTo<steps)
+  {
     digitalWrite(dir,HIGH); //UP
     d = 0;
   }
 
   int stepsToMove = abs(stepTo - steps);
-  //Serial.println("stepto " + String(stepTo) + " steps " + String(steps));
   brakeOFF();
   
-  for(int i=0;i<stepsToMove;i++){
-    if(steps>=11000){
+  for (int i=0;i<stepsToMove;i++)
+  {
+    if(steps>=11000)
+    {
       Serial.println("steps_error");  //command error
       break;
     }
+    
     moveMotor();
-    if(d==0){
+    
+    if(d==0)
+    {
       steps--;
     }
-    if(d==1){
+    if (d==1)
+    {
       steps++;
     }
   }
+  
   brakeON(); 
 }
 
-void wallOnHandler() {
-
+void wallOnHandler() 
+{
   Serial.println("cmd_ok");  //command executed
   
   int stepTo = wallOn;
@@ -142,7 +150,8 @@ void wallOnHandler() {
     d = 1;
   }
   
-  if(stepTo<steps){
+  if(stepTo<steps)
+  {
     digitalWrite(dir,HIGH); //UP
     d = 0;
   }
@@ -151,25 +160,32 @@ void wallOnHandler() {
   //Serial.println("stepto " + String(stepTo) + " steps " + String(steps));
   brakeOFF();
   
-  for(int i=0;i<stepsToMove;i++){
-    if(steps>=11000){
+  for (int i=0; i<stepsToMove; i++)
+  {
+    if(steps>=11000)
+    {
       Serial.println("steps_error");  //command error
       break;
     }
+    
     moveMotor();
-    if(d==0){
+    
+    if (d==0)
+    {
       steps--;
     }
-    if(d==1){
+    if (d==1)
+    {
       steps++;
     }
   }
+  
   brakeON(); 
 }
 
 
-void wallOffHandler() {
-
+void wallOffHandler()
+{
   Serial.println("cmd_ok");  //command executed
   
   int stepTo = wallOff;
@@ -178,50 +194,59 @@ void wallOffHandler() {
   
   int d;
   
-  if(stepTo>steps){
+  if (stepTo>steps)
+  {
     digitalWrite(dir,LOW); //DOWN
     d = 1;
   }
   
-  if(stepTo<steps){
+  if(stepTo<steps)
+  {
     digitalWrite(dir,HIGH); //UP
     d = 0;
   }
 
   int stepsToMove = abs(stepTo - steps);
-  //Serial.println("stepto " + String(stepTo) + " steps " + String(steps));
   brakeOFF();
   
-  for(int i=0;i<stepsToMove;i++){
-    if(steps>=11000){
+  for(int i=0; i<stepsToMove; i++)
+  {
+    if(steps>=11000)
+    {
       Serial.println("steps_error");  //command error
       break;
     }
+    
     moveMotor();
-    if(d==0){
+    
+    if(d==0)
+    {
       steps--;
     }
-    if(d==1){
+    if(d==1)
+    {
       steps++;
     }
   }
+  
   brakeON(); 
 }
 
-void moveMotor(){
+void moveMotor()
+{
   digitalWrite(step,HIGH);
   delayMicroseconds(delayTime);
   digitalWrite(step,LOW);
   delayMicroseconds(delayTime);
 } 
 
-void brakeOFF(){
+void brakeOFF()
+{
   digitalWrite(relayPin,LOW);
   delay(100);
-
 }
 
-void brakeON(){
+void brakeON()
+{
   digitalWrite(relayPin,HIGH);
-
 }
