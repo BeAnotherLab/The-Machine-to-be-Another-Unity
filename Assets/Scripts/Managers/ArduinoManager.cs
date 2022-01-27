@@ -23,9 +23,7 @@ public class ArduinoManager : MonoBehaviour
     #region Private Fields
 
     [SerializeField] private int _timeOut;
-    [SerializeField] private int _curtainStart; 
-    [SerializeField] private int _curtainEnd; 
-    
+
     private bool _servosOn; //for one way swap.
     private bool _commandOK;
     private bool _serialControlOn; //for technorama swap. determine if this computer is in charge of controlling the curtain and mirrors
@@ -108,8 +106,8 @@ public class ArduinoManager : MonoBehaviour
 
     public void WallOn(bool on)
     {
-        if (on) SendCommand("wallTo " + _curtainEnd);
-        else if (!on) SendCommand("wallTo " + _curtainStart);
+        if (on) SendCommand("wallOn" );
+        else if (!on) SendCommand("wallOff");
     }
     
     public void SendCommand(string command) //used to send commands to control technorama walls, curtains, etc
@@ -142,7 +140,7 @@ public class ArduinoManager : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         WallOn(false);
-        SendCommand("mir_off");
+        //SendCommand("mir_off");
     }
     
     private void DataReceived(string data, UduinoDevice board)

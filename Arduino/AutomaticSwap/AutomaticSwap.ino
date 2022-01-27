@@ -30,7 +30,7 @@ void setup() {
   uduino.addCommand("wallOn", wallOnHandler);  
   uduino.addCommand("wallOff", wallOffHandler);  
   
-  uduino.addCommand("homing", doHoming);
+  uduino.addCommand("init", doHoming);
 
   delay(1000);
   //doHoming();
@@ -78,7 +78,7 @@ void doHoming(){
   delayTime = 750;
   steps = 0;
 
-  //Serial.println("homing_ok");  //command executed
+  Serial.println("sysReady");  //command executed
 }
 
 
