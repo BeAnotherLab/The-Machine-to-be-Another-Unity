@@ -53,17 +53,9 @@ void doHoming()
   
   while (!homing)
   {
-    stopState = digitalRead(stopPin);
-    
-    if (stopState==0)
-    {
-      homing=true;
-    }
-    
-    else
-    {
-       moveMotor();
-    }
+    stopState = digitalRead(stopPin);  
+    if (stopState==0) homing=true;
+    else moveMotor();
   }
 
   //Go to initial position
@@ -88,10 +80,7 @@ void wallTo()
   int stepTo = -1;
   int parameters = uduino.getNumberOfParameters(); 
   
-  if (parameters > 0)
-  {
-    stepTo = uduino.charToInt(uduino.getParameter(0)); 
-  }
+  if (parameters > 0) stepTo = uduino.charToInt(uduino.getParameter(0)); 
 
   if (stepTo==-1) return;
   
@@ -122,15 +111,8 @@ void wallTo()
     
     moveMotor();
     
-    if (d==0)
-    {
-      steps--;
-    }
-    
-    if (d==1)
-    {
-      steps++;
-    }
+    if (d==0) steps--;
+    if (d==1) steps++;
   }
   
   brakeON(); 
@@ -155,7 +137,7 @@ void wallHandler(bool on){
   if (on) stepTo = wallOn;  
   else stepTo = wallOff;  
     
-  if (stepTo==-1) return;
+  if (stepTo == -1) return;
   int d;
   
   if (stepTo>steps)
@@ -164,7 +146,7 @@ void wallHandler(bool on){
     d = 1;
   }
   
-  if (stepTo<steps)
+  else if (stepTo < steps)
   {
     digitalWrite(dir,HIGH); //UP
     d = 0;
@@ -175,7 +157,7 @@ void wallHandler(bool on){
   
   for (int i=0; i<stepsToMove; i++)
   {
-    if(steps>=11000)
+    if(steps >= 11000)
     {
       Serial.println("steps_error");  //command error
       break;
@@ -183,15 +165,8 @@ void wallHandler(bool on){
     
     moveMotor();
     
-    if (d==0)
-    {
-      steps--;
-    }
-    
-    if (d==1)
-    {
-      steps++;
-    }
+    if (d==0) steps--;
+    if (d==1) steps++;
   }
   
   brakeON(); 
