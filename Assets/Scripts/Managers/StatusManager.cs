@@ -108,22 +108,22 @@ public class StatusManager : MonoBehaviour {
 
     public void MirrorOn()
     {
-        ArduinoManager.instance.SendCommand("mir_on");
+        //ArduinoManager.instance.SendCommand("mir_on");
         Debug.Log("mirrors on");
     }
 
     public void CloseWall()
     {
-        ArduinoManager.instance.SendCommand("wal_on"); //close curtain
-        ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
+        ArduinoManager.instance.WallOn(true);
+        //ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
         Debug.Log("wall on");        
     }
     
     public void WallOn() //TODO rename
     {
         OpenCurtainCanvasController.instance.Show("Open Curtain");
-        ArduinoManager.instance.SendCommand("wal_off"); //close curtain
-        ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
+        ArduinoManager.instance.WallOn(false);
+        //ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
         Debug.Log("wall off");
     }
 
