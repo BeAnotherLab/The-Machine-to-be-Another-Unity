@@ -18,6 +18,10 @@ namespace Mirror.Examples.Pong
         [SerializeField] private BoolGameEvent _consentAnswerGivenEvent;
         [SerializeField] private BoolGameEvent _readyToShowQuestionnaire;
         [SerializeField] private ResponseData _responseData;
+
+        //TODO check if scriptable objects events really needed 
+        [SerializeField] private QuestionnaireStateGameEvent _questionnaireFinishedCmdEvent;
+        [SerializeField] private QuestionnaireStateGameEvent _bothQuestionnaireFinishedRpcEvent;
         
         private void Awake()
         {
@@ -82,7 +86,31 @@ namespace Mirror.Examples.Pong
             if (consent) Debug.Log("both consent given, showing questionaire");
             if (!consent) Debug.Log("one user refused, NOT showing questionaire!");
         }
+        
+        //TODO reformat event so that we can use 1 method instead of 3
+        public void QuestionnairePreFinished()
+        {
+            QuestionnaireFinished(QuestionnaireState.pre);
+        }
 
+        public void QuestionnairePostFinished()
+        {
+            QuestionnaireFinished(QuestionnaireState.post);
+        }
+        
+        [Command] //Commands are sent from player objects on the client to player objects on the server. 
+        public void CmdSendQuestionnaireFinished(QuestionnaireState state)
+        {
+            _questionnaireFinishedCmdEvent.Raise(state); //Notify the server
+        }
+
+        [ClientRpc] //ClientRpc calls are sent from objects on the server to objects on clients. 
+        public void RpcBothQuestionnaireFinished(QuestionnaireState state)
+        {
+            if (isLocalPlayer) return;
+            _bothQuestionnaireFinishedRpcEvent.Raise(state); //Notify the clients that both users finished the questionnaire
+        }
+        
         public void ResetId()
         {
             _pairId = "";
@@ -93,6 +121,12 @@ namespace Mirror.Examples.Pong
         private void SetPairID(string oldpairId, string newPairId){
             _responseData.pairID = newPairId;
             _pairId = newPairId; //this shouldn't be necessary but is
+        }
+        
+        public void QuestionnaireFinished(QuestionnaireState state)
+        {
+            if (!isLocalPlayer) return;
+            CmdSendQuestionnaireFinished(state);    
         }
 
     }

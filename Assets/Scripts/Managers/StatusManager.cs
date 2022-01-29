@@ -275,6 +275,12 @@ public class StatusManager : MonoBehaviour {
     {
         if(!bothGiven) StartPlaying();
     }
+
+    public void OnBothQuestionnaireFinished(QuestionnaireState state)
+    {
+        if (state == QuestionnaireState.pre) StartPlaying();
+        else if (state == QuestionnaireState.post) IsOver();
+    }
     
     #endregion
 
