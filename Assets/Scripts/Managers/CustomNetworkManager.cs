@@ -40,8 +40,9 @@ namespace Mirror.Examples.Pong
 
         public void OnStandby()
         {
-           if (_consentsGiven.Value > 0) _consentsGiven.Value--;
-           if (_consentCount > 0) _consentCount--;
+           if (_consentsGiven.Value > 0) _consentsGiven.Value = 0;
+           if (_consentCount > 0) _consentCount = 0;
+           Debug.Log("resetting consent counts");
         }
         
         public override void OnServerAddPlayer(NetworkConnection conn)
