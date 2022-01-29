@@ -17,7 +17,8 @@ public enum AnswerType {
     intimacy,
     selfOther,
     embodiment,
-    boundaries
+    boundaries,
+    understanding
 }
 
 [CreateAssetMenu]
