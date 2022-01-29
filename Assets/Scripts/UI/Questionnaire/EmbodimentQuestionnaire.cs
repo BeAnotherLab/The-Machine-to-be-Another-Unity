@@ -26,7 +26,7 @@ public class EmbodimentQuestionnaire : MonoBehaviour
                 line = csvFileReader.ReadLine();
                 if (line != null) {
                     do { // While there's lines left in the text file, do this:
-                        string[] entries = line.Split(',');
+                        string[] entries = line.Split('\t');
                         if (entries.Length > 0) questionnaireInput.Add (entries[0]);
                         line = csvFileReader.ReadLine();
                     }
