@@ -11,6 +11,8 @@ public class ConsentUI : MonoBehaviour
     [SerializeField] private GameObject _textPanel;
     [SerializeField] private Text _text;
     
+    [SerializeField] private UserStateVariable _previousOtherState;
+
     public void SelfStateChanged(UserState selfState)
     {
         //if self is now ready to start 
@@ -26,7 +28,7 @@ public class ConsentUI : MonoBehaviour
 
     public void OtherStateChanged(UserState otherState)
     {
-        if(otherState == UserState.headsetOff) Show(false);
+        if(otherState == UserState.headsetOff && _previousOtherState == UserState.readyToStart) Show(false);
     }
     
     public void ReadyToShowQuestionnaire()
