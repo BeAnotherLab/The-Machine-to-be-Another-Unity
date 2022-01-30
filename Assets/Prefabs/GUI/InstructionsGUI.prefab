@@ -338,6 +338,9 @@ GameObject:
   - component: {fileID: 7399623797463518927}
   - component: {fileID: 1692602106}
   - component: {fileID: 1566045890865929545}
+  - component: {fileID: 2938383240046207346}
+  - component: {fileID: 190893784313348841}
+  - component: {fileID: 6523215894707387184}
   m_Layer: 5
   m_Name: InstructionsGUI
   m_TagString: Untagged
@@ -485,6 +488,82 @@ MonoBehaviour:
   image2: {fileID: 1767612017}
   panel: {fileID: 1151431780516818683}
   text: {fileID: 1151431780467876320}
+--- !u!114 &2938383240046207346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151431781991381617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636b72f8fc644b4418a9e8ad0f4f804f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: 3892b52908a1ffb4786f9c8951165d8e, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7066050772398278399}
+        m_MethodName: ShowTextFromKey
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _debugValue: 
+--- !u!114 &190893784313348841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151431781991381617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791e3eca91bfc2e41b38477d0ecfaf1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: 9eff6ba2b350e214baf0df532e567331, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6523215894707387184}
+        m_MethodName: Show
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _debugValue: 0
+--- !u!114 &6523215894707387184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151431781991381617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de05442fa049c4a24890186cb42d0881, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5964181368917102989
 GameObject:
   m_ObjectHideFlags: 0

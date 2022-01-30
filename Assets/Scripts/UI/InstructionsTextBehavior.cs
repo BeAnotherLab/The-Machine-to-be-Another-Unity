@@ -22,7 +22,7 @@ public class InstructionsTextBehavior : MonoBehaviour
     
     public void ShowTextFromKey(string key)
     {
-        GetComponent<CanvasGroup>().alpha = 1;
+        GetComponent<PanelDimmer>().Show();
         _textGameObject.GetComponent<LocalizedText>().SetTextFromKey(key);
     }
 
@@ -33,7 +33,7 @@ public class InstructionsTextBehavior : MonoBehaviour
     
     public void ShowInstructionText(bool show, string text = "")
     {
-        GetComponent <CanvasGroup>().alpha = show ? 1 : 0;
+        GetComponent<PanelDimmer>().Show(show);
         _textGameObject.GetComponent<Text>().text = text; //give feedback
     }
 
