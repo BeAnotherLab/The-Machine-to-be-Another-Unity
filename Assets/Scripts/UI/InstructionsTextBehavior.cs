@@ -18,7 +18,10 @@ public class InstructionsTextBehavior : MonoBehaviour
 
     #region  Public methods
     
-    
+    public void ExperienceFinished(bool showQuestionnaire)
+    {
+        GetComponent<PanelDimmer>().Show(!showQuestionnaire);
+    }
     
     public void ShowTextFromKey(string key)
     {

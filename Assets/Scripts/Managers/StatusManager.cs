@@ -41,13 +41,14 @@ public class StatusManager : MonoBehaviour {
     [SerializeField] private GameObject _languageButtons;
 
     [SerializeField] private GameEvent _standbyGameEvent;
-    [SerializeField] private GameEvent _experienceFinishedGameEvent;
+    [SerializeField] private BoolGameEvent _experienceFinishedGameEvent;
     
     private GameObject _mainCamera;
     private bool _readyForStandby; //when we use serial, only go to standby if Arduino is ready.
     private GameObject _confirmationMenu;
     private bool _experienceRunning;
     private bool _dimOutOnExperienceStart;
+    private bool _showQuestionnaireThisRound;
     
     #endregion
 
@@ -185,6 +186,7 @@ public class StatusManager : MonoBehaviour {
 
         instructionsTimeline.Stop();
         _experienceRunning = false;
+        _showQuestionnaireThisRound = false;
         
         AudioManager.instance.StopAudioInstructions();
 
@@ -273,13 +275,15 @@ public class StatusManager : MonoBehaviour {
     
     public void OnBothConsentsGiven(bool bothGiven)
     {
+        _showQuestionnaireThisRound = bothGiven;
         if(!bothGiven) StartPlaying();
     }
 
     public void OnBothQuestionnaireFinished(QuestionnaireState state)
     {
         if (state == QuestionnaireState.pre) StartPlaying();
-        else if (state == QuestionnaireState.post) IsOver();
+        else if (state == QuestionnaireState.post) {}
+            //IsOver();
     }
     
     #endregion
@@ -311,11 +315,11 @@ public class StatusManager : MonoBehaviour {
     private void IsOver() //called at the the end of the experience
     {
         VideoFeed.instance.Dim(true);
-        InstructionsTextBehavior.instance.ShowTextFromKey("finished");
+        //InstructionsTextBehavior.instance.ShowTextFromKey("finished");
         instructionsTimeline.Stop();
 		Debug.Log("experience finished");
         _experienceRunning = false;
-        _experienceFinishedGameEvent.Raise();
+        _experienceFinishedGameEvent.Raise(_showQuestionnaireThisRound);
     }
 
     private IEnumerator WaitBeforeResetting()

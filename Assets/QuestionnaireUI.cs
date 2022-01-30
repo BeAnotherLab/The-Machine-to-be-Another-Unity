@@ -37,9 +37,12 @@ public class QuestionnaireUI : MonoBehaviour
         }
     }
 
-    public void ExperienceFinished()
+    public void ExperienceFinished(bool withQuestionnaire) 
     {
-        _postSlides[0].GetComponent<PanelDimmer>().Show();
+        if (withQuestionnaire) //if we should show the questionnaire
+        {
+            _postSlides[0].GetComponent<PanelDimmer>().Show();
+        }
     }
     
     public void ReadyToShowQuestionnaire(bool ready)
