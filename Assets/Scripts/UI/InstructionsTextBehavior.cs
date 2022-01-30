@@ -20,7 +20,7 @@ public class InstructionsTextBehavior : MonoBehaviour
     
     public void ExperienceFinished(bool showQuestionnaire)
     {
-        GetComponent<PanelDimmer>().Show(!showQuestionnaire);
+        if(!showQuestionnaire) ShowTextFromKey("finished");
     }
     
     public void ShowTextFromKey(string key)
