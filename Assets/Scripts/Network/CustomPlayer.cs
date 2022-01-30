@@ -21,7 +21,7 @@ namespace Mirror.Examples.Pong
 
         //TODO check if scriptable objects events really needed 
         [SerializeField] private QuestionnaireStateGameEvent _questionnaireFinishedCmdEvent;
-        [SerializeField] private QuestionnaireStateGameEvent _bothQuestionnaireFinishedRpcEvent;
+        [SerializeField] private QuestionnaireStateGameEvent _bothQuestionnaireFinishedEvent;
         
         private void Awake()
         {
@@ -108,7 +108,7 @@ namespace Mirror.Examples.Pong
         public void RpcBothQuestionnaireFinished(QuestionnaireState state)
         {
             if (isLocalPlayer) return;
-            _bothQuestionnaireFinishedRpcEvent.Raise(state); //Notify the clients that both users finished the questionnaire
+            _bothQuestionnaireFinishedEvent.Raise(state); //Notify the clients that both users finished the questionnaire
         }
         
         public void ResetId()
@@ -126,7 +126,7 @@ namespace Mirror.Examples.Pong
         public void QuestionnaireFinished(QuestionnaireState state)
         {
             if (!isLocalPlayer) return;
-            CmdSendQuestionnaireFinished(state);    
+            CmdSendQuestionnaireFinished(state); //local player notifies server questionnaire finished    
         }
 
     }

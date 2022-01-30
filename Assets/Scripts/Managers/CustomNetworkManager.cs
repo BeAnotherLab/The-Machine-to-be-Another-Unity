@@ -23,7 +23,7 @@ namespace Mirror.Examples.Pong
         [SerializeField] private IntVariable _consentsGiven; //how many positive answers were given
 
         //Pre/Post questionnaires end events 
-        [SerializeField] private QuestionnaireStateGameEvent _bothQuestionnairesFinishedEvent;
+        [SerializeField] private QuestionnaireStateGameEvent _bothQuestionnairesFinishedRpcEvent;
         private int _questionnairesPreFinishedCount;
         private int _questionnairesPostFinishedCount;
         
@@ -95,7 +95,7 @@ namespace Mirror.Examples.Pong
                 _questionnairesPreFinishedCount++;
                 if (_questionnairesPreFinishedCount == 2)
                 {
-                    _bothQuestionnairesFinishedEvent.Raise(QuestionnaireState.pre);
+                    _bothQuestionnairesFinishedRpcEvent.Raise(QuestionnaireState.pre);
                 }
             }
             else if (state == QuestionnaireState.post)
@@ -103,7 +103,7 @@ namespace Mirror.Examples.Pong
                 _questionnairesPostFinishedCount++;
                 if (_questionnairesPostFinishedCount == 2)
                 {
-                    _bothQuestionnairesFinishedEvent.Raise(QuestionnaireState.post);
+                    _bothQuestionnairesFinishedRpcEvent.Raise(QuestionnaireState.post);
                 }
             }
         }
