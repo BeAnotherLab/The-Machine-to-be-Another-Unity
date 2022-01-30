@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 6422737428523732299}
   - component: {fileID: 8903920974821589973}
   - component: {fileID: 151332095320297058}
-  - component: {fileID: 6190963782489220389}
+  - component: {fileID: 1225347162484071273}
   m_Layer: 5
   m_Name: EmbodimentQuestionnaireQuestion
   m_TagString: Untagged
@@ -210,7 +210,7 @@ MonoBehaviour:
   _responseSlider: {fileID: 1603234729883620051}
   _questionnaireNextEvent: {fileID: 11400000, guid: ddf1fe45446ef4e79af3a194c4abd919,
     type: 2}
---- !u!114 &6190963782489220389
+--- !u!114 &1225347162484071273
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,21 +219,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 4954376215784862230}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
+  m_Script: {fileID: 11500000, guid: 636b72f8fc644b4418a9e8ad0f4f804f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _showDebugFields: 0
   _enableGizmoDebugging: 1
   _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 11400000, guid: c66629fc8af0c4003b0522bffed86084,
-    type: 2}
-  _event: {fileID: 11400000, guid: c66629fc8af0c4003b0522bffed86084, type: 2}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: 3186148365f83442090e1a09b70837e4, type: 2}
   _response:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 151332095320297058}
-        m_MethodName: Initialize
-        m_Mode: 1
+        m_MethodName: SelectLanguage
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -242,6 +241,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _debugValue: 
 --- !u!1 &4954376215927203484
 GameObject:
   m_ObjectHideFlags: 0
