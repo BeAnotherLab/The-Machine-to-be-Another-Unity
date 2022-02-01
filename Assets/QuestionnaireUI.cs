@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using ScriptableObjectArchitecture;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class QuestionnaireUI : MonoBehaviour
 {
     [SerializeField] private Transform _preRoot;
     [SerializeField] private Transform _postRoot;
+    [SerializeField] private GameObject _videoConsent;
+    
 
     [SerializeField] private GameEvent _preQuestionnaireFinished;
     [SerializeField] private GameEvent _postQuestionnaireFinished;
@@ -29,6 +32,8 @@ public class QuestionnaireUI : MonoBehaviour
 
     private void Start()
     {
+        _videoConsent.GetComponent<PanelDimmer>().Hide();
+        
         foreach(Transform child in _preRoot){
             child.GetComponent<PanelDimmer>().Hide();
         }

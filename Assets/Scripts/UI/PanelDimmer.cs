@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Debug = DebugFile;
 
 public class PanelDimmer : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class PanelDimmer : MonoBehaviour
 
     public void Show(bool show, float opacity, float time = 0.7f, bool loop = false, float delay = 0f)
     {
+        if (show) Debug.Log("showing " + gameObject.name, DLogType.GUI);
         var from = GetComponent<CanvasGroup>().alpha;
         var to = 0f;
         if (show) to = opacity;
