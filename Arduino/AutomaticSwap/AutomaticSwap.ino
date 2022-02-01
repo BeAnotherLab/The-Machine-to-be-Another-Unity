@@ -30,7 +30,10 @@ void setup()
   uduino.addCommand("wallTo", wallTo);  
   uduino.addCommand("wallOn", wallOnHandler);  
   uduino.addCommand("wallOff", wallOffHandler);  
-  
+
+  uduino.addCommand("moveUp", moveUpHandler);  
+  uduino.addCommand("moveDown", moveDownHandler);  
+
   uduino.addCommand("init", doHoming);
 }
 
@@ -54,7 +57,7 @@ void doHoming()
   while (!homing)
   {
     stopState = digitalRead(stopPin);  
-    if (stopState==0) homing=true;
+    if (stopState==0) homing = true;
     else moveMotor();
   }
 
@@ -171,6 +174,37 @@ void wallHandler(bool on){
   
   brakeON(); 
 }
+
+void moveUpHandler()
+{
+  brakeOFF();
+  digitalWrite(dir,LOW); //write direction
+
+  for (int i=0; i<50; i++)
+  {
+    moveMotor();
+    steps--;
+  } 
+  
+  brakeON(); 
+  Serial.println(steps);
+}
+
+void moveDownHandler()
+{
+  brakeOFF();
+  
+  digitalWrite(dir,HIGH); //write direction
+
+  for (int i=0; i<50; i++)
+  {
+    moveMotor();
+    steps++;
+  } 
+  
+  brakeON(); 
+  Serial.println(steps);
+}    
 
 void moveMotor()
 {
