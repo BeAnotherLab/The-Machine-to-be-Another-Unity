@@ -8,7 +8,7 @@ int dir = 8;
 int step = 9;
 
 //Constants
-int wallOn = 1500; //curtain bottom position
+int wallOn = 10000; //curtain bottom position
 int wallOff = 40; //curtain top position
 int stepsPerRev = 200; //number of steps to go to after homing
 int delayTime = 750; //the time beween digital writes when moving the curtain
