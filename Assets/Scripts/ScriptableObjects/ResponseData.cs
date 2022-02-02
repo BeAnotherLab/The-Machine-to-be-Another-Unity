@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum QuestionnaireState
 {
-    videoConsent,
     pre,
-    post
+    post,
+    postFinished
 };
 
 public enum AnswerType {
