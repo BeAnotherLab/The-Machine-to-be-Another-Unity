@@ -49,6 +49,11 @@ public class QuestionnaireUI : MonoBehaviour
             _postSlides[0].GetComponent<PanelDimmer>().Show();
         }
     }
+
+    public void OnStandby()
+    {
+        Hide();
+    }
     
     public void ReadyToShowQuestionnaire(bool ready)
     {
@@ -58,12 +63,6 @@ public class QuestionnaireUI : MonoBehaviour
     {
         _questionnaireState.Value = QuestionnaireState.pre;
         _preSlides[0].GetComponent<PanelDimmer>().Show();
-    }
-
-    public void UserStateChanged(UserState selfState)
-    {
-//        if (selfState == UserState.headsetOff) //hide if user left 
-//            GetComponent<PanelDimmer>().Show(false);   
     }
 
     public void NextButton()

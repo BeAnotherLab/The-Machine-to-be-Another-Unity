@@ -169,14 +169,17 @@ public class StatusManager : MonoBehaviour {
         //if experience started
         if (previousOtherState.Value == UserState.readyToStart)
         {
-            if (_experienceRunning)
+            //only reset on other left if experience running, post finished, or doing pre questionnaire
+            if (_experienceRunning 
+                || _questionnaireState.Value == QuestionnaireState.postFinished
+                || _questionnaireState.Value == QuestionnaireState.pre)
             {
-                
+                instructionsTimeline.Stop();
+                _experienceRunning = false;    
+                StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
+                selfState.Value = UserState.headsetOn;    
             }
-            instructionsTimeline.Stop();
-            _experienceRunning = false;    
-            StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
-            selfState.Value = UserState.headsetOn;
+            
         }
         Debug.Log("the other user removed the headset", DLogType.Input);
     }
