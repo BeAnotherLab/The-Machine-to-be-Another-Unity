@@ -43,6 +43,8 @@ public class StatusManager : MonoBehaviour {
     [SerializeField] private GameEvent _standbyGameEvent;
     [SerializeField] private BoolGameEvent _experienceFinishedGameEvent;
     
+    [SerializeField] private QuestionnaireStateVariable _questionnaireState;
+
     private GameObject _mainCamera;
     private bool _readyForStandby; //when we use serial, only go to standby if Arduino is ready.
     private GameObject _confirmationMenu;

@@ -15,7 +15,7 @@ public class QuestionnaireUI : MonoBehaviour
     [SerializeField] private GameEvent _preQuestionnaireFinished;
     [SerializeField] private GameEvent _postQuestionnaireFinished;
 
-    [SerializeField] private QuestionnaireState _questionnaireState;
+    [SerializeField] private QuestionnaireStateVariable _questionnaireState;
 
     private List<GameObject> _preSlides;
     private List<GameObject> _postSlides;
@@ -52,13 +52,11 @@ public class QuestionnaireUI : MonoBehaviour
     
     public void ReadyToShowQuestionnaire(bool ready)
     {
-        if(ready)
-            _questionnaireState = QuestionnaireState.videoConsent;
     }
 
     public void VideoConsentGiven(bool consent)
     {
-        _questionnaireState = QuestionnaireState.pre;
+        _questionnaireState.Value = QuestionnaireState.pre;
         _preSlides[0].GetComponent<PanelDimmer>().Show();
     }
 
@@ -75,7 +73,7 @@ public class QuestionnaireUI : MonoBehaviour
             _preQuestionnaireFinished.Raise();
             _preSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
             _slideIndex = 0;
-            _questionnaireState = QuestionnaireState.post;
+            _questionnaireState.Value = QuestionnaireState.post;
             return;
         }
         if (_questionnaireState == QuestionnaireState.post && _slideIndex == _postSlides.Count - 1)
@@ -83,8 +81,9 @@ public class QuestionnaireUI : MonoBehaviour
             _postQuestionnaireFinished.Raise();
             _postSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
             _slideIndex = 0;
+            _questionnaireState.Value = QuestionnaireState.postFinished;
             return;
-        }
+        }   
         if (_questionnaireState == QuestionnaireState.pre)
         {
             _preSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
@@ -99,4 +98,20 @@ public class QuestionnaireUI : MonoBehaviour
         }
         _slideIndex++;
     }
+
+    private void Hide()
+    {
+        if (_questionnaireState == QuestionnaireState.pre)
+        {
+            _preSlides[_slideIndex].GetComponent<PanelDimmer>().Hide();
+        }
+        else if (_questionnaireState == QuestionnaireState.post)
+        {
+            _postSlides[_slideIndex].GetComponent<PanelDimmer>().Hide();
+        }
+    }
 }
+
+
+
+
