@@ -1379,6 +1379,12 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!320 &684723463 stripped
+PlayableDirector:
+  m_CorrespondingSourceObject: {fileID: 1017013999, guid: ac83e1f85f757314ca0a565297f74bce,
+    type: 3}
+  m_PrefabInstance: {fileID: 3197596539289527782}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &701790210
 GameObject:
   m_ObjectHideFlags: 0
@@ -3921,11 +3927,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7048053968635201436, guid: 0060bac4bad7c4042a6851558ee4e517,
-        type: 3}
-      propertyPath: _questionnaireState
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 7087106655602879155, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: _previouslyRegisteredEvent
@@ -4968,9 +4969,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 293754759}
     - target: {fileID: 1017013999, guid: ac83e1f85f757314ca0a565297f74bce, type: 3}
+      propertyPath: m_SceneBindings.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017013999, guid: ac83e1f85f757314ca0a565297f74bce, type: 3}
       propertyPath: m_SceneBindings.Array.data[4].value
       value: 
       objectReference: {fileID: 1692602106}
+    - target: {fileID: 1017013999, guid: ac83e1f85f757314ca0a565297f74bce, type: 3}
+      propertyPath: m_SceneBindings.Array.data[5].key
+      value: 
+      objectReference: {fileID: 114589528044812788, guid: 0adcfa56ba8423f41b9165ee46bfeb1a,
+        type: 2}
     - target: {fileID: 3197596539171407804, guid: ac83e1f85f757314ca0a565297f74bce,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5081,6 +5091,16 @@ PrefabInstance:
       propertyPath: _languageButtons
       value: 
       objectReference: {fileID: 2059222481}
+    - target: {fileID: 3197596539171407805, guid: ac83e1f85f757314ca0a565297f74bce,
+        type: 3}
+      propertyPath: instructionsTimeline
+      value: 
+      objectReference: {fileID: 684723463}
+    - target: {fileID: 3197596539171407805, guid: ac83e1f85f757314ca0a565297f74bce,
+        type: 3}
+      propertyPath: _longTimeline
+      value: 
+      objectReference: {fileID: 684723463}
     - target: {fileID: 3197596539171407807, guid: ac83e1f85f757314ca0a565297f74bce,
         type: 3}
       propertyPath: m_Name
@@ -5334,7 +5354,7 @@ PrefabInstance:
     - target: {fileID: 1379381038382601400, guid: 001b3698894d90f4eb7027aa882aad96,
         type: 3}
       propertyPath: ArduinoControl
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7308667568398848440, guid: 001b3698894d90f4eb7027aa882aad96,
         type: 3}
