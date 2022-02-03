@@ -81,7 +81,6 @@ public class QuestionnaireUI : MonoBehaviour
             _postQuestionnaireFinished.Raise(false);
             _postSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
             _slideIndex = 0;
-            _questionnaireState.Value = QuestionnaireState.postFinished;
             return;
         }   
         if (_questionnaireState == QuestionnaireState.pre)
@@ -105,7 +104,6 @@ public class QuestionnaireUI : MonoBehaviour
         {
             if (_previousSelfState == UserState.readyToStart && newState == UserState.headsetOff) //if user removed headset
             {
-                _questionnaireState.Value = QuestionnaireState.postFinished;
                 _postQuestionnaireFinished.Raise(true);
             }
         }

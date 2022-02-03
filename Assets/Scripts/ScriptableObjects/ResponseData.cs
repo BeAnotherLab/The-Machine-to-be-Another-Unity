@@ -6,8 +6,7 @@ public enum QuestionnaireState
 {
     init, //on app init
     pre, //video consent answer was given
-    post, //questionnaire pre is done
-    postFinished //questionnaire finished, waiting for other to reset 
+    post //questionnaire pre is done
 };
 
 public enum AnswerType {
