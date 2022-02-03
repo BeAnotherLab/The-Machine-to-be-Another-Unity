@@ -13,7 +13,7 @@ public class QuestionnaireUI : MonoBehaviour
     
 
     [SerializeField] private GameEvent _preQuestionnaireFinished;
-    [SerializeField] private GameEvent _postQuestionnaireFinished;
+    [SerializeField] private BoolGameEvent _postQuestionnaireFinished; //bool param specfies if ended by finishing by removing headset
 
     [SerializeField] private QuestionnaireStateVariable _questionnaireState;
 
@@ -77,7 +77,7 @@ public class QuestionnaireUI : MonoBehaviour
         }
         if (_questionnaireState == QuestionnaireState.post && _slideIndex == _postSlides.Count - 1)
         {
-            _postQuestionnaireFinished.Raise();
+            _postQuestionnaireFinished.Raise(false);
             _postSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
             _slideIndex = 0;
             _questionnaireState.Value = QuestionnaireState.postFinished;
