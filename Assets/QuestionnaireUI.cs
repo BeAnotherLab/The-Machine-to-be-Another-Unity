@@ -11,12 +11,12 @@ public class QuestionnaireUI : MonoBehaviour
     [SerializeField] private Transform _postRoot;
     [SerializeField] private GameObject _videoConsent;
     
-
     [SerializeField] private GameEvent _preQuestionnaireFinished;
     [SerializeField] private BoolGameEvent _postQuestionnaireFinished; //bool param specfies if ended by finishing by removing headset
 
     [SerializeField] private QuestionnaireStateVariable _questionnaireState;
-
+    [SerializeField] private UserStateVariable _previousSelfState;
+    
     private List<GameObject> _preSlides;
     private List<GameObject> _postSlides;
 
@@ -98,6 +98,18 @@ public class QuestionnaireUI : MonoBehaviour
         _slideIndex++;
     }
 
+    public void SelfStateChanged(UserState newState) //if self removed headest during post, do as if it had finished
+    {
+        if (_questionnaireState == QuestionnaireState.post)
+        {
+            if (_previousSelfState == UserState.readyToStart && newState == UserState.headsetOff) //if user removed headset
+            {
+                _questionnaireState.Value = QuestionnaireState.postFinished;
+                _postQuestionnaireFinished.Raise(true);
+            }
+        }
+    }
+    
     private void Hide()
     {
         if (_questionnaireState == QuestionnaireState.pre)
