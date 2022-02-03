@@ -170,16 +170,13 @@ public class StatusManager : MonoBehaviour {
         if (previousOtherState.Value == UserState.readyToStart)
         {
             //only reset on other left if experience running, post finished, or doing pre questionnaire
-            if (_experienceRunning 
-                || _questionnaireState.Value == QuestionnaireState.postFinished
-                || _questionnaireState.Value == QuestionnaireState.pre)
+            if (_experienceRunning && _questionnaireState.Value != QuestionnaireState.post) 
             {
                 instructionsTimeline.Stop();
                 _experienceRunning = false;    
                 StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
                 selfState.Value = UserState.headsetOn;    
             }
-            
         }
         Debug.Log("the other user removed the headset", DLogType.Input);
     }
@@ -248,7 +245,8 @@ public class StatusManager : MonoBehaviour {
     public void SelfRemovedHeadset()
     {
         _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
-        if (previousSelfState.Value == UserState.readyToStart) {
+        if (previousSelfState.Value == UserState.readyToStart 
+            && _questionnaireState.Value != QuestionnaireState.post) { //reset unless doing post questionnaire
             Standby(false, _dimOutOnExperienceStart); //if we were ready and we took off the headset go to initial state
         }
         
@@ -287,12 +285,13 @@ public class StatusManager : MonoBehaviour {
     public void OnBothQuestionnaireFinished(QuestionnaireState state)
     {
         if (state == QuestionnaireState.pre) StartPlaying();
-        else if (state == QuestionnaireState.post) {}
-            //IsOver();
+        else if (state == QuestionnaireState.post) {Standby();}
     }
     
     #endregion
 
+    //pre questionnarie is cancelled if either self or other removes headset
+    //Let self post questionnaire finish
 
     #region Private Methods
 

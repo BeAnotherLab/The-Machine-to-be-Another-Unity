@@ -53,6 +53,7 @@ public class QuestionnaireUI : MonoBehaviour
     public void OnStandby()
     {
         Hide();
+        _questionnaireState.Value = QuestionnaireState.init;
     }
     
     public void ReadyToShowQuestionnaire(bool ready)

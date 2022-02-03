@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum QuestionnaireState
 {
-    pre,
-    post,
-    postFinished
+    init, //on app init
+    pre, //video consent answer was given
+    post, //questionnaire pre is done
+    postFinished //questionnaire finished, waiting for other to reset 
 };
 
 public enum AnswerType {
