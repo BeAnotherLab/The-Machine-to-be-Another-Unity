@@ -105,17 +105,18 @@ public class QuestionnaireUI : MonoBehaviour
             if (_previousSelfState == UserState.readyToStart && newState == UserState.headsetOff) //if user removed headset
             {
                 _postQuestionnaireFinished.Raise(true);
+                Hide();
             }
         }
     }
     
     private void Hide()
     {
-        if (_questionnaireState == QuestionnaireState.pre)
+        if (_questionnaireState.Value == QuestionnaireState.pre)
         {
             _preSlides[_slideIndex].GetComponent<PanelDimmer>().Hide();
         }
-        else if (_questionnaireState == QuestionnaireState.post)
+        else if (_questionnaireState.Value == QuestionnaireState.post)
         {
             _postSlides[_slideIndex].GetComponent<PanelDimmer>().Hide();
         }
