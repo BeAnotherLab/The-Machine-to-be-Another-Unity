@@ -181,7 +181,7 @@ public class StatusManager : MonoBehaviour {
         //reset user status as it is not ready
         EnableConfirmationGUI(true);
         _languageButtons.gameObject.SetActive(true); //show language buttons;
-
+        LocalizationManager.instance.LoadLocalizedText(4);
         if (_readyForStandby) //TODO is check necessary? 
             ArduinoManager.instance.InitialPositions();
         

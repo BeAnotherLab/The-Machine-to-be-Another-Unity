@@ -38,9 +38,14 @@ public class LocalizationManager : MonoBehaviour {
         TimelineAsset timelineAsset = (TimelineAsset) StatusManager.instance.instructionsTimeline.playableAsset;
         _englishTrack = timelineAsset.GetOutputTrack(0);
         _germanTrack = timelineAsset.GetOutputTrack(1);
-        LoadLocalizedText(localizationTexts[0]);
+        LoadLocalizedText(localizationTexts[4]);
     }
 
+    public void LoadLocalizedText(int id)
+    {
+        LoadLocalizedText(localizationTexts[id]);
+    }
+    
     public void LoadLocalizedText(string fileName, bool resend = false)
     {
         localizedText = new Dictionary<string, string> ();
