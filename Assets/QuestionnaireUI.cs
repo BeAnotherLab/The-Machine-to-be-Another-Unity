@@ -58,10 +58,6 @@ public class QuestionnaireUI : MonoBehaviour
     
     public void ReadyToShowQuestionnaire(bool ready)
     {
-    }
-
-    public void VideoConsentGiven(bool consent)
-    {
         _questionnaireState.Value = QuestionnaireState.pre;
         _preSlides[0].GetComponent<PanelDimmer>().Show();
     }
