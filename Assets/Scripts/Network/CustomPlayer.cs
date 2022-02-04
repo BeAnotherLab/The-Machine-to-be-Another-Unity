@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using ScriptableObjectArchitecture;
@@ -18,6 +18,16 @@ namespace Mirror.Examples.Pong
         [SerializeField] private BoolGameEvent _consentAnswerGivenEvent;
         [SerializeField] private BoolGameEvent _readyToShowQuestionnaire;
         [SerializeField] private ResponseData _responseData;
+
+        //TODO check if scriptable objects events really needed 
+        [SerializeField] private QuestionnaireStateGameEvent _questionnaireFinishedCmdEvent;
+        [SerializeField] private QuestionnaireStateGameEvent _bothQuestionnaireFinishedEvent;
+
+        public delegate void VideoConsentGivenCmd(bool given);
+        public static VideoConsentGivenCmd OnVideoConsentGivenCmd;
+        
+        public delegate void BothVideoConsentAnsweredRPC(bool given);
+        public static BothVideoConsentAnsweredRPC OnBothVideoConsentAnsweredRPC;
         
         private void Awake()
         {
@@ -66,6 +76,12 @@ namespace Mirror.Examples.Pong
                 CmdGiveConsent(answer, "");
         }
         
+        public void QuestionnaireFinished(QuestionnaireState state)
+        {
+            if (!isLocalPlayer) return;
+            CmdSendQuestionnaireFinished(state); //local player notifies server questionnaire finished
+        }
+        
         [Command] //Commands are sent from player objects on the client to player objects on the server. 
         public void CmdGiveConsent(bool answer, string pairId)
         {
@@ -81,6 +97,19 @@ namespace Mirror.Examples.Pong
             _readyToShowQuestionnaire.Raise(consent);
             if (consent) Debug.Log("both consent given, showing questionaire");
             if (!consent) Debug.Log("one user refused, NOT showing questionaire!");
+        }
+
+        [Command]
+        public void CmdSendVideoConsentGiven(bool given)
+        {
+            OnVideoConsentGivenCmd(given);
+        }
+
+        [ClientRpc]
+        public void RPCBothConsentGiven(bool agreed)
+        {
+            if (isLocalPlayer) return;
+            OnBothVideoConsentAnsweredRPC(agreed);
         }
 
         public void ResetId()
