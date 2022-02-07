@@ -25,10 +25,10 @@ public class ArduinoManager : MonoBehaviour
     [SerializeField] private int _timeOut;
 
     private bool _servosOn; //for one way swap.
-    private bool _commandOK;
+    //private bool _commandOK;
     private bool _serialControlOn; //for technorama swap. determine if this computer is in charge of controlling the curtain and mirrors
     
-    private Coroutine _timeoutCoroutine;
+    //private Coroutine _timeoutCoroutine;
     
     #endregion
     
@@ -115,7 +115,7 @@ public class ArduinoManager : MonoBehaviour
         if (_serialControlOn)
         {
             Debug.Log("sending " + command + " to arduino");
-            _commandOK = false;
+            //_commandOK = false;
             WriteToArduino(command);
         }
     }
@@ -147,8 +147,8 @@ public class ArduinoManager : MonoBehaviour
     {
         Debug.Log("received : " + data, DLogType.System);
         
-        if (data == "cmd_ok") _commandOK = true;
-        else if (data == "MD_FAULT" || data == "MD_BLOCK")
+        //if (data == "cmd_ok") _commandOK = true;
+        if (data == "MD_FAULT" || data == "MD_BLOCK")
         {
             Debug.Log("ERROR : " + data, DLogType.Error);
             StatusManager.instance.SerialFailure();
@@ -167,16 +167,16 @@ public class ArduinoManager : MonoBehaviour
     private void WriteToArduino(string message) //send a command, trigger timeout routine
     {
         UduinoManager.Instance.sendCommand(message); 
-        if (_timeoutCoroutine != null) StopCoroutine(_timeoutCoroutine); 
-        _timeoutCoroutine = StartCoroutine(WaitForTimeout());
+        //if (_timeoutCoroutine != null) StopCoroutine(_timeoutCoroutine); 
+        //_timeoutCoroutine = StartCoroutine(WaitForTimeout());
     }
-
+/*
     private IEnumerator WaitForTimeout()
     {
         yield return new WaitForSeconds(_timeOut);
         if(!_commandOK) StatusManager.instance.SerialFailure();
     }
-
+/*/
     private IEnumerator WaitForSerial()
     {
         yield return new WaitForSeconds(5f);
