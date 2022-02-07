@@ -170,7 +170,7 @@ public class StatusManager : MonoBehaviour {
         if (previousOtherState.Value == UserState.readyToStart)
         {
             //only reset on other left if experience running, post finished, or doing pre questionnaire
-            if (_experienceRunning && _questionnaireState.Value != QuestionnaireState.post) 
+            if (_experienceRunning || _questionnaireState.Value != QuestionnaireState.post) 
             {
                 instructionsTimeline.Stop();
                 _experienceRunning = false;    
