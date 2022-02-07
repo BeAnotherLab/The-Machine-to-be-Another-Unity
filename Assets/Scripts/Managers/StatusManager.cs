@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using VRStandardAssets.Menu;
 using VRStandardAssets.Utils;
 using Uduino;
+using UnityEngine.Timeline;
 using Debug = DebugFile;
 
 public enum UserStatus { headsetOff, headsetOn, readyToStart } 
@@ -31,6 +32,9 @@ public class StatusManager : MonoBehaviour {
     [SerializeField] private PlayableDirector _shortTimeline;
     [SerializeField] private PlayableDirector _longTimeline;
     [SerializeField] private GameObject _languageButtons;
+    
+    [SerializeField] private TrackAsset _germanTrack;
+    [SerializeField] private TrackAsset _englishTrack;
     
     private GameObject _mainCamera;
     private bool _readyForStandby; //when we use serial, only go to standby if Arduino is ready.
@@ -248,7 +252,14 @@ public class StatusManager : MonoBehaviour {
             instructionsTimeline = _longTimeline;
     }
 
-    
+    public void SwitchLanguageTrack(string fileName)
+    {
+        TimelineAsset timelineAsset = (TimelineAsset) instructionsTimeline.playableAsset;
+        _englishTrack = timelineAsset.GetOutputTrack(0);
+        _germanTrack = timelineAsset.GetOutputTrack(1);
+        _englishTrack.muted = fileName != "lng_en.json";
+        _germanTrack.muted = fileName != "lng_de.json";
+    }
     #endregion
 
 
