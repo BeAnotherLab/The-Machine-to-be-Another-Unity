@@ -5,10 +5,12 @@ using extOSC;
 
 public class SettingsGUI : MonoBehaviour
 {
-    #region Public field
+    #region Public fields
 
     public static SettingsGUI instance;
-
+    public delegate void OnExposureValueChanged(int value);
+    public static OnExposureValueChanged ExposureValueChanged;
+    
     #endregion
 
     #region Private Fields
@@ -26,6 +28,8 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private Button _rotateCameraButton;
     [SerializeField] private Button _headTrackingOnButton;
     [SerializeField] private Button _resetYawButton;
+    [SerializeField] private Slider _exposureSlider;
+    [SerializeField] private Text _exposureText;
     [SerializeField] private Toggle _repeaterToggle;
     //[SerializeField] private Text _controlsText;
     
@@ -66,6 +70,13 @@ public class SettingsGUI : MonoBehaviour
         _headTrackingOnButton.onClick.AddListener(delegate { VideoFeed.instance.SwitchHeadtracking(); });
         _resetYawButton.onClick.AddListener(delegate { VideoFeed.instance.RecenterPose(); });
         
+        _exposureSlider.onValueChanged.AddListener(delegate(float value)
+        {
+            ExposureValueChanged((int) value);
+            PlayerPrefs.SetInt("exposure", (int) value);
+            _exposureText.text = "Exposure : " + value;
+        });
+        
         //Assign swap mode dropdown handler
         _swapModeDropdown.onValueChanged.AddListener(delegate { SwapModeManager.instance.SetSwapMode( (SwapModeManager.SwapModes) _swapModeDropdown.value); });
         
@@ -84,6 +95,12 @@ public class SettingsGUI : MonoBehaviour
 
         if (PlayerPrefs.GetInt("serialControlOn") == 1) _serialControlToggle.isOn = true;
         else _serialControlToggle.isOn = false;             
+        
+        if (PlayerPrefs.GetInt("exposure", 1) != 1)
+        {
+            _exposureSlider.value = PlayerPrefs.GetInt("exposure");
+            _exposureText.text = "Exposure : " + _exposureSlider.value;
+        }
         
         OSCUtilities.GetLocalHost();
 

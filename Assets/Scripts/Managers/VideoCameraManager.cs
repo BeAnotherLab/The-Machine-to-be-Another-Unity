@@ -15,7 +15,17 @@ public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
     private VideoController _videoController;
 
     private AVProLiveCamera _avProLiveCamera;
-    
+
+    private void OnEnable()
+    {
+        SettingsGUI.ExposureValueChanged += UpdateExposure;
+    }
+
+    private void OnDisable()
+    {
+        SettingsGUI.ExposureValueChanged -= UpdateExposure;
+    }
+
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -71,5 +81,20 @@ public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
         VideoFeed.instance.ShowLiveFeed(true);
     }
     
-    
+    private void UpdateExposure(int value)
+    {
+        AVProLiveCameraDevice device = _avProLiveCamera.Device;
+        if( device != null)
+        {
+            AVProLiveCameraSettingBase settingBase = device.GetVideoSettingByType(AVProLiveCameraDevice.SettingsEnum.Exposure);
+            
+            if (settingBase != null && settingBase is AVProLiveCameraSettingFloat)
+            {
+                AVProLiveCameraSettingFloat setting = settingBase as AVProLiveCameraSettingFloat;
+                setting.IsAutomatic = false;
+                setting.CurrentValue = value;
+                setting.Update();
+            }
+        }
+    }
 }

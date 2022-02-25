@@ -14,9 +14,6 @@ public class LocalizationManager : MonoBehaviour {
 
     [SerializeField] private string[] localizationTexts; //TODO autoload
 
-    [SerializeField] private TrackAsset _germanTrack;
-    [SerializeField] private TrackAsset _englishTrack;
-    
     private Dictionary<string, string> localizedText;
     private string missingTextString = "Localized text not found";
 
@@ -36,11 +33,15 @@ public class LocalizationManager : MonoBehaviour {
     private void Start()
     {
         TimelineAsset timelineAsset = (TimelineAsset) StatusManager.instance.instructionsTimeline.playableAsset;
-        _englishTrack = timelineAsset.GetOutputTrack(0);
-        _germanTrack = timelineAsset.GetOutputTrack(1);
-        LoadLocalizedText(localizationTexts[0]);
+        
+        LoadLocalizedText(localizationTexts[4]);
     }
 
+    public void LoadLocalizedText(int id)
+    {
+        LoadLocalizedText(localizationTexts[id]);
+    }
+    
     public void LoadLocalizedText(string fileName, bool resend = false)
     {
         localizedText = new Dictionary<string, string> ();
@@ -58,8 +59,7 @@ public class LocalizationManager : MonoBehaviour {
             Debug.Log ("Data loaded, dictionary contains: " + localizedText.Count + " entries");
             InstructionsTextBehavior.instance.ShowTextFromKey("idle");
             //activate/deactivate clip tracks depending on if leader or follower
-            _englishTrack.muted = fileName != "lng_en.json";
-            _germanTrack.muted = fileName != "lng_de.json";
+            StatusManager.instance.SwitchLanguageTrack(fileName);
         } 
         else 
         {
