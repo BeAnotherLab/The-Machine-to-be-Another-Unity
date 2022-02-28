@@ -98,7 +98,10 @@ public class SettingsGUI : MonoBehaviour
         
         if (PlayerPrefs.GetInt("exposure", 1) != 1)
         {
-            _exposureSlider.value = PlayerPrefs.GetInt("exposure");
+            var savedValue = PlayerPrefs.GetInt("exposure");
+            if (savedValue == _exposureSlider.value) _exposureSlider.onValueChanged.Invoke(_exposureSlider.value);
+
+            _exposureSlider.value = savedValue;
             _exposureText.text = "Exposure : " + _exposureSlider.value;
         }
         
