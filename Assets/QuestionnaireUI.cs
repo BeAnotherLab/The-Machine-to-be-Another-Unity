@@ -116,6 +116,7 @@ public class QuestionnaireUI : MonoBehaviour
         {
             _postSlides[_slideIndex].GetComponent<PanelDimmer>().Hide();
         }
+        _slideIndex = 0;
     }
 }
 
