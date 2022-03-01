@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ScriptableObjectArchitecture;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class QuestionnaireUI : MonoBehaviour
 {
@@ -21,7 +18,8 @@ public class QuestionnaireUI : MonoBehaviour
     private List<GameObject> _postSlides;
 
     private int _slideIndex;
-
+    private bool _showing;
+    
     private void Awake()
     {
         _preSlides = new List<GameObject>();
@@ -48,6 +46,7 @@ public class QuestionnaireUI : MonoBehaviour
         {
             _questionnaireState.Value = QuestionnaireState.post;
             _postSlides[0].GetComponent<PanelDimmer>().Show();
+            _showing = true;
         }
     }
 
@@ -63,6 +62,7 @@ public class QuestionnaireUI : MonoBehaviour
         {
             _questionnaireState.Value = QuestionnaireState.pre;
             _preSlides[0].GetComponent<PanelDimmer>().Show();    
+            _showing = true;
         }
     }
 
@@ -72,6 +72,7 @@ public class QuestionnaireUI : MonoBehaviour
         {
             _preQuestionnaireFinished.Raise();
             _preSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
+            _showing = false;
             _slideIndex = 0;
             return;
         }
@@ -79,6 +80,7 @@ public class QuestionnaireUI : MonoBehaviour
         {
             _postQuestionnaireFinished.Raise(false);
             _postSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
+            _showing = false;
             _slideIndex = 0;
             return;
         }   
@@ -101,7 +103,7 @@ public class QuestionnaireUI : MonoBehaviour
     {
         if (_questionnaireState == QuestionnaireState.post)
         {
-            if (_previousSelfState == UserState.readyToStart && newState == UserState.headsetOff) //if user removed headset
+            if (_previousSelfState == UserState.readyToStart && newState == UserState.headsetOff && _showing) //if user removed headset
             {
                 _postQuestionnaireFinished.Raise(true);
                 Hide();
@@ -119,6 +121,7 @@ public class QuestionnaireUI : MonoBehaviour
         {
             _postSlides[_slideIndex].GetComponent<PanelDimmer>().Hide();
         }
+        _showing = false;
         _slideIndex = 0;
     }
 }
