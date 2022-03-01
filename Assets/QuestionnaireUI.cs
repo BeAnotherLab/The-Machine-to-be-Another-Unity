@@ -46,6 +46,7 @@ public class QuestionnaireUI : MonoBehaviour
     {
         if (withQuestionnaire) //if we should show the questionnaire
         {
+            _questionnaireState.Value = QuestionnaireState.post;
             _postSlides[0].GetComponent<PanelDimmer>().Show();
         }
     }
@@ -72,7 +73,6 @@ public class QuestionnaireUI : MonoBehaviour
             _preQuestionnaireFinished.Raise();
             _preSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
             _slideIndex = 0;
-            _questionnaireState.Value = QuestionnaireState.post;
             return;
         }
         if (_questionnaireState == QuestionnaireState.post && _slideIndex == _postSlides.Count - 1)
