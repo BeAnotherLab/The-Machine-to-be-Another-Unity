@@ -58,8 +58,11 @@ public class QuestionnaireUI : MonoBehaviour
     
     public void ReadyToShowQuestionnaire(bool ready)
     {
-        _questionnaireState.Value = QuestionnaireState.pre;
-        _preSlides[0].GetComponent<PanelDimmer>().Show();
+        if (ready)
+        {
+            _questionnaireState.Value = QuestionnaireState.pre;
+            _preSlides[0].GetComponent<PanelDimmer>().Show();    
+        }
     }
 
     public void NextButton()
