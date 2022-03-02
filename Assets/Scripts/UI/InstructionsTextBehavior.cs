@@ -12,7 +12,7 @@ public class InstructionsTextBehavior : MonoBehaviour
 
     [SerializeField] private GameObject _textGameObject;
 
-    [SerializeField] private UserStateVariable _previousSelfState;
+    [SerializeField] private UserStateVariable _previousOtherState;
     [SerializeField] private QuestionnaireStateVariable _questionnaireState;
 
     private void Awake()
@@ -56,7 +56,7 @@ public class InstructionsTextBehavior : MonoBehaviour
 
     public void OtherStateChanged(UserState newState) 
     {
-        if (_previousSelfState == UserState.readyToStart 
+        if (_previousOtherState == UserState.readyToStart 
             && newState == UserState.headsetOff
             && _questionnaireState.Value != QuestionnaireState.post) //if user removed headset
         {
