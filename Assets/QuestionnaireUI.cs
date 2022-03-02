@@ -13,6 +13,7 @@ public class QuestionnaireUI : MonoBehaviour
 
     [SerializeField] private QuestionnaireStateVariable _questionnaireState;
     [SerializeField] private UserStateVariable _previousSelfState;
+    [SerializeField] private UserStateVariable _previousOtherState;
     
     private List<GameObject> _preSlides;
     private List<GameObject> _postSlides;
@@ -113,7 +114,7 @@ public class QuestionnaireUI : MonoBehaviour
     
     public void OtherStateChanged(UserState newState) 
     {
-        if (_previousSelfState == UserState.readyToStart 
+        if (_previousOtherState == UserState.readyToStart 
             && newState == UserState.headsetOff
             && _showing
             && _questionnaireState == QuestionnaireState.pre) //if user removed headset
