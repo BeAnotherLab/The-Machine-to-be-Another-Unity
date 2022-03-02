@@ -111,6 +111,17 @@ public class QuestionnaireUI : MonoBehaviour
         }
     }
     
+    public void OtherStateChanged(UserState newState) 
+    {
+        if (_previousSelfState == UserState.readyToStart 
+            && newState == UserState.headsetOff
+            && _showing
+            && _questionnaireState == QuestionnaireState.pre) //if user removed headset
+        {
+            Hide();
+        }
+    }
+    
     private void Hide()
     {
         if (_questionnaireState.Value == QuestionnaireState.pre)

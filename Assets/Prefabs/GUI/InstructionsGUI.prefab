@@ -343,6 +343,7 @@ GameObject:
   - component: {fileID: 190893784313348841}
   - component: {fileID: 4827680354946593387}
   - component: {fileID: 1739874153111484410}
+  - component: {fileID: 7590964771721181402}
   m_Layer: 5
   m_Name: InstructionsGUI
   m_TagString: Untagged
@@ -474,6 +475,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _textGameObject: {fileID: 1151431780467876320}
+  _previousSelfState: {fileID: 11400000, guid: 997773218c29c6647a388da294f32dd9, type: 2}
+  _questionnaireState: {fileID: 11400000, guid: 671a5157407b94e2f98351d0cf98db75,
+    type: 2}
 --- !u!114 &1566045890865929545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -614,7 +618,7 @@ MonoBehaviour:
   _enableGizmoDebugging: 1
   _debugColor: {r: 0, g: 1, b: 1, a: 1}
   _previouslyRegisteredEvent: {fileID: 0}
-  _event: {fileID: 11400000, guid: 040d2fbb611914bafa6615edd1a8ceca, type: 2}
+  _event: {fileID: 0}
   _response:
     m_PersistentCalls:
       m_Calls:
@@ -629,6 +633,38 @@ MonoBehaviour:
           m_StringArgument: finished
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7590964771721181402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151431781991381617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbf3049867acf4e98b57a68ca8ffdf10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: fa8ca749ca9ad4876827002f647bcaf6, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7066050772398278399}
+        m_MethodName: OtherStateChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _debugValue: 0
 --- !u!1 &5964181368917102989
 GameObject:
   m_ObjectHideFlags: 0

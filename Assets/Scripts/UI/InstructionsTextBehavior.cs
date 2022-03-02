@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using ScriptableObjectArchitecture;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,10 @@ public class InstructionsTextBehavior : MonoBehaviour
     public static InstructionsTextBehavior instance;
 
     [SerializeField] private GameObject _textGameObject;
-    
+
+    [SerializeField] private UserStateVariable _previousSelfState;
+    [SerializeField] private QuestionnaireStateVariable _questionnaireState;
+
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -50,6 +54,16 @@ public class InstructionsTextBehavior : MonoBehaviour
         StartCoroutine(TimedTextCoroutine(text, time));
     }
 
+    public void OtherStateChanged(UserState newState) 
+    {
+        if (_previousSelfState == UserState.readyToStart 
+            && newState == UserState.headsetOff
+            && _questionnaireState.Value != QuestionnaireState.post) //if user removed headset
+        {
+            ShowInstructionText("It seems like the other user left. Thanks for your participation!", 4);
+        }
+    }
+    
     #endregion
     
     #region Private Methods
