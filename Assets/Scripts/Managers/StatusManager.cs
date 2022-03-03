@@ -192,7 +192,6 @@ public class StatusManager : MonoBehaviour {
         
         AudioManager.instance.StopAudioInstructions();
 
-        InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeInPanel();
         InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeInText();
         InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeOutImages();
         

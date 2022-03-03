@@ -6,15 +6,20 @@ using UnityEngine.UI;
 public class FadeController : MonoBehaviour
 {
     #region Public Fields
-    public GameObject image1, image2, panel, text;
+    public GameObject image1, image2, text;
     #endregion
 
     #region MonoBehaviour Methods
+    //show text from key welcome
+    
+    
+    //ShowInstructionsText()
+    //fade in images
     
     #endregion
 
     #region Public Methods
-    public void FadeInImages(){
+    public void FadeInImages(){ //used
         FadeLT(true,image1);
         FadeLT(true,image2);
     }
@@ -25,40 +30,18 @@ public class FadeController : MonoBehaviour
         FadeLT(false,image2);
     }
 
-    public void FadeInPanel()
-    {
-        FadeLT(true,panel);
-    }
-
-    public void FadeOutPanel()
-    {
-        FadeLT(false,panel);
-    }
-
     public void FadeInText()
     {
         FadeLT(true,text);
     }
 
-    public void FadeOutText()
-    {
-        FadeLT(false,text);
-    }
-    public void FadeOutAll()
+    public void FadeOutAll() //used
     {
         FadeLT(false,image1);
         FadeLT(false,image2);
-        FadeLT(false,panel);
         FadeLT(false,text);
     }
 
-    public void FadeInAll()
-    {
-        FadeLT(true,image1);
-        FadeLT(true,image2);
-        FadeLT(true,panel);
-        FadeLT(true,text);
-    }
     #endregion
 
     #region Private Fields
