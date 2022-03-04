@@ -59,7 +59,8 @@ public class LocalizationManager : MonoBehaviour {
             Debug.Log ("Data loaded, dictionary contains: " + localizedText.Count + " entries");
             InstructionsTextBehavior.instance.ShowTextFromKey("idle");
             //activate/deactivate clip tracks depending on if leader or follower
-            StatusManager.instance.SwitchLanguageTrack(fileName);
+            StatusManager.instance.SwitchLanguageTrack(fileName); 
+            
         } 
         else 
         {
