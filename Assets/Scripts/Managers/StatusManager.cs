@@ -41,6 +41,7 @@ public class StatusManager : MonoBehaviour {
     [SerializeField] private GameObject _languageButtons;
 
     [SerializeField] private GameEvent _standbyGameEvent;
+    [SerializeField] private GameEvent _InstructionsStartedGameEvent;
     [SerializeField] private BoolGameEvent _experienceFinishedGameEvent;
     
     [SerializeField] private QuestionnaireStateVariable _questionnaireState;
@@ -101,7 +102,7 @@ public class StatusManager : MonoBehaviour {
 
     #region Public Methods
 
-    public void StartExperience()
+    public void StartExperience() //TODO remove?
     {
         InstructionsTextBehavior.instance.ShowInstructionText(false);
         if (_dimOutOnExperienceStart) VideoFeed.instance.Dim(false);
@@ -196,7 +197,7 @@ public class StatusManager : MonoBehaviour {
         InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeOutImages();
         
         //reset user status as it is not ready
-        EnableConfirmationGUI(true);
+        //EnableConfirmationGUI(true);
         _languageButtons.gameObject.SetActive(true); //show language buttons;
 
         if (_readyForStandby) //TODO is check necessary? 
@@ -294,7 +295,7 @@ public class StatusManager : MonoBehaviour {
 
     #region Private Methods
 
-    private void EnableConfirmationGUI(bool enable)
+    /*private void EnableConfirmationGUI(bool enable)
     {
         if (enable)
             _mainCamera.GetComponent<Reticle>().Show();
@@ -303,7 +304,7 @@ public class StatusManager : MonoBehaviour {
             _mainCamera.GetComponent<Reticle>().Hide();
             _mainCamera.GetComponent<CustomSelectionRadial>().Hide();
         }
-    }
+    }*/
 
     private void StartPlaying()
     {
@@ -311,6 +312,7 @@ public class StatusManager : MonoBehaviour {
         {
             OpenCurtainCanvasController.instance.Show("Close Curtain");
             instructionsTimeline.Play();
+            _InstructionsStartedGameEvent.Raise();
             _experienceRunning = true;
         }
     }
