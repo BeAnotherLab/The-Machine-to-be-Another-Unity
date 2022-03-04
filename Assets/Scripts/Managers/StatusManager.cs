@@ -285,7 +285,7 @@ public class StatusManager : MonoBehaviour {
     public void OnBothQuestionnaireFinished(QuestionnaireState state)
     {
         if (state == QuestionnaireState.pre) StartPlaying();
-        else if (state == QuestionnaireState.post) Standby();
+        else if (state == QuestionnaireState.post) StartCoroutine(WaitBeforeResetting()); 
     }
     
     #endregion

@@ -342,10 +342,9 @@ GameObject:
   - component: {fileID: 2938383240046207346}
   - component: {fileID: 190893784313348841}
   - component: {fileID: 4827680354946593387}
-  - component: {fileID: 1739874153111484410}
   - component: {fileID: 7590964771721181402}
   - component: {fileID: 7092866864339033868}
-  - component: {fileID: 5387701413015444863}
+  - component: {fileID: 4220726890313239537}
   m_Layer: 5
   m_Name: InstructionsGUI
   m_TagString: Untagged
@@ -604,37 +603,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _debugValue: 0
---- !u!114 &1739874153111484410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1151431781991381617}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _showDebugFields: 0
-  _enableGizmoDebugging: 1
-  _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 0}
-  _event: {fileID: 0}
-  _response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7066050772398278399}
-        m_MethodName: ShowTextFromKey
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: finished
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &7590964771721181402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -699,7 +667,7 @@ MonoBehaviour:
           m_StringArgument: waitForOther
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5387701413015444863
+--- !u!114 &4220726890313239537
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -708,29 +676,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 1151431781991381617}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c22b339c4f3bb44668c6dbb480b8ceb1, type: 3}
+  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _showDebugFields: 0
   _enableGizmoDebugging: 1
   _debugColor: {r: 0, g: 1, b: 1, a: 1}
   _previouslyRegisteredEvent: {fileID: 0}
-  _event: {fileID: 11400000, guid: 983a4221b3625464287a438b43966de8, type: 2}
+  _event: {fileID: 11400000, guid: 0514a825f0c5e4091ae80dfabb025a13, type: 2}
   _response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6523215894707387184}
-        m_MethodName: Hide
-        m_Mode: 1
+      - m_Target: {fileID: 7066050772398278399}
+        m_MethodName: ShowTextFromKey
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: finished
           m_BoolArgument: 0
         m_CallState: 2
-  _debugValue: 0
 --- !u!1 &5964181368917102989
 GameObject:
   m_ObjectHideFlags: 0
