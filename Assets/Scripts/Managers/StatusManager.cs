@@ -41,13 +41,17 @@ public class StatusManager : MonoBehaviour {
     [SerializeField] private GameObject _languageButtons;
 
     [SerializeField] private GameEvent _standbyGameEvent;
-    [SerializeField] private GameEvent _experienceFinishedGameEvent;
+    [SerializeField] private GameEvent _InstructionsStartedGameEvent;
+    [SerializeField] private BoolGameEvent _experienceFinishedGameEvent;
     
+    [SerializeField] private QuestionnaireStateVariable _questionnaireState;
+
     private GameObject _mainCamera;
     private bool _readyForStandby; //when we use serial, only go to standby if Arduino is ready.
     private GameObject _confirmationMenu;
     private bool _experienceRunning;
     private bool _dimOutOnExperienceStart;
+    private bool _showQuestionnaireThisRound;
     
     #endregion
 
@@ -98,7 +102,7 @@ public class StatusManager : MonoBehaviour {
 
     #region Public Methods
 
-    public void StartExperience()
+    public void StartExperience() //TODO remove?
     {
         InstructionsTextBehavior.instance.ShowInstructionText(false);
         if (_dimOutOnExperienceStart) VideoFeed.instance.Dim(false);
@@ -166,14 +170,14 @@ public class StatusManager : MonoBehaviour {
         //if experience started
         if (previousOtherState.Value == UserState.readyToStart)
         {
-            if (_experienceRunning)
+            //only reset on other left if experience running, post finished, or doing pre questionnaire
+            if (_experienceRunning || _questionnaireState.Value != QuestionnaireState.post) 
             {
-                
+                instructionsTimeline.Stop();
+                _experienceRunning = false;    
+                StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
+                selfState.Value = UserState.headsetOn;    
             }
-            instructionsTimeline.Stop();
-            _experienceRunning = false;    
-            StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
-            selfState.Value = UserState.headsetOn;
         }
         Debug.Log("the other user removed the headset", DLogType.Input);
     }
@@ -185,15 +189,15 @@ public class StatusManager : MonoBehaviour {
 
         instructionsTimeline.Stop();
         _experienceRunning = false;
+        _showQuestionnaireThisRound = false;
         
         AudioManager.instance.StopAudioInstructions();
 
-        InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeInPanel();
         InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeInText();
         InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeOutImages();
         
         //reset user status as it is not ready
-        EnableConfirmationGUI(true);
+        //EnableConfirmationGUI(true);
         _languageButtons.gameObject.SetActive(true); //show language buttons;
 
         if (_readyForStandby) //TODO is check necessary? 
@@ -241,7 +245,8 @@ public class StatusManager : MonoBehaviour {
     public void SelfRemovedHeadset()
     {
         _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
-        if (previousSelfState.Value == UserState.readyToStart) {
+        if (previousSelfState.Value == UserState.readyToStart 
+            && _questionnaireState.Value != QuestionnaireState.post) { //reset unless doing post questionnaire
             Standby(false, _dimOutOnExperienceStart); //if we were ready and we took off the headset go to initial state
         }
         
@@ -273,15 +278,24 @@ public class StatusManager : MonoBehaviour {
     
     public void OnBothConsentsGiven(bool bothGiven)
     {
+        _showQuestionnaireThisRound = bothGiven;
         if(!bothGiven) StartPlaying();
+    }
+
+    public void OnBothQuestionnaireFinished(QuestionnaireState state)
+    {
+        if (state == QuestionnaireState.pre) StartPlaying();
+        else if (state == QuestionnaireState.post) StartCoroutine(WaitBeforeResetting()); 
     }
     
     #endregion
 
+    //pre questionnarie is cancelled if either self or other removes headset
+    //Let self post questionnaire finish
 
     #region Private Methods
 
-    private void EnableConfirmationGUI(bool enable)
+    /*private void EnableConfirmationGUI(bool enable)
     {
         if (enable)
             _mainCamera.GetComponent<Reticle>().Show();
@@ -290,7 +304,7 @@ public class StatusManager : MonoBehaviour {
             _mainCamera.GetComponent<Reticle>().Hide();
             _mainCamera.GetComponent<CustomSelectionRadial>().Hide();
         }
-    }
+    }*/
 
     private void StartPlaying()
     {
@@ -298,6 +312,7 @@ public class StatusManager : MonoBehaviour {
         {
             OpenCurtainCanvasController.instance.Show("Close Curtain");
             instructionsTimeline.Play();
+            _InstructionsStartedGameEvent.Raise();
             _experienceRunning = true;
         }
     }
@@ -305,11 +320,11 @@ public class StatusManager : MonoBehaviour {
     private void IsOver() //called at the the end of the experience
     {
         VideoFeed.instance.Dim(true);
-        InstructionsTextBehavior.instance.ShowTextFromKey("finished");
+        //InstructionsTextBehavior.instance.ShowTextFromKey("finished");
         instructionsTimeline.Stop();
 		Debug.Log("experience finished");
         _experienceRunning = false;
-        _experienceFinishedGameEvent.Raise();
+        _experienceFinishedGameEvent.Raise(_showQuestionnaireThisRound);
     }
 
     private IEnumerator WaitBeforeResetting()

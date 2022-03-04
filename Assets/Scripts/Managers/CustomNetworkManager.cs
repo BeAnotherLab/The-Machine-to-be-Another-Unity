@@ -14,12 +14,18 @@ namespace Mirror.Examples.Pong
     public class CustomNetworkManager : NetworkManager
     {
         public static CustomNetworkManager instance;
-        [SerializeField] private  BoolGameEvent bothConsentGiven;
             
         public bool offlineMode;
         
+        //Data collection consent values and events 
+        [SerializeField] private  BoolGameEvent bothConsentGiven;
         private int _consentCount; //how many times consent answers were given
         [SerializeField] private IntVariable _consentsGiven; //how many positive answers were given
+
+        //Pre/Post questionnaires end events 
+        [SerializeField] private QuestionnaireStateGameEvent _bothQuestionnairesFinishedRpcEvent;
+        private int _questionnairesPreFinishedCount;
+        private int _questionnairesPostFinishedCount;
         
         private void Awake()
         {
@@ -40,9 +46,11 @@ namespace Mirror.Examples.Pong
 
         public void OnStandby()
         {
-           if (_consentsGiven.Value > 0) _consentsGiven.Value = 0;
-           if (_consentCount > 0) _consentCount = 0;
-           Debug.Log("resetting consent counts");
+            //Reset consent and questionnaire count values   
+            if (_consentsGiven.Value > 0) _consentsGiven.Value = 0;
+            if (_consentCount > 0) _consentCount = 0;
+            _questionnairesPreFinishedCount = 0;
+            _questionnairesPostFinishedCount = 0;
         }
         
         public override void OnServerAddPlayer(NetworkConnection conn)
@@ -79,7 +87,26 @@ namespace Mirror.Examples.Pong
                 }
             }
         }
-        
+
+        public void QuestionnaireFinished(QuestionnaireState state)
+        {
+            if (state == QuestionnaireState.pre)
+            {
+                _questionnairesPreFinishedCount++;
+                if (_questionnairesPreFinishedCount == 2)
+                {
+                    _bothQuestionnairesFinishedRpcEvent.Raise(QuestionnaireState.pre);
+                }
+            }
+            else if (state == QuestionnaireState.post)
+            {
+                _questionnairesPostFinishedCount++;
+                if (_questionnairesPostFinishedCount == 2)
+                {
+                    _bothQuestionnairesFinishedRpcEvent.Raise(QuestionnaireState.post);
+                }
+            }
+        }
         
         private IEnumerator TryConnect()
         {

@@ -28,22 +28,15 @@ namespace VRStandardAssets.Menu
             {
                 GetComponent<MeshRenderer>().enabled = false;
                 GetComponent<MeshCollider>().enabled = false;    
-            } else if (selfUserState == UserState.headsetOff)
-            {
-                GetComponent<MeshRenderer>().enabled = true;
-                GetComponent<MeshCollider>().enabled = true;
-            }
-            }
-        
-        public void OtherUserStateChanged(UserState otherUserState)
-        {
-            if (otherUserState == UserState.headsetOff)
-            {
-                GetComponent<MeshRenderer>().enabled = true;
-                GetComponent<MeshCollider>().enabled = true;
             }
         }
-        
+
+        public void OnStandby()
+        {
+            GetComponent<MeshRenderer>().enabled = true;
+            GetComponent<MeshCollider>().enabled = true;
+        }
+         
         private void Awake()
         {
             if (instance == null) instance = this;
