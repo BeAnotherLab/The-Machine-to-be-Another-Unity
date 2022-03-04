@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using VRStandardAssets.Utils;
 using UnityEngine.XR;
-
+using ScriptableObjectArchitecture;
 namespace VRStandardAssets.Menu
 {
     // This script is for loading scenes from the main menu.
@@ -18,6 +18,10 @@ namespace VRStandardAssets.Menu
         
         [SerializeField] private CustomSelectionRadial m_SelectionRadial;         // This controls when the selection is complete.
         [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
+
+        [SerializeField] private StringGameEvent _languageChangeEvent;
+
+        [SerializeField] private string _language;
 
         private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
 
@@ -58,7 +62,12 @@ namespace VRStandardAssets.Menu
 
         private void HandleSelectionComplete()
         {
-            if (m_GazeOver) LocalizationManager.instance.LoadLocalizedText(_action);
+            if (m_GazeOver)
+            {
+                LocalizationManager.instance.LoadLocalizedText(_action);
+
+                _languageChangeEvent.Raise(_language);
+            }
             HandleOut();            
         }
 

@@ -17,25 +17,41 @@ public class EmbodimentQuestionnaire : MonoBehaviour
     
     private int currentQuestion;
     
-    private void Start() 
+    private void Start()
+    {       
+
+        
+    }
+
+    public void SelectLanguage(string language)
     {
-        try { 
+        LoadFile(language);
+    }
+
+    private void LoadFile(string language)
+    {
+        try
+        {
             string line;
-            StreamReader csvFileReader = new StreamReader("./Lists/questionnaire.csv", Encoding.Default);
-            using (csvFileReader) {
+            StreamReader csvFileReader = new StreamReader("./Lists/questionnaire" + language + ".csv", Encoding.Default);
+            using (csvFileReader)
+            {
                 line = csvFileReader.ReadLine();
-                if (line != null) {
-                    do { // While there's lines left in the text file, do this:
+                if (line != null)
+                {
+                    do
+                    { // While there's lines left in the text file, do this:
                         string[] entries = line.Split('\t');
-                        if (entries.Length > 0) questionnaireInput.Add (entries[0]);
+                        if (entries.Length > 0) questionnaireInput.Add(entries[0]);
                         line = csvFileReader.ReadLine();
                     }
                     while (line != null);
-                } 
+                }
                 csvFileReader.Close(); // Done reading, close the reader and return true to broadcast success
             }
         }
-        catch (System.Exception e) {
+        catch (System.Exception e)
+        {
             Debug.Log("{0}\n" + e.Message);
         }
 
@@ -56,7 +72,7 @@ public class EmbodimentQuestionnaire : MonoBehaviour
         {
             _questionText.text = questionnaireInput[currentQuestion];
         }
-        else
+        else//I think this does not restart the questionnaire index to 0!
         {
             _questionnaireNextEvent.Raise();
         }
