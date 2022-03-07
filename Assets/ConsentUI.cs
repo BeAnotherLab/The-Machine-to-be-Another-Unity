@@ -40,7 +40,7 @@ public class ConsentUI : MonoBehaviour
     
     public void ConsentButtonPressed()
     {
-        _text.gameObject.GetComponent<LeanLocalizedText>().TranslationName = "wait";
+        _text.gameObject.GetComponent<LeanLocalizedText>().TranslationName = "waitForOther";
     }
     
     private void Show(bool show)
