@@ -76,7 +76,7 @@ public class StatusManager : MonoBehaviour {
     private void Start()
     {
         if (SwapModeManager.instance.ArduinoControl)
-            _setInstructionsTextGameEvent.Raise("Waiting for serial...");
+            _setInstructionsTextGameEvent.Raise("serial");
         else
             _readyForStandby = true; //if we're not using the serial control, we don't have to wait for the arduino
 
@@ -165,7 +165,7 @@ public class StatusManager : MonoBehaviour {
 
     public void SelfPutHeadsetOn()
     {
-        _setInstructionsTextGameEvent.Raise("Move the headset up and down until you can see this text clearly. \n When you are ready, look at the button below to begin.");
+        _setInstructionsTextGameEvent.Raise("idle");
         OscManager.instance.SendThisUserStatus(UserState.headsetOn);
         Debug.Log("this user put on the headset", DLogType.Input);
     }
@@ -195,7 +195,7 @@ public class StatusManager : MonoBehaviour {
     public void Standby(bool start = false, bool dimOutOnExperienceStart = true)
     {
         if (!start) VideoFeed.instance.Dim(true); //TODO somehow this messes with Video Feed dimming when called on Start?
-            _setInstructionsTextGameEvent.Raise("Move the headset up and down until you can see this text clearly. \n When you are ready, look at the button below to begin.");
+            _setInstructionsTextGameEvent.Raise("idle");
 
         instructionsTimeline.Stop();
         _experienceRunning = false;
@@ -233,7 +233,7 @@ public class StatusManager : MonoBehaviour {
         VideoFeed.instance.Dim(true);
         OscManager.instance.SendSerialStatus(false);
         AudioManager.instance.StopAudioInstructions();    
-        _setInstructionsTextGameEvent.Raise("oops! There was an error with the system. Please come back later.");
+        _setInstructionsTextGameEvent.Raise("systemFailure");
         instructionsTimeline.Stop();
         _experienceRunning = false;
         Destroy(gameObject);
@@ -247,7 +247,7 @@ public class StatusManager : MonoBehaviour {
             ArduinoManager.instance.InitialPositions();
         }
         
-        _setInstructionsTextGameEvent.Raise("Move the headset up and down until you can see this text clearly. \n When you are ready, look at the button below to begin.");
+        _setInstructionsTextGameEvent.Raise("idle");
         _readyForStandby = true;
         Debug.Log("serial ready", DLogType.System);
     }    

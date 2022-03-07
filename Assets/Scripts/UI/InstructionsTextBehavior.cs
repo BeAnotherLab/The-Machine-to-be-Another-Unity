@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Lean.Localization;
 using ScriptableObjectArchitecture;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,7 +25,8 @@ public class InstructionsTextBehavior : MonoBehaviour
     
     public void ExperienceFinished(bool showQuestionnaire)
     {
-        if (!showQuestionnaire) ShowinstructionsText("We hope you enjoyed your experience. \n Thank you!");
+        if (!showQuestionnaire)
+            _textGameObject.GetComponent<LeanLocalizedText>().TranslationName = "finished";
     }
 
     public void ShowInstructionText(bool show, string text = "")
@@ -37,7 +39,18 @@ public class InstructionsTextBehavior : MonoBehaviour
     {
         _textGameObject.GetComponent<Text>().text = text; //give feedback
     }
-    
+
+    public void ShowTextFromKey(string key)
+    {
+        GetComponent<PanelDimmer>().Show();
+        _textGameObject.GetComponent<LeanLocalizedText>().TranslationName = key;
+    }
+ 
+    public void ShowTextFromKey(string key, int time)
+    {
+        //StartCoroutine(TimedTextKeyCoroutine(key, time));
+    }
+
     public void ShowInstructionText(string text, int time)
     {
         StartCoroutine(TimedTextCoroutine(text, time));
