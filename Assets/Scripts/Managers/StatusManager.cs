@@ -44,7 +44,8 @@ public class StatusManager : MonoBehaviour {
     [SerializeField] private GameEvent _standbyGameEvent;
     [SerializeField] private GameEvent _InstructionsStartedGameEvent;
     [SerializeField] private BoolGameEvent _experienceFinishedGameEvent;
-    
+
+    [SerializeField] private StringGameEvent _setInstructionsTextGameEvent;
     [SerializeField] private QuestionnaireStateVariable _questionnaireState;
 
     [SerializeField] private TrackAsset _germanTrack;
@@ -75,7 +76,7 @@ public class StatusManager : MonoBehaviour {
     private void Start()
     {
         if (SwapModeManager.instance.ArduinoControl)
-            InstructionsTextBehavior.instance.ShowTextFromKey("waitingForSerial");
+            _setInstructionsTextGameEvent.Raise("Waiting for serial...");
         else
             _readyForStandby = true; //if we're not using the serial control, we don't have to wait for the arduino
 
@@ -106,6 +107,11 @@ public class StatusManager : MonoBehaviour {
 
     #region Public Methods
 
+    public void SwitchLanguage(string language)
+    {
+        //StatusManager.instance.SwitchLanguageTrack(fileName);
+    }
+    
     public void StartExperience() //TODO remove?
     {
         InstructionsTextBehavior.instance.ShowInstructionText(false);
@@ -159,7 +165,7 @@ public class StatusManager : MonoBehaviour {
 
     public void SelfPutHeadsetOn()
     {
-        InstructionsTextBehavior.instance.ShowTextFromKey("idle");
+        _setInstructionsTextGameEvent.Raise("Move the headset up and down until you can see this text clearly. \n When you are ready, look at the button below to begin.");
         OscManager.instance.SendThisUserStatus(UserState.headsetOn);
         Debug.Log("this user put on the headset", DLogType.Input);
     }
@@ -189,7 +195,7 @@ public class StatusManager : MonoBehaviour {
     public void Standby(bool start = false, bool dimOutOnExperienceStart = true)
     {
         if (!start) VideoFeed.instance.Dim(true); //TODO somehow this messes with Video Feed dimming when called on Start?
-            InstructionsTextBehavior.instance.ShowTextFromKey("idle");
+            _setInstructionsTextGameEvent.Raise("Move the headset up and down until you can see this text clearly. \n When you are ready, look at the button below to begin.");
 
         instructionsTimeline.Stop();
         _experienceRunning = false;
@@ -227,7 +233,7 @@ public class StatusManager : MonoBehaviour {
         VideoFeed.instance.Dim(true);
         OscManager.instance.SendSerialStatus(false);
         AudioManager.instance.StopAudioInstructions();    
-        InstructionsTextBehavior.instance.ShowTextFromKey("systemFailure");
+        _setInstructionsTextGameEvent.Raise("oops! There was an error with the system. Please come back later.");
         instructionsTimeline.Stop();
         _experienceRunning = false;
         Destroy(gameObject);
@@ -241,7 +247,7 @@ public class StatusManager : MonoBehaviour {
             ArduinoManager.instance.InitialPositions();
         }
         
-        InstructionsTextBehavior.instance.ShowTextFromKey("idle");
+        _setInstructionsTextGameEvent.Raise("Move the headset up and down until you can see this text clearly. \n When you are ready, look at the button below to begin.");
         _readyForStandby = true;
         Debug.Log("serial ready", DLogType.System);
     }    

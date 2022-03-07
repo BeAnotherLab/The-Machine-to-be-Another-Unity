@@ -159,7 +159,8 @@ public class OscManager : MonoBehaviour {
     {
         string value;
         if(message.ToString(out value))
-            LocalizationManager.instance.LoadLocalizedText(value);
+            //TODO remove
+            //LocalizationManager.instance.LoadLocalizedText(value);
         Debug.Log("received language change : " + value, DLogType.Network);
     }
     

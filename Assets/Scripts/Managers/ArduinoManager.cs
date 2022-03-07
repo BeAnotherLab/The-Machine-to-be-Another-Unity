@@ -160,8 +160,6 @@ public class ArduinoManager : MonoBehaviour
             OscManager.instance.SendSerialStatus(true);
             Debug.Log("homing done, ready to start");            
         }
-
-        else if (data.Contains("lng")) LocalizationManager.instance.LoadLocalizedText(data + ".json", true);
     }    
     
     private void WriteToArduino(string message) //send a command, trigger timeout routine

@@ -24,20 +24,9 @@ public class InstructionsTextBehavior : MonoBehaviour
     
     public void ExperienceFinished(bool showQuestionnaire)
     {
-        if(!showQuestionnaire) ShowTextFromKey("finished");
-    }
-    
-    public void ShowTextFromKey(string key)
-    {
-        GetComponent<PanelDimmer>().Show();
-        _textGameObject.GetComponent<LocalizedText>().SetTextFromKey(key);
+        if (!showQuestionnaire) ShowinstructionsText("We hope you enjoyed your experience. \n Thank you!");
     }
 
-    public void ShowTextFromKey(string key, int time)
-    {
-        StartCoroutine(TimedTextKeyCoroutine(key, time));
-    }
-    
     public void ShowInstructionText(bool show, string text = "")
     {
         GetComponent<PanelDimmer>().Show(show);
@@ -73,13 +62,6 @@ public class InstructionsTextBehavior : MonoBehaviour
         ShowInstructionText(true, text);
         yield return new WaitForSeconds(time);
         ShowInstructionText(false);       
-    }
-
-    private IEnumerator TimedTextKeyCoroutine(string key, int time)
-    {
-        ShowTextFromKey(key);
-        yield return new WaitForSeconds(time);
-        ShowInstructionText(false);
     }
     
     #endregion

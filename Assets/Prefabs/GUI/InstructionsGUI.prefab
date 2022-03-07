@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 1151431780467876321}
   - component: {fileID: 1151431780467876323}
   - component: {fileID: 1151431780467876322}
-  - component: {fileID: 992126136615257704}
+  - component: {fileID: 2461649783027329243}
   m_Layer: 5
   m_Name: InstructionsText
   m_TagString: Untagged
@@ -236,7 +236,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "Bitte bleiben sie w\xE4hrend der ganzen Zeit sitzen"
---- !u!114 &992126136615257704
+--- !u!114 &2461649783027329243
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -245,9 +245,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1151431780467876320}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cc31ddc3484afe4bb29b919756fbe8f, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ee4021ce59f313499a5cab041f02aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  translationName: idle
+  FallbackText: "Bitte bleiben sie w\xE4hrend der ganzen Zeit sitzen"
 --- !u!1 &1151431780516818683
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,7 +684,8 @@ MonoBehaviour:
   _showDebugFields: 0
   _enableGizmoDebugging: 1
   _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 0}
+  _previouslyRegisteredEvent: {fileID: 11400000, guid: 0514a825f0c5e4091ae80dfabb025a13,
+    type: 2}
   _event: {fileID: 11400000, guid: 0514a825f0c5e4091ae80dfabb025a13, type: 2}
   _response:
     m_PersistentCalls:

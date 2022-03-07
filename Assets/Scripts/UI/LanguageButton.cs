@@ -14,7 +14,6 @@ namespace VRStandardAssets.Menu
     {
         [SerializeField] private Vector3 _scaleOut;
         [SerializeField] private Vector3 _scaleOn;
-        [SerializeField] private string _action;
         
         [SerializeField] private CustomSelectionRadial m_SelectionRadial;         // This controls when the selection is complete.
         [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
@@ -64,8 +63,6 @@ namespace VRStandardAssets.Menu
         {
             if (m_GazeOver)
             {
-                LocalizationManager.instance.LoadLocalizedText(_action);
-
                 _languageChangeEvent.Raise(_language);
             }
             HandleOut();            
