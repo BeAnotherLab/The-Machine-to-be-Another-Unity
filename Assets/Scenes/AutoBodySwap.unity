@@ -653,80 +653,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &351328135
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 351328136}
-  m_Layer: 0
-  m_Name: Managers
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &351328136
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 351328135}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 3197596539289527783}
-  - {fileID: 7382287860123986497}
-  - {fileID: 1166231239}
-  - {fileID: 1904558665}
-  - {fileID: 441840164}
-  - {fileID: 751770290}
-  - {fileID: 964326645}
-  - {fileID: 274504675}
-  - {fileID: 68608635}
-  - {fileID: 148720683}
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &420288763
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 420288764}
-  m_Layer: 0
-  m_Name: TextPanel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &420288764
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 420288763}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 900265198}
-  - {fileID: 1692602109}
-  - {fileID: 987865619039124896}
-  m_Father: {fileID: 939120509}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &420296369
+--- !u!21 &339931028
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -736,7 +663,7 @@ Material:
   m_Name: UI_imageMaterial (Instance) (Instance) (Instance) (Instance) (Instance)
     (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
     (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance)
+    (Instance) (Instance) (Instance)
   m_Shader: {fileID: 10760, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
@@ -811,6 +738,79 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1.1233778}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+--- !u!1 &351328135
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 351328136}
+  m_Layer: 0
+  m_Name: Managers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &351328136
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351328135}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3197596539289527783}
+  - {fileID: 7382287860123986497}
+  - {fileID: 1166231239}
+  - {fileID: 1904558665}
+  - {fileID: 441840164}
+  - {fileID: 751770290}
+  - {fileID: 964326645}
+  - {fileID: 274504675}
+  - {fileID: 68608635}
+  - {fileID: 148720683}
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &420288763
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 420288764}
+  m_Layer: 0
+  m_Name: TextPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &420288764
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420288763}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 900265198}
+  - {fileID: 1692602109}
+  - {fileID: 987865619039124896}
+  m_Father: {fileID: 939120509}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &441840163
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -974,7 +974,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22400762, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000022888184
+      value: 0.000045776367
       objectReference: {fileID: 0}
     - target: {fileID: 22426080, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2436,91 +2436,6 @@ MonoBehaviour:
   _videoPlaybackMeshRenderer: {fileID: 1786390007}
   _editing: 0
   _tiltAngle: 0
---- !u!21 &1185801330
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI_imageMaterial (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance)
-  m_Shader: {fileID: 10760, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _BumpScale: 1
-    - _ColorMask: 15
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _Parallax: 0.02
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UVSec: 0
-    - _UseUIAlphaClip: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1.1233778}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &1343594079
 GameObject:
   m_ObjectHideFlags: 0
@@ -2819,6 +2734,91 @@ Transform:
   m_Father: {fileID: 999283215}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &1465032502
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI_imageMaterial (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance)
+  m_Shader: {fileID: 10760, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _ColorMask: 15
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UVSec: 0
+    - _UseUIAlphaClip: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1.1233778}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &1498298560
 GameObject:
   m_ObjectHideFlags: 0
@@ -3473,7 +3473,7 @@ PrefabInstance:
     - target: {fileID: 13733962497666089, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: other
+      value: andere
       objectReference: {fileID: 0}
     - target: {fileID: 75393789619928053, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -3520,12 +3520,19 @@ PrefabInstance:
     - target: {fileID: 214027919914185607, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: other
+      value: andere
+      objectReference: {fileID: 0}
+    - target: {fileID: 308778737869139549, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: "Mit ausgepr\xE4gten K\xF6rpergrenzen f\xFChlt sich unser K\xF6rper deutlich
+        von anderen und der Umwelt abgesetzt. Durch unmerkliche K\xF6rpergrenzen f\xFChlen
+        wir uns stark mit anderen und der Umgebung verbunden."
       objectReference: {fileID: 0}
     - target: {fileID: 318745636833675356, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: self
+      value: selbst
       objectReference: {fileID: 0}
     - target: {fileID: 375724983450476086, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -3541,7 +3548,7 @@ PrefabInstance:
     - target: {fileID: 675108463672871141, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: self
+      value: selbst
       objectReference: {fileID: 0}
     - target: {fileID: 728066997537975852, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -3563,7 +3570,7 @@ PrefabInstance:
     - target: {fileID: 833849506955751130, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: self
+      value: selbst
       objectReference: {fileID: 0}
     - target: {fileID: 907571532042173915, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -3574,7 +3581,7 @@ PrefabInstance:
     - target: {fileID: 1049499948811828385, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: self
+      value: selbst
       objectReference: {fileID: 0}
     - target: {fileID: 1083424158649077869, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -3591,15 +3598,25 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1083424158960457553, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: "\xFCberhaupt nicht (wir sind uns noch nie begegnet)"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1083424159041191401, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: sehr viel
+      objectReference: {fileID: 0}
     - target: {fileID: 1089218671688293004, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: Next
+      value: Weiter
       objectReference: {fileID: 0}
     - target: {fileID: 1125326542694026700, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: self
+      value: selbst
       objectReference: {fileID: 0}
     - target: {fileID: 1131013188234397521, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -3610,22 +3627,27 @@ PrefabInstance:
     - target: {fileID: 1154170647622313288, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: other
+      value: andere
       objectReference: {fileID: 0}
     - target: {fileID: 1199168064143208727, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: self
+      value: selbst
       objectReference: {fileID: 0}
     - target: {fileID: 1218501122670616032, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: Next
+      value: Weiter
       objectReference: {fileID: 0}
     - target: {fileID: 1333052643858119900, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_BlocksRaycasts
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1654532147923447213, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: weiblich
       objectReference: {fileID: 0}
     - target: {fileID: 1659210511681862788, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -3713,7 +3735,14 @@ PrefabInstance:
     - target: {fileID: 1887999449124850905, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: other
+      value: andere
+      objectReference: {fileID: 0}
+    - target: {fileID: 1890414144661192092, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: "Mit ausgepr\xE4gten K\xF6rpergrenzen f\xFChlt sich unser K\xF6rper deutlich
+        von anderen und der Umwelt abgesetzt. Durch unmerkliche K\xF6rpergrenzen f\xFChlen
+        wir uns stark mit anderen und der Umgebung verbunden."
       objectReference: {fileID: 0}
     - target: {fileID: 1964641357784632823, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -3784,7 +3813,7 @@ PrefabInstance:
     - target: {fileID: 2242832944634436445, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: other
+      value: andere
       objectReference: {fileID: 0}
     - target: {fileID: 2267244915985189996, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -3825,7 +3854,7 @@ PrefabInstance:
     - target: {fileID: 2523209134475694167, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: other
+      value: andere
       objectReference: {fileID: 0}
     - target: {fileID: 2548078495480917962, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -3872,7 +3901,7 @@ PrefabInstance:
     - target: {fileID: 2744834598120916947, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: other
+      value: andere
       objectReference: {fileID: 0}
     - target: {fileID: 2799495417891563579, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -3892,12 +3921,12 @@ PrefabInstance:
     - target: {fileID: 2799495419609056703, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: very much
+      value: sehr viel
       objectReference: {fileID: 0}
     - target: {fileID: 2799495419798908679, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: not at all
+      value: gar nicht
       objectReference: {fileID: 0}
     - target: {fileID: 2834379280832980167, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -3919,20 +3948,30 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2845842739947916816, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: "Meine K\xF6rpergrenzen sind kaum wahrnehmbar"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845842740102276264, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: "Meine K\xF6rpergrenzen sind extrem ausgepr\xE4gt"
+      objectReference: {fileID: 0}
     - target: {fileID: 2968936751923231174, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: other
+      value: andere
       objectReference: {fileID: 0}
     - target: {fileID: 2996007729655852441, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: self
+      value: selbst
       objectReference: {fileID: 0}
     - target: {fileID: 3017205559703880046, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: Next
+      value: Weiter
       objectReference: {fileID: 0}
     - target: {fileID: 3199662320972330854, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4008,7 +4047,7 @@ PrefabInstance:
     - target: {fileID: 3488547784370246763, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: self
+      value: selbst
       objectReference: {fileID: 0}
     - target: {fileID: 3534162735184387251, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4019,13 +4058,13 @@ PrefabInstance:
     - target: {fileID: 3649557944505397844, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: self
+      value: selbst
       objectReference: {fileID: 0}
     - target: {fileID: 3716077864514579353, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: "Do you feel that your relationship with the other person changed after
-        this experience?\r\n"
+      value: "Haben Sie das Gef\xFChl, dass sich Ihre Beziehung zu der anderen Person
+        nach dieser Erfahrung ver\xE4ndert hat?"
       objectReference: {fileID: 0}
     - target: {fileID: 3716077866078154762, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4041,7 +4080,7 @@ PrefabInstance:
     - target: {fileID: 3776080315595746854, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: Next
+      value: Weiter
       objectReference: {fileID: 0}
     - target: {fileID: 3792069745536350410, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4072,7 +4111,7 @@ PrefabInstance:
     - target: {fileID: 3939047339474358594, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: self
+      value: selbst
       objectReference: {fileID: 0}
     - target: {fileID: 3977079382019183996, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4083,12 +4122,22 @@ PrefabInstance:
     - target: {fileID: 4010220777066569775, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: self
+      value: selbst
       objectReference: {fileID: 0}
     - target: {fileID: 4109379489170043047, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: other
+      value: andere
+      objectReference: {fileID: 0}
+    - target: {fileID: 4110502104319063913, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: "Meine K\xF6rpergrenzen sind extrem ausgepr\xE4gt"
+      objectReference: {fileID: 0}
+    - target: {fileID: 4110502104500346321, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: "Meine K\xF6rpergrenzen sind kaum wahrnehmbar"
       objectReference: {fileID: 0}
     - target: {fileID: 4110502104740518637, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4105,6 +4154,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4125872604437111157, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: "m\xE4nnlich"
+      objectReference: {fileID: 0}
     - target: {fileID: 4259740918515687062, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_SelectionRadial
@@ -4113,7 +4167,7 @@ PrefabInstance:
     - target: {fileID: 4309902419682766601, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: other
+      value: andere
       objectReference: {fileID: 0}
     - target: {fileID: 4316588544520164218, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4148,7 +4202,7 @@ PrefabInstance:
     - target: {fileID: 4421357669011739858, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: self
+      value: selbst
       objectReference: {fileID: 0}
     - target: {fileID: 4546400809236566847, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4200,8 +4254,8 @@ PrefabInstance:
     - target: {fileID: 4750410863413311411, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: Please indicate the image that better reflects your emotional closeness
-        to the other person
+      value: "Bitte geben Sie das Bild an, das Ihre emotionale N\xE4he zu der anderen
+        Person besser widerspiegelt"
       objectReference: {fileID: 0}
     - target: {fileID: 4798578607988876300, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4261,7 +4315,7 @@ PrefabInstance:
     - target: {fileID: 5148585381385691838, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: other
+      value: andere
       objectReference: {fileID: 0}
     - target: {fileID: 5168575830550253416, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4282,6 +4336,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5168575830944293604, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: ich stimme zu
       objectReference: {fileID: 0}
     - target: {fileID: 5168703464541390844, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4316,7 +4375,7 @@ PrefabInstance:
     - target: {fileID: 5235687901873216133, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: Next
+      value: Weiter
       objectReference: {fileID: 0}
     - target: {fileID: 5308810028646783048, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4324,10 +4383,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49,
         type: 2}
+    - target: {fileID: 5380581667016469081, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: ich stimme nicht zu
+      objectReference: {fileID: 0}
     - target: {fileID: 5420148621783668687, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: Next
+      value: Weiter
       objectReference: {fileID: 0}
     - target: {fileID: 5420148621926054466, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4398,12 +4462,12 @@ PrefabInstance:
     - target: {fileID: 6146610238343103502, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: Next
+      value: Weiter
       objectReference: {fileID: 0}
     - target: {fileID: 6335628271636361448, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: Please indicate your age.
+      value: Bitte geben Sie Ihr Alter an
       objectReference: {fileID: 0}
     - target: {fileID: 6405459301039889345, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4411,6 +4475,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49,
         type: 2}
+    - target: {fileID: 6491513497946091804, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: Ich stimme zu
+      objectReference: {fileID: 0}
+    - target: {fileID: 6491513498033003428, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: Stimme nicht zu
+      objectReference: {fileID: 0}
     - target: {fileID: 6491513499936218264, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_AnchorMin.x
@@ -4429,12 +4503,12 @@ PrefabInstance:
     - target: {fileID: 6514085708279708440, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: other
+      value: andere
       objectReference: {fileID: 0}
     - target: {fileID: 6515900984470686161, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: self
+      value: selbst
       objectReference: {fileID: 0}
     - target: {fileID: 6594001605585662346, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4442,6 +4516,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49,
         type: 2}
+    - target: {fileID: 6771081901731976134, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: 'Bitte geben Sie an, wie vertraut Sie sich kennen '
+      objectReference: {fileID: 0}
     - target: {fileID: 6788222211537959550, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: _previouslyRegisteredEvent
@@ -4463,7 +4542,17 @@ PrefabInstance:
     - target: {fileID: 7020134027285035388, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: Not at all
+      value: neutral
+      objectReference: {fileID: 0}
+    - target: {fileID: 7020134027711677878, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: es hat sich zum Besseren gewendet
+      objectReference: {fileID: 0}
+    - target: {fileID: 7020134027859390222, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: es hat sich zum schlechteren gewendet
       objectReference: {fileID: 0}
     - target: {fileID: 7020134028099463218, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4480,6 +4569,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7023417082929668819, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: Weiter
+      objectReference: {fileID: 0}
     - target: {fileID: 7087106655602879155, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: _previouslyRegisteredEvent
@@ -4489,12 +4583,12 @@ PrefabInstance:
     - target: {fileID: 7156525851846928278, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: other
+      value: andere
       objectReference: {fileID: 0}
     - target: {fileID: 7159203075494237535, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: self
+      value: selbst
       objectReference: {fileID: 0}
     - target: {fileID: 7245222452972898298, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4538,6 +4632,17 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7923998974578128000, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: "Bitte geben Sie die Option an, die Ihre Geschlechtsidentit\xE4t besser
+        beschreibt"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8181610753396780360, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: andere
+      objectReference: {fileID: 0}
     - target: {fileID: 8340843253497785708, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_IsActive
@@ -4546,7 +4651,7 @@ PrefabInstance:
     - target: {fileID: 8369766001312000912, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: how strong was mutual understanding during the experience
+      value: "Wie stark war das gegenseitige Verst\xE4ndnis w\xE4hrend der Erfahrung"
       objectReference: {fileID: 0}
     - target: {fileID: 8521921338379641663, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4562,8 +4667,8 @@ PrefabInstance:
     - target: {fileID: 8708661690941680445, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: Please indicate the image that better reflects your emotional closeness
-        to the other person
+      value: "Bitte geben Sie das Bild an, das Ihre emotionale N\xE4he zu der anderen
+        Person besser widerspiegelt"
       objectReference: {fileID: 0}
     - target: {fileID: 8753781274150459674, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4601,6 +4706,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c66629fc8af0c4003b0522bffed86084,
         type: 2}
+    - target: {fileID: 8878283612441269233, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_Text
+      value: "Sind Sie damit einverstanden, dass wir ein Video von Ihrer Teilnahme
+        machen? Ihr Gesicht wird durch das Headset verdeckt. Die Inhalte werden anonym
+        durch einen Algorithmus behandelt, der ausschlie\xDFlich Bewegungen analysiert."
+      objectReference: {fileID: 0}
+    - target: {fileID: 8878283612441269234, guid: 0060bac4bad7c4042a6851558ee4e517,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 8935260948485713015, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_SelectionRadial
@@ -4609,7 +4726,7 @@ PrefabInstance:
     - target: {fileID: 9098620384261635632, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
       propertyPath: m_Text
-      value: other
+      value: andere
       objectReference: {fileID: 0}
     - target: {fileID: 9119037465860742002, guid: 0060bac4bad7c4042a6851558ee4e517,
         type: 3}
@@ -4689,11 +4806,11 @@ PrefabInstance:
     - target: {fileID: 1767612019, guid: f85f128fc9eca2043b6827e5a3603a66, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 1185801330}
+      objectReference: {fileID: 339931028}
     - target: {fileID: 2004127958, guid: f85f128fc9eca2043b6827e5a3603a66, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 420296369}
+      objectReference: {fileID: 1465032502}
     - target: {fileID: 1151431780467876322, guid: f85f128fc9eca2043b6827e5a3603a66,
         type: 3}
       propertyPath: m_Text
@@ -4823,7 +4940,7 @@ PrefabInstance:
     - target: {fileID: 7399623797463518927, guid: f85f128fc9eca2043b6827e5a3603a66,
         type: 3}
       propertyPath: m_BlocksRaycasts
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 992126136615257704, guid: f85f128fc9eca2043b6827e5a3603a66, type: 3}
