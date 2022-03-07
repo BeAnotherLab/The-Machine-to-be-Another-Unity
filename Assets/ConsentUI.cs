@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Lean.Localization;
 using ScriptableObjectArchitecture;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,14 +40,14 @@ public class ConsentUI : MonoBehaviour
     
     public void ConsentButtonPressed()
     {
-        _text.text = "Wait for a moment...";
+        _text.gameObject.GetComponent<LeanLocalizedText>().TranslationName = "wait";
     }
     
     private void Show(bool show)
     {
         _yesButton.gameObject.SetActive(show); 
         _noButton.gameObject.SetActive(show);
-        if (show) _text.text = "Do you consent to having your data recorded?";
+        if (show) _text.gameObject.GetComponent<LeanLocalizedText>().TranslationName = "consent"; 
         _textPanel.GetComponent<PanelDimmer>().Show(show, 1f);
     }
 }
