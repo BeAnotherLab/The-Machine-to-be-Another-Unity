@@ -30,6 +30,7 @@ public class EmbodimentQuestionnaire : MonoBehaviour
 
     private void LoadFile(string language)
     {
+        questionnaireInput.Clear();
         try
         {
             string line;
