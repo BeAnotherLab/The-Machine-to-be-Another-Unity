@@ -15,13 +15,7 @@ public class EmbodimentQuestionnaire : MonoBehaviour
     [SerializeField] private Scrollbar _responseSlider;
     [SerializeField] private GameEvent _questionnaireNextEvent;
     
-    private int currentQuestion;
-    
-    private void Start()
-    {       
-
-        
-    }
+    private int _currentQuestion;
 
     public void SelectLanguage(string language)
     {
@@ -61,20 +55,21 @@ public class EmbodimentQuestionnaire : MonoBehaviour
     public void Initialize()
     {
         _responseSlider.value = 0.5f;
-        currentQuestion = 0;
-        _questionText.text = questionnaireInput[currentQuestion];
+        _currentQuestion = 0;
+        _questionText.text = questionnaireInput[_currentQuestion];
     }
     
     public void NextButton()
     {
-        currentQuestion++;
-        if (currentQuestion < questionnaireInput.Count)
+        _currentQuestion++;
+        if (_currentQuestion < questionnaireInput.Count)
         {
-            _questionText.text = questionnaireInput[currentQuestion];
+            _questionText.text = questionnaireInput[_currentQuestion];
         }
         else//I think this does not restart the questionnaire index to 0!
         {
             _questionnaireNextEvent.Raise();
+            _currentQuestion = 0;
         }
 
         _responseSlider.value = 0.5f;
