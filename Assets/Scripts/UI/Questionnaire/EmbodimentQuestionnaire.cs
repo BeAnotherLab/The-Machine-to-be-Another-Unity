@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
@@ -16,6 +17,11 @@ public class EmbodimentQuestionnaire : MonoBehaviour
     [SerializeField] private GameEvent _questionnaireNextEvent;
     
     private int _currentQuestion;
+
+    private void Start()
+    {
+        LoadFile("German");
+    }
 
     public void SelectLanguage(string language)
     {
@@ -66,7 +72,7 @@ public class EmbodimentQuestionnaire : MonoBehaviour
         {
             _questionText.text = questionnaireInput[_currentQuestion];
         }
-        else//I think this does not restart the questionnaire index to 0!
+        else
         {
             _questionnaireNextEvent.Raise();
             _currentQuestion = 0;

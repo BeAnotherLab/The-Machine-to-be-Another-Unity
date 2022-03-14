@@ -44,6 +44,7 @@ public class StatusManager : MonoBehaviour {
     [SerializeField] private GameEvent _standbyGameEvent;
     [SerializeField] private GameEvent _InstructionsStartedGameEvent;
     [SerializeField] private BoolGameEvent _experienceFinishedGameEvent;
+    [SerializeField] private StringGameEvent _languageChangeEvent;
 
     [SerializeField] private StringGameEvent _setInstructionsTextGameEvent;
     [SerializeField] private QuestionnaireStateVariable _questionnaireState;
@@ -208,6 +209,7 @@ public class StatusManager : MonoBehaviour {
         
         //reset user status as it is not ready
         //EnableConfirmationGUI(true);
+        _languageChangeEvent.Raise("German");  //reset to German by default
         _languageButtons.gameObject.SetActive(true); //show language buttons;
 
         if (_readyForStandby) //TODO is check necessary? 
