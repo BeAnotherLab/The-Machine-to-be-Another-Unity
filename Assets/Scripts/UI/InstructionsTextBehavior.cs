@@ -45,13 +45,13 @@ public class InstructionsTextBehavior : MonoBehaviour
         GetComponent<PanelDimmer>().Show();
         _textGameObject.GetComponent<LeanLocalizedText>().TranslationName = key;
     }
- 
-    public void ShowTextFromKey(string key, int time)
+    
+    public void ShowTextFromKey(string text, int time)
     {
-        //StartCoroutine(TimedTextKeyCoroutine(key, time));
+        StartCoroutine(TimedTextCoroutineFromKey(text, time));
     }
-
-    public void ShowInstructionText(string text, int time)
+    
+    public void ShowInstructionTextFromKey(string text, int time)
     {
         StartCoroutine(TimedTextCoroutine(text, time));
     }
@@ -62,7 +62,7 @@ public class InstructionsTextBehavior : MonoBehaviour
             && newState == UserState.headsetOff
             && _questionnaireState.Value != QuestionnaireState.post) //if user removed headset
         {
-            ShowInstructionText("It seems like the other user left. Thanks for your participation!", 4);
+            ShowTextFromKey("otherIsGone", 4);
         }
     }
     
@@ -72,10 +72,18 @@ public class InstructionsTextBehavior : MonoBehaviour
     
     private IEnumerator TimedTextCoroutine(string text, int time)
     {
-        ShowInstructionText(true, text);
+        ShowTextFromKey(text);
         yield return new WaitForSeconds(time);
         ShowInstructionText(false);       
     }
+    
+    private IEnumerator TimedTextCoroutineFromKey(string key, int time)
+    {
+        ShowTextFromKey(key);
+        yield return new WaitForSeconds(time);
+        ShowInstructionText(false);       
+    }
+
     
     #endregion
 }
