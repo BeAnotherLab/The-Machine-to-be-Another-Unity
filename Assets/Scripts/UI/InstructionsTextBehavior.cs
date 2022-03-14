@@ -32,7 +32,7 @@ public class InstructionsTextBehavior : MonoBehaviour
     public void ShowInstructionText(bool show, string text = "")
     {
         GetComponent<PanelDimmer>().Show(show);
-        _textGameObject.GetComponent<Text>().text = text; //give feedback
+        if(show) _textGameObject.GetComponent<Text>().text = text; //give feedback
     }
 
     public void ShowinstructionsText(string text)
