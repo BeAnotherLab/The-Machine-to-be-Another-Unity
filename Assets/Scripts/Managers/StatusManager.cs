@@ -108,11 +108,6 @@ public class StatusManager : MonoBehaviour {
 
     #region Public Methods
 
-    public void SwitchLanguage(string language)
-    {
-        //StatusManager.instance.SwitchLanguageTrack(fileName);
-    }
-    
     public void StartExperience() //TODO remove?
     {
         InstructionsTextBehavior.instance.ShowInstructionText(false);
@@ -300,33 +295,19 @@ public class StatusManager : MonoBehaviour {
         else if (state == QuestionnaireState.post) StartCoroutine(WaitBeforeResetting()); 
     }
     
-    public void SwitchLanguageTrack(string fileName)
+    public void SwitchLanguageTrack(string language)
     {
         TimelineAsset timelineAsset = (TimelineAsset) instructionsTimeline.playableAsset;
         _englishTrack = timelineAsset.GetOutputTrack(0);
         _germanTrack = timelineAsset.GetOutputTrack(1);
-        _englishTrack.muted = fileName != "lng_en.json";
-        _germanTrack.muted = fileName != "lng_de.json";
+        _englishTrack.muted = language != "English";
+        _germanTrack.muted = language != "German";
     }
 
-    
     #endregion
 
-    //pre questionnarie is cancelled if either self or other removes headset
-    //Let self post questionnaire finish
 
     #region Private Methods
-
-    /*private void EnableConfirmationGUI(bool enable)
-    {
-        if (enable)
-            _mainCamera.GetComponent<Reticle>().Show();
-        else
-        {
-            _mainCamera.GetComponent<Reticle>().Hide();
-            _mainCamera.GetComponent<CustomSelectionRadial>().Hide();
-        }
-    }*/
 
     private void StartPlaying()
     {
