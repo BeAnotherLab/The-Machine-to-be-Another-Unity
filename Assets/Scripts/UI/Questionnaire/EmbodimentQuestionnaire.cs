@@ -34,7 +34,7 @@ public class EmbodimentQuestionnaire : MonoBehaviour
         try
         {
             string line;
-            StreamReader csvFileReader = new StreamReader("./Lists/questionnaire" + language + ".csv", Encoding.Default);
+            StreamReader csvFileReader = new StreamReader("./Lists/questionnaire" + language + ".csv", Encoding.UTF8);
             using (csvFileReader)
             {
                 line = csvFileReader.ReadLine();
