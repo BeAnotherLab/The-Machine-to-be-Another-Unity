@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class AgeQuestion : MonoBehaviour
 {
-    [SerializeField] private Text _labelText;
+    [SerializeField] private Text _ageValueText;
     
     public void ValueUpdated(float value)
     {
         var age = Mathf.RoundToInt(value * 100).ToString();
-        _labelText.text = age + " years old";
+        _ageValueText.text = age;
         GetComponent<ResponseLogger>().SetValue(age);
     }
     
