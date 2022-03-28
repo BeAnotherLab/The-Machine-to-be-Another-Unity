@@ -36,6 +36,8 @@ public class OscManager : MonoBehaviour {
     private bool _repeater;
     private bool _serialStatusOKReceived;
     private bool _sendHeadTracking;
+
+    [SerializeField] private BoolVariable _sendRecordingCommand;
     
     #endregion
 
@@ -138,6 +140,11 @@ public class OscManager : MonoBehaviour {
         Debug.Log("sending serial status : " + status, DLogType.Network);
     }
 
+    public void ExperienceStarted(bool given)
+    {
+        //_sendRecordingCommand
+    }
+    
     #endregion
 
     #region Private Methods

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using ScriptableObjectArchitecture;
 using UnityEngine;
@@ -26,7 +26,10 @@ namespace Mirror.Examples.Pong
         [SerializeField] private QuestionnaireStateGameEvent _bothQuestionnairesFinishedRpcEvent;
         private int _questionnairesPreFinishedCount;
         private int _questionnairesPostFinishedCount;
-        
+
+        private int _videoConsentCount;
+        [SerializeField] private  BoolGameEvent bothVideoConsentGiven;
+
         private void Awake()
         {
             if (instance == null) instance = this;
@@ -46,7 +49,6 @@ namespace Mirror.Examples.Pong
 
         public void OnStandby()
         {
-            //Reset consent and questionnaire count values   
             if (_consentsGiven.Value > 0) _consentsGiven.Value = 0;
             if (_consentCount > 0) _consentCount = 0;
             _questionnairesPreFinishedCount = 0;
@@ -87,7 +89,7 @@ namespace Mirror.Examples.Pong
                 }
             }
         }
-
+        
         public void QuestionnaireFinished(QuestionnaireState state)
         {
             if (state == QuestionnaireState.pre)
@@ -107,6 +109,15 @@ namespace Mirror.Examples.Pong
                 }
             }
         }
+        
+        
+
+        public void VideoConsentAnswerGiven(bool consent)
+        {
+            _videoConsentCount++;
+            bothVideoConsentGiven.Raise(_videoConsentCount == 2);
+        }
+        
         
         private IEnumerator TryConnect()
         {
