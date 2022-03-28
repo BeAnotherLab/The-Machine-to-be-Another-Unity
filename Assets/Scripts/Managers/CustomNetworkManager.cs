@@ -109,15 +109,12 @@ namespace Mirror.Examples.Pong
                 }
             }
         }
-        
-        
 
         public void VideoConsentAnswerGiven(bool consent)
         {
             _videoConsentCount++;
             bothVideoConsentGiven.Raise(_videoConsentCount == 2);
         }
-        
         
         private IEnumerator TryConnect()
         {

@@ -8,11 +8,8 @@ namespace Mirror.Examples.Pong
 {
     public class CustomPlayer : NetworkBehaviour
     {
-        public BoolVariable consentGiven;
-
         private GameObject _mainCamera;
         private GameObject _videoFeedFlipParent;
-        //[SerializeField] private BoolVariable _consentGiven;
         
         [SerializeField] [SyncVar (hook = nameof(SetPairID))] private string _pairId;
         [SerializeField] private BoolGameEvent _consentAnswerGivenEvent;
@@ -23,11 +20,11 @@ namespace Mirror.Examples.Pong
         [SerializeField] private QuestionnaireStateGameEvent _questionnaireFinishedCmdEvent;
         [SerializeField] private QuestionnaireStateGameEvent _bothQuestionnaireFinishedEvent;
 
-        public delegate void VideoConsentGivenCmd(bool given);
-        public static VideoConsentGivenCmd OnVideoConsentGivenCmd;
+        public delegate void OnVideoConsentGivenCmd(bool given);
+        public static OnVideoConsentGivenCmd VideoConsentGivenCmd;
         
-        public delegate void BothVideoConsentAnsweredRPC(bool given);
-        public static BothVideoConsentAnsweredRPC OnBothVideoConsentAnsweredRPC;
+        public delegate void OnBothVideoConsentAnsweredRPC(bool given);
+        public static OnBothVideoConsentAnsweredRPC BothVideoConsentAnsweredRPC;
         
         private void Awake()
         {
@@ -82,14 +79,6 @@ namespace Mirror.Examples.Pong
             CmdSendQuestionnaireFinished(state); //local player notifies server questionnaire finished
         }
         
-        [Command] //Commands are sent from player objects on the client to player objects on the server. 
-        public void CmdGiveConsent(bool answer, string pairId)
-        {
-            if(pairId != "") _pairId = pairId; //assign the syncvar
-            
-            _consentAnswerGivenEvent.Raise(answer);
-        }
-        
         [ClientRpc] //ClientRpc calls are sent from objects on the server to objects on clients. 
         public void RpcBothConsentGiven(bool consent)
         {
@@ -103,9 +92,15 @@ namespace Mirror.Examples.Pong
         public void RpcBothVideoConsentGiven(bool agreed)
         {
             if (isLocalPlayer) return;
-            OnBothVideoConsentAnsweredRPC(agreed);
+            BothVideoConsentAnsweredRPC(agreed);
         }
 
+        [ClientRpc] //ClientRpc calls are sent from objects on the server to objects on clients.
+        public void RpcBothQuestionnaireFinished(QuestionnaireState state)
+        {
+            if (isLocalPlayer) return;
+            _bothQuestionnaireFinishedEvent.Raise(state); //Notify the clients that both users finished the questionnaire
+        }
         
         //TODO reformat event so that we can use 1 method instead of 3
         public void QuestionnairePreFinished()
@@ -123,19 +118,19 @@ namespace Mirror.Examples.Pong
         {
             _questionnaireFinishedCmdEvent.Raise(state); //Notify the server
         }
-        
-        [ClientRpc] //ClientRpc calls are sent from objects on the server to objects on clients.
-        public void RpcBothQuestionnaireFinished(QuestionnaireState state)
+
+        [Command] //Commands are sent from player objects on the client to player objects on the server. 
+        public void CmdGiveConsent(bool answer, string pairId)
         {
-            if (isLocalPlayer) return;
-            _bothQuestionnaireFinishedEvent.Raise(state); //Notify the clients that both users finished the questionnaire
+            if(pairId != "") _pairId = pairId; //assign the syncvar
+            
+            _consentAnswerGivenEvent.Raise(answer);
         }
-
-
+        
         [Command]
         public void CmdSendVideoConsentGiven(bool given)
         {
-            OnVideoConsentGivenCmd(given);
+            VideoConsentGivenCmd(given);
         }
 
         public void ResetId()
