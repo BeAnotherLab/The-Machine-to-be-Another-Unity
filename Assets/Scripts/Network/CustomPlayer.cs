@@ -99,6 +99,14 @@ namespace Mirror.Examples.Pong
             if (!consent) Debug.Log("one user refused, NOT showing questionaire!");
         }
         
+        [ClientRpc]
+        public void RpcBothVideoConsentGiven(bool agreed)
+        {
+            if (isLocalPlayer) return;
+            OnBothVideoConsentAnsweredRPC(agreed);
+        }
+
+        
         //TODO reformat event so that we can use 1 method instead of 3
         public void QuestionnairePreFinished()
         {
@@ -122,19 +130,12 @@ namespace Mirror.Examples.Pong
             if (isLocalPlayer) return;
             _bothQuestionnaireFinishedEvent.Raise(state); //Notify the clients that both users finished the questionnaire
         }
-        
+
 
         [Command]
         public void CmdSendVideoConsentGiven(bool given)
         {
             OnVideoConsentGivenCmd(given);
-        }
-
-        [ClientRpc]
-        public void RPCBothConsentGiven(bool agreed)
-        {
-            if (isLocalPlayer) return;
-            OnBothVideoConsentAnsweredRPC(agreed);
         }
 
         public void ResetId()
