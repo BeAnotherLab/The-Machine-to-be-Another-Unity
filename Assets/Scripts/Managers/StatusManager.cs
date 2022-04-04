@@ -46,7 +46,8 @@ public class StatusManager : MonoBehaviour {
     [SerializeField] private BoolGameEvent _experienceFinishedGameEvent;
     [SerializeField] private GameEvent _experienceStartedGameEvent;
     [SerializeField] private StringGameEvent _languageChangeEvent;
-
+    [SerializeField] private BoolGameEvent _curtainOnEvent;
+    
     [SerializeField] private StringGameEvent _setInstructionsTextGameEvent;
     [SerializeField] private QuestionnaireStateVariable _questionnaireState;
 
@@ -129,12 +130,14 @@ public class StatusManager : MonoBehaviour {
         ArduinoManager.instance.WallOn(true);
         //ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
         Debug.Log("wall on");        
+        _curtainOnEvent.Raise(true);
     }
     
     public void WallOn() //TODO rename
     {
         OpenCurtainCanvasController.instance.Show("Open Curtain");
         ArduinoManager.instance.WallOn(false);
+        _curtainOnEvent.Raise(false);
         //ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
         Debug.Log("wall off");
     }

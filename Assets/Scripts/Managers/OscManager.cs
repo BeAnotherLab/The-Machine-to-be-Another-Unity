@@ -153,9 +153,9 @@ public class OscManager : MonoBehaviour {
         }
     }
 
-    public void ExperienceFinished()
+    public void CurtainOn(bool on)
     {
-       SendStopVideoRecording();
+        if(!on) SendStopVideoRecording();
     }
 
     public void Standby()
