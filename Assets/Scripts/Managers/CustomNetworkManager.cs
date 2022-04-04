@@ -30,8 +30,7 @@ namespace Mirror.Examples.Pong
 
         //video data collection consent
         [SerializeField] private IntVariable _videoConsentsGiven; //how many positive answers were given
-        private int _videoConsentCount;
-        [SerializeField] private  BoolGameEvent bothVideoConsentGiven;
+        
         [SerializeField] private BoolVariable _sendRecordingCommand;
 
         private void OnEnable()
@@ -53,6 +52,7 @@ namespace Mirror.Examples.Pong
         {
             if (offlineMode) Instantiate(playerPrefab);
             _consentsGiven.Value = 0;
+            _videoConsentsGiven.Value = 0;
             networkAddress = PlayerPrefs.GetString("othersIP");
 
             if (PlayerPrefs.GetInt("repeater", 0) == 1) //TODO rename property
@@ -64,6 +64,7 @@ namespace Mirror.Examples.Pong
         public void OnStandby()
         {
             if (_consentsGiven.Value > 0) _consentsGiven.Value = 0;
+            if (_videoConsentsGiven.Value > 0) _videoConsentsGiven.Value = 0;
             if (_consentCount > 0) _consentCount = 0;
             _questionnairesPreFinishedCount = 0;
             _questionnairesPostFinishedCount = 0;
@@ -117,12 +118,11 @@ namespace Mirror.Examples.Pong
                 }
             }
         }
-
-        public void VideoConsentAnswerGiven(bool consent)
+        
+        private void VideoConsentAnswerGiven(bool consent)
         {
-            _videoConsentCount++;
             if (consent) _videoConsentsGiven.Value++;
-            _sendRecordingCommand.Value = _consentsGiven.Value == 2;
+            _sendRecordingCommand.Value = _videoConsentsGiven.Value == 2;
         }
         
         private IEnumerator TryConnect()

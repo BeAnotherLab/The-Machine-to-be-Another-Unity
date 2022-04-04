@@ -144,11 +144,22 @@ public class OscManager : MonoBehaviour {
 
     public void ExperienceStarted ()
     {
-        if (_sendRecordingCommand)
+        if (_sendRecordingCommand.Value && _repeater)
         {
-            Debug.Log("sending video consent start ", DLogType.Network);
+            Debug.Log("sending video recording start ", DLogType.Network);
             OSCMessage message = new OSCMessage("/name");
             message.AddValue(OSCValue.String(_responseData.pairID));
+            _oscTransmitter.Send(message); //            
+        }
+    }
+
+    public void ExperienceFinished()
+    {
+        if (_sendRecordingCommand.Value && _repeater)
+        {
+            Debug.Log("sending video recording end ", DLogType.Network);
+            OSCMessage message = new OSCMessage("/stop");
+            message.AddValue(OSCValue.String("1"));
             _oscTransmitter.Send(message); //            
         }
     }

@@ -781,55 +781,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &331169232 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8293358735044733245, guid: 69a9fa9c1c14edf438348430b7ab81c2,
-    type: 3}
-  m_PrefabInstance: {fileID: 1166231238}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &331169233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 331169232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _showDebugFields: 0
-  _enableGizmoDebugging: 1
-  _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 0}
-  _event: {fileID: 11400000, guid: 7c2619e5f599c469a842342ce9027dee, type: 2}
-  _response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 331169235}
-        m_MethodName: ExperienceStarted
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &331169235 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6000371050300007033, guid: 69a9fa9c1c14edf438348430b7ab81c2,
-    type: 3}
-  m_PrefabInstance: {fileID: 1166231238}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 331169232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 858c59bdde37e9546a7f4f48ba1005f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &351328135
 GameObject:
   m_ObjectHideFlags: 0
@@ -1066,7 +1017,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22400762, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000076293945
+      value: 0.0000076293945
       objectReference: {fileID: 0}
     - target: {fileID: 22426080, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2589,6 +2540,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5824191422472989291, guid: 69a9fa9c1c14edf438348430b7ab81c2,
+        type: 3}
+      propertyPath: _previouslyRegisteredEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c2619e5f599c469a842342ce9027dee,
+        type: 2}
     - target: {fileID: 8293358735044733245, guid: 69a9fa9c1c14edf438348430b7ab81c2,
         type: 3}
       propertyPath: m_Name
