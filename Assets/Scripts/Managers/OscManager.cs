@@ -155,7 +155,21 @@ public class OscManager : MonoBehaviour {
 
     public void ExperienceFinished()
     {
-        if (_sendRecordingCommand.Value && _repeater)
+       SendStopVideoRecording();
+    }
+
+    public void Standby()
+    {
+        SendStopVideoRecording();
+    }
+    
+    #endregion
+
+    #region Private Methods
+
+    private void SendStopVideoRecording()
+    {
+        if (_repeater)
         {
             Debug.Log("sending video recording end ", DLogType.Network);
             OSCMessage message = new OSCMessage("/stop");
@@ -164,10 +178,6 @@ public class OscManager : MonoBehaviour {
         }
     }
     
-    #endregion
-
-    #region Private Methods
-
     private void ReceiveThreatStart(OSCMessage message)
     {
         string value;
