@@ -15,6 +15,8 @@ public class QuestionnaireVRButton : MonoBehaviour
     [SerializeField] private GameEvent _showSelectionRadialEvent;
     [SerializeField] private GameEvent _hideSelectionRadialEvent;
     
+    [SerializeField] private bool _disableOnSelectionComplete;
+    
     private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
 
     private void OnEnable()
@@ -52,8 +54,11 @@ public class QuestionnaireVRButton : MonoBehaviour
 
     public void HandleSelectionComplete()
     {
-        if (m_GazeOver) 
+        if (m_GazeOver)
+        {
             _button.onClick.Invoke();
+            if (_disableOnSelectionComplete) _button.interactable = false;
+        }
         HandleOut();            
     }
 }

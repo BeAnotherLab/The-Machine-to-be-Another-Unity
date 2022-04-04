@@ -70,7 +70,6 @@ public class EmbodimentQuestionnaire : MonoBehaviour
     public void NextButton()
     {
         _currentQuestion++;
-        _nextButton.enabled = false;
         if (_currentQuestion < questionnaireInput.Count)
         {
             _questionText.text = questionnaireInput[_currentQuestion];
