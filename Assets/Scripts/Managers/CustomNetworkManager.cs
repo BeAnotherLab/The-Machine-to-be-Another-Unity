@@ -19,7 +19,7 @@ namespace Mirror.Examples.Pong
         public bool offlineMode;
         
         //Data collection consent values and events 
-        [SerializeField] private  BoolGameEvent bothConsentGiven;
+        [SerializeField] private BoolGameEvent bothConsentGiven; //TODO move to a simple int field in this class
         private int _consentCount; //how many times consent answers were given
         [SerializeField] private IntVariable _consentsGiven; //how many positive answers were given
 
@@ -29,7 +29,7 @@ namespace Mirror.Examples.Pong
         private int _questionnairesPostFinishedCount;
 
         //video data collection consent
-        [SerializeField] private IntVariable _videoConsentsGiven; //how many positive answers were given
+        [SerializeField] private IntVariable _videoConsentsGiven; //how many positive answers were given TODO move to a simple int field
         
         [SerializeField] private BoolVariable _sendRecordingCommand;
 
@@ -52,7 +52,7 @@ namespace Mirror.Examples.Pong
         {
             if (offlineMode) Instantiate(playerPrefab);
             _consentsGiven.Value = 0;
-            _videoConsentsGiven.Value = 0;
+            _videoConsentsGiven.Value = 0; //In standby instead?
             networkAddress = PlayerPrefs.GetString("othersIP");
 
             if (PlayerPrefs.GetInt("repeater", 0) == 1) //TODO rename property
@@ -65,6 +65,7 @@ namespace Mirror.Examples.Pong
         {
             if (_consentsGiven.Value > 0) _consentsGiven.Value = 0;
             if (_videoConsentsGiven.Value > 0) _videoConsentsGiven.Value = 0;
+            _sendRecordingCommand.Value = false;
             if (_consentCount > 0) _consentCount = 0;
             _questionnairesPreFinishedCount = 0;
             _questionnairesPostFinishedCount = 0;
