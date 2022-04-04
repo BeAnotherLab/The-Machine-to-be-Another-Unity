@@ -92,7 +92,7 @@ namespace Mirror.Examples.Pong
         public void RpcBothVideoConsentGiven(bool agreed)
         {
             if (isLocalPlayer) return;
-            BothVideoConsentAnsweredRPC(agreed);
+            //BothVideoConsentAnsweredRPC(agreed);
         }
 
         [ClientRpc] //ClientRpc calls are sent from objects on the server to objects on clients.

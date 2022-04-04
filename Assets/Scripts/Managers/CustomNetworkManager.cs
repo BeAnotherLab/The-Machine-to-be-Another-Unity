@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ScriptableObjectArchitecture;
@@ -27,8 +28,21 @@ namespace Mirror.Examples.Pong
         private int _questionnairesPreFinishedCount;
         private int _questionnairesPostFinishedCount;
 
+        //video data collection consent
+        [SerializeField] private IntVariable _videoConsentsGiven; //how many positive answers were given
         private int _videoConsentCount;
         [SerializeField] private  BoolGameEvent bothVideoConsentGiven;
+        [SerializeField] private BoolVariable _sendRecordingCommand;
+
+        private void OnEnable()
+        {
+            CustomPlayer.VideoConsentGivenCmd += VideoConsentAnswerGiven;
+        }
+
+        private void OnDisable()
+        {
+            CustomPlayer.VideoConsentGivenCmd -= VideoConsentAnswerGiven;
+        }
 
         private void Awake()
         {
@@ -79,14 +93,8 @@ namespace Mirror.Examples.Pong
             if (consent) _consentsGiven.Value++;
             if (_consentCount == 2)
             {
-                if (_consentsGiven.Value == 2)
-                {
-                    bothConsentGiven.Raise(true);
-                }
-                else
-                {
-                    bothConsentGiven.Raise(false);
-                }
+                if (_consentsGiven.Value == 2) bothConsentGiven.Raise(true);
+                else bothConsentGiven.Raise(false);
             }
         }
         
@@ -113,7 +121,8 @@ namespace Mirror.Examples.Pong
         public void VideoConsentAnswerGiven(bool consent)
         {
             _videoConsentCount++;
-            bothVideoConsentGiven.Raise(_videoConsentCount == 2);
+            if (consent) _videoConsentsGiven.Value++;
+            _sendRecordingCommand.Value = _consentsGiven.Value == 2;
         }
         
         private IEnumerator TryConnect()

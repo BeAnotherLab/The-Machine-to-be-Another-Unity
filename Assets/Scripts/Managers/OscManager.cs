@@ -31,6 +31,7 @@ public class OscManager : MonoBehaviour {
     private Camera _mainCamera;
 
     private OSCTransmitter _oscTransmitter;
+    [SerializeField] private OSCTransmitter _videoRecordingOSCTransmitter;
     private OSCReceiver _oscReceiver;
     
     private bool _repeater;
@@ -38,11 +39,12 @@ public class OscManager : MonoBehaviour {
     private bool _sendHeadTracking;
 
     [SerializeField] private BoolVariable _sendRecordingCommand;
+    [SerializeField] private ResponseData _responseData;
     
     #endregion
 
     #region MonoBehaviour Methods
-
+    
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -140,9 +142,15 @@ public class OscManager : MonoBehaviour {
         Debug.Log("sending serial status : " + status, DLogType.Network);
     }
 
-    public void ExperienceStarted(bool given)
+    public void ExperienceStarted ()
     {
-        //_sendRecordingCommand
+        if (_sendRecordingCommand)
+        {
+            Debug.Log("sending video consent start ", DLogType.Network);
+            OSCMessage message = new OSCMessage("/name");
+            message.AddValue(OSCValue.String(_responseData.pairID));
+            _oscTransmitter.Send(message); //            
+        }
     }
     
     #endregion

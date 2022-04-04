@@ -1,5 +1,58 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1722277426313519767
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1587365370869547520}
+  - component: {fileID: 2466071637388816924}
+  m_Layer: 0
+  m_Name: VideoRecordingStartOSCTransmitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1587365370869547520
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722277426313519767}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2314222261163310794}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2466071637388816924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722277426313519767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 464088183d2a1484ab8fb64e356c9f5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoConnect: 1
+  closeOnPause: 0
+  mapBundle: {fileID: 0}
+  workInEditor: 0
+  localPortMode: 2
+  localReceiver: {fileID: 0}
+  localPort: 7000
+  remoteHost: 127.0.0.1
+  remotePort: 7000
+  useBundle: 0
 --- !u!1 &8293358735044733245
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,6 +65,7 @@ GameObject:
   - component: {fileID: 6000371050300007033}
   - component: {fileID: 243077806299512245}
   - component: {fileID: 7400548617223281092}
+  - component: {fileID: 5824191422472989291}
   m_Layer: 0
   m_Name: OSCManager
   m_TagString: Untagged
@@ -29,7 +83,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1587365370869547520}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -49,6 +104,9 @@ MonoBehaviour:
   otherState: {fileID: 11400000, guid: 9d92648ad173541cda9193e84cc5ea94, type: 2}
   otherStateGameEvent: {fileID: 11400000, guid: fa8ca749ca9ad4876827002f647bcaf6,
     type: 2}
+  _videoRecordingOSCTransmitter: {fileID: 2466071637388816924}
+  _sendRecordingCommand: {fileID: 0}
+  _responseData: {fileID: 11400000, guid: 63e3e56377d7044b793dcb8145fd743d, type: 2}
 --- !u!114 &243077806299512245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,3 +146,34 @@ MonoBehaviour:
   remoteHost: 172.24.0.45
   remotePort: 8015
   useBundle: 0
+--- !u!114 &5824191422472989291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8293358735044733245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: 7c2619e5f599c469a842342ce9027dee, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6000371050300007033}
+        m_MethodName: ExperienceStarted
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

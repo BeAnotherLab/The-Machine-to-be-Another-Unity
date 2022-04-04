@@ -44,6 +44,7 @@ public class StatusManager : MonoBehaviour {
     [SerializeField] private GameEvent _standbyGameEvent;
     [SerializeField] private GameEvent _InstructionsStartedGameEvent;
     [SerializeField] private BoolGameEvent _experienceFinishedGameEvent;
+    [SerializeField] private GameEvent _experienceStartedGameEvent;
     [SerializeField] private StringGameEvent _languageChangeEvent;
 
     [SerializeField] private StringGameEvent _setInstructionsTextGameEvent;
@@ -113,6 +114,7 @@ public class StatusManager : MonoBehaviour {
         InstructionsTextBehavior.instance.ShowInstructionText(false);
         if (_dimOutOnExperienceStart) VideoFeed.instance.Dim(false);
         else instructionsTimeline.Stop();
+        _experienceStartedGameEvent.Raise();
         Debug.Log("experience started");
     }
 
