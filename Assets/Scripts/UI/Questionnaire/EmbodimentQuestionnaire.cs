@@ -15,6 +15,7 @@ public class EmbodimentQuestionnaire : MonoBehaviour
     [SerializeField] private Text _questionText;
     [SerializeField] private Scrollbar _responseSlider;
     [SerializeField] private GameEvent _questionnaireNextEvent;
+    [SerializeField] private Button _nextButton;
     
     private int _currentQuestion;
 
@@ -69,6 +70,7 @@ public class EmbodimentQuestionnaire : MonoBehaviour
     public void NextButton()
     {
         _currentQuestion++;
+        _nextButton.enabled = false;
         if (_currentQuestion < questionnaireInput.Count)
         {
             _questionText.text = questionnaireInput[_currentQuestion];
