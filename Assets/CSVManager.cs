@@ -9,11 +9,11 @@ public class CSVManager : MonoBehaviour
 
     [SerializeField] private List<string> varNames = new List<string>();
     private List<string> varValues = new List<string>();
-
+    private bool _newFile;
+    
     private void Start ()
     {
         var fields = typeof(ResponseData).GetFields();
-        //Weightings[] fieldFind = (Weightings[])fieldtype.GetValue(this);
 
         foreach (var field in fields) {
             varValues.Add(null); //initialize varNames array
@@ -30,15 +30,20 @@ public class CSVManager : MonoBehaviour
         file.Close();	
     }
 
-    public void DataCollectionConsentGiven(bool given)
+    public void DataCollectionConsentGiven(bool given)  
     {
-        if(given) WriteToFile(varNames);
+        _newFile = true;
     }
     
     public void NewDataAvailable()
     {
+        if (_newFile)
+        {
+            WriteToFile(varNames);
+            _newFile = false;
+        }
+        
         var fields = typeof(ResponseData).GetFields();
-
         for (int i=0; i<fields.Length; i++)
         {
             varValues[i] = fields[i].GetValue(_responseData).ToString();
