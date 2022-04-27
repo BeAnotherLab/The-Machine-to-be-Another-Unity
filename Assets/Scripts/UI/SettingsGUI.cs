@@ -118,7 +118,7 @@ public class SettingsGUI : MonoBehaviour
         }
         if (VideoFeed.instance.useHeadTracking)
         {
-            Vector3 pitchYawRoll = utilities.toEulerAngles(_mainCamera.transform.rotation);
+            Vector3 pitchYawRoll = Utilities.toEulerAngles(_mainCamera.transform.rotation);
 
             _rollSlider.value = pitchYawRoll.x;
             _yawSlider.value = 90 - pitchYawRoll.y;

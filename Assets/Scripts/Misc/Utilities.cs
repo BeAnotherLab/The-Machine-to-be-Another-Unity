@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public static class utilities {
+public static class Utilities {
 
 	public static Vector3 toEulerAngles(Quaternion q)
 	{

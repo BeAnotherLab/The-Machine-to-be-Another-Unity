@@ -47,8 +47,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     private MeshRenderer _meshRenderer;
 
-    private SubjectDirection _currentDirection;
-    
     #endregion
 
 
@@ -86,7 +84,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
             {
                 targetTransform.position = _mainCamera.transform.position + _mainCamera.transform.forward * 35; //keep webcam at a certain distance from head.
                 targetTransform.rotation = _mainCamera.transform.rotation; //keep webcam feed aligned with head
-                targetTransform.rotation *= Quaternion.Euler(0, 0, 1) * Quaternion.AngleAxis(-utilities.toEulerAngles(_mainCamera.transform.rotation).x, Vector3.forward); //compensate for absence of roll servo
+                targetTransform.rotation *= Quaternion.Euler(0, 0, 1) * Quaternion.AngleAxis(-Utilities.toEulerAngles(_mainCamera.transform.rotation).x, Vector3.forward); //compensate for absence of roll servo
                 targetTransform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(0, Vector3.up); //to adjust for webcam physical orientation
                 targetTransform.localScale = new Vector3(0.9f, 1, -1);
             }
@@ -105,24 +103,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     public void IsEditingText(bool editing)
     {    
         _editing = editing;
-    }
-
-    public void SetDirection(SubjectDirection direction)
-    {
-        _currentDirection = direction;
-    }
-    
-    public void MatchDirection(char desiredDirection)
-    {
-        if (desiredDirection == 'R' && _currentDirection == SubjectDirection.left)
-        {
-            FlipHorizontal();
-            _currentDirection = SubjectDirection.right;
-        } else if (desiredDirection == 'L' && _currentDirection == SubjectDirection.right)
-        {
-            FlipHorizontal();
-            _currentDirection = SubjectDirection.left;
-        }
     }
     
     public void CancelTweens()
