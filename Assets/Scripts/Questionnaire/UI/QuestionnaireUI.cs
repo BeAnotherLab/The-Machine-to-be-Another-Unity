@@ -41,17 +41,17 @@ public class QuestionnaireUI : MonoBehaviour
         }
     }
 
-    public void StartPostQuestionnaire(bool withQuestionnaire)  //TODO remove
+    public void StartPostQuestionnaire(bool start)  
     {
-        if (withQuestionnaire) StartQuestionnaire(QuestionnaireState.post); //if we should show the questionnaire 
+        if (start) StartQuestionnaire(QuestionnaireState.post);  
     }
     
-    public void StartPreQuestionnaire(bool consentGiven) //TODO split
+    public void StartPreQuestionnaire(bool start)
     {
-        if (consentGiven) StartQuestionnaire(QuestionnaireState.pre);
+        if (start) StartQuestionnaire(QuestionnaireState.pre);
     }
 
-    public void Init() //TODO rename
+    public void Init() 
     {
         Hide();
         _questionnaireState.Value = QuestionnaireState.init;
@@ -80,39 +80,21 @@ public class QuestionnaireUI : MonoBehaviour
         _slideIndex++;
     }
 
-    public void SelfStateChanged(UserState newState) //if self removed headset during post, do as if it had finished
+    private void StartQuestionnaire(QuestionnaireState state)
     {
-        if (_questionnaireState == QuestionnaireState.post)
-        {
-            if (_previousSelfState == UserState.readyToStart && newState == UserState.headsetOff && _showing) //if user removed headset
-            {
-                _postQuestionnaireFinished.Raise();
-                Hide();
-            }
-        }
-    }
-    
-    public void OtherStateChanged(UserState newState) //Hide questionnaire if we're doing questionnaire pre and the other removed the headset.
-    {
-        if (_previousOtherState == UserState.readyToStart 
-            && newState == UserState.headsetOff
-            && _showing
-            && _questionnaireState == QuestionnaireState.pre) //if user removed headset
-        {
-            Hide();
-        }
+        _questionnaireState.Value = state;
+        if(state == QuestionnaireState.pre) _preSlides[0].GetComponent<PanelDimmer>().Show();
+        if(state == QuestionnaireState.post) _postSlides[0].GetComponent<PanelDimmer>().Show();
+        _showing = true;
     }
     
     private void Hide()
     {
-        if (_questionnaireState.Value == QuestionnaireState.pre)
-        {
+        if (_questionnaireState.Value == QuestionnaireState.pre) 
             _preSlides[_slideIndex].GetComponent<PanelDimmer>().Hide();
-        }
-        else if (_questionnaireState.Value == QuestionnaireState.post)
-        {
+        else if (_questionnaireState.Value == QuestionnaireState.post) 
             _postSlides[_slideIndex].GetComponent<PanelDimmer>().Hide();
-        }
+        
         _showing = false;
         _slideIndex = 0;
     }
@@ -127,9 +109,7 @@ public class QuestionnaireUI : MonoBehaviour
     private void QuestionnaireFinished(GameEvent questionnaireFinishedEvent)
     {
         questionnaireFinishedEvent.Raise();
-        _postSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
-        _showing = false;
-        _slideIndex = 0;
+        Hide();
     }
 }
 
