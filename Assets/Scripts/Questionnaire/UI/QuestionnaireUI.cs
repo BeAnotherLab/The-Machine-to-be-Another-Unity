@@ -12,8 +12,6 @@ public class QuestionnaireUI : MonoBehaviour
     [SerializeField] private GameEvent _postQuestionnaireFinished;
 
     [SerializeField] private QuestionnaireStateVariable _questionnaireState;
-    [SerializeField] private UserStateVariable _previousSelfState;
-    [SerializeField] private UserStateVariable _previousOtherState;
     
     private List<GameObject> _preSlides;
     private List<GameObject> _postSlides;
@@ -51,6 +49,16 @@ public class QuestionnaireUI : MonoBehaviour
         if (start) StartQuestionnaire(QuestionnaireState.pre);
     }
 
+    public void EndPreQuestionnaire()
+    {
+        if (_showing) QuestionnaireFinished(_preQuestionnaireFinished);
+    }
+
+    public void EndPostQuestionnaire()
+    {
+        if (_showing) QuestionnaireFinished(_postQuestionnaireFinished);
+    }
+    
     public void Init() 
     {
         Hide();
