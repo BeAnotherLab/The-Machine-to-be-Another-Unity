@@ -9,7 +9,7 @@ public class QuestionnaireUI : MonoBehaviour
     [SerializeField] private GameObject _videoConsent;
     
     [SerializeField] private GameEvent _preQuestionnaireFinished;
-    [SerializeField] private BoolGameEvent _postQuestionnaireFinished; //bool param specfies if ended by finishing by removing headset
+    [SerializeField] private GameEvent _postQuestionnaireFinished;
 
     [SerializeField] private QuestionnaireStateVariable _questionnaireState;
     [SerializeField] private UserStateVariable _previousSelfState;
@@ -72,19 +72,13 @@ public class QuestionnaireUI : MonoBehaviour
         //reached last pre questionnaire question 
         if (_questionnaireState == QuestionnaireState.pre && _slideIndex == _preSlides.Count - 1)
         {
-            _preQuestionnaireFinished.Raise();
-            _preSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
-            _showing = false;
-            _slideIndex = 0;
+            QuestionnaireFinished(_preQuestionnaireFinished);
             return;
         }
         //reached last post questionnaire question
         if (_questionnaireState == QuestionnaireState.post && _slideIndex == _postSlides.Count - 1)
         {
-            _postQuestionnaireFinished.Raise(false);
-            _postSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
-            _showing = false;
-            _slideIndex = 0;
+            QuestionnaireFinished(_postQuestionnaireFinished);
             return;
         }   
         //next pre questionnaire question
@@ -95,14 +89,14 @@ public class QuestionnaireUI : MonoBehaviour
         
         _slideIndex++;
     }
-  
+
     public void SelfStateChanged(UserState newState) //if self removed headset during post, do as if it had finished
     {
         if (_questionnaireState == QuestionnaireState.post)
         {
             if (_previousSelfState == UserState.readyToStart && newState == UserState.headsetOff && _showing) //if user removed headset
             {
-                _postQuestionnaireFinished.Raise(true);
+                _postQuestionnaireFinished.Raise();
                 Hide();
             }
         }
@@ -138,6 +132,14 @@ public class QuestionnaireUI : MonoBehaviour
         slides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
         if (_slideIndex + 1 < slides.Count)
             slides[_slideIndex + 1].GetComponent<PanelDimmer>().Show(true);
+    }
+    
+    private void QuestionnaireFinished(GameEvent questionnaireFinishedEvent)
+    {
+        questionnaireFinishedEvent.Raise();
+        _postSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
+        _showing = false;
+        _slideIndex = 0;
     }
 }
 
