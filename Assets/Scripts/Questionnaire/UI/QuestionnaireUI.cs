@@ -69,6 +69,7 @@ public class QuestionnaireUI : MonoBehaviour
 
     public void NextButton()
     {
+        //reached last pre questionnaire question 
         if (_questionnaireState == QuestionnaireState.pre && _slideIndex == _preSlides.Count - 1)
         {
             _preQuestionnaireFinished.Raise();
@@ -77,6 +78,7 @@ public class QuestionnaireUI : MonoBehaviour
             _slideIndex = 0;
             return;
         }
+        //reached last post questionnaire question
         if (_questionnaireState == QuestionnaireState.post && _slideIndex == _postSlides.Count - 1)
         {
             _postQuestionnaireFinished.Raise(false);
@@ -85,22 +87,16 @@ public class QuestionnaireUI : MonoBehaviour
             _slideIndex = 0;
             return;
         }   
-        if (_questionnaireState == QuestionnaireState.pre)
-        {
-            _preSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
-            if (_slideIndex + 1 < _preSlides.Count)
-                _preSlides[_slideIndex + 1].GetComponent<PanelDimmer>().Show(true);
-        }
-        else if (_questionnaireState == QuestionnaireState.post)
-        {
-            _postSlides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
-            if (_slideIndex + 1 < _postSlides.Count)
-                _postSlides[_slideIndex + 1].GetComponent<PanelDimmer>().Show(true);
-        }
+        //next pre questionnaire question
+        if (_questionnaireState == QuestionnaireState.pre) NextSlide(_preSlides);
+            
+        //next post questionnaire question
+        else if (_questionnaireState == QuestionnaireState.post) NextSlide(_postSlides);
+        
         _slideIndex++;
     }
-
-    public void SelfStateChanged(UserState newState) //if self removed headest during post, do as if it had finished
+  
+    public void SelfStateChanged(UserState newState) //if self removed headset during post, do as if it had finished
     {
         if (_questionnaireState == QuestionnaireState.post)
         {
@@ -112,7 +108,7 @@ public class QuestionnaireUI : MonoBehaviour
         }
     }
     
-    public void OtherStateChanged(UserState newState) 
+    public void OtherStateChanged(UserState newState) //Hide questionnaire if we're doing questionnaire pre and the other removed the headset.
     {
         if (_previousOtherState == UserState.readyToStart 
             && newState == UserState.headsetOff
@@ -135,6 +131,13 @@ public class QuestionnaireUI : MonoBehaviour
         }
         _showing = false;
         _slideIndex = 0;
+    }
+    
+    private void NextSlide(List<GameObject> slides)
+    {
+        slides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
+        if (_slideIndex + 1 < slides.Count)
+            slides[_slideIndex + 1].GetComponent<PanelDimmer>().Show(true);
     }
 }
 
