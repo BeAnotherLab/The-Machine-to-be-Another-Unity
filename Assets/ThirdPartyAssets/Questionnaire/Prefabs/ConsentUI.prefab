@@ -150,16 +150,16 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "In einem etwa 6-min\xFCtigen Experiment untersuchen wir anhand von Frageb\xF6gen
-    die Wahrnehmungs- und zwischenmenschlichen Effekte des Body-Swapping. Damit ist
-    kein nachgewiesener Nutzen verbunden. In seltenen F\xE4llen k\xF6nnen sich die
-    Teilnehmer schwindelig f\xFChlen, dies sollte jedoch kurz nach dem Abnehmen des
-    Headsets verschwinden. Ihre Teilnahme ist freiwillig und Sie haben das Recht,
-    jederzeit abzubrechen. Ihre Daten werden anonym behandelt. Diese Studie hat eine
-    ethische Genehmigung der UZH (21.12.7) und wird von Prof. Bigna Lenggenhager (Institut
-    f\xFCr Psychologie, UZH) geleitet. Bei Fragen wenden Sie sich bitte an (bigna.lenggenhager@psychologie.uzh.ch).
-    Beachten Sie, dass wir nur dann mit der Studie fortfahren, wenn beide Teilnehmer
-    zustimmen. "
+  m_Text: "\nIn einem etwa 6-min\xFCtigen Experiment untersuchen wir anhand von Frageb\xF6gen
+    die wahrnehmungsbezogenen und zwischenmenschlichen Auswirkungen des K\xF6rpertauschs.
+    Es gibt keinen direkten Nutzen. In seltenen F\xE4llen kann es vorkommen, dass
+    den Teilnehmern schwindlig wird, aber das sollte kurz nach dem Abnehmen des Headsets
+    wieder verschwinden. Ihre Teilnahme ist freiwillig und Sie haben das Recht, jederzeit
+    abzubrechen. Daten von Personen unter 18 Jahren werden nicht in die Analyse einbezogen.
+    Ihre Daten werden anonym behandelt. Diese Studie wurde von der UZH Ethikkommission
+    genehmigt (21.12.7) und wird von Prof. Bigna Lenggenhager (Psychologisches Institut,
+    UZH) geleitet. Bei Fragen wenden Sie sich bitte an sie (bigna.lenggenhager@psychologie.uzh.ch).
+    \n\nNur wenn beide Teilnehmer zustimmen, werden wir mit der Studie fortfahren.\n\n"
 --- !u!114 &173110638911606640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,6 +391,37 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8487205264900857800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3560299249025443690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3560299249025443690}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &595082125957563528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,8 +507,6 @@ MonoBehaviour:
   _noButton: {fileID: 6293335767279565086}
   _textPanel: {fileID: 1314967233334736792}
   _text: {fileID: 1314967232750758923}
-  _previousOtherState: {fileID: 11400000, guid: d0addde542cc2804c8dc89ae4c145f72,
-    type: 2}
 --- !u!114 &2417247077044410933
 MonoBehaviour:
   m_ObjectHideFlags: 0

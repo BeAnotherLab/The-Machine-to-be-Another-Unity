@@ -28,16 +28,23 @@ namespace VRStandardAssets.Menu
         {
             m_InteractiveItem.OnOver += HandleOver;
             m_InteractiveItem.OnOut += HandleOut;
-            m_SelectionRadial.OnSelectionComplete += HandleSelectionComplete;
         }
 
         private void OnDisable()
         {
             m_InteractiveItem.OnOver -= HandleOver;
             m_InteractiveItem.OnOut -= HandleOut;
-            m_SelectionRadial.OnSelectionComplete -= HandleSelectionComplete;
         }
-
+        
+        public void HandleSelectionComplete()
+        {
+            if (m_GazeOver)
+            {
+                _languageChangeEvent.Raise(_language);
+            }
+            HandleOut();            
+        }
+        
         private void HandleOver()
         {
             // When the user looks at the rendering of the scene, show the radial.
@@ -57,15 +64,6 @@ namespace VRStandardAssets.Menu
             LeanTween.scale(gameObject, _scaleOut, 0.45f).setEaseOutBounce();
             LeanTween.color(gameObject, Color.gray, 0.25f).setEaseOutCubic();
             m_GazeOver = false;
-        }
-
-        private void HandleSelectionComplete()
-        {
-            if (m_GazeOver)
-            {
-                _languageChangeEvent.Raise(_language);
-            }
-            HandleOut();            
         }
 
     }

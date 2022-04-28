@@ -41,17 +41,20 @@ public class CustomVRButton: MonoBehaviour {
 
 		m_InteractiveItem.OnOver += HandleOver;
 		m_InteractiveItem.OnOut += HandleOut;
-		m_SelectionRadial.OnSelectionComplete += HandleSelectionComplete;
-
 	}
 
 	private void OnDisable () {
 		m_InteractiveItem.OnOver -= HandleOver;
 		m_InteractiveItem.OnOut -= HandleOut;
-		m_SelectionRadial.OnSelectionComplete -= HandleSelectionComplete;
-
 	}
-
+	
+	public void HandleSelectionComplete() {
+		if (m_GazeOver) {
+			//raise event
+		}
+		HandleOut(); //necessary?
+	}
+	
 	private void HandleOver() {
 		// When the user looks at the rendering of the scene, show the radial.
 		if (XRDevice.userPresence == UserPresenceState.Present)
@@ -69,12 +72,4 @@ public class CustomVRButton: MonoBehaviour {
 
 		m_GazeOver = false;
 	}
-
-	private void HandleSelectionComplete() {
-		if (m_GazeOver) {
-			//raise event
-		}
-		HandleOut(); //necessary?
-	}
-
 }

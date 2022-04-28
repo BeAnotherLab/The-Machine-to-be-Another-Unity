@@ -46,16 +46,25 @@ namespace VRStandardAssets.Menu
         {
             m_InteractiveItem.OnOver += HandleOver;
             m_InteractiveItem.OnOut += HandleOut;
-            m_SelectionRadial.OnSelectionComplete += HandleSelectionComplete;
         }
 
         private void OnDisable()
         {
             m_InteractiveItem.OnOver -= HandleOver;
             m_InteractiveItem.OnOut -= HandleOut;
-            m_SelectionRadial.OnSelectionComplete -= HandleSelectionComplete;
         }
 
+        public void HandleSelectionComplete()
+        {
+            if (m_GazeOver) {
+                selfState.Value = UserState.readyToStart;
+                selfStateGameEvent.Raise(selfState.Value);
+                GetComponent<MeshRenderer>().enabled = false;
+                GetComponent<MeshCollider>().enabled = false;
+            }
+            HandleOut();            
+        }
+        
         private void HandleOver()
         {
             // When the user looks at the rendering of the scene, show the radial.
@@ -81,17 +90,5 @@ namespace VRStandardAssets.Menu
             GetComponent<ConfirmationButtonGraphics>().SwitchSelection(m_GazeOver);
 
         }
-
-        private void HandleSelectionComplete()
-        {
-            if (m_GazeOver) {
-                selfState.Value = UserState.readyToStart;
-                selfStateGameEvent.Raise(selfState.Value);
-                GetComponent<MeshRenderer>().enabled = false;
-                GetComponent<MeshCollider>().enabled = false;
-            }
-            HandleOut();            
-        }
-
     }
 }
