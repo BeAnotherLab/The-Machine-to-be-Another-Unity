@@ -41,32 +41,22 @@ public class QuestionnaireUI : MonoBehaviour
         }
     }
 
-    public void ExperienceFinished(bool withQuestionnaire) 
+    public void StartPostQuestionnaire(bool withQuestionnaire)  //TODO remove
     {
-        if (withQuestionnaire) //if we should show the questionnaire
-        {
-            _questionnaireState.Value = QuestionnaireState.post;
-            _postSlides[0].GetComponent<PanelDimmer>().Show();
-            _showing = true;
-        }
+        if (withQuestionnaire) StartQuestionnaire(QuestionnaireState.post); //if we should show the questionnaire 
+    }
+    
+    public void StartPreQuestionnaire(bool consentGiven) //TODO split
+    {
+        if (consentGiven) StartQuestionnaire(QuestionnaireState.pre);
     }
 
-    public void OnStandby()
+    public void Init() //TODO rename
     {
         Hide();
         _questionnaireState.Value = QuestionnaireState.init;
     }
     
-    public void ReadyToShowQuestionnaire(bool ready)
-    {
-        if (ready)
-        {
-            _questionnaireState.Value = QuestionnaireState.pre;
-            _preSlides[0].GetComponent<PanelDimmer>().Show();    
-            _showing = true;
-        }
-    }
-
     public void NextButton()
     {
         //reached last pre questionnaire question 
