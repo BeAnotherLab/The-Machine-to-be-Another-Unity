@@ -9,7 +9,6 @@ public class ConsentConfirmationButton : MonoBehaviour
 {
         [SerializeField] private BoolGameEvent _handleSelectionCompleteEvent;
         
-        [SerializeField] private CustomSelectionRadial m_SelectionRadial;         // This controls when the selection is complete.
         [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
         [SerializeField] private bool _answer;
         private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
