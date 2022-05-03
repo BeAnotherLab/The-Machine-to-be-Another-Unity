@@ -8,7 +8,8 @@ using VRStandardAssets.Utils;
 public class ConsentConfirmationButton : MonoBehaviour
 {
         [SerializeField] private BoolGameEvent _handleSelectionCompleteEvent;
-        
+
+        [SerializeField] private CustomSelectionRadial m_SelectionRadial;         // This controls when the selection is complete.
         [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
         [SerializeField] private bool _answer;
         private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
@@ -16,7 +17,7 @@ public class ConsentConfirmationButton : MonoBehaviour
         private void OnEnable()
         {
             m_InteractiveItem.OnOver += HandleOver;
-            m_InteractiveItem.OnOut += HandleOut;
+            m_InteractiveItem.OnOut += HandleOut; 
         }
 
         private void OnDisable()
