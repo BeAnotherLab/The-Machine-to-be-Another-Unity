@@ -10,13 +10,25 @@ public class ConsentUIAutoBodySwapLogic : MonoBehaviour
     public void SelfStateChanged(UserState selfState)
     {
         //if self is now ready to start 
-        if (selfState == UserState.readyToStart) GetComponent<ConsentUI>().Show(true);
-        else if (selfState == UserState.headsetOff) GetComponent<ConsentUI>().Show(false);
+        if (selfState == UserState.readyToStart)
+        {
+            GetComponent<ConsentUI>().Show(true);
+            GetComponent<ConsentUIText>().Show();
+        }
+        else if (selfState == UserState.headsetOff)
+        {
+            GetComponent<ConsentUI>().Show(false);
+
+
+        }
     }
 
     public void OtherStateChanged(UserState otherState)
     {
-        if(otherState == UserState.headsetOff && _previousOtherState == UserState.readyToStart) 
+        if (otherState == UserState.headsetOff && _previousOtherState == UserState.readyToStart)
+        {
             GetComponent<ConsentUI>().Show(true);
+            GetComponent<ConsentUIText>().Show();
+        } 
     }
 }

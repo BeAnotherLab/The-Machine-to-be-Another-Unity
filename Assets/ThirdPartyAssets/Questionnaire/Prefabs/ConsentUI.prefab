@@ -405,6 +405,9 @@ GameObject:
   - component: {fileID: 3955627967757753270}
   - component: {fileID: 3865778842305735717}
   - component: {fileID: 7792882719688436801}
+  - component: {fileID: 8579442337184688804}
+  - component: {fileID: 8916902456040887723}
+  - component: {fileID: 5856388427618419462}
   m_Layer: 0
   m_Name: ConsentUI
   m_TagString: Untagged
@@ -444,7 +447,6 @@ MonoBehaviour:
   _yesButton: {fileID: 3560299249025443690}
   _noButton: {fileID: 6293335767279565086}
   _textPanel: {fileID: 1314967233334736792}
-  _text: {fileID: 1314967232750758923}
 --- !u!114 &2417247077044410933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,7 +532,7 @@ MonoBehaviour:
   _response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2358207166597989730}
+      - m_Target: {fileID: 8579442337184688804}
         m_MethodName: ConsentButtonPressed
         m_Mode: 1
         m_Arguments:
@@ -565,6 +567,65 @@ MonoBehaviour:
       - m_Target: {fileID: 2358207166597989730}
         m_MethodName: ReadyToShowQuestionnaire
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8579442337184688804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7446580013050441714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 407814c7ff43d486b8d6c713900222c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _text: {fileID: 1314967232750758923}
+--- !u!114 &8916902456040887723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7446580013050441714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1762967633c2b4ea1bba3b9a3412f676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _previousOtherState: {fileID: 11400000, guid: d0addde542cc2804c8dc89ae4c145f72,
+    type: 2}
+--- !u!114 &5856388427618419462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7446580013050441714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49,
+    type: 2}
+  _event: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2358207166597989730}
+        m_MethodName: Show
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
