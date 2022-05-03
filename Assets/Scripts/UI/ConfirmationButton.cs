@@ -14,7 +14,7 @@ namespace VRStandardAssets.Menu
 
         public event Action<ConfirmationButton> OnButtonSelected;           // This event is triggered when the selection of the button has finished.
 
-        [SerializeField] private CustomSelectionRadial m_SelectionRadial;         // This controls when the selection is complete.
+        [SerializeField] private BoolGameEvent _showSelectionRadialEvent;
         [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
 
         [SerializeField] private UserStateGameEvent selfStateGameEvent;
@@ -70,10 +70,7 @@ namespace VRStandardAssets.Menu
             // When the user looks at the rendering of the scene, show the radial.
             if (XRDevice.userPresence == UserPresenceState.Present)
             {
-                m_SelectionRadial.Show();
-                //LeanTween.scale(gameObject, new Vector3(1.2f, 1.2f, 1.2f), 0.45f).setEaseOutBounce();
-                //LeanTween.color(gameObject, Color.white, 0.25f).setEaseOutCubic();
-
+                _showSelectionRadialEvent.Raise(true);
                 m_GazeOver = true;
                 GetComponent<ConfirmationButtonGraphics>().SwitchSelection(m_GazeOver);
             }
@@ -82,10 +79,7 @@ namespace VRStandardAssets.Menu
         private void HandleOut()
         {
             // When the user looks away from the rendering of the scene, hide the radial.
-            m_SelectionRadial.Hide();
-            //LeanTween.scale(gameObject, new Vector3(1, 1, 1), 0.45f).setEaseOutBounce();
-            //LeanTween.color(gameObject, Color.gray, 0.25f).setEaseOutCubic();
-
+            _showSelectionRadialEvent.Raise(false);
             m_GazeOver = false;     
             GetComponent<ConfirmationButtonGraphics>().SwitchSelection(m_GazeOver);
 

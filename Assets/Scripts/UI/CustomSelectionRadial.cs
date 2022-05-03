@@ -39,6 +39,7 @@ namespace VRStandardAssets.Utils
             if (show) Show();
             else Hide();
         }
+        
         public void Show()
         {
             m_Selection.gameObject.SetActive(true);
@@ -50,7 +51,6 @@ namespace VRStandardAssets.Utils
                 m_SelectionFillRoutine = StartCoroutine(FillSelectionRadial());
             }
         }
-
 
         public void Hide()
         {
@@ -67,7 +67,6 @@ namespace VRStandardAssets.Utils
             m_IsSelectionRadialActive = false;
 
         }
-
 
         private IEnumerator FillSelectionRadial()
         {
