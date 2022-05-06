@@ -17,25 +17,7 @@ namespace VRStandardAssets.Menu
         [SerializeField] private BoolGameEvent _showSelectionRadialEvent;
         [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
 
-        [SerializeField] private UserStateGameEvent selfStateGameEvent;
-        [SerializeField] private UserStateVariable selfState;
-
-        private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
-        
-        public void SelfUserStateChanged(UserState selfUserState)
-        {
-            if (selfUserState == UserState.readyToStart)
-            {
-                GetComponent<MeshRenderer>().enabled = false;
-                GetComponent<MeshCollider>().enabled = false;    
-            }
-        }
-
-        public void OnStandby()
-        {
-            GetComponent<MeshRenderer>().enabled = true;
-            GetComponent<MeshCollider>().enabled = true;
-        }
+        public bool gazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
          
         private void Awake()
         {
@@ -56,9 +38,8 @@ namespace VRStandardAssets.Menu
 
         public void HandleSelectionComplete()
         {
-            if (m_GazeOver) {
-                selfState.Value = UserState.readyToStart;
-                selfStateGameEvent.Raise(selfState.Value);
+            if (gazeOver) {
+                
                 GetComponent<MeshRenderer>().enabled = false;
                 GetComponent<MeshCollider>().enabled = false;
             }
@@ -71,8 +52,8 @@ namespace VRStandardAssets.Menu
             if (XRDevice.userPresence == UserPresenceState.Present)
             {
                 _showSelectionRadialEvent.Raise(true);
-                m_GazeOver = true;
-                GetComponent<ConfirmationButtonGraphics>().SwitchSelection(m_GazeOver);
+                gazeOver = true;
+                GetComponent<ConfirmationButtonGraphics>().SwitchSelection(gazeOver);
             }
         }
 
@@ -80,8 +61,8 @@ namespace VRStandardAssets.Menu
         {
             // When the user looks away from the rendering of the scene, hide the radial.
             _showSelectionRadialEvent.Raise(false);
-            m_GazeOver = false;     
-            GetComponent<ConfirmationButtonGraphics>().SwitchSelection(m_GazeOver);
+            gazeOver = false;     
+            GetComponent<ConfirmationButtonGraphics>().SwitchSelection(gazeOver);
 
         }
     }
