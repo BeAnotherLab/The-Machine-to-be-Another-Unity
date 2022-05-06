@@ -13,22 +13,13 @@ public class InstructionsTextBehavior : MonoBehaviour
 
     [SerializeField] private GameObject _textGameObject;
 
-    [SerializeField] private UserStateVariable _previousOtherState;
-    [SerializeField] private QuestionnaireStateVariable _questionnaireState;
-
     private void Awake()
     {
         if (instance == null) instance = this;
     }
 
     #region  Public methods
-    
-    public void ExperienceFinished(bool showQuestionnaire)
-    {
-        if (!showQuestionnaire)
-            _textGameObject.GetComponent<LeanLocalizedText>().TranslationName = "finished";
-    }
-
+   
     public void ShowInstructionText(bool show, string text = "")
     {
         GetComponent<PanelDimmer>().Show(show);
@@ -56,15 +47,6 @@ public class InstructionsTextBehavior : MonoBehaviour
         StartCoroutine(TimedTextCoroutine(text, time));
     }
 
-    public void OtherStateChanged(UserState newState) 
-    {
-        if (_previousOtherState == UserState.readyToStart 
-            && newState == UserState.headsetOff
-            && _questionnaireState.Value != QuestionnaireState.post) //if user removed headset
-        {
-            ShowTextFromKey("otherIsGone", 4);
-        }
-    }
     
     #endregion
     

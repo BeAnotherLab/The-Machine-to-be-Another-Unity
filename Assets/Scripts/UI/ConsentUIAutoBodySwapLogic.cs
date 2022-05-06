@@ -18,8 +18,6 @@ public class ConsentUIAutoBodySwapLogic : MonoBehaviour
         else if (selfState == UserState.headsetOff)
         {
             GetComponent<ConsentUI>().Show(false);
-
-
         }
     }
 
@@ -31,4 +29,5 @@ public class ConsentUIAutoBodySwapLogic : MonoBehaviour
             GetComponent<ConsentUIText>().Show();
         } 
     }
+    
 }
