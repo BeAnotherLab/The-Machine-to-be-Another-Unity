@@ -1,20 +1,18 @@
-#include <SoftwareSerial.h>   // We need this even if we're not using a SoftwareSerial object
-                              // Due to the way the Arduino IDE compiles
-#include <SerialCommand.h>
+#include<Uduino.h>
+Uduino uduino("servoControl");
 #include <Servo.h>
 
 Servo yawServo, pitchServo;  // create servo objects
-SerialCommand SCmd;   // The SerialCommand object
 
 void setup() {
-  Serial.begin(57600);
+  Serial.begin(115200);
   while (!Serial);
 
   yawServo.attach(9);  
   pitchServo.attach(10);
 
-  SCmd.addCommand("Pitch", pitchCommand);
-  SCmd.addCommand("Yaw", yawCommand);  
+  uduino.addCommand("p", pitchCommand);
+  uduino.addCommand("y", yawCommand);  
 
   //initialize in center position
   pitchServo.write(90); 
@@ -22,7 +20,7 @@ void setup() {
 }
 
 void loop () {
-  if (Serial.available() > 0)  SCmd.readSerial();   // We don't do much, just process serial commands
+  uduino.readSerial();  
 }
 
 void pitchCommand() {
@@ -34,14 +32,13 @@ void yawCommand() {
 }
 
 void servoCommand(Servo servo)    
-{
-  int aNumber;  
-  char *arg; 
-  
-  arg = SCmd.next(); //get first argument
-  if (arg != NULL) 
-  {
-    aNumber=atoi(arg);    // Converts a char string to an integer    
-    servo.write(aNumber);
-  }   
+{  
+  float value;
+  char *arg = NULL;
+  arg = uduino.next();
+  if (arg != NULL) {
+  value = atof(arg); 
+  }
+   servo.write((int) value);   
+   Serial.println((int) value);
 }

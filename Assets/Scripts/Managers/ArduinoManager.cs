@@ -60,7 +60,7 @@ public class ArduinoManager : MonoBehaviour
     
     public void ActivateSerial(bool servosOn, bool useCurtain)
     {
-        if (servosOn) UduinoManager.Instance.BaudRate = 57600;
+        if (servosOn) UduinoManager.Instance.BaudRate = 115200;
         else if (_serialControlOn && useCurtain){
             UduinoManager.Instance.OnDataReceived += DataReceived;
             UduinoManager.Instance.BaudRate = 9600; //if we are in Technorama and this computer is connected to the Arduino
@@ -88,7 +88,8 @@ public class ArduinoManager : MonoBehaviour
             sum = value + pitchOffset;
             if ((value + pitchOffset) > 180) sum = 179.5f;
             if ((value + pitchOffset) < 0) sum = 0.5f;
-            WriteToArduino("Pitch " + sum);
+            //WriteToArduino("Pitch " + sum);
+            GetComponent<UduinoManager>().sendCommand("p", (int) value);
         }
     }
 
@@ -100,7 +101,7 @@ public class ArduinoManager : MonoBehaviour
             sum = value + yawOffset;
             if ((value + yawOffset) > 180) sum = 179.5f;
             if ((value + yawOffset) < 0) sum = 0.5f;
-            WriteToArduino("Yaw " + sum);
+            GetComponent<UduinoManager>().sendCommand("y",  (int) value);
         }
     }
 
