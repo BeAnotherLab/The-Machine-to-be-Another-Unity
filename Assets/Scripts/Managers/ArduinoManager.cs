@@ -25,16 +25,25 @@ public class ArduinoManager : MonoBehaviour
     [SerializeField] private int _timeOut;
 
     private bool _servosOn; //for one way swap.
-    //private bool _commandOK;
     private bool _serialControlOn; //for technorama swap. determine if this computer is in charge of controlling the curtain and mirrors
     
-    //private Coroutine _timeoutCoroutine;
-    
+    private bool _invertX, _invertY;
+
     #endregion
     
     
     #region MonoBehaviour Methods
+    
+    private void OnEnable()
+    {
+        InvertServos.InvertAxis += InvertAxis;
+    }
 
+    private void OnDisable()
+    {
+        InvertServos.InvertAxis -= InvertAxis;
+
+    }
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -84,12 +93,14 @@ public class ArduinoManager : MonoBehaviour
     {
         if (_servosOn)
         {
-            float sum;
-            sum = value + pitchOffset;
-            if ((value + pitchOffset) > 180) sum = 179.5f;
-            if ((value + pitchOffset) < 0) sum = 0.5f;
-            //WriteToArduino("Pitch " + sum);
-            GetComponent<UduinoManager>().sendCommand("p", (int) value);
+            if (_invertY)
+            {
+                GetComponent<UduinoManager>().sendCommand("p", (int) 180 - value);
+            }
+            else
+            {
+                GetComponent<UduinoManager>().sendCommand("p", (int) value);
+            } 
         }
     }
 
@@ -97,11 +108,14 @@ public class ArduinoManager : MonoBehaviour
     {
         if (_servosOn)
         {
-            float sum;
-            sum = value + yawOffset;
-            if ((value + yawOffset) > 180) sum = 179.5f;
-            if ((value + yawOffset) < 0) sum = 0.5f;
-            GetComponent<UduinoManager>().sendCommand("y",  (int) value);
+            if (_invertX)
+            {
+                GetComponent<UduinoManager>().sendCommand("y", (int) 180 - value);
+            }
+            else
+            {
+                GetComponent<UduinoManager>().sendCommand("y", (int) value);
+            }
         }
     }
 
@@ -166,21 +180,18 @@ public class ArduinoManager : MonoBehaviour
     private void WriteToArduino(string message) //send a command, trigger timeout routine
     {
         UduinoManager.Instance.sendCommand(message); 
-        //if (_timeoutCoroutine != null) StopCoroutine(_timeoutCoroutine); 
-        //_timeoutCoroutine = StartCoroutine(WaitForTimeout());
     }
-/*
-    private IEnumerator WaitForTimeout()
-    {
-        yield return new WaitForSeconds(_timeOut);
-        if(!_commandOK) StatusManager.instance.SerialFailure();
-    }
-/*/
+
     private IEnumerator WaitForSerial()
     {
         yield return new WaitForSeconds(5f);
         StatusManager.instance.SerialFailure();
     }    
     
+    private void InvertAxis(bool x, bool y)
+    {
+        _invertX = x; _invertY = y;
+    }    
+
     #endregion
 }
