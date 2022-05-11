@@ -12,6 +12,9 @@ public class DisplayManager : MonoBehaviour //This manager centralizes display o
     public DisplayMode displayMode;
     public static DisplayManager instance;
 
+    public delegate void OnSetDisplayMode(bool show);
+    public static OnSetDisplayMode SetDisplayModeEvent = delegate(bool show) {  };
+
     [SerializeField] private GameObject _utilities;
 
     private void Awake()
@@ -33,8 +36,8 @@ public class DisplayManager : MonoBehaviour //This manager centralizes display o
         //hide menus
         _utilities.SetActive(show);
         VideoCameraManager.instance.EnableDeviceMenu(show);
-        CustomNetworkManager.instance.EnableNetworkGUI(show);
-
+        SetDisplayModeEvent(show);
+        
         this.displayMode = displayMode;
     }
 
