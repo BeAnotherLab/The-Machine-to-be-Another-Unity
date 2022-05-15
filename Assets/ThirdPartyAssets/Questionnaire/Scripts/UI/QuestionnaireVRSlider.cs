@@ -10,8 +10,7 @@ using VRStandardAssets.Utils;
 public class QuestionnaireVRSlider : MonoBehaviour
 {
     [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
-    [SerializeField] private GameEvent _showSelectionRadialEvent;
-    [SerializeField] private GameEvent _hideSelectionRadialEvent;
+    [SerializeField] private BoolGameEvent _showSelectionRadialEvent;
     [SerializeField] private CanvasGroup _canvasGroup;
     
     private Scrollbar _scrollbar;
@@ -46,7 +45,7 @@ public class QuestionnaireVRSlider : MonoBehaviour
         // When the user looks at the rendering of the scene, show the radial.
         if (XRDevice.userPresence == UserPresenceState.Present && _canvasGroup.alpha == 1)
         {
-            _showSelectionRadialEvent.Raise();
+            _showSelectionRadialEvent.Raise(true);
             m_GazeOver = true;
         }
     }
@@ -54,7 +53,7 @@ public class QuestionnaireVRSlider : MonoBehaviour
     private void HandleOut()
     {
         // When the user looks away from the rendering of the scene, hide the radial.
-        _hideSelectionRadialEvent.Raise();
+        _showSelectionRadialEvent.Raise(false);
         m_GazeOver = false;
     }
 
