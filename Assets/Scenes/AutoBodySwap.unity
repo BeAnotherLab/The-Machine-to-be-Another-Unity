@@ -887,7 +887,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22400762, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000061035156
+      value: 0.000045776367
       objectReference: {fileID: 0}
     - target: {fileID: 22426080, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4256,7 +4256,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: StatusManager
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6127583649792939905, guid: ac83e1f85f757314ca0a565297f74bce, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ac83e1f85f757314ca0a565297f74bce, type: 3}
 --- !u!224 &3197596539289527783 stripped
 RectTransform:
@@ -4893,10 +4894,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5304722684002553255, guid: 3f00baa8facab504c84081460f38c958,
         type: 3}
-      propertyPath: _previouslyRegisteredEvent
+      propertyPath: _response.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49,
-        type: 2}
+      objectReference: {fileID: 761314262}
     - target: {fileID: 6205676668354131817, guid: 3f00baa8facab504c84081460f38c958,
         type: 3}
       propertyPath: _previouslyRegisteredEvent
