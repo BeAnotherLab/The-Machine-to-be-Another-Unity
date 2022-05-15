@@ -2,7 +2,7 @@
 using UnityEngine;
 using ScriptableObjectArchitecture;
 
-public class InstructionsTextAutoSwapLogic : MonoBehaviour
+public class InstructionsTextQuestionnaireAutoSwapLogic : MonoBehaviour //this is the logic for autobodyswap with questionnaire
 {
     [SerializeField] private GameObject _textGameObject;
     [SerializeField] private UserStateVariable _previousOtherState;
