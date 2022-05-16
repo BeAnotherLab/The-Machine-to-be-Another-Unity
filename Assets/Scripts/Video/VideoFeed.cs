@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using RockVR.Video;
@@ -39,14 +40,14 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     //Camera params
     private float _turningRate = 90f;
-    [SerializeField]
-    private float _tiltAngle;
+    [SerializeField] private float _tiltAngle;
 
     //Dim params
     private bool _dimmed;
 
     private MeshRenderer _meshRenderer;
 
+    
     #endregion
 
 
