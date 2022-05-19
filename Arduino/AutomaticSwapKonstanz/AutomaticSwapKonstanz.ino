@@ -30,7 +30,6 @@ void setup()
 
   uduino.addCommand("wallOn", wallOnHandler);  
   uduino.addCommand("wallOff", wallOffHandler);   
-
   uduino.addCommand("init", initHandler);
 }
 
@@ -40,39 +39,41 @@ void loop()
   delay(10);
 }
 
-void doHoming(bool confirm)
-{
-  Serial.println("cmd_ok");  //command executed
-
-  if (confirm)
-  {
-    Serial.println("sysReady");  //command executed. only send when doing homing 
-  }  
-}
-
 void initHandler(){
-  doHoming(true);
+  wallOff(true);
 }
 
 void wallOnHandler() 
 {
   Serial.println("cmd_ok");  //command executed
   moveForward(pinMotorA, 180); //move down at minimum power
-  delay(600); //()
-  //Serial.println("cmd_ok");  //command executed
+  delay(7500); //bit more than 2 meters
   fullStop(pinMotorA); //stop motor
 }
 
 void wallOffHandler()
 {
+  wallOff(false);
+}
+
+void wallOff(bool confirm) 
+{
   Serial.println("cmd_ok");  //command executed
-  while(digitalRead(eStop)==0){ //until we reach the top
+  
+  while(digitalRead(eStop)==0)
+  { //until we reach the top
     moveBackward(pinMotorA, 255); //move up at full speed
   }
+  
   //move back down a little
   moveForward(pinMotorA, 180); //second parameter is speed (0-255)
   delay(400);
   fullStop(pinMotorA); //stop motor
+
+  if (confirm)
+  {
+    Serial.println("sysReady");  //command executed. only send when doing homing 
+  }  
 }
 
 void moveForward(const int pinMotor[3], int speed) //go down
