@@ -7,11 +7,14 @@ public class SwapModeManager : MonoBehaviour
 
     public static SwapModeManager instance;
 
-    public enum SwapModes {AUTO_SWAP, MANUAL_SWAP, SERVO_SWAP};
+    public enum SwapModes {AUTO_SWAP, MANUAL_SWAP, CURTAIN_MANUAL_SWAP, SERVO_SWAP};
 
     public SwapModes swapMode;
 
     public bool ArduinoControl; //for auto swap, enable if we are using an Arduino controlled system.
+
+    public delegate void OnSwapModeChanged(SwapModes swapmodes);
+    public static OnSwapModeChanged SwapModeChanged;
 
     private void Awake()
     {
@@ -22,6 +25,7 @@ public class SwapModeManager : MonoBehaviour
     void Start()
     {
         SetSwapMode(swapMode);
+        SwapModeChanged(swapMode);
     }
 
     public void SetSwapMode(SwapModes mode)
@@ -53,7 +57,19 @@ public class SwapModeManager : MonoBehaviour
                 OscManager.instance.SetSendHeadtracking(true); //send headtracking
                 ArduinoManager.instance.DisableSerial(); //deactivate servos
                 AudioManager.instance.StopAudioInstructions(); //stop auto swap instructions audio
+
+                break;
                 
+            case SwapModes.CURTAIN_MANUAL_SWAP:
+                
+                SettingsGUI.instance.SetSwapMode(); //hide serial port dropdown, show repeater toggle, show IP input field
+                VideoFeed.instance.twoWayWap = true; //move video with other pose
+                StatusManager.instance.Standby(true, false); //go to initial state
+                OscManager.instance.EnableRepeater(true); //enable OSC repeat
+                OscManager.instance.SetSendHeadtracking(true); //send headtracking
+                //ArduinoManager.instance.DisableSerial(); //deactivate servos
+                AudioManager.instance.StopAudioInstructions(); //stop auto swap instructions audio
+
                 break;
 
             case SwapModes.SERVO_SWAP:

@@ -63,7 +63,9 @@ public abstract class StatusManager : MonoBehaviour
         if (instance == null) instance = this;
 
         _confirmationMenu = GameObject.Find("ConfirmationMenu");
-        UduinoManager.Instance.OnBoardDisconnectedEvent.AddListener(delegate { SerialFailure(); });
+        UduinoManager.Instance.OnBoardDisconnectedEvent.AddListener(delegate {
+            //SerialFailure();
+        });
         instructionsTimeline = _longTimeline; //use short experience by default
     }
 
@@ -131,8 +133,6 @@ public abstract class StatusManager : MonoBehaviour
 
     public void CloseWall()
     {
-        ArduinoManager.instance.WallOn(true);
-        //ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
         Debug.Log("wall on");        
         _curtainOnEvent.Raise(true);
     }
@@ -140,7 +140,6 @@ public abstract class StatusManager : MonoBehaviour
     public void WallOn() //TODO rename
     {
         OpenCurtainCanvasController.instance.Show("Open Curtain");
-        ArduinoManager.instance.WallOn(false);
         _curtainOnEvent.Raise(false);
         //ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
         Debug.Log("wall off");
