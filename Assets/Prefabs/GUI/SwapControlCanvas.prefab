@@ -200,7 +200,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Curtain Off
+  m_Text: Curtain On
 --- !u!1 &1231271348986763478
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,8 +291,9 @@ GameObject:
   - component: {fileID: 3376583133290278894}
   - component: {fileID: 5110697494466226816}
   - component: {fileID: 7382024535700263883}
+  - component: {fileID: 3963577484033289777}
   m_Layer: 0
-  m_Name: AudioInstructionsCanvas
+  m_Name: SwapControlCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -390,6 +391,21 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &3963577484033289777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687235026070640618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df80cb6862b9a64ebf5c325a0c0de01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _languagechangedEvent: {fileID: 11400000, guid: 3186148365f83442090e1a09b70837e4,
+    type: 2}
+  _curtainControlButtons: {fileID: 6422295808583913826}
 --- !u!1 &1898204911583794223
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,7 +694,7 @@ RectTransform:
   m_Children:
   - {fileID: 5042824176800443421}
   m_Father: {fileID: 2111384086601280319}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1411,7 +1427,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3963577484033289777}
         m_MethodName: ButtonPressed
         m_Mode: 3
         m_Arguments:
@@ -1611,7 +1627,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3963577484033289777}
         m_MethodName: ButtonPressed
         m_Mode: 3
         m_Arguments:
@@ -1811,7 +1827,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3963577484033289777}
         m_MethodName: ButtonPressed
         m_Mode: 3
         m_Arguments:
@@ -1936,7 +1952,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3963577484033289777}
         m_MethodName: ButtonPressed
         m_Mode: 3
         m_Arguments:
@@ -1979,7 +1995,7 @@ RectTransform:
   m_Children:
   - {fileID: 703623643924938296}
   m_Father: {fileID: 2111384086601280319}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2101,8 +2117,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 5702246622023932227}
   - {fileID: 7781101382105598168}
+  - {fileID: 5702246622023932227}
   m_Father: {fileID: 8732284627605255679}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2334,7 +2350,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3963577484033289777}
         m_MethodName: ButtonPressed
         m_Mode: 3
         m_Arguments:
@@ -2660,7 +2676,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3963577484033289777}
         m_MethodName: ButtonPressed
         m_Mode: 3
         m_Arguments:
