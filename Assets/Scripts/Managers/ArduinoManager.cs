@@ -27,7 +27,7 @@ public class ArduinoManager : MonoBehaviour
     private bool _servosOn; //for one way swap.
     //private bool _commandOK;
     private bool _serialControlOn; //for technorama swap. determine if this computer is in charge of controlling the curtain and mirrors
-    private bool _sysready;
+    private bool _sysready; //whether board has been connected already
     //private Coroutine _timeoutCoroutine;
     
     #endregion
@@ -61,9 +61,9 @@ public class ArduinoManager : MonoBehaviour
     public void ActivateSerial(bool servosOn, bool useCurtain)
     {
         if (servosOn) UduinoManager.Instance.BaudRate = 57600;
-        else if (_serialControlOn && useCurtain){
+        else if (_serialControlOn && useCurtain){ //if we are in Technorama and this computer is connected to the Arduino
             UduinoManager.Instance.OnDataReceived += DataReceived;
-            UduinoManager.Instance.BaudRate = 115200; //if we are in Technorama and this computer is connected to the Arduino
+            UduinoManager.Instance.BaudRate = 115200; //this is the baudrate for 
         }
         _servosOn = servosOn;
     }

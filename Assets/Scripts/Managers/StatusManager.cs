@@ -64,7 +64,7 @@ public abstract class StatusManager : MonoBehaviour
 
         _confirmationMenu = GameObject.Find("ConfirmationMenu");
         UduinoManager.Instance.OnBoardDisconnectedEvent.AddListener(delegate {
-            //SerialFailure();
+            //SerialFailure(); //TODO wait for a few seconds for reconnection instead of going staight to failure
         });
         instructionsTimeline = _longTimeline; //use short experience by default
     }
