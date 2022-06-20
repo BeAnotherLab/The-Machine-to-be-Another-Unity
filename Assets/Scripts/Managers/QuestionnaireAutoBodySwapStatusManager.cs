@@ -16,6 +16,11 @@ public class QuestionnaireAutoBodySwapStatusManager : StatusManager
 
     #region MonoBehaviour Methods
 
+    private void Awake()
+    {
+        Debug.Log("wuaestionnaire auto body status manager awake");
+    }
+    
     #endregion
 
 

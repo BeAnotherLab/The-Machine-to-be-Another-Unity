@@ -33,8 +33,8 @@ public abstract class StatusManager : MonoBehaviour
     
     #region Protected Fields
     
-    [SerializeField] protected PlayableDirector _shortTimeline;
-    [SerializeField] protected PlayableDirector _longTimeline;
+    [SerializeField] protected PlayableDirector _shortTimeline; //TODO shouldn't be in abstract status manager 
+    [SerializeField] protected PlayableDirector _longTimeline; //TODO shouldn't be in abstract status manager
     [SerializeField] protected GameObject _languageButtons;
 
     [SerializeField] protected GameEvent _standbyGameEvent;
@@ -45,6 +45,7 @@ public abstract class StatusManager : MonoBehaviour
     [SerializeField] protected BoolGameEvent _curtainOnEvent;
     
     [SerializeField] protected StringGameEvent _setInstructionsTextGameEvent;
+    [SerializeField] protected BoolGameEvent _showInstructionsTextGameEvent;
 
     [SerializeField] protected TrackAsset _germanTrack;
     [SerializeField] protected TrackAsset _englishTrack;
@@ -62,7 +63,7 @@ public abstract class StatusManager : MonoBehaviour
     {
         if (instance == null) instance = this;
 
-        _confirmationMenu = GameObject.Find("ConfirmationMenu");
+        _confirmationMenu = GameObject.Find("ConfirmationMenu"); //TOOD don't use references like that
         UduinoManager.Instance.OnBoardDisconnectedEvent.AddListener(delegate {
             //SerialFailure(); //TODO wait for a few seconds for reconnection instead of going staight to failure
         });
@@ -106,7 +107,7 @@ public abstract class StatusManager : MonoBehaviour
     
     public void StartExperience() //TODO remove?
     {
-        InstructionsTextBehavior.instance.ShowInstructionText(false);
+        _showInstructionsTextGameEvent.Raise(false);
         if (_dimOutOnExperienceStart) VideoFeed.instance.Dim(false);
         else instructionsTimeline.Stop();
         _experienceStartedGameEvent.Raise();
@@ -139,17 +140,16 @@ public abstract class StatusManager : MonoBehaviour
     
     public void WallOn() //TODO rename
     {
-        OpenCurtainCanvasController.instance.Show("Open Curtain");
         _curtainOnEvent.Raise(false);
         //ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
         Debug.Log("wall off");
     }
 
-    public void ThisUserIsReady() //called when user has aimed at the confirmation dialog and waited through the countdown.
+    protected void ThisUserIsReady() //called when user has aimed at the confirmation dialog and waited through the countdown.
     {
         OscManager.instance.SendThisUserStatus(UserState.readyToStart);
         _languageButtons.gameObject.SetActive(false); //hide language buttons;
-        InstructionsTextBehavior.instance.ShowInstructionText(false);
+        _setInstructionsTextGameEvent.Raise("waitForOther");
         Debug.Log("this user is ready", DLogType.Input);
     }
 
@@ -298,7 +298,6 @@ public abstract class StatusManager : MonoBehaviour
     {
         if (_readyForStandby)
         {
-            OpenCurtainCanvasController.instance.Show("Close Curtain");
             instructionsTimeline.Play();
             _InstructionsStartedGameEvent.Raise();
             _experienceRunning = true;

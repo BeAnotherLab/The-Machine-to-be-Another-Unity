@@ -38,12 +38,11 @@ namespace VRStandardAssets.Menu
 
         public void HandleSelectionComplete()
         {
-            if (gazeOver) {
-                
+            if (gazeOver) { //hide TODO use panel dimmer
                 GetComponent<MeshRenderer>().enabled = false;
                 GetComponent<MeshCollider>().enabled = false;
             }
-            HandleOut();            
+            HandleOut(); //deselect            
         }
         
         private void HandleOver()

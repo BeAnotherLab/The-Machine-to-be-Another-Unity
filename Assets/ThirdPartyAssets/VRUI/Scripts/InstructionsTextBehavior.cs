@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class InstructionsTextBehavior : MonoBehaviour
 {
-
     public static InstructionsTextBehavior instance;
 
     [SerializeField] private GameObject _textGameObject;
@@ -46,7 +45,6 @@ public class InstructionsTextBehavior : MonoBehaviour
     {
         StartCoroutine(TimedTextCoroutine(text, time));
     }
-
     
     #endregion
     

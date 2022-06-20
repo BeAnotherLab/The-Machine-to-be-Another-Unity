@@ -141,15 +141,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3197596539171407804}
-  - component: {fileID: 3197596539171407805}
   - component: {fileID: 92365315}
+  - component: {fileID: 8255433216041484955}
   - component: {fileID: 7721244601803253380}
   - component: {fileID: 7947564878593234129}
   - component: {fileID: 4819380094899561898}
-  - component: {fileID: 6127583649792939905}
   - component: {fileID: 5144296306967626619}
   m_Layer: 5
-  m_Name: StatusManager
+  m_Name: QuestionnaireStatusManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,46 +175,6 @@ RectTransform:
   m_AnchoredPosition: {x: 625, y: 290}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3197596539171407805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3197596539171407807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 503636195938e79408ecd2ae4a64ff49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  presenceDetection: 0
-  previousOtherState: {fileID: 11400000, guid: d0addde542cc2804c8dc89ae4c145f72, type: 2}
-  otherState: {fileID: 11400000, guid: 9d92648ad173541cda9193e84cc5ea94, type: 2}
-  previousSelfState: {fileID: 11400000, guid: 997773218c29c6647a388da294f32dd9, type: 2}
-  selfState: {fileID: 11400000, guid: 363d5d6f5bd2c4781ab93c705014d6f3, type: 2}
-  selfStateGameEvent: {fileID: 11400000, guid: ca8fd7f8d546d4a209ab5b1348851dba, type: 2}
-  otherStateGameEvent: {fileID: 11400000, guid: fa8ca749ca9ad4876827002f647bcaf6,
-    type: 2}
-  instructionsTimeline: {fileID: 0}
-  _shortTimeline: {fileID: 1017013999}
-  _longTimeline: {fileID: 420745704}
-  _languageButtons: {fileID: 0}
-  _standbyGameEvent: {fileID: 11400000, guid: 9e9c710454088e3458d357b85048602d, type: 2}
-  _InstructionsStartedGameEvent: {fileID: 11400000, guid: 3056d7e57f2314fa7a77a369360a2781,
-    type: 2}
-  _experienceFinishedGameEvent: {fileID: 11400000, guid: 9cb7f9e88ef644644af24d7ad4033197,
-    type: 2}
-  _experienceStartedGameEvent: {fileID: 11400000, guid: 7c2619e5f599c469a842342ce9027dee,
-    type: 2}
-  _languageChangeEvent: {fileID: 11400000, guid: 3186148365f83442090e1a09b70837e4,
-    type: 2}
-  _curtainOnEvent: {fileID: 11400000, guid: 78f4ccaea5624406cb8bcf19436f86c4, type: 2}
-  _setInstructionsTextGameEvent: {fileID: 11400000, guid: 3892b52908a1ffb4786f9c8951165d8e,
-    type: 2}
-  _questionnaireState: {fileID: 11400000, guid: 671a5157407b94e2f98351d0cf98db75,
-    type: 2}
-  _germanTrack: {fileID: 0}
-  _englishTrack: {fileID: 0}
 --- !u!95 &92365315
 Animator:
   serializedVersion: 3
@@ -235,6 +194,39 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8255433216041484955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3197596539171407807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74bd5ee5b0f94b229d96cc120c8d749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  presenceDetection: 0
+  previousOtherState: {fileID: 11400000, guid: d0addde542cc2804c8dc89ae4c145f72, type: 2}
+  otherState: {fileID: 11400000, guid: 9d92648ad173541cda9193e84cc5ea94, type: 2}
+  previousSelfState: {fileID: 11400000, guid: 997773218c29c6647a388da294f32dd9, type: 2}
+  selfState: {fileID: 11400000, guid: 363d5d6f5bd2c4781ab93c705014d6f3, type: 2}
+  selfStateGameEvent: {fileID: 11400000, guid: ca8fd7f8d546d4a209ab5b1348851dba, type: 2}
+  otherStateGameEvent: {fileID: 11400000, guid: fa8ca749ca9ad4876827002f647bcaf6,
+    type: 2}
+  instructionsTimeline: {fileID: 0}
+  _shortTimeline: {fileID: 0}
+  _longTimeline: {fileID: 0}
+  _languageButtons: {fileID: 0}
+  _standbyGameEvent: {fileID: 0}
+  _InstructionsStartedGameEvent: {fileID: 0}
+  _experienceFinishedGameEvent: {fileID: 0}
+  _experienceStartedGameEvent: {fileID: 0}
+  _languageChangeEvent: {fileID: 0}
+  _curtainOnEvent: {fileID: 0}
+  _setInstructionsTextGameEvent: {fileID: 0}
+  _germanTrack: {fileID: 0}
+  _englishTrack: {fileID: 0}
 --- !u!114 &7721244601803253380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,7 +247,7 @@ MonoBehaviour:
   _response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3197596539171407805}
+      - m_Target: {fileID: 0}
         m_MethodName: OtherStateChanged
         m_Mode: 0
         m_Arguments:
@@ -287,7 +279,7 @@ MonoBehaviour:
   _response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3197596539171407805}
+      - m_Target: {fileID: 0}
         m_MethodName: SelfStateChanged
         m_Mode: 0
         m_Arguments:
@@ -319,40 +311,8 @@ MonoBehaviour:
   _response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3197596539171407805}
+      - m_Target: {fileID: 0}
         m_MethodName: OnBothConsentsGiven
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _debugValue: 0
---- !u!114 &6127583649792939905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3197596539171407807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c22b339c4f3bb44668c6dbb480b8ceb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _showDebugFields: 0
-  _enableGizmoDebugging: 1
-  _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 0}
-  _event: {fileID: 11400000, guid: 983a4221b3625464287a438b43966de8, type: 2}
-  _response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3197596539171407805}
-        m_MethodName: OnBothQuestionnaireFinished
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -383,7 +343,7 @@ MonoBehaviour:
   _response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3197596539171407805}
+      - m_Target: {fileID: 0}
         m_MethodName: SwitchLanguageTrack
         m_Mode: 0
         m_Arguments:

@@ -11,7 +11,7 @@ using Debug = DebugFile;
 using UnityEngine.XR;
 using VRStandardAssets.Utils;
 
-public  class AutoBodySwapStatusManager : StatusManager
+public class AutoBodySwapStatusManager : StatusManager 
 {
 
   
