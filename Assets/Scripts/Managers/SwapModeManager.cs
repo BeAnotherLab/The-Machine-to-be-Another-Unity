@@ -67,6 +67,7 @@ public class SwapModeManager : MonoBehaviour
                 StatusManager.instance.Standby(true, false); //go to initial state
                 OscManager.instance.EnableRepeater(true); //enable OSC repeat
                 OscManager.instance.SetSendHeadtracking(true); //send headtracking
+                if (ArduinoControl) ArduinoManager.instance.ActivateSerial(false, ArduinoControl); //TODO remove?
                 //ArduinoManager.instance.DisableSerial(); //deactivate servos
                 AudioManager.instance.StopAudioInstructions(); //stop auto swap instructions audio
 
