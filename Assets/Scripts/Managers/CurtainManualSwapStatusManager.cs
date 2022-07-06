@@ -22,9 +22,17 @@ public class CurtainManualSwapStatusManager : StatusManager
         }
     }
 
-    public new void OtherStateChanged(UserState newState) //TODO move to own state changes events class
+    public new void OtherStateChanged(UserState newState)
     {
-         base.OtherStateChanged(newState);
+        if (newState == UserState.headsetOff) OtherLeft();
+        else if (newState == UserState.headsetOn) OtherPutHeadsetOn(); //TODO only if previous one was ready to start?
+        else if (newState == UserState.readyToStart) OtherUserIsReady();
+    }
+    
+    public void OtherUserIsReady()
+    {
+        Debug.Log("the other user is ready", DLogType.Input);
+        if (selfState.Value == UserState.readyToStart) StartPlaying();
     }
 
 }
