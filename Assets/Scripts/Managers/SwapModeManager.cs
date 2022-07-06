@@ -62,7 +62,7 @@ public class SwapModeManager : MonoBehaviour
                 
             case SwapModes.CURTAIN_MANUAL_SWAP:
                 
-                SettingsGUI.instance.SetSwapMode(); //hide serial port dropdown, show repeater toggle, show IP input field
+                SettingsGUI.instance.SetSwapMode(ArduinoControl); //hide serial port dropdown, show repeater toggle, show IP input field
                 VideoFeed.instance.twoWayWap = true; //move video with other pose
                 StatusManager.instance.Standby(true, false); //go to initial state
                 OscManager.instance.EnableRepeater(true); //enable OSC repeat
