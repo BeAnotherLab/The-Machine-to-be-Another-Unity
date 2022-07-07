@@ -24,6 +24,8 @@ public class ArduinoManager : MonoBehaviour
 
     [SerializeField] private int _timeOut;
 
+    [SerializeField] private bool _curtainOffOnStandby = true;
+
     private bool _servosOn; //for one way swap.
     //private bool _commandOK;
     private bool _serialControlOn; //for technorama swap. determine if this computer is in charge of controlling the curtain and mirrors
@@ -48,7 +50,7 @@ public class ArduinoManager : MonoBehaviour
 
     public void InitialPositions()
     {
-        StartCoroutine(DelayedInitialPositions());
+        if (_curtainOffOnStandby) StartCoroutine(DelayedInitialPositions());
     }
 
     public void SetSerialControlComputer(bool serialControlOn) //defines if this computer is the one in charge of serial control in Technorama swap
