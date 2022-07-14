@@ -54,7 +54,7 @@ public class SettingsGUI : MonoBehaviour
         
         _cameraSettingsButton.onClick.AddListener(delegate { VideoCameraManager.instance.ShowCameraConfigWindow(); });
         
-        //_repeaterToggle.onValueChanged.AddListener(delegate { OscManager.instance.SetRepeater(_repeaterToggle.isOn); });
+        _repeaterToggle.onValueChanged.AddListener(delegate { OscManager.instance.SetRepeater(_repeaterToggle.isOn); });
 
         _serialControlToggle.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetSerialControlComputer(_serialControlToggle.isOn); });
         
@@ -90,8 +90,10 @@ public class SettingsGUI : MonoBehaviour
 
         _zoomSlider.value = PlayerPrefs.GetFloat("zoom", 39.5f);
 
-        if (PlayerPrefs.GetInt("repeater") == 1) _repeaterToggle.isOn = true;
-        else                                     _repeaterToggle.isOn = false;
+        if (PlayerPrefs.GetInt("repeater") == 1) 
+            _repeaterToggle.isOn = true;
+        else                                    
+            _repeaterToggle.isOn = false;
 
         if (PlayerPrefs.GetInt("serialControlOn") == 1) _serialControlToggle.isOn = true;
         else _serialControlToggle.isOn = false;             
@@ -105,6 +107,8 @@ public class SettingsGUI : MonoBehaviour
         OSCUtilities.GetLocalHost();
 
         SetLanguageText(PlayerPrefs.GetInt("language"));
+        
+        
     }
 
     private void Update()
