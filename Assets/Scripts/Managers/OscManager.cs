@@ -40,6 +40,7 @@ public class OscManager : MonoBehaviour {
 
     [SerializeField] private BoolVariable _sendRecordingCommand;
     [SerializeField] private ResponseData _responseData;
+    [SerializeField] private BoolGameEvent _curtainOnGameEvent;
     
     #endregion
 
@@ -65,6 +66,7 @@ public class OscManager : MonoBehaviour {
         _oscReceiver.Bind("/serialStatus", ReceiveSerialStatus);
         _oscReceiver.Bind("/serialConfirmation", ReceiveSerialStatusOK);
         _oscReceiver.Bind("/language", ReceiveLanguageChange);
+        _oscReceiver.Bind("/curtain", ReceiveCurtain);
         for (int i = 0; i < 11; i++) _oscReceiver.Bind("/btn" + i.ToString(), ReceiveBtn);
 
         //set IP address of other 
@@ -226,6 +228,13 @@ public class OscManager : MonoBehaviour {
         if (_repeater) _oscTransmitter.Send(message);
     }
 
+    private void ReceiveCurtain(OSCMessage message)
+    {
+        float value;
+        if (message.ToFloat(out value))
+            _curtainOnGameEvent.Raise(value == 1);
+    }
+    
     public void SendBtn(int index) 
     {
         OSCMessage message = new OSCMessage("/btn" + index.ToString());
