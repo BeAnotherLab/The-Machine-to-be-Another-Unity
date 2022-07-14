@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class SwapControlGUI : MonoBehaviour
 {
     [SerializeField] private StringGameEvent _languagechangedEvent;
+    [SerializeField] private IntGameEvent _buttonPressedEvent;
     [SerializeField] private GameObject _curtainControlButtons;
 
     private Button _audioButtons;
@@ -25,6 +26,8 @@ public class SwapControlGUI : MonoBehaviour
     public void ButtonPressed(int id)
     {
         AudioManager.instance.PlaySound(id);
+        if (PlayerPrefs.GetInt("repeater", 0) == 1)
+            _buttonPressedEvent.Raise(id);
     }
 
     public void LanguageChanged(string language)

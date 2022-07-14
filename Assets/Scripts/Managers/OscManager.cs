@@ -219,13 +219,20 @@ public class OscManager : MonoBehaviour {
         {
             if (value == 1f) {
                 for (int i = 0; i < 11; i++)
-                    if (message.Address == "/btn" + i.ToString()) AudioManager.instance.GetComponent<AudioManager>().PlaySound(i);
+                    if (message.Address == "/btn" + i) AudioManager.instance.GetComponent<AudioManager>().PlaySound(i);
             }
         }
         
         if (_repeater) _oscTransmitter.Send(message);
     }
 
+    public void SendBtn(int index) 
+    {
+        OSCMessage message = new OSCMessage("/btn" + index.ToString());
+        message.AddValue(OSCValue.Float(1));
+        _oscTransmitter.Send(message); //            
+    }
+    
     private void ReceivedOtherStatus(OSCMessage message)
     {
             int x;
