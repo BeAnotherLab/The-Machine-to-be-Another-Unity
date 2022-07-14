@@ -23,6 +23,12 @@ public class SwapControlGUI : MonoBehaviour
         SwapModeManager.SwapModeChanged -= SwapModeChanged;
     }
 
+    private void Start()
+    {
+        _curtainControlButtons.gameObject.SetActive(PlayerPrefs.GetInt("repeater") == 1 &&
+                                                    PlayerPrefs.GetInt("serialControlOn") == 1);
+    }
+
     public void ButtonPressed(int id)
     {
         AudioManager.instance.PlaySound(id);
