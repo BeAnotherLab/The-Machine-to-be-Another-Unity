@@ -1230,7 +1230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22400762, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00005340576
+      value: 0.000045776367
       objectReference: {fileID: 0}
     - target: {fileID: 22426080, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2123,8 +2123,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac7dff440901c5a4e8eb84e6880fc5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selfStateGameEvent: {fileID: 11400000, guid: ca8fd7f8d546d4a209ab5b1348851dba, type: 2}
-  selfState: {fileID: 11400000, guid: 363d5d6f5bd2c4781ab93c705014d6f3, type: 2}
 --- !u!114 &1014466009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2270,6 +2268,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+--- !u!114 &1022810409 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1319521723736255744, guid: 596bcb09566d243d29f76c9bc37774a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 5530129923013216893}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74bd5ee5b0f94b229d96cc120c8d749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1035839692 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 466960672388089704, guid: 94e02a587a63f594582e4abdde83cfb9,
@@ -3242,41 +3252,33 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 999283215}
     m_Modifications:
-    - target: {fileID: 2004019879253774905, guid: 753b39fa89a83f4468673ca7b26ca7c8,
-        type: 3}
-      propertyPath: m_SelectionRadial
-      value: 
-      objectReference: {fileID: 2076889787}
     - target: {fileID: 3534206544955334373, guid: 753b39fa89a83f4468673ca7b26ca7c8,
         type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 3462846770952635454}
+    - target: {fileID: 6541431242930064178, guid: 753b39fa89a83f4468673ca7b26ca7c8,
+        type: 3}
+      propertyPath: _previouslyRegisteredEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49,
+        type: 2}
+    - target: {fileID: 7312495123064062100, guid: 753b39fa89a83f4468673ca7b26ca7c8,
+        type: 3}
+      propertyPath: _previouslyRegisteredEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49,
+        type: 2}
     - target: {fileID: 7887563293851489200, guid: 753b39fa89a83f4468673ca7b26ca7c8,
         type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 3462846770952635454}
-    - target: {fileID: 7887563293851489201, guid: 753b39fa89a83f4468673ca7b26ca7c8,
-        type: 3}
-      propertyPath: m_SelectionRadial
-      value: 
-      objectReference: {fileID: 2076889787}
     - target: {fileID: 7887563294285158701, guid: 753b39fa89a83f4468673ca7b26ca7c8,
         type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 3462846770952635454}
-    - target: {fileID: 7887563294285158703, guid: 753b39fa89a83f4468673ca7b26ca7c8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7887563294285158738, guid: 753b39fa89a83f4468673ca7b26ca7c8,
-        type: 3}
-      propertyPath: m_SelectionRadial
-      value: 
-      objectReference: {fileID: 2076889787}
     - target: {fileID: 7887563294754073688, guid: 753b39fa89a83f4468673ca7b26ca7c8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3337,21 +3339,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LanguagePicker
       objectReference: {fileID: 0}
-    - target: {fileID: 7887563295132518028, guid: 753b39fa89a83f4468673ca7b26ca7c8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7887563295132518066, guid: 753b39fa89a83f4468673ca7b26ca7c8,
         type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 3462846770952635454}
-    - target: {fileID: 7887563295132518067, guid: 753b39fa89a83f4468673ca7b26ca7c8,
-        type: 3}
-      propertyPath: m_SelectionRadial
-      value: 
-      objectReference: {fileID: 2076889787}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 753b39fa89a83f4468673ca7b26ca7c8, type: 3}
 --- !u!4 &1984159002 stripped
@@ -4451,6 +4443,21 @@ PrefabInstance:
       propertyPath: _languageButtons
       value: 
       objectReference: {fileID: 2059222481}
+    - target: {fileID: 2862852289926802656, guid: 596bcb09566d243d29f76c9bc37774a8,
+        type: 3}
+      propertyPath: _response.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1022810409}
+    - target: {fileID: 2862852289926802656, guid: 596bcb09566d243d29f76c9bc37774a8,
+        type: 3}
+      propertyPath: _response.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SwitchLanguageTrack
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862852289926802656, guid: 596bcb09566d243d29f76c9bc37774a8,
+        type: 3}
+      propertyPath: _response.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5530129922258659364, guid: 596bcb09566d243d29f76c9bc37774a8,
         type: 3}
       propertyPath: m_Name
@@ -4682,12 +4689,12 @@ PrefabInstance:
     - target: {fileID: 1379381038382601400, guid: 001b3698894d90f4eb7027aa882aad96,
         type: 3}
       propertyPath: swapMode
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1379381038382601400, guid: 001b3698894d90f4eb7027aa882aad96,
         type: 3}
       propertyPath: ArduinoControl
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7308667568398848440, guid: 001b3698894d90f4eb7027aa882aad96,
         type: 3}

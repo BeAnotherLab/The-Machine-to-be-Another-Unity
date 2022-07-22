@@ -17,6 +17,9 @@ namespace VRStandardAssets.Menu
         [SerializeField] private BoolGameEvent _showSelectionRadialEvent;
         [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
 
+        [SerializeField] private UserStateGameEvent selfStateGameEvent;
+        [SerializeField] private UserStateVariable selfState;
+        
         public bool gazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
          
         private void Awake()
@@ -41,6 +44,8 @@ namespace VRStandardAssets.Menu
             if (gazeOver) { //hide TODO use panel dimmer
                 GetComponent<MeshRenderer>().enabled = false;
                 GetComponent<MeshCollider>().enabled = false;
+                selfState.Value = UserState.readyToStart;
+                selfStateGameEvent.Raise(selfState.Value);
             }
             HandleOut(); //deselect            
         }

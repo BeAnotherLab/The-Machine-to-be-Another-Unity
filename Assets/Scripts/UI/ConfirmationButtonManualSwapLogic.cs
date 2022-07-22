@@ -6,9 +6,6 @@ using VRStandardAssets.Menu;
 
 public class ConfirmationButtonManualSwapLogic : MonoBehaviour //TODO merge with ConfirmationButtonAutoBodySwapLogic
 {
-    [SerializeField] private UserStateGameEvent selfStateGameEvent;
-    [SerializeField] private UserStateVariable selfState;
-    
     public void SelfUserStateChanged(UserState selfUserState)
     {
         if (selfUserState == UserState.readyToStart)
@@ -22,14 +19,5 @@ public class ConfirmationButtonManualSwapLogic : MonoBehaviour //TODO merge with
     {
         GetComponent<MeshRenderer>().enabled = true;
         GetComponent<MeshCollider>().enabled = true;
-    }
-
-    public void HandleSelectionComplete()
-    {
-        if (GetComponent<ConfirmationButton>())
-        {
-            selfState.Value = UserState.readyToStart;
-            selfStateGameEvent.Raise(selfState.Value);    
-        }
     }
 }

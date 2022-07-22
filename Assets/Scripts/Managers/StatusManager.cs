@@ -200,8 +200,6 @@ public abstract class StatusManager : MonoBehaviour
         InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeInText(); //TODO use events instead of static reference
         InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeOutImages();  //TODO use events instead of static reference
         
-        //reset user status as it is not ready
-        _languageChangeEvent.Raise("German");  //reset to German by default
         _languageButtons.gameObject.SetActive(true); //show language buttons;
 
         if (_readyForStandby) //TODO is check necessary? 

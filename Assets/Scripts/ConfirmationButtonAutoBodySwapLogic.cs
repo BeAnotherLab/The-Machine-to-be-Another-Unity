@@ -4,12 +4,9 @@ using ScriptableObjectArchitecture;
 using UnityEngine;
 using VRStandardAssets.Menu;
 
-public class ConfirmationButtonAutoBodySwapLogic : MonoBehaviour
+public class ConfirmationButtonAutoBodySwapLogic : MonoBehaviour //TODO must make one different for Manual Swap?
 {
-    [SerializeField] private UserStateGameEvent selfStateGameEvent;
-    [SerializeField] private UserStateVariable selfState;
-    
-    public void SelfUserStateChanged(UserState selfUserState)
+        public void SelfUserStateChanged(UserState selfUserState)
     {
         if (selfUserState == UserState.readyToStart)
         {
@@ -22,14 +19,5 @@ public class ConfirmationButtonAutoBodySwapLogic : MonoBehaviour
     {
         GetComponent<MeshRenderer>().enabled = true;
         GetComponent<MeshCollider>().enabled = true;
-    }
-
-    public void HandleSelectionComplete()
-    {
-        if (GetComponent<ConfirmationButton>())
-        {
-            selfState.Value = UserState.readyToStart;
-            selfStateGameEvent.Raise(selfState.Value);    
-        }
     }
 }

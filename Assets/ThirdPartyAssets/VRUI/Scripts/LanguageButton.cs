@@ -12,7 +12,7 @@ namespace VRStandardAssets.Menu
     // that will be loaded and use the SelectionRadial.
     public class LanguageButton : MonoBehaviour //Make inherit from ConfirmationButton class
     {
-        [SerializeField] private Vector3 _scaleOut;
+        [SerializeField] private Vector3 _scaleOut; 
         [SerializeField] private Vector3 _scaleOn;
         
         [SerializeField] private BoolGameEvent _showSelectionRadialEvent;
@@ -61,6 +61,7 @@ namespace VRStandardAssets.Menu
         {
             // When the user looks away from the rendering of the scene, hide the radial.
             _showSelectionRadialEvent.Raise(false);
+            LeanTween.scale(gameObject, _scaleOut, 0.45f).setEaseOutBounce();
             LeanTween.color(gameObject, Color.gray, 0.25f).setEaseOutCubic();
             m_GazeOver = false;
         }
