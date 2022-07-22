@@ -9,7 +9,7 @@ public class SwapControlGUI : MonoBehaviour
 {
     [SerializeField] private StringGameEvent _languagechangedEvent;
     [SerializeField] private IntGameEvent _buttonPressedEvent;
-    [SerializeField] private GameObject _curtainControlButtons;
+    [SerializeField] private GameObject _controlPanel;
 
     private Button _audioButtons;
 
@@ -41,10 +41,10 @@ public class SwapControlGUI : MonoBehaviour
             PlayerPrefs.GetInt("repeater") == 1 &&
             PlayerPrefs.GetInt("serialControlOn") == 1) 
         {
-            _curtainControlButtons.SetActive(true);
+            _controlPanel.SetActive(true);
         } else 
         {
-            _curtainControlButtons.SetActive(false); 
+            _controlPanel.SetActive(false);
         }
     } 
 }
