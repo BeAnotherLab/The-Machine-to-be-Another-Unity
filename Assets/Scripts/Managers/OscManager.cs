@@ -37,6 +37,7 @@ public class OscManager : MonoBehaviour {
     private bool _repeater;
     private bool _serialStatusOKReceived;
     private bool _sendHeadTracking;
+    private bool _dimmed;
 
     [SerializeField] private BoolVariable _sendRecordingCommand;
     [SerializeField] private ResponseData _responseData;
@@ -136,6 +137,28 @@ public class OscManager : MonoBehaviour {
         Debug.Log("sending serial status : " + status, DLogType.Network);
     }
 
+    public void SendDim(bool dim)
+    {
+        OSCMessage message;
+        
+        if (dim)
+            message = new OSCMessage("/dimOn");
+        else 
+            message = new OSCMessage("/dimOff");
+        
+        message.AddValue(OSCValue.Int(0));
+        _oscTransmitter.Send(message);
+        Debug.Log("sending Dim on " + dim, DLogType.Network);
+    }
+
+    public void SendCalibrate()
+    {
+        OSCMessage message = new OSCMessage("/calibrate");
+        message.AddValue(OSCValue.Int(0));
+        _oscTransmitter.Send(message);
+        Debug.Log("sending calibrate ", DLogType.Network);
+    }
+    
     public void ExperienceStarted ()
     {
         if (_sendRecordingCommand.Value && _repeater)
