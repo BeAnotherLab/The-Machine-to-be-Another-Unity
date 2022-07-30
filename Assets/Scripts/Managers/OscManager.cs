@@ -41,7 +41,10 @@ public class OscManager : MonoBehaviour {
     [SerializeField] private BoolVariable _sendRecordingCommand;
     [SerializeField] private ResponseData _responseData;
     [SerializeField] private BoolGameEvent _curtainOnGameEvent;
-    
+
+    private bool curtainMoving;
+    [SerializeField] private int ignoreCurtainMessagesFor;
+
     #endregion
 
     #region MonoBehaviour Methods
@@ -101,7 +104,6 @@ public class OscManager : MonoBehaviour {
         }
         else _repeater = false;
     }
-
     public void SetRepeater(bool r)
     {
         _repeater = r;
@@ -230,11 +232,21 @@ public class OscManager : MonoBehaviour {
 
     private void ReceiveCurtain(OSCMessage message)
     {
-        float value;
-        if (message.ToFloat(out value))
-            _curtainOnGameEvent.Raise(value == 1);
+        if (!curtainMoving)
+        {
+            float value;
+            if (message.ToFloat(out value)) _curtainOnGameEvent.Raise(value == 1);
+            StartCoroutine(CurtainMoving());
+        }
     }
     
+    private IEnumerator CurtainMoving()
+    {
+        curtainMoving = true;
+        yield return new WaitForSeconds(ignoreCurtainMessagesFor);
+        curtainMoving = false;
+    }
+
     public void SendBtn(int index) 
     {
         OSCMessage message = new OSCMessage("/btn" + index.ToString());
