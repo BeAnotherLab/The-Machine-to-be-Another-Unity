@@ -1,20 +1,13 @@
 #include<Uduino.h>
 
 Uduino uduino("serialControl");
-String inputString = "";         // a String to hold incoming data
-bool stringComplete = false;  // whether the string is complete
-
 const int eStop = 11;
-int eStopState;
 
 const int pinENA = 6;
 const int pinIN1 = 3;
 const int pinIN2 = 4;
 
 const int pinMotorA[3] = { pinENA, pinIN1, pinIN2 };
-
-bool goingUp = false;
-bool goingDown = false;
 
 unsigned long actualTime;
 unsigned long timeDown = 2000;
@@ -33,6 +26,8 @@ void setup()
   uduino.addCommand("init", initHandler);
 }
 
+bool movingDown;
+
 void loop() 
 {
   uduino.readSerial();
@@ -45,10 +40,16 @@ void initHandler(){
 
 void wallOnHandler() 
 {
-  Serial.println("cmd_ok");  //command executed
-  moveForward(pinMotorA, 180); //move down at minimum power
-  delay(7500); //bit more than 2 meters
-  fullStop(pinMotorA); //stop motor
+  if (!movingDown) 
+  {
+    movingDown = true;
+    Serial.println("cmd_ok");  //command executed
+    moveForward(pinMotorA, 180); //move down at minimum power
+    delay(7500); //bit more than 2 meters
+    fullStop(pinMotorA); //stop motor  
+    movingDown = false;
+  }
+
 }
 
 void wallOffHandler()
