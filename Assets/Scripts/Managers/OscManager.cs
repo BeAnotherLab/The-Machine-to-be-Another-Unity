@@ -144,19 +144,19 @@ public class OscManager : MonoBehaviour {
         OSCMessage message;
         
         if (dim)
-            message = new OSCMessage("/dimOn");
+            message = new OSCMessage("/dimon");
         else 
-            message = new OSCMessage("/dimOff");
+            message = new OSCMessage("/dimoff");
         
-        message.AddValue(OSCValue.Int(0));
+        message.AddValue(OSCValue.Float(1));
         _oscTransmitter.Send(message);
         Debug.Log("sending Dim on " + dim, DLogType.Network);
     }
 
     public void SendCalibrate()
     {
-        OSCMessage message = new OSCMessage("/calibrate");
-        message.AddValue(OSCValue.Int(0));
+        OSCMessage message = new OSCMessage("/ht");
+        message.AddValue(OSCValue.Float(1));
         _oscTransmitter.Send(message);
         Debug.Log("sending calibrate ", DLogType.Network);
     }
