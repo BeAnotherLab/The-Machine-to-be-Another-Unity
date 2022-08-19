@@ -11,8 +11,8 @@ public class InstructionsTextQuestionnaireAutoSwapLogic : MonoBehaviour //this i
     
     public void ExperienceFinished(bool showQuestionnaire)
     {
-        if (!showQuestionnaire)
-            _textGameObject.GetComponent<LeanLocalizedText>().TranslationName = "finished";
+        if (!showQuestionnaire) 
+            GetComponent<InstructionsTextBehavior>().ShowTextFromKey("finished", 4);
     }
     
     public void OtherStateChanged(UserState newState) 
