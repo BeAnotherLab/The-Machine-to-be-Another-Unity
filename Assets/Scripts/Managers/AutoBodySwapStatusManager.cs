@@ -42,4 +42,9 @@ public class AutoBodySwapStatusManager : StatusManager //TODO redundant with Cur
         Debug.Log("the other user is ready", DLogType.Input);
         if (selfState.Value == UserState.readyToStart) StartPlaying();//TODO this should be the default behavior
     }
+    
+    public void IsOver(){
+        base.IsOver();
+        _experienceFinishedGameEvent.Raise(false); 
+    }
 }
