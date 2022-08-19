@@ -14,7 +14,7 @@ public class SwapModeManager : MonoBehaviour
     public bool ArduinoControl; //for auto swap, enable if we are using an Arduino controlled system.
 
     public delegate void OnSwapModeChanged(SwapModes swapmodes);
-    public static OnSwapModeChanged SwapModeChanged;
+    public static OnSwapModeChanged SwapModeChanged = delegate(SwapModes modes) {  };
 
     private void Awake()
     {
