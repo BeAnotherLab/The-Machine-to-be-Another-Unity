@@ -1593,8 +1593,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8efc8b1396902474aa0f8ae7c982de0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selfStateGameEvent: {fileID: 11400000, guid: ca8fd7f8d546d4a209ab5b1348851dba, type: 2}
-  selfState: {fileID: 11400000, guid: 363d5d6f5bd2c4781ab93c705014d6f3, type: 2}
 --- !u!1 &791430705
 GameObject:
   m_ObjectHideFlags: 0
@@ -4318,8 +4316,119 @@ PrefabInstance:
       propertyPath: m_Name
       value: StatusManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5846224501335806075, guid: fb9ada0912a7cd341970bc57cadeacea,
+        type: 3}
+      propertyPath: previousOtherState
+      value: 
+      objectReference: {fileID: 11400000, guid: d0addde542cc2804c8dc89ae4c145f72,
+        type: 2}
+    - target: {fileID: 5846224501335806075, guid: fb9ada0912a7cd341970bc57cadeacea,
+        type: 3}
+      propertyPath: otherState
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d92648ad173541cda9193e84cc5ea94,
+        type: 2}
+    - target: {fileID: 5846224501335806075, guid: fb9ada0912a7cd341970bc57cadeacea,
+        type: 3}
+      propertyPath: previousSelfState
+      value: 
+      objectReference: {fileID: 11400000, guid: 997773218c29c6647a388da294f32dd9,
+        type: 2}
+    - target: {fileID: 5846224501335806075, guid: fb9ada0912a7cd341970bc57cadeacea,
+        type: 3}
+      propertyPath: selfState
+      value: 
+      objectReference: {fileID: 11400000, guid: 363d5d6f5bd2c4781ab93c705014d6f3,
+        type: 2}
+    - target: {fileID: 5846224501335806075, guid: fb9ada0912a7cd341970bc57cadeacea,
+        type: 3}
+      propertyPath: selfStateGameEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: ca8fd7f8d546d4a209ab5b1348851dba,
+        type: 2}
+    - target: {fileID: 5846224501335806075, guid: fb9ada0912a7cd341970bc57cadeacea,
+        type: 3}
+      propertyPath: otherStateGameEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: fa8ca749ca9ad4876827002f647bcaf6,
+        type: 2}
+    - target: {fileID: 5846224501335806075, guid: fb9ada0912a7cd341970bc57cadeacea,
+        type: 3}
+      propertyPath: _shortTimeline
+      value: 
+      objectReference: {fileID: 4992825843960102981}
+    - target: {fileID: 5846224501335806075, guid: fb9ada0912a7cd341970bc57cadeacea,
+        type: 3}
+      propertyPath: _longTimeline
+      value: 
+      objectReference: {fileID: 4992825843960102980}
+    - target: {fileID: 5846224501335806075, guid: fb9ada0912a7cd341970bc57cadeacea,
+        type: 3}
+      propertyPath: _languageButtons
+      value: 
+      objectReference: {fileID: 2059222481}
+    - target: {fileID: 5846224501335806075, guid: fb9ada0912a7cd341970bc57cadeacea,
+        type: 3}
+      propertyPath: _standbyGameEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e9c710454088e3458d357b85048602d,
+        type: 2}
+    - target: {fileID: 5846224501335806075, guid: fb9ada0912a7cd341970bc57cadeacea,
+        type: 3}
+      propertyPath: _InstructionsStartedGameEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 3056d7e57f2314fa7a77a369360a2781,
+        type: 2}
+    - target: {fileID: 5846224501335806075, guid: fb9ada0912a7cd341970bc57cadeacea,
+        type: 3}
+      propertyPath: _experienceFinishedGameEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 9cb7f9e88ef644644af24d7ad4033197,
+        type: 2}
+    - target: {fileID: 5846224501335806075, guid: fb9ada0912a7cd341970bc57cadeacea,
+        type: 3}
+      propertyPath: _experienceStartedGameEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c2619e5f599c469a842342ce9027dee,
+        type: 2}
+    - target: {fileID: 5846224501335806075, guid: fb9ada0912a7cd341970bc57cadeacea,
+        type: 3}
+      propertyPath: _languageChangeEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 3186148365f83442090e1a09b70837e4,
+        type: 2}
+    - target: {fileID: 5846224501335806075, guid: fb9ada0912a7cd341970bc57cadeacea,
+        type: 3}
+      propertyPath: _curtainOnEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 78f4ccaea5624406cb8bcf19436f86c4,
+        type: 2}
+    - target: {fileID: 5846224501335806075, guid: fb9ada0912a7cd341970bc57cadeacea,
+        type: 3}
+      propertyPath: _setInstructionsTextGameEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 3892b52908a1ffb4786f9c8951165d8e,
+        type: 2}
+    - target: {fileID: 5846224501335806075, guid: fb9ada0912a7cd341970bc57cadeacea,
+        type: 3}
+      propertyPath: _showInstructionsTextGameEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 9eff6ba2b350e214baf0df532e567331,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb9ada0912a7cd341970bc57cadeacea, type: 3}
+--- !u!320 &4992825843960102980 stripped
+PlayableDirector:
+  m_CorrespondingSourceObject: {fileID: 420745704, guid: fb9ada0912a7cd341970bc57cadeacea,
+    type: 3}
+  m_PrefabInstance: {fileID: 4992825843960102979}
+  m_PrefabAsset: {fileID: 0}
+--- !u!320 &4992825843960102981 stripped
+PlayableDirector:
+  m_CorrespondingSourceObject: {fileID: 1017013999, guid: fb9ada0912a7cd341970bc57cadeacea,
+    type: 3}
+  m_PrefabInstance: {fileID: 4992825843960102979}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7270249489152723367
 PrefabInstance:
   m_ObjectHideFlags: 0
