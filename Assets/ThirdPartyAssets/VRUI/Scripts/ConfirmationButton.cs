@@ -39,7 +39,7 @@ namespace VRStandardAssets.Menu
             m_InteractiveItem.OnOut -= HandleOut;
         }
 
-        public void HandleSelectionComplete()
+        public void HandleSelectionComplete() //TODO redundant with Button Logic SelfUserSTateChanged
         {
             if (gazeOver) { //hide TODO use panel dimmer
                 GetComponent<MeshRenderer>().enabled = false;

@@ -15,7 +15,7 @@ public class CurtainManualSwapStatusManager : StatusManager
             OscManager.instance.SendThisUserStatus((UserState.readyToStart));
             _languageButtons.gameObject.SetActive(false); //hide language buttons;
 
-            if (otherState.Value == UserState.readyToStart) StartPlaying();
+            if (otherState.Value == UserState.readyToStart) StartPlaying(); //TODO this should be the default behavior
         
             _setInstructionsTextGameEvent.Raise("waitForOther");
             Debug.Log("this user is ready", DLogType.Input);
@@ -32,7 +32,7 @@ public class CurtainManualSwapStatusManager : StatusManager
     public void OtherUserIsReady()
     {
         Debug.Log("the other user is ready", DLogType.Input);
-        if (selfState.Value == UserState.readyToStart) StartPlaying();
+        if (selfState.Value == UserState.readyToStart) StartPlaying();//TODO this should be the default behavior
     }
 
 }
