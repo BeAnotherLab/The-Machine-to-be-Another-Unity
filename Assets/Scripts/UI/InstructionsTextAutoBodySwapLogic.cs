@@ -20,7 +20,7 @@ public class InstructionsTextAutoBodySwapLogic : MonoBehaviour
         if (_previousOtherState == UserState.readyToStart 
             && newState == UserState.headsetOff)
         {
-            GetComponent<InstructionsTextBehavior>().ShowTextFromKey("otherIsGone", 4);
+            GetComponent<InstructionsTextBehavior>().ShowTextFromKey("otherIsGone", 3);
         }
     }
 }

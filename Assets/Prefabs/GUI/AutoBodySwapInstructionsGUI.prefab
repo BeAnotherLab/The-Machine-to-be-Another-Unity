@@ -48,7 +48,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5cd97c4bc3fbf5c4bb77db3d2406ece4, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -127,7 +127,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5cd97c4bc3fbf5c4bb77db3d2406ece4, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 332290940960440211}
   - component: {fileID: 4955619369018986257}
   - component: {fileID: 8026045684658783648}
-  - component: {fileID: 3429198306499048704}
+  - component: {fileID: 604608053}
   m_Layer: 5
   m_Name: AutoBodySwapInstructionsGUI
   m_TagString: Untagged
@@ -445,7 +445,7 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1
-  m_BlocksRaycasts: 0
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!95 &448873678117417856
 Animator:
@@ -590,7 +590,7 @@ MonoBehaviour:
   _response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3429198306499048704}
+      - m_Target: {fileID: 604608053}
         m_MethodName: ExperienceFinished
         m_Mode: 0
         m_Arguments:
@@ -622,7 +622,7 @@ MonoBehaviour:
   _response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3429198306499048704}
+      - m_Target: {fileID: 604608053}
         m_MethodName: OtherStateChanged
         m_Mode: 0
         m_Arguments:
@@ -634,7 +634,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _debugValue: 0
---- !u!114 &3429198306499048704
+--- !u!114 &604608053
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -643,13 +643,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 702575981237749515}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 185a8d821fd8d46c0ba4d9c7d0b3888f, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cab4d5a7078223478f81630a8bc5335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _textGameObject: {fileID: 702575979674410138}
   _previousOtherState: {fileID: 11400000, guid: d0addde542cc2804c8dc89ae4c145f72,
-    type: 2}
-  _questionnaireState: {fileID: 11400000, guid: cbf3233dc398144a3ac1cdfbc9bfb1ea,
     type: 2}
 --- !u!1 &6124824445868289271
 GameObject:
