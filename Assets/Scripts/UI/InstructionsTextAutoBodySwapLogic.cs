@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Lean.Localization;
+using Mono.CecilX.Cil;
 using ScriptableObjectArchitecture;
 using UnityEngine;
 
@@ -10,9 +11,9 @@ public class InstructionsTextAutoBodySwapLogic : MonoBehaviour
     [SerializeField] private UserStateVariable _previousOtherState;
 
     
-    public void ExperienceFinished(bool showQuestionnaire)
+    public void ExperienceFinished(bool showQuestionnaire) //TODO remove param?
     {
-        _textGameObject.GetComponent<LeanLocalizedText>().TranslationName = "finished";
+        GetComponent<InstructionsTextBehavior>().ShowTextFromKey("finished", 3);
     }
     
     public void OtherStateChanged(UserState newState) 
