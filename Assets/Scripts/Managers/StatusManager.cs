@@ -183,7 +183,7 @@ public abstract class StatusManager : MonoBehaviour
             {
                 instructionsTimeline.Stop();
                 _experienceRunning = false;
-                _setInstructionsTextGameEvent.Raise("finished");
+                _setInstructionsTextGameEvent.Raise("otherIsGone");
                 StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
                 selfState.Value = UserState.headsetOn;    
             }
@@ -193,6 +193,7 @@ public abstract class StatusManager : MonoBehaviour
     
     public void Standby(bool start = false, bool dimOutOnExperienceStart = true)
     {
+        Debug.Log("Standby");
         if (!start) VideoFeed.instance.Dim(true); //TODO somehow this messes with Video Feed dimming when called on Start?
         _setInstructionsTextGameEvent.Raise("idle");
 
