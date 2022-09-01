@@ -55,6 +55,9 @@ public abstract class StatusManager : MonoBehaviour
     protected bool _experienceRunning;
     protected bool _dimOutOnExperienceStart;
     
+    protected delegate void OnShowTimedText(string key, int time);
+    protected OnShowTimedText ShowTimedText;
+    
     #endregion
 
     #region Monobehaviour Methods
@@ -179,7 +182,8 @@ public abstract class StatusManager : MonoBehaviour
             if (_experienceRunning) 
             {
                 instructionsTimeline.Stop();
-                _experienceRunning = false;    
+                _experienceRunning = false;
+                _setInstructionsTextGameEvent.Raise("finished");
                 StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
                 selfState.Value = UserState.headsetOn;    
             }
