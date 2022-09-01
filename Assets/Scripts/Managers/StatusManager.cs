@@ -294,12 +294,13 @@ public abstract class StatusManager : MonoBehaviour
 
     protected void StartPlaying()
     {
-        if (_readyForStandby)
+        if (_readyForStandby) //tODO check if necessary, might be better to clean ups
         {
             instructionsTimeline.Play();
             _InstructionsStartedGameEvent.Raise();
             _experienceRunning = true;
-        }
+        } else Debug.Log("tried to start playing but wasn't ready for Standy because serial confirmation was expected and not received");
+            
     }
 
     #endregion
