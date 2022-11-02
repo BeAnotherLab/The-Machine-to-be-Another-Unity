@@ -63,7 +63,5 @@ public class StatusManagerEditor : Editor
         
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         
-        if (GUILayout.Button("Serial ready"))
-            statusManager.SerialReady();
     }
 }

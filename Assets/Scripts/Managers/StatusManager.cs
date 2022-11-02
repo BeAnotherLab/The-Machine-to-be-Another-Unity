@@ -50,7 +50,6 @@ public abstract class StatusManager : MonoBehaviour
     [SerializeField] protected TrackAsset _germanTrack;
     [SerializeField] protected TrackAsset _englishTrack;
     
-    protected bool _readyForStandby; //when we use serial, only go to standby if Arduino is ready.
     protected GameObject _confirmationMenu; //TODO use events, no direct reference!
     protected bool _experienceRunning;
     protected bool _dimOutOnExperienceStart;
@@ -78,8 +77,6 @@ public abstract class StatusManager : MonoBehaviour
     {
         if (SwapModeManager.instance.ArduinoControl)
             _setInstructionsTextGameEvent.Raise("serial");
-        else
-            _readyForStandby = true; //if we're not using the serial control, we don't have to wait for the arduino
 
         selfState.Value = UserState.headsetOff;
         otherState.Value = UserState.headsetOff;
@@ -120,7 +117,6 @@ public abstract class StatusManager : MonoBehaviour
     public void SerialFailure() //if something went wrong with the physical installation
     {
         VideoFeed.instance.Dim(true);
-        OscManager.instance.SendSerialStatus(false);
         AudioManager.instance.StopAudioInstructions();    
         _setInstructionsTextGameEvent.Raise("systemFailure");
         instructionsTimeline.Stop();
@@ -207,9 +203,6 @@ public abstract class StatusManager : MonoBehaviour
         
         _languageButtons.gameObject.SetActive(true); //show language buttons;
 
-        if (_readyForStandby) //TODO is check necessary? 
-            ArduinoManager.instance.InitialPositions();
-        
         Debug.Log("ready to start");
         
         VideoFeed.instance.Dim(true); //TODO use events instead of static reference
@@ -220,18 +213,6 @@ public abstract class StatusManager : MonoBehaviour
         _standbyGameEvent.Raise();
     }
 
-    public void SerialReady(bool serialControlComputer = false)
-    {
-        if (serialControlComputer) //if this computer is the one connected to the Arduino board
-        {
-            ArduinoManager.instance.InitialPositions();
-        }
-        
-        _setInstructionsTextGameEvent.Raise("idle");
-        _readyForStandby = true;
-        Debug.Log("serial ready", DLogType.System);
-    }    
-    
     public void SelfRemovedHeadset()
     {
         //TODO use event instead 
@@ -299,13 +280,9 @@ public abstract class StatusManager : MonoBehaviour
 
     protected void StartPlaying()
     {
-        if (_readyForStandby) //tODO check if necessary, might be better to clean ups
-        {
-            instructionsTimeline.Play();
-            _InstructionsStartedGameEvent.Raise();
-            _experienceRunning = true;
-        } else Debug.Log("tried to start playing but wasn't ready for Standy because serial confirmation was expected and not received");
-            
+        instructionsTimeline.Play();
+        _InstructionsStartedGameEvent.Raise();
+        _experienceRunning = true;
     }
 
     #endregion

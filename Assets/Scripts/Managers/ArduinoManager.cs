@@ -164,7 +164,6 @@ public class ArduinoManager : MonoBehaviour
             Debug.Log("ERROR : " + data, DLogType.Error);
         else if (data == "sysReady")
         {
-            OscManager.instance.SendSerialStatus(true);
             Debug.Log("homing done, ready to start");            
         }
     }    

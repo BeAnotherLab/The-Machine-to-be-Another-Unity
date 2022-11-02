@@ -37,15 +37,11 @@ public class OscManager : MonoBehaviour {
     private bool _repeater;
     private bool _serialStatusOKReceived;
     private bool _sendHeadTracking;
-    private bool _dimmed;
 
     [SerializeField] private BoolVariable _sendRecordingCommand;
     [SerializeField] private ResponseData _responseData;
     [SerializeField] private BoolGameEvent _curtainOnGameEvent;
-
-    private bool curtainMoving;
-    [SerializeField] private int ignoreCurtainMessagesFor;
-
+    
     #endregion
 
     #region MonoBehaviour Methods
@@ -67,8 +63,6 @@ public class OscManager : MonoBehaviour {
         _oscReceiver.Bind("/dimon", ReceiveDimOn);
         _oscReceiver.Bind("/dimoff", ReceiveDimOff);
         _oscReceiver.Bind("/ht", ReceiveCalibrate);
-        _oscReceiver.Bind("/serialStatus", ReceiveSerialStatus);
-        _oscReceiver.Bind("/serialConfirmation", ReceiveSerialStatusOK);
         _oscReceiver.Bind("/language", ReceiveLanguageChange);
         _oscReceiver.Bind("/curtain", ReceiveCurtain);
         for (int i = 0; i < 11; i++) _oscReceiver.Bind("/btn" + i.ToString(), ReceiveBtn);
@@ -105,6 +99,7 @@ public class OscManager : MonoBehaviour {
         }
         else _repeater = false;
     }
+
     public void SetRepeater(bool r)
     {
         _repeater = r;
@@ -127,40 +122,6 @@ public class OscManager : MonoBehaviour {
         Debug.Log("sending user status : " + status, DLogType.Network);
     }
 
-    public void SendSerialStatus(bool status)
-    {
-        if(status) StartCoroutine(SendStatusUntilAnswer()); //when sending OK, we must wait for answer
-        else if (_repeater) //send not OK
-        {
-            OSCMessage message = new OSCMessage("/serialStatus");
-            message.AddValue(OSCValue.Int(0));
-            _oscTransmitter.Send(message);
-        }
-        Debug.Log("sending serial status : " + status, DLogType.Network);
-    }
-
-    public void SendDim(bool dim)
-    {
-        OSCMessage message;
-        
-        if (dim)
-            message = new OSCMessage("/dimon");
-        else 
-            message = new OSCMessage("/dimoff");
-        
-        message.AddValue(OSCValue.Float(1));
-        _oscTransmitter.Send(message);
-        Debug.Log("sending Dim on " + dim, DLogType.Network);
-    }
-
-    public void SendCalibrate()
-    {
-        OSCMessage message = new OSCMessage("/ht");
-        message.AddValue(OSCValue.Float(1));
-        _oscTransmitter.Send(message);
-        Debug.Log("sending calibrate ", DLogType.Network);
-    }
-    
     public void ExperienceStarted ()
     {
         if (_sendRecordingCommand.Value && _repeater)
@@ -255,21 +216,11 @@ public class OscManager : MonoBehaviour {
 
     private void ReceiveCurtain(OSCMessage message)
     {
-        if (!curtainMoving)
-        {
-            float value;
-            if (message.ToFloat(out value)) _curtainOnGameEvent.Raise(value == 1);
-            StartCoroutine(CurtainMoving());
-        }
+        float value;
+        if (message.ToFloat(out value))
+            _curtainOnGameEvent.Raise(value == 1);
     }
     
-    private IEnumerator CurtainMoving()
-    {
-        curtainMoving = true;
-        yield return new WaitForSeconds(ignoreCurtainMessagesFor);
-        curtainMoving = false;
-    }
-
     public void SendBtn(int index) 
     {
         OSCMessage message = new OSCMessage("/btn" + index.ToString());
@@ -306,41 +257,6 @@ public class OscManager : MonoBehaviour {
             
     }
 
-    private void ReceiveSerialStatus(OSCMessage message)
-    {
-        int x;
-        if (message.ToInt(out x))
-        {
-            if (x == 0) StatusManager.instance.SerialFailure();
-            else if (x == 1) //when we receive serial ready from computer connected to Arduino
-            {
-                //confirm we've received the message
-                OSCMessage oscMessage = new OSCMessage("/serialConfirmation");
-                _oscTransmitter.Send(oscMessage);
-                StatusManager.instance.SerialReady();
-            }
-        }
-        Debug.Log("received serial confirmation", DLogType.Network);
-    }
-
-    private void ReceiveSerialStatusOK(OSCMessage message) //the receiver computer acknowledges serial status OK
-    {
-        _serialStatusOKReceived = true;
-        StatusManager.instance.SerialReady(true);
-        Debug.Log("acknowledge serial status OK", DLogType.Network);
-    }
-    
-    private IEnumerator SendStatusUntilAnswer()
-    {
-        Debug.Log("sending serial status", DLogType.Network);
-        OSCMessage message = new OSCMessage("/serialStatus");
-        message.AddValue(OSCValue.Int(1));
-        _oscTransmitter.Send(message);
-        yield return new WaitForSeconds(1);
-
-        if (!_serialStatusOKReceived) StartCoroutine(SendStatusUntilAnswer());
-    }
-    
     #endregion
 
 }
