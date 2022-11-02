@@ -48,6 +48,7 @@ MonoBehaviour:
   pitchOffset: 0
   yawOffset: 0
   _timeOut: 5
+  _curtainOffOnStandby: 1
 --- !u!114 &3610201268164942279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,17 +70,17 @@ MonoBehaviour:
     keys:
     - UduinoDevice_DesktopSerial
     values: 01
-  debugLevel: 0
+  debugLevel: 2
   baudRate: 9600
   limitSendRate: 0
-  readTimeout: 30
-  writeTimeout: 30
-  threadFrequency: 16
+  readTimeout: 10
+  writeTimeout: 10
+  threadFrequency: 10
   alwaysRead: 1
   readAfterCommand: 1
   skipMessageQueue: 0
   messageQueueLength: 10
-  defaultArduinoBoardType: 4
+  defaultArduinoBoardType: 0
   useCuPort: 0
   sendRateSpeed: 20
   discoverTries: 10
@@ -114,7 +115,7 @@ MonoBehaviour:
   displayAndroidTextGUI: 0
   autoConnectToLastDevice: 1
   bleScanDuration: 3
-  interfaceType: 0
+  interfaceType: 2
   uduinoIpAddress: 192.168.x.x
   uduinoWifiPort: 4222
   isApplicationQuiting: 0
