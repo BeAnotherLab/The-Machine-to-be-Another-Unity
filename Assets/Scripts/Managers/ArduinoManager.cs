@@ -24,10 +24,12 @@ public class ArduinoManager : MonoBehaviour
 
     [SerializeField] private int _timeOut;
 
+    [SerializeField] private bool _curtainOffOnStandby = true;
+
     private bool _servosOn; //for one way swap.
     //private bool _commandOK;
     private bool _serialControlOn; //for technorama swap. determine if this computer is in charge of controlling the curtain and mirrors
-    
+    private bool _sysready; //whether board has been connected already
     //private Coroutine _timeoutCoroutine;
     
     #endregion
@@ -48,7 +50,7 @@ public class ArduinoManager : MonoBehaviour
 
     public void InitialPositions()
     {
-        StartCoroutine(DelayedInitialPositions());
+        if (_curtainOffOnStandby) StartCoroutine(DelayedInitialPositions());
     }
 
     public void SetSerialControlComputer(bool serialControlOn) //defines if this computer is the one in charge of serial control in Technorama swap
@@ -61,9 +63,9 @@ public class ArduinoManager : MonoBehaviour
     public void ActivateSerial(bool servosOn, bool useCurtain)
     {
         if (servosOn) UduinoManager.Instance.BaudRate = 57600;
-        else if (_serialControlOn && useCurtain){
+        else if (_serialControlOn && useCurtain){ //if we are in Technorama and this computer is connected to the Arduino
             UduinoManager.Instance.OnDataReceived += DataReceived;
-            UduinoManager.Instance.BaudRate = 9600; //if we are in Technorama and this computer is connected to the Arduino
+            UduinoManager.Instance.BaudRate = 115200; //this is the baudrate for 
         }
         _servosOn = servosOn;
     }
@@ -128,7 +130,12 @@ public class ArduinoManager : MonoBehaviour
     public void ArduinoBoardConnected()
     {
         Debug.Log("board connected");
-        SendCommand("init");
+        if (!_sysready)
+        {
+            _sysready = true;
+            SendCommand("init");
+
+        }
     }
     
     #endregion
@@ -157,7 +164,6 @@ public class ArduinoManager : MonoBehaviour
             Debug.Log("ERROR : " + data, DLogType.Error);
         else if (data == "sysReady")
         {
-            OscManager.instance.SendSerialStatus(true);
             Debug.Log("homing done, ready to start");            
         }
     }    

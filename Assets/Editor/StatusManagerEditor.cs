@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using ScriptableObjectArchitecture;
 using UnityEditor;
 using UnityEngine;
-
-[CustomEditor(typeof(StatusManager))]
+[CustomEditor(typeof(StatusManager),true)]
 public class StatusManagerEditor : Editor
 {
     public override void OnInspectorGUI()
@@ -64,7 +63,5 @@ public class StatusManagerEditor : Editor
         
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         
-        if (GUILayout.Button("Serial ready"))
-            statusManager.SerialReady();
     }
 }
