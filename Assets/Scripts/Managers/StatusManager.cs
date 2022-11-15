@@ -55,7 +55,6 @@ public class StatusManager : MonoBehaviour {
     [SerializeField] private TrackAsset _englishTrack;
     
     private GameObject _mainCamera;
-    private bool _readyForStandby; //when we use serial, only go to standby if Arduino is ready.
     private GameObject _confirmationMenu;
     private bool _experienceRunning;
     private bool _dimOutOnExperienceStart;
@@ -80,9 +79,7 @@ public class StatusManager : MonoBehaviour {
     {
         if (SwapModeManager.instance.ArduinoControl)
             _setInstructionsTextGameEvent.Raise("serial");
-        else
-            _readyForStandby = true; //if we're not using the serial control, we don't have to wait for the arduino
-
+        
         selfState.Value = UserState.headsetOff;
         otherState.Value = UserState.headsetOff;
     }
@@ -212,8 +209,7 @@ public class StatusManager : MonoBehaviour {
         _languageChangeEvent.Raise("German");  //reset to German by default
         _languageButtons.gameObject.SetActive(true); //show language buttons;
 
-        if (_readyForStandby) //TODO is check necessary? 
-            ArduinoManager.instance.InitialPositions();
+        ArduinoManager.instance.InitialPositions();
         
         Debug.Log("ready to start");
         
@@ -233,7 +229,6 @@ public class StatusManager : MonoBehaviour {
     public void SerialFailure() //if something went wrong with the physical installation
     {
         VideoFeed.instance.Dim(true);
-        OscManager.instance.SendSerialStatus(false);
         AudioManager.instance.StopAudioInstructions();    
         _setInstructionsTextGameEvent.Raise("systemFailure");
         instructionsTimeline.Stop();
@@ -241,18 +236,6 @@ public class StatusManager : MonoBehaviour {
         Destroy(gameObject);
         Debug.Log("serial failure", DLogType.Error);
     }
-
-    public void SerialReady(bool serialControlComputer = false)
-    {
-        if (serialControlComputer) //if this computer is the one connected to the Arduino board
-        {
-            ArduinoManager.instance.InitialPositions();
-        }
-        
-        _setInstructionsTextGameEvent.Raise("idle");
-        _readyForStandby = true;
-        Debug.Log("serial ready", DLogType.System);
-    }    
 
     public void SelfRemovedHeadset()
     {
@@ -316,13 +299,10 @@ public class StatusManager : MonoBehaviour {
 
     private void StartPlaying()
     {
-        if (_readyForStandby)
-        {
-            OpenCurtainCanvasController.instance.Show("Close Curtain");
-            instructionsTimeline.Play();
-            _InstructionsStartedGameEvent.Raise();
-            _experienceRunning = true;
-        }
+        OpenCurtainCanvasController.instance.Show("Close Curtain");
+        instructionsTimeline.Play();
+        _InstructionsStartedGameEvent.Raise();
+        _experienceRunning = true;
     }
 
     private void IsOver() //called at the the end of the experience
