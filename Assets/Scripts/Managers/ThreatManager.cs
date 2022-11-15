@@ -28,10 +28,10 @@ public class ThreatManager : MonoBehaviour
     public void StartTask(ThreatOrder target)
     {
         //flip target when sending to other computer
-        if (_experimentData.mainComputer && target == ThreatOrder.self)
-            OscManager.instance.SendThreatTaskStart(ThreatOrder.other);
-        else if (_experimentData.mainComputer && target == ThreatOrder.other)
-            OscManager.instance.SendThreatTaskStart(ThreatOrder.self);
+//        if (_experimentData.mainComputer && target == ThreatOrder.self)
+//            OscManager.instance.SendThreatTaskStart(ThreatOrder.other);
+//        else if (_experimentData.mainComputer && target == ThreatOrder.other)
+//          OscManager.instance.SendThreatTaskStart(ThreatOrder.self);
             
         _threatTimeline.Play();
         _target = target;
