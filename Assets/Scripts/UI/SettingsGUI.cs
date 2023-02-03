@@ -20,8 +20,8 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private GameObject _panel;
     [SerializeField] private Slider _pitchSlider, _yawSlider, _rollSlider, _zoomSlider;
     [SerializeField] private IPInputField _ipInputField;
-    [SerializeField] private Toggle _serialControlToggle;
-    
+    [SerializeField] private Toggle _serverToggle; //merge with serial control toggle
+
     [SerializeField] private Button _cameraSettingsButton;
 
     [SerializeField] private Button _dimButton;
@@ -30,7 +30,6 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private Button _resetYawButton;
     [SerializeField] private Slider _exposureSlider;
     [SerializeField] private Text _exposureText;
-    [SerializeField] private Toggle _repeaterToggle;
     //[SerializeField] private Text _controlsText;
     
     private GameObject _mainCamera;
@@ -54,9 +53,11 @@ public class SettingsGUI : MonoBehaviour
         
         _cameraSettingsButton.onClick.AddListener(delegate { VideoCameraManager.instance.ShowCameraConfigWindow(); });
         
-        _repeaterToggle.onValueChanged.AddListener(delegate { OscManager.instance.SetRepeater(_repeaterToggle.isOn); });
-
-        _serialControlToggle.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetSerialControlComputer(_serialControlToggle.isOn); });
+        _serverToggle.onValueChanged.AddListener(delegate
+        {
+            OscManager.instance.SetRepeater(_serverToggle.isOn);
+            ArduinoManager.instance.SetSerialControlComputer(_serverToggle.isOn);     
+        });
         
         _timelineDropdown.onValueChanged.AddListener(delegate(int val) { StatusManager.instance.SetInstructionsTimeline(val); });
         
@@ -78,7 +79,7 @@ public class SettingsGUI : MonoBehaviour
         });
         
         //Assign swap mode dropdown handler
-        _swapModeDropdown.onValueChanged.AddListener(delegate { SwapModeManager.instance.SetSwapMode( (SwapModeManager.SwapModes) _swapModeDropdown.value); });
+        //_swapModeDropdown.onValueChanged.AddListener(delegate { SwapModeManager.instance.SetSwapMode( (SwapModeManager.SwapModes) _swapModeDropdown.value); });
         
         _rotateCameraButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
     }
@@ -91,12 +92,12 @@ public class SettingsGUI : MonoBehaviour
         _zoomSlider.value = PlayerPrefs.GetFloat("zoom", 39.5f);
 
         if (PlayerPrefs.GetInt("repeater") == 1) 
-            _repeaterToggle.isOn = true;
+            _serverToggle.isOn = true;
         else                                    
-            _repeaterToggle.isOn = false;
+            _serverToggle.isOn = false;
 
-        if (PlayerPrefs.GetInt("serialControlOn") == 1) _serialControlToggle.isOn = true;
-        else _serialControlToggle.isOn = false;             
+        if (PlayerPrefs.GetInt("serialControlOn") == 1) _serverToggle.isOn = true;
+        else _serverToggle.isOn = false;             
         
         if (PlayerPrefs.GetInt("exposure", 1) != 1)
         {
@@ -107,8 +108,6 @@ public class SettingsGUI : MonoBehaviour
         OSCUtilities.GetLocalHost();
 
         SetLanguageText(PlayerPrefs.GetInt("language"));
-        
-        
     }
 
     private void Update()
@@ -129,7 +128,6 @@ public class SettingsGUI : MonoBehaviour
             _pitchSlider.value = pitchYawRoll.z + 90;
             _zoomSlider.value = VideoFeed.instance.zoom;
         }
-
     }
 
     #endregion
@@ -139,9 +137,7 @@ public class SettingsGUI : MonoBehaviour
     public void SetLanguage(int language)
     {
         AudioManager.instance.language = language;
-
         SetLanguageText(language);
-
         PlayerPrefs.SetInt("language", language);
     }
     
@@ -151,12 +147,9 @@ public class SettingsGUI : MonoBehaviour
        else _panel.GetComponent<CanvasGroup>().alpha = 0f;
     }
                 
-    public void SetSwapMode(bool withArduino = false) 
+    public void SetSwapMode() 
     {
-        _serialControlToggle.gameObject.SetActive(withArduino);
-        
         //show two way swap related networking GUI
-        _repeaterToggle.gameObject.SetActive(true);
         _ipInputField.gameObject.SetActive(true);
     }
 
@@ -164,7 +157,7 @@ public class SettingsGUI : MonoBehaviour
     {
         //hide two way swap related networking GUI
         _ipInputField.gameObject.SetActive(false);
-        _repeaterToggle.gameObject.SetActive(false);
+        _serverToggle.gameObject.SetActive(false);
     }
 
     public void ToggleDebugDisplayGUI()

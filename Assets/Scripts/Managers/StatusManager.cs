@@ -191,7 +191,7 @@ public abstract class StatusManager : MonoBehaviour
     {
         Debug.Log("Standby");
         if (!start) VideoFeed.instance.Dim(true); //TODO somehow this messes with Video Feed dimming when called on Start?
-        _setInstructionsTextGameEvent.Raise("idle");
+        z   
 
         instructionsTimeline.Stop();
         _experienceRunning = false;
