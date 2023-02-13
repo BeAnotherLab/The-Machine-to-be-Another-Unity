@@ -43,15 +43,17 @@ namespace VRStandardAssets.Menu
         private void HandleOver()
         {
             // When the user looks at the rendering of the scene, show the radial.
-            //if (XRDevice.userPresence == UserPresenceState.Present)
-            //{
+            //TODO put presence detection in its own class
+            InputDevice headDevice = InputDevices.GetDeviceAtXRNode(XRNode.Head);
+            if (headDevice.isValid == false) return;
+            bool userPresent = false;
+            headDevice.TryGetFeatureValue(CommonUsages.userPresence, out userPresent);
+            if(userPresent)
+            {
                 m_SelectionRadial.Show();
-                //LeanTween.scale(gameObject, new Vector3(1.2f, 1.2f, 1.2f), 0.45f).setEaseOutBounce();
-                //LeanTween.color(gameObject, Color.white, 0.25f).setEaseOutCubic();
-
                 m_GazeOver = true;
                 ConfirmationButtonGraphics.instance.SwitchSelection(m_GazeOver);
-            //}
+            }
         }
 
         private void HandleOut()

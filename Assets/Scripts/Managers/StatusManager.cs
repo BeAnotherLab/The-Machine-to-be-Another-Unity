@@ -65,9 +65,14 @@ public class StatusManager : MonoBehaviour {
     {
         if (presenceDetection) //presence is for both autonomous and manual swap
         {
-            if (XRDevice.userPresence == UserPresenceState.NotPresent && selfStatus != UserStatus.headsetOff) 
+            InputDevice headDevice = InputDevices.GetDeviceAtXRNode(XRNode.Head);
+            if (headDevice.isValid == false) return;
+            bool userPresent = false;
+            bool presenceFeatureSupported = headDevice.TryGetFeatureValue(CommonUsages.userPresence, out userPresent);
+            
+            if (!userPresent && selfStatus != UserStatus.headsetOff) 
                 SelfRemovedHeadset();
-            else if (XRDevice.userPresence == UserPresenceState.Present && selfStatus == UserStatus.headsetOff) //if we just put the headset on 
+            else if (userPresent && selfStatus == UserStatus.headsetOff) //if we just put the headset on 
                 SelfPutHeadsetOn(); 
             
             if (Input.GetKeyDown("o")) IsOver();
@@ -291,6 +296,20 @@ public class StatusManager : MonoBehaviour {
         Debug.Log("about to reset");
     }
 
+    public static bool isPresent()
+    {
+        var xrDisplaySubsystems = new List<XRDisplaySubsystem>();
+        SubsystemManager.GetInstances<XRDisplaySubsystem>(xrDisplaySubsystems);
+        foreach (var xrDisplay in xrDisplaySubsystems)
+        {
+            if (xrDisplay.running)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     #endregion
 }
  

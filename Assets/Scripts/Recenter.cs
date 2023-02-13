@@ -12,8 +12,8 @@ public class Recenter : MonoBehaviour
             UnityEngine.XR.InputTracking.Recenter();
             //The following will also move the camera positional reference.
             //taken from https://forum.unity.com/threads/openvr-how-to-reset-camera-properly.417509/#post-2792972
-            Valve.VR.OpenVR.System.ResetSeatedZeroPose();
-            Valve.VR.OpenVR.Compositor.SetTrackingSpace(Valve.VR.ETrackingUniverseOrigin.TrackingUniverseSeated);
+            //Valve.VR.OpenVR.System.ResetSeatedZeroPose();
+            //Valve.VR.OpenVR.Compositor.SetTrackingSpace(Valve.VR.ETrackingUniverseOrigin.TrackingUniverseSeated);
         }
     }
 }

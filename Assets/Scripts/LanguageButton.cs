@@ -38,7 +38,12 @@ namespace VRStandardAssets.Menu
         private void HandleOver()
         {
             // When the user looks at the rendering of the scene, show the radial.
-            if (XRDevice.userPresence == UserPresenceState.Present)
+            //TODO put presence detection in its own class
+            InputDevice headDevice = InputDevices.GetDeviceAtXRNode(XRNode.Head);
+            if (headDevice.isValid == false) return;
+            bool userPresent = false;
+            headDevice.TryGetFeatureValue(CommonUsages.userPresence, out userPresent);
+            if(userPresent)
             {
                 m_SelectionRadial.Show();
                 LeanTween.scale(gameObject, _scaleOn, 0.45f).setEaseOutBounce();
