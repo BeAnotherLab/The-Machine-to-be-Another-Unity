@@ -800,7 +800,7 @@ namespace Uduino
 #if UNITY_2018 || UNITY_2019 || UNITY_2019
                 EditorUserBuildSettings.activeBuildTarget == BuildTarget.StandaloneOSX ||
 #else
-                EditorUserBuildSettings.activeBuildTarget == BuildTarget.StandaloneOSXUniversal ||
+                EditorUserBuildSettings.activeBuildTarget == BuildTarget.StandaloneOSX ||
                 EditorUserBuildSettings.activeBuildTarget == BuildTarget.StandaloneOSXIntel64 ||
                 #endif
                 EditorUserBuildSettings.activeBuildTarget == BuildTarget.StandaloneWindows ||

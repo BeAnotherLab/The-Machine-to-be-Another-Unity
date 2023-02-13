@@ -184,8 +184,8 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         //taken from https://forum.unity.com/threads/openvr-how-to-reset-camera-properly.417509/#post-2792972
         if (Valve.VR.OpenVR.System != null)
         {
-            Valve.VR.OpenVR.System.ResetSeatedZeroPose();
-            Valve.VR.OpenVR.Compositor.SetTrackingSpace(Valve.VR.ETrackingUniverseOrigin.TrackingUniverseSeated);    
+            //Valve.VR.OpenVR.System.ResetSeatedZeroPose();
+            //Valve.VR.OpenVR.Compositor.SetTrackingSpace(Valve.VR.ETrackingUniverseOrigin.TrackingUniverseSeated);    
         }
     }
 
