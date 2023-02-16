@@ -196,7 +196,7 @@ public abstract class StatusManager : MonoBehaviour
         instructionsTimeline.Stop();
         _experienceRunning = false;
         
-        AudioManager.instance.StopAudioInstructions();
+        //AudioManager.instance.StopAudioInstructions();
 
         InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeInText(); //TODO use events instead of static reference
         InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeOutImages();  //TODO use events instead of static reference

@@ -18,7 +18,6 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private Dropdown _swapModeDropdown;
     [SerializeField] private Dropdown _timelineDropdown;
     [SerializeField] private GameObject _panel;
-    [SerializeField] private Slider _pitchSlider, _yawSlider, _rollSlider, _zoomSlider;
     [SerializeField] private IPInputField _ipInputField;
     [SerializeField] private Toggle _serialControlToggle;
     
@@ -26,7 +25,6 @@ public class SettingsGUI : MonoBehaviour
 
     [SerializeField] private Button _dimButton;
     [SerializeField] private Button _rotateCameraButton;
-    [SerializeField] private Button _headTrackingOnButton;
     [SerializeField] private Button _resetYawButton;
     [SerializeField] private Slider _exposureSlider;
     [SerializeField] private Text _exposureText;
@@ -50,26 +48,14 @@ public class SettingsGUI : MonoBehaviour
         //objects in the scene
         _mainCamera = GameObject.Find("Main Camera");
         
-        _dimButton.onClick.AddListener(delegate { VideoFeed.instance.ToggleDim(); });
-        
         _cameraSettingsButton.onClick.AddListener(delegate { VideoCameraManager.instance.ShowCameraConfigWindow(); });
         
         _repeaterToggle.onValueChanged.AddListener(delegate { OscManager.instance.SetRepeater(_repeaterToggle.isOn); });
 
         _serialControlToggle.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetSerialControlComputer(_serialControlToggle.isOn); });
         
-        _timelineDropdown.onValueChanged.AddListener(delegate(int val) { StatusManager.instance.SetInstructionsTimeline(val); });
-        
         //_controlsText.text = _controlsText.text + "\n \nlocal IP adress : " + OSCUtilities.GetLocalHost();
 
-        //Assign servos control buttons handlers
-        _pitchSlider.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetPitch(_pitchSlider.value); });
-        _yawSlider.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetYaw(_yawSlider.value); });
-        _zoomSlider.onValueChanged.AddListener(delegate { VideoFeed.instance.SetZoom(_zoomSlider.value); });
-        
-        _headTrackingOnButton.onClick.AddListener(delegate { VideoFeed.instance.SwitchHeadtracking(); });
-        _resetYawButton.onClick.AddListener(delegate { VideoFeed.instance.RecenterPose(); });
-        
         _exposureSlider.onValueChanged.AddListener(delegate(float value)
         {
             ExposureValueChanged((int) value);
@@ -87,8 +73,6 @@ public class SettingsGUI : MonoBehaviour
     private void Start()
     {        
         SetSwapModeDropdownOptions();
-
-        _zoomSlider.value = PlayerPrefs.GetFloat("zoom", 39.5f);
 
         if (PlayerPrefs.GetInt("repeater") == 1) 
             _repeaterToggle.isOn = true;
@@ -120,16 +104,6 @@ public class SettingsGUI : MonoBehaviour
         {
             VideoFeed.instance.FlipHorizontal();
         }
-        if (VideoFeed.instance.useHeadTracking)
-        {
-            Vector3 pitchYawRoll = Utilities.toEulerAngles(_mainCamera.transform.rotation);
-
-            _rollSlider.value = pitchYawRoll.x;
-            _yawSlider.value = 90 - pitchYawRoll.y;
-            _pitchSlider.value = pitchYawRoll.z + 90;
-            _zoomSlider.value = VideoFeed.instance.zoom;
-        }
-
     }
 
     #endregion
