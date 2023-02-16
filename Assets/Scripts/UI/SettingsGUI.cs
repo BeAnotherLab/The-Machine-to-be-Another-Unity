@@ -16,27 +16,21 @@ public class SettingsGUI : MonoBehaviour
     #region Private Fields
 
     [SerializeField] private Dropdown _swapModeDropdown;
-    [SerializeField] private Dropdown _timelineDropdown;
     [SerializeField] private GameObject _panel;
     [SerializeField] private IPInputField _ipInputField;
     [SerializeField] private Toggle _serialControlToggle;
     
     [SerializeField] private Button _cameraSettingsButton;
 
-    [SerializeField] private Button _dimButton;
     [SerializeField] private Button _rotateCameraButton;
-    [SerializeField] private Button _resetYawButton;
     [SerializeField] private Slider _exposureSlider;
     [SerializeField] private Text _exposureText;
     [SerializeField] private Toggle _repeaterToggle;
     //[SerializeField] private Text _controlsText;
     
-    private GameObject _mainCamera;
     private bool _oculusGuiEnabled;
     private float _deltaTime = 0.0f;
  
-    [SerializeField] private bool serialDebug;
-
     #endregion
 
     #region MonoBehaviour Methods
@@ -45,9 +39,6 @@ public class SettingsGUI : MonoBehaviour
     {
         if (instance == null) instance = this;
 
-        //objects in the scene
-        _mainCamera = GameObject.Find("Main Camera");
-        
         _cameraSettingsButton.onClick.AddListener(delegate { VideoCameraManager.instance.ShowCameraConfigWindow(); });
         
         _repeaterToggle.onValueChanged.AddListener(delegate { OscManager.instance.SetRepeater(_repeaterToggle.isOn); });
