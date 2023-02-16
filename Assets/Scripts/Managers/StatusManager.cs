@@ -196,13 +196,6 @@ public abstract class StatusManager : MonoBehaviour
         instructionsTimeline.Stop();
         _experienceRunning = false;
         
-        //AudioManager.instance.StopAudioInstructions();
-
-        InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeInText(); //TODO use events instead of static reference
-        InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeOutImages();  //TODO use events instead of static reference
-        
-        _languageButtons.gameObject.SetActive(true); //show language buttons;
-
         Debug.Log("ready to start");
         
         VideoFeed.instance.Dim(true); //TODO use events instead of static reference
