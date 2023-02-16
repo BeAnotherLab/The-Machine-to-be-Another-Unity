@@ -70,6 +70,9 @@ public class OscManager : MonoBehaviour {
         //set IP address of other 
         SetOthersIP(PlayerPrefs.GetString("othersIP"));
         
+        //for george manual hyperscanning swap
+        SetSendHeadtracking(true);
+        SetSendHeadtracking(true);
     }   
     
     #endregion

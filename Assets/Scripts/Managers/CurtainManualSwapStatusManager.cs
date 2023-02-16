@@ -35,4 +35,9 @@ public class CurtainManualSwapStatusManager : StatusManager
         if (selfState.Value == UserState.readyToStart) StartPlaying();//TODO this should be the default behavior
     }
 
+    
+    private void Start()    
+    {
+        _standbyGameEvent.Raise();
+    }
 }

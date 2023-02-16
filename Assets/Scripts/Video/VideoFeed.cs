@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using RockVR.Video;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine.Serialization;
 
 public class VideoFeed : MonoBehaviour //TODO turn to manager
@@ -65,6 +66,8 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         if(_loadTiltFromPlayerPrefs) _tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
         if (dimOnStart) StartCoroutine(StartupDim());
         otherPose = new Quaternion();
+
+        twoWayWap = true; //for george manual hyperscanning swap
     }
 
     // Update is called once per frame

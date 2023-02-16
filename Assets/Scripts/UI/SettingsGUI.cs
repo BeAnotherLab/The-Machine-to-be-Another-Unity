@@ -92,7 +92,7 @@ public class SettingsGUI : MonoBehaviour
 
         SetLanguageText(PlayerPrefs.GetInt("language"));
         
-        
+        SetSwapMode(true); //hide serial port dropdown, show repeater toggle, show IP input field
     }
 
     private void Update()

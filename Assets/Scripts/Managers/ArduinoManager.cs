@@ -42,7 +42,12 @@ public class ArduinoManager : MonoBehaviour
         if (instance == null) instance = this;
         _serialControlOn = PlayerPrefs.GetInt("serialControlOn", 0) == 1;
     }
-    
+
+    private void Start()
+    {
+        ActivateSerial(false, true);
+    }
+
     #endregion
 
 
