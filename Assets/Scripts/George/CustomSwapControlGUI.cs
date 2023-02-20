@@ -6,26 +6,25 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class SwapControlGUI : MonoBehaviour
+public class CustomSwapControlGUI : MonoBehaviour
 {
     [SerializeField] private StringGameEvent _languagechangedEvent;
     [SerializeField] private IntGameEvent _buttonPressedEvent;
     [SerializeField] private BoolGameEvent _dimButtonPressedEvent;
-    [SerializeField] private GameEvent _calibratebuttonPressedEvent;
+    [SerializeField] private GameEvent _CalibratebuttonPressedEvent;
     [SerializeField] private GameObject _controlPanel;
 
     private Button _audioButtons;
 
-    private void OnEnable()
+    private void Start()
     {
-        SwapModeManager.SwapModeChanged += SwapModeChanged;
+        if (PlayerPrefs.GetInt("repeater") == 1 && PlayerPrefs.GetInt("serialControlOn") == 1) 
+            _controlPanel.SetActive(true);
+        else 
+            _controlPanel.SetActive(false);
     }
-
-    private void OnDisable()
-    {
-        SwapModeManager.SwapModeChanged -= SwapModeChanged;
-    }
-
+        
+    
     public void ButtonPressed(int id)
     {
         AudioManager.instance.PlaySound(id);
@@ -37,7 +36,7 @@ public class SwapControlGUI : MonoBehaviour
     {
         VideoFeed.instance.RecenterPose(); 
         if (PlayerPrefs.GetInt("repeater", 0) == 1)
-            _calibratebuttonPressedEvent.Raise();
+            _CalibratebuttonPressedEvent.Raise();
     }
 
     public void DimButtonPressed(bool dimOn)
@@ -51,17 +50,4 @@ public class SwapControlGUI : MonoBehaviour
     {
         _languagechangedEvent.Raise(language);
     }
-    
-    private void SwapModeChanged(SwapModeManager.SwapModes swapMode)
-    {
-        if (swapMode == SwapModeManager.SwapModes.CURTAIN_MANUAL_SWAP && 
-            PlayerPrefs.GetInt("repeater") == 1 &&
-            PlayerPrefs.GetInt("serialControlOn") == 1) 
-        {
-            _controlPanel.SetActive(true);
-        } else 
-        {
-            _controlPanel.SetActive(false);
-        }
-    } 
 }
