@@ -89,12 +89,12 @@ public class SettingsGUI : MonoBehaviour
     private void Update()
     {     
         //TODO move out of settings GUI
-        if (Input.GetKeyDown("m")) ToggleDisplay();
+        /*if (Input.GetKeyDown("m")) ToggleDisplay();
 
         if (Input.GetKeyDown("f"))
         {
             VideoFeed.instance.FlipHorizontal();
-        }
+        }*/
     }
 
     #endregion

@@ -98,7 +98,7 @@ public abstract class StatusManager : MonoBehaviour
             selfStateGameEvent.Raise(UserState.headsetOn);
         }
             
-        if (Input.GetKeyDown("o")) IsOver();
+        //if (Input.GetKeyDown("o")) IsOver();
     }
     
     #endregion

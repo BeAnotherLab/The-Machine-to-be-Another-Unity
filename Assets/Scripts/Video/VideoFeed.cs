@@ -78,9 +78,9 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         // Turn towards our target rotation.
         otherPose = Quaternion.RotateTowards(otherPose, nextOtherPose, _turningRate * Time.deltaTime);
 
-        if (Input.GetKeyDown("b") && !_editing ) ToggleDim();
-        if (Input.GetKeyDown("n") && !_editing ) RecenterPose();
-        if (Input.GetKeyDown("r") && !_editing ) Rotate();
+        //if (Input.GetKeyDown("b") && !_editing ) ToggleDim();
+        //if (Input.GetKeyDown("n") && !_editing ) RecenterPose();
+        //if (Input.GetKeyDown("r") && !_editing ) Rotate();
 
         if (targetTransform != null)
         {
