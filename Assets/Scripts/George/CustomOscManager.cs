@@ -21,6 +21,8 @@ public class CustomOscManager : MonoBehaviour {
     private bool _repeater;
     private bool _sendHeadTracking;
 
+    [SerializeField] private GameEvent _startInstructionsGameEvent;
+    
     #endregion
 
     #region MonoBehaviour Methods
@@ -90,6 +92,7 @@ public class CustomOscManager : MonoBehaviour {
     {
         OSCMessage message = new OSCMessage("/startInstruction");
         message.AddValue(OSCValue.Int(1));
+        _oscTransmitter.Send(message);
         Debug.Log("send start instruction", DLogType.Network);
     }
 
@@ -105,6 +108,7 @@ public class CustomOscManager : MonoBehaviour {
             if (value == 1f) //TODO start phase countdown here
             {
                 Debug.Log("received start instruction");
+                _startInstructionsGameEvent.Raise();
             }
     }
 
