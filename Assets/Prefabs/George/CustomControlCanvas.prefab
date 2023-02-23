@@ -200,7 +200,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Curtain Down (\u2193)"
+  m_Text: Curtain Down (P)
 --- !u!1 &441518673183045531
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,8 +722,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _languagechangedEvent: {fileID: 11400000, guid: 3186148365f83442090e1a09b70837e4,
     type: 2}
-  _buttonPressedEvent: {fileID: 11400000, guid: c914d11254aa8a04eba464dfc883fcf6,
-    type: 2}
+  _buttonPressedEvent: {fileID: 0}
   _dimButtonPressedEvent: {fileID: 11400000, guid: 8d66fd5e6124cbd4f97c6ebf30e46e6c,
     type: 2}
   _calibratebuttonPressedEvent: {fileID: 0}
@@ -768,7 +767,6 @@ MonoBehaviour:
   _startButton: {fileID: 8553447957731984938}
   _questionnaireOnButton: {fileID: 1325956436254076127}
   _questionnaireOffButton: {fileID: 5235554632990306818}
-  transition: {fileID: 0}
 --- !u!1 &1898204911583794223
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,7 +945,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Curtain Up (\u2191)"
+  m_Text: Curtain Up (O)
 --- !u!1 &2108213984344608118
 GameObject:
   m_ObjectHideFlags: 0
@@ -1827,13 +1825,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3963577484033289777}
-        m_MethodName: ButtonPressed
+      - m_Target: {fileID: 11400000, guid: 8bec0ca2949bf734ca457e8acbc6cb44, type: 2}
+        m_MethodName: Raise
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 5
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2044,16 +2042,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3963577484033289777}
-        m_MethodName: ButtonPressed
-        m_Mode: 3
+      - m_Target: {fileID: 11400000, guid: fb21b4aaf3addb34e8165fa2b4f854d9, type: 2}
+        m_MethodName: Raise
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!1 &5314911256262264641
 GameObject:
@@ -2446,13 +2444,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3963577484033289777}
-        m_MethodName: ButtonPressed
-        m_Mode: 3
+      - m_Target: {fileID: 11400000, guid: b7b9d0e4de287e14ea12dbad235621cd, type: 2}
+        m_MethodName: Raise
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 6
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2571,9 +2569,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3963577484033289777}
-        m_MethodName: ButtonPressed
-        m_Mode: 3
+      - m_Target: {fileID: 11400000, guid: fb21b4aaf3addb34e8165fa2b4f854d9, type: 2}
+        m_MethodName: Raise
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2968,7 +2966,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6921028934134107181}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 8bec0ca2949bf734ca457e8acbc6cb44, type: 2}
+        m_MethodName: Raise
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6846785327020388003
 GameObject:
   m_ObjectHideFlags: 0
@@ -3409,13 +3418,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3963577484033289777}
-        m_MethodName: ButtonPressed
+      - m_Target: {fileID: 11400000, guid: 8bec0ca2949bf734ca457e8acbc6cb44, type: 2}
+        m_MethodName: Raise
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 4
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

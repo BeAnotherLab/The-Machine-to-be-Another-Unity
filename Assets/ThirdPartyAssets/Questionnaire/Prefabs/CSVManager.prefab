@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 420784606945972710}
   - component: {fileID: 6535500248416027063}
   - component: {fileID: 4818340320356204514}
-  - component: {fileID: 6585441648924763750}
+  - component: {fileID: 8356118545995492391}
   m_Layer: 0
   m_Name: CSVManager
   m_TagString: Untagged
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6181ea3d7ce044ed8b08fba6ea9cc84d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _responseData: {fileID: 11400000, guid: 63e3e56377d7044b793dcb8145fd743d, type: 2}
+  _experimentData: {fileID: 11400000, guid: 119d16b4a965f4dc392c13b16e7b8468, type: 2}
   varNames: []
 --- !u!114 &4818340320356204514
 MonoBehaviour:
@@ -79,7 +79,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &6585441648924763750
+--- !u!114 &8356118545995492391
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,19 +88,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1423911853054836920}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 791e3eca91bfc2e41b38477d0ecfaf1b, type: 3}
+  m_Script: {fileID: 11500000, guid: 094217878ac039741aa004dbc1f81b20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _showDebugFields: 0
   _enableGizmoDebugging: 1
   _debugColor: {r: 0, g: 1, b: 1, a: 1}
   _previouslyRegisteredEvent: {fileID: 0}
-  _event: {fileID: 11400000, guid: c66629fc8af0c4003b0522bffed86084, type: 2}
+  _event: {fileID: 11400000, guid: 8bec0ca2949bf734ca457e8acbc6cb44, type: 2}
   _response:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6535500248416027063}
-        m_MethodName: DataCollectionConsentGiven
+        m_MethodName: SetRole
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

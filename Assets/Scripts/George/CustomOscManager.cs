@@ -21,8 +21,6 @@ public class CustomOscManager : MonoBehaviour {
     private bool _repeater;
     private bool _sendHeadTracking;
 
-    [SerializeField] private BoolGameEvent _curtainOnGameEvent;
-    
     #endregion
 
     #region MonoBehaviour Methods
@@ -42,7 +40,7 @@ public class CustomOscManager : MonoBehaviour {
         _oscReceiver.Bind("/dimoff", ReceiveDimOff);
         _oscReceiver.Bind("/ht", ReceiveCalibrate);
         _oscReceiver.Bind("/language", ReceiveLanguageChange);
-        _oscReceiver.Bind("/curtain", ReceiveCurtain);
+        _oscReceiver.Bind("/startInstruction", ReceiveStartInstruction);
         for (int i = 0; i < 11; i++) _oscReceiver.Bind("/btn" + i.ToString(), ReceiveBtn);
 
         //set IP address of other 
@@ -88,9 +86,27 @@ public class CustomOscManager : MonoBehaviour {
         else PlayerPrefs.SetInt("repeater", 0);
     }
     
+    public void SendStartInstruction()
+    {
+        OSCMessage message = new OSCMessage("/startInstruction");
+        message.AddValue(OSCValue.Int(1));
+        Debug.Log("send start instruction", DLogType.Network);
+    }
+
+
     #endregion
 
     #region Private Methods
+
+    private void ReceiveStartInstruction(OSCMessage message)
+    {
+        float value;
+        if (message.ToFloat(out value))
+            if (value == 1f) //TODO start phase countdown here
+            {
+                Debug.Log("received start instruction");
+            }
+    }
 
     private void SetOthersIP(string othersIP)
     {
@@ -148,13 +164,6 @@ public class CustomOscManager : MonoBehaviour {
         if (_repeater) _oscTransmitter.Send(message);
     }
 
-    private void ReceiveCurtain(OSCMessage message) //TODO remove?
-    {
-        float value;
-        if (message.ToFloat(out value))
-            _curtainOnGameEvent.Raise(value == 1);
-    }
-    
     public void SendBtn(int index) 
     {
         OSCMessage message = new OSCMessage("/btn" + index.ToString());

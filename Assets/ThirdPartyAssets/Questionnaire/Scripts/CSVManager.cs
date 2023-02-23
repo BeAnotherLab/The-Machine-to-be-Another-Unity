@@ -5,7 +5,7 @@ using System.Reflection;
 
 public class CSVManager : MonoBehaviour
 {
-    [SerializeField] private ResponseData _responseData;
+    [SerializeField] private ExperimentData _experimentData;
 
     [SerializeField] private List<string> varNames = new List<string>();
     private List<string> varValues = new List<string>();
@@ -24,7 +24,7 @@ public class CSVManager : MonoBehaviour
     private void WriteToFile(List<string> stringList)
     {
         string stringLine = string.Join(",", stringList.ToArray());
-        string path = "./Logs/" + _responseData.subjectID + "-" + _responseData.pairID + "_log.csv";
+        string path = "./Logs/" + _experimentData.subjectID + "-" + _experimentData.otherID + "_log.csv";
         System.IO.StreamWriter file = new System.IO.StreamWriter(path, true);
         file.WriteLine(stringLine);
         file.Close();	
@@ -46,8 +46,16 @@ public class CSVManager : MonoBehaviour
         var fields = typeof(ResponseData).GetFields();
         for (int i=0; i<fields.Length; i++)
         {
-            varValues[i] = fields[i].GetValue(_responseData).ToString();
+            varValues[i] = fields[i].GetValue(_experimentData).ToString();
         }
         WriteToFile(varValues);
     }
+    
+    public void SetRole(int role)
+    {
+        if (role == 0) _experimentData.participantType = ParticipantType.leader;
+        else if (role == 1) _experimentData.participantType = ParticipantType.follower;
+        else if (role == 2) _experimentData.participantType = ParticipantType.free;
+    }
+    
 }

@@ -28,7 +28,6 @@ public class SwapControlGUI : MonoBehaviour
 
     public void ButtonPressed(int id)
     {
-        AudioManager.instance.PlaySound(id);
         if (PlayerPrefs.GetInt("repeater", 0) == 1)
             _buttonPressedEvent.Raise(id);
     }
@@ -54,8 +53,7 @@ public class SwapControlGUI : MonoBehaviour
     
     private void SwapModeChanged(SwapModeManager.SwapModes swapMode)
     {
-        if (swapMode == SwapModeManager.SwapModes.CURTAIN_MANUAL_SWAP && 
-            PlayerPrefs.GetInt("repeater") == 1 &&
+        if (PlayerPrefs.GetInt("repeater") == 1 &&
             PlayerPrefs.GetInt("serialControlOn") == 1) 
         {
             _controlPanel.SetActive(true);

@@ -12,16 +12,17 @@ public class CustomSwapControlGUI : MonoBehaviour
     [SerializeField] private IntGameEvent _buttonPressedEvent;
     [SerializeField] private BoolGameEvent _dimButtonPressedEvent;
     [SerializeField] private GameEvent _CalibratebuttonPressedEvent;
-    [SerializeField] private GameObject _controlPanel;
+    //[SerializeField] private GameObject _controlPanel;
 
     private Button _audioButtons;
 
     private void Start()
     {
-        if (PlayerPrefs.GetInt("repeater") == 1 && PlayerPrefs.GetInt("serialControlOn") == 1) 
+      /*  if (PlayerPrefs.GetInt("repeater") == 1 && PlayerPrefs.GetInt("serialControlOn") == 1) 
             _controlPanel.SetActive(true);
         else 
             _controlPanel.SetActive(false);
+        */
     }
         
     

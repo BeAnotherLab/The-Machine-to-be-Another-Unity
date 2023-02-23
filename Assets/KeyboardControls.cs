@@ -17,15 +17,6 @@ public class KeyboardControls : MonoBehaviour
     [SerializeField] private Button _questionnaireOnButton;
     [SerializeField] private Button _questionnaireOffButton;
 
-
-    public Transform transition;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
