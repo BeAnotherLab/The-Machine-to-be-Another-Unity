@@ -66,11 +66,14 @@ MonoBehaviour:
   _videoInputSelection: 0
   _desiredVideoInputs: 0600000003000000
   _desiredVideoInputIndex: 0
-  _playOnStart: 0
+  _preferPreviewPin: 0
+  _clockMode: 0
   _deinterlace: 0
+  _playOnStart: 0
   _allowTransparency: 0
   _flipX: 0
   _flipY: 0
+  _yCbCrRange: 0
   _updateHotSwap: 1
   _updateFrameRates: 0
   _updateSettings: 0
@@ -86,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edba0400f2985f145bfd6428f24d2110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _supportHotSwapping: 0
+  _supportHotSwapping: 1
   _supportInternalFormatConversion: 1
   _shaderBGRA32: {fileID: 4800000, guid: 55de6cd535b200d4c9e41052d04ec1e5, type: 3}
   _shaderMONO8: {fileID: 4800000, guid: 48acad89159eb1e448777379baab7384, type: 3}
