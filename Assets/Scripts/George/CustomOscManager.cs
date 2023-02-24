@@ -103,13 +103,13 @@ public class CustomOscManager : MonoBehaviour {
 
     private void ReceiveStartInstruction(OSCMessage message)
     {
-        float value;
-        if (message.ToFloat(out value))
-            if (value == 1f) //TODO start phase countdown here
-            {
-                Debug.Log("received start instruction");
-                _startInstructionsGameEvent.Raise();
-            }
+        //float value;
+        //if (message.ToFloat(out value))
+            //if (value == 0f) //TODO start phase countdown here
+            //{
+        Debug.Log("received start instruction");
+        _startInstructionsGameEvent.Raise();
+            //}
     }
 
     private void SetOthersIP(string othersIP)

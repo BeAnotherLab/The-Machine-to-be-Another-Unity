@@ -26,7 +26,12 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private AudioSource _freeAudioSource;
     
     private bool _phaseRunning;
-    
+
+    private void Awake()
+    {
+        _stopwatch = new Stopwatch();
+    }
+
     public void StartExperiment()
     {
         _stopwatch.Start();
