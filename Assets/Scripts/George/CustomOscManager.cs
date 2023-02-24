@@ -22,6 +22,7 @@ public class CustomOscManager : MonoBehaviour {
     private bool _sendHeadTracking;
 
     [SerializeField] private GameEvent _receivedStartInstructionsGameEvent;
+    [SerializeField] private BoolGameEvent _receiveNoVRGameEvent;
     
     #endregion
 
@@ -43,6 +44,7 @@ public class CustomOscManager : MonoBehaviour {
         _oscReceiver.Bind("/ht", ReceiveCalibrate);
         _oscReceiver.Bind("/language", ReceiveLanguageChange);
         _oscReceiver.Bind("/startInstruction", ReceiveStartInstruction);
+        _oscReceiver.Bind("/noVR", ReceiveNoVR);
         for (int i = 0; i < 11; i++) _oscReceiver.Bind("/btn" + i.ToString(), ReceiveBtn);
 
         //set IP address of other 
@@ -90,12 +92,26 @@ public class CustomOscManager : MonoBehaviour {
     
     public void SendStartInstruction()
     {
-        OSCMessage message = new OSCMessage("/startInstruction");
-        message.AddValue(OSCValue.Int(1));
-        _oscTransmitter.Send(message);
-        Debug.Log("send start instruction", DLogType.Network);
+        if (_repeater)
+        {
+            OSCMessage message = new OSCMessage("/startInstruction");
+            message.AddValue(OSCValue.Int(1));
+            _oscTransmitter.Send(message);
+            Debug.Log("send start instruction", DLogType.Network);    
+        }
     }
-
+    
+    public void SendNoVRPressed(bool noVR)
+    {
+        if (_repeater) //check if necessary or jus disable UI elements
+        {
+            OSCMessage message = new OSCMessage("/noVR");
+            if (noVR) message.AddValue(OSCValue.Int(1));
+            else message.AddValue(OSCValue.Int(0));
+            _oscTransmitter.Send(message);
+            Debug.Log("send No VR Button", DLogType.Network);    
+        }
+    }
 
     #endregion
 
@@ -108,6 +124,24 @@ public class CustomOscManager : MonoBehaviour {
         _receivedStartInstructionsGameEvent.Raise();
     }
 
+    private void ReceiveNoVR(OSCMessage message)
+    {
+        float value;
+        if (message.ToFloat(out value))
+        {
+            if (value == 0f)
+            {
+                Debug.Log("received VR on");
+                _receiveNoVRGameEvent.Raise(false);    
+            }
+            else
+            {
+                Debug.Log("received no VR");
+                _receiveNoVRGameEvent.Raise(true);   
+            }
+        }
+    }
+    
     private void SetOthersIP(string othersIP)
     {
         PlayerPrefs.SetString("othersIP", othersIP);

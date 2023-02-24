@@ -104,6 +104,11 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     #region Public Methods
 
+    public void SetTwoWaySwap(bool twoWay)
+    {
+        twoWayWap = twoWay;
+    }
+    
     public void IsEditingText(bool editing)
     {    
         _editing = editing;
