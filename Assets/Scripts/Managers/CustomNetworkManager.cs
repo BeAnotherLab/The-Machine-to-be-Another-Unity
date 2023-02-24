@@ -35,13 +35,11 @@ namespace Mirror.Examples.Pong
 
         private void OnEnable()
         {
-            CustomPlayer.VideoConsentGivenCmd += VideoConsentAnswerGiven;
             DisplayManager.SetDisplayModeEvent += EnableNetworkGUI;
         }
 
         private void OnDisable()
         {
-            CustomPlayer.VideoConsentGivenCmd -= VideoConsentAnswerGiven;
             DisplayManager.SetDisplayModeEvent -= EnableNetworkGUI;
         }
 
