@@ -37,6 +37,7 @@ public class ExperimentManager : MonoBehaviour
         _stopwatch.Start();
         StartCoroutine(WaitForClipEnd());
         _phaseRunning = true;
+        VideoFeed.instance.Dim(false);
         
         if (_experimentData.participantType == ParticipantType.leader)
         {
@@ -57,6 +58,7 @@ public class ExperimentManager : MonoBehaviour
         yield return new WaitForSeconds(_phaseLength);
         Debug.Log("phase finished");
         _phaseRunning = false;
+        VideoFeed.instance.Dim(true);
     }
 
     private void Update()
