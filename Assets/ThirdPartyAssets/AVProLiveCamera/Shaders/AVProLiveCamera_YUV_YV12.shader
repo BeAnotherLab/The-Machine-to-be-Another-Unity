@@ -1,5 +1,3 @@
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
 Shader "Hidden/AVProLiveCamera/CompositeYUV_YV12" 
 {
 	Properties 
@@ -24,6 +22,7 @@ CGPROGRAM
 #pragma fragmentoption ARB_precision_hint_nicest
 #pragma multi_compile SWAP_RED_BLUE_ON SWAP_RED_BLUE_OFF
 #pragma multi_compile AVPRO_GAMMACORRECTION AVPRO_GAMMACORRECTION_OFF
+#pragma multi_compile YCBCR_RANGE_LIMITED YCBCR_RANGE_FULL
 #include "UnityCG.cginc"
 #include "AVProLiveCamera_Shared.cginc"
 
@@ -105,10 +104,14 @@ float4 frag (v2f i) : COLOR
 		v = vPacked.a;
 	}
 
-	float4 oCol = convertYUV(y, v, u);
+#if defined(YCBCR_RANGE_LIMITED)
+	float4 oCol = convertYUV_BT709_Limited_RGB(y, u, v);
+#else
+	float4 oCol = convertYUV_BT709_Full_RGB(y, u, v);
+#endif
 
 #if defined(AVPRO_GAMMACORRECTION)
-	oCol.rgb = pow(oCol.rgb, 2.2);
+	oCol.rgb = TransferSRGB_GammaToLinear(oCol.rgb);
 #endif
 
 	return oCol;

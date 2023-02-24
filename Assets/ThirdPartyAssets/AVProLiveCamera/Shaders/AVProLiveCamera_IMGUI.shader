@@ -1,6 +1,4 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-Shader "Hidden/AVProLiveCamera/IMGUI"
+﻿Shader "Hidden/AVProLiveCamera/IMGUI"
 {
 	Properties
 	{

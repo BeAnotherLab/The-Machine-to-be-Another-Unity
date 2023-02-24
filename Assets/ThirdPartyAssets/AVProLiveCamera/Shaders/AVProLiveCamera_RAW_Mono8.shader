@@ -1,10 +1,9 @@
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
 Shader "Hidden/AVProLiveCamera/CompositeMono8_2_RGBA" 
 {
 	Properties 
 	{
 		_MainTex ("Base (RGB)", 2D) = "white" {}
+		_TextureScaleOffset ("Texure Scale Offset", Vector) = (1.0, 1.0, 0.0, 0.0)
 	}
 	SubShader 
 	{
@@ -20,16 +19,13 @@ CGPROGRAM
 //#pragma fragmentoption ARB_precision_hint_fastest
 #pragma fragmentoption ARB_precision_hint_nicest
 #pragma multi_compile SWAP_RED_BLUE_ON SWAP_RED_BLUE_OFF
+#pragma multi_compile AVPRO_GAMMACORRECTION AVPRO_GAMMACORRECTION_OFF
 #include "UnityCG.cginc"
-
+#include "AVProLiveCamera_Shared.cginc"
 uniform sampler2D _MainTex;
-float _TextureWidth;
-#if UNITY_VERSION >= 530
-uniform float4 _MainTex_ST2;
-#else
-uniform float4 _MainTex_ST;
-#endif
-float4 _MainTex_TexelSize;
+uniform float _TextureWidth;
+uniform float4 _TextureScaleOffset;
+uniform float4 _MainTex_TexelSize;
 
 struct v2f {
 	float4 pos : POSITION;
@@ -40,12 +36,7 @@ v2f vert( appdata_img v )
 {
 	v2f o;
 	o.pos = UnityObjectToClipPos (v.vertex);
-
-	#if UNITY_VERSION >= 530
-	o.uv.xy = (v.texcoord.xy * _MainTex_ST2.xy + _MainTex_ST2.zw);
-#else
-	o.uv.xy = TRANSFORM_TEX(v.texcoord, _MainTex);
-#endif
+	o.uv.xy = (v.texcoord.xy * _TextureScaleOffset.xy + _TextureScaleOffset.zw);
 	
 	// On D3D when AA is used, the main texture & scene depth texture
 	// will come out in different vertical orientations.
@@ -79,6 +70,11 @@ float4 frag (v2f i) : COLOR
 		l = col.r;
 
 	col.rgb = l;
+
+#if defined(AVPRO_GAMMACORRECTION)
+	col.rgb = TransferSRGB_GammaToLinear(col.rgb);
+#endif
+
 	col.a = 1.0;
 	return col;
 } 

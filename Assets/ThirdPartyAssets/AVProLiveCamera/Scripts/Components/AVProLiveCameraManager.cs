@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 //-----------------------------------------------------------------------------
-// Copyright 2012-2018 RenderHeads Ltd.  All rights reserved.
+// Copyright 2012-2022 RenderHeads Ltd.  All rights reserved.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProLiveCamera

@@ -3,7 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 
 //-----------------------------------------------------------------------------
-// Copyright 2012-2018 RenderHeads Ltd.  All rights reserved.
+// Copyright 2012-2022 RenderHeads Ltd.  All rights reserved.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProLiveCamera

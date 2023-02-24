@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// Copyright 2012-2018 RenderHeads Ltd.  All rights reserved.
+// Copyright 2012-2022 RenderHeads Ltd.  All rights reserved.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProLiveCamera
@@ -31,7 +31,7 @@ namespace RenderHeads.Media.AVProLiveCamera
 		public int FrameRateIndex
 		{
 			get { return _frameRateIndex; }
-			set { if (value >=0 && value < _frameRates.Length) _frameRateIndex = value; }
+			set { if (value >= 0 && value < _frameRates.Length) _frameRateIndex = value; }
 		}
 
 		public float FPS
@@ -64,6 +64,49 @@ namespace RenderHeads.Media.AVProLiveCamera
 					_frameRateIndex = i;
 				}
 			}
+		}
+
+		internal bool HasFrameRate(float frameRate)
+		{
+			bool result = false;
+			for (int i = 0; i < _frameRates.Length; i++)
+			{
+				if (_frameRates[i] == frameRate)
+				{
+					result = true;
+					break;
+				}
+			}
+			return result;
+		}
+
+		internal float HighestFrameRate()
+		{
+			float highestFps = 0f;
+			for (int i = 0; i < _frameRates.Length; i++)
+			{
+				if (_frameRates[i] > highestFps)
+				{
+					highestFps = _frameRates[i];
+				}
+			}
+			return highestFps;
+		}
+
+		internal float GetClosestFrameRate(float frameRate)
+		{
+			float result = float.MinValue;
+			float lowestDelta = 10000f;
+			for (int i = 0; i < _frameRates.Length; i++)
+			{
+				float d = UnityEngine.Mathf.Abs(_frameRates[i] - frameRate);
+				if (d < lowestDelta)
+				{
+					result = _frameRates[i];
+					lowestDelta = d;
+				}
+			}
+			return result;
 		}
 
 		public void SelectClosestFrameRate(float frameRate)

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 //-----------------------------------------------------------------------------
-// Copyright 2012-2020 RenderHeads Ltd.  All rights reserverd.
+// Copyright 2012-2022 RenderHeads Ltd.  All rights reserverd.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProLiveCamera.Demos
