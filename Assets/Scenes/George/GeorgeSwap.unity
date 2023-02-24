@@ -776,7 +776,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22400762, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000076293945
+      value: 0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 22426080, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1067,6 +1067,7 @@ GameObject:
   - component: {fileID: 613369932}
   - component: {fileID: 613369933}
   - component: {fileID: 613369934}
+  - component: {fileID: 613369935}
   m_Layer: 0
   m_Name: ExperimentManager
   m_TagString: Untagged
@@ -1127,6 +1128,38 @@ MonoBehaviour:
   _previouslyRegisteredEvent: {fileID: 11400000, guid: b7b9d0e4de287e14ea12dbad235621cd,
     type: 2}
   _event: {fileID: 11400000, guid: b7b9d0e4de287e14ea12dbad235621cd, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 613369933}
+        m_MethodName: StartExperiment
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &613369935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613369931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 11400000, guid: b24a3ea918ba93740bedce44777d5fdb,
+    type: 2}
+  _event: {fileID: 11400000, guid: b24a3ea918ba93740bedce44777d5fdb, type: 2}
   _response:
     m_PersistentCalls:
       m_Calls:
@@ -1827,7 +1860,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c27cbe95f108e940be63c3101b582d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startInstructionsGameEvent: {fileID: 11400000, guid: b7b9d0e4de287e14ea12dbad235621cd,
+  _receivedStartInstructionsGameEvent: {fileID: 11400000, guid: b24a3ea918ba93740bedce44777d5fdb,
     type: 2}
 --- !u!114 &1000518897
 MonoBehaviour:

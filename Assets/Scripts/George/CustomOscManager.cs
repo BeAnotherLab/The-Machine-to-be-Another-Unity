@@ -21,7 +21,7 @@ public class CustomOscManager : MonoBehaviour {
     private bool _repeater;
     private bool _sendHeadTracking;
 
-    [SerializeField] private GameEvent _startInstructionsGameEvent;
+    [SerializeField] private GameEvent _receivedStartInstructionsGameEvent;
     
     #endregion
 
@@ -103,13 +103,9 @@ public class CustomOscManager : MonoBehaviour {
 
     private void ReceiveStartInstruction(OSCMessage message)
     {
-        //float value;
-        //if (message.ToFloat(out value))
-            //if (value == 0f) //TODO start phase countdown here
-            //{
+        float value;
         Debug.Log("received start instruction");
-        _startInstructionsGameEvent.Raise();
-            //}
+        _receivedStartInstructionsGameEvent.Raise();
     }
 
     private void SetOthersIP(string othersIP)
