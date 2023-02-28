@@ -53,8 +53,6 @@ namespace Mirror.Examples.Pong
                 
                 if (show) //if we disabled the network transform
                     transform.rotation = Quaternion.Euler(0,0,0);
-                
-                _meshRendererEnabled = !show;
             }
         }
     }
