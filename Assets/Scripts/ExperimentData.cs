@@ -20,12 +20,12 @@ public class ExperimentData : ScriptableObject
     [Header("Experiment Data")]
     public string subjectID;
     public string otherID;
-    public AnswerType answerType;
+    
+    public QuestionnaireAnswerType _answerType;
     public string answerValue;
 
     public ParticipantType participantType;
     
     public ExperimentState experimentState;
 
-    public QuestionnaireAnswerType _answerType;
 }
