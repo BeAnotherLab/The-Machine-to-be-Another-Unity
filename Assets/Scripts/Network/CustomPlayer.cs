@@ -10,6 +10,8 @@ namespace Mirror.Examples.Pong
     {
         private GameObject _mainCamera;
         private GameObject _videoFeedFlipParent;
+
+        [SerializeField] private MeshRenderer _meshRenderer;
         
         private void Awake()
         {
@@ -45,5 +47,18 @@ namespace Mirror.Examples.Pong
             }
         }
 
+        public void noVRButtonPressed(bool show)
+        {
+            //if novrbutton pressed, show local player
+            if (isLocalPlayer)
+            {
+                _meshRenderer.enabled = show;    
+            }
+            //if vrbutton pressed, show remote player
+            else if (!isLocalPlayer)
+            {
+                _meshRenderer.enabled = !show;
+            }
+        }
     }
 }
