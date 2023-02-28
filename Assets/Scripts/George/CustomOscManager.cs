@@ -52,9 +52,10 @@ public class CustomOscManager : MonoBehaviour {
         
         //for george manual hyperscanning swap
         SetSendHeadtracking(true);
-        SetSendHeadtracking(true);
-    }   
-    
+        
+        _repeater = PlayerPrefs.GetInt("repeater") == 1;
+    }
+
     #endregion
 
     #region Public Methods
