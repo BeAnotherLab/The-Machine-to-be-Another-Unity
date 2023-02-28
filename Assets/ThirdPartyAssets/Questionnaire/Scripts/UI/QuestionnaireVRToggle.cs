@@ -11,8 +11,7 @@ public class QuestionnaireVRToggle : MonoBehaviour
     [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
 
     [SerializeField] private Toggle _toggle;
-    [SerializeField] private GameEvent _showSelectionRadialEvent;
-    [SerializeField] private GameEvent _hideSelectionRadialEvent;
+    [SerializeField] private BoolGameEvent _showSelectionRadialEvent;
     
     private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
 
@@ -33,7 +32,7 @@ public class QuestionnaireVRToggle : MonoBehaviour
         // When the user looks at the rendering of the scene, show the radial.
         if (XRDevice.userPresence == UserPresenceState.Present)
         {
-            _showSelectionRadialEvent.Raise();
+            _showSelectionRadialEvent.Raise(true);
             LeanTween.scale(gameObject, new Vector3(1.2f, 1.2f, 1.2f), 0.45f).setEaseOutBounce();
             //LeanTween.color(gameObject, Color.white, 0.25f).setEaseOutCubic();
             m_GazeOver = true;
@@ -43,7 +42,7 @@ public class QuestionnaireVRToggle : MonoBehaviour
     private void HandleOut()
     {
         // When the user looks away from the rendering of the scene, hide the radial.
-        _hideSelectionRadialEvent.Raise();
+        _showSelectionRadialEvent.Raise(false);
         LeanTween.scale(gameObject, new Vector3(1, 1, 1), 0.45f).setEaseOutBounce();
         //LeanTween.color(gameObject, Color.gray, 0.25f).setEaseOutCubic();
         m_GazeOver = false;
