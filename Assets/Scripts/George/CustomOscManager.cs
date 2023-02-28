@@ -127,8 +127,8 @@ public class CustomOscManager : MonoBehaviour {
 
     private void ReceiveNoVR(OSCMessage message)
     {
-        float value;
-        if (message.ToFloat(out value))
+        int value;
+        if (message.ToInt(out value))
         {
             if (value == 0f)
             {
@@ -142,6 +142,7 @@ public class CustomOscManager : MonoBehaviour {
             }
         }
     }
+
     
     private void SetOthersIP(string othersIP)
     {
