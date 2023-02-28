@@ -11,9 +11,6 @@ namespace Mirror.Examples.Pong
         private GameObject _mainCamera;
         private GameObject _videoFeedFlipParent;
 
-        [SerializeField] private MeshRenderer _meshRenderer;
-        [SerializeField] private bool _meshRendererEnabled;
-        
         private void Awake()
         {
             _mainCamera = GameObject.Find("Main Camera");
@@ -50,38 +47,13 @@ namespace Mirror.Examples.Pong
 
         public void noVRButtonPressed(bool show)
         {
-            Debug.Log(gameObject.name);
-            
-            //if novrbutton pressed, show local player
-            if (isLocalPlayer)
+            if (!isLocalPlayer)
             {
-                if (show)
-                    Debug.Log("received No VR in local player, enabling mesh renderer");
-                else 
-                    Debug.Log("received VR on in local player, disabling mesh renderer");
-                //_meshRenderer.enabled = show;
-                GetComponent<NetworkTransform>().enabled = show;
-                _meshRendererEnabled = show;
-                if (show == false)//if we disabled the network transform
-                {
-                    transform.rotation = Quaternion.Euler(0,0,0);
-                }
-            }
-            //if vrbutton pressed, show remote player
-            else if (!isLocalPlayer)
-            {
-                if (show)
-                    Debug.Log("received No VR in remote player, disabling mesh renderer");
-                else 
-                    Debug.Log("received VR on in remote player, enabling mesh renderer");
-                
-                Debug.Log("received No VR in local player, enabling mesh renderer");
-                //_meshRenderer.enabled = !show;
                 GetComponent<NetworkTransform>().enabled = !show;
-                if (show == true) //if we disabled the network transform
-                {
+                
+                if (show) //if we disabled the network transform
                     transform.rotation = Quaternion.Euler(0,0,0);
-                }
+                
                 _meshRendererEnabled = !show;
             }
         }
