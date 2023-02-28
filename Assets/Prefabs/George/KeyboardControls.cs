@@ -18,6 +18,7 @@ public class KeyboardControls : MonoBehaviour
     [SerializeField] private Button _VRButton;
     [SerializeField] private Button _questionnaireOnButton;
     [SerializeField] private Button _questionnaireOffButton;
+    [SerializeField] private Button _prepareExperimentButton;
 
     // Update is called once per frame
     void Update()
@@ -90,6 +91,11 @@ public class KeyboardControls : MonoBehaviour
             _questionnaireOffButton.onClick.Invoke();
             AnimateButton(_questionnaireOffButton);
         }
+        else if (Input.GetKeyDown(KeyCode.F))
+        {
+            _prepareExperimentButton.onClick.Invoke();
+            AnimateButton(_prepareExperimentButton);
+        }    
     }
     
     
