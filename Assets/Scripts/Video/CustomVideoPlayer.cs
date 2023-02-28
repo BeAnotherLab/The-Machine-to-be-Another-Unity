@@ -27,7 +27,7 @@ namespace RockVR.Video
             //TODO this should no longer be necessary?
             if (instance == null) instance = this;
             videoPlayerImpl = gameObject.GetComponent<UnityEngine.Video.VideoPlayer>();
-            videoPlayerImpl.loopPointReached += delegate(UnityEngine.Video.VideoPlayer source) { VideoFeed.instance.ShowLiveFeed(true); };
+            //videoPlayerImpl.loopPointReached += delegate(UnityEngine.Video.VideoPlayer source) { VideoFeed.instance.ShowLiveFeed(true); };
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace RockVR.Video
         /// </summary>
         public void PlayVideo()
         {
-            VideoCameraManager.instance.ShowRecordedVideoForUser();
+            //VideoCameraManager.instance.ShowRecordedVideoForUser();
             GetComponent<UnityEngine.Video.VideoPlayer>().url = "file://" + videoFiles.Last();
             Debug.Log("[VideoPlayer::PlayVideo] Video Path:" + videoFiles.Last());
             videoPlayerImpl.Play();

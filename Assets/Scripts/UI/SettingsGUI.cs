@@ -134,7 +134,7 @@ public class SettingsGUI : MonoBehaviour
 
     public void ToggleDebugDisplayGUI()
     {
-        DisplayManager.instance.ToggleDisplayMode();
+       // DisplayManager.instance.ToggleDisplayMode();
     }
     
     #endregion

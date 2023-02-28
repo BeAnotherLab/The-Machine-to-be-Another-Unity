@@ -33,10 +33,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     [SerializeField] private bool _loadTiltFromPlayerPrefs = true;
 
-    [SerializeField] private MeshRenderer _videoPlaybackMeshRenderer;
-
-    [SerializeField] private bool _editing;
-    
     private Camera _mainCamera;
 
     //Camera params
@@ -109,11 +105,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         twoWayWap = !twoWay;
     }
     
-    public void IsEditingText(bool editing)
-    {    
-        _editing = editing;
-    }
-    
     public void CancelTweens()
     {
         LeanTween.cancelAll();
@@ -183,12 +174,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         useHeadTracking = !useHeadTracking;
     }
 
-    public void ShowLiveFeed(bool show)
-    {
-        if (targetTransform != null) targetTransform.GetComponent<MeshRenderer>().enabled = show;
-        _videoPlaybackMeshRenderer.enabled = !show;
-    }
-    
     public IEnumerator StartupDim()
     {
         yield return new WaitForSeconds(2);

@@ -35,7 +35,6 @@ public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
 
     private void Start()
     {
-        ShowLiveFeed();
         _avProLiveCamera._deviceSelection = AVProLiveCamera.SelectDeviceBy.Name;
         _avProLiveCamera._desiredModeIndex = PlayerPrefs.GetInt("CameraModeIndex");
         _avProLiveCamera._desiredDeviceNames.Add(PlayerPrefs.GetString("CameraName"));
@@ -58,11 +57,6 @@ public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
         GetComponent<CustomQuickDeviceMenu>().enabled = show;
     }
     
-    public void ShowRecordedVideoForUser()
-    {
-        VideoFeed.instance.ShowLiveFeed(false);
-    }
-
     public void ShowRecordedVideoOnGUI(bool show)
     {
         if (show)
@@ -75,12 +69,7 @@ public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
             _videoController.GetComponentInParent<CanvasGroup>().alpha = 0;
         }
     }
-    
-    public void ShowLiveFeed()
-    {
-        VideoFeed.instance.ShowLiveFeed(true);
-    }
-    
+
     private void UpdateExposure(int value)
     {
         AVProLiveCameraDevice device = _avProLiveCamera.Device;

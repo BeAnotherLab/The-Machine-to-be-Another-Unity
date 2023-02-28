@@ -12,6 +12,7 @@ namespace Mirror.Examples.Pong
         private GameObject _videoFeedFlipParent;
 
         [SerializeField] private MeshRenderer _meshRenderer;
+        [SerializeField] private bool _meshRendererEnabled;
         
         private void Awake()
         {
@@ -52,12 +53,24 @@ namespace Mirror.Examples.Pong
             //if novrbutton pressed, show local player
             if (isLocalPlayer)
             {
-                _meshRenderer.enabled = show;    
+                if (show)
+                    Debug.Log("received No VR in local player, enabling mesh renderer");
+                else 
+                    Debug.Log("received VR on in local player, disabling mesh renderer");
+                _meshRenderer.enabled = show;
+                _meshRendererEnabled = show;
             }
             //if vrbutton pressed, show remote player
             else if (!isLocalPlayer)
             {
+                if (show)
+                    Debug.Log("received No VR in remote player, disabling mesh renderer");
+                else 
+                    Debug.Log("received VR on in remote player, enabling mesh renderer");
+                
+                Debug.Log("received No VR in local player, enabling mesh renderer");
                 _meshRenderer.enabled = !show;
+                _meshRendererEnabled = !show;
             }
         }
     }
