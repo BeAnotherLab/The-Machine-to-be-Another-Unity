@@ -707,7 +707,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3963577484033289777}
+      - m_Target: {fileID: 6871890346065592688}
         m_MethodName: DimButtonPressed
         m_Mode: 6
         m_Arguments:
@@ -1010,7 +1010,6 @@ GameObject:
   - component: {fileID: 3376583133290278894}
   - component: {fileID: 5110697494466226816}
   - component: {fileID: 7382024535700263883}
-  - component: {fileID: 3963577484033289777}
   - component: {fileID: 6871890346065592688}
   - component: {fileID: 2803835371792883330}
   m_Layer: 0
@@ -1112,25 +1111,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &3963577484033289777
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1687235026070640618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6df80cb6862b9a64ebf5c325a0c0de01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _languagechangedEvent: {fileID: 11400000, guid: 3186148365f83442090e1a09b70837e4,
-    type: 2}
-  _buttonPressedEvent: {fileID: 0}
-  _dimButtonPressedEvent: {fileID: 11400000, guid: 8d66fd5e6124cbd4f97c6ebf30e46e6c,
-    type: 2}
-  _calibratebuttonPressedEvent: {fileID: 0}
-  _controlPanel: {fileID: 4444910669047489771}
 --- !u!114 &6871890346065592688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1146,8 +1126,10 @@ MonoBehaviour:
   _languagechangedEvent: {fileID: 11400000, guid: 3186148365f83442090e1a09b70837e4,
     type: 2}
   _buttonPressedEvent: {fileID: 0}
-  _dimButtonPressedEvent: {fileID: 0}
-  _CalibratebuttonPressedEvent: {fileID: 0}
+  _dimButtonPressedEvent: {fileID: 11400000, guid: 8d66fd5e6124cbd4f97c6ebf30e46e6c,
+    type: 2}
+  _CalibratebuttonPressedEvent: {fileID: 11400000, guid: d69547e4872e9364f88ae94fe32b95aa,
+    type: 2}
 --- !u!114 &2803835371792883330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2853,7 +2835,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3963577484033289777}
+      - m_Target: {fileID: 6871890346065592688}
         m_MethodName: CalibrateButtonPressed
         m_Mode: 1
         m_Arguments:
@@ -3703,7 +3685,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3963577484033289777}
+      - m_Target: {fileID: 6871890346065592688}
         m_MethodName: DimButtonPressed
         m_Mode: 6
         m_Arguments:

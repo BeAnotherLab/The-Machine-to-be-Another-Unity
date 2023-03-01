@@ -16,7 +16,7 @@ public class QuestionnaireVRSlider : MonoBehaviour
     private Scrollbar _scrollbar;
     private GameObject _sliderHandle;
     private Transform reticlePosition;
-
+    
     private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
 
     private void OnEnable()
@@ -36,7 +36,9 @@ public class QuestionnaireVRSlider : MonoBehaviour
         _sliderHandle = GetComponent<Scrollbar>().handleRect.gameObject;
         _scrollbar = GetComponent<Scrollbar>();
         _canvasGroup = transform.parent.transform.parent.GetComponent<CanvasGroup>();
-        reticlePosition = Camera.main.gameObject.GetComponent<Reticle>().ReticleTransform;
+        var mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        reticlePosition = mainCamera.gameObject.GetComponent<CustomReticle>().ReticleTransform;
+        //reticlePosition = mainCamera.gameObject.GetComponent<Reticle>().ReticleTransform;
     }
 
     private void HandleOver()
