@@ -16,7 +16,16 @@ public class CustomQuestionnaireUI : MonoBehaviour
     private void Awake()
     {
         _slides = new List<GameObject>();
-        foreach (Transform slide in transform) _slides.Add(slide.gameObject);
+        foreach (Transform slide in transform) 
+        {
+            _slides.Add(slide.gameObject);
+            slide.GetComponent<PanelDimmer>().Hide();
+        }
+    }
+
+    private void Start()
+    {
+        Hide();
     }
 
     public void NextButton()
