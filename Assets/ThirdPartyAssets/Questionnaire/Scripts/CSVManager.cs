@@ -7,6 +7,8 @@ public class CSVManager : MonoBehaviour
 
     [SerializeField] private List<string> varNames = new List<string>();
     private List<string> varValues = new List<string>();
+
+    private bool _newFile;
     
     private void Start ()
     {
@@ -16,6 +18,8 @@ public class CSVManager : MonoBehaviour
             varValues.Add(null); //initialize varNames array
             varNames.Add(field.Name);
         }
+
+        _newFile = true;
     }
     
     private void WriteToFile(List<string> stringList)
@@ -29,8 +33,11 @@ public class CSVManager : MonoBehaviour
 
     public void NewDataAvailable()
     {
-        WriteToFile(varNames);
-        
+        if (_newFile)
+        {
+            WriteToFile(varNames);
+            _newFile = false;
+        }
         var fields = typeof(ExperimentData).GetFields();
         for (int i=0; i<fields.Length; i++)
         {
