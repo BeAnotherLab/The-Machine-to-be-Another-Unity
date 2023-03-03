@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public enum ParticipantType { leader, follower, free }
 public enum ExperimentState { curtainDown, curtainUp, noVR }
-
 
 public enum QuestionnaireAnswerType {
     closeness,
@@ -21,7 +19,7 @@ public class ExperimentData : ScriptableObject
     public string subjectID;
     public string otherID;
     
-    public QuestionnaireAnswerType _answerType;
+    public QuestionnaireAnswerType answerType;
     public string answerValue;
 
     public ParticipantType participantType;
