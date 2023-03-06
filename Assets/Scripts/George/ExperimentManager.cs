@@ -14,11 +14,18 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private FloatGameEvent _stopWatchTime;
     [SerializeField] private float _phaseLength;
     
-    [SerializeField] private AudioSource _leaderAudioSource;
-    [SerializeField] private AudioSource _followerAudioSource;
-    [SerializeField] private AudioSource _freeAudioSource;
-    
     private bool _phaseRunning;
+    private string _language;
+
+    [SerializeField] private AudioSource _germanLeaderAudioSource;
+    [SerializeField] private AudioSource _germanFollowerAudioSource;
+    [SerializeField] private AudioSource _germanFreeAudioSource;
+    [SerializeField] private AudioSource _germanPreparationAudioSource;
+    
+    [SerializeField] private AudioSource _englishLeaderAudioSource;
+    [SerializeField] private AudioSource _englishFollowerAudioSource;
+    [SerializeField] private AudioSource _englishFreeAudioSource;
+    [SerializeField] private AudioSource _englishPreparationAudioSource;
 
     private void Awake()
     {
@@ -37,16 +44,30 @@ public class ExperimentManager : MonoBehaviour
     {
         if (role == 0)
         {
-            _leaderAudioSource.Play();
+            if (_language == "German") _germanLeaderAudioSource.Play();
+            else if (_language == "English") _englishLeaderAudioSource.Play();
         }
         if (role == 1)
         {
-            _followerAudioSource.Play();
+            if (_language == "German") _germanFollowerAudioSource.Play();
+            else if (_language == "English") _englishFollowerAudioSource.Play();
         }
         if (role == 2)
         {
-            _freeAudioSource.Play();
+            if (_language == "German") _germanFreeAudioSource.Play();
+            else if (_language == "English") _englishFreeAudioSource.Play();
         }
+    }
+    
+    public void PlayPreparation()
+    {
+        if (_language == "German") _germanPreparationAudioSource.Play();
+        else if (_language == "English") _englishPreparationAudioSource.Play();
+    }
+    
+    public void ChangeLanguage(string language)
+    {
+        _language = language;
     }
     
     private IEnumerator WaitForClipEnd()

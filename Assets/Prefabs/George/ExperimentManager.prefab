@@ -718,6 +718,7 @@ GameObject:
   - component: {fileID: 613369933}
   - component: {fileID: 4030538865767215425}
   - component: {fileID: 3333118155206072933}
+  - component: {fileID: 5441179966451099447}
   m_Layer: 0
   m_Name: ExperimentManager
   m_TagString: Untagged
@@ -756,9 +757,14 @@ MonoBehaviour:
   _experimentData: {fileID: 11400000, guid: ad2fc3aa4938a284dbf30540e42426b5, type: 2}
   _stopWatchTime: {fileID: 11400000, guid: f8bc5012f152a3840b678089bf9adfab, type: 2}
   _phaseLength: 15
-  _leaderAudioSource: {fileID: 6614568625945854409}
-  _followerAudioSource: {fileID: 6614568625712709564}
-  _freeAudioSource: {fileID: 6614568627044384052}
+  _germanLeaderAudioSource: {fileID: 6614568625945854409}
+  _germanFollowerAudioSource: {fileID: 6614568625712709564}
+  _germanFreeAudioSource: {fileID: 6614568627044384052}
+  _germanPreparationAudioSource: {fileID: 6614568626775318086}
+  _englishLeaderAudioSource: {fileID: 6575661074218010887}
+  _englishFollowerAudioSource: {fileID: 7978735592669347009}
+  _englishFreeAudioSource: {fileID: 7496957096926323478}
+  _englishPreparationAudioSource: {fileID: 95424569237001720}
 --- !u!114 &6614568626085658430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -919,6 +925,38 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _debugValue: 0
+--- !u!114 &5441179966451099447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6614568626085658427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636b72f8fc644b4418a9e8ad0f4f804f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: 3186148365f83442090e1a09b70837e4, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6614568626085658429}
+        m_MethodName: ChangeLanguage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _debugValue: 
 --- !u!1 &6614568626775318084
 GameObject:
   m_ObjectHideFlags: 0
