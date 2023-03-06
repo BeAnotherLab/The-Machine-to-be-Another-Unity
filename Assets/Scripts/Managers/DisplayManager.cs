@@ -16,17 +16,12 @@ public class DisplayManager : MonoBehaviour //This manager centralizes display o
     public static OnSetDisplayMode SetDisplayModeEvent = delegate(bool show) {  };
 
     [SerializeField] private GameObject _utilities;
+    [SerializeField] private GameObject _ipText;
 
     private void Awake()
     {
         if (instance == null) instance = this;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        if(Display.displays.Length > 1) Display.displays[1].Activate();
-        SetDisplayMode(displayMode);
+        SettingsGUI.ToggleDisplayMode += ToggleDisplayMode;
     }
 
     public void SetDisplayMode(DisplayMode displayMode)
@@ -35,6 +30,7 @@ public class DisplayManager : MonoBehaviour //This manager centralizes display o
         
         //hide menus
         _utilities.SetActive(show);
+        _ipText.SetActive(show);
         VideoCameraManager.instance.EnableDeviceMenu(show);
         SetDisplayModeEvent(show);
         

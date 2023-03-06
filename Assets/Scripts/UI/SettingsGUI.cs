@@ -8,9 +8,12 @@ public class SettingsGUI : MonoBehaviour
     #region Public fields
 
     public static SettingsGUI instance;
+    public delegate void OnToggleDisplayMode();
+    public static OnToggleDisplayMode ToggleDisplayMode;
+    
     public delegate void OnExposureValueChanged(int value);
     public static OnExposureValueChanged ExposureValueChanged;
-    
+
     #endregion
 
     #region Private Fields
@@ -134,7 +137,7 @@ public class SettingsGUI : MonoBehaviour
 
     public void ToggleDebugDisplayGUI()
     {
-       // DisplayManager.instance.ToggleDisplayMode();
+       ToggleDisplayMode();
     }
     
     #endregion
