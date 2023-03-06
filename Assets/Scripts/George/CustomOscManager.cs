@@ -23,6 +23,7 @@ public class CustomOscManager : MonoBehaviour {
 
     [SerializeField] private GameEvent _receivedStartInstructionsGameEvent;
     [SerializeField] private BoolGameEvent _receiveNoVRGameEvent;
+    [SerializeField] private BoolGameEvent _receiveCurtainOnMessage;
     
     #endregion
 
@@ -45,6 +46,7 @@ public class CustomOscManager : MonoBehaviour {
         _oscReceiver.Bind("/language", ReceiveLanguageChange);
         _oscReceiver.Bind("/startInstruction", ReceiveStartInstruction);
         _oscReceiver.Bind("/noVR", ReceiveNoVR);
+        _oscReceiver.Bind("/curtain", ReceiveCurtainOn);
         for (int i = 0; i < 11; i++) _oscReceiver.Bind("/btn" + i.ToString(), ReceiveBtn);
 
         //set IP address of other 
@@ -114,6 +116,17 @@ public class CustomOscManager : MonoBehaviour {
         }
     }
 
+    public void SendCurtainOnMessage(bool curtainOn)
+    {
+        if (_repeater) //check if necessary or jus disable UI elements
+        {
+            OSCMessage message = new OSCMessage("/curtain");
+            if (curtainOn) message.AddValue(OSCValue.Int(1));
+            else message.AddValue(OSCValue.Int(0));
+            _oscTransmitter.Send(message);
+            Debug.Log("send CurtainOn Button", DLogType.Network);    
+        }
+    }
     #endregion
 
     #region Private Methods
@@ -143,7 +156,23 @@ public class CustomOscManager : MonoBehaviour {
         }
     }
 
-    
+    private void ReceiveCurtainOn(OSCMessage message)
+    {
+        int value;
+        if (message.ToInt(out value))
+        {
+            if (value == 0f)
+            {
+                Debug.Log("received curtain off");
+                _receiveCurtainOnMessage.Raise(false);    
+            }
+            else
+            {
+                Debug.Log("received curtain on");
+                _receiveCurtainOnMessage.Raise(true);   
+            }
+        }
+    }    
     private void SetOthersIP(string othersIP)
     {
         PlayerPrefs.SetString("othersIP", othersIP);

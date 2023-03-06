@@ -23,7 +23,4 @@ public class ExperimentData : ScriptableObject
     public string answerValue;
 
     public ParticipantType participantType;
-    
-    public ExperimentState experimentState;
-
 }
