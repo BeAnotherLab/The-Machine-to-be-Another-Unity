@@ -12,7 +12,7 @@ public class ExperimentStateUI : MonoBehaviour
     
     public void ElapsedTimeUpdated(float elapsedTime)
     {
-        _phaseTimeText.text = elapsedTime.ToString() + "s";
+        _phaseTimeText.text = elapsedTime + "s";
     }
     
     public void SetRole(int role)
@@ -27,5 +27,10 @@ public class ExperimentStateUI : MonoBehaviour
         if (state == 0) _phaseText.text = ExperimentState.curtainDown.ToString();
         else if (state == 1) _phaseText.text = ExperimentState.curtainUp.ToString();
         else if (state == 2) _phaseText.text = ExperimentState.noVR.ToString();
+    }
+
+    public void NoVR(bool noVR)
+    {
+        if (noVR) _phaseText.text = ExperimentState.noVR.ToString();
     }
 }
