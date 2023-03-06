@@ -17,10 +17,10 @@ namespace RenderHeads.Media.AVProLiveCamera.Demos
 
 		private void Update()
 		{
-			if (Input.GetKeyDown(KeyCode.Space))
-			{
-				ToggleVisible();
-			}
+			//if (Input.GetKeyDown(KeyCode.Space))
+			//{
+				//ToggleVisible();
+			//}
 		}
 
 		private void ToggleVisible()
