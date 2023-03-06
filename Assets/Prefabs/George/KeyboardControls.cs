@@ -23,12 +23,12 @@ public class KeyboardControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.O))
         {
             _curtainUpButton.onClick.Invoke();
             AnimateButton(_curtainUpButton);
         }   
-        else if (Input.GetKeyDown(KeyCode.O))
+        else if (Input.GetKeyDown(KeyCode.P))
         {
             _curtainDownButton.onClick.Invoke();
             AnimateButton(_curtainDownButton);
