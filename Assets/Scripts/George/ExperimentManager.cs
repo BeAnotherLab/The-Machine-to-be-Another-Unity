@@ -31,16 +31,19 @@ public class ExperimentManager : MonoBehaviour
         StartCoroutine(WaitForClipEnd());
         _phaseRunning = true;
         VideoFeed.instance.Dim(false);
-        
-        if (_experimentData.participantType == ParticipantType.leader)
+    }
+    
+    public void Setrole(int role)
+    {
+        if (role == 0)
         {
             _leaderAudioSource.Play();
         }
-        if (_experimentData.participantType == ParticipantType.follower)
+        if (role == 1)
         {
             _followerAudioSource.Play();
         }
-        else if (_experimentData.participantType == ParticipantType.free)
+        if (role == 2)
         {
             _freeAudioSource.Play();
         }
