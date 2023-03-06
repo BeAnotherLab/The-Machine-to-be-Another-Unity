@@ -8,13 +8,6 @@ using Debug = UnityEngine.Debug;
 
 public class ExperimentManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    
-    //receive start experiment messages
-    //start timer
-    //stop timer
-    //Update feedback UI
-    
     private Stopwatch _stopwatch;
     
     [SerializeField] private ExperimentData _experimentData;
@@ -58,6 +51,9 @@ public class ExperimentManager : MonoBehaviour
         yield return new WaitForSeconds(_phaseLength);
         Debug.Log("phase finished");
         _phaseRunning = false;
+        _stopwatch.Stop();
+        _stopwatch.Reset();
+        _stopWatchTime.Raise(0);
         VideoFeed.instance.Dim(true);
     }
 
@@ -65,7 +61,7 @@ public class ExperimentManager : MonoBehaviour
     {
         if(_phaseRunning)
         {
-            _stopWatchTime.Raise(_stopwatch.ElapsedMilliseconds);
+            _stopWatchTime.Raise(_phaseLength- _stopwatch.ElapsedMilliseconds/1000);
         }
     }
 }
