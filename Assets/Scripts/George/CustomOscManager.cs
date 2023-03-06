@@ -23,7 +23,8 @@ public class CustomOscManager : MonoBehaviour {
 
     [SerializeField] private GameEvent _receivedStartInstructionsGameEvent;
     [SerializeField] private BoolGameEvent _receiveNoVRGameEvent;
-    [SerializeField] private BoolGameEvent _receiveCurtainOnMessage;
+    [SerializeField] private BoolGameEvent _receiveCurtainOnMessageEvent;
+    [SerializeField] private IntGameEvent _receiveRoleMessagEvents;
     
     #endregion
 
@@ -47,6 +48,7 @@ public class CustomOscManager : MonoBehaviour {
         _oscReceiver.Bind("/startInstruction", ReceiveStartInstruction);
         _oscReceiver.Bind("/noVR", ReceiveNoVR);
         _oscReceiver.Bind("/curtain", ReceiveCurtainOn);
+        _oscReceiver.Bind("/role", ReceiveRole);
         for (int i = 0; i < 11; i++) _oscReceiver.Bind("/btn" + i.ToString(), ReceiveBtn);
 
         //set IP address of other 
@@ -104,6 +106,17 @@ public class CustomOscManager : MonoBehaviour {
         }
     }
     
+    public void SendRolePressed(int role)
+    {
+        if (_repeater)
+        {
+            OSCMessage message = new OSCMessage("/role");
+            message.AddValue(OSCValue.Int(role));
+            _oscTransmitter.Send(message);
+            Debug.Log("send role message", DLogType.Network);    
+        }
+    }
+
     public void SendNoVRPressed(bool noVR)
     {
         if (_repeater) //check if necessary or jus disable UI elements
@@ -164,15 +177,39 @@ public class CustomOscManager : MonoBehaviour {
             if (value == 0f)
             {
                 Debug.Log("received curtain off");
-                _receiveCurtainOnMessage.Raise(false);    
+                _receiveCurtainOnMessageEvent.Raise(false);    
             }
             else
             {
                 Debug.Log("received curtain on");
-                _receiveCurtainOnMessage.Raise(true);   
+                _receiveCurtainOnMessageEvent.Raise(true);   
             }
         }
     }    
+    
+    private void ReceiveRole (OSCMessage message)
+    {
+        int value;
+        if (message.ToInt(out value))
+        {
+            if (value == 0)
+            {
+                Debug.Log("received role leader");
+                _receiveRoleMessagEvents.Raise(1);    
+            }
+            else if (value == 1)
+            {
+                Debug.Log("received follower role");
+                _receiveRoleMessagEvents.Raise(0);   
+            }
+            else if (value == 2)
+            {
+                Debug.Log("received free role");
+                _receiveRoleMessagEvents.Raise(2);   
+            }
+        }
+    }
+    
     private void SetOthersIP(string othersIP)
     {
         PlayerPrefs.SetString("othersIP", othersIP);

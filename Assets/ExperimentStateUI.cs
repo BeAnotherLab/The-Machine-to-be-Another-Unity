@@ -33,4 +33,10 @@ public class ExperimentStateUI : MonoBehaviour
     {
         if (noVR) _phaseText.text = ExperimentState.noVR.ToString();
     }
+    
+    public void CurtainOn(bool on)
+    {
+        if (on) _phaseText.text = ExperimentState.curtainDown.ToString();
+        else _phaseText.text = ExperimentState.curtainUp.ToString();
+    }
 }
