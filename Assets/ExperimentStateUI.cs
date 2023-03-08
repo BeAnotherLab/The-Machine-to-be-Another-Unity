@@ -10,6 +10,26 @@ public class ExperimentStateUI : MonoBehaviour
     [SerializeField] private Text _phaseTimeText;
     [SerializeField] private Text _roleText;
     
+    [SerializeField] private InputField _subjectIDInputfield;
+    [SerializeField] private InputField _otherIDInputField;
+
+    [SerializeField] private ExperimentData _experimentData;
+
+    private void Awake()
+    {
+        _subjectIDInputfield.onEndEdit.AddListener(delegate(string arg0)
+        {
+            _experimentData.subjectID = arg0;
+        }); 
+        
+        _otherIDInputField.onEndEdit.AddListener(delegate(string arg0)
+        {
+            _experimentData.otherID = arg0;
+        });
+    }
+
+    
+    
     public void ElapsedTimeUpdated(float elapsedTime)
     {
         _phaseTimeText.text = elapsedTime + "s";
