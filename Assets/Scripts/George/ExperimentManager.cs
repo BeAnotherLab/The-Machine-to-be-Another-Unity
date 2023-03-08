@@ -32,6 +32,11 @@ public class ExperimentManager : MonoBehaviour
         _stopwatch = new Stopwatch();
     }
 
+    private void Start()
+    {
+        ChangeLanguage("German");
+    }
+
     public void StartExperiment()
     {
         _stopwatch.Start();
