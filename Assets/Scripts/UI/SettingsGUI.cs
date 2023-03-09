@@ -18,7 +18,6 @@ public class SettingsGUI : MonoBehaviour
 
     #region Private Fields
 
-    [SerializeField] private Dropdown _swapModeDropdown;
     [SerializeField] private GameObject _panel;
     [SerializeField] private IPInputField _ipInputField;
     [SerializeField] private Toggle _serialControlToggle;
@@ -57,16 +56,12 @@ public class SettingsGUI : MonoBehaviour
             _exposureText.text = "Exposure : " + value;
         });
         
-        //Assign swap mode dropdown handler
-        _swapModeDropdown.onValueChanged.AddListener(delegate { SwapModeManager.instance.SetSwapMode( (SwapModeManager.SwapModes) _swapModeDropdown.value); });
-        
         _rotateCameraButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
     }
 
     // Use this for initialization
     private void Start()
     {        
-        SetSwapModeDropdownOptions();
 
         if (PlayerPrefs.GetInt("repeater") == 1) 
             _repeaterToggle.isOn = true;
@@ -169,15 +164,5 @@ public class SettingsGUI : MonoBehaviour
         else if (language == 2) languageString = "Italian";
     }
 
-    private void SetSwapModeDropdownOptions()
-    {
-        _swapModeDropdown.options.Add(new Dropdown.OptionData() { text = "Auto Swap"});
-        _swapModeDropdown.options.Add(new Dropdown.OptionData() { text = "Manual Swap"});
-        _swapModeDropdown.options.Add(new Dropdown.OptionData() { text = "Servo Swap"});
-
-        _swapModeDropdown.value = PlayerPrefs.GetInt("swapMode");
-        _swapModeDropdown.RefreshShownValue();
-    }
-    
     #endregion
 }
