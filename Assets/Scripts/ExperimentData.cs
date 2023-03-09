@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public enum ParticipantType { leader, follower, free }
 public enum ExperimentState { curtainDown, curtainUp, noVR }
