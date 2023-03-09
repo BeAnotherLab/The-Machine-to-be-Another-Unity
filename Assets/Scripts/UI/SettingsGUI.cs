@@ -29,7 +29,7 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private Slider _exposureSlider;
     [SerializeField] private Text _exposureText;
     [SerializeField] private Toggle _repeaterToggle;
-    //[SerializeField] private Text _controlsText;
+    [SerializeField] private Toggle _hotSwapToggle;
     
     private bool _oculusGuiEnabled;
     private float _deltaTime = 0.0f;
@@ -45,7 +45,7 @@ public class SettingsGUI : MonoBehaviour
         _cameraSettingsButton.onClick.AddListener(delegate { VideoCameraManager.instance.ShowCameraConfigWindow(); });
         
         _repeaterToggle.onValueChanged.AddListener(delegate { CustomOscManager.instance.SetRepeater(_repeaterToggle.isOn); });
-
+        
         _serialControlToggle.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetSerialControlComputer(_serialControlToggle.isOn); });
         
         //_controlsText.text = _controlsText.text + "\n \nlocal IP adress : " + OSCUtilities.GetLocalHost();
@@ -73,6 +73,8 @@ public class SettingsGUI : MonoBehaviour
         else                                    
             _repeaterToggle.isOn = false;
 
+        _hotSwapToggle.isOn = PlayerPrefs.GetInt("hotSwap") == 1;
+        
         if (PlayerPrefs.GetInt("serialControlOn") == 1) _serialControlToggle.isOn = true;
         else _serialControlToggle.isOn = false;             
         
