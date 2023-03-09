@@ -13,6 +13,7 @@ public class ResponseLogger : MonoBehaviour
     public void NextButtonPressed()
     {
         _experimentData.answerType = _answerType;
+        _experimentData.timestamp = DateTime.Now;
         _newDataAvailableEvent.Raise();
     }
     
