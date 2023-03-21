@@ -30,19 +30,18 @@ public class CustomQuestionnaireUI : MonoBehaviour
 
     public void NextButton()
     {   
-        if (_slideIndex == _slides.Count)
+        if (_slideIndex == _slides.Count - 1) //we reached last slide 
         {   
             Hide();
             _questionnaireFinished.Raise();
         }
-        else
+        else //we go to next slide
         {
             _slides[_slideIndex].GetComponent<PanelDimmer>().Show(false);
             if (_slideIndex + 1 < _slides.Count)
                 _slides[_slideIndex + 1].GetComponent<PanelDimmer>().Show(true);
+            _slideIndex++;
         }
-        
-        _slideIndex++;
     }
 
     public void ShowQuestionnaire(bool show)
