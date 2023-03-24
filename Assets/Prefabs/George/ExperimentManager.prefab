@@ -714,6 +714,7 @@ GameObject:
   - component: {fileID: 6614568626085658428}
   - component: {fileID: 6614568626085658429}
   - component: {fileID: 6614568626085658430}
+  - component: {fileID: 7212185822800485228}
   - component: {fileID: 1963681522529113015}
   - component: {fileID: 6614568626085658431}
   - component: {fileID: 613369933}
@@ -787,6 +788,38 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6614568626085658429}
         m_MethodName: StartExperiment
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7212185822800485228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6614568626085658427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 11400000, guid: d493a97b203a2498bb59a798e3f52834,
+    type: 2}
+  _event: {fileID: 11400000, guid: d493a97b203a2498bb59a798e3f52834, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6614568626085658429}
+        m_MethodName: StopExperiment
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
