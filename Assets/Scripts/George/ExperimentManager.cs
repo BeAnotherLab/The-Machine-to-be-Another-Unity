@@ -38,8 +38,7 @@ public class ExperimentManager : MonoBehaviour
     public void StartExperiment()
     {
         _stopwatch.Start();
-        VideoFeed.instance.Dim(true);
-        
+        VideoFeed.instance.Dim(false);
         _phaseRunning = true;
     }
 
@@ -51,7 +50,7 @@ public class ExperimentManager : MonoBehaviour
         _stopwatch.Stop();
         _stopwatch.Reset();
         _stopWatchTime.Raise(0);
-        VideoFeed.instance.Dim(false);
+        VideoFeed.instance.Dim(true);
     }
     
     public void Setrole(int role)

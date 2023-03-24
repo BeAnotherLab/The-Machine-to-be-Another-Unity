@@ -10,7 +10,8 @@ public class CustomSwapControlGUI : MonoBehaviour
 {
     [SerializeField] private StringGameEvent _languagechangedEvent;
     [SerializeField] private IntGameEvent _buttonPressedEvent;
-    [SerializeField] private BoolGameEvent _repeatStartInstructionsButtonPressed;
+    [SerializeField] private GameEvent _startInstructionsButtonPressed;
+    [SerializeField] private GameEvent _stopInstructionsButtonPressed;
     [SerializeField] private GameEvent _CalibratebuttonPressedEvent;
     //[SerializeField] private GameObject _controlPanel;
 
@@ -34,7 +35,10 @@ public class CustomSwapControlGUI : MonoBehaviour
     {
         VideoFeed.instance.Dim(!start);
         if (PlayerPrefs.GetInt("repeater", 0) == 1)
-            _repeatStartInstructionsButtonPressed.Raise();
+        {
+            if (start) _startInstructionsButtonPressed.Raise();
+            else _stopInstructionsButtonPressed.Raise();
+        }
     }
     
     public void LanguageChanged(string language)
