@@ -10,22 +10,12 @@ public class CustomSwapControlGUI : MonoBehaviour
 {
     [SerializeField] private StringGameEvent _languagechangedEvent;
     [SerializeField] private IntGameEvent _buttonPressedEvent;
-    [SerializeField] private BoolGameEvent _dimButtonPressedEvent;
+    [SerializeField] private BoolGameEvent _repeatStartInstructionsButtonPressed;
     [SerializeField] private GameEvent _CalibratebuttonPressedEvent;
     //[SerializeField] private GameObject _controlPanel;
 
     private Button _audioButtons;
 
-    private void Start()
-    {
-      /*  if (PlayerPrefs.GetInt("repeater") == 1 && PlayerPrefs.GetInt("serialControlOn") == 1) 
-            _controlPanel.SetActive(true);
-        else 
-            _controlPanel.SetActive(false);
-        */
-    }
-        
-    
     public void ButtonPressed(int id)
     {
         AudioManager.instance.PlaySound(id);
@@ -40,11 +30,11 @@ public class CustomSwapControlGUI : MonoBehaviour
             _CalibratebuttonPressedEvent.Raise();
     }
 
-    public void DimButtonPressed(bool dimOn)
+    public void StartInstructionsButtonPressed(bool start)
     {
-        VideoFeed.instance.Dim(dimOn);
+        VideoFeed.instance.Dim(!start);
         if (PlayerPrefs.GetInt("repeater", 0) == 1)
-            _dimButtonPressedEvent.Raise(dimOn);
+            _repeatStartInstructionsButtonPressed.Raise();
     }
     
     public void LanguageChanged(string language)

@@ -22,6 +22,7 @@ public class CustomOscManager : MonoBehaviour {
     private bool _sendHeadTracking;
 
     [SerializeField] private GameEvent _receivedStartInstructionsGameEvent;
+    [SerializeField] private GameEvent _receivedStopInstructionsGameEvent;
     [SerializeField] private BoolGameEvent _receiveNoVRGameEvent;
     [SerializeField] private BoolGameEvent _receiveCurtainOnMessageEvent;
     [SerializeField] private IntGameEvent _receiveRoleMessagEvents;
@@ -46,6 +47,7 @@ public class CustomOscManager : MonoBehaviour {
         _oscReceiver.Bind("/ht", ReceiveCalibrate);
         _oscReceiver.Bind("/language", ReceiveLanguageChange);
         _oscReceiver.Bind("/startInstruction", ReceiveStartInstruction);
+        _oscReceiver.Bind("/stopInstruction", ReceiveStopInstruction);
         _oscReceiver.Bind("/noVR", ReceiveNoVR);
         _oscReceiver.Bind("/curtain", ReceiveCurtainOn);
         _oscReceiver.Bind("/role", ReceiveRole);
@@ -106,6 +108,17 @@ public class CustomOscManager : MonoBehaviour {
         }
     }
     
+    public void SendStopInstruction()
+    {
+        if (_repeater)
+        {
+            OSCMessage message = new OSCMessage("/stopInstruction");
+            message.AddValue(OSCValue.Int(1));
+            _oscTransmitter.Send(message);
+            Debug.Log("send stop instruction", DLogType.Network);    
+        }
+    }
+    
     public void SendRolePressed(int role)
     {
         if (_repeater)
@@ -146,11 +159,16 @@ public class CustomOscManager : MonoBehaviour {
 
     private void ReceiveStartInstruction(OSCMessage message)
     {
-        float value;
         Debug.Log("received start instruction");
         _receivedStartInstructionsGameEvent.Raise();
     }
-
+    
+    private void ReceiveStopInstruction(OSCMessage message)
+    {
+        Debug.Log("received stop instruction");
+        _receivedStopInstructionsGameEvent.Raise();
+    }
+    
     private void ReceiveNoVR(OSCMessage message)
     {
         int value;

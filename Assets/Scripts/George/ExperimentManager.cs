@@ -10,9 +10,7 @@ public class ExperimentManager : MonoBehaviour
 {
     private Stopwatch _stopwatch;
     
-    [SerializeField] private ExperimentData _experimentData;
     [SerializeField] private FloatGameEvent _stopWatchTime;
-    [SerializeField] private float _phaseLength;
     
     private bool _phaseRunning;
     private string _language;
@@ -40,8 +38,19 @@ public class ExperimentManager : MonoBehaviour
     public void StartExperiment()
     {
         _stopwatch.Start();
-        StartCoroutine(WaitForClipEnd());
+        VideoFeed.instance.Dim(true);
+        
         _phaseRunning = true;
+    }
+
+    public void StopExperiment()
+    {
+        _stopwatch.Stop();
+        Debug.Log("phase finished");
+        _phaseRunning = false;
+        _stopwatch.Stop();
+        _stopwatch.Reset();
+        _stopWatchTime.Raise(0);
         VideoFeed.instance.Dim(false);
     }
     
@@ -74,23 +83,12 @@ public class ExperimentManager : MonoBehaviour
     {
         _language = language;
     }
-    
-    private IEnumerator WaitForClipEnd()
-    {
-        yield return new WaitForSeconds(_phaseLength);
-        Debug.Log("phase finished");
-        _phaseRunning = false;
-        _stopwatch.Stop();
-        _stopwatch.Reset();
-        _stopWatchTime.Raise(0);
-        VideoFeed.instance.Dim(true);
-    }
 
     private void Update()
     {
         if(_phaseRunning)
         {
-            _stopWatchTime.Raise(_phaseLength- _stopwatch.ElapsedMilliseconds/1000);
+            _stopWatchTime.Raise(_stopwatch.ElapsedMilliseconds/1000);
         }
     }
 }

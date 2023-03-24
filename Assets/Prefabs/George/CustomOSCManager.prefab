@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 5522858774394474013}
   - component: {fileID: 5522858774394473986}
   - component: {fileID: 5522858774394473987}
+  - component: {fileID: 1555036391845702242}
   - component: {fileID: 5522858774394473991}
-  - component: {fileID: 1619511456234490554}
-  - component: {fileID: 3759278673867723094}
   - component: {fileID: 4055817998876846386}
   - component: {fileID: 5522858774394473985}
   - component: {fileID: 5522858774394473984}
@@ -51,6 +50,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _receivedStartInstructionsGameEvent: {fileID: 11400000, guid: b24a3ea918ba93740bedce44777d5fdb,
+    type: 2}
+  _receivedStopInstructionsGameEvent: {fileID: 11400000, guid: b3732829fc3d74f4f8fbd28dce815055,
     type: 2}
   _receiveNoVRGameEvent: {fileID: 11400000, guid: f89d061c6f7e44de29b50534eea03ff8,
     type: 2}
@@ -90,6 +91,38 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1555036391845702242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5522858774394474012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 11400000, guid: d493a97b203a2498bb59a798e3f52834,
+    type: 2}
+  _event: {fileID: 11400000, guid: d493a97b203a2498bb59a798e3f52834, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5522858774394473986}
+        m_MethodName: SendStopInstruction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5522858774394473991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,70 +145,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5522858774394473986}
         m_MethodName: SendNoVRPressed
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _debugValue: 0
---- !u!114 &1619511456234490554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5522858774394474012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 791e3eca91bfc2e41b38477d0ecfaf1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _showDebugFields: 0
-  _enableGizmoDebugging: 1
-  _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 0}
-  _event: {fileID: 11400000, guid: 78f4ccaea5624406cb8bcf19436f86c4, type: 2}
-  _response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5522858774394473986}
-        m_MethodName: SendCurtainOnMessage
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _debugValue: 0
---- !u!114 &3759278673867723094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5522858774394474012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 791e3eca91bfc2e41b38477d0ecfaf1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _showDebugFields: 0
-  _enableGizmoDebugging: 1
-  _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 0}
-  _event: {fileID: 11400000, guid: 78f4ccaea5624406cb8bcf19436f86c4, type: 2}
-  _response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5522858774394473986}
-        m_MethodName: SendCurtainOnMessage
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

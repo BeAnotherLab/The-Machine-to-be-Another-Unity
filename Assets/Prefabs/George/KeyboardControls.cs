@@ -8,12 +8,11 @@ public class KeyboardControls : MonoBehaviour
 {
     [SerializeField] private Button _curtainUpButton;
     [SerializeField] private Button _curtainDownButton;
-    [SerializeField] private Button _screenOnButton;
-    [SerializeField] private Button _screenOffButton;
+    [SerializeField] private Button _startButton;
+    [SerializeField] private Button _stopButton;
     [SerializeField] private Button _leaderButton;
     [SerializeField] private Button _followerButton;
     [SerializeField] private Button _freeButton;
-    [SerializeField] private Button _startButton;
     [SerializeField] private Button _noVRButton;
     [SerializeField] private Button _VRButton;
     [SerializeField] private Button _questionnaireOnButton;
@@ -35,14 +34,14 @@ public class KeyboardControls : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.N))
         {
-            _screenOnButton.onClick.Invoke();
-            AnimateButton(_screenOnButton);
+            _startButton.onClick.Invoke();
+            AnimateButton(_startButton);
 
         }
         else if (Input.GetKeyDown(KeyCode.M))
         {
-            _screenOffButton.onClick.Invoke();
-            AnimateButton(_screenOffButton);
+            _stopButton.onClick.Invoke();
+            AnimateButton(_stopButton);
 
         }
         else if (Input.GetKeyDown(KeyCode.Q))
@@ -61,12 +60,6 @@ public class KeyboardControls : MonoBehaviour
         {
             _freeButton.onClick.Invoke();
             AnimateButton(_freeButton);
-
-        }
-        else if (Input.GetKeyDown(KeyCode.Space)) // TODO change
-        {
-            _startButton.onClick.Invoke();
-            AnimateButton(_startButton);
 
         }
         else if (Input.GetKeyDown(KeyCode.S))
@@ -97,7 +90,6 @@ public class KeyboardControls : MonoBehaviour
             AnimateButton(_prepareExperimentButton);
         }    
     }
-    
     
     private void AnimateButton(Button button)
     {
