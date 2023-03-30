@@ -136,6 +136,7 @@ namespace RenderHeads.Media.AVProLiveCamera.Demos
 									usedNames.Add(name);
 									if (GUILayout.Button(name))
 									{
+										PlayerPrefs.SetInt("CameraModeIndex", i);
 										_liveCamera._modeSelection = AVProLiveCamera.SelectModeBy.Index;
 										_liveCamera._desiredModeIndex = i;
 										_liveCamera._desiredFrameRate = frameRate;

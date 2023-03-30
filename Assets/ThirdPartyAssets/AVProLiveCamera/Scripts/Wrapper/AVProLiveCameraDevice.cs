@@ -366,7 +366,6 @@ namespace RenderHeads.Media.AVProLiveCamera
 					}
 				}
 				Debug.Log("[AVProLiveCamera] Started device using mode index " + modeIndex + " (internal index " + internalModeIndex + ")");
-
 				// Get format mode properties
 				int width = AVProLiveCameraPlugin.GetWidth(_deviceIndex);
 				int height = AVProLiveCameraPlugin.GetHeight(_deviceIndex);
