@@ -7,14 +7,10 @@ public enum ExperimentState { curtainDown, curtainUp, noVR }
 public enum QuestionnaireAnswerType {
     selfOther,
     boundaries,
-    sync1Frequency,
-    sync2Frequency,
-    sync3Frequency,
-    sync4Frequency,
-    sync1Intensity,
-    sync2Intensity,
-    sync3Intensity, 
-    sync4Intensity
+    sync1,
+    sync2,
+    sync3, 
+    sync4
 }
 
 [CreateAssetMenu]
