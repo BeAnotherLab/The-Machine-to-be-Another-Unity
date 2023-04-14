@@ -1,11 +1,11 @@
 #include<Uduino.h>
-Uduino uduino("servoControl");
+Uduino uduino("servoControl2");
 #include <Servo.h>
 
 Servo yawServo, pitchServo;  // create servo objects
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(57600);
   while (!Serial);
 
   yawServo.attach(9);  

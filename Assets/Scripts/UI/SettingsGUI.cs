@@ -58,17 +58,11 @@ public class SettingsGUI : MonoBehaviour
 
         _serialControlToggle.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetSerialControlComputer(_serialControlToggle.isOn); });
         
-        _timelineDropdown.onValueChanged.AddListener(delegate(int val) { StatusManager.instance.SetInstructionsTimeline(val); });
+        //_timelineDropdown.onValueChanged.AddListener(delegate(int val) { StatusManager.instance.SetInstructionsTimeline(val); });
         
         //_controlsText.text = _controlsText.text + "\n \nlocal IP adress : " + OSCUtilities.GetLocalHost();
 
-        //Assign servos control buttons handlers
-        _pitchSlider.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetPitch(_pitchSlider.value); });
-        _yawSlider.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetYaw(_yawSlider.value); });
-        _zoomSlider.onValueChanged.AddListener(delegate { VideoFeed.instance.SetZoom(_zoomSlider.value); });
         
-        _headTrackingOnButton.onClick.AddListener(delegate { VideoFeed.instance.SwitchHeadtracking(); });
-        _resetYawButton.onClick.AddListener(delegate { VideoFeed.instance.RecenterPose(); });
         
         _exposureSlider.onValueChanged.AddListener(delegate(float value)
         {
@@ -77,10 +71,7 @@ public class SettingsGUI : MonoBehaviour
             _exposureText.text = "Exposure : " + value;
         });
         
-        //Assign swap mode dropdown handler
-        _swapModeDropdown.onValueChanged.AddListener(delegate { SwapModeManager.instance.SetSwapMode( (SwapModeManager.SwapModes) _swapModeDropdown.value); });
-        
-        _rotateCameraButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
+       
     }
 
     // Use this for initialization
@@ -105,6 +96,19 @@ public class SettingsGUI : MonoBehaviour
         OSCUtilities.GetLocalHost();
 
         SetLanguageText(PlayerPrefs.GetInt("language"));
+
+        _headTrackingOnButton.onClick.AddListener(delegate { VideoFeed.instance.SwitchHeadtracking(); });
+        _resetYawButton.onClick.AddListener(delegate { VideoFeed.instance.RecenterPose(); });
+
+        //Assign servos control buttons handlers
+        _pitchSlider.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetPitch(_pitchSlider.value); });
+        _yawSlider.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetYaw(_yawSlider.value); });
+        _zoomSlider.onValueChanged.AddListener(delegate { VideoFeed.instance.SetZoom(_zoomSlider.value); });
+
+        //Assign swap mode dropdown handler
+        _swapModeDropdown.onValueChanged.AddListener(delegate { SwapModeManager.instance.SetSwapMode((SwapModeManager.SwapModes)_swapModeDropdown.value); });
+
+        _rotateCameraButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
     }
 
     private void Update()

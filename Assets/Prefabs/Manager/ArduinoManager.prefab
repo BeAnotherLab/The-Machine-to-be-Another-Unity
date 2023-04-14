@@ -47,8 +47,6 @@ MonoBehaviour:
   pitchOffset: 0
   yawOffset: 0
   _timeOut: 5
-  _curtainStart: 0
-  _curtainEnd: 1600
 --- !u!114 &3610201268164942279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,17 +68,17 @@ MonoBehaviour:
     keys:
     - UduinoDevice_DesktopSerial
     values: 01
-  debugLevel: 0
-  baudRate: 9600
+  debugLevel: 1
+  baudRate: 57600
   limitSendRate: 0
-  readTimeout: 30
-  writeTimeout: 30
-  threadFrequency: 16
-  alwaysRead: 1
-  readAfterCommand: 1
-  skipMessageQueue: 0
+  readTimeout: 10
+  writeTimeout: 10
+  threadFrequency: 10
+  alwaysRead: 0
+  readAfterCommand: 0
+  skipMessageQueue: 1
   messageQueueLength: 10
-  defaultArduinoBoardType: 4
+  defaultArduinoBoardType: 6
   useCuPort: 0
   sendRateSpeed: 20
   discoverTries: 10
@@ -97,14 +95,25 @@ MonoBehaviour:
       m_Calls: []
   OnBoardConnectedEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7949422715204737352}
+        m_MethodName: ArduinoBoardConnected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnBoardDisconnectedEvent:
     m_PersistentCalls:
       m_Calls: []
   displayAndroidTextGUI: 0
   autoConnectToLastDevice: 1
   bleScanDuration: 3
-  interfaceType: 0
+  interfaceType: 2
   uduinoIpAddress: 192.168.x.x
   uduinoWifiPort: 4222
   isApplicationQuiting: 0
