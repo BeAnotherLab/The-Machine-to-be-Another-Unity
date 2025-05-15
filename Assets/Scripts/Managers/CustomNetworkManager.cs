@@ -12,11 +12,11 @@ namespace Mirror.Examples.Pong
     // someone reconnects (both players would be on the same side).
     [AddComponentMenu("")]
     
-    public class CustomNetworkManager : NetworkManager
+    public class CustomNetworkManager : NetworkManager 
     {
         public static CustomNetworkManager instance;
             
-        public bool offlineMode;
+        public bool offlineMode; 
         
         //Data collection consent values and events 
         [SerializeField] private BoolGameEvent bothConsentGiven; //TODO move to a simple int field in this class
