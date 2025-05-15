@@ -82,7 +82,7 @@ public class ArduinoManager : MonoBehaviour
      
     }
 
-    public void SetPitch(float value)
+    public void SetPitch(float value) //TODO remove or move to machine classic 
     {
         if (_servosOn)
         {
@@ -94,7 +94,7 @@ public class ArduinoManager : MonoBehaviour
         }
     }
 
-    public void SetYaw(float value)
+    public void SetYaw(float value) //TODO remove or move to machine classic 
     {
         if (_servosOn)
         {

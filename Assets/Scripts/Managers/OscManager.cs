@@ -147,7 +147,7 @@ public class OscManager : MonoBehaviour {
 
     #region Private Methods
 
-    private void SendStopVideoRecording()
+    private void SendStopVideoRecording() //TODO remove
     {
         if (_repeater)
         {

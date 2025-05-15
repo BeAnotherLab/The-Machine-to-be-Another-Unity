@@ -23,7 +23,7 @@ namespace Mirror.Examples.Pong
         public delegate void OnVideoConsentGivenCmd(bool given);
         public static OnVideoConsentGivenCmd VideoConsentGivenCmd;
         
-        public delegate void OnBothVideoConsentAnsweredRPC(bool given);
+        public delegate void OnBothVideoConsentAnsweredRPC(bool given); 
         public static OnBothVideoConsentAnsweredRPC BothVideoConsentAnsweredRPC;
         
         private void Awake()
@@ -103,12 +103,12 @@ namespace Mirror.Examples.Pong
         }
         
         //TODO reformat event so that we can use 1 method instead of 3
-        public void QuestionnairePreFinished()
+        public void QuestionnairePreFinished()//TODO remove
         {
             QuestionnaireFinished(QuestionnaireState.pre);
         }
         
-        public void QuestionnairePostFinished()
+        public void QuestionnairePostFinished()//TODO remove
         {
             QuestionnaireFinished(QuestionnaireState.post);
         }
@@ -120,7 +120,7 @@ namespace Mirror.Examples.Pong
         }
 
         [Command] //Commands are sent from player objects on the client to player objects on the server. 
-        public void CmdGiveConsent(bool answer, string pairId)
+        public void CmdGiveConsent(bool answer, string pairId) //TODO remove
         {
             if(pairId != "") _pairId = pairId; //assign the syncvar
             
@@ -128,19 +128,19 @@ namespace Mirror.Examples.Pong
         }
         
         [Command]
-        public void CmdSendVideoConsentGiven(bool given)
+        public void CmdSendVideoConsentGiven(bool given) //TODO remove
         {
             VideoConsentGivenCmd(given);
         }
 
-        public void ResetId()
+        public void ResetId() //TODO remove
         {
             _pairId = "";
             _responseData.pairID = "";
             _responseData.subjectID = "";
         }
         
-        private void SetPairID(string oldpairId, string newPairId){
+        private void SetPairID(string oldpairId, string newPairId){ //TODO remove
             _responseData.pairID = newPairId;
             _pairId = newPairId; //this shouldn't be necessary but is
         }

@@ -72,7 +72,6 @@ public abstract class StatusManager : MonoBehaviour
         instructionsTimeline = _longTimeline; //use short experience by default
     }
 
-    // Start is called before the first frame update
     protected void Start()
     {
         if (SwapModeManager.instance.ArduinoControl)
@@ -82,7 +81,6 @@ public abstract class StatusManager : MonoBehaviour
         otherState.Value = UserState.headsetOff;
     }
 
-    // Update is called once per frame
     protected void Update()
     {
         if (XRDevice.userPresence == UserPresenceState.NotPresent && selfState.Value != UserState.headsetOff)
