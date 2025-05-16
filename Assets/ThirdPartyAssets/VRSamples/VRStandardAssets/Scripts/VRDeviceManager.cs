@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.VR;
-using System.Collections;
 
 namespace VRStandardAssets.Utils
 {
@@ -8,10 +6,7 @@ namespace VRStandardAssets.Utils
     // The class uses the singleton pattern so that only one object exists.
     public class VRDeviceManager : MonoBehaviour
     {
-
-
         private static VRDeviceManager s_Instance;
-
 
         public static VRDeviceManager Instance
         {
@@ -26,7 +21,6 @@ namespace VRStandardAssets.Utils
                 return s_Instance;
             }
         }
-
 
         private void Awake ()
         {
