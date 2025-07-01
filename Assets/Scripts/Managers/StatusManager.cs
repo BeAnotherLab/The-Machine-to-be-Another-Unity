@@ -16,8 +16,6 @@ public abstract class StatusManager : MonoBehaviour
 
     public static StatusManager instance; //TODO remove
 
-    public bool presenceDetection; //TODD check if still necessary
-    
     public UserStateVariable previousOtherState;
     public UserStateVariable otherState;
     
@@ -59,6 +57,8 @@ public abstract class StatusManager : MonoBehaviour
     
     #endregion
 
+    private InputDevice _hmdDevice;
+    
     #region Monobehaviour Methods
     
     protected void Awake()
@@ -79,24 +79,39 @@ public abstract class StatusManager : MonoBehaviour
 
         selfState.Value = UserState.headsetOff;
         otherState.Value = UserState.headsetOff;
+        
+        // Find the HMD device
+        var inputDevices = new List<InputDevice>();
+        InputDevices.GetDevicesAtXRNode(XRNode.Head, inputDevices);
+
+        if (inputDevices.Count > 0)
+        {
+            _hmdDevice = inputDevices[0];
+            Debug.Log("HMD device found: " + _hmdDevice.name);
+        }
+        
     }
 
     protected void Update()
     {
-        if (XRDevice.userPresence == UserPresenceState.NotPresent && selfState.Value != UserState.headsetOff)
+
+        if (_hmdDevice.TryGetFeatureValue(CommonUsages.userPresence, out bool isUserPresent))
         {
-            previousSelfState.Value = selfState.Value;
-            selfState.Value = UserState.headsetOff; //SelfRemovedHeadset();
-            selfStateGameEvent.Raise(UserState.headsetOff);
-        }
-        else if (XRDevice.userPresence == UserPresenceState.Present && selfState.Value == UserState.headsetOff) //if we just put the headset on
-        {
-            previousSelfState.Value = selfState.Value;
-            selfState.Value = UserState.headsetOn;
-            selfStateGameEvent.Raise(UserState.headsetOn);
+            if (!isUserPresent && selfState.Value != UserState.headsetOff) //if we just removed the headset
+            {
+                previousSelfState.Value = selfState.Value;
+                selfState.Value = UserState.headsetOff;
+                selfStateGameEvent.Raise(UserState.headsetOff);
+            }
+            else if (isUserPresent && selfState.Value == UserState.headsetOff) //if we just put on the headset
+            {
+                previousSelfState.Value = selfState.Value;
+                selfState.Value = UserState.headsetOn;
+                selfStateGameEvent.Raise(UserState.headsetOn);
+            }
         }
             
-        if (Input.GetKeyDown("o")) IsOver();
+        if (Input.GetKeyDown("o")) IsOver(); //TODO remove?
     }
     
     #endregion

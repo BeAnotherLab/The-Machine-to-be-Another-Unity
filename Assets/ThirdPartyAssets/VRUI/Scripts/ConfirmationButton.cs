@@ -17,8 +17,8 @@ namespace VRStandardAssets.Menu
         [SerializeField] private BoolGameEvent _showSelectionRadialEvent;
         [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
 
-        [SerializeField] private UserStateGameEvent selfStateGameEvent;
-        [SerializeField] private UserStateVariable selfState;
+        [SerializeField] private UserStateGameEvent selfStateGameEvent;//TODO prepend "_" in name
+        [SerializeField] private UserStateVariable selfState; //TODO prepend "_" in name
         
         public bool gazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
          
@@ -50,10 +50,10 @@ namespace VRStandardAssets.Menu
             HandleOut(); //deselect            
         }
         
-        private void HandleOver()
+        private void HandleOver() //TODO test
         {
             // When the user looks at the rendering of the scene, show the radial.
-            if (XRDevice.userPresence == UserPresenceState.Present)
+            if (selfState.Value == UserState.headsetOn)
             {
                 _showSelectionRadialEvent.Raise(true);
                 gazeOver = true;
