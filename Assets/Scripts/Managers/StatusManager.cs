@@ -80,6 +80,8 @@ public abstract class StatusManager : MonoBehaviour
         selfState.Value = UserState.headsetOff;
         otherState.Value = UserState.headsetOff;
         
+        StartCoroutine(WaitForXRInput());
+
         // Find the HMD device
         var inputDevices = new List<InputDevice>();
         InputDevices.GetDevicesAtXRNode(XRNode.Head, inputDevices);
@@ -92,6 +94,17 @@ public abstract class StatusManager : MonoBehaviour
         
     }
 
+    IEnumerator WaitForXRInput()
+    {
+        yield return new WaitUntil(() => XRSettings.isDeviceActive);
+
+        List<InputDevice> devices = new List<InputDevice>();
+        InputDevices.GetDevicesAtXRNode(XRNode.Head, devices);
+
+        foreach (var device in devices)
+            Debug.Log($"Found device: {device.name}");
+    }
+    
     protected void Update()
     {
 
