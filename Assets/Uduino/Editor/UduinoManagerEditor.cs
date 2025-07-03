@@ -833,7 +833,7 @@ namespace Uduino
             {
                 EditorGUILayout.HelpBox("Having both Android BLE and Android Serial cause some conflits when building.", MessageType.Warning, true);
             }
-
+/*
             if (Manager.ExtensionIsPresentAndActive("UduinoDevice_AndroidBluetoothLE") &&
                 PlayerSettings.Android.minSdkVersion != AndroidSdkVersions.AndroidApiLevel22 &&
                 PlayerSettings.Android.targetSdkVersion != AndroidSdkVersions.AndroidApiLevel23)
@@ -888,7 +888,7 @@ namespace Uduino
 
                 SetGUIBackgroundColor();
             }
-
+*/
 
         }
 
