@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 10
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -42,8 +42,8 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
-  m_GIWorkflowMode: 1
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -66,9 +66,6 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
-    m_FinalGather: 0
-    m_FinalGatherFiltering: 1
-    m_FinalGatherRayCount: 1024
     m_ReflectionCompression: 2
     m_MixedBakeMode: 1
     m_BakeBackend: 0
@@ -515,7 +512,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11434696, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
       propertyPath: filePath
-      value: C:/Users/Obert/AppData/LocalLow/DefaultCompany/The-Machine-to-be-Another
+      value: C:/Users/Arthur/AppData/LocalLow/DefaultCompany/The-Machine-to-be-Another
       objectReference: {fileID: 0}
     - target: {fileID: 11434696, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
       propertyPath: fileType
@@ -523,7 +520,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11434696, guid: 481d68ab1d1643c468af0c48a20a93c3, type: 3}
       propertyPath: filePathFull
-      value: C:/Users/Obert/AppData/LocalLow/DefaultCompany/The-Machine-to-be-Another\BodySwap.2020.11.05.11.05.12.json
+      value: C:/Users/Arthur/AppData/LocalLow/DefaultCompany/The-Machine-to-be-Another\BodySwap.2025.07.03.14.40.52.json
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -625,6 +622,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &293754757
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,6 +667,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 243078391499754788, guid: ec12f7772c03e4c4c9e4c2f1643595ad,
     type: 2}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1425,6 +1424,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: aa476f22436a1174ba7e04a111312a8f, type: 3}
+  m_Resource: {fileID: 8300000, guid: aa476f22436a1174ba7e04a111312a8f, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1813,6 +1813,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 243758081335279580, guid: ec12f7772c03e4c4c9e4c2f1643595ad,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 1fea2d92cba56674099f5d4da2cf717c, type: 3}
+  m_Resource: {fileID: 8300000, guid: 1fea2d92cba56674099f5d4da2cf717c, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -2248,6 +2249,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5f2244bd90ff0b444a62dca5245930f3, type: 3}
+  m_Resource: {fileID: 8300000, guid: 5f2244bd90ff0b444a62dca5245930f3, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2429,6 +2431,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4256013236118919127, guid: 69a9fa9c1c14edf438348430b7ab81c2,
+        type: 3}
+      propertyPath: _previouslyRegisteredEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e9c710454088e3458d357b85048602d,
+        type: 2}
     - target: {fileID: 5824191422472989291, guid: 69a9fa9c1c14edf438348430b7ab81c2,
         type: 3}
       propertyPath: _previouslyRegisteredEvent
@@ -2440,6 +2448,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: OSCManager
       objectReference: {fileID: 0}
+    - target: {fileID: 9212859829775687373, guid: 69a9fa9c1c14edf438348430b7ab81c2,
+        type: 3}
+      propertyPath: _previouslyRegisteredEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: d69547e4872e9364f88ae94fe32b95aa,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2606,6 +2620,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 17807371b98f98044bd3ab1f1f776408, type: 3}
+  m_Resource: {fileID: 8300000, guid: 17807371b98f98044bd3ab1f1f776408, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2991,6 +3006,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1425658915
 GameObject:
   m_ObjectHideFlags: 0
@@ -3264,6 +3280,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1a53ea78ff2dd314381f094741535f50, type: 3}
+  m_Resource: {fileID: 8300000, guid: 1a53ea78ff2dd314381f094741535f50, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -5209,7 +5226,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1039287880109380063, guid: 595c15e6e144e8b4ea85436803d9eee3,
         type: 3}
-      propertyPath: _autoModeInstructions.Array.data[0]
+      propertyPath: '_autoModeInstructions.Array.data[0]'
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1469431332245137221, guid: 595c15e6e144e8b4ea85436803d9eee3,
@@ -5408,14 +5425,20 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 448873678173545225, guid: 8bbabc1d134b0ed41bb5ed8c64637bfc,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 292835836}
     - target: {fileID: 448873678409674156, guid: 8bbabc1d134b0ed41bb5ed8c64637bfc,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 1398188580}
+    - target: {fileID: 702575979674410136, guid: 8bbabc1d134b0ed41bb5ed8c64637bfc,
+        type: 3}
+      propertyPath: m_Text
+      value: "Move the headset up and down until you can see this text clearly. \n\nWhen
+        you are ready, look at the button below to begin."
+      objectReference: {fileID: 0}
     - target: {fileID: 702575981237749515, guid: 8bbabc1d134b0ed41bb5ed8c64637bfc,
         type: 3}
       propertyPath: m_Name
@@ -5565,6 +5588,12 @@ PrefabInstance:
       propertyPath: _response.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SelfUserStateChanged
       objectReference: {fileID: 0}
+    - target: {fileID: 5304722684002553255, guid: 3f00baa8facab504c84081460f38c958,
+        type: 3}
+      propertyPath: _previouslyRegisteredEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: f702e427aa595a14fb9a03bd42051c49,
+        type: 2}
     - target: {fileID: 5304722684002553255, guid: 3f00baa8facab504c84081460f38c958,
         type: 3}
       propertyPath: _response.m_PersistentCalls.m_Calls.Array.data[1].m_Target

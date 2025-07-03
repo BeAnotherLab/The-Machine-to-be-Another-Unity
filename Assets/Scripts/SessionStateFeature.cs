@@ -23,22 +23,24 @@ using UnityEditor.Build;
 
 public class SessionStateFeature : OpenXRFeature
 {
-    private static int currentState;
+    public delegate void OnUserPresent();
+    public static OnUserPresent UserPresent;
 
+    public delegate void OnUserLeft();
+    public static OnUserLeft UserLeft;
+
+    private static int _currentState;
+    
     protected override void OnSessionStateChange(int oldState, int newState)
     {
         base.OnSessionStateChange(oldState, newState);
-        currentState = newState;
-        Debug.Log($"[SessionStateFeature] Session state changed: {oldState} → {newState}");
+        _currentState = newState;
+        //if (newState == (int) XrSessionState.Focused) UserPresent();
+        //else if (newState == (int)XrSessionState.Idle) UserLeft();
     }
-
-    public static bool IsUserPresent()
-    {
-        return currentState == (int) XrSessionState.Focused || currentState == (int) XrSessionState.Ready;
-    }
-
+    
     public static int GetCurrentState()
     {
-        return currentState;
+        return _currentState;
     }
 }

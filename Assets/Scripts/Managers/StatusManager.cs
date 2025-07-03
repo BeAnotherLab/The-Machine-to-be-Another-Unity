@@ -8,6 +8,7 @@ using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using Debug = DebugFile;
 using UnityEngine.XR;
+using UnityEngine.XR.OpenXR.NativeTypes;
 using VRStandardAssets.Utils;
 
 public abstract class StatusManager : MonoBehaviour
@@ -16,6 +17,8 @@ public abstract class StatusManager : MonoBehaviour
 
     public static StatusManager instance; //TODO remove
 
+    public bool presenceDetection; //TODD check if still necessary
+    
     public UserStateVariable previousOtherState;
     public UserStateVariable otherState;
     
@@ -57,10 +60,8 @@ public abstract class StatusManager : MonoBehaviour
     
     #endregion
 
-    private InputDevice _hmdDevice;
-    
     #region Monobehaviour Methods
-    
+
     protected void Awake()
     {
         if (instance == null) instance = this;
@@ -79,52 +80,25 @@ public abstract class StatusManager : MonoBehaviour
 
         selfState.Value = UserState.headsetOff;
         otherState.Value = UserState.headsetOff;
-        
-        StartCoroutine(WaitForXRInput());
-
-        // Find the HMD device
-        var inputDevices = new List<InputDevice>();
-        InputDevices.GetDevicesAtXRNode(XRNode.Head, inputDevices);
-
-        if (inputDevices.Count > 0)
-        {
-            _hmdDevice = inputDevices[0];
-            Debug.Log("HMD device found: " + _hmdDevice.name);
-        }
-        
     }
 
-    IEnumerator WaitForXRInput()
-    {
-        yield return new WaitUntil(() => XRSettings.isDeviceActive);
-
-        List<InputDevice> devices = new List<InputDevice>();
-        InputDevices.GetDevicesAtXRNode(XRNode.Head, devices);
-
-        foreach (var device in devices)
-            Debug.Log($"Found device: {device.name}");
-    }
-    
     protected void Update()
     {
-
-        if (_hmdDevice.TryGetFeatureValue(CommonUsages.userPresence, out bool isUserPresent))
+        
+        if (SessionStateFeature.GetCurrentState() == (int) XrSessionState.Idle  && selfState.Value != UserState.headsetOff)
         {
-            if (!isUserPresent && selfState.Value != UserState.headsetOff) //if we just removed the headset
-            {
-                previousSelfState.Value = selfState.Value;
-                selfState.Value = UserState.headsetOff;
-                selfStateGameEvent.Raise(UserState.headsetOff);
-            }
-            else if (isUserPresent && selfState.Value == UserState.headsetOff) //if we just put on the headset
-            {
-                previousSelfState.Value = selfState.Value;
-                selfState.Value = UserState.headsetOn;
-                selfStateGameEvent.Raise(UserState.headsetOn);
-            }
+            previousSelfState.Value = selfState.Value;
+            selfState.Value = UserState.headsetOff; 
+            selfStateGameEvent.Raise(UserState.headsetOff);
         }
-            
-        if (Input.GetKeyDown("o")) IsOver(); //TODO remove?
+        else if (SessionStateFeature.GetCurrentState() == (int) XrSessionState.Focused && selfState.Value == UserState.headsetOff) //if we just put the headset on
+        {
+            previousSelfState.Value = selfState.Value;
+            selfState.Value = UserState.headsetOn;
+            selfStateGameEvent.Raise(UserState.headsetOn);
+        }
+          
+        if (Input.GetKeyDown("o")) IsOver();
     }
     
     #endregion
@@ -281,7 +255,6 @@ public abstract class StatusManager : MonoBehaviour
         _englishTrack.muted = language != "English";
         _germanTrack.muted = language != "German";
     }
-
     
     #endregion
     
