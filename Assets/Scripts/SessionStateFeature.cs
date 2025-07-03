@@ -37,6 +37,7 @@ public class SessionStateFeature : OpenXRFeature
         _currentState = newState;
         //if (newState == (int) XrSessionState.Focused) UserPresent();
         //else if (newState == (int)XrSessionState.Idle) UserLeft();
+        Debug.Log($"[SessionStateFeature] Session state changed: {((XrSessionState) oldState).ToString()} → { ((XrSessionState) newState).ToString()}");
     }
     
     public static int GetCurrentState()
