@@ -68,7 +68,7 @@ namespace Mirror.Examples.Pong
             if (_consentCount > 0) _consentCount = 0;
         }
         
-        public override void OnServerAddPlayer(NetworkConnection conn)
+        public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
             // add player at correct spawn position
             GameObject player = Instantiate(playerPrefab);
