@@ -11,15 +11,6 @@ namespace Mirror.Examples.Pong
         private GameObject _mainCamera;
         private GameObject _videoFeedFlipParent;
         
-        [SerializeField] private BoolGameEvent _consentAnswerGivenEvent;
-        [SerializeField] private BoolGameEvent _readyToShowQuestionnaire;
-
-        public delegate void OnVideoConsentGivenCmd(bool given);
-        public static OnVideoConsentGivenCmd VideoConsentGivenCmd;
-        
-        public delegate void OnBothVideoConsentAnsweredRPC(bool given); 
-        public static OnBothVideoConsentAnsweredRPC BothVideoConsentAnsweredRPC;
-        
         private void Awake()
         {
             _mainCamera = GameObject.Find("Main Camera");

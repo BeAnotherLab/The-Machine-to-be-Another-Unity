@@ -18,27 +18,13 @@ namespace Mirror.Examples.Pong
             
         public bool offlineMode;
         
-        //Data collection consent values and events 
-        [SerializeField] private BoolGameEvent bothConsentGiven; //TODO move to a simple int field in this class
-        private int _consentCount; //how many times consent answers were given
-        [SerializeField] private IntVariable _consentsGiven; //how many positive answers were given
-
-        //Pre/Post questionnaires end events 
-
-        //video data collection consent
-        [SerializeField] private IntVariable _videoConsentsGiven; //how many positive answers were given TODO move to a simple int field
-        
-        [SerializeField] private BoolVariable _sendRecordingCommand;
-
         private void OnEnable()
         {
-            CustomPlayer.VideoConsentGivenCmd += VideoConsentAnswerGiven;
             DisplayManager.SetDisplayModeEvent += EnableNetworkGUI;
         }
 
         private void OnDisable()
         {
-            CustomPlayer.VideoConsentGivenCmd -= VideoConsentAnswerGiven;
             DisplayManager.SetDisplayModeEvent -= EnableNetworkGUI;
         }
 
@@ -50,8 +36,6 @@ namespace Mirror.Examples.Pong
         private void Start()    
         {
             if (offlineMode) Instantiate(playerPrefab);
-            _consentsGiven.Value = 0;
-            _videoConsentsGiven.Value = 0; //In standby instead?
             networkAddress = PlayerPrefs.GetString("othersIP");
 
             if (PlayerPrefs.GetInt("repeater", 0) == 1) //TODO rename property
@@ -62,10 +46,7 @@ namespace Mirror.Examples.Pong
 
         public void OnStandby()
         {
-            if (_consentsGiven.Value > 0) _consentsGiven.Value = 0;
-            if (_videoConsentsGiven.Value > 0) _videoConsentsGiven.Value = 0;
-            _sendRecordingCommand.Value = false;
-            if (_consentCount > 0) _consentCount = 0;
+            
         }
         
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
@@ -84,23 +65,6 @@ namespace Mirror.Examples.Pong
         {
             // call base functionality (actually destroys the player)
             base.OnServerDisconnect(conn);
-        }
-
-        public void ConsentAnswerGiven(bool consent)
-        {
-            _consentCount++;
-            if (consent) _consentsGiven.Value++;
-            if (_consentCount == 2)
-            {
-                if (_consentsGiven.Value == 2) bothConsentGiven.Raise(true);
-                else bothConsentGiven.Raise(false);
-            }
-        }
-        
-        private void VideoConsentAnswerGiven(bool consent)
-        {
-            if (consent) _videoConsentsGiven.Value++;
-            _sendRecordingCommand.Value = _videoConsentsGiven.Value == 2;
         }
         
         private IEnumerator TryConnect()
