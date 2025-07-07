@@ -1,7 +1,7 @@
 using UnityEngine;
 
 //-----------------------------------------------------------------------------
-// Copyright 2012-2018 RenderHeads Ltd.  All rights reserverd.
+// Copyright 2012-2022 RenderHeads Ltd.  All rights reserverd.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProLiveCamera.Demos

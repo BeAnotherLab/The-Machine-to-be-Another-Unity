@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 //-----------------------------------------------------------------------------
-// Copyright 2012-2018 RenderHeads Ltd.  All rights reserved.
+// Copyright 2012-2022 RenderHeads Ltd.  All rights reserved.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProLiveCamera
@@ -14,6 +14,8 @@ namespace RenderHeads.Media.AVProLiveCamera
 		protected AVProLiveCameraDevice _device = null;
 		protected AVProLiveCameraDeviceMode _mode = null;
 		protected int _videoInput = -1;
+
+		[Header("Device Selection")]
 
 		// Device selection
 		public SelectDeviceBy _deviceSelection = SelectDeviceBy.Default;
@@ -36,12 +38,19 @@ namespace RenderHeads.Media.AVProLiveCamera
 		public List<AVProLiveCameraPlugin.VideoInput> _desiredVideoInputs = new List<AVProLiveCameraPlugin.VideoInput>(4);
 		public int _desiredVideoInputIndex = 0;
 
-		public bool _playOnStart = true;
+		[Header("Device Start")]
+		[SerializeField] bool _preferPreviewPin = false;
+		[SerializeField] AVProLiveCameraDevice.ClockMode _clockMode = AVProLiveCameraDevice.ClockMode.None;
 		public bool _deinterlace = false;
+		public bool _playOnStart = true;
+
+		[Header("Display")]
 		public bool _allowTransparency = true;
 		public bool _flipX;
 		public bool _flipY;
+		[SerializeField] YCbCrRange _yCbCrRange = YCbCrRange.Limited;
 
+		[Header("Update")]
 		public bool _updateHotSwap = false;
 		public bool _updateFrameRates = false;
 		public bool _updateSettings = false;
@@ -55,11 +64,29 @@ namespace RenderHeads.Media.AVProLiveCamera
 			get { return _device; }
 		}
 
+		public AVProLiveCameraDevice.ClockMode Clock
+		{
+			get { return _clockMode; }
+			set { if (_device != null) { _device.Clock = value; } _clockMode = value; }
+		}
+
+		public YCbCrRange YCbCrRange
+		{
+			get { return _yCbCrRange; }
+			set { if (Device != null) { _device.YCbCrRange = value; } _yCbCrRange = value; }
+		}
+
+		public bool PreferPreviewPin
+		{
+			get { return _preferPreviewPin; }
+			set { _preferPreviewPin = value; }
+		}
+
 		public Texture OutputTexture
 		{
 			get { if (_device != null) return _device.OutputTexture; return null; }
 		}
-
+		
 		public enum SelectDeviceBy
 		{
 			Default,
@@ -81,6 +108,7 @@ namespace RenderHeads.Media.AVProLiveCamera
 			_device = null;
 			_flipX = _flipY = false;
 			_allowTransparency = false;
+			_yCbCrRange = YCbCrRange.Limited;
 
 			_deviceSelection = SelectDeviceBy.Default;
 			_modeSelection = SelectModeBy.Default;
@@ -89,9 +117,9 @@ namespace RenderHeads.Media.AVProLiveCamera
 			_desiredResolutions = new List<Vector2>(2);
 			_desiredVideoInputs = new List<AVProLiveCameraPlugin.VideoInput>(4);
 			_desiredDeviceNames.Add("Logitech BRIO");
-			_desiredDeviceNames.Add("XSplit VCam");
-			_desiredDeviceNames.Add("OBS-Camera");
 			_desiredDeviceNames.Add("Integrated Webcam");
+			_desiredDeviceNames.Add("OBS-Camera");
+			_desiredDeviceNames.Add("XSplit VCam");
 			_desiredDeviceNames.Add("Logitech HD Pro Webcam C922");
 			_desiredDeviceNames.Add("Logitech HD Pro Webcam C920");
 			_desiredDeviceNames.Add("HD Pro Webcam C922");
@@ -144,8 +172,11 @@ namespace RenderHeads.Media.AVProLiveCamera
 
 				_device.Deinterlace = _deinterlace;
 				_device.AllowTransparency = _allowTransparency;
+				_device.YCbCrRange = _yCbCrRange;
 				_device.FlipX = _flipX;
 				_device.FlipY = _flipY;
+				_device.Clock = _clockMode;
+				_device.PreferPreviewPin = _preferPreviewPin;
 				if (!_device.Start(_mode, _videoInput))
 				{
 					Debug.LogWarning("[AVPro Live Camera] Device failed to start.");
@@ -174,6 +205,8 @@ namespace RenderHeads.Media.AVProLiveCamera
 					_device.FlipY = _flipY;
 				if (_allowTransparency != _device.AllowTransparency)
 					_device.AllowTransparency = _allowTransparency;
+				if (_yCbCrRange != _device.YCbCrRange)
+					_device.YCbCrRange = _yCbCrRange;
 
 				_device.UpdateHotSwap = _updateHotSwap;
 				_device.UpdateFrameRates = _updateFrameRates;
@@ -307,7 +340,7 @@ namespace RenderHeads.Media.AVProLiveCamera
 				case SelectModeBy.Resolution:
 					if (_desiredResolutions.Count > 0)
 					{
-						result = GetClosestMode(_device, _desiredAnyResolution, _desiredResolutions, _maintainAspectRatio, _desiredFormatAny, _desiredTransparencyFormat, _desiredFormat);
+						result = GetClosestMode(_device, _desiredAnyResolution, _desiredResolutions, _maintainAspectRatio, _desiredFrameRate, _desiredFormatAny, _desiredTransparencyFormat, _desiredFormat);
 						if (result == null)
 						{
 							Debug.LogWarning("[AVProLiveCamera] Could not find desired mode, using default mode.");
@@ -321,10 +354,6 @@ namespace RenderHeads.Media.AVProLiveCamera
 						if (result == null)
 						{
 							Debug.LogWarning("[AVProLiveCamera] Could not find desired mode, using default mode.");
-						}
-						else
-						{
-							PlayerPrefs.SetInt("CameraModeIndex", _desiredModeIndex);
 						}
 					}
 					break;
@@ -442,18 +471,18 @@ namespace RenderHeads.Media.AVProLiveCamera
 			}
 		}
 
-		private static AVProLiveCameraDeviceMode GetClosestMode(AVProLiveCameraDevice device, bool anyResolution, List<Vector2> resolutions, bool maintainApectRatio, bool anyPixelFormat, bool transparentPixelFormat, AVProLiveCameraPlugin.VideoFrameFormat pixelFormat)
+		private static AVProLiveCameraDeviceMode GetClosestMode(AVProLiveCameraDevice device, bool anyResolution, List<Vector2> resolutions, bool maintainApectRatio, float frameRate, bool anyPixelFormat, bool transparentPixelFormat, AVProLiveCameraPlugin.VideoFrameFormat pixelFormat)
 		{
 			AVProLiveCameraDeviceMode result = null;
 			if (anyResolution)
 			{
-				result = device.GetClosestMode(-1, -1, maintainApectRatio, anyPixelFormat, transparentPixelFormat, pixelFormat);
+				result = device.GetClosestMode(-1, -1, maintainApectRatio, frameRate, anyPixelFormat, transparentPixelFormat, pixelFormat);
 			}
 			else
 			{
 				for (int i = 0; i < resolutions.Count; i++)
 				{
-					result = device.GetClosestMode(Mathf.FloorToInt(resolutions[i].x), Mathf.FloorToInt(resolutions[i].y), maintainApectRatio, anyPixelFormat, transparentPixelFormat, pixelFormat);
+					result = device.GetClosestMode(Mathf.FloorToInt(resolutions[i].x), Mathf.FloorToInt(resolutions[i].y), maintainApectRatio, frameRate, anyPixelFormat, transparentPixelFormat, pixelFormat);
 					if (result != null)
 						break;
 				}

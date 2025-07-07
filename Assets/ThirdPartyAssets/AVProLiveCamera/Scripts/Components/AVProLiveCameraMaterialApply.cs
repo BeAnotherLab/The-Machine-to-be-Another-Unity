@@ -1,7 +1,7 @@
 using UnityEngine;
 
 //-----------------------------------------------------------------------------
-// Copyright 2012-2020 RenderHeads Ltd.  All rights reserverd.
+// Copyright 2012-2022 RenderHeads Ltd.  All rights reserverd.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProLiveCamera
@@ -83,6 +83,10 @@ namespace RenderHeads.Media.AVProLiveCamera
 				{
 					if (_propTexture != -1)
 					{
+						if (!_material.HasProperty(_propTexture))
+						{
+							Debug.LogError(string.Format("[AVProLiveCamera] Material {0} doesn't have texture property {1}", _material.name, _texturePropertyName), this);
+						}
 						_material.SetTexture(_propTexture, texture);
 						_lastTexture = texture;
 					}
