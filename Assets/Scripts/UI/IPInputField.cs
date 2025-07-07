@@ -13,7 +13,7 @@ public class IPInputField : MonoBehaviour
     {
         _IPInputField.onEndEdit.AddListener(delegate
         {
-            PlayerPrefs.SetString("othersIP", _IPInputField.text);
+            PlayerPrefs.SetString("othersIP", _IPInputField.text); //TODO make it dynamic!
         });
     }
 
