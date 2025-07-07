@@ -103,7 +103,7 @@ namespace VRStandardAssets.Maze
             // To restart, make sure the rotation is reset and the camera is not moving or rotating.
             m_Rigidbody.rotation = m_StartRotation;
             m_Rigidbody.angularVelocity = Vector3.zero;
-            m_Rigidbody.velocity = Vector3.zero;
+            m_Rigidbody.linearVelocity = Vector3.zero;
         }
     }
 }

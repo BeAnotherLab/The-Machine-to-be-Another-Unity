@@ -72,7 +72,7 @@ public abstract class StatusManager : MonoBehaviour
     protected void Start()
     {
         if (SwapModeManager.instance.ArduinoControl)
-            _setInstructionsTextGameEvent.Raise("serial");
+            _setInstructionsTextGameEvent.Raise("serial"); //TODO is this waiting for serial text?
 
         selfState.Value = UserState.headsetOff;
         otherState.Value = UserState.headsetOff;

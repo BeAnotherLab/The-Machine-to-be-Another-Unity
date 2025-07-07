@@ -18,8 +18,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     public int cameraID; //app must be reset for changes to be applied. first camera is for swap, second is for cognitive task
 
-    public bool twoWayWap;
-
     public bool dimOnStart;
 
     public Transform targetTransform;
@@ -77,18 +75,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         if (Input.GetKeyDown("b") && !_editing ) ToggleDim();
         if (Input.GetKeyDown("n") && !_editing ) RecenterPose();
         if (Input.GetKeyDown("r") && !_editing ) Rotate();
-
-        if (targetTransform != null)
-        {
-            if (!twoWayWap) //if servo setup
-            {
-                targetTransform.position = _mainCamera.transform.position + _mainCamera.transform.forward * 35; //keep webcam at a certain distance from head.
-                targetTransform.rotation = _mainCamera.transform.rotation; //keep webcam feed aligned with head
-                targetTransform.rotation *= Quaternion.Euler(0, 0, 1) * Quaternion.AngleAxis(-Utilities.toEulerAngles(_mainCamera.transform.rotation).x, Vector3.forward); //compensate for absence of roll servo
-                targetTransform.rotation *= Quaternion.Euler(0, 0, _tiltAngle) * Quaternion.AngleAxis(0, Vector3.up); //to adjust for webcam physical orientation
-                targetTransform.localScale = new Vector3(0.9f, 1, -1);
-            }
-        }
     }
 
     void OnDestroy()
@@ -99,12 +85,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
 
     #region Public Methods
-    
-    public void FlipHorizontal()
-    {
-        //TODO This was broken by using network transform
-        transform.parent.localScale = new Vector3(- transform.parent.localScale.x, transform.parent.localScale.y, transform.parent.localScale.z);
-    }
 
     public void Dim(bool dim, bool fade = true) 
     {
@@ -137,14 +117,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     public void Rotate()
     {
         _tiltAngle += 90;
-        if(twoWayWap) targetTransform.GetChild(0).transform.localRotation = Quaternion.Euler(0,0, _tiltAngle);
         PlayerPrefs.SetFloat("tiltAngle", _tiltAngle);
-    }
-
-    public void SetZoom(float value)
-    {
-        zoom = value;
-        PlayerPrefs.SetFloat("zoom", zoom);
     }
 
     public void RecenterPose()

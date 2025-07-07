@@ -15,7 +15,6 @@ public class SettingsGUI : MonoBehaviour
 
     #region Private Fields
 
-    [SerializeField] private Dropdown _swapModeDropdown;
     [SerializeField] private Dropdown _timelineDropdown;
     [SerializeField] private GameObject _panel;
     [SerializeField] private IPInputField _ipInputField;
@@ -25,18 +24,14 @@ public class SettingsGUI : MonoBehaviour
 
     [SerializeField] private Button _dimButton;
     [SerializeField] private Button _rotateCameraButton;
-    [SerializeField] private Button _headTrackingOnButton;
     [SerializeField] private Button _resetYawButton;
     [SerializeField] private Slider _exposureSlider;
     [SerializeField] private Text _exposureText;
     [SerializeField] private Toggle _repeaterToggle;
-    //[SerializeField] private Text _controlsText;
     
     private bool _oculusGuiEnabled;
     private float _deltaTime = 0.0f;
  
-    [SerializeField] private bool serialDebug;
-
     #endregion
 
     #region MonoBehaviour Methods
@@ -55,9 +50,6 @@ public class SettingsGUI : MonoBehaviour
         
         _timelineDropdown.onValueChanged.AddListener(delegate(int val) { StatusManager.instance.SetInstructionsTimeline(val); });
         
-        //_controlsText.text = _controlsText.text + "\n \nlocal IP adress : " + OSCUtilities.GetLocalHost();
-
-        _headTrackingOnButton.onClick.AddListener(delegate { VideoFeed.instance.SwitchHeadtracking(); });
         _resetYawButton.onClick.AddListener(delegate { VideoFeed.instance.RecenterPose(); });
         
         _exposureSlider.onValueChanged.AddListener(delegate(float value)
@@ -67,24 +59,14 @@ public class SettingsGUI : MonoBehaviour
             _exposureText.text = "Exposure : " + value;
         });
         
-        //Assign swap mode dropdown handler
-        _swapModeDropdown.onValueChanged.AddListener(delegate { SwapModeManager.instance.SetSwapMode( (SwapModeManager.SwapModes) _swapModeDropdown.value); });
-        
         _rotateCameraButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
     }
 
     // Use this for initialization
     private void Start()
     {        
-        SetSwapModeDropdownOptions();
-
-        if (PlayerPrefs.GetInt("repeater") == 1) 
-            _repeaterToggle.isOn = true;
-        else                                    
-            _repeaterToggle.isOn = false;
-
-        if (PlayerPrefs.GetInt("serialControlOn") == 1) _serialControlToggle.isOn = true;
-        else _serialControlToggle.isOn = false;             
+        _repeaterToggle.isOn = PlayerPrefs.GetInt("repeater") == 1; 
+        _serialControlToggle.isOn = PlayerPrefs.GetInt("serialControlOn") == 1;
         
         if (PlayerPrefs.GetInt("exposure", 1) != 1)
         {
@@ -92,9 +74,7 @@ public class SettingsGUI : MonoBehaviour
             _exposureText.text = "Exposure : " + _exposureSlider.value;
         }
         
-        OSCUtilities.GetLocalHost();
-
-        SetLanguageText(PlayerPrefs.GetInt("language"));
+        OSCUtilities.GetLocalHost(); //TODO remove?
     }
 
     private void Update()
@@ -116,13 +96,6 @@ public class SettingsGUI : MonoBehaviour
         _ipInputField.gameObject.SetActive(true);
     }
 
-    public void SetServoMode() //TODO remove?
-    {
-        //hide two way swap related networking GUI
-        _ipInputField.gameObject.SetActive(false);
-        _repeaterToggle.gameObject.SetActive(false);
-    }
-
     public void ToggleDebugDisplayGUI()
     {
         DisplayManager.instance.ToggleDisplayMode();
@@ -138,22 +111,5 @@ public class SettingsGUI : MonoBehaviour
         else _panel.GetComponent<CanvasGroup>().alpha = 0f;
     }
 
-    private void SetLanguageText(int language)
-    {
-        string languageString = "English";
-        if (language == 1) languageString = "French";
-        else if (language == 2) languageString = "Italian";
-    }
-
-    private void SetSwapModeDropdownOptions()
-    {
-        _swapModeDropdown.options.Add(new Dropdown.OptionData() { text = "Auto Swap"});
-        _swapModeDropdown.options.Add(new Dropdown.OptionData() { text = "Manual Swap"});
-        _swapModeDropdown.options.Add(new Dropdown.OptionData() { text = "Servo Swap"});
-
-        _swapModeDropdown.value = PlayerPrefs.GetInt("swapMode");
-        _swapModeDropdown.RefreshShownValue();
-    }
-    
     #endregion
 }
