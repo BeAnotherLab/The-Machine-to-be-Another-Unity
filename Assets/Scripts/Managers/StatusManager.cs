@@ -42,7 +42,6 @@ public abstract class StatusManager : MonoBehaviour
     [SerializeField] protected GameEvent _InstructionsStartedGameEvent;
     [SerializeField] protected BoolGameEvent _experienceFinishedGameEvent;
     [SerializeField] protected GameEvent _experienceStartedGameEvent;
-    [SerializeField] protected StringGameEvent _languageChangeEvent;
     [SerializeField] protected BoolGameEvent _curtainOnEvent;
     
     [SerializeField] protected StringGameEvent _setInstructionsTextGameEvent;
@@ -54,9 +53,6 @@ public abstract class StatusManager : MonoBehaviour
     protected GameObject _confirmationMenu; //TODO use events, no direct reference!
     protected bool _experienceRunning;
     protected bool _dimOutOnExperienceStart;
-    
-    protected delegate void OnShowTimedText(string key, int time);
-    protected OnShowTimedText ShowTimedText;
     
     #endregion
 
@@ -84,7 +80,6 @@ public abstract class StatusManager : MonoBehaviour
 
     protected void Update()
     {
-        
         if (SessionStateFeature.GetCurrentState() == (int) XrSessionState.Idle  && selfState.Value != UserState.headsetOff)
         {
             previousSelfState.Value = selfState.Value;

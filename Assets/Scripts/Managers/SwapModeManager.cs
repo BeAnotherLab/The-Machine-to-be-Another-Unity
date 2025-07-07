@@ -28,7 +28,7 @@ public class SwapModeManager : MonoBehaviour
         SwapModeChanged(swapMode);
     }
 
-    public void SetSwapMode(SwapModes mode)
+    public void SetSwapMode(SwapModes mode) //TODO get rid of all singleton stuff
     {
         
         switch (mode)
