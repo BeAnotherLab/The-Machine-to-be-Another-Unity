@@ -15,7 +15,7 @@ public class OscManager : MonoBehaviour {
 
     public static OscManager instance;
 
-    public string othersIP { get { return othersIP; } set { SetOthersIP(value); } }   
+    public string othersIP { get { return othersIP; } set { SetOthersIP(value); } }   //TODO remove?
     
     public delegate void OtherStatus();
     public static OtherStatus OnOtherStatus;
@@ -62,30 +62,23 @@ public class OscManager : MonoBehaviour {
         _oscReceiver.Bind("/dimon", ReceiveDimOn);
         _oscReceiver.Bind("/dimoff", ReceiveDimOff);
         _oscReceiver.Bind("/ht", ReceiveCalibrate);
-        _oscReceiver.Bind("/language", ReceiveLanguageChange);
-        _oscReceiver.Bind("/curtain", ReceiveCurtain);
+        _oscReceiver.Bind("/curtain", ReceiveCurtain); //TODO remove?
         for (int i = 0; i < 11; i++) _oscReceiver.Bind("/btn" + i.ToString(), ReceiveBtn);
 
         //set IP address of other 
         SetOthersIP(PlayerPrefs.GetString("othersIP"));
-        
     }   
     
     #endregion
 
     #region Public Methods
     
-    public void SendLanguageChange(string language)
+    public void SendLanguageChange(string language) //TODO remove?
     {
         OSCMessage message = new OSCMessage("/language");
         message.AddValue(OSCValue.String(language));
         _oscTransmitter.Send(message);
         Debug.Log("send language change message", DLogType.Network);
-    }
-    
-    public void SetSendHeadtracking(bool send)
-    {
-        _sendHeadTracking = true;
     }
     
     public void EnableRepeater(bool enable) 
@@ -131,46 +124,16 @@ public class OscManager : MonoBehaviour {
         }
     }
 
-    public void CurtainOn(bool on)
-    {
-        if(!on) SendStopVideoRecording();
-    }
-
-    public void Standby()
-    {
-        SendStopVideoRecording();
-    }
-    
     #endregion
 
     #region Private Methods
-
-    private void SendStopVideoRecording() //TODO remove
-    {
-        if (_repeater)
-        {
-            Debug.Log("sending video recording end ", DLogType.Network);
-            OSCMessage message = new OSCMessage("/stop");
-            message.AddValue(OSCValue.String("1"));
-            _videoRecordingOSCTransmitter.Send(message); //            
-        }
-    }
     
     private void SetOthersIP(string othersIP)
     {
         PlayerPrefs.SetString("othersIP", othersIP);
         GetComponent<OSCTransmitter>().RemoteHost = othersIP;
     }
-   
-    private void ReceiveLanguageChange(OSCMessage message)
-    {
-        string value;
-        if(message.ToString(out value))
-            //TODO remove
-            //LocalizationManager.instance.LoadLocalizedText(value);
-        Debug.Log("received language change : " + value, DLogType.Network);
-    }
-    
+
     private void ReceiveCalibrate(OSCMessage message)
     {
         float value;

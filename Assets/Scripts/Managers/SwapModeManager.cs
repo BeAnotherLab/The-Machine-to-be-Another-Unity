@@ -29,7 +29,7 @@ public class SwapModeManager : MonoBehaviour
     }
 
     public void SetSwapMode(SwapModes mode) //TODO get rid of all singleton stuff
-    {
+    { //TODO get rid of swap mode manager completely?
         
         switch (mode)
         {
@@ -39,7 +39,6 @@ public class SwapModeManager : MonoBehaviour
                 SettingsGUI.instance.SetSwapMode(ArduinoControl); //hide serial port dropdown, show repeater toggle, show IP input field
                 StatusManager.instance.Standby(true, true); //go to initial state
                 OscManager.instance.EnableRepeater(true); //enable OSC repeat
-                OscManager.instance.SetSendHeadtracking(true); //send headtracking
 
                 //enable serial depending on if we are using the curtain or not
                 if (ArduinoControl) ArduinoManager.instance.ActivateSerial(false, ArduinoControl); //TODO remove?
@@ -52,8 +51,7 @@ public class SwapModeManager : MonoBehaviour
                 SettingsGUI.instance.SetSwapMode(); //hide serial port dropdown, show repeater toggle, show IP input field
                 StatusManager.instance.Standby(true, false); //go to initial state
                 OscManager.instance.EnableRepeater(true); //enable OSC repeat
-                OscManager.instance.SetSendHeadtracking(true); //send headtracking
-                ArduinoManager.instance.DisableSerial(); //deactivate servos
+                ArduinoManager.instance.DisableSerial(); //deactivate servos TODO is this deactivatings servos or curtain?
                 AudioManager.instance.StopAudioInstructions(); //stop auto swap instructions audio
 
                 break;
@@ -63,17 +61,14 @@ public class SwapModeManager : MonoBehaviour
                 SettingsGUI.instance.SetSwapMode(ArduinoControl); //hide serial port dropdown, show repeater toggle, show IP input field
                 StatusManager.instance.Standby(true, false); //go to initial state
                 OscManager.instance.EnableRepeater(true); //enable OSC repeat
-                OscManager.instance.SetSendHeadtracking(true); //send headtracking
                 if (ArduinoControl) ArduinoManager.instance.ActivateSerial(false, ArduinoControl); //TODO remove?
-                //ArduinoManager.instance.DisableSerial(); //deactivate servos
+                //ArduinoManager.instance.DisableSerial(); //deactivate servos TODO is this deactivatings servos or curtain?
                 AudioManager.instance.StopAudioInstructions(); //stop auto swap instructions audio
 
                 break;
         }
 
         swapMode = mode;
-        PlayerPrefs.SetInt("swapMode", (int) mode);
-
     }
     
 }
