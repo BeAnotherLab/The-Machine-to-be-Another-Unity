@@ -3,7 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 
 //-----------------------------------------------------------------------------
-// Copyright 2012-2018 RenderHeads Ltd.  All rights reserved.
+// Copyright 2012-2022 RenderHeads Ltd.  All rights reserved.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProLiveCamera
@@ -33,6 +33,15 @@ namespace RenderHeads.Media.AVProLiveCamera
 		private bool _flipX;
 		private bool _flipY;
 		private bool _allowTransparency = true;
+		private YCbCrRange _yCbCrRange = YCbCrRange.Limited;
+		private ClockMode _clockMode = ClockMode.None;
+		private bool _preferPreviewPin = false;
+
+		public enum ClockMode
+		{
+			None,
+			Default,
+		}
 
 		public enum SettingsEnum
 		{
@@ -225,6 +234,18 @@ namespace RenderHeads.Media.AVProLiveCamera
 			set;
 		}
 
+		public ClockMode Clock
+		{
+			get { return _clockMode; }
+			set { _clockMode = value; if (IsRunning) AVProLiveCameraPlugin.SetDeviceClockMode(_deviceIndex, _clockMode == ClockMode.Default); }
+		}
+
+		public bool PreferPreviewPin
+		{
+			get { return _preferPreviewPin; }
+			set { _preferPreviewPin = value; }
+		}
+
 		public bool IsConnected
 		{
 			get;
@@ -247,7 +268,13 @@ namespace RenderHeads.Media.AVProLiveCamera
 		{
 			get { return _allowTransparency; }
 			set { _allowTransparency = value; if (_formatConverter != null) _formatConverter.AllowTransparency = _allowTransparency; }
-		}		
+		}
+
+		public YCbCrRange YCbCrRange
+		{
+			get { return _yCbCrRange; }
+			set { _yCbCrRange = value; if (_formatConverter != null) _formatConverter.YCbCrRange = _yCbCrRange; }
+		}
 
 		public bool UpdateHotSwap
 		{
@@ -324,7 +351,7 @@ namespace RenderHeads.Media.AVProLiveCamera
 			}
 
 			// Start the device
-			if (AVProLiveCameraPlugin.StartDevice(_deviceIndex, internalModeIndex, modeFrameRateIndex, videoInputIndex))
+			if (AVProLiveCameraPlugin.StartDevice(_deviceIndex, internalModeIndex, modeFrameRateIndex, videoInputIndex, _preferPreviewPin))
 			{
 				int modeIndex = -1;
 				if (mode != null)
@@ -377,6 +404,7 @@ namespace RenderHeads.Media.AVProLiveCamera
 
 				// Create format converter
 				_isTopDown = AVProLiveCameraPlugin.IsFrameTopDown(_deviceIndex);
+				_formatConverter.YCbCrRange = _yCbCrRange;
 				bool allowTransparency = (SupportsTransparency && AllowTransparency);
 				if (!_formatConverter.Build(width, height, format, allowTransparency, _flipX, _isTopDown != _flipY, Deinterlace))
 				{
@@ -384,6 +412,9 @@ namespace RenderHeads.Media.AVProLiveCamera
 					Close();
 					return false;
 				}
+
+				// Set clock mode
+				AVProLiveCameraPlugin.SetDeviceClockMode(_deviceIndex, _clockMode == ClockMode.Default);
 
 				// Run camera
 				IsActive = true;
@@ -498,6 +529,11 @@ namespace RenderHeads.Media.AVProLiveCamera
 				Update_HotSwap();
 			}
 
+			if (_deviceIndex >= 0)
+			{
+				_frameRate = AVProLiveCameraPlugin.GetFrameRate(_deviceIndex);
+			}
+			
 			if (IsRunning)
 			{
 				if (UpdateFrameRates)
@@ -666,7 +702,7 @@ namespace RenderHeads.Media.AVProLiveCamera
 			return result;
 		}
 
-		public AVProLiveCameraDeviceMode GetClosestMode(int width, int height, bool maintainAspectRatio, bool anyPixelFormat, bool transparentPixelFormat, AVProLiveCameraPlugin.VideoFrameFormat pixelFormat)
+		public AVProLiveCameraDeviceMode GetClosestMode(int width, int height, bool maintainAspectRatio, float frameRate, bool anyPixelFormat, bool transparentPixelFormat, AVProLiveCameraPlugin.VideoFrameFormat pixelFormat)
 		{
 			AVProLiveCameraDeviceMode result = null;
 
@@ -741,55 +777,60 @@ namespace RenderHeads.Media.AVProLiveCamera
 				}
 				else
 				{
-					/*bool findHighestFrameRate = (frameRate <= 0f);
-					if (findHighestFrameRate)
+					// If the pixel format isn't a concern, then make sure to filter the frame rates
+					if (anyPixelFormat)
 					{
-						float highestFps = 0f;
-						for (int i = 0; i < bestModes.Count; i++)
+						bool findHighestFrameRate = (frameRate <= 0f);
+						if (findHighestFrameRate)
 						{
-							AVProLiveCameraDeviceMode mode = bestModes[i];
-							if (mode.FPS > highestFps)
+							float highestFps = 0f;
+							for (int i = 0; i < bestModes.Count; i++)
 							{
-								highestFps = mode.FPS;
+								AVProLiveCameraDeviceMode mode = bestModes[i];
+								if (mode.HighestFrameRate() > highestFps)
+								{
+									highestFps = mode.HighestFrameRate();
+								}
+							}
+							// Remove modes that didn't have the higest fps
+							for (int i = 0; i < bestModes.Count; i++)
+							{
+								AVProLiveCameraDeviceMode mode = bestModes[i];
+								if (mode.FPS < highestFps)
+								{
+									bestModes.RemoveAt(i);
+									i = -1;
+								}
 							}
 						}
-						// Remove modes that didn't have the higest fps
-						for (int i = 0; i < bestModes.Count; i++)
+						else
 						{
-							AVProLiveCameraDeviceMode mode = bestModes[i];
-							if (mode.FPS < highestFps)
+							float lowestDelta = 1000f;
+							float closestFps = 0f;
+							// Find the closest FPS
+							for (int i = 0; i < bestModes.Count; i++)
 							{
-								bestModes.RemoveAt(i);
-								i = -1;
+								AVProLiveCameraDeviceMode mode = bestModes[i];
+								float fps = mode.GetClosestFrameRate(frameRate);
+								float d = Mathf.Abs(fps - frameRate);
+								if (d < lowestDelta)
+								{
+									closestFps = fps;
+									lowestDelta = d;
+								}
+							}
+							// Remove modes that have a different frameRate
+							for (int i = 0; i < bestModes.Count; i++)
+							{
+								AVProLiveCameraDeviceMode mode = bestModes[i];
+								if (!mode.HasFrameRate(closestFps))
+								{
+									bestModes.RemoveAt(i);
+									i = -1;
+								}
 							}
 						}
 					}
-					else
-					{
-						float lowestDelta = 1000f;
-						float closestFps = 0f;
-						// Find the closest FPS
-						for (int i = 0; i < bestModes.Count; i++)
-						{
-							AVProLiveCameraDeviceMode mode = bestModes[i];
-							float d = Mathf.Abs(mode.FPS - frameRate);
-							if (d < lowestDelta)
-							{
-								closestFps = mode.FPS;
-								lowestDelta = d;
-							}
-						}
-						// Remove modes that have a different frameRate
-						for (int i = 0; i < bestModes.Count; i++)
-						{
-							AVProLiveCameraDeviceMode mode = bestModes[i];
-							if (mode.FPS != closestFps)
-							{
-								bestModes.RemoveAt(i);
-								i = -1;
-							}
-						}
-					}*/
 
 					if (result == null)
 					{
