@@ -48,8 +48,6 @@ public class SettingsGUI : MonoBehaviour
 
         _serialControlToggle.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetSerialControlComputer(_serialControlToggle.isOn); });
         
-        _timelineDropdown.onValueChanged.AddListener(delegate(int val) { StatusManager.instance.SetInstructionsTimeline(val); });
-        
         _resetYawButton.onClick.AddListener(delegate { VideoFeed.instance.RecenterPose(); });
         
         _exposureSlider.onValueChanged.AddListener(delegate(float value)

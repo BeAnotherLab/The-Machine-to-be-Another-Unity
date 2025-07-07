@@ -220,14 +220,6 @@ public abstract class StatusManager : MonoBehaviour
         Debug.Log("this user removed his headset", DLogType.Input);
     }
 
-    public void SetInstructionsTimeline(int index) //TODO remove?
-    {
-        if (index == 0)
-            instructionsTimeline = _shortTimeline;
-        else if (index == 1)
-            instructionsTimeline = _longTimeline;
-    }
-
     public void SelfStateChanged(UserState newState) //TODO move to own state changes events class
     {
         if (newState == UserState.headsetOff) SelfRemovedHeadset();
