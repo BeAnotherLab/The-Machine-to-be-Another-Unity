@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using RockVR.Video;
 using UnityEngine.Serialization;
 
 public class VideoFeed : MonoBehaviour //TODO turn to manager
@@ -100,16 +99,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
 
     #region Public Methods
-
-    public void IsEditingText(bool editing)
-    {    
-        _editing = editing;
-    }
-    
-    public void CancelTweens()
-    {
-        LeanTween.cancelAll();
-    }
     
     public void FlipHorizontal()
     {
@@ -168,12 +157,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     public void SwitchHeadtracking() //Use to map the pitch and yaw sliders to headtracking or not
     {
         useHeadTracking = !useHeadTracking;
-    }
-
-    public void ShowLiveFeed(bool show)
-    {
-        if (targetTransform != null) targetTransform.GetComponent<MeshRenderer>().enabled = show;
-        _videoPlaybackMeshRenderer.enabled = !show;
     }
     
     public IEnumerator StartupDim()
