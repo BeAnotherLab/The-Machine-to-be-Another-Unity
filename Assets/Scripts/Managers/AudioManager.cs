@@ -35,11 +35,13 @@ public class AudioManager : MonoBehaviour {
     private void OnEnable()
     {
         StatusManager.StopAudiosInstructions += StopAudioInstructions;
+        OscManager.ReceivedAudioButtonPressed += PlaySound;
     }
 
     private void OnDisable()
     {
         StatusManager.StopAudiosInstructions -= StopAudioInstructions;
+        OscManager.ReceivedAudioButtonPressed -= PlaySound;
     }
 
     private void Awake()

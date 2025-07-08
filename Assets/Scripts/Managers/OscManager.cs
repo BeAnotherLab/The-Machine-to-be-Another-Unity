@@ -20,6 +20,14 @@ public class OscManager : MonoBehaviour {
     public delegate void OtherStatus();
     public static OtherStatus OnOtherStatus;
     
+    //public delegate void ReceiveCalibrate 
+    //public delegate void ReceiveDimOn 
+    //public delegate void ReceiveDimOff 
+    //public delegate void ReceiveBtn 
+    
+    public delegate void OnReceivedAudioButtonPressed(int i);
+    public static OnReceivedAudioButtonPressed ReceivedAudioButtonPressed;
+    
     #endregion
 
     #region Private Fields
@@ -168,7 +176,7 @@ public class OscManager : MonoBehaviour {
         {
             if (value == 1f) {
                 for (int i = 0; i < 11; i++)
-                    if (message.Address == "/btn" + i) AudioManager.instance.GetComponent<AudioManager>().PlaySound(i);
+                    if (message.Address == "/btn" + i) ReceivedAudioButtonPressed(i);
             }
         }
         
