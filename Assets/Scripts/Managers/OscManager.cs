@@ -27,27 +27,31 @@ public class OscManager : MonoBehaviour {
     
     public delegate void OnReceivedAudioButtonPressed(int i);
     public static OnReceivedAudioButtonPressed ReceivedAudioButtonPressed;
+
+    public delegate void OnReceiveRecenterPose();
+    public static OnReceiveRecenterPose ReceiveRecenterPose;
+
+    
+    public UserStateVariable previousOtherState;
+    public UserStateVariable otherState;
+    public UserStateGameEvent otherStateGameEvent;
     
     #endregion
 
     #region Private Fields
 
-    public UserStateVariable previousOtherState;
-    public UserStateVariable otherState;
-    public UserStateGameEvent otherStateGameEvent;
     
-    private Camera _mainCamera;
-
-    private OSCTransmitter _oscTransmitter;
+    [SerializeField] private BoolGameEvent _dimGameEvent;
     [SerializeField] private OSCTransmitter _videoRecordingOSCTransmitter;
+    [SerializeField] private BoolVariable _sendRecordingCommand;
+    [SerializeField] private BoolGameEvent _curtainOnGameEvent;
+
     private OSCReceiver _oscReceiver;
     
     private bool _repeater;
     private bool _serialStatusOKReceived;
     private bool _sendHeadTracking;
-
-    [SerializeField] private BoolVariable _sendRecordingCommand;
-    [SerializeField] private BoolGameEvent _curtainOnGameEvent;
+    private OSCTransmitter _oscTransmitter;
     
     #endregion
 
@@ -56,8 +60,6 @@ public class OscManager : MonoBehaviour {
     private void Awake()
     {
         if (instance == null) instance = this;
-
-        _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         
         _oscReceiver = GetComponent<OSCReceiver>();
         _oscTransmitter = GetComponent<OSCTransmitter>();
@@ -146,7 +148,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) VideoFeed.instance.RecenterPose();
+            if (value == 1f) ReceiveRecenterPose();
 
         if (_repeater) _oscTransmitter.Send(message);
     }
@@ -155,7 +157,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) VideoFeed.instance.Dim(true);
+            if (value == 1f) _dimGameEvent.Raise(true);
 
         if (_repeater) _oscTransmitter.Send(message);
     }
@@ -164,7 +166,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) VideoFeed.instance.Dim(false);
+            if (value == 1f) _dimGameEvent.Raise(false);
 
         if (_repeater) _oscTransmitter.Send(message);
     }

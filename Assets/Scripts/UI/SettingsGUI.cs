@@ -12,6 +12,15 @@ public class SettingsGUI : MonoBehaviour
 
     public delegate void OnExposureValueChanged(int value);
     public static OnExposureValueChanged ExposureValueChanged;
+
+    public delegate void OnToggleDim();
+    public static OnToggleDim ToggleDim;
+
+    public delegate void OnRotateCamera();
+    public static OnRotateCamera RotateCamera;
+
+    public delegate void OnRecenterPose();
+    public static OnRecenterPose RecenterPose;
     
     #endregion
 
@@ -46,7 +55,7 @@ public class SettingsGUI : MonoBehaviour
 
     private void Awake()
     {
-        _dimButton.onClick.AddListener(delegate { VideoFeed.instance.ToggleDim(); });
+        _dimButton.onClick.AddListener(delegate { ToggleDim(); });
         
         _cameraSettingsButton.onClick.AddListener(delegate { VideoCameraManager.instance.ShowCameraConfigWindow(); });
         
@@ -54,7 +63,7 @@ public class SettingsGUI : MonoBehaviour
 
         _serialControlToggle.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetSerialControlComputer(_serialControlToggle.isOn); });
         
-        _resetYawButton.onClick.AddListener(delegate { VideoFeed.instance.RecenterPose(); });
+        _resetYawButton.onClick.AddListener(delegate { RecenterPose(); });
         
         _exposureSlider.onValueChanged.AddListener(delegate(float value)
         {
@@ -63,7 +72,7 @@ public class SettingsGUI : MonoBehaviour
             _exposureText.text = "Exposure : " + value;
         });
         
-        _rotateCameraButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
+        _rotateCameraButton.onClick.AddListener(delegate { RotateCamera(); });
     }
 
     // Use this for initialization

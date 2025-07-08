@@ -17,8 +17,6 @@ public abstract class StatusManager : MonoBehaviour
 
     public static StatusManager instance; //TODO remove
 
-    public bool presenceDetection; //TODD check if still necessary
-    
     public UserStateVariable previousOtherState;
     public UserStateVariable otherState;
     
@@ -36,7 +34,8 @@ public abstract class StatusManager : MonoBehaviour
     #endregion
     
     #region Protected Fields
-    
+
+    [SerializeField] private BoolGameEvent _dimGameEvent;
     [SerializeField] protected PlayableDirector _shortTimeline; //TODO shouldn't be in abstract status manager 
     [SerializeField] protected PlayableDirector _longTimeline; //TODO shouldn't be in abstract status manager
     [SerializeField] protected GameObject _languageButtons;
@@ -113,7 +112,7 @@ public abstract class StatusManager : MonoBehaviour
     public void StartExperience() //TODO remove?
     {
         _showInstructionsTextGameEvent.Raise(false);
-        if (_dimOutOnExperienceStart) VideoFeed.instance.Dim(false);
+        if (_dimOutOnExperienceStart) _dimGameEvent.Raise(false);
         else instructionsTimeline.Stop();
         _experienceStartedGameEvent.Raise();
         Debug.Log("experience started");
@@ -121,7 +120,7 @@ public abstract class StatusManager : MonoBehaviour
     
     public void SerialFailure() //if something went wrong with the physical installation
     {
-        VideoFeed.instance.Dim(true);
+        _dimGameEvent.Raise(true);
         StopAudiosInstructions(); 
         _setInstructionsTextGameEvent.Raise("systemFailure");
         instructionsTimeline.Stop();
@@ -195,7 +194,7 @@ public abstract class StatusManager : MonoBehaviour
     public void Standby(bool start = false, bool dimOutOnExperienceStart = true)
     {
         Debug.Log("Standby");
-        if (!start) VideoFeed.instance.Dim(true); //TODO somehow this messes with Video Feed dimming when called on Start?
+        if (!start) _dimGameEvent.Raise(true);; //TODO somehow this messes with Video Feed dimming when called on Start?
         _setInstructionsTextGameEvent.Raise("idle");
 
         instructionsTimeline.Stop();
@@ -210,7 +209,7 @@ public abstract class StatusManager : MonoBehaviour
 
         Debug.Log("ready to start");
         
-        VideoFeed.instance.Dim(true); //TODO use events instead of static reference
+        _dimGameEvent.Raise(true); //TODO this is called twice?
 
         _dimOutOnExperienceStart = dimOutOnExperienceStart;
         Debug.Log("setting dimOutOnExperienceStat to " + _dimOutOnExperienceStart);
@@ -259,7 +258,7 @@ public abstract class StatusManager : MonoBehaviour
 
     protected void IsOver() //called at the the end of the experience
     {
-        VideoFeed.instance.Dim(true);
+        _dimGameEvent.Raise(true);
         //InstructionsTextBehavior.instance.ShowTextFromKey("finished");
         instructionsTimeline.Stop();
         Debug.Log("experience finished");
