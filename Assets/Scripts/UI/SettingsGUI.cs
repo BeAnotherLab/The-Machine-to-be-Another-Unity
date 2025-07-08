@@ -1,13 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using extOSC;
+using ScriptableObjectArchitecture;
+using UnityEngine.Serialization;
 
 public class SettingsGUI : MonoBehaviour
 {
     #region Public fields
 
-    public static SettingsGUI instance;
     public delegate void OnExposureValueChanged(int value);
     public static OnExposureValueChanged ExposureValueChanged;
     
@@ -15,7 +17,6 @@ public class SettingsGUI : MonoBehaviour
 
     #region Private Fields
 
-    [SerializeField] private Dropdown _timelineDropdown;
     [SerializeField] private GameObject _panel;
     [SerializeField] private IPInputField _ipInputField;
     [SerializeField] private Toggle _serialControlToggle;
@@ -29,17 +30,22 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private Text _exposureText;
     [SerializeField] private Toggle _repeaterToggle;
     
-    private bool _oculusGuiEnabled;
-    private float _deltaTime = 0.0f;
- 
     #endregion
 
     #region MonoBehaviour Methods
 
+    private void OnEnable()
+    {
+        SwapModeManager.SwapModeChanged += SetSwapMode;
+    }
+
+    private void OnDisable()
+    {
+        SwapModeManager.SwapModeChanged += SetSwapMode;
+    }
+
     private void Awake()
     {
-        if (instance == null) instance = this;
-        
         _dimButton.onClick.AddListener(delegate { VideoFeed.instance.ToggleDim(); });
         
         _cameraSettingsButton.onClick.AddListener(delegate { VideoCameraManager.instance.ShowCameraConfigWindow(); });
@@ -85,13 +91,11 @@ public class SettingsGUI : MonoBehaviour
 
     #region Public Methods
 
-    public void SetSwapMode(bool withArduino = false) 
+    
+    public void SetSwapMode(SwapModes mode) 
     {
-        _serialControlToggle.gameObject.SetActive(withArduino);
-        
-        //show two way swap related networking GUI
-        _repeaterToggle.gameObject.SetActive(true);
-        _ipInputField.gameObject.SetActive(true);
+        //enable/disable serial control toggle depending on if we're using a curtain
+        _serialControlToggle.gameObject.SetActive(mode != SwapModes.MANUAL_SWAP); 
     }
 
     public void ToggleDebugDisplayGUI()

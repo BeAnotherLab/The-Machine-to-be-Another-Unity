@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class SwapControlGUI : MonoBehaviour
+public class SwapControlGUI : MonoBehaviour 
 {
     [SerializeField] private StringGameEvent _languagechangedEvent;
     [SerializeField] private IntGameEvent _buttonPressedEvent;
@@ -52,9 +52,9 @@ public class SwapControlGUI : MonoBehaviour
         _languagechangedEvent.Raise(language);
     }
     
-    private void SwapModeChanged(SwapModeManager.SwapModes swapMode)
+    private void SwapModeChanged(SwapModes swapMode)
     {
-        if (swapMode == SwapModeManager.SwapModes.CURTAIN_MANUAL_SWAP && 
+        if (swapMode == SwapModes.CURTAIN_MANUAL_SWAP && 
             PlayerPrefs.GetInt("repeater") == 1 &&
             PlayerPrefs.GetInt("serialControlOn") == 1) 
         {

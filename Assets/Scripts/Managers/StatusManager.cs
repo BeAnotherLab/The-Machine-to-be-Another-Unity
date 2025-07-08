@@ -71,7 +71,7 @@ public abstract class StatusManager : MonoBehaviour
 
     protected void Start()
     {
-        if (SwapModeManager.instance.ArduinoControl) _setInstructionsTextGameEvent.Raise("waitForSerserial"); 
+        //if (SwapModeManager.instance.ArduinoControl) _setInstructionsTextGameEvent.Raise("waitForSerserial"); 
 
         selfState.Value = UserState.headsetOff;
         otherState.Value = UserState.headsetOff;
