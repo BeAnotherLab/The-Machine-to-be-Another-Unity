@@ -19,6 +19,9 @@ public class ArduinoManager : MonoBehaviour
     
     #region Private Fields
 
+    public delegate void OnSerialFailure();
+    public static OnSerialFailure SerialFailure;
+    
     [SerializeField] private int _timeOut;
 
     [SerializeField] private bool _curtainOffOnStandby = true;
@@ -59,11 +62,6 @@ public class ArduinoManager : MonoBehaviour
         }
     }
 
-    public void DisableSerial()
-    {
-        _serialControlOn = false;
-    }
-
     public void WallOn(bool on)
     {
         if (on) SendCommand("wallOn" );
@@ -101,7 +99,7 @@ public class ArduinoManager : MonoBehaviour
         if (data == "MD_FAULT" || data == "MD_BLOCK")
         {
             Debug.Log("ERROR : " + data, DLogType.Error);
-            StatusManager.instance.SerialFailure();
+            SerialFailure();
         }
         else if (data == "TIMEOUT") Debug.Log("ERROR : " + data, DLogType.Error);
         else if (data == "sysReady") Debug.Log("homing done, ready to start");            

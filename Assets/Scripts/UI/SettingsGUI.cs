@@ -41,7 +41,7 @@ public class SettingsGUI : MonoBehaviour
 
     private void OnDisable()
     {
-        SwapModeManager.SwapModeChanged += SetSwapMode;
+        SwapModeManager.SwapModeChanged -= SetSwapMode;
     }
 
     private void Awake()

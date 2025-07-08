@@ -58,10 +58,18 @@ public abstract class StatusManager : MonoBehaviour
 
     #region Monobehaviour Methods
 
-    protected void Awake()
+    private void OnEnable()
     {
-        if (instance == null) instance = this;
+        ArduinoManager.SerialFailure += SerialFailure;
+    }
 
+    private void OnDisable()
+    {
+        ArduinoManager.SerialFailure -= SerialFailure;
+    }
+
+    private void Awake()
+    {
         _confirmationMenu = GameObject.Find("ConfirmationMenu"); //TOOD don't use references like that
         UduinoManager.Instance.OnBoardDisconnectedEvent.AddListener(delegate {
             //SerialFailure(); //TODO wait for a few seconds for reconnection instead of going staight to failure
