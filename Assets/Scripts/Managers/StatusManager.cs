@@ -29,6 +29,9 @@ public abstract class StatusManager : MonoBehaviour
     public UserStateGameEvent otherStateGameEvent;
     
     public PlayableDirector instructionsTimeline;
+
+    public delegate void OnStopAllAudios();
+    public static OnStopAllAudios StopAudiosInstructions;
     
     #endregion
     
@@ -119,7 +122,7 @@ public abstract class StatusManager : MonoBehaviour
     public void SerialFailure() //if something went wrong with the physical installation
     {
         VideoFeed.instance.Dim(true);
-        AudioManager.instance.StopAudioInstructions();    
+        StopAudiosInstructions(); 
         _setInstructionsTextGameEvent.Raise("systemFailure");
         instructionsTimeline.Stop();
         _experienceRunning = false;

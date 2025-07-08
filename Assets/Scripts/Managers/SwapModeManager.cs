@@ -41,7 +41,6 @@ public class SwapModeManager : MonoBehaviour
                 
                 StatusManager.instance.Standby(true, false); //go to initial state
                 OscManager.instance.EnableRepeater(true); //enable OSC repeat
-                AudioManager.instance.StopAudioInstructions(); //stop auto swap instructions audio
 
                 break;
                 
@@ -49,7 +48,6 @@ public class SwapModeManager : MonoBehaviour
                 
                 StatusManager.instance.Standby(true, false); //go to initial state
                 OscManager.instance.EnableRepeater(true); //enable OSC repeat
-                AudioManager.instance.StopAudioInstructions(); //stop auto swap instructions audio
 
                 break;
         }

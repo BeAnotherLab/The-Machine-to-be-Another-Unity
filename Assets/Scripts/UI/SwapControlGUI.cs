@@ -6,12 +6,15 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class SwapControlGUI : MonoBehaviour 
+public class SwapControlGUI : MonoBehaviour  
 {
+    public delegate void OnAudioButtonPressed(int i);
+    public static OnAudioButtonPressed AudioButtonPressed;
+    
     [SerializeField] private StringGameEvent _languagechangedEvent;
     [SerializeField] private IntGameEvent _buttonPressedEvent;
     [SerializeField] private BoolGameEvent _dimButtonPressedEvent;
-    [FormerlySerializedAs("_calibratebuttonPressedEvent")] [SerializeField] private GameEvent _CalibratebuttonPressedEvent;
+    [SerializeField] private GameEvent _calibratebuttonPressedEvent;
     [SerializeField] private GameObject _controlPanel;
 
     private Button _audioButtons;
@@ -28,7 +31,7 @@ public class SwapControlGUI : MonoBehaviour
 
     public void ButtonPressed(int id)
     {
-        AudioManager.instance.PlaySound(id);
+        AudioButtonPressed(id); //TODO remove redundancy with repeater underneath?
         if (PlayerPrefs.GetInt("repeater", 0) == 1)
             _buttonPressedEvent.Raise(id);
     }
@@ -37,7 +40,7 @@ public class SwapControlGUI : MonoBehaviour
     {
         VideoFeed.instance.RecenterPose(); 
         if (PlayerPrefs.GetInt("repeater", 0) == 1)
-            _CalibratebuttonPressedEvent.Raise();
+            _calibratebuttonPressedEvent.Raise();
     }
 
     public void DimButtonPressed(bool dimOn)
