@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using RenderHeads.Media.AVProLiveCamera;
 using RenderHeads.Media.AVProLiveCamera.Demos;
-using Unity.VideoHelper;
 using UnityEngine;
 using UnityEngine.UI;
 
