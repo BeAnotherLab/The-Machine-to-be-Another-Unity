@@ -39,7 +39,6 @@ public class OscManager : MonoBehaviour {
     private bool _sendHeadTracking;
 
     [SerializeField] private BoolVariable _sendRecordingCommand;
-    [SerializeField] private ResponseData _responseData;
     [SerializeField] private BoolGameEvent _curtainOnGameEvent;
     
     #endregion
@@ -128,7 +127,6 @@ public class OscManager : MonoBehaviour {
         {
             Debug.Log("sending video recording start ", DLogType.Network);
             OSCMessage message = new OSCMessage("/name");
-            message.AddValue(OSCValue.String(_responseData.pairID));
             _videoRecordingOSCTransmitter.Send(message); //            
         }
     }

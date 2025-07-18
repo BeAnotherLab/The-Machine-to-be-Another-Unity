@@ -5,7 +5,9 @@ using UnityEngine.SceneManagement;
 using VRStandardAssets.Utils;
 using UnityEngine.XR;
 using ScriptableObjectArchitecture;
-namespace VRStandardAssets.Menu
+using UnityEngine.Serialization;
+
+namespace VRStandardAssets.Menu //TODO move to own namespace?
 {
     // This script is for loading scenes from the main menu.
     // Each 'button' will be a rendering showing the scene
@@ -21,6 +23,8 @@ namespace VRStandardAssets.Menu
         [SerializeField] private StringGameEvent _languageChangeEvent;
 
         [SerializeField] private string _language;
+        
+        [SerializeField] private UserStateVariable _selfState;
 
         private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
 
@@ -48,7 +52,7 @@ namespace VRStandardAssets.Menu
         private void HandleOver()
         {
             // When the user looks at the rendering of the scene, show the radial.
-            if (XRDevice.userPresence == UserPresenceState.Present)
+            if (_selfState.Value == UserState.headsetOn)
             {
                 _showSelectionRadialEvent.Raise(true);
                 LeanTween.scale(gameObject, _scaleOn, 0.45f).setEaseOutBounce();

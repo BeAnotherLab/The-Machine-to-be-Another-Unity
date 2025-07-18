@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum UserState { headsetOff, headsetOn, readyToStart, questionnaire }
+public enum UserState { headsetOff, headsetOn, readyToStart }
 
 public static class UserStateOperations
 {
