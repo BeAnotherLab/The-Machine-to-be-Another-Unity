@@ -13,6 +13,9 @@ public class SettingsGUI : MonoBehaviour
     public delegate void OnExposureValueChanged(int value);
     public static OnExposureValueChanged ExposureValueChanged;
     
+    public delegate void OnRecenterPose();
+    public static OnRecenterPose RecenterPose;
+
     #endregion
 
     #region Private Fields
@@ -54,7 +57,7 @@ public class SettingsGUI : MonoBehaviour
 
         _serialControlToggle.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetSerialControlComputer(_serialControlToggle.isOn); });
         
-        _resetYawButton.onClick.AddListener(delegate { VideoFeed.instance.RecenterPose(); });
+        _resetYawButton.onClick.AddListener(delegate { RecenterPose(); });
         
         _exposureSlider.onValueChanged.AddListener(delegate(float value)
         {
