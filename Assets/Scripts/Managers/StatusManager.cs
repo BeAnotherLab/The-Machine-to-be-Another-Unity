@@ -32,6 +32,9 @@ public abstract class StatusManager : MonoBehaviour
     public delegate void OnSendThisUserStatus(UserState state);
     public static OnSendThisUserStatus SendThisUserStatus;
     
+    public delegate void OnSendArduinoCommand(string command);
+    public static OnSendArduinoCommand SendArduinoCommand;
+    
     #endregion
     
     #region Protected Fields
@@ -75,15 +78,14 @@ public abstract class StatusManager : MonoBehaviour
     {
         _confirmationMenu = GameObject.Find("ConfirmationMenu"); //TOOD don't use references like that
         UduinoManager.Instance.OnBoardDisconnectedEvent.AddListener(delegate {
-            //SerialFailure(); //TODO wait for a few seconds for reconnection instead of going staight to failure
+            SerialFailure(); //TODO wait for a few seconds for reconnection instead of going staight to failure
         });
         instructionsTimeline = _longTimeline; //use short experience by default
     }
 
     protected void Start()
     {
-        //if (SwapModeManager.instance.ArduinoControl) _setInstructionsTextGameEvent.Raise("waitForSerserial"); 
-
+        _setInstructionsTextGameEvent.Raise("waitForSerserial"); 
         selfState.Value = UserState.headsetOff;
         otherState.Value = UserState.headsetOff;
     }
@@ -132,7 +134,7 @@ public abstract class StatusManager : MonoBehaviour
 
     public void MirrorOn()
     {
-        //ArduinoManager.instance.SendCommand("mir_on");
+        SendArduinoCommand("mir_on"); 
         Debug.Log("mirrors on");
     }
 
@@ -145,7 +147,7 @@ public abstract class StatusManager : MonoBehaviour
     public void WallOn() //TODO rename
     {
         _curtainOnEvent.Raise(false);
-        //ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
+        SendArduinoCommand("mir_off"); //hide mirror
         Debug.Log("wall off");
     }
 
