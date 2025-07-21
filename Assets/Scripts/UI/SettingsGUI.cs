@@ -18,9 +18,6 @@ public class SettingsGUI : MonoBehaviour
 
     public delegate void OnRotateCamera();
     public static OnRotateCamera RotateCamera;
-
-    public delegate void OnRecenterPose();
-    public static OnRecenterPose RecenterPose;
     
     public delegate void OnSetRepeater(bool on);
     public static OnSetRepeater SetRepeater;
@@ -30,8 +27,6 @@ public class SettingsGUI : MonoBehaviour
     
     public delegate void OnDebugMenuPressed();
     public static OnDebugMenuPressed DebugMenuPressed;
-    
-    
     
     public delegate void OnRecenterPose();
     public static OnRecenterPose RecenterPose;
