@@ -33,7 +33,6 @@ public class OscManager : MonoBehaviour {
 
     #region Private Fields
 
-    
     [SerializeField] private BoolGameEvent _dimGameEvent;
     [SerializeField] private BoolGameEvent _curtainOnGameEvent;
 

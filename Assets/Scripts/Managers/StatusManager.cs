@@ -15,8 +15,6 @@ public abstract class StatusManager : MonoBehaviour
 {
     #region Public Fields
 
-    public static StatusManager instance; //TODO remove
-
     public UserStateVariable previousOtherState;
     public UserStateVariable otherState;
     

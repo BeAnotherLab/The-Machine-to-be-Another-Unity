@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 public class VideoFeed : MonoBehaviour //TODO turn to manager
 {
     #region Public Fields
-
+    
   
     [HideInInspector]
     public Quaternion otherPose; //TODO remove
