@@ -15,10 +15,6 @@ public abstract class StatusManager : MonoBehaviour
 {
     #region Public Fields
 
-    public static StatusManager instance; //TODO remove
-
-    public bool presenceDetection; //TODD check if still necessary
-    
     public UserStateVariable previousOtherState;
     public UserStateVariable otherState;
     
@@ -29,11 +25,21 @@ public abstract class StatusManager : MonoBehaviour
     public UserStateGameEvent otherStateGameEvent;
     
     public PlayableDirector instructionsTimeline;
+
+    public delegate void OnStopAllAudios();
+    public static OnStopAllAudios StopAudiosInstructions;
+
+    public delegate void OnSendThisUserStatus(UserState state);
+    public static OnSendThisUserStatus SendThisUserStatus;
+    
+    public delegate void OnSendArduinoCommand(string command);
+    public static OnSendArduinoCommand SendArduinoCommand;
     
     #endregion
     
     #region Protected Fields
-    
+
+    [SerializeField] private BoolGameEvent _dimGameEvent;
     [SerializeField] protected PlayableDirector _shortTimeline; //TODO shouldn't be in abstract status manager 
     [SerializeField] protected PlayableDirector _longTimeline; //TODO shouldn't be in abstract status manager
     [SerializeField] protected GameObject _languageButtons;
@@ -58,21 +64,28 @@ public abstract class StatusManager : MonoBehaviour
 
     #region Monobehaviour Methods
 
-    protected void Awake()
+    private void OnEnable()
     {
-        if (instance == null) instance = this;
+        ArduinoManager.SerialFailure += SerialFailure;
+    }
 
+    private void OnDisable()
+    {
+        ArduinoManager.SerialFailure -= SerialFailure;
+    }
+
+    private void Awake()
+    {
         _confirmationMenu = GameObject.Find("ConfirmationMenu"); //TOOD don't use references like that
         UduinoManager.Instance.OnBoardDisconnectedEvent.AddListener(delegate {
-            //SerialFailure(); //TODO wait for a few seconds for reconnection instead of going staight to failure
+            SerialFailure(); //TODO wait for a few seconds for reconnection instead of going staight to failure
         });
         instructionsTimeline = _longTimeline; //use short experience by default
     }
 
     protected void Start()
     {
-        //if (SwapModeManager.instance.ArduinoControl) _setInstructionsTextGameEvent.Raise("waitForSerserial"); 
-
+        _setInstructionsTextGameEvent.Raise("waitForSerserial"); 
         selfState.Value = UserState.headsetOff;
         otherState.Value = UserState.headsetOff;
     }
@@ -102,7 +115,7 @@ public abstract class StatusManager : MonoBehaviour
     public void StartExperience() //TODO remove?
     {
         _showInstructionsTextGameEvent.Raise(false);
-        if (_dimOutOnExperienceStart) VideoFeed.instance.Dim(false);
+        if (_dimOutOnExperienceStart) _dimGameEvent.Raise(false);
         else instructionsTimeline.Stop();
         _experienceStartedGameEvent.Raise();
         Debug.Log("experience started");
@@ -110,8 +123,8 @@ public abstract class StatusManager : MonoBehaviour
     
     public void SerialFailure() //if something went wrong with the physical installation
     {
-        VideoFeed.instance.Dim(true);
-        AudioManager.instance.StopAudioInstructions();    
+        _dimGameEvent.Raise(true);
+        StopAudiosInstructions(); 
         _setInstructionsTextGameEvent.Raise("systemFailure");
         instructionsTimeline.Stop();
         _experienceRunning = false;
@@ -121,7 +134,7 @@ public abstract class StatusManager : MonoBehaviour
 
     public void MirrorOn()
     {
-        //ArduinoManager.instance.SendCommand("mir_on");
+        SendArduinoCommand("mir_on"); 
         Debug.Log("mirrors on");
     }
 
@@ -134,13 +147,13 @@ public abstract class StatusManager : MonoBehaviour
     public void WallOn() //TODO rename
     {
         _curtainOnEvent.Raise(false);
-        //ArduinoManager.instance.SendCommand("mir_off"); //hide mirror
+        SendArduinoCommand("mir_off"); //hide mirror
         Debug.Log("wall off");
     }
 
     protected void ThisUserIsReady() //called when user has aimed at the confirmation dialog and waited through the countdown.
     {
-        OscManager.instance.SendThisUserStatus(UserState.readyToStart);
+        SendThisUserStatus(UserState.readyToStart);
         _languageButtons.gameObject.SetActive(false); //hide language buttons;
         _setInstructionsTextGameEvent.Raise("waitForOther");
         Debug.Log("this user is ready", DLogType.Input);
@@ -154,7 +167,7 @@ public abstract class StatusManager : MonoBehaviour
     public void SelfPutHeadsetOn()
     {
         _setInstructionsTextGameEvent.Raise("idle");
-        OscManager.instance.SendThisUserStatus(UserState.headsetOn);
+        SendThisUserStatus(UserState.headsetOn);
         Debug.Log("this user put on the headset", DLogType.Input);
     }
 
@@ -184,13 +197,13 @@ public abstract class StatusManager : MonoBehaviour
     public void Standby(bool start = false, bool dimOutOnExperienceStart = true)
     {
         Debug.Log("Standby");
-        if (!start) VideoFeed.instance.Dim(true); //TODO somehow this messes with Video Feed dimming when called on Start?
+        if (!start) _dimGameEvent.Raise(true);; //TODO somehow this messes with Video Feed dimming when called on Start?
         _setInstructionsTextGameEvent.Raise("idle");
 
         instructionsTimeline.Stop();
         _experienceRunning = false;
-        
-        AudioManager.instance.StopAudioInstructions();
+
+        StopAudiosInstructions();
 
         InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeInText(); //TODO use events instead of static reference
         InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeOutImages();  //TODO use events instead of static reference
@@ -199,7 +212,7 @@ public abstract class StatusManager : MonoBehaviour
 
         Debug.Log("ready to start");
         
-        VideoFeed.instance.Dim(true); //TODO use events instead of static reference
+        _dimGameEvent.Raise(true); //TODO this is called twice?
 
         _dimOutOnExperienceStart = dimOutOnExperienceStart;
         Debug.Log("setting dimOutOnExperienceStat to " + _dimOutOnExperienceStart);
@@ -215,7 +228,7 @@ public abstract class StatusManager : MonoBehaviour
             Standby(false, _dimOutOnExperienceStart); //if we were ready and we took off the headset go to initial state
         }
         
-        OscManager.instance.SendThisUserStatus(selfState); //TODO use events instead
+        SendThisUserStatus(selfState); //TODO use events instead
         Debug.Log("this user removed his headset", DLogType.Input);
     }
 
@@ -248,7 +261,7 @@ public abstract class StatusManager : MonoBehaviour
 
     protected void IsOver() //called at the the end of the experience
     {
-        VideoFeed.instance.Dim(true);
+        _dimGameEvent.Raise(true);
         //InstructionsTextBehavior.instance.ShowTextFromKey("finished");
         instructionsTimeline.Stop();
         Debug.Log("experience finished");

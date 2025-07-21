@@ -12,6 +12,26 @@ public class SettingsGUI : MonoBehaviour
 
     public delegate void OnExposureValueChanged(int value);
     public static OnExposureValueChanged ExposureValueChanged;
+
+    public delegate void OnToggleDim();
+    public static OnToggleDim ToggleDim;
+
+    public delegate void OnRotateCamera();
+    public static OnRotateCamera RotateCamera;
+
+    public delegate void OnRecenterPose();
+    public static OnRecenterPose RecenterPose;
+    
+    public delegate void OnSetRepeater(bool on);
+    public static OnSetRepeater SetRepeater;
+    
+    public delegate void OnSetSerialControl(bool on);
+    public static OnSetSerialControl SetSerialControl;
+    
+    public delegate void OnDebugMenuPressed();
+    public static OnDebugMenuPressed DebugMenuPressed;
+    
+    
     
     public delegate void OnRecenterPose();
     public static OnRecenterPose RecenterPose;
@@ -29,6 +49,7 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private Button _dimButton;
     [SerializeField] private Button _rotateCameraButton;
     [SerializeField] private Button _resetYawButton;
+    [SerializeField] private Button _debugUIButton;
     [SerializeField] private Slider _exposureSlider;
     [SerializeField] private Text _exposureText;
     [SerializeField] private Toggle _repeaterToggle;
@@ -44,21 +65,17 @@ public class SettingsGUI : MonoBehaviour
 
     private void OnDisable()
     {
-        SwapModeManager.SwapModeChanged += SetSwapMode;
+        SwapModeManager.SwapModeChanged -= SetSwapMode;
     }
 
     private void Awake()
     {
-        _dimButton.onClick.AddListener(delegate { VideoFeed.instance.ToggleDim(); });
-        
+        _dimButton.onClick.AddListener(delegate { ToggleDim(); });
         _cameraSettingsButton.onClick.AddListener(delegate { VideoCameraManager.instance.ShowCameraConfigWindow(); });
-        
-        _repeaterToggle.onValueChanged.AddListener(delegate { OscManager.instance.SetRepeater(_repeaterToggle.isOn); });
-
-        _serialControlToggle.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetSerialControlComputer(_serialControlToggle.isOn); });
-        
+        _repeaterToggle.onValueChanged.AddListener(delegate { SetRepeater(_repeaterToggle.isOn); });
+        _serialControlToggle.onValueChanged.AddListener(delegate { SetSerialControl(_serialControlToggle.isOn); });
         _resetYawButton.onClick.AddListener(delegate { RecenterPose(); });
-        
+
         _exposureSlider.onValueChanged.AddListener(delegate(float value)
         {
             ExposureValueChanged((int) value);
@@ -66,7 +83,8 @@ public class SettingsGUI : MonoBehaviour
             _exposureText.text = "Exposure : " + value;
         });
         
-        _rotateCameraButton.onClick.AddListener(delegate { VideoFeed.instance.Rotate(); });
+        _rotateCameraButton.onClick.AddListener(delegate { RotateCamera(); });
+        _debugUIButton.onClick.AddListener(delegate { DebugMenuPressed(); });
     }
 
     // Use this for initialization
@@ -101,10 +119,6 @@ public class SettingsGUI : MonoBehaviour
         _serialControlToggle.gameObject.SetActive(mode != SwapModes.MANUAL_SWAP); 
     }
 
-    public void ToggleDebugDisplayGUI()
-    {
-        DisplayManager.instance.ToggleDisplayMode();
-    }
     
     #endregion
 

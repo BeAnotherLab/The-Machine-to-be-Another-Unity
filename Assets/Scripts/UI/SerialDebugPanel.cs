@@ -8,6 +8,9 @@ public class SerialDebugPanel : MonoBehaviour
     [SerializeField] private string[] commands;
     [SerializeField] private GameObject _buttons;
 
+    public delegate void OnSendArduinoCommand(string command);
+    public static OnSendArduinoCommand SendArduinoCommand;
+    
     // Start is called before the first frame update
     private void Start()
     {
@@ -19,7 +22,7 @@ public class SerialDebugPanel : MonoBehaviour
             button.gameObject.GetComponentInChildren<Text>().text = commands[i];
             button.onClick.AddListener(delegate
             {
-                ArduinoManager.instance.SendCommand(commands[index]);
+                SendArduinoCommand(commands[index]);
             });
             
             i++;

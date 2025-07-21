@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 
@@ -6,8 +7,6 @@ using System.IO;
 public class AudioManager : MonoBehaviour {
 
     #region Public Fields
-
-    public static AudioManager instance;
 
     public int language;
 
@@ -33,11 +32,20 @@ public class AudioManager : MonoBehaviour {
     
     #region MonoBehaviour Methods
 
+    private void OnEnable()
+    {
+        StatusManager.StopAudiosInstructions += StopAudioInstructions;
+        OscManager.ReceivedAudioButtonPressed += PlaySound;
+    }
+
+    private void OnDisable()
+    {
+        StatusManager.StopAudiosInstructions -= StopAudioInstructions;
+        OscManager.ReceivedAudioButtonPressed -= PlaySound;
+    }
 
     private void Awake()
     {
-        if (instance == null) instance = this;
-
         _audioClips = new List<AudioSource[]>();
 
         //TODO add audio translations as scriptable object configuration to avoid errors with objects not found in scene
@@ -139,10 +147,6 @@ public class AudioManager : MonoBehaviour {
             _music.volume = 0.45f;
         }
     }
-    #endregion
-
-
-    #region Private Methods
     #endregion
 
 }

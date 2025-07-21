@@ -13,43 +13,54 @@ public class OscManager : MonoBehaviour {
 
     #region Public Fields
 
-    public static OscManager instance;
-
     public string othersIP { get { return othersIP; } set { SetOthersIP(value); } }   //TODO remove?
-    
-    public delegate void OtherStatus();
+    //TODO ???
+    public delegate void OtherStatus(); //TODO remove?
     public static OtherStatus OnOtherStatus;
+    
+    public delegate void OnReceivedAudioButtonPressed(int i);
+    public static OnReceivedAudioButtonPressed ReceivedAudioButtonPressed;
+
+    public delegate void OnReceiveRecenterPose();
+    public static OnReceiveRecenterPose ReceiveRecenterPose;
+
+    
+    public UserStateVariable previousOtherState;
+    public UserStateVariable otherState;
+    public UserStateGameEvent otherStateGameEvent;
     
     #endregion
 
     #region Private Fields
 
-    public UserStateVariable previousOtherState;
-    public UserStateVariable otherState;
-    public UserStateGameEvent otherStateGameEvent;
-    
-    private Camera _mainCamera;
+    [SerializeField] private BoolGameEvent _dimGameEvent;
+    [SerializeField] private BoolGameEvent _curtainOnGameEvent;
 
-    private OSCTransmitter _oscTransmitter;
-    [SerializeField] private OSCTransmitter _videoRecordingOSCTransmitter;
     private OSCReceiver _oscReceiver;
     
     private bool _repeater;
     private bool _serialStatusOKReceived;
     private bool _sendHeadTracking;
-
-    [SerializeField] private BoolVariable _sendRecordingCommand;
-    [SerializeField] private BoolGameEvent _curtainOnGameEvent;
+    private OSCTransmitter _oscTransmitter;
     
     #endregion
 
     #region MonoBehaviour Methods
-    
+
+    private void OnEnable()
+    {
+        StatusManager.SendThisUserStatus += SendThisUserStatus;
+        SettingsGUI.SetRepeater += SetRepeater;
+    }
+
+    private void OnDisable()
+    {
+        StatusManager.SendThisUserStatus -= SendThisUserStatus;
+        SettingsGUI.SetRepeater -= SetRepeater;
+    }
+
     private void Awake()
     {
-        if (instance == null) instance = this;
-
-        _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         
         _oscReceiver = GetComponent<OSCReceiver>();
         _oscTransmitter = GetComponent<OSCTransmitter>();
@@ -73,26 +84,7 @@ public class OscManager : MonoBehaviour {
 
     #region Public Methods
     
-    public void SendLanguageChange(string language) //TODO remove?
-    {
-        OSCMessage message = new OSCMessage("/language");
-        message.AddValue(OSCValue.String(language));
-        _oscTransmitter.Send(message);
-        Debug.Log("send language change message", DLogType.Network);
-    }
-    
-    public void EnableRepeater(bool enable) 
-    {
-        if (enable)
-        {
-            //set repeater based on what was stored in playerprefs
-            if (PlayerPrefs.GetInt("repeater") == 0) SetRepeater(false);
-            else SetRepeater(true);
-        }
-        else _repeater = false;
-    }
-
-    public void SetRepeater(bool r)
+    private void SetRepeater(bool r)
     {
         _repeater = r;
         if (r) PlayerPrefs.SetInt("repeater", 1);
@@ -114,16 +106,6 @@ public class OscManager : MonoBehaviour {
         Debug.Log("sending user status : " + status, DLogType.Network);
     }
 
-    public void ExperienceStarted ()
-    {
-        if (_sendRecordingCommand.Value && _repeater)
-        {
-            Debug.Log("sending video recording start ", DLogType.Network);
-            OSCMessage message = new OSCMessage("/name");
-            _videoRecordingOSCTransmitter.Send(message); //            
-        }
-    }
-
     #endregion
 
     #region Private Methods
@@ -138,7 +120,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) VideoFeed.instance.RecenterPose();
+            if (value == 1f) ReceiveRecenterPose();
 
         if (_repeater) _oscTransmitter.Send(message);
     }
@@ -147,7 +129,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) VideoFeed.instance.Dim(true);
+            if (value == 1f) _dimGameEvent.Raise(true);
 
         if (_repeater) _oscTransmitter.Send(message);
     }
@@ -156,7 +138,7 @@ public class OscManager : MonoBehaviour {
     {
         float value;
         if (message.ToFloat(out value))
-            if (value == 1f) VideoFeed.instance.Dim(false);
+            if (value == 1f) _dimGameEvent.Raise(false);
 
         if (_repeater) _oscTransmitter.Send(message);
     }
@@ -168,7 +150,7 @@ public class OscManager : MonoBehaviour {
         {
             if (value == 1f) {
                 for (int i = 0; i < 11; i++)
-                    if (message.Address == "/btn" + i) AudioManager.instance.GetComponent<AudioManager>().PlaySound(i);
+                    if (message.Address == "/btn" + i) ReceivedAudioButtonPressed(i);
             }
         }
         
@@ -194,21 +176,11 @@ public class OscManager : MonoBehaviour {
             int x;
             if (message.ToInt(out x))
             {
-                if (x == 0)
-                {
-                    previousOtherState.Value = otherState.Value;
-                    otherState.Value = UserState.headsetOff; //StatusManager.instance.OtherLeft();
-                }
-                else if (x == 1)
-                {
-                    previousOtherState.Value = otherState.Value;
-                    otherState.Value = UserState.headsetOn; //StatusManager.instance.OtherPutHeadsetOn();
-                }
-                else if (x == 2)
-                {
-                    previousOtherState.Value = otherState.Value;
-                    otherState.Value = UserState.readyToStart; //StatusManager.instance.OtherUserIsReady();
-                }
+                previousOtherState.Value = otherState.Value;
+
+                if (x == 0) otherState.Value = UserState.headsetOff; //StatusManager.instance.OtherLeft();
+                else if (x == 1) otherState.Value = UserState.headsetOn; //StatusManager.instance.OtherPutHeadsetOn();
+                else if (x == 2) otherState.Value = UserState.readyToStart; //StatusManager.instance.OtherUserIsReady();
                 
                 otherStateGameEvent.Raise(otherState);
             }

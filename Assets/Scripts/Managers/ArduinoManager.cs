@@ -1,6 +1,4 @@
-/* based on ArduinoConnector by Alan Zucconi
- * http://www.alanzucconi.com/?p=2979
- */
+
 using UnityEngine;
 using System;
 using System.Collections;
@@ -12,13 +10,14 @@ public class ArduinoManager : MonoBehaviour
 {
     #region Public Fields
 
-    public static ArduinoManager instance;
-    
     #endregion
 
     
     #region Private Fields
 
+    public delegate void OnSerialFailure();
+    public static OnSerialFailure SerialFailure;
+    
     [SerializeField] private int _timeOut;
 
     [SerializeField] private bool _curtainOffOnStandby = true;
@@ -31,9 +30,22 @@ public class ArduinoManager : MonoBehaviour
     
     #region MonoBehaviour Methods
 
+    private void OnEnable()
+    {
+        SettingsGUI.SetSerialControl += SetSerialControlComputer;
+        StatusManager.SendArduinoCommand += SendCommand;
+        SerialDebugPanel.SendArduinoCommand += SendCommand;
+    }
+
+    private void OnDisable()
+    {
+        SettingsGUI.SetSerialControl -= SetSerialControlComputer;
+        StatusManager.SendArduinoCommand -= SendCommand;
+        SerialDebugPanel.SendArduinoCommand -= SendCommand;
+    }
+
     private void Awake()
     {
-        if (instance == null) instance = this;
         _serialControlOn = PlayerPrefs.GetInt("serialControlOn", 0) == 1;
     }
     
@@ -49,7 +61,7 @@ public class ArduinoManager : MonoBehaviour
         _serialControlOn = serialControlOn;
     }
     
-    public void ActivateSerial(bool servosOn, bool useCurtain)
+    public void ActivateSerial(bool servosOn, bool useCurtain) //TODO remove?
     {
         if (servosOn) UduinoManager.Instance.BaudRate = 57600;
         else if (_serialControlOn && useCurtain){ //if we are in Technorama and this computer is connected to the Arduino
@@ -59,24 +71,10 @@ public class ArduinoManager : MonoBehaviour
         }
     }
 
-    public void DisableSerial()
-    {
-        _serialControlOn = false;
-    }
-
     public void WallOn(bool on)
     {
-        if (on) SendCommand("wallOn" );
-        else if (!on) SendCommand("wallOff");
-    }
-    
-    public void SendCommand(string command) //used to send commands to control technorama walls, curtains, etc
-    {
-        if (_serialControlOn)
-        {
-            Debug.Log("sending " + command + " to arduino");
-            WriteToArduino(command);
-        }
+        if (on) SendCommand("wal_on" );
+        else if (!on) SendCommand("wal_off");
     }
     
     public void ArduinoBoardConnected()
@@ -94,6 +92,15 @@ public class ArduinoManager : MonoBehaviour
 
     #region Private Methods
     
+    private void SendCommand(string command) //used to send commands to control technorama walls, curtains, etc
+    {
+        if (_serialControlOn)
+        {
+            Debug.Log("sending " + command + " to arduino");
+            UduinoManager.Instance.sendCommand(command); 
+        }
+    }
+    
     private void DataReceived(string data, UduinoDevice board)
     {
         Debug.Log("received : " + data, DLogType.System);
@@ -101,16 +108,11 @@ public class ArduinoManager : MonoBehaviour
         if (data == "MD_FAULT" || data == "MD_BLOCK")
         {
             Debug.Log("ERROR : " + data, DLogType.Error);
-            StatusManager.instance.SerialFailure();
+            SerialFailure();
         }
         else if (data == "TIMEOUT") Debug.Log("ERROR : " + data, DLogType.Error);
         else if (data == "sysReady") Debug.Log("homing done, ready to start");            
     }    
-    
-    private void WriteToArduino(string message) //send a command, trigger timeout routine
-    {
-        UduinoManager.Instance.sendCommand(message); 
-    }
 
     #endregion
 }

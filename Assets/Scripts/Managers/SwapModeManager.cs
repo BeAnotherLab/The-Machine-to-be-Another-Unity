@@ -23,45 +23,5 @@ public class SwapModeManager : MonoBehaviour
     {
         SwapModeChanged(swapMode);
     }
-
-    public void SetSwapModes(SwapModes mode) //TODO get rid of all singleton stuff
-    { //TODO get rid of swap mode manager completely?
-        
-        switch (mode)
-        {
-            
-            case SwapModes.AUTO_SWAP:
-                
-                StatusManager.instance.Standby(true, true); //go to initial state
-                OscManager.instance.EnableRepeater(true); //enable OSC repeat
-
-                //enable serial depending on if we are using the curtain or not
-                //if (ArduinoControl) ArduinoManager.instance.ActivateSerial(false, ArduinoControl); //TODO remove?
-                //else ArduinoManager.instance.DisableSerial();
-                
-                break;
-
-            case SwapModes.MANUAL_SWAP:
-                
-                StatusManager.instance.Standby(true, false); //go to initial state
-                OscManager.instance.EnableRepeater(true); //enable OSC repeat
-                ArduinoManager.instance.DisableSerial(); //deactivate servos TODO is this deactivatings servos or curtain?
-                AudioManager.instance.StopAudioInstructions(); //stop auto swap instructions audio
-
-                break;
-                
-            case SwapModes.CURTAIN_MANUAL_SWAP:
-                
-                StatusManager.instance.Standby(true, false); //go to initial state
-                OscManager.instance.EnableRepeater(true); //enable OSC repeat
-                //if (ArduinoControl) ArduinoManager.instance.ActivateSerial(false, ArduinoControl); //TODO remove?
-                //ArduinoManager.instance.DisableSerial(); //deactivate servos TODO is this deactivatings servos or curtain?
-                AudioManager.instance.StopAudioInstructions(); //stop auto swap instructions audio
-
-                break;
-        }
-
-        swapMode = mode;
-    }
     
 }

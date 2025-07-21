@@ -460,8 +460,8 @@ namespace Uduino
             EditorGUI.LabelField(new Rect(lastRect.x - 15, lastRect.y + 5f, Screen.width + 1, 60f), "v." +UduinoVersion.getVersion()+ " ", smallFont);
 
             // draw Textures
-            GUI.DrawTexture(new Rect(Screen.width / 2 - tex.width / 2 - 20, lastRect.y + 5, tex2.width, tex2.height), tex2, ScaleMode.ScaleToFit);
-            GUI.DrawTexture(new Rect(Screen.width / 2 - tex.width / 2, lastRect.y + 10, tex.width, tex.height), tex, ScaleMode.ScaleToFit);
+//            GUI.DrawTexture(new Rect(Screen.width / 2 - tex.width / 2 - 20, lastRect.y + 5, tex2.width, tex2.height), tex2, ScaleMode.ScaleToFit);
+   //         GUI.DrawTexture(new Rect(Screen.width / 2 - tex.width / 2, lastRect.y + 10, tex.width, tex.height), tex, ScaleMode.ScaleToFit);
 
             GUI.color = Color.white;
             GUILayout.Space(60f);

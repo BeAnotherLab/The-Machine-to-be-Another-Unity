@@ -20,7 +20,7 @@ public class AutoBodySwapStatusManager : StatusManager //TODO redundant with Cur
         else if (newState == UserState.headsetOn) SelfPutHeadsetOn();
         else if (newState == UserState.readyToStart)
         {
-            OscManager.instance.SendThisUserStatus((UserState.readyToStart));
+            SendThisUserStatus((UserState.readyToStart));
             _languageButtons.gameObject.SetActive(false); //hide language buttons;
 
             if (otherState.Value == UserState.readyToStart) StartPlaying(); //TODO this should be the default behavior

@@ -1,40 +1,27 @@
 using System;
 using System.Collections;
+using Mirror.Examples.Pong;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class VideoFeed : MonoBehaviour //TODO turn to manager
 {
     #region Public Fields
-
-    public static VideoFeed instance;
-
-    public float zoom;
-
-    [HideInInspector]
-    public Quaternion otherPose;
-
-    public bool useHeadTracking = true; //used to decide whether to move the servos with the sliders or with the headtracking
-
-    public int cameraID; //app must be reset for changes to be applied. first camera is for swap, second is for cognitive task
-
-    public bool dimOnStart;
-
-    public Transform targetTransform;
     
+  
+    [HideInInspector]
+    public Quaternion otherPose; //TODO remove
+    public int cameraID; //app must be reset for changes to be applied. first camera is for swap, second is for cognitive task
+    public bool dimOnStart;
+    public Transform targetTransform;
     #endregion
 
 
     #region Private Fields
 
     [SerializeField] private bool _loadTiltFromPlayerPrefs = true;
-
-    [SerializeField] private MeshRenderer _videoPlaybackMeshRenderer;
-
     [SerializeField] private bool _editing;
     
-    private Camera _mainCamera;
-
     //Camera params
     private float _turningRate = 90f;
     [SerializeField] private float _tiltAngle;
@@ -50,17 +37,34 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     #region MonoBehaviour Methods
 
-    private void Awake()
+    private void OnEnable()
     {
-        if (instance == null) instance = this;
+        SwapControlGUI.RecenterPoserButtonPressed += RecenterPose;
+        SwapControlGUI.DimButtonOn += Dim;
+        OscManager.ReceiveRecenterPose += RecenterPose;
+        SettingsGUI.ToggleDim += ToggleDim;
+        SettingsGUI.RotateCamera += Rotate;
+        SettingsGUI.RecenterPose += RecenterPose;
+        CustomPlayer.SignalingSelf += GetPlayerTransform;
+        //StatusManager.Standby += DimOn; TODO assign
+    }
 
-        _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+    private void OnDisable()
+    {
+        SwapControlGUI.RecenterPoserButtonPressed -= RecenterPose;
+        SwapControlGUI.DimButtonOn -= Dim;
+        OscManager.ReceiveRecenterPose -= RecenterPose;
+        SettingsGUI.ToggleDim -= ToggleDim;
+        SettingsGUI.RotateCamera -= Rotate;
+        SettingsGUI.RecenterPose -= RecenterPose;
+        CustomPlayer.SignalingSelf -= GetPlayerTransform;
+        //StatusManager.Standby -= DimOn; TODO assign
     }
 
     void Start()
     {
         if(_loadTiltFromPlayerPrefs) _tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
-        if (dimOnStart) StartCoroutine(StartupDim());
+        //if (dimOnStart) StartCoroutine(StartupDim()); TODO this is also done in player? whatfor?
         otherPose = new Quaternion();
     }
 
@@ -69,7 +73,7 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     {
         Quaternion nextOtherPose = new Quaternion();
 
-        // Turn towards our target rotation.
+        // Turn towards our target rotation. TODO remove
         otherPose = Quaternion.RotateTowards(otherPose, nextOtherPose, _turningRate * Time.deltaTime);
 
         if (Input.GetKeyDown("b") && !_editing ) ToggleDim();
@@ -86,16 +90,14 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     #region Public Methods
 
-    public void Dim(bool dim, bool fade = true) 
+    public void Dim(bool dim) 
     {
         if (targetTransform != null)
         {
             float next = 1;
             if (dim) next = 0;
             float dimValue = targetTransform.GetComponentInChildren<MeshRenderer>().material.color.a;
-
-            float time = 0f;
-            if (fade) time = 1;
+            float time = 1;
             
             LeanTween.value(dimValue, next, time).setEaseInOutQuad().setOnUpdate((val) => {
                 if (targetTransform != null)
@@ -126,17 +128,11 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
         //The following will also move the camera positional reference.
         //taken from https://forum.unity.com/threads/openvr-how-to-reset-camera-properly.417509/#post-2792972
     }
-
-    public void SwitchHeadtracking() //Use to map the pitch and yaw sliders to headtracking or not
-    {
-        useHeadTracking = !useHeadTracking;
-    }
-    
-    public IEnumerator StartupDim()
-    {
-        yield return new WaitForSeconds(2);
-        Dim(true);
-    }
-    
+ 
     #endregion
+
+    private void GetPlayerTransform(Transform playerTransform)
+    {
+        targetTransform = playerTransform;
+    }
 }
