@@ -22,6 +22,9 @@ public class SettingsGUI : MonoBehaviour
     public delegate void OnRecenterPose();
     public static OnRecenterPose RecenterPose;
     
+    public delegate void OnSetRepeater(bool on);
+    public static OnSetRepeater SetRepeater;
+    
     #endregion
 
     #region Private Fields
@@ -59,7 +62,7 @@ public class SettingsGUI : MonoBehaviour
         
         _cameraSettingsButton.onClick.AddListener(delegate { VideoCameraManager.instance.ShowCameraConfigWindow(); });
         
-        _repeaterToggle.onValueChanged.AddListener(delegate { OscManager.instance.SetRepeater(_repeaterToggle.isOn); });
+        _repeaterToggle.onValueChanged.AddListener(delegate { SetRepeater(_repeaterToggle.isOn); });
 
         _serialControlToggle.onValueChanged.AddListener(delegate { ArduinoManager.instance.SetSerialControlComputer(_serialControlToggle.isOn); });
         

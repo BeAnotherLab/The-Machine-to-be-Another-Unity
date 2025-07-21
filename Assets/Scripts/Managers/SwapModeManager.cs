@@ -33,22 +33,18 @@ public class SwapModeManager : MonoBehaviour
             case SwapModes.AUTO_SWAP:
                 
                 StatusManager.instance.Standby(true, true); //go to initial state
-                OscManager.instance.EnableRepeater(true); //enable OSC repeat
 
                 break;
 
             case SwapModes.MANUAL_SWAP:
                 
                 StatusManager.instance.Standby(true, false); //go to initial state
-                OscManager.instance.EnableRepeater(true); //enable OSC repeat
 
                 break;
                 
             case SwapModes.CURTAIN_MANUAL_SWAP:
                 
                 StatusManager.instance.Standby(true, false); //go to initial state
-                OscManager.instance.EnableRepeater(true); //enable OSC repeat
-
                 break;
         }
 

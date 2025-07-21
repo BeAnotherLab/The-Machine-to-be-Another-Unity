@@ -30,6 +30,9 @@ public abstract class StatusManager : MonoBehaviour
 
     public delegate void OnStopAllAudios();
     public static OnStopAllAudios StopAudiosInstructions;
+
+    public delegate void OnSendThisUserStatus(UserState state);
+    public static OnSendThisUserStatus SendThisUserStatus;
     
     #endregion
     
@@ -150,7 +153,7 @@ public abstract class StatusManager : MonoBehaviour
 
     protected void ThisUserIsReady() //called when user has aimed at the confirmation dialog and waited through the countdown.
     {
-        OscManager.instance.SendThisUserStatus(UserState.readyToStart);
+        SendThisUserStatus(UserState.readyToStart);
         _languageButtons.gameObject.SetActive(false); //hide language buttons;
         _setInstructionsTextGameEvent.Raise("waitForOther");
         Debug.Log("this user is ready", DLogType.Input);
@@ -164,7 +167,7 @@ public abstract class StatusManager : MonoBehaviour
     public void SelfPutHeadsetOn()
     {
         _setInstructionsTextGameEvent.Raise("idle");
-        OscManager.instance.SendThisUserStatus(UserState.headsetOn);
+        SendThisUserStatus(UserState.headsetOn);
         Debug.Log("this user put on the headset", DLogType.Input);
     }
 
@@ -225,7 +228,7 @@ public abstract class StatusManager : MonoBehaviour
             Standby(false, _dimOutOnExperienceStart); //if we were ready and we took off the headset go to initial state
         }
         
-        OscManager.instance.SendThisUserStatus(selfState); //TODO use events instead
+        SendThisUserStatus(selfState); //TODO use events instead
         Debug.Log("this user removed his headset", DLogType.Input);
     }
 
