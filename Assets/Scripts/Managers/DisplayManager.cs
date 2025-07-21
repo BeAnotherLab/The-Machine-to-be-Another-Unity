@@ -10,16 +10,20 @@ public enum DisplayMode{Debug, Prod}
 public class DisplayManager : MonoBehaviour //This manager centralizes display of screens and menus on multidisplay setups
 {
     public DisplayMode displayMode;
-    public static DisplayManager instance; //TODO remove singleton
 
     public delegate void OnSetDisplayMode(bool show);
     public static OnSetDisplayMode SetDisplayModeEvent = delegate(bool show) {  };
 
     [SerializeField] private GameObject _utilities;
 
-    private void Awake()
+    private void OnEnable()
     {
-        if (instance == null) instance = this;
+        SettingsGUI.DebugMenuPressed += ToggleDisplayMode;
+    }
+    
+    private void OnDisable()
+    {
+        SettingsGUI.DebugMenuPressed -= ToggleDisplayMode;
     }
 
     private void Start()

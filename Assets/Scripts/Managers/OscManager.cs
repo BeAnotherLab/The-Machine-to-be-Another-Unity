@@ -15,7 +15,7 @@ public class OscManager : MonoBehaviour {
 
     public string othersIP { get { return othersIP; } set { SetOthersIP(value); } }   //TODO remove?
     //TODO ???
-    public delegate void OtherStatus();
+    public delegate void OtherStatus(); //TODO remove?
     public static OtherStatus OnOtherStatus;
     
     public delegate void OnReceivedAudioButtonPressed(int i);
