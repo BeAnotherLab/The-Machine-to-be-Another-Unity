@@ -79,7 +79,7 @@ public abstract class StatusManager : MonoBehaviour
 
     protected void Update()
     {
-        if (SessionStateFeature.GetCurrentState() == (int) XrSessionState.Idle  && selfState.Value != UserState.headsetOff)
+        if (SessionStateFeature.GetCurrentState() == (int) XrSessionState.Synchronized  && selfState.Value != UserState.headsetOff)
         {
             previousSelfState.Value = selfState.Value;
             selfState.Value = UserState.headsetOff; 
