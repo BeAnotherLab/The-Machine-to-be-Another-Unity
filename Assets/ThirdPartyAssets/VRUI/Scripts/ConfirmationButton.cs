@@ -10,10 +10,6 @@ namespace VRStandardAssets.Menu
 {
     public class ConfirmationButton : MonoBehaviour
     {
-        public static ConfirmationButton instance;
-
-        public event Action<ConfirmationButton> OnButtonSelected;           // This event is triggered when the selection of the button has finished.
-
         [SerializeField] private BoolGameEvent _showSelectionRadialEvent;
         [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
 
@@ -21,11 +17,6 @@ namespace VRStandardAssets.Menu
         [SerializeField] private UserStateVariable selfState; //TODO prepend "_" in name
         
         public bool gazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
-         
-        private void Awake()
-        {
-            if (instance == null) instance = this;
-        }
 
         private void OnEnable()
         {
@@ -39,7 +30,7 @@ namespace VRStandardAssets.Menu
             m_InteractiveItem.OnOut -= HandleOut;
         }
 
-        public void HandleSelectionComplete() //TODO redundant with Button Logic SelfUserSTateChanged
+        public void HandleSelectionComplete()
         {
             if (gazeOver) { //hide TODO use panel dimmer
                 GetComponent<MeshRenderer>().enabled = false;
@@ -68,6 +59,12 @@ namespace VRStandardAssets.Menu
             gazeOver = false;     
             GetComponent<ConfirmationButtonGraphics>().SwitchSelection(gazeOver);
 
+        }
+
+        public void OnStandby() //TODO separate logic from underlying VRUI third party package?
+        {
+            GetComponent<MeshRenderer>().enabled = true;
+            GetComponent<MeshCollider>().enabled = true;
         }
     }
 }
