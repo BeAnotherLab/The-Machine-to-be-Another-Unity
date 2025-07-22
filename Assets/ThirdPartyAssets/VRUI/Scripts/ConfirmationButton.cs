@@ -13,6 +13,7 @@ namespace VRStandardAssets.Menu
         [SerializeField] private BoolGameEvent _showSelectionRadialEvent;
         [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
 
+        //TODO separate the following to keep confirmation button pure VRUI stuff
         [SerializeField] private UserStateGameEvent selfStateGameEvent;//TODO prepend "_" in name
         [SerializeField] private UserStateVariable selfState; //TODO prepend "_" in name
         
@@ -35,8 +36,8 @@ namespace VRStandardAssets.Menu
             if (gazeOver) { //hide TODO use panel dimmer
                 GetComponent<MeshRenderer>().enabled = false;
                 GetComponent<MeshCollider>().enabled = false;
-                selfState.Value = UserState.readyToStart;
-                selfStateGameEvent.Raise(selfState.Value);
+                selfState.Value = UserState.readyToStart; //TODO separate
+                selfStateGameEvent.Raise(selfState.Value); //TODO separate
             }
             HandleOut(); //deselect            
         }
@@ -44,7 +45,7 @@ namespace VRStandardAssets.Menu
         private void HandleOver() //TODO test
         {
             // When the user looks at the rendering of the scene, show the radial.
-            if (selfState.Value == UserState.headsetOn)
+            if (selfState.Value == UserState.headsetOn) //TODO separate
             {
                 _showSelectionRadialEvent.Raise(true);
                 gazeOver = true;
@@ -58,13 +59,7 @@ namespace VRStandardAssets.Menu
             _showSelectionRadialEvent.Raise(false);
             gazeOver = false;     
             GetComponent<ConfirmationButtonGraphics>().SwitchSelection(gazeOver);
-
         }
 
-        public void OnStandby() //TODO separate logic from underlying VRUI third party package?
-        {
-            GetComponent<MeshRenderer>().enabled = true;
-            GetComponent<MeshCollider>().enabled = true;
-        }
     }
 }

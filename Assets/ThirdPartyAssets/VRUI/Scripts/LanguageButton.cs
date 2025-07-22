@@ -9,9 +9,6 @@ using UnityEngine.Serialization;
 
 namespace VRStandardAssets.Menu //TODO move to own namespace?
 {
-    // This script is for loading scenes from the main menu.
-    // Each 'button' will be a rendering showing the scene
-    // that will be loaded and use the SelectionRadial.
     public class LanguageButton : MonoBehaviour //Make inherit from ConfirmationButton class
     {
         [SerializeField] private Vector3 _scaleOut; 
@@ -26,7 +23,7 @@ namespace VRStandardAssets.Menu //TODO move to own namespace?
         
         [SerializeField] private UserStateVariable _selfState;
 
-        private bool m_GazeOver;                                            // Whether the user is looking at the VRInteractiveItem currently.
+        private bool m_GazeOver;   // Whether the user is looking at the VRInteractiveItem currently.
 
         private void OnEnable()
         {
