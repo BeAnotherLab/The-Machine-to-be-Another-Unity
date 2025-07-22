@@ -50,7 +50,7 @@ public class StatusManager : MonoBehaviour
 
     [SerializeField] protected GameEvent _standbyGameEvent;
     [SerializeField] protected GameEvent _InstructionsStartedGameEvent;
-    [SerializeField] protected BoolGameEvent _experienceFinishedGameEvent;
+    [SerializeField] protected BoolGameEvent _experienceFinishedGameEvent; //TODO why bool?
     [SerializeField] protected GameEvent _experienceStartedGameEvent;
     [SerializeField] protected BoolGameEvent _curtainOnEvent;
     
