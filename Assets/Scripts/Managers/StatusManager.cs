@@ -11,7 +11,7 @@ using UnityEngine.XR;
 using UnityEngine.XR.OpenXR.NativeTypes;
 using VRStandardAssets.Utils;
 
-public abstract class StatusManager : MonoBehaviour
+public class StatusManager : MonoBehaviour
 {
     #region Public Fields
 
@@ -42,7 +42,7 @@ public abstract class StatusManager : MonoBehaviour
     [SerializeField] private BoolGameEvent _dimGameEvent;
     [SerializeField] protected PlayableDirector _shortTimeline; //TODO shouldn't be in abstract status manager 
     [SerializeField] protected PlayableDirector _longTimeline; //TODO shouldn't be in abstract status manager
-    [SerializeField] protected GameObject _languageButtons;
+    [SerializeField] protected GameObject _languageButtons; //TODO use events
 
     [SerializeField] protected GameEvent _standbyGameEvent;
     [SerializeField] protected GameEvent _InstructionsStartedGameEvent;
@@ -92,7 +92,7 @@ public abstract class StatusManager : MonoBehaviour
 
     protected void Update()
     {
-        if (SessionStateFeature.GetCurrentState() == (int) XrSessionState.Synchronized  && selfState.Value != UserState.headsetOff)
+        if (SessionStateFeature.GetCurrentState() == (int) XrSessionState.Idle  && selfState.Value != UserState.headsetOff)
         {
             previousSelfState.Value = selfState.Value;
             selfState.Value = UserState.headsetOff; 
@@ -115,8 +115,7 @@ public abstract class StatusManager : MonoBehaviour
     public void StartExperience() //TODO remove?
     {
         _showInstructionsTextGameEvent.Raise(false);
-        if (_dimOutOnExperienceStart) _dimGameEvent.Raise(false);
-        else instructionsTimeline.Stop();
+        _dimGameEvent.Raise(false);
         _experienceStartedGameEvent.Raise();
         Debug.Log("experience started");
     }
@@ -144,7 +143,7 @@ public abstract class StatusManager : MonoBehaviour
         _curtainOnEvent.Raise(true);
     }
     
-    public void WallOn() //TODO rename
+    public void WallOn() //TODO rename to Wall off
     {
         _curtainOnEvent.Raise(false);
         SendArduinoCommand("mir_off"); //hide mirror
@@ -155,6 +154,7 @@ public abstract class StatusManager : MonoBehaviour
     {
         SendThisUserStatus(UserState.readyToStart);
         _languageButtons.gameObject.SetActive(false); //hide language buttons;
+        if (otherState.Value == UserState.readyToStart) StartPlaying(); //TODO this should be the default behavior
         _setInstructionsTextGameEvent.Raise("waitForOther");
         Debug.Log("this user is ready", DLogType.Input);
     }
@@ -162,6 +162,7 @@ public abstract class StatusManager : MonoBehaviour
     public void OtherUserIsReady()
     {
         Debug.Log("the other user is ready", DLogType.Input);
+        if (selfState.Value == UserState.readyToStart) StartPlaying();//TODO this should be the default behavior
     }
 
     public void SelfPutHeadsetOn()
