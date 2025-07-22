@@ -35,6 +35,10 @@ public class StatusManager : MonoBehaviour
     public delegate void OnSendArduinoCommand(string command);
     public static OnSendArduinoCommand SendArduinoCommand;
     
+    public delegate void OnInitializeInstructions();
+    public static OnInitializeInstructions InitializeInstructions;
+
+    
     #endregion
     
     #region Protected Fields
@@ -206,8 +210,7 @@ public class StatusManager : MonoBehaviour
 
         StopAudiosInstructions();
 
-        InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeInText(); //TODO use events instead of static reference
-        InstructionsTextBehavior.instance.gameObject.GetComponent<FadeController>().FadeOutImages();  //TODO use events instead of static reference
+        InitializeInstructions();
         
         _languageButtons.gameObject.SetActive(true); //show language buttons;
 
@@ -263,10 +266,11 @@ public class StatusManager : MonoBehaviour
     protected void IsOver() //called at the the end of the experience
     {
         _dimGameEvent.Raise(true);
-        //InstructionsTextBehavior.instance.ShowTextFromKey("finished");
+        _setInstructionsTextGameEvent.Raise("finished");
         instructionsTimeline.Stop();
         Debug.Log("experience finished");
         _experienceRunning = false;
+        _experienceFinishedGameEvent.Raise(false);
     }
     
     protected IEnumerator WaitBeforeResetting()

@@ -6,10 +6,7 @@ using UnityEngine;
 
 public class InstructionsTextAutoBodySwapLogic : MonoBehaviour
 {
-    [SerializeField] private GameObject _textGameObject;
-    [SerializeField] private UserStateVariable _previousOtherState;
-    
-    public void ExperienceFinished(bool showQuestionnaire) //TODO remove param?
+    public void ExperienceFinished() 
     {
         GetComponent<InstructionsTextBehavior>().ShowTextFromKey("finished", 3);
     }

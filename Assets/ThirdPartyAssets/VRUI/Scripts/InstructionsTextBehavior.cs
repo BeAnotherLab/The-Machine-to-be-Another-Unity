@@ -8,13 +8,17 @@ using UnityEngine.UI;
 
 public class InstructionsTextBehavior : MonoBehaviour
 {
-    public static InstructionsTextBehavior instance;
 
     [SerializeField] private GameObject _textGameObject;
 
-    private void Awake()
+    private void OnEnable()
     {
-        if (instance == null) instance = this;
+        StatusManager.InitializeInstructions += InitializeInstructions;
+    }
+
+    private void OnDisable()
+    {
+        StatusManager.InitializeInstructions -= InitializeInstructions;
     }
 
     #region  Public methods
@@ -64,6 +68,11 @@ public class InstructionsTextBehavior : MonoBehaviour
         ShowInstructionText(false);       
     }
 
+    private void InitializeInstructions()
+    {
+        GetComponent<FadeController>().FadeInText();
+        GetComponent<FadeController>().FadeOutImages();
+    }
     
     #endregion
 }
