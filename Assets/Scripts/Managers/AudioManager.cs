@@ -4,16 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 
 
-public class AudioManager : MonoBehaviour {
-
-    #region Public Fields
+public class AudioManager : MonoBehaviour { //Only for Manual modes. Not present in Auto Body Swap
 
     public int language;
-
-    #endregion
-
-    
-    #region Private Fields
 
     [SerializeField] private AudioSource[] _englishClips; //english audios
     [SerializeField] private AudioSource[] _frenchClips; //french audios
@@ -26,12 +19,8 @@ public class AudioManager : MonoBehaviour {
     [SerializeField] private AudioSource[] _autoModeInstructions; //the audio file played when in automatic mode
     
     private bool _somethingIsPlaying;
-
-    #endregion
-
+    private bool _lookForLanguageAudioClips;
     
-    #region MonoBehaviour Methods
-
     private void OnEnable()
     {
         StatusManager.StopAudiosInstructions += StopAudioInstructions;
@@ -121,22 +110,12 @@ public class AudioManager : MonoBehaviour {
 
     }
 
-    #endregion
-
-
-    #region Public Methods
-    
-    public void PlayAudioInstructions(int _selectedInstructions)
-    {
-        _autoModeInstructions[_selectedInstructions].Play();
-    }
-
-    public void StopAudioInstructions()
+    private void StopAudioInstructions()
     {
         foreach(AudioSource _instruction in _autoModeInstructions) _instruction.Stop();
     }
 
-    public void PlaySound(int id)
+    private void PlaySound(int id)
     {
         if (!_somethingIsPlaying)
         {
@@ -145,6 +124,5 @@ public class AudioManager : MonoBehaviour {
             _music.volume = 0.45f;
         }
     }
-    #endregion
 
 }
