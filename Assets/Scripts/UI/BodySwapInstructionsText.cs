@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class BodySwapInstructionsText : MonoBehaviour //TODO inherit Instructions text?
 {
- 
+    [SerializeField] private GameObject _instructionsImages;
+
     private void OnEnable()
     {
         StatusManager.InitializeInstructions += InitializeInstructions;
@@ -16,6 +17,11 @@ public class BodySwapInstructionsText : MonoBehaviour //TODO inherit Instruction
     {
         StatusManager.InitializeInstructions -= InitializeInstructions;
     }
+
+    public void FadeInImages() //called by timeline
+    {
+        _instructionsImages.GetComponent<PanelDimmer>().Show();
+    }
     
     public void ExperienceFinished(bool ls) 
     {
@@ -24,7 +30,7 @@ public class BodySwapInstructionsText : MonoBehaviour //TODO inherit Instruction
       
     private void InitializeInstructions()
     {
+        _instructionsImages.GetComponent<PanelDimmer>().Hide();
        // GetComponent<FadeController>().FadeInText();
-       // GetComponent<FadeController>().FadeOutImages();
     }
 }
