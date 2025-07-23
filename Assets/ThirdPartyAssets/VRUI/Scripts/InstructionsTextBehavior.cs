@@ -11,22 +11,12 @@ public class InstructionsTextBehavior : MonoBehaviour
 
     [SerializeField] private GameObject _textGameObject;
 
-    private void OnEnable()
-    {
-        StatusManager.InitializeInstructions += InitializeInstructions;
-    }
-
-    private void OnDisable()
-    {
-        StatusManager.InitializeInstructions -= InitializeInstructions;
-    }
-
     #region  Public methods
    
     public void ShowInstructionText(bool show, string text = "")
     {
         GetComponent<PanelDimmer>().Show(show);
-        if(show) _textGameObject.GetComponent<Text>().text = text; //give feedback
+        if (show) _textGameObject.GetComponent<Text>().text = text; //give feedback
     }
 
     public void ShowinstructionsText(string text)
@@ -68,11 +58,6 @@ public class InstructionsTextBehavior : MonoBehaviour
         ShowInstructionText(false);       
     }
 
-    private void InitializeInstructions()
-    {
-        GetComponent<FadeController>().FadeInText();
-        GetComponent<FadeController>().FadeOutImages();
-    }
     
     #endregion
 }

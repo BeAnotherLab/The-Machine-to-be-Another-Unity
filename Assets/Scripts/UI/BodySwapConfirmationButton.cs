@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BodySwapConfirmationButton : MonoBehaviour
+public class BodySwapConfirmationButton : MonoBehaviour //TODO inherit confirmation button?
 {
     public void SelfUserStateChanged(UserState selfUserState)
     {
