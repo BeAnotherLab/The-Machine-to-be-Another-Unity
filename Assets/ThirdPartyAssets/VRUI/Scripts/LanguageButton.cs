@@ -16,11 +16,8 @@ namespace VRStandardAssets.Menu //TODO move to own namespace?
         
         [SerializeField] private BoolGameEvent _showSelectionRadialEvent;
         [SerializeField] private VRInteractiveItem m_InteractiveItem;       // The interactive item for where the user should click to load the level.
-
         [SerializeField] private StringGameEvent _languageChangeEvent;
-
         [SerializeField] private string _language;
-        
         [SerializeField] private UserStateVariable _selfState;
 
         private bool m_GazeOver;   // Whether the user is looking at the VRInteractiveItem currently.
@@ -39,16 +36,12 @@ namespace VRStandardAssets.Menu //TODO move to own namespace?
         
         public void HandleSelectionComplete()
         {
-            if (m_GazeOver)
-            {
-                _languageChangeEvent.Raise(_language);
-            }
+            if (m_GazeOver) _languageChangeEvent.Raise(_language);
             HandleOut();            
         }
         
         private void HandleOver()
         {
-            // When the user looks at the rendering of the scene, show the radial.
             if (_selfState.Value == UserState.headsetOn)
             {
                 _showSelectionRadialEvent.Raise(true);
@@ -60,7 +53,6 @@ namespace VRStandardAssets.Menu //TODO move to own namespace?
 
         private void HandleOut()
         {
-            // When the user looks away from the rendering of the scene, hide the radial.
             _showSelectionRadialEvent.Raise(false);
             LeanTween.scale(gameObject, _scaleOut, 0.45f).setEaseOutBounce();
             LeanTween.color(gameObject, Color.gray, 0.25f).setEaseOutCubic();

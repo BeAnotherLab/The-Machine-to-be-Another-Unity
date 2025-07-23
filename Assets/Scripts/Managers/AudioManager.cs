@@ -79,31 +79,31 @@ public class AudioManager : MonoBehaviour {
     // Update is called once per frame
     private void Update()
     {
-        foreach (KeyCode vKey in System.Enum.GetValues(typeof(KeyCode)))
+        foreach (KeyCode vKey in Enum.GetValues(typeof(KeyCode))) //TODO remove keys?
         {
             if (Input.GetKey(vKey))
             {
-                if (vKey == UnityEngine.KeyCode.Q)
+                if (vKey == KeyCode.Q)
                     PlaySound(0);
-                else if (vKey == UnityEngine.KeyCode.W)
+                else if (vKey == KeyCode.W)
                     PlaySound(5);
-                else if (vKey == UnityEngine.KeyCode.E)
+                else if (vKey == KeyCode.E)
                     PlaySound(4);
-                else if (vKey == UnityEngine.KeyCode.R)
+                else if (vKey == KeyCode.R)
                     PlaySound(6);
-                else if (vKey == UnityEngine.KeyCode.T)
+                else if (vKey == KeyCode.T)
                     PlaySound(7);
-                else if (vKey == UnityEngine.KeyCode.Y)
+                else if (vKey == KeyCode.Y)
                     PlaySound(1);
-                else if (vKey == UnityEngine.KeyCode.U)
+                else if (vKey == KeyCode.U)
                     PlaySound(2);
-                else if (vKey == UnityEngine.KeyCode.I)
+                else if (vKey == KeyCode.I)
                     PlaySound(3);
-                else if (vKey == UnityEngine.KeyCode.J)
+                else if (vKey == KeyCode.J)
                     PlaySound(8);
-                else if (vKey == UnityEngine.KeyCode.K)
+                else if (vKey == KeyCode.K)
                     PlaySound(9);
-                else if (vKey == UnityEngine.KeyCode.L)
+                else if (vKey == KeyCode.L)
                     PlaySound(10);
             }
         }
@@ -113,12 +113,11 @@ public class AudioManager : MonoBehaviour {
         //check if some audio is playing 
         for (int i = 0; i < _audioClips[language].Length; i++)
         {
-            if (_audioClips[language][i].isPlaying)
+            if (_audioClips[language][i].isPlaying) 
                 _somethingIsPlaying = true;
         }
 
-        if (!_somethingIsPlaying)
-            _music.volume = 1;
+        if (!_somethingIsPlaying) _music.volume = 1;
 
     }
 
@@ -134,8 +133,7 @@ public class AudioManager : MonoBehaviour {
 
     public void StopAudioInstructions()
     {
-        foreach(AudioSource _instruction in _autoModeInstructions)
-            _instruction.Stop();
+        foreach(AudioSource _instruction in _autoModeInstructions) _instruction.Stop();
     }
 
     public void PlaySound(int id)
