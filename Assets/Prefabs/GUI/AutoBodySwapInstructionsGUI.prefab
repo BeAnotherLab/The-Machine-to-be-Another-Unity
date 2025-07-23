@@ -362,12 +362,11 @@ GameObject:
   - component: {fileID: 448873678117417856}
   - component: {fileID: 7220712239764454277}
   - component: {fileID: 1405420277270257715}
+  - component: {fileID: 604608053}
   - component: {fileID: 6682680424015201866}
   - component: {fileID: 3386007381635718152}
   - component: {fileID: 332290940960440211}
   - component: {fileID: 4955619369018986257}
-  - component: {fileID: 8026045684658783648}
-  - component: {fileID: 604608053}
   m_Layer: 5
   m_Name: AutoBodySwapInstructionsGUI
   m_TagString: Untagged
@@ -520,6 +519,19 @@ MonoBehaviour:
   image1: {fileID: 448873678409674158}
   image2: {fileID: 448873678173545227}
   text: {fileID: 702575979674410138}
+--- !u!114 &604608053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702575981237749515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cab4d5a7078223478f81630a8bc5335, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _previousOtherState: {fileID: 0}
 --- !u!114 &6682680424015201866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -631,51 +643,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _debugValue: 0
---- !u!114 &8026045684658783648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 702575981237749515}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbf3049867acf4e98b57a68ca8ffdf10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _showDebugFields: 0
-  _enableGizmoDebugging: 1
-  _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 0}
-  _event: {fileID: 11400000, guid: fa8ca749ca9ad4876827002f647bcaf6, type: 2}
-  _response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 604608053}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: OtherStateChanged
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _debugValue: 0
---- !u!114 &604608053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 702575981237749515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cab4d5a7078223478f81630a8bc5335, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6124824445868289271
 GameObject:
   m_ObjectHideFlags: 0

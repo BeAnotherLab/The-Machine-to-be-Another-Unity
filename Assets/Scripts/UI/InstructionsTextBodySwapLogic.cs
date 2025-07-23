@@ -4,10 +4,11 @@ using Lean.Localization;
 using ScriptableObjectArchitecture;
 using UnityEngine;
 
-public class InstructionsTextAutoBodySwapLogic : MonoBehaviour
+public class InstructionsTextBodySwapLogic : MonoBehaviour //TODO inherit Instructions text?
 {
-    public void ExperienceFinished() 
+    public void ExperienceFinished(bool ls) 
     {
         GetComponent<InstructionsTextBehavior>().ShowTextFromKey("finished", 3);
     }
+      
 }
