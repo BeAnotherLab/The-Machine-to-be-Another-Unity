@@ -27,11 +27,10 @@ public class StatusManager : MonoBehaviour
     public PlayableDirector instructionsTimeline;
 
     public delegate void OnStopAllAudios();
-    public static OnStopAllAudios StopAudiosInstructions;
+    public static OnStopAllAudios StopAudiosInstructions = delegate { };
 
     public delegate void OnSendThisUserStatus(UserState state);
     public static OnSendThisUserStatus SendThisUserStatus;
-    
     public delegate void OnSendArduinoCommand(string command);
     public static OnSendArduinoCommand SendArduinoCommand;
     
@@ -44,8 +43,8 @@ public class StatusManager : MonoBehaviour
     #region Protected Fields
 
     [SerializeField] private BoolGameEvent _dimGameEvent;
-    [SerializeField] protected PlayableDirector _shortTimeline; //TODO shouldn't be in abstract status manager 
-    [SerializeField] protected PlayableDirector _longTimeline; //TODO shouldn't be in abstract status manager
+    [SerializeField] protected PlayableDirector _shortTimeline;  
+    [SerializeField] protected PlayableDirector _longTimeline; 
     [SerializeField] protected GameObject _languageButtons; //TODO use events
 
     [SerializeField] protected GameEvent _standbyGameEvent;
