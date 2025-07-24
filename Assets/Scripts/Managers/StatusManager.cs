@@ -30,13 +30,9 @@ public class StatusManager : MonoBehaviour
     public static OnStopAllAudios StopAudiosInstructions = delegate { };
 
     public delegate void OnSendThisUserStatus(UserState state);
-    public static OnSendThisUserStatus SendThisUserStatus;
+    public static OnSendThisUserStatus SendThisUserStatus; //TODO this needs not to be here, OSCManager can send all changes by itself
     public delegate void OnSendArduinoCommand(string command);
     public static OnSendArduinoCommand SendArduinoCommand;
-    
-    public delegate void OnInitializeInstructions();
-    public static OnInitializeInstructions InitializeInstructions;
-
     
     #endregion
     
@@ -45,7 +41,7 @@ public class StatusManager : MonoBehaviour
     [SerializeField] private BoolGameEvent _dimGameEvent;
     [SerializeField] protected PlayableDirector _shortTimeline;  
     [SerializeField] protected PlayableDirector _longTimeline; 
-    [SerializeField] protected GameObject _languageButtons; //TODO use events
+    [SerializeField] protected GameObject _languageButtons; //TODO use events, no direct references
 
     [SerializeField] protected GameEvent _standbyGameEvent;
     [SerializeField] protected GameEvent _InstructionsStartedGameEvent;
@@ -59,9 +55,7 @@ public class StatusManager : MonoBehaviour
     [SerializeField] protected TrackAsset _germanTrack;
     [SerializeField] protected TrackAsset _englishTrack;
     
-    protected GameObject _confirmationMenu; //TODO use events, no direct reference!
     protected bool _experienceRunning;
-    protected bool _dimOutOnExperienceStart;
     
     #endregion
 
@@ -70,25 +64,23 @@ public class StatusManager : MonoBehaviour
     private void OnEnable()
     {
         ArduinoManager.SerialFailure += SerialFailure;
+        ArduinoManager.SerialReady += Standby;
     }
 
     private void OnDisable()
     {
         ArduinoManager.SerialFailure -= SerialFailure;
+        ArduinoManager.SerialReady -= Standby;
     }
 
     private void Awake()
     {
-        _confirmationMenu = GameObject.Find("ConfirmationMenu"); //TOOD don't use references like that
-        UduinoManager.Instance.OnBoardDisconnectedEvent.AddListener(delegate {
-            SerialFailure(); //TODO wait for a few seconds for reconnection instead of going staight to failure
-        });
-        instructionsTimeline = _longTimeline; //use short experience by default
+        instructionsTimeline = _longTimeline; //TODO remove?
     }
 
     protected void Start()
     {
-        _setInstructionsTextGameEvent.Raise("waitForSerserial"); 
+        _setInstructionsTextGameEvent.Raise("waitForSerial"); 
         selfState.Value = UserState.headsetOff;
         otherState.Value = UserState.headsetOff;
     }
@@ -101,6 +93,7 @@ public class StatusManager : MonoBehaviour
             selfState.Value = UserState.headsetOff; 
             selfStateGameEvent.Raise(UserState.headsetOff);
         }
+        //TODO this might not work with all headsets 
         else if (SessionStateFeature.GetCurrentState() == (int) XrSessionState.Focused && selfState.Value == UserState.headsetOff) //if we just put the headset on
         {
             previousSelfState.Value = selfState.Value;
@@ -120,7 +113,7 @@ public class StatusManager : MonoBehaviour
         _showInstructionsTextGameEvent.Raise(false);
         _dimGameEvent.Raise(false);
         _experienceStartedGameEvent.Raise();
-        Debug.Log("experience started");
+        Debug.Log("experience started", DLogType.Logic);
     }
     
     public void SerialFailure() //if something went wrong with the physical installation
@@ -137,12 +130,12 @@ public class StatusManager : MonoBehaviour
     public void MirrorOn()
     {
         SendArduinoCommand("mir_on"); 
-        Debug.Log("mirrors on");
+        Debug.Log("mirrors on", DLogType.Logic);
     }
 
     public void CloseWall()
     {
-        Debug.Log("wall on");        
+        Debug.Log("wall on", DLogType.Logic);        
         _curtainOnEvent.Raise(true);
     }
     
@@ -150,12 +143,12 @@ public class StatusManager : MonoBehaviour
     {
         _curtainOnEvent.Raise(false);
         SendArduinoCommand("mir_off"); //hide mirror
-        Debug.Log("wall off");
+        Debug.Log("wall off", DLogType.Logic);
     }
 
     protected void ThisUserIsReady() //called when user has aimed at the confirmation dialog and waited through the countdown.
     {
-        SendThisUserStatus(UserState.readyToStart);
+        SendThisUserStatus(UserState.readyToStart); //TODO this needs not to be here, OSCManager can send all changes by itself
         _languageButtons.gameObject.SetActive(false); //hide language buttons;
         if (otherState.Value == UserState.readyToStart) StartPlaying(); //TODO this should be the default behavior
         _setInstructionsTextGameEvent.Raise("waitForOther");
@@ -171,7 +164,7 @@ public class StatusManager : MonoBehaviour
     public void SelfPutHeadsetOn()
     {
         _setInstructionsTextGameEvent.Raise("idle");
-        SendThisUserStatus(UserState.headsetOn);
+        SendThisUserStatus(UserState.headsetOn); //TODO this needs not to be here, OSCManager can send all changes by itself
         Debug.Log("this user put on the headset", DLogType.Input);
     }
 
@@ -198,40 +191,23 @@ public class StatusManager : MonoBehaviour
         Debug.Log("the other user removed the headset", DLogType.Input);
     }
     
-    public void Standby(bool start = false, bool dimOutOnExperienceStart = true)
+    public void Standby()
     {
         Debug.Log("Standby");
-        if (!start) _dimGameEvent.Raise(true);; //TODO somehow this messes with Video Feed dimming when called on Start?
-        _setInstructionsTextGameEvent.Raise("idle");
-
         instructionsTimeline.Stop();
+        _setInstructionsTextGameEvent.Raise("idle");
         _experienceRunning = false;
-
         StopAudiosInstructions();
-
-        InitializeInstructions();
-        
         _languageButtons.gameObject.SetActive(true); //show language buttons;
-
-        Debug.Log("ready to start");
-        
-        _dimGameEvent.Raise(true); //TODO this is called twice?
-
-        _dimOutOnExperienceStart = dimOutOnExperienceStart;
-        Debug.Log("setting dimOutOnExperienceStat to " + _dimOutOnExperienceStart);
-        
+        Debug.Log("ready to start", DLogType.Logic); //TODO why ready to start and standby at same time?
+        _dimGameEvent.Raise(true);
         _standbyGameEvent.Raise();
     }
 
     public void SelfRemovedHeadset()
     {
-        //TODO use event instead 
-        _confirmationMenu.GetComponent<VRInteractiveItem>().Out(); //notify the VR interactive element that we are not hovering any more
-        if (previousSelfState.Value == UserState.readyToStart) {
-            Standby(false, _dimOutOnExperienceStart); //if we were ready and we took off the headset go to initial state
-        }
-        
-        SendThisUserStatus(selfState); //TODO use events instead
+       if (previousSelfState.Value == UserState.readyToStart) Standby(); //if we were ready and we took off the headset go to initial state
+        SendThisUserStatus(selfState); ////TODO this needs not to be here, OSCManager can send all changes by itself
         Debug.Log("this user removed his headset", DLogType.Input);
     }
 
@@ -267,17 +243,17 @@ public class StatusManager : MonoBehaviour
         _dimGameEvent.Raise(true);
         _setInstructionsTextGameEvent.Raise("finished");
         instructionsTimeline.Stop();
-        Debug.Log("experience finished");
+        Debug.Log("experience finished", DLogType.Logic);
         _experienceRunning = false;
         _experienceFinishedGameEvent.Raise(false);
     }
     
     protected IEnumerator WaitBeforeResetting()
     {
+        Debug.Log("about to reset", DLogType.Logic);
         yield return new WaitForSeconds(4f); //make sure this value is inferior or equal to the confirmation radial time to avoid bugs
-        Standby(false, _dimOutOnExperienceStart); //if we were ready and we took off the headset go to initial state
+        Standby(); //if we were ready and we took off the headset go to initial state
         SelfPutHeadsetOn();
-        Debug.Log("about to reset");
     }
 
     protected void StartPlaying()

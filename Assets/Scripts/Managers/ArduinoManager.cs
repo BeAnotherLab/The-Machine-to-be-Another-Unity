@@ -8,22 +8,20 @@ using Debug = DebugFile;
 
 public class ArduinoManager : MonoBehaviour
 {
-    #region Public Fields
-
-    #endregion
-
-    
+  
     #region Private Fields
 
     public delegate void OnSerialFailure();
     public static OnSerialFailure SerialFailure;
+    
+    public delegate void OnSerialReady();
+    public static OnSerialReady SerialReady;
     
     [SerializeField] private int _timeOut;
 
     [SerializeField] private bool _curtainOffOnStandby = true;
 
     private bool _serialControlOn; //for technorama swap. determine if this computer is in charge of controlling the curtain and mirrors
-    private bool _sysready; //whether board has been connected already
     
     #endregion
     
@@ -32,13 +30,15 @@ public class ArduinoManager : MonoBehaviour
 
     private void OnEnable()
     {
+        UduinoManager.Instance.OnDataReceived += DataReceived;
         SettingsGUI.SetSerialControl += SetSerialControlComputer;
         StatusManager.SendArduinoCommand += SendCommand;
-        SerialDebugPanel.SendArduinoCommand += SendCommand;
+        SerialDebugPanel.SendArduinoCommand += SendCommand; //TODO add this panel or remove
     }
 
     private void OnDisable()
     {
+        UduinoManager.Instance.OnDataReceived -= DataReceived;
         SettingsGUI.SetSerialControl -= SetSerialControlComputer;
         StatusManager.SendArduinoCommand -= SendCommand;
         SerialDebugPanel.SendArduinoCommand -= SendCommand;
@@ -60,31 +60,11 @@ public class ArduinoManager : MonoBehaviour
         else PlayerPrefs.SetInt("serialControlOn", 0);    
         _serialControlOn = serialControlOn;
     }
-    
-    public void ActivateSerial(bool servosOn, bool useCurtain) //TODO remove?
-    {
-        if (servosOn) UduinoManager.Instance.BaudRate = 57600;
-        else if (_serialControlOn && useCurtain){ //if we are in Technorama and this computer is connected to the Arduino
-            UduinoManager.Instance.OnDataReceived += DataReceived;
-            UduinoManager.Instance.BaudRate = 115200; //this is the baudrate for //TODO ???
-            //TODO what's the baudrate for the Technorama setup?
-        }
-    }
 
     public void WallOn(bool on)
     {
         if (on) SendCommand("wal_on" );
         else if (!on) SendCommand("wal_off");
-    }
-    
-    public void ArduinoBoardConnected()
-    {
-        Debug.Log("board connected");
-        if (!_sysready)
-        {
-            _sysready = true;
-            SendCommand("init");
-        }
     }
     
     #endregion
@@ -105,13 +85,17 @@ public class ArduinoManager : MonoBehaviour
     {
         Debug.Log("received : " + data, DLogType.System);
         
-        if (data == "MD_FAULT" || data == "MD_BLOCK")
+        //TODO this is only for Technorama
+        if (data == "MD_FAULT" || data == "MD_BLOCK" || data == "TIMEOUT")
         {
             Debug.Log("ERROR : " + data, DLogType.Error);
             SerialFailure();
         }
-        else if (data == "TIMEOUT") Debug.Log("ERROR : " + data, DLogType.Error);
-        else if (data == "sysReady") Debug.Log("homing done, ready to start");            
+        else if (data == "sys_rdy")
+        {
+            SerialReady();
+            Debug.Log("homing done, ready to start");
+        }            
     }    
 
     #endregion

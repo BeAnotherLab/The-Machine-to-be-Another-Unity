@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Lean.Localization;
 using ScriptableObjectArchitecture;
@@ -8,14 +9,9 @@ public class BodySwapInstructionsText : MonoBehaviour //TODO inherit Instruction
 {
     [SerializeField] private GameObject _instructionsImages;
 
-    private void OnEnable()
+    private void Start()
     {
-        StatusManager.InitializeInstructions += InitializeInstructions;
-    }
-
-    private void OnDisable()
-    {
-        StatusManager.InitializeInstructions -= InitializeInstructions;
+        _instructionsImages.GetComponent<PanelDimmer>().Hide();
     }
 
     public void FadeInImages() //called by timeline
@@ -26,11 +22,11 @@ public class BodySwapInstructionsText : MonoBehaviour //TODO inherit Instruction
     public void ExperienceFinished(bool ls) 
     {
         GetComponent<InstructionsTextBehavior>().ShowTextFromKey("finished", 3);
+        _instructionsImages.GetComponent<PanelDimmer>().Hide(); //TODO not here!
     }
-      
-    private void InitializeInstructions()
+
+    public void Standby()
     {
         _instructionsImages.GetComponent<PanelDimmer>().Hide();
-       // GetComponent<FadeController>().FadeInText();
     }
 }
