@@ -14,9 +14,6 @@ public class OscManager : MonoBehaviour {
 
     #region Public Fields
 
-    public delegate void OtherStatus(); //TODO remove?
-    public static OtherStatus OnOtherStatus;
-    
     public delegate void OnReceivedAudioButtonPressed(int i);
     public static OnReceivedAudioButtonPressed ReceivedAudioButtonPressed;
 
@@ -177,21 +174,17 @@ public class OscManager : MonoBehaviour {
     
     private void ReceivedOtherStatus(OSCMessage message)
     {
-            int x;
-            if (message.ToInt(out x))
-            {
-                previousOtherState.Value = otherState.Value;
+        int x;
+        if (message.ToInt(out x))
+        {
+            previousOtherState.Value = otherState.Value;
 
-                if (x == 0) otherState.Value = UserState.headsetOff; //StatusManager.instance.OtherLeft();
-                else if (x == 1) otherState.Value = UserState.headsetOn; //StatusManager.instance.OtherPutHeadsetOn();
-                else if (x == 2) otherState.Value = UserState.readyToStart; //StatusManager.instance.OtherUserIsReady();
-                
-                otherStateGameEvent.Raise(otherState);
-            }
-
-            try { OnOtherStatus(); } //when receiving other status over OSC we get an error?
-            catch (Exception e) { }
+            if (x == 0) otherState.Value = UserState.headsetOff; //StatusManager.instance.OtherLeft();
+            else if (x == 1) otherState.Value = UserState.headsetOn; //StatusManager.instance.OtherPutHeadsetOn();
+            else if (x == 2) otherState.Value = UserState.readyToStart; //StatusManager.instance.OtherUserIsReady();
             
+            otherStateGameEvent.Raise(otherState);
+        }
     }
     private void ReceiveSerialStatus(OSCMessage message) //this is only for receiving OK to start,
     {
