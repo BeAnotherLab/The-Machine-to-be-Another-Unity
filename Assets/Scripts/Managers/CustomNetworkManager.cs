@@ -1,22 +1,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using ScriptableObjectArchitecture;
 using UnityEngine;
 using Debug = DebugFile;
 
 namespace Mirror.Examples.Pong
 {
-    // Custom NetworkManager that simply assigns the correct racket positions when
-    // spawning players. The built in RoundRobin spawn method wouldn't work after
-    // someone reconnects (both players would be on the same side).
     [AddComponentMenu("")]
     
     public class CustomNetworkManager : NetworkManager
     {
-        public static CustomNetworkManager instance;
-            
-        public bool offlineMode;
+        public bool offlineMode; //TODO remove?;
+        
+        public delegate void OnConnectionEstablished();
+        public static OnConnectionEstablished ConnectionEstablished;
         
         private void OnEnable()
         {
@@ -28,14 +27,9 @@ namespace Mirror.Examples.Pong
             DisplayManager.SetDisplayModeEvent -= EnableNetworkGUI;
         }
 
-        private void Awake()
-        {
-            if (instance == null) instance = this;
-        }
-
         private void Start()    
         {
-            if (offlineMode) Instantiate(playerPrefab);
+            if (offlineMode) Instantiate(playerPrefab); //TODO needed?
             networkAddress = PlayerPrefs.GetString("othersIP");
 
             if (PlayerPrefs.GetInt("repeater", 0) == 1) //TODO rename property
@@ -44,16 +38,12 @@ namespace Mirror.Examples.Pong
                 StartCoroutine(TryConnect());
         }
 
-        public void OnStandby()
-        {
-            
-        }
-        
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
             // add player at correct spawn position
             GameObject player = Instantiate(playerPrefab);
             NetworkServer.AddPlayerForConnection(conn, player);
+            ConnectionEstablished();
         }
 
         public void EnableNetworkGUI(bool show)
@@ -66,7 +56,7 @@ namespace Mirror.Examples.Pong
             // call base functionality (actually destroys the player)
             base.OnServerDisconnect(conn);
         }
-        
+
         private IEnumerator TryConnect()
         {
             while (!NetworkClient.isConnected)
