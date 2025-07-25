@@ -29,4 +29,12 @@ public class BodySwapInstructionsText : MonoBehaviour //TODO inherit Instruction
     {
         _instructionsImages.GetComponent<PanelDimmer>().Hide();
     }
+    
+    public void OtherUserStateChanged(UserState otherUserState)
+    {
+        if (otherUserState == UserState.headsetOff)
+        {
+            _instructionsImages.GetComponent<PanelDimmer>().Hide();
+        }
+    }
 }

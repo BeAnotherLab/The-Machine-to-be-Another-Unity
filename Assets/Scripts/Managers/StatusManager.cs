@@ -11,7 +11,7 @@ using UnityEngine.XR;
 using UnityEngine.XR.OpenXR.NativeTypes;
 using VRStandardAssets.Utils;
 
-public class StatusManager : MonoBehaviour
+public class StatusManager : MonoBehaviour //TODO instructions text stuff needs not be handled here
 {
     #region Public Fields
 
@@ -153,9 +153,9 @@ public class StatusManager : MonoBehaviour
     protected void ThisUserIsReady() //called when user has aimed at the confirmation dialog and waited through the countdown.
     {
         SendThisUserStatus(UserState.readyToStart); //TODO this needs not to be here, OSCManager can send all changes by itself
-        _languageButtons.gameObject.SetActive(false); //hide language buttons;
+        _languageButtons.gameObject.SetActive(false); //TODO self manage
         if (otherState.Value == UserState.readyToStart) StartPlaying(); //TODO this should be the default behavior
-        _setInstructionsTextGameEvent.Raise("waitForOther");
+        _setInstructionsTextGameEvent.Raise("waitForOther"); //TODO self manage
         Debug.Log("this user is ready", DLogType.Input);
     }
 
@@ -182,7 +182,7 @@ public class StatusManager : MonoBehaviour
         //if experience started
         if (previousOtherState.Value == UserState.readyToStart)
         {
-            //only reset on other left if experience running, post finished, or doing pre questionnaire
+            //only reset on other left if experience running
             if (_experienceRunning) 
             {
                 instructionsTimeline.Stop();

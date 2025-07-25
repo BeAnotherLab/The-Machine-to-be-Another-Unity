@@ -356,6 +356,7 @@ GameObject:
   - component: {fileID: 332290940960440211}
   - component: {fileID: 4955619369018986257}
   - component: {fileID: 2440222116012834322}
+  - component: {fileID: 2039392850324519036}
   m_Layer: 5
   m_Name: AutoBodySwapInstructionsGUI
   m_TagString: Untagged
@@ -650,6 +651,39 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2039392850324519036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702575981237749515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbf3049867acf4e98b57a68ca8ffdf10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: fa8ca749ca9ad4876827002f647bcaf6, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 604608053}
+        m_TargetAssemblyTypeName: BodySwapInstructionsText, Assembly-CSharp
+        m_MethodName: OtherUserStateChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _debugValue: 0
 --- !u!1 &6124824445868289271
 GameObject:
   m_ObjectHideFlags: 0
