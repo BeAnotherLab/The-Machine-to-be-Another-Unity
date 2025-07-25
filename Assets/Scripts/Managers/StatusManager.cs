@@ -200,7 +200,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         _setInstructionsTextGameEvent.Raise("idle");
         _experienceRunning = false;
         StopAudiosInstructions();
-        Debug.Log("ready to start", DLogType.Logic); //TODO why ready to start and standby at same time?
         _dimGameEvent.Raise(true);
         _standbyGameEvent.Raise();
     }

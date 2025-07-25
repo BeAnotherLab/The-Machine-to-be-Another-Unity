@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Mirror.Examples.Pong;
 using Uduino;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum DisplayMode{Debug, Prod}
 
@@ -14,7 +15,7 @@ public class DisplayManager : MonoBehaviour //This manager centralizes display o
     public delegate void OnSetDisplayMode(bool show);
     public static OnSetDisplayMode SetDisplayModeEvent = delegate(bool show) {  };
 
-    [SerializeField] private GameObject _utilities;
+    [SerializeField] private GameObject _display; //TODO no direct reference
 
     private void OnEnable()
     {
@@ -37,7 +38,7 @@ public class DisplayManager : MonoBehaviour //This manager centralizes display o
         var show = displayMode == DisplayMode.Debug;
         
         //hide menus
-        _utilities.SetActive(show);
+        _display.SetActive(show);
         VideoCameraManager.instance.EnableDeviceMenu(show);
         SetDisplayModeEvent(show);
         
