@@ -21,11 +21,12 @@ public class OscManager : MonoBehaviour {
 
     public delegate void OnReceiveRecenterPose();
     public static OnReceiveRecenterPose ReceiveRecenterPose;
-    public delegate void OnSendSerialReady();
-    public static OnSendSerialReady SendSerialReady;
-    
+
     public delegate void OnReceiveSerialReady();
     public static OnReceiveSerialReady ReceiveSerialReady;
+    
+    public delegate void OnReceiveSerialFailure();
+    public static OnReceiveSerialFailure ReceiveSerialFailure;
     
     public UserStateVariable previousOtherState;
     public UserStateVariable otherState;
@@ -51,14 +52,16 @@ public class OscManager : MonoBehaviour {
 
     private void OnEnable()
     {
-        ArduinoManager.SerialReady += SendSerialStatus;
+        ArduinoManager.SerialReady += SendSerialConfirmation;
+        ArduinoManager.SerialFailure += SendSerialFailure;
         StatusManager.SendThisUserStatus += SendThisUserStatus;
         SettingsGUI.SetRepeater += SetRepeater;
     }
 
     private void OnDisable()
     {
-        ArduinoManager.SerialReady -= SendSerialStatus;
+        ArduinoManager.SerialReady -= SendSerialConfirmation;
+        ArduinoManager.SerialFailure -= SendSerialConfirmation;
         StatusManager.SendThisUserStatus -= SendThisUserStatus;
         SettingsGUI.SetRepeater -= SetRepeater;
     }
@@ -201,7 +204,15 @@ public class OscManager : MonoBehaviour {
         }
         Debug.Log("received serial confirmation", DLogType.Network);
     }
-    private void SendSerialStatus()
+    private void SendSerialConfirmation()
+    {
+        Debug.Log("sending serial status", DLogType.Network);
+        OSCMessage message = new OSCMessage("/serialStatus");
+        message.AddValue(OSCValue.Int(1));
+        _oscTransmitter.Send(message);
+    }
+    
+    private void SendSerialFailure()
     {
         Debug.Log("sending serial status", DLogType.Network);
         OSCMessage message = new OSCMessage("/serialStatus");

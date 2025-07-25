@@ -64,14 +64,17 @@ public class StatusManager : MonoBehaviour
     private void OnEnable()
     {
         ArduinoManager.SerialFailure += SerialFailure;
-        OscManager.ReceiveSerialReady += Standby;
         ArduinoManager.SerialReady += Standby;
+        OscManager.ReceiveSerialFailure += SerialFailure;
+        OscManager.ReceiveSerialReady += Standby;
     }
 
     private void OnDisable()
     {
         ArduinoManager.SerialFailure -= SerialFailure;
         ArduinoManager.SerialReady -= Standby;
+        OscManager.ReceiveSerialFailure -= SerialFailure;
+        OscManager.ReceiveSerialReady -= Standby;
     }
 
     private void Awake()

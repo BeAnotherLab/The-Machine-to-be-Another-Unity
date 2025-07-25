@@ -64,6 +64,11 @@ public class ArduinoManager : MonoBehaviour
         if (on) SendCommand("wal_on" );
         else if (!on) SendCommand("wal_off");
     }
+
+    public void CallSerialFailure()
+    {
+        SerialFailure();
+    }
     
     #endregion
 
