@@ -18,9 +18,7 @@ public class ArduinoManager : MonoBehaviour
     public static OnSerialReady SerialReady;
     
     [SerializeField] private int _timeOut;
-
     [SerializeField] private bool _curtainOffOnStandby = true;
-
     private bool _serialControlOn; //for technorama swap. determine if this computer is in charge of controlling the curtain and mirrors
     
     #endregion

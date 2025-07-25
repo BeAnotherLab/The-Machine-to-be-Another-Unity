@@ -13,8 +13,6 @@ public class OscManager : MonoBehaviour {
 
     #region Public Fields
 
-    public string othersIP { get { return othersIP; } set { SetOthersIP(value); } }   //TODO remove?
-    //TODO ???
     public delegate void OtherStatus(); //TODO remove?
     public static OtherStatus OnOtherStatus;
     
@@ -23,14 +21,18 @@ public class OscManager : MonoBehaviour {
 
     public delegate void OnReceiveRecenterPose();
     public static OnReceiveRecenterPose ReceiveRecenterPose;
-
+    public delegate void OnSendSerialReady();
+    public static OnSendSerialReady SendSerialReady;
+    
+    public delegate void OnReceiveSerialReady();
+    public static OnReceiveSerialReady ReceiveSerialReady;
     
     public UserStateVariable previousOtherState;
     public UserStateVariable otherState;
     public UserStateGameEvent otherStateGameEvent;
     
     #endregion
-
+ 
     #region Private Fields
 
     [SerializeField] private BoolGameEvent _dimGameEvent;
@@ -49,19 +51,20 @@ public class OscManager : MonoBehaviour {
 
     private void OnEnable()
     {
+        ArduinoManager.SerialReady += SendSerialStatus;
         StatusManager.SendThisUserStatus += SendThisUserStatus;
         SettingsGUI.SetRepeater += SetRepeater;
     }
 
     private void OnDisable()
     {
+        ArduinoManager.SerialReady -= SendSerialStatus;
         StatusManager.SendThisUserStatus -= SendThisUserStatus;
         SettingsGUI.SetRepeater -= SetRepeater;
     }
 
     private void Awake()
     {
-        
         _oscReceiver = GetComponent<OSCReceiver>();
         _oscTransmitter = GetComponent<OSCTransmitter>();
     }
@@ -73,9 +76,10 @@ public class OscManager : MonoBehaviour {
         _oscReceiver.Bind("/dimon", ReceiveDimOn);
         _oscReceiver.Bind("/dimoff", ReceiveDimOff);
         _oscReceiver.Bind("/ht", ReceiveCalibrate);
-        _oscReceiver.Bind("/curtain", ReceiveCurtain); //TODO remove?
         for (int i = 0; i < 11; i++) _oscReceiver.Bind("/btn" + i.ToString(), ReceiveBtn);
 
+        _oscReceiver.Bind("/serialStatus", ReceiveSerialStatus);
+        
         //set IP address of other 
         SetOthersIP(PlayerPrefs.GetString("othersIP"));
     }   
@@ -132,7 +136,7 @@ public class OscManager : MonoBehaviour {
             if (value == 1f) _dimGameEvent.Raise(true);
 
         if (_repeater) _oscTransmitter.Send(message);
-    }
+    } //TODO collapse into one dim
 
     private void ReceiveDimOff(OSCMessage message)
     {
@@ -141,7 +145,7 @@ public class OscManager : MonoBehaviour {
             if (value == 1f) _dimGameEvent.Raise(false);
 
         if (_repeater) _oscTransmitter.Send(message);
-    }
+    } //TODO collapse into one dim
 
     private void ReceiveBtn(OSCMessage message)
     {
@@ -157,13 +161,6 @@ public class OscManager : MonoBehaviour {
         if (_repeater) _oscTransmitter.Send(message);
     }
 
-    private void ReceiveCurtain(OSCMessage message)
-    {
-        float value;
-        if (message.ToFloat(out value))
-            _curtainOnGameEvent.Raise(value == 1);
-    }
-    
     public void SendBtn(int index) 
     {
         OSCMessage message = new OSCMessage("/btn" + index.ToString());
@@ -189,7 +186,29 @@ public class OscManager : MonoBehaviour {
             catch (Exception e) { }
             
     }
-
+    private void ReceiveSerialStatus(OSCMessage message) //this is only for receiving OK to start, not stopping on error
+    {
+        int x;
+        if (message.ToInt(out x))
+        {
+            if (x == 1) //when we receive serial ready from computer connected to Arduino
+            {
+                //confirm we've received the message
+                OSCMessage oscMessage = new OSCMessage("/serialConfirmation");
+                _oscTransmitter.Send(oscMessage);
+                ReceiveSerialReady();
+            }
+        }
+        Debug.Log("received serial confirmation", DLogType.Network);
+    }
+    private void SendSerialStatus()
+    {
+        Debug.Log("sending serial status", DLogType.Network);
+        OSCMessage message = new OSCMessage("/serialStatus");
+        message.AddValue(OSCValue.Int(1));
+        _oscTransmitter.Send(message);
+    }
+    
     #endregion
 
 }
