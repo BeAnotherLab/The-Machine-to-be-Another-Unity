@@ -52,7 +52,7 @@ public class OscManager : MonoBehaviour {
 
     private void OnEnable()
     {
-        ArduinoManager.SerialReady += SendSerialConfirmation;
+        ArduinoManager.SerialReady += SendSerialReady;
         ArduinoManager.SerialFailure += SendSerialFailure;
         StatusManager.SendThisUserStatus += SendThisUserStatus;
         SettingsGUI.SetRepeater += SetRepeater;
@@ -60,8 +60,8 @@ public class OscManager : MonoBehaviour {
 
     private void OnDisable()
     {
-        ArduinoManager.SerialReady -= SendSerialConfirmation;
-        ArduinoManager.SerialFailure -= SendSerialConfirmation;
+        ArduinoManager.SerialReady -= SendSerialReady;
+        ArduinoManager.SerialFailure -= SendSerialFailure;
         StatusManager.SendThisUserStatus -= SendThisUserStatus;
         SettingsGUI.SetRepeater -= SetRepeater;
     }
@@ -189,22 +189,24 @@ public class OscManager : MonoBehaviour {
             catch (Exception e) { }
             
     }
-    private void ReceiveSerialStatus(OSCMessage message) //this is only for receiving OK to start, not stopping on error
+    private void ReceiveSerialStatus(OSCMessage message) //this is only for receiving OK to start,
     {
         int x;
         if (message.ToInt(out x))
         {
-            if (x == 1) //when we receive serial ready from computer connected to Arduino
+            if (x == 1) 
             {
-                //confirm we've received the message
-                OSCMessage oscMessage = new OSCMessage("/serialConfirmation");
-                _oscTransmitter.Send(oscMessage);
-                ReceiveSerialReady();
+                ReceiveSerialReady(); //when we receive serial ready from computer connected to Arduino
+                Debug.Log("received serial confirmation", DLogType.Network);
+            }
+            else if (x == 0) 
+            {
+                ReceiveSerialFailure(); //when we receive serial error from computer connected to Arduino
+                Debug.Log("received serial error message", DLogType.Network);
             }
         }
-        Debug.Log("received serial confirmation", DLogType.Network);
     }
-    private void SendSerialConfirmation()
+    private void SendSerialReady()
     {
         Debug.Log("sending serial status", DLogType.Network);
         OSCMessage message = new OSCMessage("/serialStatus");
@@ -216,7 +218,7 @@ public class OscManager : MonoBehaviour {
     {
         Debug.Log("sending serial status", DLogType.Network);
         OSCMessage message = new OSCMessage("/serialStatus");
-        message.AddValue(OSCValue.Int(1));
+        message.AddValue(OSCValue.Int(0));
         _oscTransmitter.Send(message);
     }
     
