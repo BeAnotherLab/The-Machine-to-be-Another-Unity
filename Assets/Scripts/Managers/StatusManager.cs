@@ -41,7 +41,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     [SerializeField] private BoolGameEvent _dimGameEvent;
     [SerializeField] protected PlayableDirector _shortTimeline;  
     [SerializeField] protected PlayableDirector _longTimeline; 
-    [SerializeField] protected GameObject _languageButtons; //TODO use events, no direct references
 
     [SerializeField] protected GameEvent _standbyGameEvent;
     [SerializeField] protected GameEvent _InstructionsStartedGameEvent;
@@ -153,7 +152,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     protected void ThisUserIsReady() //called when user has aimed at the confirmation dialog and waited through the countdown.
     {
         SendThisUserStatus(UserState.readyToStart); //TODO this needs not to be here, OSCManager can send all changes by itself
-        _languageButtons.gameObject.SetActive(false); //TODO self manage
         if (otherState.Value == UserState.readyToStart) StartPlaying(); //TODO this should be the default behavior
         _setInstructionsTextGameEvent.Raise("waitForOther"); //TODO self manage
         Debug.Log("this user is ready", DLogType.Input);
@@ -202,7 +200,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         _setInstructionsTextGameEvent.Raise("idle");
         _experienceRunning = false;
         StopAudiosInstructions();
-        _languageButtons.gameObject.SetActive(true); //show language buttons;
         Debug.Log("ready to start", DLogType.Logic); //TODO why ready to start and standby at same time?
         _dimGameEvent.Raise(true);
         _standbyGameEvent.Raise();
