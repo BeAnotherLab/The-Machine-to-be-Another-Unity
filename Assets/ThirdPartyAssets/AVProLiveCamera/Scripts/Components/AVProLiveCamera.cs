@@ -355,6 +355,10 @@ namespace RenderHeads.Media.AVProLiveCamera
 						{
 							Debug.LogWarning("[AVProLiveCamera] Could not find desired mode, using default mode.");
 						}
+						else //TODO don't modify asset files, extend them!
+						{
+							PlayerPrefs.SetInt("CameraModeIndex", _desiredModeIndex);
+						}
 					}
 					break;
 			}
