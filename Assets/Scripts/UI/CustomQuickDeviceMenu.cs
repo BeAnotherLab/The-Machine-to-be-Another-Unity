@@ -5,7 +5,7 @@ using System.Collections.Generic;
 // Copyright 2012-2018 RenderHeads Ltd.  All rights reserverd.
 //-----------------------------------------------------------------------------
 
-namespace RenderHeads.Media.AVProLiveCamera.Demos
+namespace RenderHeads.Media.AVProLiveCamera.Demos //TODO make own namespace
 {
 	public class CustomQuickDeviceMenu : MonoBehaviour
 	{
@@ -72,6 +72,7 @@ namespace RenderHeads.Media.AVProLiveCamera.Demos
 						PlayerPrefs.SetString("CameraName", name);
 						_liveCamera._deviceSelection = AVProLiveCamera.SelectDeviceBy.Index;
 						_liveCamera._desiredDeviceIndex = i;
+						
 						_liveCamera.Begin();
 					}
 				}

@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using RenderHeads.Media.AVProLiveCamera;
 using RenderHeads.Media.AVProLiveCamera.Demos;
 using UnityEngine;
+using Debug = DebugFile;
 using UnityEngine.UI;
 
-public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
+public class VideoCameraManager : AbstractAVProLiveCameraSwitcher 
 {
     public static VideoCameraManager instance;
 
@@ -25,7 +26,7 @@ public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
     private void Awake()
     {
         if (instance == null) instance = this;
-        _avProLiveCamera = FindObjectOfType<AVProLiveCamera>();
+        _avProLiveCamera = GetComponent<AVProLiveCamera>();
     }
 
     private void Start()
@@ -33,7 +34,8 @@ public class VideoCameraManager : AbstractAVProLiveCameraSwitcher
         _avProLiveCamera._deviceSelection = AVProLiveCamera.SelectDeviceBy.Name;
         _avProLiveCamera._desiredModeIndex = PlayerPrefs.GetInt("CameraModeIndex");
         _avProLiveCamera._desiredDeviceNames.Add(PlayerPrefs.GetString("CameraName"));
-        _avProLiveCamera._desiredFrameRate = Single.MaxValue;
+        _avProLiveCamera._desiredFrameRate = 30f;
+        Debug.Log("starting camera " + _avProLiveCamera._desiredDeviceNames[0] + " with mode index " + _avProLiveCamera._desiredModeIndex, DLogType.System);
         _avProLiveCamera.Begin();
     }
 
