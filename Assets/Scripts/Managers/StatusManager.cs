@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using ScriptableObjectArchitecture;
-using Uduino;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using Debug = DebugFile;
-using UnityEngine.XR;
 using UnityEngine.XR.OpenXR.NativeTypes;
-using VRStandardAssets.Utils;
 
 public class StatusManager : MonoBehaviour //TODO instructions text stuff needs not be handled here
 {
@@ -40,7 +35,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     #region Protected Fields 
     [SerializeField] protected BoolGameEvent _dimGameEvent;
     [SerializeField] protected PlayableDirector _instructionsTimeline;
-    [SerializeField] protected PlayableDirector _longTimeline; 
 
     [SerializeField] protected GameEvent _standbyGameEvent;
     [SerializeField] protected GameEvent _InstructionsStartedGameEvent;
@@ -74,11 +68,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         ArduinoManager.SerialReady -= Standby;
         OscManager.ReceiveSerialFailure -= SerialFailure;
         OscManager.ReceiveSerialReady -= Standby;
-    }
-
-    private void Awake()
-    {
-        _instructionsTimeline = _longTimeline; //TODO remove?
     }
 
     protected void Start()
