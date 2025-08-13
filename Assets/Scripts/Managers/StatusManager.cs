@@ -20,7 +20,12 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     public UserStateGameEvent selfStateGameEvent;
     public UserStateGameEvent otherStateGameEvent;
     
-
+    public delegate void OnStopSequencer();
+    public static OnStopSequencer StopSequencer = delegate { };
+    
+    public delegate void OnStartSequencer();
+    public static OnStartSequencer StartSequencer = delegate { };
+    
     public delegate void OnStopAllAudios();
     public static OnStopAllAudios StopAudiosInstructions = delegate { };
 
@@ -34,7 +39,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     //using protected to make them accessible to children 
     #region Protected Fields 
     [SerializeField] protected BoolGameEvent _dimGameEvent;
-    [SerializeField] protected PlayableDirector _instructionsTimeline;
 
     [SerializeField] protected GameEvent _standbyGameEvent;
     [SerializeField] protected GameEvent _InstructionsStartedGameEvent;
@@ -43,10 +47,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     [SerializeField] protected BoolGameEvent _curtainOnEvent;
     
     [SerializeField] protected StringGameEvent _setInstructionsTextGameEvent;
-    [SerializeField] protected BoolGameEvent _showInstructionsTextGameEvent;
-
-    [SerializeField] protected TrackAsset _germanTrack;
-    [SerializeField] protected TrackAsset _englishTrack;
+    [SerializeField] protected BoolGameEvent _showInstructionsTextGameEvent;   
     
     protected bool _experienceRunning;
     
@@ -113,7 +114,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         _dimGameEvent.Raise(true);
         StopAudiosInstructions(); 
         _setInstructionsTextGameEvent.Raise("systemFailure");
-        _instructionsTimeline.Stop();
+        StopSequencer();
         _experienceRunning = false;
         Destroy(gameObject);
         Debug.Log("serial failure", DLogType.Error);
@@ -170,9 +171,9 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         if (previousOtherState.Value == UserState.readyToStart)
         {
             //only reset on other left if experience running
-            if (_experienceRunning) 
+            if (_experienceRunning)
             {
-                _instructionsTimeline.Stop();
+                StopSequencer();
                 _experienceRunning = false;
                 _setInstructionsTextGameEvent.Raise("otherIsGone");
                 StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
@@ -185,7 +186,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     public void Standby()
     {
         Debug.Log("Standby");
-        _instructionsTimeline.Stop();
+        StopSequencer();
         _setInstructionsTextGameEvent.Raise("idle");
         _experienceRunning = false;
         StopAudiosInstructions();
@@ -214,15 +215,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         else if (newState == UserState.readyToStart) OtherUserIsReady();
     }
     
-    public void SwitchLanguageTrack(string language)
-    {
-        TimelineAsset timelineAsset = (TimelineAsset) _instructionsTimeline.playableAsset;
-        _englishTrack = timelineAsset.GetOutputTrack(0);
-        _germanTrack = timelineAsset.GetOutputTrack(1);
-        _englishTrack.muted = language != "English";
-        _germanTrack.muted = language != "German";
-    }
-    
     #endregion
     
     #region Protected Methods
@@ -231,7 +223,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     {
         _dimGameEvent.Raise(true);
         _setInstructionsTextGameEvent.Raise("finished");
-        _instructionsTimeline.Stop();
+        StopSequencer();
         Debug.Log("experience finished", DLogType.Logic);
         _experienceRunning = false;
         _experienceFinishedGameEvent.Raise(false);
@@ -247,7 +239,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
 
     protected void StartPlaying()
     {
-        _instructionsTimeline.Play();
+        StartSequencer();
         _InstructionsStartedGameEvent.Raise();
         _experienceRunning = true;
     }
