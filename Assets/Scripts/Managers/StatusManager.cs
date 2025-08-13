@@ -15,6 +15,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
 {
     #region Public Fields
 
+    //Those are kept public so they can be accessed from the editor script and triggered with buttons
     public UserStateVariable previousOtherState;
     public UserStateVariable otherState;
     
@@ -24,7 +25,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     public UserStateGameEvent selfStateGameEvent;
     public UserStateGameEvent otherStateGameEvent;
     
-    public PlayableDirector instructionsTimeline;
 
     public delegate void OnStopAllAudios();
     public static OnStopAllAudios StopAudiosInstructions = delegate { };
@@ -36,10 +36,10 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     
     #endregion
     
-    #region Protected Fields
-
-    [SerializeField] private BoolGameEvent _dimGameEvent;
-    [SerializeField] protected PlayableDirector _shortTimeline;  
+    //using protected to make them accessible to children 
+    #region Protected Fields 
+    [SerializeField] protected BoolGameEvent _dimGameEvent;
+    [SerializeField] protected PlayableDirector _instructionsTimeline;
     [SerializeField] protected PlayableDirector _longTimeline; 
 
     [SerializeField] protected GameEvent _standbyGameEvent;
@@ -78,7 +78,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
 
     private void Awake()
     {
-        instructionsTimeline = _longTimeline; //TODO remove?
+        _instructionsTimeline = _longTimeline; //TODO remove?
     }
 
     protected void Start()
@@ -124,7 +124,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         _dimGameEvent.Raise(true);
         StopAudiosInstructions(); 
         _setInstructionsTextGameEvent.Raise("systemFailure");
-        instructionsTimeline.Stop();
+        _instructionsTimeline.Stop();
         _experienceRunning = false;
         Destroy(gameObject);
         Debug.Log("serial failure", DLogType.Error);
@@ -183,7 +183,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
             //only reset on other left if experience running
             if (_experienceRunning) 
             {
-                instructionsTimeline.Stop();
+                _instructionsTimeline.Stop();
                 _experienceRunning = false;
                 _setInstructionsTextGameEvent.Raise("otherIsGone");
                 StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
@@ -196,7 +196,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     public void Standby()
     {
         Debug.Log("Standby");
-        instructionsTimeline.Stop();
+        _instructionsTimeline.Stop();
         _setInstructionsTextGameEvent.Raise("idle");
         _experienceRunning = false;
         StopAudiosInstructions();
@@ -227,7 +227,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     
     public void SwitchLanguageTrack(string language)
     {
-        TimelineAsset timelineAsset = (TimelineAsset) instructionsTimeline.playableAsset;
+        TimelineAsset timelineAsset = (TimelineAsset) _instructionsTimeline.playableAsset;
         _englishTrack = timelineAsset.GetOutputTrack(0);
         _germanTrack = timelineAsset.GetOutputTrack(1);
         _englishTrack.muted = language != "English";
@@ -242,7 +242,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     {
         _dimGameEvent.Raise(true);
         _setInstructionsTextGameEvent.Raise("finished");
-        instructionsTimeline.Stop();
+        _instructionsTimeline.Stop();
         Debug.Log("experience finished", DLogType.Logic);
         _experienceRunning = false;
         _experienceFinishedGameEvent.Raise(false);
@@ -258,7 +258,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
 
     protected void StartPlaying()
     {
-        instructionsTimeline.Play();
+        _instructionsTimeline.Play();
         _InstructionsStartedGameEvent.Raise();
         _experienceRunning = true;
     }
