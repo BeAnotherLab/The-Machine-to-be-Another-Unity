@@ -9,7 +9,7 @@ using UnityEngine.XR.OpenXR.NativeTypes;
 public class StatusManager : MonoBehaviour //TODO instructions text stuff needs not be handled here
 {
     #region Public Fields
-
+    
     //Those are kept public so they can be accessed from the editor script and triggered with buttons
     public UserStateVariable previousOtherState;
     public UserStateVariable otherState;
@@ -74,26 +74,10 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     protected void Start()
     {
         _setInstructionsTextGameEvent.Raise("waitForSerial"); 
-        selfState.Value = UserState.headsetOff;
-        otherState.Value = UserState.headsetOff;
     }
 
     protected void Update()
     {
-        if (SessionStateFeature.GetCurrentState() == (int) XrSessionState.Synchronized  && selfState.Value != UserState.headsetOff)
-        {
-            previousSelfState.Value = selfState.Value;
-            selfState.Value = UserState.headsetOff; 
-            selfStateGameEvent.Raise(UserState.headsetOff);
-        }
-        //TODO this might not work with all headsets 
-        else if (SessionStateFeature.GetCurrentState() == (int) XrSessionState.Focused && selfState.Value == UserState.headsetOff) //if we just put the headset on
-        {
-            previousSelfState.Value = selfState.Value;
-            selfState.Value = UserState.headsetOn;
-            selfStateGameEvent.Raise(UserState.headsetOn);
-        }
-          
         if (Input.GetKeyDown("o")) IsOver();
     }
     
@@ -109,7 +93,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         Debug.Log("experience started", DLogType.Logic);
     }
     
-    public void SerialFailure() //if something went wrong with the physical installation
+    private void SerialFailure() //if something went wrong with the physical installation
     {
         _dimGameEvent.Raise(true);
         StopAudiosInstructions(); 
@@ -126,7 +110,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         Debug.Log("mirrors on", DLogType.Logic);
     }
 
-    public void CloseWall()
+    public void CloseWall() //called 
     {
         Debug.Log("wall on", DLogType.Logic);        
         _curtainOnEvent.Raise(true);
@@ -139,7 +123,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         Debug.Log("wall off", DLogType.Logic);
     }
 
-    protected void ThisUserIsReady() //called when user has aimed at the confirmation dialog and waited through the countdown.
+    private void ThisUserIsReady() //called when user has aimed at the confirmation dialog and waited through the countdown.
     {
         SendThisUserStatus(UserState.readyToStart); //TODO this needs not to be here, OSCManager can send all changes by itself
         if (otherState.Value == UserState.readyToStart) StartPlaying(); //TODO this should be the default behavior

@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using ScriptableObjectArchitecture;
 using UnityEditor;
 using UnityEngine;
-[CustomEditor(typeof(StatusManager),true)]
-public class StatusManagerEditor : Editor
+[CustomEditor(typeof(UserStateManager),true)]
+public class UserStateManagerEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        StatusManager statusManager = (StatusManager) target;
+        UserStateManager userStateManager = (UserStateManager) target;
 
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-        var selfState = statusManager.selfState;
-        var otherState = statusManager.otherState;
-        var selfStateEvent = statusManager.selfStateGameEvent;
-        var otherStateEvent = statusManager.otherStateGameEvent;
+        var selfState = userStateManager.selfState;
+        var otherState = userStateManager.otherState;
+        var selfStateEvent = userStateManager.selfStateGameEvent;
+        var otherStateEvent = userStateManager.otherStateGameEvent;
         
         if (GUILayout.Button("Other is ready"))
         {
@@ -40,7 +40,7 @@ public class StatusManagerEditor : Editor
 
         if (GUILayout.Button("Self put headset on"))
         {
-            statusManager.previousSelfState.Value = selfState.Value;
+            userStateManager.previousSelfState.Value = selfState.Value;
             selfState.Value = UserState.headsetOn;
             selfStateEvent.Raise(UserState.headsetOn);
         } 
@@ -49,14 +49,14 @@ public class StatusManagerEditor : Editor
 
         if (GUILayout.Button("Self is ready"))
         {
-            statusManager.previousSelfState.Value = selfState.Value;
+            userStateManager.previousSelfState.Value = selfState.Value;
             selfState.Value = UserState.readyToStart; 
             selfStateEvent.Raise(UserState.readyToStart);
         }
 
         if (GUILayout.Button("Self is gone"))
         {
-            statusManager.previousSelfState.Value = selfState.Value;
+            userStateManager.previousSelfState.Value = selfState.Value;
             selfState.Value = UserState.headsetOff; 
             selfStateEvent.Raise(UserState.headsetOff);
         } 
