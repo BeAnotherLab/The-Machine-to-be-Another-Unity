@@ -6,7 +6,7 @@ using UnityEngine.Timeline;
 
 public class TimelineControlller : MonoBehaviour
 {
-        private TrackAsset _germanTrack;
+    private TrackAsset _germanTrack;
     private TrackAsset _englishTrack;
 
     [SerializeField] private BoolVariable _experienceRunning;
