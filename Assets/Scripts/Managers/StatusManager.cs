@@ -37,6 +37,8 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         ArduinoManager.SerialReady += Standby;
         OscManager.ReceiveSerialFailure += SerialFailure;
         OscManager.ReceiveSerialReady += Standby;
+        UserStateManager.OtherLeft += WaitThenStandby;
+        UserStateManager.ThisUserLeft += Standby;
     }
 
     private void OnDisable()
@@ -45,6 +47,8 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         ArduinoManager.SerialReady -= Standby;
         OscManager.ReceiveSerialFailure -= SerialFailure;
         OscManager.ReceiveSerialReady -= Standby;
+        UserStateManager.OtherLeft -= WaitThenStandby;
+        UserStateManager.ThisUserLeft -= Standby;
     }
 
     private void Start()
@@ -80,8 +84,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         _curtainOnEvent.Raise(true);
     }
     
-    //TODO rename to Wall off
-    public void WallOn() //called by sequencer / timeline 
+    public void WallOn() //called by sequencer / timeline TODO rename to Wall off 
     {
         _curtainOnEvent.Raise(false);
         SendArduinoCommand("mir_off"); //hide mirror
@@ -108,13 +111,17 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         _dimGameEvent.Raise(true);
         _standbyGameEvent.Raise();
     }
+
+    private void WaitThenStandby()
+    {
+        StartCoroutine(WaitBeforeResetting());
+    }
     
     private IEnumerator WaitBeforeResetting() //when other user left midexperience, wait to show a notificartion before resetting
     {
         Debug.Log("about to reset", DLogType.Logic);
         yield return new WaitForSeconds(4f); //make sure this value is inferior or equal to the confirmation radial time to avoid bugs
         Standby(); //if we were ready and we took off the headset go to initial state
-        SelfPutHeadsetOn();
     }
 
     private void SerialFailure() //if something went wrong with the physical installation
@@ -122,7 +129,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         _dimGameEvent.Raise(true);
         StopAudiosInstructions(); 
         _setInstructionsTextGameEvent.Raise("systemFailure");
-        Destroy(gameObject);
+        Destroy(gameObject); //TODO should destroy a bunch more stuff to make sure experience ends ?
         Debug.Log("serial failure", DLogType.Error);
     }
 

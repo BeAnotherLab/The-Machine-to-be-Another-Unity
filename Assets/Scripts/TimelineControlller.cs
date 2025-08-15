@@ -18,7 +18,7 @@ public class TimelineControlller : MonoBehaviour
 
         ArduinoManager.SerialFailure += StopSequencer;
         OscManager.ReceiveSerialFailure += StopSequencer;
-        UserStateManager.StopSequencer += StopSequencer;
+        UserStateManager.OtherLeft += StopSequencer;
         
         _instructionsTimeline.played += Playing;
         _instructionsTimeline.paused += Paused;
@@ -30,7 +30,7 @@ public class TimelineControlller : MonoBehaviour
 
         ArduinoManager.SerialFailure -= StopSequencer;
         OscManager.ReceiveSerialFailure -= StopSequencer;
-        UserStateManager.StopSequencer -= StopSequencer;
+        UserStateManager.OtherLeft -= StopSequencer;
         
         _instructionsTimeline.played -= Playing;
         _instructionsTimeline.paused -= Paused;

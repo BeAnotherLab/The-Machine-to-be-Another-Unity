@@ -1,11 +1,13 @@
+using System.Collections;
+using System.Collections.Generic;
 using ScriptableObjectArchitecture;
 using UnityEngine;
 using Debug = DebugFile;
 using UnityEngine.XR.OpenXR.NativeTypes;
 
-public class UserStateManager : MonoBehaviour
+public class UserStateManager : MonoBehaviour //centralize self and other state change to trigger events relevant to the rest of the application
 {
-    //Those are kept public so they can be accessed from the editor script and triggered with buttons
+    //Those are kept public so they can be accessed from the editor script and triggered with inspector buttons
     public UserStateVariable previousOtherState;
     public UserStateVariable otherState;
     
@@ -14,7 +16,6 @@ public class UserStateManager : MonoBehaviour
     
     public UserStateGameEvent selfStateGameEvent;
     public UserStateGameEvent otherStateGameEvent;
-
     
     public delegate void OnSendThisUserStatus(UserState state);
     public static OnSendThisUserStatus SendThisUserStatus;
@@ -22,9 +23,12 @@ public class UserStateManager : MonoBehaviour
     public delegate void OnBothUsersReady();
     public static OnBothUsersReady BothUsersReady;
     
-    public delegate void OnStopSequencer();
-    public static OnStopSequencer StopSequencer = delegate { };
+    public delegate void OnOtherLeft();
+    public static OnOtherLeft OtherLeft = delegate { };
 
+    public delegate void OnThisUserLeft();
+    public static OnThisUserLeft ThisUserLeft = delegate { };
+    
     [SerializeField] private StringGameEvent _setInstructionsTextGameEvent;
     [SerializeField] private BoolVariable _experienceRunning;
 
@@ -34,7 +38,7 @@ public class UserStateManager : MonoBehaviour
         otherState.Value = UserState.headsetOff;
     }
 
-    private void Update()
+    private void Update() //Monitor VR headset state changes to infer user presence
     {
         if (SessionStateFeature.GetCurrentState() == (int) XrSessionState.Synchronized  && selfState.Value != UserState.headsetOff)
         {
@@ -51,40 +55,37 @@ public class UserStateManager : MonoBehaviour
         }
     }
     
-    public void SelfStateChanged(UserState newState) 
+    public void SelfStateChanged(UserState newState) //this can be triggered by headset of confirmation button
     {
         if (newState == UserState.headsetOff)
         {
-            if (previousSelfState.Value == UserState.readyToStart) Standby(); //if we were ready and we took off the headset go to initial state
-            SendThisUserStatus(selfState); ////TODO this needs not to be here, OSCManager can send all changes by itself
             Debug.Log("this user removed his headset", DLogType.Input);
+            if (previousSelfState.Value == UserState.readyToStart) ThisUserLeft(); //if we were ready and we took off the headset go to initial state
         }
         else if (newState == UserState.headsetOn)
         {
-            SelfPutHeadsetOn();
+            _setInstructionsTextGameEvent.Raise("idle");
+            Debug.Log("this user put on the headset", DLogType.Input);
         }
         else if (newState == UserState.readyToStart)
         {
-            SendThisUserStatus(UserState.readyToStart); //TODO this needs not to be here, OSCManager can send all changes by itself
-            if (otherState.Value == UserState.readyToStart) BothUsersReady(); //TODO this should be the default behavior
+            if (otherState.Value == UserState.readyToStart) BothUsersReady();
             _setInstructionsTextGameEvent.Raise("waitForOther"); //TODO self manage
             Debug.Log("this user is ready", DLogType.Input);
         }
+        
+        SendThisUserStatus(selfState); 
     }
 
     public void OtherStateChanged(UserState newState) //TODO move to own state changes events class
     {
         if (newState == UserState.headsetOff)
         {
-            if (previousOtherState.Value == UserState.readyToStart) //TODO remove?
+            if (previousOtherState.Value == UserState.readyToStart && _experienceRunning.Value)
             {
-                if (_experienceRunning.Value) //only reset on other left if experience running
-                {
-                    StopSequencer();
-                    _setInstructionsTextGameEvent.Raise("otherIsGone");
-                    StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
-                    selfState.Value = UserState.headsetOn; //no longer ready    
-                }
+                OtherLeft();
+                StartCoroutine(WaitAndSetHeadsetOn());
+                _setInstructionsTextGameEvent.Raise("otherIsGone");    
             }
             Debug.Log("the other user removed the headset", DLogType.Input);
         }
@@ -99,10 +100,9 @@ public class UserStateManager : MonoBehaviour
         }
     }
 
-    private void SelfPutHeadsetOn()
+    private IEnumerator WaitAndSetHeadsetOn()
     {
-        _setInstructionsTextGameEvent.Raise("idle");
-        SendThisUserStatus(UserState.headsetOn); //TODO this needs not to be here, OSCManager can send all changes by itself
-        Debug.Log("this user put on the headset", DLogType.Input);
+        yield return new WaitForSeconds(4f);
+        SelfStateChanged(UserState.headsetOn);
     }
 }
