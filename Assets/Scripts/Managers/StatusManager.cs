@@ -17,9 +17,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     public UserStateVariable previousSelfState;
     public UserStateVariable selfState;
     
-    public UserStateGameEvent selfStateGameEvent;
-    public UserStateGameEvent otherStateGameEvent;
-    
     public delegate void OnStopSequencer();
     public static OnStopSequencer StopSequencer = delegate { };
     
