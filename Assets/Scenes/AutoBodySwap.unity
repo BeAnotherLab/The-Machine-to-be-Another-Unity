@@ -260,12 +260,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1555657455}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &244123570 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1473624093389685108, guid: 715447b851299a547860fdcc1f6121c0,
-    type: 3}
-  m_PrefabInstance: {fileID: 3462846770952635453}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &274504675 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5683433967798502208, guid: c09e1a208f78c974a9c23e646dbfe814,
@@ -2763,17 +2757,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 446080116}
     m_Modifications:
-    - target: {fileID: 328909138195811094, guid: 715447b851299a547860fdcc1f6121c0,
-        type: 3}
-      propertyPath: _previouslyRegisteredEvent
-      value: 
-      objectReference: {fileID: 11400000, guid: 9e9c710454088e3458d357b85048602d,
-        type: 2}
-    - target: {fileID: 1473624093389685104, guid: 715447b851299a547860fdcc1f6121c0,
-        type: 3}
-      propertyPath: near clip plane
-      value: 0.01
-      objectReference: {fileID: 0}
     - target: {fileID: 1473624093389685105, guid: 715447b851299a547860fdcc1f6121c0,
         type: 3}
       propertyPath: m_RootOrder
@@ -2834,11 +2817,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
-    - target: {fileID: 3462846772297533710, guid: 715447b851299a547860fdcc1f6121c0,
-        type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5623248627646389523, guid: 715447b851299a547860fdcc1f6121c0,
         type: 3}
       propertyPath: _previouslyRegisteredEvent
@@ -2854,11 +2832,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1473624093389685108, guid: 715447b851299a547860fdcc1f6121c0,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3462846770952635467}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 715447b851299a547860fdcc1f6121c0, type: 3}
 --- !u!20 &3462846770952635454 stripped
 Camera:
@@ -2866,24 +2840,6 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 3462846770952635453}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3462846770952635467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244123570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a2a9c34df4095f47b9ca8f975175f5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Device: 0
-  m_PoseSource: 2
-  m_PoseProviderComponent: {fileID: 0}
-  m_TrackingType: 0
-  m_UpdateType: 0
-  m_UseRelativeTransform: 0
 --- !u!1001 &4992825843960102979
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2895,6 +2851,14 @@ PrefabInstance:
     - target: {fileID: 420745701, guid: fb9ada0912a7cd341970bc57cadeacea, type: 3}
       propertyPath: m_Name
       value: InstructionsTimeline
+      objectReference: {fileID: 0}
+    - target: {fileID: 420745704, guid: fb9ada0912a7cd341970bc57cadeacea, type: 3}
+      propertyPath: m_SceneBindings.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 420745704, guid: fb9ada0912a7cd341970bc57cadeacea, type: 3}
+      propertyPath: m_SceneBindings.Array.data[9].key
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 420745704, guid: fb9ada0912a7cd341970bc57cadeacea, type: 3}
       propertyPath: m_SceneBindings.Array.data[6].value
