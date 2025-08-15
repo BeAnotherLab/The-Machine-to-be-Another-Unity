@@ -8,18 +8,17 @@ using UnityEngine.UI;
 
 public class InstructionsTextBehavior : MonoBehaviour
 {
-
     [SerializeField] private GameObject _textGameObject;
 
     #region  Public methods
    
-    public void ShowInstructionText(bool show, string text = "")
+    private void ShowInstructionText(bool show, string text = "")
     {
         GetComponent<PanelDimmer>().Show(show);
         if (show) _textGameObject.GetComponent<Text>().text = text; //give feedback
     }
 
-    public void ShowinstructionsText(string text)
+    public void ShowinstructionsText(string text) //called by timeline / sequencer
     {
         _textGameObject.GetComponent<Text>().text = text; //give feedback
     }
