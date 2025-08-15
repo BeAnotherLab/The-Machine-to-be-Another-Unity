@@ -31,7 +31,7 @@ public class UserStateManager : MonoBehaviour
             selfState.Value = UserState.headsetOff; 
             selfStateGameEvent.Raise(UserState.headsetOff);
         }
-        //TODO this might not work with all headsets 
+        //TODO this will not work with all headsets 
         else if (SessionStateFeature.GetCurrentState() == (int) XrSessionState.Focused && selfState.Value == UserState.headsetOff) //if we just put the headset on
         {
             previousSelfState.Value = selfState.Value;
