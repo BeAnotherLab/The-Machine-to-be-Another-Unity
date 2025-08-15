@@ -10,15 +10,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
 {
     #region Public Fields
     
-    public delegate void OnExperienceRunning(bool running);
-    public static OnExperienceRunning ExperienceRunning = delegate { };
-    
-    public delegate void OnStopSequencer();
-    public static OnStopSequencer StopSequencer = delegate { };
-    
-    public delegate void OnStartSequencer();
-    public static OnStartSequencer StartSequencer = delegate { };
-    
     public delegate void OnStopAllAudios();
     public static OnStopAllAudios StopAudiosInstructions = delegate { };
 
@@ -30,9 +21,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     //using protected to make them accessible to children 
     #region Private Fields 
     [SerializeField] private BoolGameEvent _dimGameEvent;
-
     [SerializeField] private GameEvent _standbyGameEvent;
-    
     [SerializeField] private BoolGameEvent _curtainOnEvent;
     
     [SerializeField] private StringGameEvent _setInstructionsTextGameEvent;
@@ -76,7 +65,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     {
         _showInstructionsTextGameEvent.Raise(false);
         _dimGameEvent.Raise(false);
-        ExperienceRunning(true);
         Debug.Log("experience started", DLogType.Logic);
     }
     
@@ -105,21 +93,16 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     {
         _dimGameEvent.Raise(true);
         _setInstructionsTextGameEvent.Raise("finished");
-        StopSequencer();
         Debug.Log("experience finished", DLogType.Logic);
-        ExperienceRunning(false);
     }
-    
     
     #endregion
     
     #region Private Methods
     
-    
     private void Standby()
     {
         Debug.Log("Standby");
-        StopSequencer();
         _setInstructionsTextGameEvent.Raise("idle");
         StopAudiosInstructions();
         _dimGameEvent.Raise(true);
@@ -139,8 +122,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         _dimGameEvent.Raise(true);
         StopAudiosInstructions(); 
         _setInstructionsTextGameEvent.Raise("systemFailure");
-        StopSequencer();
-        _experienceRunning = false;
         Destroy(gameObject);
         Debug.Log("serial failure", DLogType.Error);
     }

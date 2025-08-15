@@ -42,7 +42,7 @@ public class BodySwapInstructionsText : MonoBehaviour //TODO inherit Instruction
         }
     }
     
-    private void ExperienceRunning(bool running) 
+    private void ExperienceRunning(bool running) //TODO remove. we can self manage text instructions. issue with waiting though.
     {
         if (!running)
         {

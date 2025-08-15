@@ -2,6 +2,7 @@ using ScriptableObjectArchitecture;
 using UnityEngine;
 using Debug = DebugFile;
 using UnityEngine.XR.OpenXR.NativeTypes;
+
 public class UserStateManager : MonoBehaviour
 {
     //Those are kept public so they can be accessed from the editor script and triggered with buttons
@@ -14,24 +15,18 @@ public class UserStateManager : MonoBehaviour
     public UserStateGameEvent selfStateGameEvent;
     public UserStateGameEvent otherStateGameEvent;
 
+    
     public delegate void OnSendThisUserStatus(UserState state);
     public static OnSendThisUserStatus SendThisUserStatus;
 
     public delegate void OnBothUsersReady();
     public static OnBothUsersReady BothUsersReady;
+    
+    public delegate void OnStopSequencer();
+    public static OnStopSequencer StopSequencer = delegate { };
 
     [SerializeField] private StringGameEvent _setInstructionsTextGameEvent;
-    private bool _experienceRunning;
-    
-    private void OnEnable()
-    {
-        StatusManager.ExperienceRunning += ExperienceRunning;
-    }
-
-    private void OnDisable()
-    {
-        StatusManager.ExperienceRunning -= ExperienceRunning;
-    }
+    [SerializeField] private BoolVariable _experienceRunning;
 
     private void Start()
     {
@@ -56,7 +51,7 @@ public class UserStateManager : MonoBehaviour
         }
     }
     
-    public void SelfStateChanged(UserState newState) //TODO move to own state changes events class
+    public void SelfStateChanged(UserState newState) 
     {
         if (newState == UserState.headsetOff)
         {
@@ -83,10 +78,9 @@ public class UserStateManager : MonoBehaviour
         {
             if (previousOtherState.Value == UserState.readyToStart) //TODO remove?
             {
-                if (_experienceRunning) //only reset on other left if experience running
+                if (_experienceRunning.Value) //only reset on other left if experience running
                 {
                     StopSequencer();
-                    _experienceRunning = false;
                     _setInstructionsTextGameEvent.Raise("otherIsGone");
                     StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
                     selfState.Value = UserState.headsetOn; //no longer ready    
@@ -105,12 +99,6 @@ public class UserStateManager : MonoBehaviour
         }
     }
 
-    private void ExperienceRunning(bool running)
-    {
-        _experienceRunning = running;
-    }
-    
-    
     private void SelfPutHeadsetOn()
     {
         _setInstructionsTextGameEvent.Raise("idle");

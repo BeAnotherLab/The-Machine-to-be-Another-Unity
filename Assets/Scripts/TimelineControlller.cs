@@ -1,25 +1,39 @@
 using System;
+using ScriptableObjectArchitecture;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
 public class TimelineControlller : MonoBehaviour
 {
-    [SerializeField] private PlayableDirector _instructionsTimeline;
-
-    private TrackAsset _germanTrack;
+        private TrackAsset _germanTrack;
     private TrackAsset _englishTrack;
+
+    [SerializeField] private BoolVariable _experienceRunning;
+    [SerializeField] private PlayableDirector _instructionsTimeline;
 
     private void OnEnable()
     {
         UserStateManager.BothUsersReady += StartSequencer;
-        StatusManager.StopSequencer += StopSequencer;
+
+        ArduinoManager.SerialFailure += StopSequencer;
+        OscManager.ReceiveSerialFailure += StopSequencer;
+        UserStateManager.StopSequencer += StopSequencer;
+        
+        _instructionsTimeline.played += Playing;
+        _instructionsTimeline.paused += Paused;
     }
 
     private void OnDisable()
     {
         UserStateManager.BothUsersReady += StartSequencer;
-        StatusManager.StopSequencer -= StopSequencer;
+
+        ArduinoManager.SerialFailure -= StopSequencer;
+        OscManager.ReceiveSerialFailure -= StopSequencer;
+        UserStateManager.StopSequencer -= StopSequencer;
+        
+        _instructionsTimeline.played -= Playing;
+        _instructionsTimeline.paused -= Paused;
     }
 
     private void Awake()
@@ -43,5 +57,15 @@ public class TimelineControlller : MonoBehaviour
     private void StopSequencer()
     {
         _instructionsTimeline.Stop();
+    }
+
+    private void Playing(PlayableDirector director)
+    {
+        _experienceRunning.Value = true;
+    }
+    
+    private void Paused(PlayableDirector director)
+    {
+        _experienceRunning.Value = false;
     }
 }
