@@ -93,6 +93,8 @@ public class OscManager : MonoBehaviour {
         else PlayerPrefs.SetInt("repeater", 0);
     }
 
+    
+    
     public void SendThisUserStatus(UserState status)
     {
         OSCMessage message = new OSCMessage("/otherUser");
