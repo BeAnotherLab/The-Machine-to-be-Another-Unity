@@ -66,7 +66,6 @@ GameObject:
   - component: {fileID: 6000371050300007033}
   - component: {fileID: 243077806299512245}
   - component: {fileID: 7400548617223281092}
-  - component: {fileID: 5824191422472989291}
   - component: {fileID: 4256013236118919127}
   - component: {fileID: 2768426945808083327}
   - component: {fileID: 1211357306679473459}
@@ -112,9 +111,6 @@ MonoBehaviour:
   otherStateGameEvent: {fileID: 11400000, guid: fa8ca749ca9ad4876827002f647bcaf6,
     type: 2}
   _dimGameEvent: {fileID: 11400000, guid: 9bdc42909d8a4734eb9fe01bfd1f558d, type: 2}
-  _videoRecordingOSCTransmitter: {fileID: 2466071637388816924}
-  _sendRecordingCommand: {fileID: 11400000, guid: aa321acb8924e40eb80a927d3e526ff1,
-    type: 2}
   _curtainOnGameEvent: {fileID: 11400000, guid: 78f4ccaea5624406cb8bcf19436f86c4,
     type: 2}
 --- !u!114 &243077806299512245
@@ -156,38 +152,6 @@ MonoBehaviour:
   remoteHost: 172.24.0.45
   remotePort: 8015
   useBundle: 0
---- !u!114 &5824191422472989291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8293358735044733245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _showDebugFields: 0
-  _enableGizmoDebugging: 1
-  _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 0}
-  _event: {fileID: 11400000, guid: 7c2619e5f599c469a842342ce9027dee, type: 2}
-  _response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6000371050300007033}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: ExperienceStarted
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &4256013236118919127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +167,8 @@ MonoBehaviour:
   _showDebugFields: 0
   _enableGizmoDebugging: 1
   _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 0}
+  _previouslyRegisteredEvent: {fileID: 11400000, guid: 9e9c710454088e3458d357b85048602d,
+    type: 2}
   _event: {fileID: 11400000, guid: 9e9c710454088e3458d357b85048602d, type: 2}
   _response:
     m_PersistentCalls:
@@ -334,7 +299,8 @@ MonoBehaviour:
   _showDebugFields: 0
   _enableGizmoDebugging: 1
   _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 0}
+  _previouslyRegisteredEvent: {fileID: 11400000, guid: d69547e4872e9364f88ae94fe32b95aa,
+    type: 2}
   _event: {fileID: 11400000, guid: d69547e4872e9364f88ae94fe32b95aa, type: 2}
   _response:
     m_PersistentCalls:

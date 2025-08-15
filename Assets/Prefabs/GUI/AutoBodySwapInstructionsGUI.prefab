@@ -230,8 +230,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Move the headset up and down until you can see this text clearly. \n\nWhen
-    you are ready, look at the button below to begin."
+  m_Text: Wait for serial...
 --- !u!114 &2599475648633755041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,7 +244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   translationName: waitForSerial
-  FallbackText: 
+  FallbackText: Wait for serial...
 --- !u!225 &1212125647417670656
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -354,7 +353,6 @@ GameObject:
   - component: {fileID: 6682680424015201866}
   - component: {fileID: 3386007381635718152}
   - component: {fileID: 332290940960440211}
-  - component: {fileID: 4955619369018986257}
   - component: {fileID: 2440222116012834322}
   - component: {fileID: 2039392850324519036}
   m_Layer: 5
@@ -575,39 +573,6 @@ MonoBehaviour:
       - m_Target: {fileID: 6682680424015201866}
         m_TargetAssemblyTypeName: 
         m_MethodName: Show
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _debugValue: 0
---- !u!114 &4955619369018986257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 702575981237749515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 791e3eca91bfc2e41b38477d0ecfaf1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _showDebugFields: 0
-  _enableGizmoDebugging: 1
-  _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 0}
-  _event: {fileID: 11400000, guid: 9cb7f9e88ef644644af24d7ad4033197, type: 2}
-  _response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 604608053}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: ExperienceFinished
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

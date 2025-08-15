@@ -9,6 +9,16 @@ public class BodySwapInstructionsText : MonoBehaviour //TODO inherit Instruction
 {
     [SerializeField] private GameObject _instructionsImages;
 
+    private void OnEnable()
+    {
+        StatusManager.ExperienceRunning += ExperienceRunning;
+    }
+
+    private void OnDisable()
+    {
+        StatusManager.ExperienceRunning -= ExperienceRunning;
+    }
+
     private void Start()
     {
         _instructionsImages.GetComponent<PanelDimmer>().Hide();
@@ -19,12 +29,6 @@ public class BodySwapInstructionsText : MonoBehaviour //TODO inherit Instruction
         _instructionsImages.GetComponent<PanelDimmer>().Show();
     }
     
-    public void ExperienceFinished(bool ls) 
-    {
-        GetComponent<InstructionsTextBehavior>().ShowTextFromKey("finished", 3);
-        _instructionsImages.GetComponent<PanelDimmer>().Hide(); //TODO not here!
-    }
-
     public void Standby()
     {
         _instructionsImages.GetComponent<PanelDimmer>().Hide();
@@ -37,4 +41,14 @@ public class BodySwapInstructionsText : MonoBehaviour //TODO inherit Instruction
             _instructionsImages.GetComponent<PanelDimmer>().Hide();
         }
     }
+    
+    private void ExperienceRunning(bool running) 
+    {
+        if (!running)
+        {
+            GetComponent<InstructionsTextBehavior>().ShowTextFromKey("finished", 3);
+            _instructionsImages.GetComponent<PanelDimmer>().Hide(); //TODO not here!            
+        }
+    }
+
 }

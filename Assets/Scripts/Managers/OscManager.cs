@@ -1,13 +1,7 @@
 using UnityEngine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using System.Net;
-using VRStandardAssets.Menu;
 using extOSC;
 using Mirror.Examples.Pong;
-using ScriptableObjectArchitecture;
+using ScriptableObjectArchitecture; 
 using Debug = DebugFile;
 
 public class OscManager : MonoBehaviour {

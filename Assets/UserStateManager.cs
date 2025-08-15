@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using ScriptableObjectArchitecture;
 using UnityEngine;
@@ -16,7 +17,19 @@ public class UserStateManager : MonoBehaviour
     
     public UserStateGameEvent selfStateGameEvent;
     public UserStateGameEvent otherStateGameEvent;
-    
+
+    private bool _experienceRunning;
+
+    private void OnEnable()
+    {
+        StatusManager.ExperienceRunning += ExperienceRunning;
+    }
+
+    private void OnDisable()
+    {
+        StatusManager.ExperienceRunning -= ExperienceRunning;
+    }
+
     private void Start()
     {
         selfState.Value = UserState.headsetOff;
@@ -40,4 +53,8 @@ public class UserStateManager : MonoBehaviour
         }
     }
 
+    private void ExperienceRunning(bool running)
+    {
+        _experienceRunning = running;
+    }
 }

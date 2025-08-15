@@ -17,6 +17,11 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     public UserStateVariable previousSelfState;
     public UserStateVariable selfState;
     
+    
+    
+    public delegate void OnExperienceRunning(bool running);
+    public static OnExperienceRunning ExperienceRunning = delegate { };
+    
     public delegate void OnStopSequencer();
     public static OnStopSequencer StopSequencer = delegate { };
     
@@ -40,14 +45,13 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
 
     [SerializeField] private GameEvent _standbyGameEvent;
     [SerializeField] private GameEvent _InstructionsStartedGameEvent;
-    [SerializeField] private BoolGameEvent _experienceFinishedGameEvent; //TODO why bool?
-    [SerializeField] private GameEvent _experienceStartedGameEvent;
+    
     [SerializeField] private BoolGameEvent _curtainOnEvent;
     
     [SerializeField] private StringGameEvent _setInstructionsTextGameEvent;
     [SerializeField] private BoolGameEvent _showInstructionsTextGameEvent;   
     
-    protected bool _experienceRunning;
+    private bool _experienceRunning;
     
     #endregion
 
@@ -83,11 +87,11 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     
     #region Public Methods 
     
-    public void StartExperience() //called by timeline
+    public void StartExperience() //called by timeline TODO use signals instead!
     {
         _showInstructionsTextGameEvent.Raise(false);
         _dimGameEvent.Raise(false);
-        _experienceStartedGameEvent.Raise();
+        ExperienceRunning(true);
         Debug.Log("experience started", DLogType.Logic);
     }
     
@@ -119,7 +123,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         StopSequencer();
         Debug.Log("experience finished", DLogType.Logic);
         _experienceRunning = false;
-        _experienceFinishedGameEvent.Raise(false);
+        ExperienceRunning(false);
     }
     
     public void SelfStateChanged(UserState newState) //TODO move to own state changes events class
