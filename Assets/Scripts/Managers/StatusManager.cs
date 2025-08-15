@@ -110,67 +110,76 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         SendArduinoCommand("mir_off"); //hide mirror
         Debug.Log("wall off", DLogType.Logic);
     }
-
+    
+    //TODO rename to EndExperience
+    public void IsOver() //called at the the end of the experience
+    {
+        _dimGameEvent.Raise(true);
+        _setInstructionsTextGameEvent.Raise("finished");
+        StopSequencer();
+        Debug.Log("experience finished", DLogType.Logic);
+        _experienceRunning = false;
+        _experienceFinishedGameEvent.Raise(false);
+    }
+    
     public void SelfStateChanged(UserState newState) //TODO move to own state changes events class
     {
-        if (newState == UserState.headsetOff) SelfRemovedHeadset();
-        else if (newState == UserState.headsetOn) SelfPutHeadsetOn();
-        else if (newState == UserState.readyToStart) ThisUserIsReady();
+        if (newState == UserState.headsetOff)
+        {
+            if (previousSelfState.Value == UserState.readyToStart) Standby(); //if we were ready and we took off the headset go to initial state
+            SendThisUserStatus(selfState); ////TODO this needs not to be here, OSCManager can send all changes by itself
+            Debug.Log("this user removed his headset", DLogType.Input);
+        }
+        else if (newState == UserState.headsetOn)
+        {
+            SelfPutHeadsetOn();
+        }
+        else if (newState == UserState.readyToStart)
+        {
+            SendThisUserStatus(UserState.readyToStart); //TODO this needs not to be here, OSCManager can send all changes by itself
+            if (otherState.Value == UserState.readyToStart) StartPlaying(); //TODO this should be the default behavior
+            _setInstructionsTextGameEvent.Raise("waitForOther"); //TODO self manage
+            Debug.Log("this user is ready", DLogType.Input);
+        }
     }
 
     public void OtherStateChanged(UserState newState) //TODO move to own state changes events class
     {
-        if (newState == UserState.headsetOff) OtherLeft();
-        else if (newState == UserState.headsetOn) OtherPutHeadsetOn(); //TODO only if previous one was ready to start?
-        else if (newState == UserState.readyToStart) OtherUserIsReady();
+        if (newState == UserState.headsetOff)
+        {
+            if (previousOtherState.Value == UserState.readyToStart) //TODO remove?
+            {
+                if (_experienceRunning) //only reset on other left if experience running
+                {
+                    StopSequencer();
+                    _experienceRunning = false;
+                    _setInstructionsTextGameEvent.Raise("otherIsGone");
+                    StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
+                    selfState.Value = UserState.headsetOn; //no longer ready    
+                }
+            }
+            Debug.Log("the other user removed the headset", DLogType.Input);
+        }
+        else if (newState == UserState.headsetOn)
+        {
+            Debug.Log("the other user put on the headset", DLogType.Input);
+        }
+        else if (newState == UserState.readyToStart)
+        {
+            Debug.Log("the other user is ready", DLogType.Input);
+            if (selfState.Value == UserState.readyToStart) StartPlaying();//TODO this should be the default behavior
+        }
     }
     
     #endregion
     
     #region Private Methods
     
-    private void ThisUserIsReady() //called when user has aimed at the confirmation dialog and waited through the countdown.
-    {
-        SendThisUserStatus(UserState.readyToStart); //TODO this needs not to be here, OSCManager can send all changes by itself
-        if (otherState.Value == UserState.readyToStart) StartPlaying(); //TODO this should be the default behavior
-        _setInstructionsTextGameEvent.Raise("waitForOther"); //TODO self manage
-        Debug.Log("this user is ready", DLogType.Input);
-    }
-
-    private void OtherUserIsReady()
-    {
-        Debug.Log("the other user is ready", DLogType.Input);
-        if (selfState.Value == UserState.readyToStart) StartPlaying();//TODO this should be the default behavior
-    }
-
     private void SelfPutHeadsetOn()
     {
         _setInstructionsTextGameEvent.Raise("idle");
         SendThisUserStatus(UserState.headsetOn); //TODO this needs not to be here, OSCManager can send all changes by itself
         Debug.Log("this user put on the headset", DLogType.Input);
-    }
-
-    private void OtherPutHeadsetOn()
-    {
-        Debug.Log("the other user put on the headset", DLogType.Input);
-    }
-
-    private void OtherLeft()
-    {
-        //if experience started
-        if (previousOtherState.Value == UserState.readyToStart)
-        {
-            //only reset on other left if experience running
-            if (_experienceRunning)
-            {
-                StopSequencer();
-                _experienceRunning = false;
-                _setInstructionsTextGameEvent.Raise("otherIsGone");
-                StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
-                selfState.Value = UserState.headsetOn;    
-            }
-        }
-        Debug.Log("the other user removed the headset", DLogType.Input);
     }
     
     private void Standby()
@@ -182,23 +191,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         StopAudiosInstructions();
         _dimGameEvent.Raise(true);
         _standbyGameEvent.Raise();
-    }
-
-    private void SelfRemovedHeadset()
-    {
-       if (previousSelfState.Value == UserState.readyToStart) Standby(); //if we were ready and we took off the headset go to initial state
-        SendThisUserStatus(selfState); ////TODO this needs not to be here, OSCManager can send all changes by itself
-        Debug.Log("this user removed his headset", DLogType.Input);
-    }
-    
-    private void IsOver() //called at the the end of the experience
-    {
-        _dimGameEvent.Raise(true);
-        _setInstructionsTextGameEvent.Raise("finished");
-        StopSequencer();
-        Debug.Log("experience finished", DLogType.Logic);
-        _experienceRunning = false;
-        _experienceFinishedGameEvent.Raise(false);
     }
     
     private IEnumerator WaitBeforeResetting()
