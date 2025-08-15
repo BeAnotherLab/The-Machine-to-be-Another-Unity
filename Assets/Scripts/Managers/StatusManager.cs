@@ -91,17 +91,15 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         Debug.Log("wall off", DLogType.Logic);
     }
     
-    //TODO rename to EndExperience
-    public void IsOver() //called at the the end of the experience
+    public void IsOver() //called at the the end of the experience TODO rename to EndExperience
     {
         _dimGameEvent.Raise(true);
-        _setInstructionsTextGameEvent.Raise("finished");
-        Debug.Log("experience finished", DLogType.Logic);
     }
     
     #endregion
     
-    #region Private Methods
+    #region Private Methods   
+
     
     private void Standby()
     {
