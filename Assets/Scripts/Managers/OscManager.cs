@@ -46,7 +46,7 @@ public class OscManager : MonoBehaviour {
     {
         ArduinoManager.SerialReady += CheckConnectionAndSendSerialReady;
         ArduinoManager.SerialFailure += SendSerialFailure;
-        StatusManager.SendThisUserStatus += SendThisUserStatus;
+        UserStateManager.SendThisUserStatus += SendThisUserStatus;
         SettingsGUI.SetRepeater += SetRepeater;
         CustomNetworkManager.ConnectionEstablished += ConnectionEstablished;
     }
@@ -55,7 +55,7 @@ public class OscManager : MonoBehaviour {
     {
         ArduinoManager.SerialReady -= CheckConnectionAndSendSerialReady;
         ArduinoManager.SerialFailure -= SendSerialFailure;
-        StatusManager.SendThisUserStatus -= SendThisUserStatus;
+        UserStateManager.SendThisUserStatus -= SendThisUserStatus;
         SettingsGUI.SetRepeater -= SetRepeater;
         CustomNetworkManager.ConnectionEstablished -= ConnectionEstablished;
     }

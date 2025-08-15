@@ -12,13 +12,13 @@ public class TimelineControlller : MonoBehaviour
 
     private void OnEnable()
     {
-        StatusManager.StartSequencer += StartSequencer;
+        UserStateManager.BothUsersReady += StartSequencer;
         StatusManager.StopSequencer += StopSequencer;
     }
 
     private void OnDisable()
     {
-        StatusManager.StartSequencer -= StartSequencer;
+        UserStateManager.BothUsersReady += StartSequencer;
         StatusManager.StopSequencer -= StopSequencer;
     }
 

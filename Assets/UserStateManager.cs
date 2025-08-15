@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
 using ScriptableObjectArchitecture;
 using UnityEngine;
-using UnityEngine.Playables;
-using UnityEngine.Timeline;
 using Debug = DebugFile;
 using UnityEngine.XR.OpenXR.NativeTypes;
 public class UserStateManager : MonoBehaviour
@@ -18,8 +14,15 @@ public class UserStateManager : MonoBehaviour
     public UserStateGameEvent selfStateGameEvent;
     public UserStateGameEvent otherStateGameEvent;
 
-    private bool _experienceRunning;
+    public delegate void OnSendThisUserStatus(UserState state);
+    public static OnSendThisUserStatus SendThisUserStatus;
 
+    public delegate void OnBothUsersReady();
+    public static OnBothUsersReady BothUsersReady;
+
+    [SerializeField] private StringGameEvent _setInstructionsTextGameEvent;
+    private bool _experienceRunning;
+    
     private void OnEnable()
     {
         StatusManager.ExperienceRunning += ExperienceRunning;
@@ -52,9 +55,66 @@ public class UserStateManager : MonoBehaviour
             selfStateGameEvent.Raise(UserState.headsetOn);
         }
     }
+    
+    public void SelfStateChanged(UserState newState) //TODO move to own state changes events class
+    {
+        if (newState == UserState.headsetOff)
+        {
+            if (previousSelfState.Value == UserState.readyToStart) Standby(); //if we were ready and we took off the headset go to initial state
+            SendThisUserStatus(selfState); ////TODO this needs not to be here, OSCManager can send all changes by itself
+            Debug.Log("this user removed his headset", DLogType.Input);
+        }
+        else if (newState == UserState.headsetOn)
+        {
+            SelfPutHeadsetOn();
+        }
+        else if (newState == UserState.readyToStart)
+        {
+            SendThisUserStatus(UserState.readyToStart); //TODO this needs not to be here, OSCManager can send all changes by itself
+            if (otherState.Value == UserState.readyToStart) BothUsersReady(); //TODO this should be the default behavior
+            _setInstructionsTextGameEvent.Raise("waitForOther"); //TODO self manage
+            Debug.Log("this user is ready", DLogType.Input);
+        }
+    }
+
+    public void OtherStateChanged(UserState newState) //TODO move to own state changes events class
+    {
+        if (newState == UserState.headsetOff)
+        {
+            if (previousOtherState.Value == UserState.readyToStart) //TODO remove?
+            {
+                if (_experienceRunning) //only reset on other left if experience running
+                {
+                    StopSequencer();
+                    _experienceRunning = false;
+                    _setInstructionsTextGameEvent.Raise("otherIsGone");
+                    StartCoroutine(WaitBeforeResetting()); //after a few seconds, reset experience.
+                    selfState.Value = UserState.headsetOn; //no longer ready    
+                }
+            }
+            Debug.Log("the other user removed the headset", DLogType.Input);
+        }
+        else if (newState == UserState.headsetOn)
+        {
+            Debug.Log("the other user put on the headset", DLogType.Input);
+        }
+        else if (newState == UserState.readyToStart)
+        {
+            Debug.Log("the other user is ready", DLogType.Input);
+            if (selfState.Value == UserState.readyToStart) BothUsersReady();//TODO this should be the default behavior
+        }
+    }
 
     private void ExperienceRunning(bool running)
     {
         _experienceRunning = running;
+    }
+    
+    
+    private void SelfPutHeadsetOn()
+    {
+        _setInstructionsTextGameEvent.Raise("idle");
+        SendThisUserStatus(UserState.headsetOn); //TODO this needs not to be here, OSCManager can send all changes by itself
+        Debug.Log("this user put on the headset", DLogType.Input);
     }
 }
