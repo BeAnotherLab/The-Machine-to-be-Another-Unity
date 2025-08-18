@@ -55,11 +55,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         _setInstructionsTextGameEvent.Raise("waitForSerial"); 
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown("o")) IsOver();
-    }
-    
     #endregion
     
     #region Public Methods 
@@ -82,16 +77,24 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         _curtainOnEvent.Raise(true);
     }
     
-    public void WallOn() //called by sequencer / timeline TODO rename to Wall off 
+    public void WallOff() //called by sequencer / timeline 
     {
         _curtainOnEvent.Raise(false);
-        SendArduinoCommand("mir_off"); //hide mirror
         Debug.Log("wall off", DLogType.Logic);
     }
+
+    public void MirrorOff()
+    {
+        SendArduinoCommand("mir_off"); //hide mirror
+        Debug.Log("mirror off", DLogType.Logic);
+
+    }
     
-    public void IsOver() //called at the the end of the experience TODO rename to EndExperience
+    public void EndExperience() //called at the the end of the experience TODO rename to EndExperience
     {
         _dimGameEvent.Raise(true);
+        Debug.Log("experienced finished", DLogType.Logic);
+
     }
     
     #endregion
