@@ -27,7 +27,7 @@ public class TimelineControlller : MonoBehaviour
 
     private void OnDisable()
     {
-        UserStateManager.BothUsersReady += StartSequencer;
+        UserStateManager.BothUsersReady -= StartSequencer;
 
         ArduinoManager.SerialFailure -= StopSequencer;
         OscManager.ReceiveSerialFailure -= StopSequencer;
