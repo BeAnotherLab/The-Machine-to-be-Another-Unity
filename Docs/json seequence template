@@ -1,0 +1,57 @@
+[
+  {
+    "time": 0.0,
+    "textKey": "welcome",
+    "audio": "welcome.mp3",
+    "showPanel": true
+  },
+  {
+    "time": 15.0,
+    "textKey": "",
+    "actions": ["FadeInImages"],
+    "image": "instructions.png"
+  },
+  {
+    "time": 24.0,
+    "actions": ["CloseWall", "FadeOutImages"]
+  },
+  {
+    "time": 26.0,
+    "actions": ["StartExperience", "HidePanel"],
+    "audio": "lookAtHands.mp3"
+  },
+  {
+    "time": 75.0,
+    "audio": "strokeHands.mp3"
+  },
+  {
+    "time": 120.0,
+    "audio": "ankle.mp3"
+  },
+  {
+    "time": 155.0,
+    "audio": "leanBack.mp3"
+  },
+  {
+    "time": 165.0,
+    "audio": "mirror.mp3",
+    "actions": ["MirrorOn"]
+  },
+  {
+    "time": 193.0,
+    "actions": ["WallOff", "MirrorOff"]
+  },
+  {
+    "time": 198.0,
+    "audio": "shakeHands.mp3",
+    "actions": ["MirrorOn"]
+  },
+  {
+    "time": 230.0,
+    "actions": ["EndExperience"]
+  },
+  {
+    "time": 235.0,
+    "actions": ["HidePanel"]
+  }
+]
