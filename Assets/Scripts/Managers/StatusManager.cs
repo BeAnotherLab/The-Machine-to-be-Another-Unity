@@ -25,7 +25,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     [SerializeField] private BoolGameEvent _curtainOnEvent;
     
     [SerializeField] private StringGameEvent _setInstructionsTextGameEvent;
-    [SerializeField] private BoolGameEvent _showInstructionsTextGameEvent;   
     
     #endregion
 
@@ -67,7 +66,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     
     public void StartExperience() //called by timeline TODO use signals instead!
     {
-        _showInstructionsTextGameEvent.Raise(false);
         _dimGameEvent.Raise(false);
         Debug.Log("experience started", DLogType.Logic);
     }
