@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public class JsonSequenceLoader : MonoBehaviour
 {
@@ -28,7 +29,7 @@ public class JsonSequenceLoader : MonoBehaviour
         try
         {
             string jsonContent = File.ReadAllText(fullPath);
-            SequenceStepList stepList = JsonUtility.FromJson<SequenceStepList>(jsonContent);
+            SequenceStepList stepList = JsonConvert.DeserializeObject<SequenceStepList>(jsonContent);
 
             if (stepList?.steps == null || stepList.steps.Count == 0)
             {
