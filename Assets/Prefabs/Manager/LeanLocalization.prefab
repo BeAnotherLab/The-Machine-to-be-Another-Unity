@@ -47,10 +47,7 @@ MonoBehaviour:
   data: 0
   entries:
   - Language: English
-    Text: 'Welcome
-
-
-      please take a moment to breathe calmly...'
+    Text: please take a moment to breathe calmly...
     Object: {fileID: 0}
   - Language: German
     Text: 'Willkommen
@@ -58,6 +55,17 @@ MonoBehaviour:
 
       Bitte nehmen Sie sich einen Moment Zeit, um ruhig zu
       atmen...'
+    Object: {fileID: 0}
+  - Language: French
+    Text: "Soyez la bienvenue\n\nPrenez s'il vous pla\xEEt un moment pour respirer
+      calmement."
+    Object: {fileID: 0}
+  - Language: Italian
+    Text: 'Benvenuto\n\n
+
+
+      Per favore, prenditi un momento per respirare con
+      calma ...'
     Object: {fileID: 0}
 --- !u!1 &1153005245
 GameObject:
@@ -114,6 +122,12 @@ MonoBehaviour:
 
       Vielen Dank!'
     Object: {fileID: 0}
+  - Language: French
+    Text: "Nous esp\xE9rons que vous avez appr\xE9ci\xE9 votre exp\xE9rience. \n\nMerci!"
+    Object: {fileID: 0}
+  - Language: Italian
+    Text: "Speriamo che ti sia piaciuta la tua esperienza. \n\nGrazie!"
+    Object: {fileID: 0}
 --- !u!1 &1678022610
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,10 +175,16 @@ MonoBehaviour:
   data: 0
   entries:
   - Language: English
-    Text: oops! There was an error with the system. Please come back later.
+    Text: There was an error with the system. Please come back later.
     Object: {fileID: 0}
   - Language: German
     Text: Es ist ein Fehler mit dem System aufgetreten. Bitte entfernen Sie Ihr Headset
+    Object: {fileID: 0}
+  - Language: French
+    Text: "Il y a eu une erreur avec le syst\xE8me. Merci de revenir plus tard."
+    Object: {fileID: 0}
+  - Language: Italian
+    Text: "C'\xE8 stato un errore con il sistema. "
     Object: {fileID: 0}
 --- !u!1 &1834801474
 GameObject:
@@ -213,11 +233,19 @@ MonoBehaviour:
   data: 0
   entries:
   - Language: English
-    Text: "Woops... \nSeems like your colleague left!\nThank you for your participation!"
+    Text: "Woops... \nSeems like your colleague left! \nThank you for your participation!"
     Object: {fileID: 0}
   - Language: German
-    Text: "Woops ... \nEs scheint so, als w\xE4re die andere Person weg! \nDanke
+    Text: "Woops\t... \nEs scheint so, als w\xE4re die andere Person weg! \nDanke
       f\xFCr Ihre Teilnahme!"
+    Object: {fileID: 0}
+  - Language: French
+    Text: "Oups..\nOn dirait que votre coll\xE8gue est parti!\\n\nMerci de votre
+      participation!"
+    Object: {fileID: 0}
+  - Language: Italian
+    Text: "Woops ... \nsembra che il tuo collega se ne sia andato! \nGrazie per la
+      tua partecipazione!"
     Object: {fileID: 0}
 --- !u!1 &900105420055926307
 GameObject:
@@ -269,6 +297,12 @@ MonoBehaviour:
     Text: Wait for serial...
     Object: {fileID: 0}
   - Language: German
+    Text: Wait for serial...
+    Object: {fileID: 0}
+  - Language: French
+    Text: Wait for serial...
+    Object: {fileID: 0}
+  - Language: Italian
     Text: Wait for serial...
     Object: {fileID: 0}
 --- !u!1 &2861835305141051736
@@ -323,8 +357,21 @@ MonoBehaviour:
       aufrufen."
     Object: {fileID: 0}
   - Language: English
-    Text: "Move the headset up and down until you can see this text clearly. \n\nWhen
-      you are ready, look at the button below to begin."
+    Text: 'Move the headset up and down until you can see this text clearly.
+
+
+      When
+      you are ready, look at the button below to begin.'
+    Object: {fileID: 0}
+  - Language: French
+    Text: "D\xE9placez le casque de haut en bas jusqu'\xE0 ce que vous puissiez voir
+      ce texte clairement. \\n\\n\n\nLorsque vous \xEAtes pr\xEAt, regardez le bouton
+      ci-dessous pour commencer."
+    Object: {fileID: 0}
+  - Language: Italian
+    Text: "Sposta l'auricolare su e gi\xF9 fino a quando non puoi vedere chiaramente
+      questo testo. \\n\\n\n\nQuando sei pronto, guarda il pulsante in basso per
+      iniziare."
     Object: {fileID: 0}
 --- !u!1 &3675206860880838541
 GameObject:
@@ -378,6 +425,12 @@ MonoBehaviour:
   - Language: German
     Text: Bitte Warten Sie einen Moment...
     Object: {fileID: 0}
+  - Language: French
+    Text: Attendez un instant ...
+    Object: {fileID: 0}
+  - Language: Italian
+    Text: Aspetta un momento ...
+    Object: {fileID: 0}
 --- !u!1 &5442345038423296736
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,6 +470,10 @@ Transform:
   - {fileID: 556053163}
   - {fileID: 782879890955462072}
   - {fileID: 5827151556802107347}
+  - {fileID: 6914131834023174360}
+  - {fileID: 8771690069342496167}
+  - {fileID: 5740447027298123357}
+  - {fileID: 6363377230217222574}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6006547309674109429
@@ -431,35 +488,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 806f0696300aeac44a0e17efee222854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultLanguage: English
-  DetectLanguage: 1
-  SaveLanguage: 1
-  languages:
-  - name: English
-    cultures:
-    - en
-    - en-GB
-    - en-US
-    - en-AU
-    - en-CA
-    - en-NZ
-    - en-IE
-    - en-ZA
-    - en-JM
-    - en-en029
-    - en-BZ
-    - en-BZ
-    - en-TT
-    - en-ZW
-    - en-PH
-  - name: German
-    cultures:
-    - de
-    - de-DE
-    - de-CH
-    - de-AT
-    - de-LU
-    - de-LI
+  currentLanguage: German
+  detectLanguage: 1
+  defaultLanguage: 
+  saveLoad: 1
   prefabs: []
 --- !u!114 &8445752261854975216
 MonoBehaviour:
@@ -473,7 +505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 636b72f8fc644b4418a9e8ad0f4f804f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _showDebugFields: 1
+  _showDebugFields: 0
   _enableGizmoDebugging: 1
   _debugColor: {r: 0, g: 1, b: 1, a: 1}
   _previouslyRegisteredEvent: {fileID: 0}
@@ -509,7 +541,8 @@ MonoBehaviour:
   _showDebugFields: 0
   _enableGizmoDebugging: 1
   _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 0}
+  _previouslyRegisteredEvent: {fileID: 11400000, guid: 9e9c710454088e3458d357b85048602d,
+    type: 2}
   _event: {fileID: 11400000, guid: 9e9c710454088e3458d357b85048602d, type: 2}
   _response:
     m_PersistentCalls:
@@ -526,3 +559,299 @@ MonoBehaviour:
           m_StringArgument: German
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1001 &5387112824785133222
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 136505200202506699}
+    m_Modifications:
+    - target: {fileID: 765358623864573794, guid: 72996ab11fe463149bc90e287a08077d,
+        type: 3}
+      propertyPath: m_Name
+      value: German
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 72996ab11fe463149bc90e287a08077d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 72996ab11fe463149bc90e287a08077d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 72996ab11fe463149bc90e287a08077d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 72996ab11fe463149bc90e287a08077d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 72996ab11fe463149bc90e287a08077d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 72996ab11fe463149bc90e287a08077d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 72996ab11fe463149bc90e287a08077d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 72996ab11fe463149bc90e287a08077d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 72996ab11fe463149bc90e287a08077d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 72996ab11fe463149bc90e287a08077d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 72996ab11fe463149bc90e287a08077d, type: 3}
+--- !u!4 &6914131834023174360 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1527055450098318974, guid: 72996ab11fe463149bc90e287a08077d,
+    type: 3}
+  m_PrefabInstance: {fileID: 5387112824785133222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5584025069115877328
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 136505200202506699}
+    m_Modifications:
+    - target: {fileID: 765358623864573794, guid: 6ce49b6a86dedf943ab7d45ec2375ae0,
+        type: 3}
+      propertyPath: m_Name
+      value: Italian
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 6ce49b6a86dedf943ab7d45ec2375ae0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 6ce49b6a86dedf943ab7d45ec2375ae0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 6ce49b6a86dedf943ab7d45ec2375ae0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 6ce49b6a86dedf943ab7d45ec2375ae0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 6ce49b6a86dedf943ab7d45ec2375ae0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 6ce49b6a86dedf943ab7d45ec2375ae0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 6ce49b6a86dedf943ab7d45ec2375ae0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 6ce49b6a86dedf943ab7d45ec2375ae0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 6ce49b6a86dedf943ab7d45ec2375ae0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 6ce49b6a86dedf943ab7d45ec2375ae0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6ce49b6a86dedf943ab7d45ec2375ae0, type: 3}
+--- !u!4 &6363377230217222574 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1527055450098318974, guid: 6ce49b6a86dedf943ab7d45ec2375ae0,
+    type: 3}
+  m_PrefabInstance: {fileID: 5584025069115877328}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6528841769157787683
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 136505200202506699}
+    m_Modifications:
+    - target: {fileID: 765358623864573794, guid: 3ac841b7dad7d0a45bd0e21e9da426a1,
+        type: 3}
+      propertyPath: m_Name
+      value: French
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 3ac841b7dad7d0a45bd0e21e9da426a1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 3ac841b7dad7d0a45bd0e21e9da426a1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 3ac841b7dad7d0a45bd0e21e9da426a1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 3ac841b7dad7d0a45bd0e21e9da426a1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 3ac841b7dad7d0a45bd0e21e9da426a1,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 3ac841b7dad7d0a45bd0e21e9da426a1,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 3ac841b7dad7d0a45bd0e21e9da426a1,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 3ac841b7dad7d0a45bd0e21e9da426a1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 3ac841b7dad7d0a45bd0e21e9da426a1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 3ac841b7dad7d0a45bd0e21e9da426a1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3ac841b7dad7d0a45bd0e21e9da426a1, type: 3}
+--- !u!4 &5740447027298123357 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1527055450098318974, guid: 3ac841b7dad7d0a45bd0e21e9da426a1,
+    type: 3}
+  m_PrefabInstance: {fileID: 6528841769157787683}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7821201638199401433
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 136505200202506699}
+    m_Modifications:
+    - target: {fileID: 765358623864573794, guid: 971ef8207f535194faf411d40b27fb77,
+        type: 3}
+      propertyPath: m_Name
+      value: English
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 971ef8207f535194faf411d40b27fb77,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 971ef8207f535194faf411d40b27fb77,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 971ef8207f535194faf411d40b27fb77,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 971ef8207f535194faf411d40b27fb77,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 971ef8207f535194faf411d40b27fb77,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 971ef8207f535194faf411d40b27fb77,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 971ef8207f535194faf411d40b27fb77,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 971ef8207f535194faf411d40b27fb77,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 971ef8207f535194faf411d40b27fb77,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527055450098318974, guid: 971ef8207f535194faf411d40b27fb77,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 971ef8207f535194faf411d40b27fb77, type: 3}
+--- !u!4 &8771690069342496167 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1527055450098318974, guid: 971ef8207f535194faf411d40b27fb77,
+    type: 3}
+  m_PrefabInstance: {fileID: 7821201638199401433}
+  m_PrefabAsset: {fileID: 0}
