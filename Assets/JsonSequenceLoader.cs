@@ -2,14 +2,10 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class SequenceJsonLoader : MonoBehaviour
+public class JsonSequenceLoader : MonoBehaviour
 {
     [Header("Target ScriptableObject")]
     [SerializeField] private SequenceData sequenceData;
-
-    [Header("Optional")]
-    [SerializeField] private string jsonFileName = "sequence.json"; // Default name
-    [SerializeField] private string sequenceFolder = "Content/Sequence"; // Relative to app root
 
     [Header("Debug")]
     [SerializeField] private bool logLoadedSteps = false;
@@ -21,11 +17,11 @@ public class SequenceJsonLoader : MonoBehaviour
 
     private void LoadSequenceFromJson()
     {
-        string fullPath = Path.Combine(Application.dataPath, sequenceFolder, jsonFileName);
+        string fullPath = ContentPath.Sequence("sequence.json");
 
         if (!File.Exists(fullPath))
         {
-            Debug.LogError($"Sequence JSON file not found at path: {fullPath}");
+            Debug.LogError($"[JsonSequenceLoader] Sequence JSON file not found at path: {fullPath}");
             return;
         }
 
@@ -34,9 +30,9 @@ public class SequenceJsonLoader : MonoBehaviour
             string jsonContent = File.ReadAllText(fullPath);
             SequenceStepList stepList = JsonUtility.FromJson<SequenceStepList>(jsonContent);
 
-            if (stepList?.steps == null)
+            if (stepList?.steps == null || stepList.steps.Count == 0)
             {
-                Debug.LogError("Failed to deserialize sequence steps.");
+                Debug.LogError("[JsonSequenceLoader] Failed to parse or empty sequence.");
                 return;
             }
 
@@ -44,16 +40,16 @@ public class SequenceJsonLoader : MonoBehaviour
 
             if (logLoadedSteps)
             {
-                Debug.Log($"Loaded {stepList.steps.Count} steps from sequence.json");
+                Debug.Log($"[JsonSequenceLoader] Loaded {stepList.steps.Count} steps from sequence.json");
                 foreach (var step in stepList.steps)
                 {
-                    Debug.Log($"Step at {step.time}s → Text: {step.textKey}, Audio: {step.audio}, Visual: {step.visual}");
+                    Debug.Log($"→ {step.time}s: {step.textKey} | {step.audio} | {step.visual} | Actions: {string.Join(", ", step.actions)}");
                 }
             }
         }
-        catch (System.Exception e)
+        catch (System.Exception ex)
         {
-            Debug.LogError($"Error reading sequence file: {e.Message}");
+            Debug.LogError($"[JsonSequenceLoader] Exception while reading sequence: {ex.Message}");
         }
     }
 
