@@ -5,24 +5,36 @@ using System.IO;
 using DG.Tweening;
 using ScriptableObjectArchitecture;
 using UnityEngine;
+using UnityEngine.Serialization;
+
+/*
+ The JsonSequenceController replaces Unity's Timeline system with a custom timeline runner that:
+Reads a SequenceData ScriptableObject (your timeline).
+Plays audio, shows visuals (images or videos), and triggers actions at specified times.
+    Starts the sequence when both users are ready.
+    Stops if there's a serial failure or if a user leaves.
+    Handles localization (by switching language folders for audio)
+*/
 
 public class JsonSequenceController : MonoBehaviour
 {
     public delegate void OnHidePanel();
     public static OnHidePanel HidePanel;
 
+    [FormerlySerializedAs("sequenceData")]
     [Header("Sequence Source")]
-    [SerializeField] private SequenceData sequenceData;
+    [SerializeField] private SequenceData _sequenceData;
 
+    [FormerlySerializedAs("languageCode")]
     [Header("Settings")]
-    [SerializeField] private string languageCode = "en";
+    [SerializeField] private string _languageCode = "en";
 
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
 
     [Header("Events")]
     [SerializeField] private BoolVariable _experienceRunning;
-    [SerializeField] private StringGameEvent setInstructionsTextGameEvent;
+    [FormerlySerializedAs("setInstructionsTextGameEvent")] [SerializeField] private StringGameEvent _setInstructionsTextGameEvent;
 
     [Header("Visuals")]
     [SerializeField] private VisualPlayer visualPlayer;
@@ -49,18 +61,32 @@ public class JsonSequenceController : MonoBehaviour
         UserStateManager.ThisUserLeft -= StopSequence;
     }
 
+    public void SwitchLanguageTrack(string language)
+    {
+        switch (language)
+        {
+            case "English":
+                _languageCode = "EN";
+                break;
+            case "Italian":
+                _languageCode = "IT";
+                break;
+            case "French":
+                _languageCode = "FR";
+                break;
+            case "German":
+                _languageCode = "DE";
+                break;
+        }
+    }
+    
     private void StartSequence()
     {
-        if (sequenceData == null || _experienceRunning.Value) Debug.Log("not starting sequence"); //TODO needed?
-
-        Debug.Log("starting sequence");
-        
         _experienceRunning.Value = true;
         _dotweenSequence = DOTween.Sequence();
 
         float lastTime = 0f;
-        Debug.Log("sequencing steps");
-        foreach (var step in sequenceData.steps)
+        foreach (var step in _sequenceData.steps)
         {
             PrintStep(step);
             
@@ -78,12 +104,7 @@ public class JsonSequenceController : MonoBehaviour
 
     private void StopSequence()
     {
-        //if (!_experienceRunning.Value) return; //TODO needed?
-
-        if (_dotweenSequence != null && _dotweenSequence.IsActive())
-        {
-            _dotweenSequence.Kill();
-        }
+        if (_dotweenSequence != null && _dotweenSequence.IsActive()) _dotweenSequence.Kill();
 
         audioSource.Stop();
         visualPlayer.Hide();
@@ -93,8 +114,6 @@ public class JsonSequenceController : MonoBehaviour
 
     private void EndSequence() //TODO do we need End Sequence and Stop Sequence?
     {
-        //if (!_experienceRunning.Value) return;  //TODO needed?
-
         _experienceRunning.Value = false;
     }
 
@@ -103,13 +122,9 @@ public class JsonSequenceController : MonoBehaviour
         Debug.Log("executing step");
         PrintStep(step);
         
-        if (!string.IsNullOrEmpty(step.textKey)) setInstructionsTextGameEvent?.Raise(step.textKey);
+        if (!string.IsNullOrEmpty(step.textKey)) _setInstructionsTextGameEvent?.Raise(step.textKey);
 
-        if (!string.IsNullOrEmpty(step.audio))
-        {
-            string audioPath = Path.Combine(Application.dataPath, $"Content/Sequence/Audio/{languageCode}", step.audio);
-            StartCoroutine(LoadAndPlayAudio(audioPath));
-        }
+        if (!string.IsNullOrEmpty(step.audio)) StartCoroutine(LoadAndPlayAudio(ContentPath.Audio(_languageCode, step.audio)));
 
         if (!string.IsNullOrEmpty(step.visual)) visualPlayer.Show(step.visual);
 

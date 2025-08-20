@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &420745702
 RectTransform:
   m_ObjectHideFlags: 0
@@ -130,6 +130,8 @@ GameObject:
   m_Component:
   - component: {fileID: 892373382739111563}
   - component: {fileID: 6491798166058242597}
+  - component: {fileID: 7147489869320831085}
+  - component: {fileID: 4450512036938525531}
   m_Layer: 5
   m_Name: JSONSequenceController
   m_TagString: Untagged
@@ -170,14 +172,142 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequenceData: {fileID: 11400000, guid: db21f30a1b37d4d78a6fd11d55f9d79c, type: 2}
   languageCode: en
-  audioSource: {fileID: 0}
+  audioSource: {fileID: 7147489869320831085}
   _experienceRunning: {fileID: 11400000, guid: 6cc351baa8b1046419e0de6fe9238e4c, type: 2}
-  startExperienceEvent: {fileID: 0}
-  endExperienceEvent: {fileID: 0}
   setInstructionsTextGameEvent: {fileID: 11400000, guid: 3892b52908a1ffb4786f9c8951165d8e,
     type: 2}
-  hidePanelEvent: {fileID: 0}
   visualPlayer: {fileID: 4011455721180893844}
+  _statusManager: {fileID: 5814832923928935265}
+--- !u!82 &7147489869320831085
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2214128341836542524}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &4450512036938525531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2214128341836542524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636b72f8fc644b4418a9e8ad0f4f804f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: 3186148365f83442090e1a09b70837e4, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6491798166058242597}
+        m_TargetAssemblyTypeName: JsonSequenceController, Assembly-CSharp
+        m_MethodName: SwitchLanguageTrack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _debugValue: 
 --- !u!1 &3197596539171407807
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,8 +436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd8cd5b022bd4076981bfc9a3237cd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequenceData: {fileID: 0}
-  logLoadedSteps: 0
+  sequenceData: {fileID: 11400000, guid: db21f30a1b37d4d78a6fd11d55f9d79c, type: 2}
 --- !u!1 &7445867890998557426
 GameObject:
   m_ObjectHideFlags: 0
