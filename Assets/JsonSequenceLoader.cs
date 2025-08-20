@@ -8,9 +8,6 @@ public class JsonSequenceLoader : MonoBehaviour
     [Header("Target ScriptableObject")]
     [SerializeField] private SequenceData sequenceData;
 
-    [Header("Debug")]
-    [SerializeField] private bool logLoadedSteps = false;
-
     private void Awake()
     {
         LoadSequenceFromJson();
@@ -38,15 +35,6 @@ public class JsonSequenceLoader : MonoBehaviour
             }
 
             sequenceData.steps = stepList.steps;
-
-            if (logLoadedSteps)
-            {
-                Debug.Log($"[JsonSequenceLoader] Loaded {stepList.steps.Count} steps from sequence.json");
-                foreach (var step in stepList.steps)
-                {
-                    Debug.Log($"→ {step.time}s: {step.textKey} | {step.audio} | {step.visual} | Actions: {string.Join(", ", step.actions)}");
-                }
-            }
         }
         catch (System.Exception ex)
         {
