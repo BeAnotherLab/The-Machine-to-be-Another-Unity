@@ -2,26 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using DG.Tweening;
 using ScriptableObjectArchitecture;
 using UnityEngine;
-/*The JsonSequenceController (renamed from your old TimelineController) replaces Unity's Timeline system with a custom timeline runner that:
-
-Reads a SequenceData ScriptableObject (your timeline).
-
-Plays audio, shows visuals (images or videos), and triggers actions at specified times.
-
-    Starts the sequence when both users are ready.
-
-    Stops if there's a serial failure or if a user leaves.
-
-    Handles localization (by switching language folders for audio)
-*/
 
 public class JsonSequenceController : MonoBehaviour
 {
     public delegate void OnHidePanel();
-    public static OnHidePanel HidePanel; 
-    
+    public static OnHidePanel HidePanel;
+
     [Header("Sequence Source")]
     [SerializeField] private SequenceData sequenceData;
 
@@ -39,11 +28,12 @@ public class JsonSequenceController : MonoBehaviour
     [SerializeField] private VisualPlayer visualPlayer;
 
     [SerializeField] private StatusManager _statusManager;
-    
+
+    private Sequence _dotweenSequence;
+
     private void OnEnable()
     {
         UserStateManager.BothUsersReady += StartSequence;
-
         ArduinoManager.SerialFailure += StopSequence;
         OscManager.ReceiveSerialFailure += StopSequence;
         UserStateManager.OtherLeft += StopSequence;
@@ -53,7 +43,6 @@ public class JsonSequenceController : MonoBehaviour
     private void OnDisable()
     {
         UserStateManager.BothUsersReady -= StartSequence;
-
         ArduinoManager.SerialFailure -= StopSequence;
         OscManager.ReceiveSerialFailure -= StopSequence;
         UserStateManager.OtherLeft -= StopSequence;
@@ -62,27 +51,40 @@ public class JsonSequenceController : MonoBehaviour
 
     private void StartSequence()
     {
-        if (sequenceData == null || _experienceRunning.Value) return; //TODO needed?
+        if (sequenceData == null || _experienceRunning.Value) Debug.Log("not starting sequence"); //TODO needed?
 
+        Debug.Log("starting sequence");
+        
         _experienceRunning.Value = true;
+        _dotweenSequence = DOTween.Sequence();
 
-        for (int i = 0; i < sequenceData.steps.Count; i++)
+        float lastTime = 0f;
+        Debug.Log("sequencing steps");
+        foreach (var step in sequenceData.steps)
         {
-            var step = sequenceData.steps[i];
-            float delay = step.time;
+            PrintStep(step);
+            
+            float delay = step.time - lastTime;
+            lastTime = step.time;
 
-            LeanTween.delayedCall(gameObject, delay, () => ExecuteStep(step)).setOnComplete(() =>
-            {
-                if (step == sequenceData.steps[sequenceData.steps.Count - 1]) EndSequence();
-            });
+            var capturedStep = step;
+
+            _dotweenSequence.AppendInterval(delay)
+                            .AppendCallback(() => ExecuteStep(capturedStep));
         }
+
+        _dotweenSequence.OnComplete(EndSequence);
     }
 
     private void StopSequence()
     {
-        if (!_experienceRunning.Value) return; //TODO needed?
+        //if (!_experienceRunning.Value) return; //TODO needed?
 
-        LeanTween.cancel(gameObject);
+        if (_dotweenSequence != null && _dotweenSequence.IsActive())
+        {
+            _dotweenSequence.Kill();
+        }
+
         audioSource.Stop();
         visualPlayer.Hide();
 
@@ -91,13 +93,16 @@ public class JsonSequenceController : MonoBehaviour
 
     private void EndSequence() //TODO do we need End Sequence and Stop Sequence?
     {
-        if (!_experienceRunning.Value) return;  //TODO needed?
+        //if (!_experienceRunning.Value) return;  //TODO needed?
 
         _experienceRunning.Value = false;
     }
 
     private void ExecuteStep(SequenceStep step)
     {
+        Debug.Log("executing step");
+        PrintStep(step);
+        
         if (!string.IsNullOrEmpty(step.textKey)) setInstructionsTextGameEvent?.Raise(step.textKey);
 
         if (!string.IsNullOrEmpty(step.audio))
@@ -108,37 +113,40 @@ public class JsonSequenceController : MonoBehaviour
 
         if (!string.IsNullOrEmpty(step.visual)) visualPlayer.Show(step.visual);
 
-        foreach (var action in step.actions)
+        if (step.actions != null && step.actions.Count > 0) 
         {
-            switch (action)
+            foreach (var action in step.actions)
             {
-                case "HidePanel":
-                    HidePanel();
-                    break;
-                case "StartExperience":
-                    _statusManager.StartExperience();
-                    break;
-                case "EndExperience":
-                    _statusManager.EndExperience();
-                    break;
-                case "MirrorOn":
-                    _statusManager.MirrorOn();
-                    break;
-                case "MirrorOff":
-                    _statusManager.MirrorOff();
-                    break;
-                case "WallOn":
-                    _statusManager.CloseWall();
-                    break;
-                case "WallOff":
-                    _statusManager.WallOff();
-                    break;
-                case "ShowVisual":
-                    //_statusManager.CloseWall();
-                    break;
-                case "HideVisual":
-                    //_statusManager.WallOff();
-                    break;
+                switch (action)
+                {
+                    case "HidePanel":
+                        HidePanel();
+                        break;
+                    case "StartExperience":
+                        _statusManager.StartExperience();
+                        break;
+                    case "EndExperience":
+                        _statusManager.EndExperience();
+                        break;
+                    case "MirrorOn":
+                        _statusManager.MirrorOn();
+                        break;
+                    case "MirrorOff":
+                        _statusManager.MirrorOff();
+                        break;
+                    case "WallOn":
+                        _statusManager.CloseWall();
+                        break;
+                    case "WallOff":
+                        _statusManager.WallOff();
+                        break;
+                    case "ShowVisual":
+                        //_statusManager.CloseWall();
+                        break;
+                    case "HideVisual":
+                        //_statusManager.WallOff();
+                        break;
+                }
             }
         }
     }
@@ -165,4 +173,14 @@ public class JsonSequenceController : MonoBehaviour
             Debug.LogError($"Failed to load audio: {www.error}");
         }
     }
+
+    private void PrintStep(SequenceStep step)
+    {
+        Debug.Log($"<b><color=#888>[Step @ {step.time}s]</color></b> " +
+                  $"Text: <color=#4CAF50>{(string.IsNullOrEmpty(step.textKey) ? "-" : step.textKey)}</color>, " +
+                  $"Audio: <color=#2196F3>{(string.IsNullOrEmpty(step.audio) ? "-" : step.audio)}</color>, " +
+                  $"Visual: <color=#FF9800>{(string.IsNullOrEmpty(step.visual) ? "-" : step.visual)}</color>, " +
+                  $"Actions: <color=#E91E63>[{(step.actions != null && step.actions.Count > 0 ? string.Join(", ", step.actions) : "-")}]</color>");
+    }
+    
 }
