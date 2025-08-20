@@ -35,7 +35,7 @@ public class ConfirmationButtonGraphics : MonoBehaviour
     private void Update()
     {
         _currentScale = LeanSmooth.damp(_currentScale, _scaleTarget, ref _velocity, _dampTime);
-        transform.localScale = new Vector3(_currentScale, _currentScale, _currentScale);
+        transform.localScale = new Vector3(2.8f *_currentScale, _currentScale, _currentScale);
     }
 
     public void SwitchSelection(bool on)
