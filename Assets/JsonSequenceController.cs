@@ -5,6 +5,7 @@ using System.IO;
 using DG.Tweening;
 using ScriptableObjectArchitecture;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.Serialization;
 
 /*
@@ -124,7 +125,8 @@ public class JsonSequenceController : MonoBehaviour
         
         if (!string.IsNullOrEmpty(step.textKey)) _setInstructionsTextGameEvent?.Raise(step.textKey);
 
-        if (!string.IsNullOrEmpty(step.audio)) StartCoroutine(LoadAndPlayAudio(ContentPath.Audio(_languageCode, step.audio)));
+        if (!string.IsNullOrEmpty(step.audio))
+            StartCoroutine(LoadAndPlayAudio(ContentPath.Audio(_languageCode, step.audio)));
 
         if (!string.IsNullOrEmpty(step.visual)) visualPlayer.Show(step.visual);
 
@@ -165,7 +167,6 @@ public class JsonSequenceController : MonoBehaviour
             }
         }
     }
-
     private IEnumerator LoadAndPlayAudio(string fullPath)
     {
         if (!File.Exists(fullPath))
@@ -174,21 +175,47 @@ public class JsonSequenceController : MonoBehaviour
             yield break;
         }
 
-        string url = "file://" + fullPath;
-        using var www = new WWW(url);
-        yield return www;
-
-        if (string.IsNullOrEmpty(www.error))
+        string extension = Path.GetExtension(fullPath).ToLower();
+        AudioType audioType = extension switch
         {
-            audioSource.clip = www.GetAudioClip();
-            audioSource.Play();
+            ".wav" => AudioType.WAV,
+            ".ogg" => AudioType.OGGVORBIS,
+            _ => AudioType.UNKNOWN
+        };
+
+        if (audioType == AudioType.UNKNOWN)
+        {
+            Debug.LogError($"Unsupported audio format: {extension}");
+            yield break;
         }
-        else
+
+        string url = "file://" + fullPath;
+        Debug.Log($"Loading audio: {url} as {audioType}");
+
+        using UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, audioType);
+        yield return www.SendWebRequest();
+
+#if UNITY_2020_1_OR_NEWER
+        if (www.result != UnityWebRequest.Result.Success)
+#else
+    if (www.isNetworkError || www.isHttpError)
+#endif
         {
             Debug.LogError($"Failed to load audio: {www.error}");
+            yield break;
         }
-    }
 
+        AudioClip clip = DownloadHandlerAudioClip.GetContent(www);
+        if (clip == null)
+        {
+            Debug.LogError("AudioClip is null after loading.");
+            yield break;
+        }
+
+        audioSource.clip = clip;
+        audioSource.Play();
+    }
+    
     private void PrintStep(SequenceStep step)
     {
         Debug.Log($"<b><color=#888>[Step @ {step.time}s]</color></b> " +
