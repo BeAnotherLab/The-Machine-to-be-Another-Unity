@@ -19,6 +19,9 @@ Plays audio, shows visuals (images or videos), and triggers actions at specified
 
 public class JsonSequenceController : MonoBehaviour
 {
+    public delegate void OnHidePanel();
+    public static OnHidePanel HidePanel; 
+    
     [Header("Sequence Source")]
     [SerializeField] private SequenceData sequenceData;
 
@@ -30,17 +33,13 @@ public class JsonSequenceController : MonoBehaviour
 
     [Header("Events")]
     [SerializeField] private BoolVariable _experienceRunning;
-    [SerializeField] private GameEvent startExperienceEvent;
-    [SerializeField] private GameEvent endExperienceEvent;
     [SerializeField] private StringGameEvent setInstructionsTextGameEvent;
-    [SerializeField] private GameEvent hidePanelEvent;
 
     [Header("Visuals")]
     [SerializeField] private VisualPlayer visualPlayer;
 
-    private int tweenId = -1;
-    private bool isRunning;
-
+    [SerializeField] private StatusManager _statusManager;
+    
     private void OnEnable()
     {
         UserStateManager.BothUsersReady += StartSequence;
@@ -63,13 +62,9 @@ public class JsonSequenceController : MonoBehaviour
 
     private void StartSequence()
     {
-        if (sequenceData == null || isRunning) return;
+        if (sequenceData == null || _experienceRunning.Value) return; //TODO needed?
 
-        isRunning = true;
         _experienceRunning.Value = true;
-        startExperienceEvent?.Raise();
-
-        float startTime = Time.time;
 
         for (int i = 0; i < sequenceData.steps.Count; i++)
         {
@@ -78,39 +73,32 @@ public class JsonSequenceController : MonoBehaviour
 
             LeanTween.delayedCall(gameObject, delay, () => ExecuteStep(step)).setOnComplete(() =>
             {
-                if (step == sequenceData.steps[sequenceData.steps.Count - 1])
-                {
-                    EndSequence();
-                }
+                if (step == sequenceData.steps[sequenceData.steps.Count - 1]) EndSequence();
             });
         }
     }
 
     private void StopSequence()
     {
-        if (!isRunning) return;
+        if (!_experienceRunning.Value) return; //TODO needed?
 
         LeanTween.cancel(gameObject);
         audioSource.Stop();
         visualPlayer.Hide();
 
         _experienceRunning.Value = false;
-        isRunning = false;
     }
 
-    private void EndSequence()
+    private void EndSequence() //TODO do we need End Sequence and Stop Sequence?
     {
-        if (!isRunning) return;
+        if (!_experienceRunning.Value) return;  //TODO needed?
 
         _experienceRunning.Value = false;
-        endExperienceEvent?.Raise();
-        isRunning = false;
     }
 
     private void ExecuteStep(SequenceStep step)
     {
-        if (!string.IsNullOrEmpty(step.textKey))
-            setInstructionsTextGameEvent?.Raise(step.textKey);
+        if (!string.IsNullOrEmpty(step.textKey)) setInstructionsTextGameEvent?.Raise(step.textKey);
 
         if (!string.IsNullOrEmpty(step.audio))
         {
@@ -118,35 +106,38 @@ public class JsonSequenceController : MonoBehaviour
             StartCoroutine(LoadAndPlayAudio(audioPath));
         }
 
-        if (!string.IsNullOrEmpty(step.visual))
-        {
-            visualPlayer.Show(step.visual);
-        }
+        if (!string.IsNullOrEmpty(step.visual)) visualPlayer.Show(step.visual);
 
         foreach (var action in step.actions)
         {
             switch (action)
             {
                 case "HidePanel":
-                    hidePanelEvent?.Raise();
+                    HidePanel();
                     break;
                 case "StartExperience":
-                    startExperienceEvent?.Raise();
+                    _statusManager.StartExperience();
                     break;
                 case "EndExperience":
-                    endExperienceEvent?.Raise();
+                    _statusManager.EndExperience();
                     break;
                 case "MirrorOn":
-                    StatusManager.SendArduinoCommand?.Invoke("mir_on");
+                    _statusManager.MirrorOn();
                     break;
                 case "MirrorOff":
-                    StatusManager.SendArduinoCommand?.Invoke("mir_off");
+                    _statusManager.MirrorOff();
                     break;
                 case "WallOn":
-                    //GameEventsLibrary.Instance.CurtainOnEvent.Raise(true);
+                    _statusManager.CloseWall();
                     break;
                 case "WallOff":
-                    //GameEventsLibrary.Instance.CurtainOnEvent.Raise(false);
+                    _statusManager.WallOff();
+                    break;
+                case "ShowVisual":
+                    //_statusManager.CloseWall();
+                    break;
+                case "HideVisual":
+                    //_statusManager.WallOff();
                     break;
             }
         }
