@@ -24,10 +24,7 @@ public class JsonSequenceController : MonoBehaviour
     public delegate void OnHidePanel();
     public static OnHidePanel HidePanel;
 
-    public delegate void OnLoadVisual(string filename);
-    public static OnLoadVisual LoadVisual;
-
-    public delegate void OnShowVisual();
+    public delegate void OnShowVisual(string filename);
     public static OnShowVisual ShowVisual;
 
     public delegate void OnHideVisual();
@@ -174,7 +171,7 @@ public class JsonSequenceController : MonoBehaviour
 
         if (!string.IsNullOrEmpty(step.audio)) StartCoroutine(LoadAndPlayAudio(ContentPath.Audio(_languageCode, step.audio)));
 
-        if (!string.IsNullOrEmpty(step.visual)) LoadVisual(step.visual);
+        if (!string.IsNullOrEmpty(step.visual)) ShowVisual(step.visual);
 
         if (step.actions != null && step.actions.Count > 0)
         {
@@ -202,9 +199,6 @@ public class JsonSequenceController : MonoBehaviour
                         break;
                     case "WallOff":
                         _statusManager.WallOff();
-                        break;
-                    case "ShowVisual":
-                        ShowVisual();
                         break;
                     case "HideVisual":
                         HideVisual();
