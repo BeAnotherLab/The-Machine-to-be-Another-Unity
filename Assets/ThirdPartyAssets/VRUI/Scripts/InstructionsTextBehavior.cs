@@ -23,7 +23,7 @@ public class InstructionsTextBehavior : MonoBehaviour
         _textGameObject.GetComponent<Text>().text = text; //give feedback
     }
 
-    public void ShowTextFromKey(string key)
+    public void ShowTextFromKey(string key) //set text through lean localized text translations
     {
         GetComponent<PanelDimmer>().Show();
         _textGameObject.GetComponent<LeanLocalizedText>().TranslationName = key;

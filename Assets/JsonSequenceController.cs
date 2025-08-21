@@ -5,8 +5,10 @@ using DG.Tweening;
 using Newtonsoft.Json;
 using ScriptableObjectArchitecture;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 using UnityEngine.Networking;
 using UnityEngine.Serialization;
+using UnityEngineInternal;
 
 /*
  The JsonSequenceController replaces Unity's Timeline system with a custom timeline runner that:
@@ -22,6 +24,16 @@ public class JsonSequenceController : MonoBehaviour
     public delegate void OnHidePanel();
     public static OnHidePanel HidePanel;
 
+    public delegate void OnLoadVisual(string filename);
+    public static OnLoadVisual LoadVisual;
+
+    public delegate void OnShowVisual();
+    public static OnShowVisual ShowVisual;
+
+    public delegate void OnHideVisual();
+    public static OnHideVisual HideVisual;
+
+    
     [FormerlySerializedAs("sequenceData")]
     [Header("Sequence Source")]
     [SerializeField] private SequenceData _sequenceData;
@@ -36,9 +48,6 @@ public class JsonSequenceController : MonoBehaviour
     [Header("Events")]
     [SerializeField] private BoolVariable _experienceRunning;
     [SerializeField] private StringGameEvent _setInstructionsTextGameEvent;
-
-    [Header("Visuals")]
-    [SerializeField] private VisualPlayer visualPlayer;
 
     [SerializeField] private StatusManager _statusManager;
 
@@ -136,7 +145,7 @@ public class JsonSequenceController : MonoBehaviour
         if (_dotweenSequence != null && _dotweenSequence.IsActive()) _dotweenSequence.Kill();
 
         audioSource.Stop();
-        visualPlayer.Hide();
+        HideVisual();
 
         _experienceRunning.Value = false;
     }
@@ -165,7 +174,7 @@ public class JsonSequenceController : MonoBehaviour
 
         if (!string.IsNullOrEmpty(step.audio)) StartCoroutine(LoadAndPlayAudio(ContentPath.Audio(_languageCode, step.audio)));
 
-        if (!string.IsNullOrEmpty(step.visual)) visualPlayer.Show(step.visual);
+        if (!string.IsNullOrEmpty(step.visual)) LoadVisual(step.visual);
 
         if (step.actions != null && step.actions.Count > 0)
         {
@@ -195,10 +204,10 @@ public class JsonSequenceController : MonoBehaviour
                         _statusManager.WallOff();
                         break;
                     case "ShowVisual":
-                        //_statusManager.CloseWall();
+                        ShowVisual();
                         break;
                     case "HideVisual":
-                        //_statusManager.WallOff();
+                        HideVisual();
                         break;
                 }
             }

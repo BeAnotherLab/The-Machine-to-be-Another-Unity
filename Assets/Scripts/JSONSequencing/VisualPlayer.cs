@@ -1,48 +1,91 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class VisualPlayer : MonoBehaviour
 {
-    [SerializeField] private Renderer imageRenderer;
-    [SerializeField] private VideoPlayer videoPlayer;
+    [SerializeField] private Image _imageRenderer;
+    [SerializeField] private VideoPlayer _videoPlayer;
+    [SerializeField] private PanelDimmer _panelDimmer;
+    [SerializeField] private string _fileName;
+    [SerializeField] private RenderTexture _renderTexture;
 
-    public void Show(string filename)
+    private void Start()
     {
-      /*  string ext = Path.GetExtension(filename).ToLower();
+        _panelDimmer.Hide();
+    }
 
+    private void OnEnable()
+    {
+        JsonSequenceController.LoadVisual += Load;
+        JsonSequenceController.ShowVisual += Show;
+        JsonSequenceController.HideVisual += Hide;
+    }
+
+    private void OnDisable()
+    {
+        JsonSequenceController.LoadVisual -= Load;
+        JsonSequenceController.ShowVisual -= Show;
+        JsonSequenceController.HideVisual -= Hide;
+    }
+
+    public void Load(string filename)
+    {
+        string ext = Path.GetExtension(filename).ToLower();
         if (ext == ".mp4") ShowVideo(filename);
-        else ShowImage(filename);
-        */
+        else if (ext == "png") ShowImage(filename);
     }
 
     private void ShowImage(string filename)
     {
-    /*    videoPlayer.Stop();
-        videoPlayer.gameObject.SetActive(false);
+        _videoPlayer.Stop();
+        //_videoPlayer.gameObject.SetActive(false);
+        //_imageRenderer.gameObject.SetActive(true);
 
-        string path = Path.Combine(Application.dataPath, "Content/Sequence/Images", filename);
+        string path = ContentPath.Image(filename);
         byte[] fileData = File.ReadAllBytes(path);
         Texture2D tex = new Texture2D(2, 2);
         tex.LoadImage(fileData);
-        imageRenderer.material.mainTexture = tex;
-        imageRenderer.gameObject.SetActive(true);*/
+        
+        _imageRenderer.material.mainTexture = tex;
     }
 
     private void ShowVideo(string filename)
     {
-        /*imageRenderer.gameObject.SetActive(false);
+        //_imageRenderer.gameObject.SetActive(true);
+        //_videoPlayer.gameObject.SetActive(true);
 
-        string path = Path.Combine(Application.dataPath, "Content/Sequence/Videos", filename);
-        videoPlayer.url = path;
-        videoPlayer.gameObject.SetActive(true);
-        videoPlayer.Play();*/
+        string path = ContentPath.Video(filename);
+
+        _videoPlayer.targetTexture = _renderTexture;
+        _imageRenderer.material.mainTexture = _renderTexture;
+
+        _videoPlayer.url = path;
+        _videoPlayer.Play();
     }
 
-    public void Hide()
+    private void Hide()
+    {       
+        _panelDimmer.Hide();
+        _videoPlayer.Stop();
+        StartCoroutine(WaitAndDisableVisual());
+    }
+
+    private void Show()
     {
-        /*imageRenderer.gameObject.SetActive(false);
-        videoPlayer.Stop();
-        videoPlayer.gameObject.SetActive(false);*/
+        _panelDimmer.Show();
     }
+
+    private IEnumerator WaitAndDisableVisual()
+    {
+        yield return new WaitForSeconds(2f);
+        //_imageRenderer.gameObject.SetActive(false);
+        //_videoPlayer.gameObject.SetActive(false);
+    }
+
 }

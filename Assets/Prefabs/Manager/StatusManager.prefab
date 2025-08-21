@@ -176,7 +176,6 @@ MonoBehaviour:
   _experienceRunning: {fileID: 11400000, guid: 6cc351baa8b1046419e0de6fe9238e4c, type: 2}
   _setInstructionsTextGameEvent: {fileID: 11400000, guid: 95d2eb5adc44a4d989404c5c716c05d7,
     type: 2}
-  visualPlayer: {fileID: 4011455721180893844}
   _statusManager: {fileID: 5814832923928935265}
 --- !u!82 &7147489869320831085
 AudioSource:
@@ -341,7 +340,6 @@ RectTransform:
   - {fileID: 420745702}
   - {fileID: 7891499942628042901}
   - {fileID: 892373382739111563}
-  - {fileID: 8720506949209861602}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -437,53 +435,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sequenceData: {fileID: 11400000, guid: db21f30a1b37d4d78a6fd11d55f9d79c, type: 2}
---- !u!1 &7445867890998557426
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8720506949209861602}
-  - component: {fileID: 4011455721180893844}
-  m_Layer: 5
-  m_Name: VisualPlayer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &8720506949209861602
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7445867890998557426}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3197596539171407804}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4011455721180893844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7445867890998557426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c80b6d40780ba459b8ae904dc2477aee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  imageRenderer: {fileID: 0}
-  videoPlayer: {fileID: 0}

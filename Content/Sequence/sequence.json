@@ -8,13 +8,22 @@
     },
     {
       "time": 15.0,
-      "textKey": "",
-      "actions": ["FadeInImages"],
+      "textKey": "blank",
+      "actions": ["ShowVisual"],
       "visual": "instructions.png"
     },
     {
+      "time": 19.0,
+      "actions": ["HideVisual"],
+    },
+    {
+      "time": 19.5,
+      "actions": ["ShowVisual"],
+      "visual": "instructions.mp4"
+    },
+    {
       "time": 24.0,
-      "actions": ["CloseWall", "FadeOutImages"]
+      "actions": ["CloseWall", "HideVisual"]
     },
     {
       "time": 26.0,
