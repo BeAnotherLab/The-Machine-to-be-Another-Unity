@@ -44,6 +44,6 @@ public static class ContentPath
 
     public static string Translation(string languageCode)
     {
-        return Path.Combine(Root, "Sequence", "Translations", $"{languageCode}.csv");
+        return Path.Combine(Root, "Sequence", "Translations", $"{languageCode}.json");
     }
 }

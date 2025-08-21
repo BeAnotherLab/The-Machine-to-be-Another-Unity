@@ -9,16 +9,16 @@ public class VisualPlayer : MonoBehaviour
 
     public void Show(string filename)
     {
-        string ext = Path.GetExtension(filename).ToLower();
+      /*  string ext = Path.GetExtension(filename).ToLower();
 
         if (ext == ".mp4") ShowVideo(filename);
         else ShowImage(filename);
-        
+        */
     }
 
     private void ShowImage(string filename)
     {
-        videoPlayer.Stop();
+    /*    videoPlayer.Stop();
         videoPlayer.gameObject.SetActive(false);
 
         string path = Path.Combine(Application.dataPath, "Content/Sequence/Images", filename);
@@ -26,23 +26,23 @@ public class VisualPlayer : MonoBehaviour
         Texture2D tex = new Texture2D(2, 2);
         tex.LoadImage(fileData);
         imageRenderer.material.mainTexture = tex;
-        imageRenderer.gameObject.SetActive(true);
+        imageRenderer.gameObject.SetActive(true);*/
     }
 
     private void ShowVideo(string filename)
     {
-        imageRenderer.gameObject.SetActive(false);
+        /*imageRenderer.gameObject.SetActive(false);
 
         string path = Path.Combine(Application.dataPath, "Content/Sequence/Videos", filename);
         videoPlayer.url = path;
         videoPlayer.gameObject.SetActive(true);
-        videoPlayer.Play();
+        videoPlayer.Play();*/
     }
 
     public void Hide()
     {
-        imageRenderer.gameObject.SetActive(false);
+        /*imageRenderer.gameObject.SetActive(false);
         videoPlayer.Stop();
-        videoPlayer.gameObject.SetActive(false);
+        videoPlayer.gameObject.SetActive(false);*/
     }
 }

@@ -1,8 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using DG.Tweening;
+using Newtonsoft.Json;
 using ScriptableObjectArchitecture;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -35,7 +35,7 @@ public class JsonSequenceController : MonoBehaviour
 
     [Header("Events")]
     [SerializeField] private BoolVariable _experienceRunning;
-    [FormerlySerializedAs("setInstructionsTextGameEvent")] [SerializeField] private StringGameEvent _setInstructionsTextGameEvent;
+    [SerializeField] private StringGameEvent _setInstructionsTextGameEvent;
 
     [Header("Visuals")]
     [SerializeField] private VisualPlayer visualPlayer;
@@ -43,6 +43,7 @@ public class JsonSequenceController : MonoBehaviour
     [SerializeField] private StatusManager _statusManager;
 
     private Sequence _dotweenSequence;
+    private Dictionary<string, string> _translations;
 
     private void OnEnable()
     {
@@ -51,6 +52,8 @@ public class JsonSequenceController : MonoBehaviour
         OscManager.ReceiveSerialFailure += StopSequence;
         UserStateManager.OtherLeft += StopSequence;
         UserStateManager.ThisUserLeft += StopSequence;
+
+        LoadTranslations(_languageCode);
     }
 
     private void OnDisable()
@@ -79,8 +82,33 @@ public class JsonSequenceController : MonoBehaviour
                 _languageCode = "DE";
                 break;
         }
+
+        LoadTranslations(_languageCode);
     }
-    
+
+    private void LoadTranslations(string languageCode)
+    {
+        string path = ContentPath.Translation(languageCode);
+
+        if (!File.Exists(path))
+        {
+            Debug.LogWarning($"Translation file not found at: {path}");
+            _translations = new Dictionary<string, string>();
+            return;
+        }
+
+        try
+        {
+            string json = File.ReadAllText(path);
+            _translations = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Error reading translations from {path}: {e.Message}");
+            _translations = new Dictionary<string, string>();
+        }
+    }
+
     private void StartSequence()
     {
         _experienceRunning.Value = true;
@@ -120,24 +148,33 @@ public class JsonSequenceController : MonoBehaviour
 
     private void ExecuteStep(SequenceStep step)
     {
-        Debug.Log("executing step");
         PrintStep(step);
-        
-        if (!string.IsNullOrEmpty(step.textKey)) _setInstructionsTextGameEvent?.Raise(step.textKey);
 
-        if (!string.IsNullOrEmpty(step.audio))
-            StartCoroutine(LoadAndPlayAudio(ContentPath.Audio(_languageCode, step.audio)));
+        if (!string.IsNullOrEmpty(step.textKey))
+        {
+            if (_translations != null && _translations.TryGetValue(step.textKey, out string translatedText))
+            {
+                _setInstructionsTextGameEvent.Raise(translatedText);
+            }
+            else
+            {
+                Debug.LogWarning($"Missing translation for key: {step.textKey}");
+                _setInstructionsTextGameEvent.Raise(step.textKey); // fallback
+            }
+        }
+
+        if (!string.IsNullOrEmpty(step.audio)) StartCoroutine(LoadAndPlayAudio(ContentPath.Audio(_languageCode, step.audio)));
 
         if (!string.IsNullOrEmpty(step.visual)) visualPlayer.Show(step.visual);
 
-        if (step.actions != null && step.actions.Count > 0) 
+        if (step.actions != null && step.actions.Count > 0)
         {
             foreach (var action in step.actions)
             {
                 switch (action)
                 {
                     case "HidePanel":
-                        HidePanel();
+                        HidePanel?.Invoke();
                         break;
                     case "StartExperience":
                         _statusManager.StartExperience();
@@ -167,6 +204,7 @@ public class JsonSequenceController : MonoBehaviour
             }
         }
     }
+    
     private IEnumerator LoadAndPlayAudio(string fullPath)
     {
         if (!File.Exists(fullPath))
