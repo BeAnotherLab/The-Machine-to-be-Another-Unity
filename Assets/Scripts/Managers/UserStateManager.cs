@@ -64,7 +64,7 @@ public class UserStateManager : MonoBehaviour //centralize self and other state 
         }
         else if (newState == UserState.headsetOn)
         {
-            _setInstructionsTextGameEvent.Raise("idle");
+            _setInstructionsTextGameEvent.Raise("idle"); //TODO self manage
             Debug.Log("this user put on the headset", DLogType.Input);
         }
         else if (newState == UserState.readyToStart)
@@ -77,7 +77,7 @@ public class UserStateManager : MonoBehaviour //centralize self and other state 
         SendThisUserStatus(selfState); 
     }
 
-    public void OtherStateChanged(UserState newState) //TODO move to own state changes events class
+    public void OtherStateChanged(UserState newState)
     {
         if (newState == UserState.headsetOff)
         {
@@ -104,5 +104,10 @@ public class UserStateManager : MonoBehaviour //centralize self and other state 
     {
         yield return new WaitForSeconds(4f);
         SelfStateChanged(UserState.headsetOn);
+    }
+
+    public void Standby()
+    {
+        selfState.Value = UserState.headsetOn;
     }
 }
