@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 2004019879253774904}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: 30, y: -40.34, z: 120.83}
+  m_LocalPosition: {x: -10, y: -40.34, z: 120.83}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -136,8 +136,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 642cb2095ff1eee4a93a287b0d8234c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scaleOut: {x: 1.5, y: 1, z: 1}
-  _scaleOn: {x: 1.8, y: 1.2, z: 1}
+  _scaleOut: {x: 2, y: 2, z: 2}
+  _scaleOn: {x: 3.6, y: 3.6, z: 3.6}
   _showSelectionRadialEvent: {fileID: 11400000, guid: 3cb126cd29e6b4077a4dc0f74b524c7b,
     type: 2}
   m_InteractiveItem: {fileID: 2004019879242408916}
@@ -209,7 +209,7 @@ Transform:
   m_GameObject: {fileID: 7887563293851489202}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: -30, y: -40.34, z: 120.83}
+  m_LocalPosition: {x: 10, y: -40.34, z: 120.83}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -314,8 +314,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 642cb2095ff1eee4a93a287b0d8234c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scaleOut: {x: 1.5, y: 1, z: 1}
-  _scaleOn: {x: 1.8, y: 1.2, z: 1}
+  _scaleOut: {x: 2, y: 2, z: 2}
+  _scaleOn: {x: 3.6, y: 3.6, z: 3.6}
   _showSelectionRadialEvent: {fileID: 11400000, guid: 3cb126cd29e6b4077a4dc0f74b524c7b,
     type: 2}
   m_InteractiveItem: {fileID: 7887563293851489206}
@@ -387,7 +387,7 @@ Transform:
   m_GameObject: {fileID: 7887563294285158703}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: 10, y: -40.34, z: 120.83}
+  m_LocalPosition: {x: -30, y: -40.34, z: 120.83}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -492,8 +492,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 642cb2095ff1eee4a93a287b0d8234c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scaleOut: {x: 1.5, y: 1, z: 1}
-  _scaleOn: {x: 1.8, y: 1, z: 1.2}
+  _scaleOut: {x: 2, y: 2, z: 2}
+  _scaleOn: {x: 3.6, y: 3.6, z: 3.6}
   _showSelectionRadialEvent: {fileID: 11400000, guid: 3cb126cd29e6b4077a4dc0f74b524c7b,
     type: 2}
   m_InteractiveItem: {fileID: 7887563294285158739}
@@ -546,6 +546,7 @@ GameObject:
   - component: {fileID: 1009749182767539985}
   - component: {fileID: 3558521071122145114}
   - component: {fileID: 3715694892761416943}
+  - component: {fileID: 5554035640576995696}
   m_Layer: 0
   m_Name: LanguagePicker
   m_TagString: Untagged
@@ -648,6 +649,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &5554035640576995696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7887563294754073691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a848e252a9c02874cabb423e888c2b83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _DEButton: {fileID: 7887563294285158703}
+  _FRButton: {fileID: 2004019879253774904}
+  _ITButton: {fileID: 7887563293851489202}
+  _ENButton: {fileID: 7887563295132518028}
 --- !u!1 &7887563295132518028
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,7 +696,7 @@ Transform:
   m_GameObject: {fileID: 7887563295132518028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: -10, y: -40.34, z: 120.83}
+  m_LocalPosition: {x: 30, y: -40.34, z: 120.83}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -784,8 +801,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 642cb2095ff1eee4a93a287b0d8234c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scaleOut: {x: 1.5, y: 1, z: 1}
-  _scaleOn: {x: 1.8, y: 1, z: 1.2}
+  _scaleOut: {x: 2, y: 2, z: 2}
+  _scaleOn: {x: 3.6, y: 3.6, z: 3.6}
   _showSelectionRadialEvent: {fileID: 11400000, guid: 3cb126cd29e6b4077a4dc0f74b524c7b,
     type: 2}
   m_InteractiveItem: {fileID: 7887563295132518064}
@@ -855,8 +872,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6361885442169179621}
   - {fileID: 7887563294285158700}
+  - {fileID: 6361885442169179621}
   - {fileID: 7887563293851489203}
   - {fileID: 7887563295132518029}
   m_Father: {fileID: 7887563294754073688}
