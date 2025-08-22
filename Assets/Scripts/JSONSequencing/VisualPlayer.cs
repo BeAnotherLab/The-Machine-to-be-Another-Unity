@@ -13,41 +13,58 @@ public class VisualPlayer : MonoBehaviour
     [SerializeField] private VideoPlayer _videoPlayer;
     [SerializeField] private PanelDimmer _panelDimmer;
     
-    [SerializeField] private string _fileName; //TODO for debugging
+    [SerializeField] private string _fileName; //for debugging
+    [SerializeField] private string _fileType; //for debugging
 
     private Texture2D _imageTexture;
-    
+    private RawImage _videoPlayerRawImage;
+
     private void Start()
     {
         _panelDimmer.Hide();
+        _videoPlayerRawImage = _videoPlayer.gameObject.GetComponent<RawImage>();
     }
 
     private void OnEnable()
     {
+        JsonSequenceController.LoadVisual += Load;
         JsonSequenceController.ShowVisual += Show;
         JsonSequenceController.HideVisual += Hide;
     }
 
     private void OnDisable()
     {
+        JsonSequenceController.LoadVisual -= Load;
         JsonSequenceController.ShowVisual -= Show;
         JsonSequenceController.HideVisual -= Hide;
     }
 
-    public void Show(string filename)
+    private void Load(string filename)
     {
         _fileName = filename;
         string ext = Path.GetExtension(filename).ToLower();
-        if (ext == ".mp4") ShowVideo(filename);
-        else if (ext == ".png") ShowImage(filename);
+        if (ext == ".mp4") LoadVideo(filename);
+        else if (ext == ".png") LoadImage(filename);
+    }
+
+    private void Show()
+    {
+        if (_fileType == "Video") ShowVideo();
+        else if (_fileType == "Image") ShowImage();
     }
     
-    private void ShowImage(string filename)
+    private void ShowImage()
     {
         _videoPlayer.Stop();
-        _videoPlayer.gameObject.SetActive(false);
+        _videoPlayerRawImage.enabled = false;
         _imageRenderer.gameObject.SetActive(true);
 
+        _panelDimmer.Show();
+    }
+
+    private void LoadImage(string filename)
+    {
+        _fileType = "Image";
         string path = ContentPath.Image(filename);
         byte[] fileData = File.ReadAllBytes(path);
 
@@ -64,21 +81,23 @@ public class VisualPlayer : MonoBehaviour
         );
 
         _imageRenderer.sprite = sprite;
-        _panelDimmer.Show();
     }
-
-    private void ShowVideo(string filename)//TODO manage loading times. load previously into sequence or wait here?
+    
+    private void ShowVideo()//TODO manage loading times. load previously into sequence or wait here?
     {
         _imageRenderer.gameObject.SetActive(false);
-        _videoPlayer.gameObject.SetActive(true);
-
-        string path = ContentPath.Video(filename);
-
-        _videoPlayer.url = path;
+        _videoPlayerRawImage.enabled = true;
         _videoPlayer.Play();
         _panelDimmer.Show();
     }
-    
+
+    private void LoadVideo(string filename)
+    {
+        _fileType = "Video";
+        string path = ContentPath.Video(filename);
+        _videoPlayer.url = path;
+        _videoPlayer.Play();
+    }
 
     private void Hide()
     {       
@@ -91,7 +110,7 @@ public class VisualPlayer : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         _imageRenderer.gameObject.SetActive(false);
-        _videoPlayer.gameObject.SetActive(false);
+        _videoPlayerRawImage.enabled = false;
     }
 
 }

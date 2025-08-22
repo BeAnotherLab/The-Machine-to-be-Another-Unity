@@ -1,22 +1,35 @@
 {
   "steps": 
   [
-   
     {
-      "time": 1.0,
-      "textKey": "blank",
-      "visual": "instructions.png"
-    },
-    {
-      "time": 3.0,
-      "actions": ["HideVisual"],
-    },
-    {
-      "time": 5,
+      "time": 0.0,
+      "textKey": "welcome",
+      "audio": "welcome.ogg",
       "visual": "instructions.mp4"
     },
     {
-      "time": 16.0,
+      "time": 4.9,
+      "visual": "instructions.mp4"
+    },
+    {
+      "time": 5.0,
+      "textKey": "blank",
+      "actions": ["ShowVisual"],
+    },
+    {
+      "time": 19.0,
+      "actions": ["HideVisual"],
+    },
+    {
+      "time": 19.5,
+      "visual": "instructions.png"
+    },
+    {
+      "time": 20.0,
+      "actions": ["ShowVisual"],
+    },
+    {
+      "time": 24.0,
       "actions": ["CloseWall", "HideVisual"]
     },
     {
