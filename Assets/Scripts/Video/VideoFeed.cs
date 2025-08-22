@@ -12,13 +12,8 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     public Transform targetTransform;
     #endregion
 
-
     #region Private Fields
 
-    [SerializeField] private bool _loadTiltFromPlayerPrefs = true;
-    [SerializeField] private float _tiltAngle;
-
-    private float _turningRate = 90f;
     private bool _dimmed = true;
 
     #endregion
@@ -30,7 +25,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     {
         SwapControlGUI.DimButtonOn += Dim;
         SettingsGUI.ToggleDim += ToggleDim;
-        SettingsGUI.RotateCamera += Rotate;
         CustomPlayer.SignalingSelf += GetPlayerTransform;
     }
 
@@ -38,19 +32,12 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     {
         SwapControlGUI.DimButtonOn -= Dim;
         SettingsGUI.ToggleDim -= ToggleDim;
-        SettingsGUI.RotateCamera -= Rotate;
         CustomPlayer.SignalingSelf -= GetPlayerTransform;
-    }
-
-    private void Start()
-    {
-        if (_loadTiltFromPlayerPrefs) _tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
     }
 
     private void Update()    
     {
         if (Input.GetKeyDown("b")) ToggleDim(); //TODO move to unified keyboard input script (settings gui..)
-        if (Input.GetKeyDown("r")) Rotate();
     }
 
     #endregion
@@ -87,12 +74,6 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
     {
         _dimmed = !_dimmed;
         Dim(_dimmed);
-    }
-
-    private void Rotate()
-    {
-        _tiltAngle += 90;
-        PlayerPrefs.SetFloat("tiltAngle", _tiltAngle);
     }
 
     #endregion

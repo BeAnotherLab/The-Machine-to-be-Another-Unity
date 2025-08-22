@@ -13,9 +13,25 @@ namespace Mirror.Examples.Pong
         public static OnSignalingSelf SignalingSelf;
 
         [SerializeField] private BoolGameEvent _dimGameEvent;
+        [SerializeField] private GameObject _pano;
         
         private GameObject _mainCamera;
         private GameObject _videoFeedFlipParent;
+
+        [SerializeField] private bool _loadTiltFromPlayerPrefs = true;
+
+        [SerializeField] private float _tiltAngle;
+
+
+        private void OnEnable()
+        {
+            SettingsGUI.RotateCamera += Rotate;
+        }
+
+        private void OnDisable()
+        {
+            SettingsGUI.RotateCamera -= Rotate;
+        }
 
         private void Awake()
         {
@@ -24,7 +40,9 @@ namespace Mirror.Examples.Pong
         }
 
         private void Start()
-        {
+        {           
+            if (_loadTiltFromPlayerPrefs) _tiltAngle = PlayerPrefs.GetFloat("tiltAngle");
+
             if (!isLocalPlayer)
             {
                 transform.SetParent(_videoFeedFlipParent.transform, false);
@@ -49,12 +67,22 @@ namespace Mirror.Examples.Pong
                 transform.rotation = _mainCamera.transform.rotation;
                 GetComponentInChildren<MeshRenderer>().enabled = false;
             }
+            
+            if (Input.GetKeyDown("r")) Rotate();
+
         }
         
         private IEnumerator StartupDim() 
         {
             yield return new WaitForSeconds(2);
             _dimGameEvent.Raise(true);
+        }
+
+        private void Rotate()
+        {
+            _tiltAngle += 90;
+            _pano.transform.eulerAngles = new Vector3(0, 0, _tiltAngle);
+            PlayerPrefs.SetFloat("tiltAngle", _tiltAngle);
         }
 
     }
