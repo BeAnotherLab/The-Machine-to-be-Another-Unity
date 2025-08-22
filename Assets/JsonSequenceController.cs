@@ -183,7 +183,7 @@ public class JsonSequenceController : MonoBehaviour
                 switch (action)
                 {
                     case "HidePanel":
-                        HidePanel?.Invoke();
+                        HidePanel();
                         break;
                     case "StartExperience":
                         _statusManager.StartExperience();

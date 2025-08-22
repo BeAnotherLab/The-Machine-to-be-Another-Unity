@@ -1,8 +1,19 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class BodySwapInstructionsText : MonoBehaviour //TODO inherit Instructions text?
 {
     [SerializeField] private GameObject _instructionsImages;
+
+    private void OnEnable()
+    {
+        JsonSequenceController.HidePanel += Hide;
+    }
+
+    private void OnDisable()
+    {
+        JsonSequenceController.HidePanel -= Hide;
+    }
 
     private void Start()
     {
@@ -14,7 +25,7 @@ public class BodySwapInstructionsText : MonoBehaviour //TODO inherit Instruction
         _instructionsImages.GetComponent<PanelDimmer>().Show();
     }
 
-    public void FadeOutImages()
+    public void FadeOutImages() //called by timeline
     {
         _instructionsImages.GetComponent<PanelDimmer>().Hide();
     }
@@ -25,6 +36,11 @@ public class BodySwapInstructionsText : MonoBehaviour //TODO inherit Instruction
         {
             _instructionsImages.GetComponent<PanelDimmer>().Hide();
         }
+    }
+
+    private void Hide()
+    {
+        GetComponent<PanelDimmer>().Hide();
     }
 
 }
