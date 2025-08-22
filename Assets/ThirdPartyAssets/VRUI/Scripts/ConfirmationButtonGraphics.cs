@@ -6,12 +6,10 @@ using UnityEngine;
 public class ConfirmationButtonGraphics : MonoBehaviour
 {
     public Material buttonOff, buttonOn;
-
-    private float _currentScale;
     [SerializeField] private float _scaleTarget;
 
+    private float _currentScale;
     private float _velocity;
-    
     private bool _loopAnimation = true;
     private bool _buttonIsOn = false;
     
@@ -58,15 +56,14 @@ public class ConfirmationButtonGraphics : MonoBehaviour
     }
     
     private IEnumerator AnimateButton(bool fromOn = false) {
-        if(!_buttonIsOn) _scaleTarget = 1;
+        if (!_buttonIsOn) _scaleTarget = 1;
 
         yield return new WaitForSeconds(_delay);
 
-        if(!_buttonIsOn) _scaleTarget = _scaleAmount;
+        if (!_buttonIsOn) _scaleTarget = _scaleAmount;
 
         yield return new WaitForSeconds(_delay);
         
-        if(_loopAnimation)
-            StartCoroutine(AnimateButton());
+        if (_loopAnimation) StartCoroutine(AnimateButton());
     }
 }
