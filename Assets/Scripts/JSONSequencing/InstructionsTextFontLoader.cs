@@ -1,4 +1,5 @@
 using System.IO;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,7 @@ public class FontColorLoader : MonoBehaviour
 
     private void Start()
     {
-        var text = GetComponent<Text>();
+        var text = GetComponent<TMP_Text>();
         if (text == null)
         {
             Debug.LogError("No UnityEngine.UI.Text component found on this GameObject.");

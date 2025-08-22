@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Lean.Localization;
 using ScriptableObjectArchitecture;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,18 +16,18 @@ public class InstructionsTextBehavior : MonoBehaviour
     private void ShowInstructionText(bool show, string text = "")
     {
         GetComponent<PanelDimmer>().Show(show);
-        if (show) _textGameObject.GetComponent<Text>().text = text; //give feedback
+        if (show) _textGameObject.GetComponent<TMP_Text>().text = text; //give feedback
     }
 
     public void ShowinstructionsText(string text) //called by timeline / sequencer
     {
-        _textGameObject.GetComponent<Text>().text = text; //give feedback
+        _textGameObject.GetComponent<TMP_Text>().text = text; //give feedback
     }
 
     public void ShowTextFromKey(string key) //set text through lean localized text translations
     {
         GetComponent<PanelDimmer>().Show();
-        _textGameObject.GetComponent<LeanLocalizedText>().TranslationName = key;
+        _textGameObject.GetComponent<LeanLocalizedTextMeshPro>().TranslationName = key;
     }
     
     public void ShowTextFromKey(string text, int time)
