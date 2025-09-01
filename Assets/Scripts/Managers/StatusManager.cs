@@ -3,6 +3,7 @@ using ScriptableObjectArchitecture;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using UnityEngine.XR.OpenXR.Features.Extensions.PerformanceSettings;
 using Debug = DebugFile;
 using UnityEngine.XR.OpenXR.NativeTypes;
 
@@ -53,6 +54,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     private void Start()
     {
         _setInstructionsTextGameEvent.Raise("waitForSerial"); 
+        XrPerformanceSettingsFeature.SetPerformanceLevelHint(PerformanceDomain.Cpu, PerformanceLevelHint.Boost);
     }
 
     #endregion
