@@ -80,8 +80,9 @@ public class ArduinoManager : MonoBehaviour
         else if (data == "sys_rdy")
         {
             SerialReady();
-            Debug.Log("homing done, ready to start");
+            Debug.Log("homing done, ready to start"); //TODO some how this gets called AFTER standby
         }            
     }    
 
+    
 }

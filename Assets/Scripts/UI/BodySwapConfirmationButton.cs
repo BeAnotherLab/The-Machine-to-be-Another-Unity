@@ -18,7 +18,7 @@ public class BodySwapConfirmationButton : MonoBehaviour //TODO inherit confirmat
     private void OnDisable()
     {
         ArduinoManager.SerialFailure -= SerialFailure;
-        ArduinoManager.SerialFailure -= SerialReady;
+        ArduinoManager.SerialReady -= SerialReady;
     }
 
     

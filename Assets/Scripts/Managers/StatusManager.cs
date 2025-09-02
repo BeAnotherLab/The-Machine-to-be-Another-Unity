@@ -111,6 +111,8 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         StopAudiosInstructions();
         _dimGameEvent.Raise(true);
         _standbyGameEvent.Raise();
+        _curtainOnEvent.Raise(false);
+        SendArduinoCommand("mir_off"); 
     }
 
     private void WaitThenStandby()
