@@ -19,9 +19,6 @@ public class HeightPresenceDetection : MonoBehaviour
     
     private void Update() //Monitor VR headset height to infer user presence
     {
-        
-        Debug.Log(transform.position.y);
-        
         if (transform.position.y < _yThreshold && _previousHeight >= _yThreshold)  //we just passed under threshold
         {
             HeadsetUnderThreshold();
