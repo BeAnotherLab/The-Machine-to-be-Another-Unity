@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class HeightPresenceDetection : MonoBehaviour
 {
-
     public delegate void OnHeadsetOverThreshold();
     public static OnHeadsetOverThreshold HeadsetOverThreshold;
     

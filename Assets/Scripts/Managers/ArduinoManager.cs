@@ -8,9 +8,6 @@ using Debug = DebugFile;
 
 public class ArduinoManager : MonoBehaviour
 {
-  
-    #region Private Fields
-
     public delegate void OnSerialFailure();
     public static OnSerialFailure SerialFailure;
     
@@ -21,11 +18,6 @@ public class ArduinoManager : MonoBehaviour
     [SerializeField] private bool _curtainOffOnStandby = true;
     private bool _serialControlOn; //for technorama swap. determine if this computer is in charge of controlling the curtain and mirrors
     
-    #endregion
-    
-    
-    #region MonoBehaviour Methods
-
     private void OnEnable()
     {
         UduinoManager.Instance.OnDataReceived += DataReceived;
@@ -48,11 +40,6 @@ public class ArduinoManager : MonoBehaviour
         if (!_serialControlOn) Destroy(gameObject);
     }
     
-    #endregion
-
-
-    #region Public Methods   
-
     public void SetSerialControlComputer(bool serialControlOn) //defines if this computer is the one in charge of serial control in Technorama swap
     {
         if (serialControlOn) PlayerPrefs.SetInt("serialControlOn", 1);
@@ -70,11 +57,6 @@ public class ArduinoManager : MonoBehaviour
     {
         SerialFailure();
     }
-    
-    #endregion
-
-
-    #region Private Methods
     
     private void SendCommand(string command) //used to send commands to control technorama walls, curtains, etc
     {
@@ -102,5 +84,4 @@ public class ArduinoManager : MonoBehaviour
         }            
     }    
 
-    #endregion
 }
