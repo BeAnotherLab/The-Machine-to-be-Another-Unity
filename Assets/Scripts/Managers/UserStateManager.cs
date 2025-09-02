@@ -38,22 +38,6 @@ public class UserStateManager : MonoBehaviour //centralize self and other state 
         otherState.Value = UserState.headsetOff;
     }
 
-    private void Update() //Monitor VR headset state changes to infer user presence
-    {
-        if (SessionStateFeature.GetCurrentState() == (int) XrSessionState.Synchronized  && selfState.Value != UserState.headsetOff)
-        {
-            previousSelfState.Value = selfState.Value;
-            selfState.Value = UserState.headsetOff; 
-            selfStateGameEvent.Raise(UserState.headsetOff);
-        }
-        //TODO this will not work with all headsets 
-        else if (SessionStateFeature.GetCurrentState() == (int) XrSessionState.Focused && selfState.Value == UserState.headsetOff) //if we just put the headset on
-        {
-            previousSelfState.Value = selfState.Value;
-            selfState.Value = UserState.headsetOn;
-            selfStateGameEvent.Raise(UserState.headsetOn);
-        }
-    }
     
     public void SelfStateChanged(UserState newState) //this can be triggered by headset of confirmation button
     {
