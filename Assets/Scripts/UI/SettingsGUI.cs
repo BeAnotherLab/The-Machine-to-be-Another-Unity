@@ -23,7 +23,7 @@ public class SettingsGUI : MonoBehaviour
     public static OnSetRepeater SetRepeater;
     
     public delegate void OnSetSerialControl(bool on);
-    public static OnSetSerialControl SetSerialControl;
+    public static OnSetSerialControl SetSerialControl = delegate { };
     
     public delegate void OnDebugMenuPressed();
     public static OnDebugMenuPressed DebugMenuPressed;

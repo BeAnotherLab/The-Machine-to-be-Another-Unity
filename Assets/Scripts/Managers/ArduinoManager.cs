@@ -45,6 +45,7 @@ public class ArduinoManager : MonoBehaviour
     private void Awake()
     {
         _serialControlOn = PlayerPrefs.GetInt("serialControlOn", 0) == 1;
+        if (!_serialControlOn) Destroy(gameObject);
     }
     
     #endregion
