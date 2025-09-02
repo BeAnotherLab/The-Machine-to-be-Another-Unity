@@ -33,17 +33,20 @@ public class JsonSequenceController : MonoBehaviour
     public delegate void OnHideVisual();
     public static OnHideVisual HideVisual;
 
+    public delegate void OnInstructionPlaying();
+    public static OnInstructionPlaying InstructionPlaying;
     
-    [FormerlySerializedAs("sequenceData")]
+    public delegate void OnInstructionFinished();
+    public static OnInstructionFinished InstructionFinished;
+    
     [Header("Sequence Source")]
     [SerializeField] private SequenceData _sequenceData;
 
-    [FormerlySerializedAs("languageCode")]
     [Header("Settings")]
     [SerializeField] private string _languageCode = "en";
 
     [Header("Audio")]
-    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioSource _audioSource;
 
     [Header("Events")]
     [SerializeField] private BoolVariable _experienceRunning;
@@ -61,7 +64,6 @@ public class JsonSequenceController : MonoBehaviour
         OscManager.ReceiveSerialFailure += StopSequence;
         UserStateManager.OtherLeft += StopSequence;
         UserStateManager.ThisUserLeft += StopSequence;
-
         LoadTranslations(_languageCode);
     }
 
@@ -144,7 +146,7 @@ public class JsonSequenceController : MonoBehaviour
     {
         if (_dotweenSequence != null && _dotweenSequence.IsActive()) _dotweenSequence.Kill();
 
-        audioSource.Stop();
+        _audioSource.Stop();
         HideVisual();
 
         _experienceRunning.Value = false;
@@ -259,8 +261,9 @@ public class JsonSequenceController : MonoBehaviour
             yield break;
         }
 
-        audioSource.clip = clip;
-        audioSource.Play();
+        _audioSource.clip = clip;
+        _audioSource.Play();
+        StartCoroutine(WaitForAudioEnd());
     }
     
     private void PrintStep(SequenceStep step)
@@ -270,6 +273,13 @@ public class JsonSequenceController : MonoBehaviour
                   $"Audio: <color=#2196F3>{(string.IsNullOrEmpty(step.audio) ? "-" : step.audio)}</color>, " +
                   $"Visual: <color=#FF9800>{(string.IsNullOrEmpty(step.visual) ? "-" : step.visual)}</color>, " +
                   $"Actions: <color=#E91E63>[{(step.actions != null && step.actions.Count > 0 ? string.Join(", ", step.actions) : "-")}]</color>");
+    }
+    
+    private IEnumerator WaitForAudioEnd()
+    {
+        InstructionPlaying();
+        yield return new WaitWhile(() => _audioSource.isPlaying);
+        InstructionFinished();
     }
     
 }
