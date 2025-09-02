@@ -12,6 +12,9 @@ namespace VRStandardAssets.Utils
     // coroutine which returns once the bar is filled.
     public class CustomSelectionRadial : MonoBehaviour
     {
+        public delegate void OnSelectionComplete();
+        public static OnSelectionComplete SelectionComplete;
+        
         [SerializeField] private GameEvent _selectionCompleteEvent;
 
         [SerializeField] private float m_SelectionDuration = 2f;                                // How long it takes for the bar to fill.
@@ -98,7 +101,8 @@ namespace VRStandardAssets.Utils
             // The radial is now filled so the coroutine waiting for it can continue.
             m_RadialFilled = true;
 
-            _selectionCompleteEvent.Raise();
+            //_selectionCompleteEvent.Raise();
+            SelectionComplete();
         }
 
 

@@ -23,12 +23,14 @@ namespace VRStandardAssets.Menu
         {
             m_InteractiveItem.OnOver += HandleOver;
             m_InteractiveItem.OnOut += HandleOut;
+            CustomSelectionRadial.SelectionComplete += HandleSelectionComplete;
         }
 
         private void OnDisable()
         {
             m_InteractiveItem.OnOver -= HandleOver;
             m_InteractiveItem.OnOut -= HandleOut;
+            CustomSelectionRadial.SelectionComplete -= HandleSelectionComplete;
         }
 
         public void HandleSelectionComplete()
