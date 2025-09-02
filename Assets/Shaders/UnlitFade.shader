@@ -36,14 +36,20 @@ Shader "Custom/UnlitFade"
                 float4 vertex : SV_POSITION;
             };
 
+            // Vertex shader
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
+
+                // Handle stereo rendering by transforming the vertex position correctly.
+                o.vertex = UnityObjectToClipPos(v.vertex); 
+
                 o.uv = v.uv;
+
                 return o;
             }
 
+            // Fragment shader
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed4 texColor = tex2D(_MainTex, i.uv);
