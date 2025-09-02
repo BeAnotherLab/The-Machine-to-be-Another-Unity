@@ -111,13 +111,13 @@ public class UserStateManager : MonoBehaviour //centralize self and other state 
     {
         previousSelfState.Value = selfState.Value;
         selfState.Value = UserState.headsetOn;
-        selfStateGameEvent.Raise(selfState);
+        selfStateGameEvent.Raise(UserState.headsetOn);
     }
 
     private void HeadsetUnderThreshold()
     {
         previousSelfState.Value = selfState.Value;
         selfState.Value = UserState.headsetOff;
-        selfStateGameEvent.Raise(selfState);
+        selfStateGameEvent.Raise(UserState.headsetOff);
     }
 }
