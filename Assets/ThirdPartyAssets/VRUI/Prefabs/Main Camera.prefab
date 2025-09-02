@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 8907470883480122135}
   - component: {fileID: 328909138195811094}
   - component: {fileID: 3797501857461778295}
+  - component: {fileID: 478786118764266287}
+  - component: {fileID: 3606234707697478671}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -312,6 +314,54 @@ MonoBehaviour:
   m_TrackingType: 0
   m_UpdateType: 0
   m_UseRelativeTransform: 0
+--- !u!114 &478786118764266287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473624093389685108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fd0a11b6eac449138b6d2f95c25d6fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  previousSelfState: {fileID: 11400000, guid: 997773218c29c6647a388da294f32dd9, type: 2}
+  selfState: {fileID: 11400000, guid: 363d5d6f5bd2c4781ab93c705014d6f3, type: 2}
+  selfStateGameEvent: {fileID: 11400000, guid: ca8fd7f8d546d4a209ab5b1348851dba, type: 2}
+  headsetRigidbody: {fileID: 3606234707697478671}
+  removalYThreshold: 0.8
+  wornYThreshold: 1
+  velocityThreshold: 0.05
+  requiredDuration: 2
+  currentHeadY: 0
+--- !u!54 &3606234707697478671
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473624093389685108}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &3462846772303890890
 GameObject:
   m_ObjectHideFlags: 0
