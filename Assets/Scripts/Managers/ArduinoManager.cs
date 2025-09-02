@@ -37,6 +37,7 @@ public class ArduinoManager : MonoBehaviour
     private void Awake()
     {
         _serialControlOn = PlayerPrefs.GetInt("serialControlOn", 0) == 1;
+        GetComponent<UduinoManager>().enabled = _serialControlOn; 
     }
     
     public void SetSerialControlComputer(bool serialControlOn) //defines if this computer is the one in charge of serial control in Technorama swap
