@@ -70,7 +70,7 @@ public class UserStateManager : MonoBehaviour //centralize self and other state 
             Debug.Log("this user is ready", DLogType.Input);
         }
         
-        SendThisUserStatus(selfState); 
+        SendThisUserStatus(newState); 
     }
 
     public void OtherStateChanged(UserState newState)

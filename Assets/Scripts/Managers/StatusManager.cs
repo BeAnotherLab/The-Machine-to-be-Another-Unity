@@ -34,7 +34,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     private void OnEnable()
     {
         ArduinoManager.SerialFailure += SerialFailure;
-        ArduinoManager.SerialReady += Standby;
+        ArduinoManager.SerialReady += WaitThenStandby;
         OscManager.ReceiveSerialFailure += SerialFailure;
         OscManager.ReceiveSerialReady += Standby;
         UserStateManager.OtherLeft += WaitThenStandby;
@@ -44,7 +44,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     private void OnDisable()
     {
         ArduinoManager.SerialFailure -= SerialFailure;
-        ArduinoManager.SerialReady -= Standby;
+        ArduinoManager.SerialReady -= WaitThenStandby;
         OscManager.ReceiveSerialFailure -= SerialFailure;
         OscManager.ReceiveSerialReady -= Standby;
         UserStateManager.OtherLeft -= WaitThenStandby;
