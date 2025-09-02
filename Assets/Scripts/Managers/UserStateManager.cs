@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ScriptableObjectArchitecture;
@@ -32,13 +33,24 @@ public class UserStateManager : MonoBehaviour //centralize self and other state 
     [SerializeField] private StringGameEvent _setInstructionsTextGameEvent;
     [SerializeField] private BoolVariable _experienceRunning;
 
+    private void OnEnable()
+    {
+        HeightPresenceDetection.HeadsetOverThreshold += HeadsetOverThreshold;
+        HeightPresenceDetection.HeadsetUnderThreshold += HeadsetUnderThreshold;
+    }
+
+    private void OnDisable()
+    {
+        HeightPresenceDetection.HeadsetOverThreshold -= HeadsetOverThreshold;
+        HeightPresenceDetection.HeadsetUnderThreshold -= HeadsetUnderThreshold;
+    }
+
     private void Start()
     {
         selfState.Value = UserState.headsetOff;
         otherState.Value = UserState.headsetOff;
     }
 
-    
     public void SelfStateChanged(UserState newState) //this can be triggered by headset of confirmation button
     {
         if (newState == UserState.headsetOff)
@@ -93,5 +105,19 @@ public class UserStateManager : MonoBehaviour //centralize self and other state 
     public void Standby()
     {
         selfState.Value = UserState.headsetOn;
+    }
+
+    private void HeadsetOverThreshold()
+    {
+        previousSelfState.Value = selfState.Value;
+        selfState.Value = UserState.headsetOn;
+        selfStateGameEvent.Raise(selfState);
+    }
+
+    private void HeadsetUnderThreshold()
+    {
+        previousSelfState.Value = selfState.Value;
+        selfState.Value = UserState.headsetOff;
+        selfStateGameEvent.Raise(selfState);
     }
 }
