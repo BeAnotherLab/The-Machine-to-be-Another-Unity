@@ -11,14 +11,16 @@ public class HeightPresenceDetection : MonoBehaviour
     public static OnHeadsetUnderThreshold HeadsetUnderThreshold;
 
     [Tooltip("Y position below which the headset is considered removed.")] 
-    [Range(0.2f, 2f)] [SerializeField]
+    [Range(2.5f, 4f)] [SerializeField]
     private float _yThreshold;
 
-    [Range(0.2f, 2f)] [SerializeField]
+    [Range(2.5f, 4f)] [SerializeField]
     private float _previousHeight;
     
     private void Update() //Monitor VR headset height to infer user presence
     {
+        
+        Debug.Log(transform.position.y);
         
         if (transform.position.y < _yThreshold && _previousHeight >= _yThreshold)  //we just passed under threshold
         {
