@@ -1,9 +1,9 @@
-Shader "Custom/WorldGridShaderTransparent"
+Shader "Custom/WorldGridShaderAllSides"
 {
     Properties
     {
         _Color("Grid Color", Color) = (0.2, 1, 0.2, 1)
-        _BackgroundColor("Background Color", Color) = (0, 0, 0, 0) // Note: alpha 0
+        _BackgroundColor("Background Color", Color) = (0, 0, 0, 0)
         _GridSpacing("Grid Spacing", Float) = 1.0
         _LineWidth("Line Width", Float) = 0.05
         [HideInInspector]_MainTex("Main Tex", 2D) = "white" {}
@@ -54,13 +54,17 @@ Shader "Custom/WorldGridShaderTransparent"
             {
                 float3 world = i.worldPos / _GridSpacing;
 
-                float lineX = abs(frac(world.x) - 0.5);
-                float lineZ = abs(frac(world.z) - 0.5);
+                // Calculate line proximity for each plane
+                float2 xz = float2(frac(world.x), frac(world.z));
+                float2 xy = float2(frac(world.x), frac(world.y));
+                float2 yz = float2(frac(world.y), frac(world.z));
 
-                float grid = step(lineX, _LineWidth) + step(lineZ, _LineWidth);
-                grid = saturate(grid);
+                float lineXZ = step(abs(xz.x - 0.5), _LineWidth) + step(abs(xz.y - 0.5), _LineWidth);
+                float lineXY = step(abs(xy.x - 0.5), _LineWidth) + step(abs(xy.y - 0.5), _LineWidth);
+                float lineYZ = step(abs(yz.x - 0.5), _LineWidth) + step(abs(yz.y - 0.5), _LineWidth);
 
-                // Lerp both RGB and alpha from background to grid color
+                float grid = saturate((lineXZ + lineXY + lineYZ) / 3.0); // Average across 3 planes
+
                 float3 color = lerp(_BackgroundColor.rgb, _Color.rgb, grid);
                 float alpha = lerp(_BackgroundColor.a, _Color.a, grid);
 
