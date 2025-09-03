@@ -47,7 +47,7 @@ namespace VRStandardAssets.Menu //TODO move to own namespace?
             if (_selfState.Value == UserState.headsetOn)
             {
                 _showSelectionRadialEvent.Raise(true);
-                LeanTween.scale(gameObject, _scaleOn, 0.45f).setEaseOutBounce();
+                LeanTween.scale(gameObject, _scaleOn, 0.45f).setEaseOutCubic();
                 LeanTween.color(gameObject, Color.white, 0.25f).setEaseOutCubic();
                 m_GazeOver = true;
             }
@@ -56,7 +56,7 @@ namespace VRStandardAssets.Menu //TODO move to own namespace?
         private void HandleOut()
         {
             _showSelectionRadialEvent.Raise(false);
-            LeanTween.scale(gameObject, _scaleOut, 0.45f).setEaseOutBounce();
+            LeanTween.scale(gameObject, _scaleOut, 0.45f).setEaseOutCubic();
             LeanTween.color(gameObject, Color.gray, 0.25f).setEaseOutCubic();
             m_GazeOver = false;
         }
