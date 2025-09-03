@@ -378,6 +378,12 @@ Transform:
   - {fileID: 148720683}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &351827145 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1473624093389685108, guid: 715447b851299a547860fdcc1f6121c0,
+    type: 3}
+  m_PrefabInstance: {fileID: 3462846770952635453}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &420288763
 GameObject:
   m_ObjectHideFlags: 0
@@ -1600,6 +1606,19 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3462846770952635453}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1358158925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351827145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23c48c50200a3404999686acd37994d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _detectionVolume: {fileID: 1957324914}
 --- !u!1 &1379956780
 GameObject:
   m_ObjectHideFlags: 0
@@ -2338,7 +2357,6 @@ GameObject:
   - component: {fileID: 1957324912}
   - component: {fileID: 1957324915}
   - component: {fileID: 1957324914}
-  - component: {fileID: 1957324913}
   - component: {fileID: 1957324916}
   m_Layer: 0
   m_Name: ShowBoundaryArea
@@ -2362,19 +2380,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1605188585}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1957324913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1957324911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23c48c50200a3404999686acd37994d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _detectionVolume: {fileID: 1957324914}
 --- !u!65 &1957324914
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2411,7 +2416,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1957324911}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3184,7 +3189,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1473624093389685108, guid: 715447b851299a547860fdcc1f6121c0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1358158925}
   m_SourcePrefab: {fileID: 100100000, guid: 715447b851299a547860fdcc1f6121c0, type: 3}
 --- !u!1001 &4992825843960102979
 PrefabInstance:
