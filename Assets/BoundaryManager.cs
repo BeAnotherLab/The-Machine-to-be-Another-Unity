@@ -19,12 +19,12 @@ public class BoundaryManager : MonoBehaviour
     private void HandleHeadsetEntered()
     {
         // Headset inside boundary - fade grid in (alpha 1)
-        gridAlphaController.FadeToAlpha(1f);
+        gridAlphaController.FadeToAlpha(0f);
     }
 
     private void HandleHeadsetExited()
     {
         // Headset outside boundary - fade grid out (alpha 0)
-        gridAlphaController.FadeToAlpha(0f);
+        gridAlphaController.FadeToAlpha(1f);
     }
 }
