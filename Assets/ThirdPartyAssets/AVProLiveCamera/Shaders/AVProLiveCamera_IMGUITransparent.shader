@@ -1,4 +1,6 @@
-﻿Shader "Hidden/AVProLiveCamera/IMGUI Transparent"
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Hidden/AVProLiveCamera/IMGUI Transparent"
 {
 	Properties
 	{

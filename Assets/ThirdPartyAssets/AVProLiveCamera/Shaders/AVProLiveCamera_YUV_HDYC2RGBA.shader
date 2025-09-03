@@ -1,10 +1,11 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Hidden/AVProLiveCamera/CompositeHDYC_2_RGBA"
 {
 	Properties 
 	{
 		_MainTex ("Base (RGB)", 2D) = "white" {}
 		_TextureWidth ("Texure Width", Float) = 256.0
-		_TextureScaleOffset ("Texure Scale Offset", Vector) = (1.0, 1.0, 0.0, 0.0)
 	}
 	SubShader 
 	{
@@ -22,14 +23,17 @@ CGPROGRAM
 #pragma multi_compile SWAP_RED_BLUE_ON SWAP_RED_BLUE_OFF
 #pragma multi_compile HORIZONTAL_FLIP_ON HORIZONTAL_FLIP_OFF
 #pragma multi_compile AVPRO_GAMMACORRECTION AVPRO_GAMMACORRECTION_OFF
-#pragma multi_compile YCBCR_RANGE_LIMITED YCBCR_RANGE_FULL
 #include "UnityCG.cginc"
 #include "AVProLiveCamera_Shared.cginc"
 
 uniform sampler2D _MainTex;
-uniform float4 _MainTex_TexelSize;
-uniform float _TextureWidth;
-uniform float4 _TextureScaleOffset;
+float _TextureWidth;
+#if UNITY_VERSION >= 530
+uniform float4 _MainTex_ST2;
+#else
+uniform float4 _MainTex_ST;
+#endif
+float4 _MainTex_TexelSize;
 
 struct v2f {
 	float4 pos : POSITION;
@@ -40,7 +44,12 @@ v2f vert( appdata_img v )
 {
 	v2f o;
 	o.pos = UnityObjectToClipPos (v.vertex);
-	o.uv.xy = (v.texcoord.xy * _TextureScaleOffset.xy + _TextureScaleOffset.zw);
+
+#if UNITY_VERSION >= 530
+	o.uv.xy = (v.texcoord.xy * _MainTex_ST2.xy + _MainTex_ST2.zw);
+#else
+	o.uv.xy = TRANSFORM_TEX(v.texcoord, _MainTex);
+#endif
 	
 	// On D3D when AA is used, the main texture & scene depth texture
 	// will come out in different vertical orientations.
@@ -87,14 +96,10 @@ float4 frag (v2f i) : COLOR
 		v = (col.z + col2.z) * 0.5;*/
 	}
 
-#if defined(YCBCR_RANGE_LIMITED)
-	float4 oCol = convertYUV_BT709_Limited_RGB(y, u, v);
-#else
-	float4 oCol = convertYUV_BT709_Full_RGB(y, u, v);
-#endif
-
+	float4 oCol = convertYUV_HD(y, u, v);
+		
 #if defined(AVPRO_GAMMACORRECTION)
-	oCol.rgb = TransferSRGB_GammaToLinear(oCol.rgb);
+	oCol.rgb = pow(oCol.rgb, 2.2);
 #endif
 
 	return float4(oCol.rgb, 1.0);

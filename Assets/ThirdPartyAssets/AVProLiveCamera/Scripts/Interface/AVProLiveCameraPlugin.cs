@@ -2,17 +2,11 @@ using System.Text;
 using System.Runtime.InteropServices;
 
 //-----------------------------------------------------------------------------
-// Copyright 2012-2022 RenderHeads Ltd.  All rights reserved.
+// Copyright 2012-2018 RenderHeads Ltd.  All rights reserved.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProLiveCamera
 {
-	public enum YCbCrRange
-	{
-		Limited,
-		Full,
-	};
-	
 	public class AVProLiveCameraPlugin
 	{
 		public enum VideoFrameFormat
@@ -234,14 +228,12 @@ namespace RenderHeads.Media.AVProLiveCamera
 		[DllImport("AVProLiveCamera")]
 		public static extern void ApplyDeviceVideoSettingValue(int deviceIndex, int settingIndex, float currentValue, bool isAutomatic);
 
-		[DllImport("AVProLiveCamera")]
-		public static extern void SetDeviceClockMode(int deviceIndex, bool useDefaultClock);
 
 		//////////////////////////////////////////////////////////////////////////
 		// Open & Close Devices
 
 		[DllImport("AVProLiveCamera")]
-		public static extern bool StartDevice(int index, int modeIndex, int frameRateIndex, int videoInputIndex, bool preferPreviewPin);
+		public static extern bool StartDevice(int index, int modeIndex, int frameRateIndex, int videoInputIndex);
 
 		[DllImport("AVProLiveCamera")]
 		public static extern void StopDevice(int index);

@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Hidden/AVProLiveCamera/CompositeYUV_I420" 
 {
 	Properties 
@@ -22,7 +24,6 @@ CGPROGRAM
 #pragma fragmentoption ARB_precision_hint_nicest
 #pragma multi_compile SWAP_RED_BLUE_ON SWAP_RED_BLUE_OFF
 #pragma multi_compile AVPRO_GAMMACORRECTION AVPRO_GAMMACORRECTION_OFF
-#pragma multi_compile YCBCR_RANGE_LIMITED YCBCR_RANGE_FULL
 #include "UnityCG.cginc"
 #include "AVProLiveCamera_Shared.cginc"
 
@@ -42,7 +43,7 @@ struct myappdata {
 
 struct v2f {
 	float4 pos : SV_POSITION;
-	float3 uv : TEXCOORD0;
+	float2 uv : TEXCOORD0;
 	float2 uv2 : TEXCOORD1;
 };
 
@@ -63,8 +64,7 @@ v2f vert( myappdata v )
 		o.uv.y = 1-o.uv.y;
 	}
 	#endif
-
-	o.uv.z = (v.vertex.x * _TextureWidth * 0.2);
+	
 
 	return o;
 }
@@ -73,10 +73,10 @@ float4 frag (v2f i) : COLOR
 {
 	float4 lumaPacked = tex2D(_MainTex, i.uv);
 #if defined(SWAP_RED_BLUE_ON)
-	//lumaPacked = lumaPacked.bgra;
+	lumaPacked = lumaPacked.bgra;
 #endif
-
-	float f = (i.uv.x * _TextureWidth * 0.25);
+	
+	float f = (i.uv.x * _TextureWidth);
 	float fr = frac(f);
 	float y = lumaPacked.r;
 	if (fr >= 0.25)
@@ -85,15 +85,15 @@ float4 frag (v2f i) : COLOR
 		y = lumaPacked.b;
 	if (fr >= 0.75)
 		y = lumaPacked.a;
-	
+		
 	float4 uPacked = tex2D(_MainU, i.uv2);
 	float4 vPacked = tex2D(_MainV, i.uv2);
 #if defined(SWAP_RED_BLUE_ON)
-	//uPacked = uPacked.bgra;
-	//vPacked = vPacked.bgra;
+	uPacked = uPacked.bgra;
+	vPacked = vPacked.bgra;
 #endif
 
-	fr = frac(i.uv.x * _TextureWidth  * 0.25 * 0.5);
+	fr = frac(i.uv.x * _TextureWidth / 2);
 	float u = uPacked.r;
 	float v = vPacked.r;
 	if (fr >= 0.25)
@@ -112,18 +112,10 @@ float4 frag (v2f i) : COLOR
 		v = vPacked.a;
 	}
 
-#if defined(YCBCR_RANGE_LIMITED)
-	float4 oCol = convertYUV_BT709_Limited_RGB(y, u, v);
-#else
-	float4 oCol = convertYUV_BT709_Full_RGB(y, u, v);
-#endif
-
-#if defined(SWAP_RED_BLUE_ON)
-	oCol = oCol.bgra;
-#endif
+	float4 oCol = convertYUV(y, u, v);
 
 #if defined(AVPRO_GAMMACORRECTION)
-	oCol.rgb = TransferSRGB_GammaToLinear(oCol.rgb);
+	oCol.rgb = pow(oCol.rgb, 2.2);
 #endif
 
 	return oCol;

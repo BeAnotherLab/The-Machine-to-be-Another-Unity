@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 //-----------------------------------------------------------------------------
-// Copyright 2012-2022 RenderHeads Ltd.  All rights reserved.
+// Copyright 2012-2018 RenderHeads Ltd.  All rights reserved.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProLiveCamera
@@ -25,7 +25,6 @@ namespace RenderHeads.Media.AVProLiveCamera
 		private bool _flipY;
 		private bool _allowTransparency;
 		private bool _deinterlace;
-		private YCbCrRange _yCbCrRange;
 		private AVProLiveCameraPlugin.VideoFrameFormat _format;
 
 		private List<AVProLiveCameraPixelBuffer> _buffers;
@@ -33,12 +32,6 @@ namespace RenderHeads.Media.AVProLiveCamera
 		private bool _requiresTextureCrop;
 		private int _lastFrameUpdated = 0;
 		//private AVProLiveCameraManager _manager;
-
-		private int _propMainTex;
-		private int _propTextureScaleOffset;
-		private int _propTextureWidth;
-		private int _propTextureU;
-		private int _propTextureV;
 
 		public Texture OutputTexture
 		{
@@ -63,12 +56,6 @@ namespace RenderHeads.Media.AVProLiveCamera
 			set { if (_allowTransparency != value) SetTransparency(value); }
 		}
 
-		public YCbCrRange YCbCrRange
-		{
-			get { return _yCbCrRange; }
-			set { if (_yCbCrRange != value) SetYCbCrRange(value); }
-		}
-
 		public bool ValidPicture { get; private set; }
 
 		public AVProLiveCameraFormatConverter(int deviceIndex)
@@ -76,12 +63,6 @@ namespace RenderHeads.Media.AVProLiveCamera
 			ValidPicture = false;
 			_deviceIndex = deviceIndex;
 			_buffers = new List<AVProLiveCameraPixelBuffer>(4);
-
-			_propMainTex = Shader.PropertyToID("_MainTex");
-			_propTextureScaleOffset = Shader.PropertyToID("_TextureScaleOffset");
-			_propTextureWidth = Shader.PropertyToID("_TextureWidth");
-			_propTextureU = Shader.PropertyToID("_MainU");
-			_propTextureV = Shader.PropertyToID("_MainV");
 		}
 
 		public void Reset()
@@ -110,31 +91,30 @@ namespace RenderHeads.Media.AVProLiveCamera
 				switch (_format)
 				{
 					case AVProLiveCameraPlugin.VideoFrameFormat.RAW_BGRA32:
-						_conversionMaterial.SetTexture(_propMainTex, _buffers[0]._texture);
+						_conversionMaterial.SetTexture("_MainTex", _buffers[0]._texture);
 						break;
 					case AVProLiveCameraPlugin.VideoFrameFormat.RAW_MONO8:
-						_conversionMaterial.SetFloat(_propTextureWidth, _finalTexture.width);
-						_conversionMaterial.SetTexture(_propMainTex, _buffers[0]._texture);
+						_conversionMaterial.SetFloat("_TextureWidth", _finalTexture.width);
+						_conversionMaterial.SetTexture("_MainTex", _buffers[0]._texture);
 						break;
 					case AVProLiveCameraPlugin.VideoFrameFormat.YUV_422_YUY2:
 					case AVProLiveCameraPlugin.VideoFrameFormat.YUV_422_UYVY:
 					case AVProLiveCameraPlugin.VideoFrameFormat.YUV_422_YVYU:
 					case AVProLiveCameraPlugin.VideoFrameFormat.YUV_422_HDYC:
-						_conversionMaterial.SetFloat(_propTextureWidth, _finalTexture.width);
-						_conversionMaterial.SetTexture(_propMainTex, _buffers[0]._texture);
+						_conversionMaterial.SetFloat("_TextureWidth", _finalTexture.width);
+						_conversionMaterial.SetTexture("_MainTex", _buffers[0]._texture);
 						break;
 					case AVProLiveCameraPlugin.VideoFrameFormat.YUV_420_PLANAR_YV12:
 					case AVProLiveCameraPlugin.VideoFrameFormat.YUV_420_PLANAR_I420:
-						_conversionMaterial.SetFloat(_propTextureWidth, _finalTexture.width);
-						_conversionMaterial.SetTexture(_propMainTex, _buffers[0]._texture);
-						_conversionMaterial.SetTexture(_propTextureU, _buffers[1]._texture);
-						_conversionMaterial.SetTexture(_propTextureV, _buffers[2]._texture);
+						_conversionMaterial.SetFloat("_TextureWidth", _finalTexture.width);
+						_conversionMaterial.SetTexture("_MainTex", _buffers[0]._texture);
+						_conversionMaterial.SetTexture("_MainU", _buffers[1]._texture);
+						_conversionMaterial.SetTexture("_MainV", _buffers[2]._texture);
 						break;
 				}
 
 				SetFlip(_flipX, _flipY);
 				SetTransparency(allowTransparency);
-				SetYCbCrRange(_yCbCrRange);
 			}
 			else
 			{
@@ -185,7 +165,7 @@ namespace RenderHeads.Media.AVProLiveCamera
 					RenderTexture.ReleaseTemporary(tempTarget);
 				}
 			}
-			//RenderTexture.active = prev;
+			//RenderTexture.active = prev;		
 
 			return (ValidPicture && isTextureUpdated);
 		}
@@ -285,7 +265,11 @@ namespace RenderHeads.Media.AVProLiveCamera
 				{
 					_conversionMaterial = new Material(shader);
 					_conversionMaterial.name = "AVProLiveCamera-Material";
-					_conversionMaterial.SetVector(_propTextureScaleOffset, new Vector4(1.0f, 1.0f, 0.0f, 0.0f));
+
+					// Since Unity 5.3 Graphics.Blit ignores mainTextureOffset/Scale
+#if UNITY_5_4_OR_NEWER || (UNITY_5 && !UNITY_5_0 && !UNITY_5_1 && !UNITY_5_2)
+					_conversionMaterial.SetVector("_MainTex_ST2", new Vector4(1.0f, 1.0f, 0.0f, 0.0f));
+#endif
 				}
 			}
 
@@ -329,7 +313,11 @@ namespace RenderHeads.Media.AVProLiveCamera
 			if (_finalTexture == null)
 			{
 				ValidPicture = false;
-				_finalTexture = RenderTexture.GetTemporary(_width, _height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
+				RenderTextureReadWrite rwMode = RenderTextureReadWrite.sRGB;
+#if UNITY_2018_1_OR_NEWER
+				rwMode = RenderTextureReadWrite.Linear;
+#endif
+				_finalTexture = RenderTexture.GetTemporary(_width, _height, 0, RenderTextureFormat.ARGB32, rwMode);
 				_finalTexture.wrapMode = TextureWrapMode.Clamp;
 				_finalTexture.filterMode = FilterMode.Bilinear;
 				_finalTexture.name = "AVProLiveCamera-FinalTexture";
@@ -405,7 +393,12 @@ namespace RenderHeads.Media.AVProLiveCamera
 						offset = new Vector2(offset.x, 1f);
 					}
 
-					_conversionMaterial.SetVector(_propTextureScaleOffset, new Vector4(scale.x, scale.y, offset.x, offset.y));
+					_conversionMaterial.mainTextureScale = scale;
+					_conversionMaterial.mainTextureOffset = offset;
+					// Since Unity 5.3 Graphics.Blit ignores mainTextureOffset/Scale
+#if UNITY_5_4_OR_NEWER || (UNITY_5 && !UNITY_5_0 && !UNITY_5_1 && !UNITY_5_2)
+					_conversionMaterial.SetVector("_MainTex_ST2", new Vector4(scale.x, scale.y, offset.x, offset.y));
+#endif
 
 					// Horizontal flipping requires changes to how YUV pixels are read
 					if (_flipX)
@@ -436,24 +429,6 @@ namespace RenderHeads.Media.AVProLiveCamera
 				{
 					_conversionMaterial.DisableKeyword("AVPRO_TRANSPARENCY_ON");
 					_conversionMaterial.EnableKeyword("AVPRO_TRANSPARENCY_OFF");
-				}
-			}
-		}
-
-		private void SetYCbCrRange(YCbCrRange range)
-		{
-			_yCbCrRange = range;
-			if (_conversionMaterial != null)
-			{
-				if (range == YCbCrRange.Limited)
-				{
-					_conversionMaterial.DisableKeyword("YCBCR_RANGE_FULL");
-					_conversionMaterial.EnableKeyword("YCBCR_RANGE_LIMITED");
-				}
-				else
-				{
-					_conversionMaterial.DisableKeyword("YCBCR_RANGE_LIMITED");
-					_conversionMaterial.EnableKeyword("YCBCR_RANGE_FULL");
 				}
 			}
 		}
