@@ -1,69 +1,74 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using DG.Tweening;
 
 public class ConfirmationButtonGraphics : MonoBehaviour
 {
-    public Material buttonOff, buttonOn;
-    [SerializeField] private float _scaleTarget;
+    [Header("Materials")] 
+    public Material buttonOff; //TODO make private
+    public Material buttonOn; //TODO make private
 
-    private float _currentScale;
-    private float _velocity;
-    private bool _loopAnimation = true;
-    private bool _buttonIsOn = false;
-    
-    private Coroutine _idleCoroutine;
-
+    [Header("Scale Settings")]
     [SerializeField] private float _scaleAmount;
-    [SerializeField] private float _dampTime;
-    [SerializeField] private float _delay;
-    
-    private void Start()
+    [SerializeField] private float _delay; // Time between pulses
+    [SerializeField] private float _gazeOnMultiplier;
+
+    private Tween _scaleTween;
+    private bool _buttonIsOn;
+    private float _baseYScale;
+    private MeshRenderer _renderer;
+
+    private void Awake()
     {
-        _idleCoroutine = StartCoroutine(AnimateButton());
+        _renderer = GetComponent<MeshRenderer>();
+        _baseYScale = transform.localScale.y; // assuming Y is the base
     }
 
     private void OnEnable()
     {
-        _idleCoroutine = StartCoroutine(AnimateButton());
-        _loopAnimation = true;
+        if (!_buttonIsOn) StartIdleAnimation();
     }
 
-    private void Update()
+    private void OnDisable()
     {
-        _currentScale = LeanSmooth.damp(_currentScale, _scaleTarget, ref _velocity, _dampTime);
-        transform.localScale = new Vector3(2.8f *_currentScale, _currentScale, _currentScale);
+        _scaleTween?.Kill();
     }
 
     public void SwitchSelection(bool on)
     {
         _buttonIsOn = on;
-        if (on) {
-            GetComponent<MeshRenderer>().material = buttonOn;
-            _loopAnimation = false;
-            StopCoroutine(_idleCoroutine);
-            _scaleTarget = _scaleAmount * 1.2f;
+
+        _scaleTween?.Kill(); // Stop previous animation
+
+        if (on)
+        {
+            _renderer.material = buttonOn;
+
+            float targetScale = _baseYScale * _scaleAmount * _gazeOnMultiplier;
+            Vector3 targetVec = new Vector3(2.8f * targetScale, targetScale, targetScale);
+
+            _scaleTween = transform
+                .DOScale(targetVec, 0.4f)
+                .SetEase(Ease.OutCubic);
         }
-        else {
-            GetComponent<MeshRenderer>().material = buttonOff;
-            if (gameObject.activeSelf)
-            {
-                _loopAnimation = true;
-                _idleCoroutine = StartCoroutine(AnimateButton());
-            }
+        else
+        {
+            _renderer.material = buttonOff;
+            if (gameObject.activeSelf) StartIdleAnimation();
         }
     }
-    
-    private IEnumerator AnimateButton(bool fromOn = false) {
-        if (!_buttonIsOn) _scaleTarget = 1;
 
-        yield return new WaitForSeconds(_delay);
+    private void StartIdleAnimation()
+    {
+        float minY = _baseYScale;
+        float maxY = _baseYScale * _scaleAmount;
 
-        if (!_buttonIsOn) _scaleTarget = _scaleAmount;
+        Vector3 minVec = new Vector3(2.8f * minY, minY, minY);
+        Vector3 maxVec = new Vector3(2.8f * maxY, maxY, maxY);
 
-        yield return new WaitForSeconds(_delay);
-        
-        if (_loopAnimation) StartCoroutine(AnimateButton());
+        _scaleTween = transform
+            .DOScale(maxVec, _delay)
+            .SetEase(Ease.OutCubic)
+            .SetLoops(-1, LoopType.Yoyo)
+            .From(minVec);
     }
 }
