@@ -3,30 +3,27 @@ using UnityEngine;
 
 public class HeightPresenceDetection : MonoBehaviour
 {
-    public delegate void OnHeadsetOverThreshold();
-    public static OnHeadsetOverThreshold HeadsetOverThreshold;
+    public delegate void OnHeadsetEnterVolume();
+    public static OnHeadsetEnterVolume HeadsetEnteredArea;
     
-    public delegate void OnHeadsetUnderThreshold();
-    public static OnHeadsetUnderThreshold HeadsetUnderThreshold;
+    public delegate void OnHeadsetExitVolume();
+    public static OnHeadsetExitVolume HeadsetExitedArea;
 
-    [Tooltip("Y position below which the headset is considered removed.")] 
-    [Range(2.5f, 4f)] [SerializeField]
-    private float _yThreshold;
-
-    [Range(2.5f, 4f)] [SerializeField]
-    private float _previousHeight;
+    [Tooltip("The 3D collider volume that represents the detection boundary.")]
+    [SerializeField] private Collider _detectionVolume;
     
-    private void Update() //Monitor VR headset height to infer user presence
+    private bool _wasInsideLastFrame;
+    
+    private void Update()
     {
-        if (transform.position.y < _yThreshold && _previousHeight >= _yThreshold)  //we just passed under threshold
-        {
-            HeadsetUnderThreshold();
-        }
-        else if  (transform.position.y > _yThreshold && _previousHeight <= _yThreshold) //we just passed over threshold
-        {
-            HeadsetOverThreshold();
-        }
-        
-        _previousHeight = transform.position.y;
+        // Is the headset (this.transform) currently within the volume?
+        bool isInside = _detectionVolume.bounds.Contains(transform.position);
+
+        // If state has changed, trigger events
+        if (!_wasInsideLastFrame && isInside) HeadsetEnteredArea();
+        else if (_wasInsideLastFrame && !isInside) HeadsetExitedArea();
+
+        _wasInsideLastFrame = isInside;
     }
+
 }

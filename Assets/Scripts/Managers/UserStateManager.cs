@@ -35,14 +35,14 @@ public class UserStateManager : MonoBehaviour //centralize self and other state 
 
     private void OnEnable()
     {
-        HeightPresenceDetection.HeadsetOverThreshold += HeadsetOverThreshold;
-        HeightPresenceDetection.HeadsetUnderThreshold += HeadsetUnderThreshold;
+        HeightPresenceDetection.HeadsetEnteredArea += HeadsetEnteredArea;
+        HeightPresenceDetection.HeadsetExitedArea += HeadsetExitedArea;
     }
 
     private void OnDisable()
     {
-        HeightPresenceDetection.HeadsetOverThreshold -= HeadsetOverThreshold;
-        HeightPresenceDetection.HeadsetUnderThreshold -= HeadsetUnderThreshold;
+        HeightPresenceDetection.HeadsetEnteredArea -= HeadsetEnteredArea;
+        HeightPresenceDetection.HeadsetExitedArea -= HeadsetExitedArea;
     }
 
     private void Start()
@@ -107,14 +107,14 @@ public class UserStateManager : MonoBehaviour //centralize self and other state 
         selfState.Value = UserState.headsetOn;
     }
 
-    private void HeadsetOverThreshold()
+    private void HeadsetEnteredArea()
     {
         previousSelfState.Value = selfState.Value;
         selfState.Value = UserState.headsetOn;
         selfStateGameEvent.Raise(UserState.headsetOn);
     }
 
-    private void HeadsetUnderThreshold()
+    private void HeadsetExitedArea()
     {
         previousSelfState.Value = selfState.Value;
         selfState.Value = UserState.headsetOff;
