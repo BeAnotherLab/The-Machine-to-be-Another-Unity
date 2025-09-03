@@ -28,6 +28,6 @@ public class GridAlphaController : MonoBehaviour
             },
             targetLineWidth,
             fadeDuration
-        ).SetEase(Ease.InOutSine);
+        ).SetEase(Ease.OutCirc);
     }
 }
