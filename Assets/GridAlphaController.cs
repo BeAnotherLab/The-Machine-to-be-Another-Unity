@@ -5,36 +5,28 @@ public class GridAlphaController : MonoBehaviour
 {
     [SerializeField] private Material gridMaterial;
     [SerializeField] private float fadeDuration = 0.5f;
+    [SerializeField] private float defaultLineWidth = 0.05f;
 
-    private Color _originalColor;
-    private Tween _fadeTween;
+    private Tween _lineWidthTween;
 
-    private void Awake()
-    {
-        if (gridMaterial != null)
-        {
-            _originalColor = gridMaterial.GetColor("_Color");
-        }
-    }
+    public float DefaultLineWidth => defaultLineWidth;
 
-    public void FadeToAlpha(float targetAlpha)
+    public void TweenLineWidth(float targetLineWidth)
     {
         if (gridMaterial == null) return;
 
-        // Kill any existing fade tween to prevent overlap
-        _fadeTween?.Kill();
+        _lineWidthTween?.Kill();
 
-        Color currentColor = gridMaterial.GetColor("_Color");
+        float currentLineWidth = gridMaterial.GetFloat("_LineWidth");
 
-        // Start a new tween from current color to target alpha
-        _fadeTween = DOTween.To(
-            () => currentColor.a,
-            alpha =>
+        _lineWidthTween = DOTween.To(
+            () => currentLineWidth,
+            value =>
             {
-                currentColor.a = alpha;
-                gridMaterial.SetColor("_Color", currentColor);
+                currentLineWidth = value;
+                gridMaterial.SetFloat("_LineWidth", currentLineWidth);
             },
-            targetAlpha,
+            targetLineWidth,
             fadeDuration
         ).SetEase(Ease.InOutSine);
     }
