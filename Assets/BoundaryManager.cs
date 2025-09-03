@@ -6,14 +6,14 @@ public class BoundaryManager : MonoBehaviour
 
     private void OnEnable()
     {
-        HeightPresenceDetection.HeadsetEnteredArea += HandleHeadsetEntered;
-        HeightPresenceDetection.HeadsetExitedArea += HandleHeadsetExited;
+        BoundaryTweenTrigger.HeadsetEnteredArea += HandleHeadsetEntered;
+        BoundaryTweenTrigger.HeadsetExitedArea += HandleHeadsetExited;
     }
 
     private void OnDisable()
     {
-        HeightPresenceDetection.HeadsetEnteredArea -= HandleHeadsetEntered;
-        HeightPresenceDetection.HeadsetExitedArea -= HandleHeadsetExited;
+        BoundaryTweenTrigger.HeadsetEnteredArea -= HandleHeadsetEntered;
+        BoundaryTweenTrigger.HeadsetExitedArea -= HandleHeadsetExited;
     }
 
     private void HandleHeadsetEntered()
