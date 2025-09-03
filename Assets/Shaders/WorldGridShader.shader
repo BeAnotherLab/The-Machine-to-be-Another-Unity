@@ -3,7 +3,7 @@ Shader "Custom/WorldGridShaderTransparent"
     Properties
     {
         _Color("Grid Color", Color) = (0.2, 1, 0.2, 1)
-        _BackgroundColor("Background Color", Color) = (0, 0, 0, 1)
+        _BackgroundColor("Background Color", Color) = (0, 0, 0, 0) // Note: alpha 0
         _GridSpacing("Grid Spacing", Float) = 1.0
         _LineWidth("Line Width", Float) = 0.05
         [HideInInspector]_MainTex("Main Tex", 2D) = "white" {}
@@ -60,11 +60,11 @@ Shader "Custom/WorldGridShaderTransparent"
                 float grid = step(lineX, _LineWidth) + step(lineZ, _LineWidth);
                 grid = saturate(grid);
 
-                // Blend grid lines into background based on grid value
-                float4 baseColor = lerp(_BackgroundColor, _Color, grid);
+                // Lerp both RGB and alpha from background to grid color
+                float3 color = lerp(_BackgroundColor.rgb, _Color.rgb, grid);
+                float alpha = lerp(_BackgroundColor.a, _Color.a, grid);
 
-                // Respect alpha from _Color for fade control
-                return float4(baseColor.rgb, _Color.a);
+                return float4(color, alpha);
             }
             ENDCG
         }
