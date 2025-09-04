@@ -66,7 +66,6 @@ public class JsonSequenceController : MonoBehaviour
         OscManager.ReceiveSerialFailure += StopSequence;
         UserStateManager.OtherLeft += StopSequence;
         UserStateManager.ThisUserLeft += StopSequence;
-        LoadTranslations(_languageCode);
     }
 
     private void OnDisable()
