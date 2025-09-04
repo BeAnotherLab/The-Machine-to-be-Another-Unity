@@ -8,8 +8,6 @@ using UnityEngine.Serialization;
 
 public class SettingsGUI : MonoBehaviour
 {
-    #region Public fields
-
     public delegate void OnExposureValueChanged(int value);
     public static OnExposureValueChanged ExposureValueChanged;
 
@@ -31,10 +29,6 @@ public class SettingsGUI : MonoBehaviour
     public delegate void OnRecenterPose();
     public static OnRecenterPose RecenterPose;
 
-    #endregion
-
-    #region Private Fields
-
     [SerializeField] private GameObject _panel;
     [SerializeField] private IPInputField _ipInputField;
     [SerializeField] private Toggle _serialControlToggle;
@@ -49,10 +43,6 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private Text _exposureText;
     [SerializeField] private Toggle _repeaterToggle;
     
-    #endregion
-
-    #region MonoBehaviour Methods
-
     private void OnEnable()
     {
         SwapModeManager.SwapModeChanged += SetSwapMode;
@@ -95,6 +85,8 @@ public class SettingsGUI : MonoBehaviour
         }
         
         OSCUtilities.GetLocalHost(); //TODO remove?
+
+        _exposureSlider.onValueChanged.Invoke(-7);
     }
 
     private void Update()
@@ -103,10 +95,6 @@ public class SettingsGUI : MonoBehaviour
         if (Input.GetKeyDown("m")) ToggleDisplay();
     }
 
-    #endregion
-
-    #region Public Methods
-
     
     public void SetSwapMode(SwapModes mode) 
     {
@@ -114,16 +102,10 @@ public class SettingsGUI : MonoBehaviour
         _serialControlToggle.gameObject.SetActive(mode != SwapModes.MANUAL_SWAP); 
     }
 
-    
-    #endregion
-
-    #region Private Methods
-    
     private void ToggleDisplay()
     {
         if (_panel.GetComponent<CanvasGroup>().alpha == 0f) _panel.GetComponent<CanvasGroup>().alpha = 1f;
         else _panel.GetComponent<CanvasGroup>().alpha = 0f;
     }
 
-    #endregion
 }
