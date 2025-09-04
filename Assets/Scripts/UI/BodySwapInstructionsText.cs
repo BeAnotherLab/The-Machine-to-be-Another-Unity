@@ -8,11 +8,13 @@ public class BodySwapInstructionsText : MonoBehaviour //TODO inherit Instruction
     private void OnEnable()
     {
         JsonSequenceController.HidePanel += Hide;
+        JsonSequenceController.ShowPanel += Show;
     }
 
     private void OnDisable()
     {
         JsonSequenceController.HidePanel -= Hide;
+        JsonSequenceController.ShowPanel -= Show;
     }
 
     private void Start()
@@ -43,4 +45,8 @@ public class BodySwapInstructionsText : MonoBehaviour //TODO inherit Instruction
         GetComponent<PanelDimmer>().Hide();
     }
 
+    private void Show()
+    {
+        GetComponent<PanelDimmer>().Show();
+    }
 }

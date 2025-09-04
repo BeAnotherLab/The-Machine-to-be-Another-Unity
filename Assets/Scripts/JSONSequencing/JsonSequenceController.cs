@@ -21,6 +21,8 @@ Plays audio, shows visuals (images or videos), and triggers actions at specified
 
 public class JsonSequenceController : MonoBehaviour
 {
+    public delegate void OnShowPanel();
+    public static OnShowPanel ShowPanel;
     public delegate void OnHidePanel();
     public static OnHidePanel HidePanel;
 
@@ -43,7 +45,7 @@ public class JsonSequenceController : MonoBehaviour
     [SerializeField] private SequenceData _sequenceData;
 
     [Header("Settings")]
-    [SerializeField] private string _languageCode = "en";
+    [SerializeField] private string _languageCode = "en"; //TODO make sure this gets set by lean localization before 1st run
 
     [Header("Audio")]
     [SerializeField] private AudioSource _audioSource;
@@ -186,6 +188,9 @@ public class JsonSequenceController : MonoBehaviour
                 {
                     case "HidePanel":
                         HidePanel();
+                        break;
+                    case "ShowPanel":
+                        ShowPanel();
                         break;
                     case "StartExperience":
                         _statusManager.StartExperience();
