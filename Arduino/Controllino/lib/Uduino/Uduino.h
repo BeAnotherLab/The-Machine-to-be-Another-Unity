@@ -23,7 +23,7 @@ Copyright (C) 2011-2013 Steven Cogswell  <steven.cogswell@gmail.com>
 #if (defined(AVR))
 #include <avr/pgmspace.h>
 #else
-#include <pgmspace.h>
+//#include <pgmspace.h>
 #endif
 // If you want to use UDUINO with the hardware serial port only, and want to disable
 // SoftwareSerial support, and thus don't have to use "#include <SoftwareSerial.h>" in your
