@@ -18,9 +18,10 @@ GameObject:
   - component: {fileID: 3462846772297571682}
   - component: {fileID: 4331334965932987113}
   - component: {fileID: 598471607718268120}
-  - component: {fileID: 8907470883480122135}
   - component: {fileID: 328909138195811094}
   - component: {fileID: 3797501857461778295}
+  - component: {fileID: 3562091439520002314}
+  - component: {fileID: 7772168834194163283}
   - component: {fileID: 478786118764266287}
   m_Layer: 0
   m_Name: Main Camera
@@ -229,39 +230,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _debugValue: 0
---- !u!114 &8907470883480122135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1473624093389685108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5758ca93461aeeb4589456a052b07d74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _showDebugFields: 0
-  _enableGizmoDebugging: 1
-  _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 11400000, guid: 3056d7e57f2314fa7a77a369360a2781,
-    type: 2}
-  _event: {fileID: 11400000, guid: 3056d7e57f2314fa7a77a369360a2781, type: 2}
-  _response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3462846772297571682}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: Hide
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &328909138195811094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,6 +281,52 @@ MonoBehaviour:
   m_TrackingType: 0
   m_UpdateType: 0
   m_UseRelativeTransform: 0
+--- !u!114 &3562091439520002314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473624093389685108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23c48c50200a3404999686acd37994d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _detectionVolume: {fileID: 0}
+--- !u!114 &7772168834194163283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473624093389685108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbf3049867acf4e98b57a68ca8ffdf10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: ca8fd7f8d546d4a209ab5b1348851dba, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3462846772297571682}
+        m_TargetAssemblyTypeName: VRStandardAssets.Utils.Reticle, Assembly-CSharp
+        m_MethodName: SelfStateChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _debugValue: 0
 --- !u!114 &478786118764266287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,8 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fd0a11b6eac449138b6d2f95c25d6fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _yThreshold: 3.204
-  _previousHeight: 2.5
+  _detectionVolume: {fileID: 0}
 --- !u!1 &3462846772303890890
 GameObject:
   m_ObjectHideFlags: 0

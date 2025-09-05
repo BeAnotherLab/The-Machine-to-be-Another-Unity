@@ -25,11 +25,9 @@ namespace VRStandardAssets.Utils
             get { return m_UseNormal; }
             set { m_UseNormal = value; }
         }
-
-
+        
         public Transform ReticleTransform { get { return m_ReticleTransform; } }
-
-
+        
         private void Awake()
         {
             // Store the original scale and rotation.
@@ -37,18 +35,15 @@ namespace VRStandardAssets.Utils
             m_OriginalRotation = m_ReticleTransform.localRotation;
         }
 
-
         public void Hide()
         {
             m_Image.enabled = false;
         }
-
-
+        
         public void Show()
         {
             m_Image.enabled = true;
         }
-
 
         // This overload of SetPosition is used when the the VREyeRaycaster hasn't hit anything.
         public void SetPosition ()
@@ -77,6 +72,11 @@ namespace VRStandardAssets.Utils
             else
                 // However if it isn't using the normal then it's local rotation should be as it was originally.
                 m_ReticleTransform.localRotation = m_OriginalRotation;
+        }
+
+        public void SelfStateChanged(UserState selfState) //TODO DON'T MODIFY BUT EXTEND
+        {
+            if (selfState == UserState.readyToStart) Hide();
         }
     }
 }
