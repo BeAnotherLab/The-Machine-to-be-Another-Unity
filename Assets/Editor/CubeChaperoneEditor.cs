@@ -4,7 +4,7 @@ using UnityEditor;
 [CustomEditor(typeof(Transform))]
 public class CubeChaperoneEditor : Editor
 {
-    private float delta = 0.1f; // How much to move per click
+    private float delta = 0.1f; // Now editable!
 
     public override void OnInspectorGUI()
     {
@@ -20,6 +20,10 @@ public class CubeChaperoneEditor : Editor
         }
 
         EditorGUILayout.LabelField("Chaperone Wall Adjustments", EditorStyles.boldLabel);
+
+        // Add editable delta field
+        delta = EditorGUILayout.FloatField("Increment", delta);
+        delta = Mathf.Max(0.001f, delta); // Prevent negative or zero values
 
         GUILayout.BeginVertical("box");
         FaceAdjustButtons(t, Vector3.right, "Right (+X)");
@@ -76,5 +80,4 @@ public class CubeChaperoneEditor : Editor
         t.localPosition = pos;
         EditorUtility.SetDirty(t);
     }
-
 }
