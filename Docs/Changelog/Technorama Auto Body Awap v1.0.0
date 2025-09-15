@@ -1,0 +1,25 @@
+Technorama Auto Body Awap v1.0.0
+Build installed in Technorama on September 5th. Works only with the wall and mirror setup installed there. Added new features for customization of the the user experience without having to regenerate a build. Specification for the JSON Asset loading feature can be found in the Docs/Technorama folder. Updated all plugins and performed a huge clean up of the entire codebase. This model was tested with Vive Pro 2 and XXX Cameras
+
+
+New features : 
+ - Implemented a chaperone feature that replaces the faulty user presence detection system on the Vive Pro 2. This supposes the headsets are hanging from the ceiling. WHen the user puts the headset on their lap, the experience is reset. The boundaries appear when you get too close to them
+ - The boundaries can be edited live in the editor using the custom inspector
+ - Replaced the timeline-based experience sequencing with a JSON based system that can be modified from the Content folder 
+ - Many UI and instructions elements can be loaded through the content folder (buttons, panel background, audio and text instructions. Check docs for full specs
+- added Italian and French translations (AI-Generated)
+
+Improvements :
+- added support for the Vive Pro 2 headset.
+- updated the app's font and display it with Text Mesh Pro
+- improved the button animatinons and layout.
+
+
+Bug Fixes :
+- Camera settings were not properly forced for USB. So cameras that don't save settings can be used in unsupervised setups.
+
+Known Issues :
+- the editor script for boundaries gets added
+- the position of the buttons must be revised as well as the welcome instructions, in order to not let them get triggered by accident and stil
+- The camera settings are forced and locked to -7 exposure
+- image might have random rotation offset?
