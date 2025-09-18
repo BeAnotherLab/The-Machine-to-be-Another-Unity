@@ -28,7 +28,6 @@ public class SettingsGUI : MonoBehaviour
 
     [SerializeField] private GameObject _panel;
     [SerializeField] private IPInputField _ipInputField;
-    [SerializeField] private Toggle _serialControlToggle;
     
     [SerializeField] private Button _cameraSettingsButton;
 
@@ -39,16 +38,6 @@ public class SettingsGUI : MonoBehaviour
     [SerializeField] private Slider _exposureSlider;
     [SerializeField] private Text _exposureText;
     [SerializeField] private Toggle _repeaterToggle;
-    
-    private void OnEnable()
-    {
-        SwapModeManager.SwapModeChanged += SetSwapMode;
-    }
-
-    private void OnDisable()
-    {
-        SwapModeManager.SwapModeChanged -= SetSwapMode;
-    }
 
     private void Awake()
     {
@@ -72,7 +61,6 @@ public class SettingsGUI : MonoBehaviour
     private void Start()
     {        
         _repeaterToggle.isOn = PlayerPrefs.GetInt("repeater") == 1; 
-        _serialControlToggle.isOn = PlayerPrefs.GetInt("serialControlOn") == 1;
         
         if (PlayerPrefs.GetInt("exposure", 1) != 1)
         {
@@ -89,13 +77,6 @@ public class SettingsGUI : MonoBehaviour
     {     
         //TODO move out of settings GUI
         if (Input.GetKeyDown("m")) ToggleDisplay();
-    }
-
-    
-    public void SetSwapMode(SwapModes mode) 
-    {
-        //enable/disable serial control toggle depending on if we're using a curtain
-        _serialControlToggle.gameObject.SetActive(mode != SwapModes.MANUAL_SWAP); 
     }
 
     private void ToggleDisplay()

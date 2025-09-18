@@ -25,16 +25,6 @@ public class SwapControlGUI : MonoBehaviour
 
     private Button _audioButtons;
 
-    private void OnEnable()
-    {
-        SwapModeManager.SwapModeChanged += SwapModeChanged;
-    }
-
-    private void OnDisable()
-    {
-        SwapModeManager.SwapModeChanged -= SwapModeChanged;
-    }
-
     public void ButtonPressed(int id)
     {
         AudioButtonPressed(id); //TODO remove redundancy with repeater underneath?
@@ -61,17 +51,4 @@ public class SwapControlGUI : MonoBehaviour
         _languagechangedEvent.Raise(language);
     }
     
-    private void SwapModeChanged(SwapModes swapMode)
-    {
-        if (swapMode == SwapModes.CURTAIN_MANUAL_SWAP && 
-            PlayerPrefs.GetInt("repeater") == 1 && 
-            PlayerPrefs.GetInt("serialControlOn") == 1) 
-        {
-            _controlPanel.SetActive(true);
-        }
-        else 
-        {
-            _controlPanel.SetActive(false);
-        }
-    } 
 }
