@@ -6,8 +6,6 @@ using Debug = DebugFile;
 
 public class OscManager : MonoBehaviour {
 
-    #region Public Fields
-
     public delegate void OnReceivedAudioButtonPressed(int i);
     public static OnReceivedAudioButtonPressed ReceivedAudioButtonPressed;
 
@@ -24,10 +22,6 @@ public class OscManager : MonoBehaviour {
     public UserStateVariable otherState;
     public UserStateGameEvent otherStateGameEvent;
     
-    #endregion
- 
-    #region Private Fields
-
     [SerializeField] private BoolGameEvent _dimGameEvent;
     [SerializeField] private BoolGameEvent _curtainOnGameEvent;
     
@@ -38,10 +32,6 @@ public class OscManager : MonoBehaviour {
     private OSCReceiver _oscReceiver;
     private OSCTransmitter _oscTransmitter;
     
-    #endregion
-
-    #region MonoBehaviour Methods
-
     private void OnEnable()
     {
         ArduinoManager.SerialReady += CheckConnectionAndSendSerialReady;
@@ -82,9 +72,6 @@ public class OscManager : MonoBehaviour {
         _connectionEstablished = false;
     }   
     
-    #endregion
-
-    #region Public Methods
     
     private void SetRepeater(bool r)
     {
@@ -110,10 +97,6 @@ public class OscManager : MonoBehaviour {
         Debug.Log("sending user status : " + status, DLogType.Network);
     }
 
-    #endregion
-
-    #region Private Methods
-    
     private void SetOthersIP(string othersIP)
     {
         PlayerPrefs.SetString("othersIP", othersIP);
@@ -225,6 +208,5 @@ public class OscManager : MonoBehaviour {
         if (_serialReady) CheckConnectionAndSendSerialReady();
     }
     
-    #endregion
 
 }
