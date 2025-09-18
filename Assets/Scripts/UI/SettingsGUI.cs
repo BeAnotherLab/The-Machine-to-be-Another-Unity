@@ -20,9 +20,6 @@ public class SettingsGUI : MonoBehaviour
     public delegate void OnSetRepeater(bool on);
     public static OnSetRepeater SetRepeater;
     
-    public delegate void OnSetSerialControl(bool on);
-    public static OnSetSerialControl SetSerialControl;
-    
     public delegate void OnDebugMenuPressed();
     public static OnDebugMenuPressed DebugMenuPressed;
     
@@ -58,7 +55,6 @@ public class SettingsGUI : MonoBehaviour
         _dimButton.onClick.AddListener(delegate { ToggleDim(); });
         _cameraSettingsButton.onClick.AddListener(delegate { VideoCameraManager.instance.ShowCameraConfigWindow(); });
         _repeaterToggle.onValueChanged.AddListener(delegate { SetRepeater(_repeaterToggle.isOn); });
-        _serialControlToggle.onValueChanged.AddListener(delegate { SetSerialControl(_serialControlToggle.isOn); });
         _resetYawButton.onClick.AddListener(delegate { RecenterPose(); });
 
         _exposureSlider.onValueChanged.AddListener(delegate(float value)

@@ -21,7 +21,6 @@ public class ArduinoManager : MonoBehaviour
     private void OnEnable()
     {
         UduinoManager.Instance.OnDataReceived += DataReceived;
-        SettingsGUI.SetSerialControl += SetSerialControlComputer;
         StatusManager.SendArduinoCommand += SendCommand;
         SerialDebugPanel.SendArduinoCommand += SendCommand; //TODO add this panel or remove
     }
@@ -29,7 +28,6 @@ public class ArduinoManager : MonoBehaviour
     private void OnDisable()
     {
         UduinoManager.Instance.OnDataReceived -= DataReceived;
-        SettingsGUI.SetSerialControl -= SetSerialControlComputer;
         StatusManager.SendArduinoCommand -= SendCommand;
         SerialDebugPanel.SendArduinoCommand -= SendCommand;
     }
