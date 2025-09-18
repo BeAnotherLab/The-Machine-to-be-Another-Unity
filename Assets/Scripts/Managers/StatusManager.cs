@@ -9,28 +9,19 @@ using UnityEngine.XR.OpenXR.NativeTypes;
 
 public class StatusManager : MonoBehaviour //TODO instructions text stuff needs not be handled here
 {
-    #region Public Fields
-    
     public delegate void OnStopAllAudios();
     public static OnStopAllAudios StopAudiosInstructions = delegate { };
 
     public delegate void OnSendArduinoCommand(string command);
     public static OnSendArduinoCommand SendArduinoCommand;
     
-    #endregion
-    
     //using protected to make them accessible to children 
-    #region Private Fields 
     [SerializeField] private BoolGameEvent _dimGameEvent;
     [SerializeField] private GameEvent _standbyGameEvent;
     [SerializeField] private BoolGameEvent _curtainOnEvent;
     
     [SerializeField] private StringGameEvent _setInstructionsTextGameEvent;
     
-    #endregion
-
-    #region Monobehaviour Methods
-
     private void OnEnable()
     {
         ArduinoManager.SerialFailure += SerialFailure;
@@ -57,10 +48,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         XrPerformanceSettingsFeature.SetPerformanceLevelHint(PerformanceDomain.Cpu, PerformanceLevelHint.Boost);
     }
 
-    #endregion
-    
-    #region Public Methods 
-    
     public void StartExperience() //called by timeline TODO use signals instead!
     {
         _dimGameEvent.Raise(false);
@@ -99,11 +86,6 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
 
     }
     
-    #endregion
-    
-    #region Private Methods   
-
-    
     private void Standby()
     {
         Debug.Log("Standby");
@@ -136,6 +118,5 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         Debug.Log("serial failure", DLogType.Error);
     }
 
-    #endregion
     
 }
