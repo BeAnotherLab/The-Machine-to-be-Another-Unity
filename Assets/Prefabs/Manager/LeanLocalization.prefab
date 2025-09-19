@@ -67,6 +67,9 @@ MonoBehaviour:
       Per favore, prenditi un momento per respirare con
       calma ...'
     Object: {fileID: 0}
+  - Language: Polish
+    Text: "Witaj, po\u015Bwi\u0119\u0107 chwil\u0119, aby spokojnie pooddycha\u0107\u2026"
+    Object: {fileID: 0}
 --- !u!1 &1153005245
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,6 +131,9 @@ MonoBehaviour:
   - Language: Italian
     Text: "Speriamo che ti sia piaciuta la tua esperienza. \n\nGrazie!"
     Object: {fileID: 0}
+  - Language: Polish
+    Text: "Mamy nadziej\u0119, \u017Ce podoba\u0142o Ci si\u0119 to do\u015Bwiadczenie.\nDzi\u0119kujemy!"
+    Object: {fileID: 0}
 --- !u!1 &1678022610
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,6 +191,9 @@ MonoBehaviour:
     Object: {fileID: 0}
   - Language: Italian
     Text: "C'\xE8 stato un errore con il sistema. "
+    Object: {fileID: 0}
+  - Language: Polish
+    Text: 
     Object: {fileID: 0}
 --- !u!1 &1834801474
 GameObject:
@@ -246,6 +255,10 @@ MonoBehaviour:
   - Language: Italian
     Text: "Woops ... \nsembra che il tuo collega se ne sia andato! \nGrazie per la
       tua partecipazione!"
+    Object: {fileID: 0}
+  - Language: Polish
+    Text: "Ups\u2026 Wygl\u0105da na to, \u017Ce Tw\xF3j partner zako\u0144czy\u0142
+      do\u015Bwiadczenie!\nDzi\u0119kujemy za udzia\u0142!"
     Object: {fileID: 0}
 --- !u!1 &900105420055926307
 GameObject:
@@ -373,6 +386,10 @@ MonoBehaviour:
       questo testo. \\n\\n\n\nQuando sei pronto, guarda il pulsante in basso per
       iniziare."
     Object: {fileID: 0}
+  - Language: Polish
+    Text: "Przesuwaj gogle na g\u0142owie w g\xF3r\u0119 i w d\xF3\u0142, a\u017C
+      zobaczysz ten tekst wyra\u017Anie."
+    Object: {fileID: 0}
 --- !u!1 &3675206860880838541
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,6 +448,55 @@ MonoBehaviour:
   - Language: Italian
     Text: Aspetta un momento ...
     Object: {fileID: 0}
+  - Language: Polish
+    Text: "Poczekaj chwil\u0119..."
+    Object: {fileID: 0}
+--- !u!1 &4225810203516226833
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3128352539348863658}
+  - component: {fileID: 4763794289160097341}
+  m_Layer: 0
+  m_Name: Polish
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3128352539348863658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4225810203516226833}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 136505200202506699}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4763794289160097341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4225810203516226833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 225ec97158446a94d9cb40a9f742a8b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  translationCode: pl
+  cultures: []
 --- !u!1 &5442345038423296736
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,6 +540,7 @@ Transform:
   - {fileID: 8771690069342496167}
   - {fileID: 5740447027298123357}
   - {fileID: 6363377230217222574}
+  - {fileID: 3128352539348863658}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6006547309674109429
@@ -488,7 +555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 806f0696300aeac44a0e17efee222854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLanguage: German
+  currentLanguage: Polish
   detectLanguage: 1
   defaultLanguage: 
   saveLoad: 1
