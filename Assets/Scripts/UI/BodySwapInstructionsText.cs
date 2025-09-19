@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class BodySwapInstructionsText : MonoBehaviour //TODO inherit Instructions text?
+public class BodySwapInstructionsText : MonoBehaviour //TODO inherit Instructions text?  
 {
     [SerializeField] private GameObject _instructionsImages;
 
