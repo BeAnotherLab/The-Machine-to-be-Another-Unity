@@ -3,14 +3,14 @@ using ScriptableObjectArchitecture;
 using UnityEngine;
 using UnityEngine.XR.OpenXR.Features.Extensions.PerformanceSettings;
 using Debug = DebugFile;
-
+//TODO Make AutoStatusManager and ManualStatusManager
 public class StatusManager : MonoBehaviour //TODO instructions text stuff needs not be handled here
 {
     public delegate void OnStopAllAudios();
     public static OnStopAllAudios StopAudiosInstructions = delegate { };
 
     public delegate void OnSendArduinoCommand(string command);
-    public static OnSendArduinoCommand SendArduinoCommand;
+    public static OnSendArduinoCommand SendArduinoCommand = delegate { };
     
     //using protected to make them accessible to children 
     [SerializeField] private BoolGameEvent _dimGameEvent;
@@ -21,8 +21,8 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     
     private void OnEnable()
     {
-        OscManager.ReceiveSerialFailure += SerialFailure;
-        OscManager.ReceiveSerialReady += Standby;
+        OscManager.ReceiveSerialFailure += SerialFailure;//for auto body swap
+        OscManager.ReceiveSerialReady += Standby; //for auto body swap
         UserStateManager.OtherLeft += WaitThenStandby;
         UserStateManager.ThisUserLeft += Standby;
     }
@@ -69,14 +69,12 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     {
         SendArduinoCommand("mir_off"); //hide mirror
         Debug.Log("mirror off", DLogType.Logic);
-
     }
     
     public void EndExperience() //called at the the end of the experience TODO rename to EndExperience
     {
         _dimGameEvent.Raise(true);
         Debug.Log("experienced finished", DLogType.Logic);
-
     }
     
     private void Standby()
@@ -109,6 +107,5 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         Destroy(gameObject); //TODO should destroy a bunch more stuff to make sure experience ends ?
         Debug.Log("serial failure", DLogType.Error);
     }
-
     
 }

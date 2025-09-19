@@ -112,7 +112,7 @@ public class AudioManager : MonoBehaviour { //Only for Manual modes. Not present
 
     private void StopAudioInstructions()
     {
-        foreach(AudioSource _instruction in _autoModeInstructions) _instruction.Stop();
+        foreach (AudioSource _instruction in _autoModeInstructions) _instruction.Stop();
     }
 
     private void PlaySound(int id)
