@@ -9,7 +9,7 @@ public class BodySwapLanguageButtons : MonoBehaviour
 
     private void Start()
     {
-        _languageChangeGameEvent.Raise("German");
+        _languageChangeGameEvent.Raise("Polish");
     }
 
     public void SelfUserStateChanged(UserState selfUserState)

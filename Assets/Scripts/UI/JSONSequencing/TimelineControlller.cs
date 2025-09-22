@@ -6,7 +6,7 @@ using UnityEngine.Timeline;
 
 public class TimelineControlller : MonoBehaviour
 {
-    private TrackAsset _germanTrack;
+    private TrackAsset _polishTrack;
     private TrackAsset _englishTrack;
 
     [SerializeField] private BoolVariable _experienceRunning;
@@ -41,13 +41,13 @@ public class TimelineControlller : MonoBehaviour
     {
         TimelineAsset timelineAsset = (TimelineAsset) _instructionsTimeline.playableAsset;
         _englishTrack = timelineAsset.GetOutputTrack(0);
-        _germanTrack = timelineAsset.GetOutputTrack(1);
+        _polishTrack = timelineAsset.GetOutputTrack(1);
     }
 
     public void SwitchLanguageTrack(string language)
     {
         _englishTrack.muted = language != "English";
-        _germanTrack.muted = language != "German";
+        _polishTrack.muted = language != "Polish";
     }
 
     private void StartSequencer()
