@@ -72,15 +72,12 @@ public class OscManager : MonoBehaviour {
         _connectionEstablished = false;
     }   
     
-    
     private void SetRepeater(bool r)
     {
         _repeater = r;
         if (r) PlayerPrefs.SetInt("repeater", 1);
         else PlayerPrefs.SetInt("repeater", 0);
     }
-
-    
     
     public void SendThisUserStatus(UserState status)
     {

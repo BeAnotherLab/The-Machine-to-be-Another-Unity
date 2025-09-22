@@ -9,9 +9,7 @@ public class AudioManager : MonoBehaviour { //Only for Manual modes. Not present
     public int language;
 
     [SerializeField] private AudioSource[] _englishClips; //english audios
-    [SerializeField] private AudioSource[] _frenchClips; //french audios
-    [SerializeField] private AudioSource[] _portugueseClips; //italian audios
-    [SerializeField] private AudioSource[] _spanishClips; //italian audios
+    [SerializeField] private AudioSource[] _polishClips; //polish audios
 
     private List<AudioSource[]> _audioClips;
 
@@ -41,15 +39,9 @@ public class AudioManager : MonoBehaviour { //Only for Manual modes. Not present
         _englishClips = GameObject.Find("EnglishAudios").GetComponentsInChildren<AudioSource>();
         _audioClips.Add(_englishClips);
 
-        _frenchClips = GameObject.Find("FrenchAudios").GetComponentsInChildren<AudioSource>();
-        _audioClips.Add(_frenchClips);
-
-        _portugueseClips = GameObject.Find("PortugueseAudios").GetComponentsInChildren<AudioSource>();
-        _audioClips.Add(_portugueseClips);
-        
         _autoModeInstructions = GameObject.Find("AutoModeInstructions").GetComponentsInChildren<AudioSource>();
-        _spanishClips = GameObject.Find("SpanishAudios").GetComponentsInChildren<AudioSource>();
-        _audioClips.Add(_spanishClips);
+        _polishClips = GameObject.Find("PolishAudios").GetComponentsInChildren<AudioSource>();
+        _audioClips.Add(_polishClips);
     }
 
     // Use this for initialization
@@ -110,7 +102,7 @@ public class AudioManager : MonoBehaviour { //Only for Manual modes. Not present
 
     }
 
-    private void StopAudioInstructions()
+    private void StopAudioInstructions() //TODO remove?
     {
         foreach (AudioSource _instruction in _autoModeInstructions) _instruction.Stop();
     }
