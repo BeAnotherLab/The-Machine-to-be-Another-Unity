@@ -1,17 +1,10 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections.Generic;
-using System.IO;
 
-
-public class AudioManager : MonoBehaviour { //Only for Manual modes. Not present in Auto Body Swap
-
-    public int language;
-
-    [SerializeField] private AudioSource[] _englishClips; //english audios
-    [SerializeField] private AudioSource[] _polishClips; //polish audios
-
-    private List<AudioSource[]> _audioClips;
+public class AudioManager : MonoBehaviour 
+{ //Only for Manual modes. Not present in Auto Body Swap
+    
+    [SerializeField] private AudioSource[] _audioClips;
 
     [SerializeField] private AudioSource _music; //the background music
     [SerializeField] private AudioSource[] _autoModeInstructions; //the audio file played when in automatic mode
@@ -33,28 +26,15 @@ public class AudioManager : MonoBehaviour { //Only for Manual modes. Not present
 
     private void Awake()
     {
-        _audioClips = new List<AudioSource[]>();
-
-        //TODO add audio translations as scriptable object configuration to avoid errors with objects not found in scene
-        _englishClips = GameObject.Find("EnglishAudios").GetComponentsInChildren<AudioSource>();
-        _audioClips.Add(_englishClips);
-
-        _autoModeInstructions = GameObject.Find("AutoModeInstructions").GetComponentsInChildren<AudioSource>();
-        _polishClips = GameObject.Find("PolishAudios").GetComponentsInChildren<AudioSource>();
-        _audioClips.Add(_polishClips);
+        _audioClips = GameObject.Find("AudioInstructions").GetComponentsInChildren<AudioSource>();
     }
 
-    // Use this for initialization
     private void Start()
     {
-        //play looping background music
-        _music.loop = true;
+        _music.loop = true; 
         _music.Play();
 
-        language = 0;
-
-        foreach (AudioSource clip in _audioClips[language])
-            clip.Pause();
+        foreach (AudioSource clip in _audioClips) clip.Pause();
     }
 
     // Update is called once per frame
@@ -92,14 +72,9 @@ public class AudioManager : MonoBehaviour { //Only for Manual modes. Not present
         _somethingIsPlaying = false;
 
         //check if some audio is playing 
-        for (int i = 0; i < _audioClips[language].Length; i++)
-        {
-            if (_audioClips[language][i].isPlaying) 
-                _somethingIsPlaying = true;
-        }
+        for (int i = 0; i < _audioClips.Length; i++) if (_audioClips[i].isPlaying) _somethingIsPlaying = true;
 
         if (!_somethingIsPlaying) _music.volume = 1;
-
     }
 
     private void StopAudioInstructions() //TODO remove?
@@ -112,7 +87,7 @@ public class AudioManager : MonoBehaviour { //Only for Manual modes. Not present
         if (!_somethingIsPlaying)
         {
             Debug.Log("playing sound" + id);
-            _audioClips[language][id].Play();
+            _audioClips[id].Play();
             _music.volume = 0.45f;
         }
     }
