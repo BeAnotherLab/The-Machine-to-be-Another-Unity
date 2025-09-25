@@ -6,7 +6,8 @@ using UnityEngine;
 using Debug = DebugFile;
 using UnityEngine.XR.OpenXR.NativeTypes;
 
-public class UserStateManager : MonoBehaviour //centralize self and other state change to trigger events relevant to the rest of the application
+//Manual Swap User State Manager
+public class UserStateManager : MonoBehaviour //TODO make options for Vive/Rift switch with or without area detection
 {
     //Those are kept public so they can be accessed from the editor script and triggered with inspector buttons
     public UserStateVariable previousOtherState;
@@ -33,24 +34,31 @@ public class UserStateManager : MonoBehaviour //centralize self and other state 
     [SerializeField] private StringGameEvent _setInstructionsTextGameEvent;
     [SerializeField] private BoolVariable _experienceRunning;
 
-    private void OnEnable()
-    {
-        HeightPresenceDetection.HeadsetEnteredArea += HeadsetEnteredArea;
-        HeightPresenceDetection.HeadsetExitedArea += HeadsetExitedArea;
-    }
-
-    private void OnDisable()
-    {
-        HeightPresenceDetection.HeadsetEnteredArea -= HeadsetEnteredArea;
-        HeightPresenceDetection.HeadsetExitedArea -= HeadsetExitedArea;
-    }
-
     private void Start()
     {
         selfState.Value = UserState.headsetOff;
         otherState.Value = UserState.headsetOff;
     }
 
+    private void Update() //Monitor VR headset state changes to infer user presence
+    {
+        //TODO this will not work with all headsets. this is for Rift CV1 only
+        if (SessionStateFeature.GetCurrentState() == (int) XrSessionState.Idle  && selfState.Value != UserState.headsetOff)
+        {
+            previousSelfState.Value = selfState.Value;
+            selfState.Value = UserState.headsetOff; 
+            selfStateGameEvent.Raise(UserState.headsetOff);
+        }
+       
+        else if (SessionStateFeature.GetCurrentState() == (int) XrSessionState.Focused && selfState.Value == UserState.headsetOff) //if we just put the headset on
+        {
+            previousSelfState.Value = selfState.Value;
+            selfState.Value = UserState.headsetOn;
+            selfStateGameEvent.Raise(UserState.headsetOn);
+        }
+    }
+
+    
     public void SelfStateChanged(UserState newState) //this can be triggered by headset of confirmation button
     {
         if (newState == UserState.headsetOff)
@@ -107,17 +115,4 @@ public class UserStateManager : MonoBehaviour //centralize self and other state 
         selfState.Value = UserState.headsetOn;
     }
 
-    private void HeadsetEnteredArea()
-    {
-        previousSelfState.Value = selfState.Value;
-        selfState.Value = UserState.headsetOn;
-        selfStateGameEvent.Raise(UserState.headsetOn);
-    }
-
-    private void HeadsetExitedArea()
-    {
-        previousSelfState.Value = selfState.Value;
-        selfState.Value = UserState.headsetOff;
-        selfStateGameEvent.Raise(UserState.headsetOff);
-    }
 }
