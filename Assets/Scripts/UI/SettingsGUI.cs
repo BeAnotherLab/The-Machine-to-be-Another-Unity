@@ -57,10 +57,10 @@ public class SettingsGUI : MonoBehaviour
         _debugUIButton.onClick.AddListener(delegate { DebugMenuPressed(); });
     }
 
-    // Use this for initialization
     private void Start()
     {        
-        _repeaterToggle.isOn = PlayerPrefs.GetInt("repeater") == 1; 
+        _repeaterToggle.isOn = PlayerPrefs.GetInt("repeater") == 1;
+        SetRepeater(_repeaterToggle.isOn);
         
         if (PlayerPrefs.GetInt("exposure", 1) != 1)
         {
@@ -69,8 +69,6 @@ public class SettingsGUI : MonoBehaviour
         }
         
         OSCUtilities.GetLocalHost(); //TODO remove?
-
-        _exposureSlider.onValueChanged.Invoke(-7);
     }
 
     private void Update()
