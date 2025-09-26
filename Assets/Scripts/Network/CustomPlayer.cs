@@ -22,7 +22,6 @@ namespace Mirror.Examples.Pong
 
         [SerializeField] private float _tiltAngle;
 
-
         private void OnEnable()
         {
             SettingsGUI.RotateCamera += Rotate;
