@@ -28,12 +28,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8208434292311000986}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -5.1245704, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6984983847143865257
 MonoBehaviour:
@@ -57,7 +58,7 @@ MonoBehaviour:
   - {x: 1280, y: 720}
   - {x: 640, y: 360}
   - {x: 640, y: 480}
-  _desiredModeIndex: 13
+  _desiredModeIndex: 21
   _maintainAspectRatio: 0
   _desiredFrameRate: 0
   _desiredFormatAny: 1
@@ -65,13 +66,16 @@ MonoBehaviour:
   _desiredFormat: 4
   _videoInputSelection: 0
   _desiredVideoInputs: 0600000003000000
-  _desiredVideoInputIndex: 0
-  _playOnStart: 0
+  _desiredVideoInputIndex: 21
+  _preferPreviewPin: 0
+  _clockMode: 0
   _deinterlace: 0
+  _playOnStart: 0
   _allowTransparency: 0
   _flipX: 0
   _flipY: 0
-  _updateHotSwap: 1
+  _yCbCrRange: 0
+  _updateHotSwap: 0
   _updateFrameRates: 0
   _updateSettings: 0
 --- !u!114 &1499656944388269065
