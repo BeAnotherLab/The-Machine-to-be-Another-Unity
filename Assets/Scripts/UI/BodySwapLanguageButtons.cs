@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using ScriptableObjectArchitecture;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class BodySwapLanguageButtons : MonoBehaviour
 
     private void Start()
     {
-        _languageChangeGameEvent.Raise("Polish");
+        StartCoroutine(WaitAndSetPolish());
     }
 
     public void SelfUserStateChanged(UserState selfUserState)
@@ -18,5 +19,11 @@ public class BodySwapLanguageButtons : MonoBehaviour
         {
             _buttons.SetActive(false);
         }
+    }
+
+    private IEnumerator WaitAndSetPolish()
+    {
+        yield return new WaitForSeconds(1f);
+        _languageChangeGameEvent.Raise("Polish");
     }
 }
