@@ -14,13 +14,11 @@ public class AudioManager : MonoBehaviour //Only for Manual modes. Not present i
     
     private void OnEnable()
     {
-        StatusManager.StopAudiosInstructions += StopAudioInstructions;
         OscManager.ReceivedAudioButtonPressed += PlaySound;
     }
 
     private void OnDisable()
     {
-        StatusManager.StopAudiosInstructions -= StopAudioInstructions;
         OscManager.ReceivedAudioButtonPressed -= PlaySound;
     }
 
@@ -75,11 +73,6 @@ public class AudioManager : MonoBehaviour //Only for Manual modes. Not present i
         for (int i = 0; i < _audioClips.Length; i++) if (_audioClips[i].isPlaying) _somethingIsPlaying = true;
 
         if (!_somethingIsPlaying) _music.volume = 1;
-    }
-
-    private void StopAudioInstructions() //TODO remove?
-    {
-        foreach (AudioSource _instruction in _autoModeInstructions) _instruction.Stop();
     }
 
     private void PlaySound(int id)
