@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using VRStandardAssets.Utils;
 
-public class BodySwapConfirmationButton : MonoBehaviour //TODO inherit confirmation button?
+public class AutoBodySwapConfirmationButton : MonoBehaviour //TODO inherit confirmation button?
 {
     private void Start()
     {
