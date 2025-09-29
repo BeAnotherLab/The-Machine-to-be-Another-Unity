@@ -46,7 +46,7 @@ public class TimelineControlller : MonoBehaviour //TODO rename. this is is for m
         _englishTrack.muted = language != "English";
         _polishTrack.muted = language != "Polish";
         _instructionsTimeline.RebuildGraph();
-        _instructionsTimeline.Evaluate();
+//        _instructionsTimeline.Evaluate();
     }
 
     private void StartSequencer()
