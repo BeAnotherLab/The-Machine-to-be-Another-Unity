@@ -57,14 +57,16 @@ public class UserStateManager : MonoBehaviour //TODO make options for Vive/Rift 
             selfStateGameEvent.Raise(UserState.headsetOn);
         }
     }
-
     
     public void SelfStateChanged(UserState newState) //this can be triggered by headset of confirmation button
     {
         if (newState == UserState.headsetOff)
         {
             Debug.Log("this user removed his headset", DLogType.Input);
-            if (previousSelfState.Value == UserState.readyToStart) ThisUserLeft(); //if we were ready and we took off the headset go to initial state
+            if (previousSelfState.Value == UserState.readyToStart) {
+                ThisUserLeft(); //if we were ready and we took off the headset go to initial state
+                _experienceRunning.Value = false;
+            }
         }
         else if (newState == UserState.headsetOn)
         {
@@ -73,7 +75,11 @@ public class UserStateManager : MonoBehaviour //TODO make options for Vive/Rift 
         }
         else if (newState == UserState.readyToStart)
         {
-            if (otherState.Value == UserState.readyToStart) BothUsersReady();
+            if (otherState.Value == UserState.readyToStart)
+            {
+                BothUsersReady();
+                _experienceRunning.Value = true;
+            }
             _setInstructionsTextGameEvent.Raise("waitForOther"); //TODO self manage
             Debug.Log("this user is ready", DLogType.Input);
         }
@@ -85,9 +91,10 @@ public class UserStateManager : MonoBehaviour //TODO make options for Vive/Rift 
     {
         if (newState == UserState.headsetOff)
         {
-            if (previousOtherState.Value == UserState.readyToStart && _experienceRunning.Value)
+            if (previousOtherState.Value == UserState.readyToStart && _experienceRunning.Value) // if the other removed the headset during the experience and 
             {
                 OtherLeft();
+                _experienceRunning.Value = false;
                 StartCoroutine(WaitAndSetHeadsetOn());
                 _setInstructionsTextGameEvent.Raise("otherIsGone");    
             }
@@ -110,9 +117,10 @@ public class UserStateManager : MonoBehaviour //TODO make options for Vive/Rift 
         SelfStateChanged(UserState.headsetOn);
     }
 
-    public void Standby()
+    public void Standby() //TODO is this redundant 
     {
         selfState.Value = UserState.headsetOn;
+       // SelfStateChanged(UserState.headsetOn);
     }
 
 }

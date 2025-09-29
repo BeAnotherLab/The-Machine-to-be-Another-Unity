@@ -38,7 +38,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     private void Start()
     {
         XrPerformanceSettingsFeature.SetPerformanceLevelHint(PerformanceDomain.Cpu, PerformanceLevelHint.Boost);
-        Standby(); //if we were ready and we took off the headset go to initial state
+        Standby(); 
     }
 
     public void StartExperience() //called by timeline TODO use signals instead!
@@ -97,6 +97,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
     {
         Debug.Log("about to reset", DLogType.Logic);
         yield return new WaitForSeconds(4f); //make sure this value is inferior or equal to the confirmation radial time to avoid bugs
+        Standby(); //if we were ready and we took off the headset go to initial state
     }
 
     private void SerialFailure() //if something went wrong with the physical installation

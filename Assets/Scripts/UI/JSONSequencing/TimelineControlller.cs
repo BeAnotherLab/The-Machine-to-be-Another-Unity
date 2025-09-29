@@ -4,12 +4,11 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-public class TimelineControlller : MonoBehaviour
+public class TimelineControlller : MonoBehaviour //TODO rename. this is is for manual set up only (because experience running)
 {
     private TrackAsset _polishTrack;
     private TrackAsset _englishTrack;
 
-    [SerializeField] private BoolVariable _experienceRunning;
     [SerializeField] private PlayableDirector _instructionsTimeline;
 
     private void OnEnable()
@@ -21,8 +20,6 @@ public class TimelineControlller : MonoBehaviour
         UserStateManager.OtherLeft += StopSequencer;
         UserStateManager.ThisUserLeft += StopSequencer;
         
-        _instructionsTimeline.played += Playing;
-        _instructionsTimeline.paused += Paused;
     }
 
     private void OnDisable()
@@ -32,9 +29,6 @@ public class TimelineControlller : MonoBehaviour
         OscManager.ReceiveSerialFailure -= StopSequencer;
         UserStateManager.OtherLeft -= StopSequencer;
         UserStateManager.ThisUserLeft -= StopSequencer;
-        
-        _instructionsTimeline.played -= Playing;
-        _instructionsTimeline.paused -= Paused;
     }
 
     private void Awake()
@@ -58,15 +52,8 @@ public class TimelineControlller : MonoBehaviour
     private void StopSequencer()
     {
         _instructionsTimeline.Stop();
+        _instructionsTimeline.time = 0;
+        _instructionsTimeline.Evaluate();
     }
 
-    private void Playing(PlayableDirector director)
-    {
-        _experienceRunning.Value = true;
-    }
-    
-    private void Paused(PlayableDirector director)
-    {
-        _experienceRunning.Value = false;
-    }
 }
