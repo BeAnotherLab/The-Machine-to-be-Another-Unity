@@ -9,12 +9,14 @@ public class BodySwapInstructionsText : MonoBehaviour //TODO inherit Instruction
     {
         JsonSequenceController.HidePanel += Hide;
         JsonSequenceController.ShowPanel += Show;
+        TimelineControlller.HideImages += FadeOutImages;
     }
 
     private void OnDisable()
     {
         JsonSequenceController.HidePanel -= Hide;
         JsonSequenceController.ShowPanel -= Show;
+        TimelineControlller.HideImages -= FadeOutImages;
     }
 
     private void Start()

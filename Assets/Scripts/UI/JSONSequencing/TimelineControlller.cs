@@ -11,6 +11,9 @@ public class TimelineControlller : MonoBehaviour //TODO rename. this is is for m
 
     [SerializeField] private PlayableDirector _instructionsTimeline;
 
+    public delegate void OnHideImages();
+    public static OnHideImages HideImages;
+    
     private void OnEnable()
     {
         UserStateManager.BothUsersReady += StartSequencer;
@@ -56,6 +59,8 @@ public class TimelineControlller : MonoBehaviour //TODO rename. this is is for m
         _instructionsTimeline.Stop();
         _instructionsTimeline.time = 0;
         _instructionsTimeline.Evaluate();
+        
+        HideImages();
     }
 
 }
