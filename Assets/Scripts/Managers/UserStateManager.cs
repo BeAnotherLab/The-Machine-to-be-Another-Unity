@@ -107,7 +107,10 @@ public class UserStateManager : MonoBehaviour //TODO make options for Vive/Rift 
         else if (newState == UserState.readyToStart)
         {
             Debug.Log("the other user is ready", DLogType.Input);
-            if (selfState.Value == UserState.readyToStart) BothUsersReady();//TODO this should be the default behavior
+            if (selfState.Value == UserState.readyToStart) {
+                BothUsersReady();//TODO this should be the default behavior
+                _experienceRunning.Value = true;
+            }       
         }
     }
 
