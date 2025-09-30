@@ -162,6 +162,7 @@ public class OscManager : MonoBehaviour {
             otherStateGameEvent.Raise(otherState);
         }
     }
+    
     private void ReceiveSerialStatus(OSCMessage message) //this is only for receiving OK to start,
     {
         int x;
@@ -179,6 +180,7 @@ public class OscManager : MonoBehaviour {
             }
         }
     }
+    
     private void CheckConnectionAndSendSerialReady()
     {
         _serialReady = true;
@@ -204,6 +206,5 @@ public class OscManager : MonoBehaviour {
         _connectionEstablished = true;
         if (_serialReady) CheckConnectionAndSendSerialReady();
     }
-    
 
 }

@@ -2,15 +2,21 @@
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour //Only for Manual modes. Not present in Auto Body Swap 
-{ 
+{
+    public delegate void OnPlayingInstruction();
+    public static OnPlayingInstruction PlayingInstruction;
+    
+    public delegate void OnInstructionFinished();
+    public static OnInstructionFinished FinishedInstruction;
+
     
     [SerializeField] private AudioSource[] _audioClips;
-
-    [SerializeField] private AudioSource _music; //the background music
     [SerializeField] private AudioSource[] _autoModeInstructions; //the audio file played when in automatic mode
     
-    private bool _somethingIsPlaying;
-    private bool _lookForLanguageAudioClips;
+    private bool _wasAnyInstructionPlaying;
+    
+    private float _checkInterval = 0.1f;
+    private float _checkTimer;
     
     private void OnEnable()
     {
@@ -29,14 +35,47 @@ public class AudioManager : MonoBehaviour //Only for Manual modes. Not present i
 
     private void Start()
     {
-        _music.loop = true; 
-        _music.Play();
-
-        foreach (AudioSource clip in _audioClips) clip.Pause();
+        foreach (AudioSource clip in _audioClips) clip.Pause(); //TODO remove
     }
 
-    // Update is called once per frame
     private void Update()
+    {
+       HandlePlayInput();
+       MonitorInstructionAudio();
+    }
+
+    public void PlaySound(int id)
+    {
+        if (id < 0 || id >= _audioClips.Length) return;
+
+        if (!_audioClips[id].isPlaying) _audioClips[id].Play();
+    }
+    
+    private void MonitorInstructionAudio()
+    {
+        _checkTimer += Time.deltaTime;
+        if (_checkTimer < _checkInterval) return;
+        _checkTimer = 0f;
+
+        var isAnyPlaying = false;
+
+        foreach (var clip in _audioClips)
+        {
+            if (clip != null && clip.isPlaying)
+            {
+                isAnyPlaying = true;
+                break;
+            }
+        }
+
+        if (!_wasAnyInstructionPlaying && isAnyPlaying) PlayingInstruction();
+        else if (_wasAnyInstructionPlaying && !isAnyPlaying) FinishedInstruction();
+        
+
+        _wasAnyInstructionPlaying = isAnyPlaying;
+    }
+    
+    private void HandlePlayInput()
     {
         foreach (KeyCode vKey in Enum.GetValues(typeof(KeyCode))) //TODO remove keys?
         {
@@ -66,23 +105,6 @@ public class AudioManager : MonoBehaviour //Only for Manual modes. Not present i
                     PlaySound(10);
             }
         }
-
-        _somethingIsPlaying = false;
-
-        //check if some audio is playing 
-        for (int i = 0; i < _audioClips.Length; i++) if (_audioClips[i].isPlaying) _somethingIsPlaying = true;
-
-        if (!_somethingIsPlaying) _music.volume = 1;
     }
-
-    private void PlaySound(int id)
-    {
-        if (!_somethingIsPlaying)
-        {
-            Debug.Log("playing sound" + id);
-            _audioClips[id].Play();
-            _music.volume = 0.45f;
-        }
-    }
-
+    
 }
