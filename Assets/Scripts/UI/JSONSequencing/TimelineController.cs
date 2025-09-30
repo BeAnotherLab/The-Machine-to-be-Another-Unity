@@ -28,7 +28,6 @@ public class TimelineController : MonoBehaviour //TODO rename. this is is for ma
         
         UserStateManager.OtherLeft += StopSequencer;
         UserStateManager.ThisUserLeft += StopSequencer;
-        
     }
 
     private void OnDisable()
@@ -66,6 +65,12 @@ public class TimelineController : MonoBehaviour //TODO rename. this is is for ma
         _instructionsTimeline.time = 0;
         InstructionFinished();
         HideImages();
+    }
+
+    public void TimelineStopped()
+    {
+        Debug.Log("Timeline reached the end");
+        InstructionFinished();
     }
 
 }
