@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-public class TimelineControlller : MonoBehaviour //TODO rename. this is is for manual set up only (because experience running)
+public class TimelineController : MonoBehaviour //TODO rename. this is is for manual set up only (because experience running)
 {
     private TrackAsset _polishTrack;
     private TrackAsset _englishTrack;
@@ -13,6 +13,12 @@ public class TimelineControlller : MonoBehaviour //TODO rename. this is is for m
 
     public delegate void OnHideImages();
     public static OnHideImages HideImages;
+    
+    public delegate void OnInstructionPlaying();
+    public static OnInstructionPlaying InstructionPlaying;
+    
+    public delegate void OnInstructionFinished();
+    public static OnInstructionFinished InstructionFinished;
     
     private void OnEnable()
     {
@@ -51,13 +57,14 @@ public class TimelineControlller : MonoBehaviour //TODO rename. this is is for m
     private void StartSequencer()
     {
         _instructionsTimeline.Play();
+        InstructionPlaying();
     }
 
     private void StopSequencer()
     {
         _instructionsTimeline.Stop();
         _instructionsTimeline.time = 0;
-        
+        InstructionFinished();
         HideImages();
     }
 
