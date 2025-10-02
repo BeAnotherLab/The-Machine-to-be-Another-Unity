@@ -33,11 +33,6 @@ public class AudioManager : MonoBehaviour //Only for Manual modes. Not present i
         _audioClips = GameObject.Find("AudioInstructions").GetComponentsInChildren<AudioSource>();
     }
 
-    private void Start()
-    {
-        foreach (AudioSource clip in _audioClips) clip.Pause(); //TODO remove
-    }
-
     private void Update()
     {
        HandlePlayInput();
