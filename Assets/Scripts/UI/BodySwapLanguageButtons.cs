@@ -7,11 +7,7 @@ public class BodySwapLanguageButtons : MonoBehaviour
 {
     [SerializeField] private GameObject _buttons;
     [SerializeField] private StringGameEvent _languageChangeGameEvent;
-
-    private void Start()
-    {
-        StartCoroutine(WaitAndSetPolish());
-    }
+    
 
     public void SelfUserStateChanged(UserState selfUserState)
     {
@@ -20,10 +16,5 @@ public class BodySwapLanguageButtons : MonoBehaviour
             _buttons.SetActive(false);
         }
     }
-
-    private IEnumerator WaitAndSetPolish()
-    {
-        yield return new WaitForSeconds(1f);
-        _languageChangeGameEvent.Raise("Polish");
-    }
+    
 }

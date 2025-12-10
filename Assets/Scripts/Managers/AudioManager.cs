@@ -8,7 +8,6 @@ public class AudioManager : MonoBehaviour //Only for Manual modes. Not present i
     
     public delegate void OnInstructionFinished();
     public static OnInstructionFinished FinishedInstruction;
-
     
     [SerializeField] private AudioSource[] _audioClips;
     [SerializeField] private AudioSource[] _autoModeInstructions; //the audio file played when in automatic mode

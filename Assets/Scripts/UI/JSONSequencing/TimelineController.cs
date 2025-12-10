@@ -15,10 +15,10 @@ public class TimelineController : MonoBehaviour //TODO rename. this is is for ma
     public static OnHideImages HideImages;
     
     public delegate void OnInstructionPlaying();
-    public static OnInstructionPlaying InstructionPlaying;
+    public static OnInstructionPlaying InstructionPlaying = delegate { };
     
     public delegate void OnInstructionFinished();
-    public static OnInstructionFinished InstructionFinished;
+    public static OnInstructionFinished InstructionFinished = delegate { };
     
     private void OnEnable()
     {
