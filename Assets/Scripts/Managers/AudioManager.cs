@@ -21,11 +21,13 @@ public class AudioManager : MonoBehaviour //Only for Manual modes. Not present i
     private void OnEnable()
     {
         OscManager.ReceivedAudioButtonPressed += PlaySound;
+        SwapControlGUI.AudioButtonPressed += PlaySound;
     }
 
     private void OnDisable()
     {
         OscManager.ReceivedAudioButtonPressed -= PlaySound;
+        SwapControlGUI.AudioButtonPressed -= PlaySound;
     }
 
     private void Awake()
