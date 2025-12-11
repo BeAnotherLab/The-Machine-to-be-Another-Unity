@@ -6,7 +6,7 @@ using UnityEngine.Timeline;
 
 public class TimelineController : MonoBehaviour //TODO rename. this is is for manual set up only (because experience running)
 {
-    private TrackAsset _polishTrack;
+    private TrackAsset _spanishTrack;
     private TrackAsset _englishTrack;
 
     [SerializeField] private PlayableDirector _instructionsTimeline;
@@ -43,13 +43,13 @@ public class TimelineController : MonoBehaviour //TODO rename. this is is for ma
     {
         TimelineAsset timelineAsset = (TimelineAsset) _instructionsTimeline.playableAsset;
         _englishTrack = timelineAsset.GetOutputTrack(0);
-        _polishTrack = timelineAsset.GetOutputTrack(1);
+        _spanishTrack = timelineAsset.GetOutputTrack(1);
     }
 
     public void SwitchLanguageTrack(string language)
     {
         _englishTrack.muted = language != "English";
-        _polishTrack.muted = language != "Polish";
+        _spanishTrack.muted = language != "Spanish";
         _instructionsTimeline.RebuildGraph();
     }
 
