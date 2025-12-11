@@ -11,6 +11,8 @@ public class AudioManager : MonoBehaviour //Only for Manual modes. Not present i
     
     [SerializeField] private AudioSource[] _audioClips;
     [SerializeField] private AudioSource[] _autoModeInstructions; //the audio file played when in automatic mode
+
+    [SerializeField] private bool _isAnyPlaying;
     
     private bool _wasAnyInstructionPlaying;
     
@@ -44,7 +46,7 @@ public class AudioManager : MonoBehaviour //Only for Manual modes. Not present i
     {
         if (id < 0 || id >= _audioClips.Length) return;
 
-        if (!_audioClips[id].isPlaying) _audioClips[id].Play();
+        if (!_isAnyPlaying) _audioClips[id].Play();
     }
     
     private void MonitorInstructionAudio()
@@ -53,22 +55,22 @@ public class AudioManager : MonoBehaviour //Only for Manual modes. Not present i
         if (_checkTimer < _checkInterval) return;
         _checkTimer = 0f;
 
-        var isAnyPlaying = false;
 
         foreach (var clip in _audioClips)
         {
             if (clip != null && clip.isPlaying)
             {
-                isAnyPlaying = true;
+                _isAnyPlaying = true;
                 break;
             }
+
+            _isAnyPlaying = false;
         }
 
-        if (!_wasAnyInstructionPlaying && isAnyPlaying) PlayingInstruction();
-        else if (_wasAnyInstructionPlaying && !isAnyPlaying) FinishedInstruction();
+        if (!_wasAnyInstructionPlaying && _isAnyPlaying) PlayingInstruction();
+        else if (_wasAnyInstructionPlaying && !_isAnyPlaying) FinishedInstruction();
         
-
-        _wasAnyInstructionPlaying = isAnyPlaying;
+        _wasAnyInstructionPlaying = _isAnyPlaying;
     }
     
     private void HandlePlayInput()
