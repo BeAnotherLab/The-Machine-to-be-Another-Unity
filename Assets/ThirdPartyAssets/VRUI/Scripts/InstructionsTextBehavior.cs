@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Lean.Localization;
 using ScriptableObjectArchitecture;
 using TMPro;
 using UnityEngine;
@@ -27,7 +26,8 @@ public class InstructionsTextBehavior : MonoBehaviour
     public void ShowTextFromKey(string key) //set text through lean localized text translations
     {
         GetComponent<PanelDimmer>().Show();
-        _textGameObject.GetComponent<LeanLocalizedTextMeshPro>().TranslationName = key;
+        //todo update
+        //_textGameObject.GetComponent<LeanLocalizedTextMeshPro>().TranslationName = key;
     }
     
     public void ShowTextFromKey(string text, int time)

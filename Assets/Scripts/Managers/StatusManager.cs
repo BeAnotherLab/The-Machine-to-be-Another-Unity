@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.XR.OpenXR.Features.Extensions.PerformanceSettings;
 using Debug = DebugFile;
 //TODO Make AutoStatusManager and ManualStatusManager
+
 public class StatusManager : MonoBehaviour //TODO instructions text stuff needs not be handled here
 {
     public delegate void OnStopAllAudios();
