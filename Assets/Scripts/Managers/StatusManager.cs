@@ -72,7 +72,7 @@ public class StatusManager : MonoBehaviour //TODO instructions text stuff needs 
         Debug.Log("mirror off", DLogType.Logic);
     }
     
-    public void EndExperience() //called at the the end of the experience TODO rename to EndExperience
+    public void EndExperience() //called at the the end of the experience 
     {
         _dimGameEvent.Raise(true);
         Debug.Log("experienced finished", DLogType.Logic);

@@ -1,0 +1,64 @@
+{
+  "steps": 
+  [
+    {
+      "time": 0.0,
+      "textKey": "welcome",
+      "audio": "welcome.ogg",
+      "actions": ["WallOn"]
+    },
+    {
+      "time": 4.9,
+      "visual": "instructions.mp4"
+    },
+    {
+      "time": 5.0,
+      "textKey": "blank",
+      "actions": ["ShowVisual"]
+    },
+    {
+      "time": 26.0,
+      "actions": ["StartExperience", "HidePanel", "HideVisual"],
+      "audio": "lookAtHands.ogg"
+    },
+    {
+      "time": 75.0,
+      "audio": "strokeHands.ogg"
+    },
+    {
+      "time": 120.0,
+      "audio": "ankle.ogg"
+    },
+    {
+      "time": 155.0,
+      "audio": "leanBack.ogg"
+    },
+    {
+      "time": 165.0,
+      "audio": "mirror.ogg",
+      "actions": ["MirrorOn"]
+    },
+    {
+      "time": 193.0,
+      "actions": ["WallOff", "MirrorOff"]
+    },
+    {
+      "time": 198.0,
+      "audio": "shakeHands.ogg"
+    },
+    {
+      "time": 225,
+      "textKey": "finished",
+      "audio": "end.ogg",
+      "actions": ["ShowPanel"]
+    },
+    {
+      "time": 230.0,
+      "actions": ["EndExperience"]
+    },
+    {
+      "time": 235.0,
+      "actions": ["HidePanel"]
+    }
+  ] 
+}

@@ -77,7 +77,7 @@ public class JsonSequenceController : MonoBehaviour
         UserStateManager.ThisUserLeft -= StopSequence;
     }
 
-    public void SwitchLanguageTrack(string language)
+    public void SwitchLanguageTrack(string language) //TODO shouldn't use plain english name, just language code
     {
         switch (language)
         {
