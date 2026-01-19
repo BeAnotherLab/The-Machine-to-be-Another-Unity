@@ -3,7 +3,7 @@ using System.IO;
 using UnityEngine;
 using Newtonsoft.Json;
 
-public class JsonSequenceLoader : MonoBehaviour
+public class DataLoader : MonoBehaviour
 {
     [Header("Target ScriptableObject")]
     [SerializeField] private SequenceData sequenceData;
@@ -11,6 +11,9 @@ public class JsonSequenceLoader : MonoBehaviour
     private void Start()
     {
         LoadSequenceFromJson();
+        //TODO discover languages available
+        //TODO load languages selected in config.json
+        //TODO notify flags loaders
     }
 
     private void LoadSequenceFromJson()
