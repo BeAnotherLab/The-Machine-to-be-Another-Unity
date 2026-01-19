@@ -8,7 +8,7 @@ public class JsonSequenceLoader : MonoBehaviour
     [Header("Target ScriptableObject")]
     [SerializeField] private SequenceData sequenceData;
 
-    private void Awake()
+    private void Start()
     {
         LoadSequenceFromJson();
     }

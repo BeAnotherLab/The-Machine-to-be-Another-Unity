@@ -8,7 +8,7 @@ public class LanguageButtonsTextureLoader : MonoBehaviour
     [SerializeField] private GameObject _ITButton;
     [SerializeField] private GameObject _ENButton;
 
-    private void Start()
+    private void Start() //TODO make dynamic
     {
         LoadFlagTexture(_DEButton, "DE");
         LoadFlagTexture(_FRButton, "FR");
