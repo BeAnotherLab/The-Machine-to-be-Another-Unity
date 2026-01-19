@@ -1,21 +1,29 @@
+using System;
 using System.IO;
 using UnityEngine;
 
 public class LanguageButtonsTextureLoader : MonoBehaviour
 {
-    [SerializeField] private GameObject _DEButton;
-    [SerializeField] private GameObject _FRButton;
-    [SerializeField] private GameObject _ITButton;
-    [SerializeField] private GameObject _ENButton;
+    [SerializeField] private GameObject[] _languageButtons;
 
-    private void Start() //TODO make dynamic
+    private int _loadedFlags;
+
+    private void OnEnable()
     {
-        LoadFlagTexture(_DEButton, "DE");
-        LoadFlagTexture(_FRButton, "FR");
-        LoadFlagTexture(_ITButton, "IT");
-        LoadFlagTexture(_ENButton, "EN");
+        DataLoader.LoadLanguageButtonTexture += LoadFlagTexture;
     }
 
+    private void OnDisable()
+    {
+        DataLoader.LoadLanguageButtonTexture -= LoadFlagTexture;
+    }
+
+    private void LoadFlagTexture(string language)
+    {
+        LoadFlagTexture(_languageButtons[_loadedFlags], language);
+        _loadedFlags++;
+    }
+    
     private void LoadFlagTexture(GameObject buttonObj, string languageCode)
     {
         string filename = $"flag_{languageCode}.png";
@@ -35,5 +43,6 @@ public class LanguageButtonsTextureLoader : MonoBehaviour
         MeshRenderer renderer = buttonObj.GetComponent<MeshRenderer>();
         if (renderer != null) renderer.material.mainTexture = tex;
         else Debug.LogWarning($"MeshRenderer not found on: {buttonObj.name}");
+        buttonObj.SetActive(true);
     }
 }

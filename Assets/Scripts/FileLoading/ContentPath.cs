@@ -17,6 +17,11 @@ public static class ContentPath
         }
     }
 
+    public static string RootFolder(string filename)
+    {
+        return Path.Combine(Root, filename);
+    }
+    
     public static string Sequence(string filename)
     {
         return Path.Combine(Root, "Sequence", filename);
