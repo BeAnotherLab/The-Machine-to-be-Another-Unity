@@ -12,9 +12,6 @@ public class MusicSidechain : MonoBehaviour
       JsonSequenceController.InstructionPlaying += LowerVolume;
       JsonSequenceController.InstructionFinished += IncreaseVolume; 
       
-      TimelineController.InstructionPlaying += LowerVolume;
-      TimelineController.InstructionFinished += IncreaseVolume;
-      
       AudioManager.PlayingInstruction += LowerVolume;
       AudioManager.FinishedInstruction += IncreaseVolume;
    }
@@ -23,9 +20,6 @@ public class MusicSidechain : MonoBehaviour
    {
       JsonSequenceController.InstructionPlaying -= LowerVolume;
       JsonSequenceController.InstructionFinished -= IncreaseVolume;
-      
-      TimelineController.InstructionPlaying -= LowerVolume;
-      TimelineController.InstructionFinished -= IncreaseVolume;
       
       AudioManager.PlayingInstruction -= LowerVolume;
       AudioManager.FinishedInstruction -= IncreaseVolume;
