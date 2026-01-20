@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ScriptableObjectArchitecture;
 
 public class DataLoader : MonoBehaviour
 {
@@ -11,8 +13,8 @@ public class DataLoader : MonoBehaviour
     
     [Header("Target ScriptableObject")]
     [SerializeField] private SequenceData sequenceData;
-
     [SerializeField] private List<string> _availableLanguages = new List<string>(); //the languages detected in the folder structure
+    [SerializeField] private StringGameEvent _languageChangeGameEvent;
     
     [System.Serializable]
     private class SequenceStepList
@@ -24,7 +26,7 @@ public class DataLoader : MonoBehaviour
     {
         LoadSequenceFromJson();
         DiscoverLanguages();
-        LoadSelectedLanguages();
+        LoadSelectedLanguages(); //TODO make one?
     }
 
     private void LoadSequenceFromJson()
@@ -93,6 +95,8 @@ public class DataLoader : MonoBehaviour
         Debug.Log($"[DataLoader] Selected languages: {string.Join(", ", selectedLanguages)}");
         
         foreach (string language in selectedLanguages) LoadLanguageButtonTexture(language);
+        
+        _languageChangeGameEvent.Raise(selectedLanguages.First()); //set the language to the first one in the list
     }
  
 }

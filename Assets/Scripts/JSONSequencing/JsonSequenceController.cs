@@ -23,6 +23,7 @@ public class JsonSequenceController : MonoBehaviour
 {
     public delegate void OnShowPanel();
     public static OnShowPanel ShowPanel;
+    
     public delegate void OnHidePanel();
     public static OnHidePanel HidePanel;
 
@@ -45,7 +46,7 @@ public class JsonSequenceController : MonoBehaviour
     [SerializeField] private SequenceData _sequenceData;
 
     [Header("Settings")]
-    [SerializeField] private string _languageCode = "en"; //TODO make sure this gets set by lean localization before 1st run
+    [SerializeField] private string _languageCode; //this gets initialized by the Data Loader
 
     [Header("Audio")]
     [SerializeField] private AudioSource _audioSource;
@@ -77,30 +78,10 @@ public class JsonSequenceController : MonoBehaviour
         UserStateManager.ThisUserLeft -= StopSequence;
     }
 
-    public void SwitchLanguageTrack(string language) //TODO shouldn't use plain english name, just language code
+    public void SwitchLanguageTrack(string language) 
     {
-        switch (language)
-        {
-            case "English":
-                _languageCode = "EN";
-                break;
-            case "Italian":
-                _languageCode = "IT";
-                break;
-            case "French":
-                _languageCode = "FR";
-                break;
-            case "German":
-                _languageCode = "DE";
-                break;
-        }
-
-        LoadTranslations(_languageCode);
-    }
-
-    private void LoadTranslations(string languageCode)
-    {
-        string path = ContentPath.Translation(languageCode);
+        _languageCode = language;
+        string path = ContentPath.Translation(_languageCode);
 
         if (!File.Exists(path))
         {

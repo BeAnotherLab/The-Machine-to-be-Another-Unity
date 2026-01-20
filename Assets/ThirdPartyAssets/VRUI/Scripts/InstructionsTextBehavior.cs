@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class InstructionsTextBehavior : MonoBehaviour
 {
     [SerializeField] private GameObject _textGameObject;
-
+    
     #region  Public methods
    
     private void ShowInstructionText(bool show, string text = "")
@@ -18,7 +18,7 @@ public class InstructionsTextBehavior : MonoBehaviour
         if (show) _textGameObject.GetComponent<TMP_Text>().text = text; //give feedback
     }
 
-    public void ShowinstructionsText(string text) //called by timeline / sequencer
+    public void ShowInstructionsText(string text) //called by timeline / sequencer
     {
         _textGameObject.GetComponent<TMP_Text>().text = text; //give feedback
     }
@@ -26,8 +26,7 @@ public class InstructionsTextBehavior : MonoBehaviour
     public void ShowTextFromKey(string key) //set text through lean localized text translations
     {
         GetComponent<PanelDimmer>().Show();
-        //todo update
-        //_textGameObject.GetComponent<LeanLocalizedTextMeshPro>().TranslationName = key;
+        //todo 
     }
     
     public void ShowTextFromKey(string text, int time)

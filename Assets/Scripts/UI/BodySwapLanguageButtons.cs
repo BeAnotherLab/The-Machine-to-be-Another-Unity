@@ -11,7 +11,7 @@ public class BodySwapLanguageButtons : MonoBehaviour
 
     public void SelfUserStateChanged(UserState selfUserState)
     {
-        if (selfUserState == UserState.readyToStart)
+        if (selfUserState == UserState.readyToStart) //hide language buttons when user is ready
         {
             _buttons.SetActive(false);
         }

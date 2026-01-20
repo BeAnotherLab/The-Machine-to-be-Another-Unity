@@ -163,7 +163,8 @@ GameObject:
   - component: {fileID: 6862201406371967220}
   - component: {fileID: 4834377452692769638}
   - component: {fileID: 2721948365815784341}
-  - component: {fileID: 6733225634639004218}
+  - component: {fileID: 4232961845122350385}
+  - component: {fileID: 4072048140179418509}
   m_Layer: 5
   m_Name: InstructionsText
   m_TagString: Untagged
@@ -351,7 +352,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 4834377452692769638}
   m_maskType: 0
---- !u!114 &6733225634639004218
+--- !u!114 &4232961845122350385
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -360,11 +361,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 702575979674410138}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f04f7c71f4c5b349b1804f575f7d054, type: 3}
+  m_Script: {fileID: 11500000, guid: 636b72f8fc644b4418a9e8ad0f4f804f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  translationName: idle
-  FallbackText: idle
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: 3186148365f83442090e1a09b70837e4, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 702575979674410138}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _debugValue: 
+--- !u!114 &4072048140179418509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702575979674410138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4fc32c785cff440294b4d03c72e5b6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &702575979756376961
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,11 +499,10 @@ GameObject:
   - component: {fileID: 702575981237749518}
   - component: {fileID: 702575981237749513}
   - component: {fileID: 6956379826722845621}
-  - component: {fileID: 448873678117417856}
   - component: {fileID: 7220712239764454277}
   - component: {fileID: 604608053}
   - component: {fileID: 6682680424015201866}
-  - component: {fileID: 3386007381635718152}
+  - component: {fileID: 6425600870244668438}
   - component: {fileID: 332290940960440211}
   - component: {fileID: 8026045684658783648}
   m_Layer: 5
@@ -559,28 +590,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!95 &448873678117417856
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 702575981237749515}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &7220712239764454277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -619,7 +628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de05442fa049c4a24890186cb42d0881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3386007381635718152
+--- !u!114 &6425600870244668438
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -635,13 +644,13 @@ MonoBehaviour:
   _enableGizmoDebugging: 1
   _debugColor: {r: 0, g: 1, b: 1, a: 1}
   _previouslyRegisteredEvent: {fileID: 0}
-  _event: {fileID: 11400000, guid: 3892b52908a1ffb4786f9c8951165d8e, type: 2}
+  _event: {fileID: 11400000, guid: 95d2eb5adc44a4d989404c5c716c05d7, type: 2}
   _response:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7220712239764454277}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: ShowTextFromKey
+        m_TargetAssemblyTypeName: InstructionsTextBehavior, Assembly-CSharp
+        m_MethodName: ShowInstructionsText
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
