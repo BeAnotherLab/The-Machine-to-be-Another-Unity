@@ -46,7 +46,7 @@ public class SwapControlGUI : MonoBehaviour
             _dimButtonPressedEvent.Raise(dimOn);
     }
     
-    public void LanguageChanged(string language)
+    public void LanguageChanged(string language) //TODO does this make sense
     {
         _languagechangedEvent.Raise(language);
     }

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 892373382739111563}
   - component: {fileID: 6491798166058242597}
   - component: {fileID: 7147489869320831085}
-  - component: {fileID: 4450512036938525531}
   - component: {fileID: 1747719798193194856}
   m_Layer: 5
   m_Name: JSONSequenceController
@@ -52,12 +51,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sequenceData: {fileID: 11400000, guid: db21f30a1b37d4d78a6fd11d55f9d79c, type: 2}
-  _languageCode: EN
   _audioSource: {fileID: 7147489869320831085}
   _experienceRunning: {fileID: 11400000, guid: 6cc351baa8b1046419e0de6fe9238e4c, type: 2}
-  _setInstructionsTextGameEvent: {fileID: 11400000, guid: 95d2eb5adc44a4d989404c5c716c05d7,
+  _setInstructionsTextFromKeyGameEvent: {fileID: 11400000, guid: 3892b52908a1ffb4786f9c8951165d8e,
     type: 2}
-  _statusManager: {fileID: 5814832923928935265}
+  translations: {fileID: 11400000, guid: 9a434add458f245a0bd6a2bf0e4d136f, type: 2}
+  _currentLanguage: {fileID: 11400000, guid: e5123ef208a4947dd81413a624dfca8b, type: 2}
 --- !u!82 &7147489869320831085
 AudioSource:
   m_ObjectHideFlags: 0
@@ -155,39 +154,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &4450512036938525531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2214128341836542524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 636b72f8fc644b4418a9e8ad0f4f804f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _showDebugFields: 0
-  _enableGizmoDebugging: 1
-  _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 0}
-  _event: {fileID: 11400000, guid: 3186148365f83442090e1a09b70837e4, type: 2}
-  _response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6491798166058242597}
-        m_TargetAssemblyTypeName: JsonSequenceController, Assembly-CSharp
-        m_MethodName: SwitchLanguageTrack
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _debugValue: 
 --- !u!114 &1747719798193194856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,6 +254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7891499942628042901}
   - component: {fileID: 5541352298285459947}
+  - component: {fileID: 5262083524904676520}
   m_Layer: 5
   m_Name: DataLoader
   m_TagString: Untagged
@@ -328,5 +295,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequenceData: {fileID: 11400000, guid: db21f30a1b37d4d78a6fd11d55f9d79c, type: 2}
   _availableLanguages: []
+  _currentLanguage: {fileID: 0}
   _languageChangeGameEvent: {fileID: 11400000, guid: 3186148365f83442090e1a09b70837e4,
     type: 2}
+  _translations: {fileID: 11400000, guid: 9a434add458f245a0bd6a2bf0e4d136f, type: 2}
+  _setInstructionsTextFromKeyGameEvent: {fileID: 11400000, guid: 3892b52908a1ffb4786f9c8951165d8e,
+    type: 2}
+--- !u!114 &5262083524904676520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3602457699269781294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636b72f8fc644b4418a9e8ad0f4f804f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: 3186148365f83442090e1a09b70837e4, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5541352298285459947}
+        m_TargetAssemblyTypeName: DataLoader, Assembly-CSharp
+        m_MethodName: LoadTranslations
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _debugValue: 

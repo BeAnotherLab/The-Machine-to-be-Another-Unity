@@ -9,6 +9,9 @@ using UnityEngine.UI;
 public class InstructionsTextBehavior : MonoBehaviour
 {
     [SerializeField] private GameObject _textGameObject;
+    [SerializeField] private Translations _translations;
+
+    [SerializeField] private string _textKey;
     
     #region  Public methods
    
@@ -23,10 +26,32 @@ public class InstructionsTextBehavior : MonoBehaviour
         _textGameObject.GetComponent<TMP_Text>().text = text; //give feedback
     }
 
-    public void ShowTextFromKey(string key) //set text through lean localized text translations
+    public void ShowTextFromKey(string key) //set text through localized text translations scriptable object
     {
+        _textKey = key;
+        
         GetComponent<PanelDimmer>().Show();
-        //todo 
+
+        if (_translations.Value != null && _translations.Value.TryGetValue(key, out string translatedText))
+        {
+            _textGameObject.GetComponent<TMP_Text>().text = translatedText; //give feedback
+        }
+        else
+        {
+            Debug.LogWarning($"Missing translation for key: {key}");
+        }
+    }
+
+    public void LanguageChange(string languageCode)
+    {
+        if (_translations.Value != null && _translations.Value.TryGetValue(_textKey, out string translatedText))
+        {
+            _textGameObject.GetComponent<TMP_Text>().text = translatedText; //give feedback
+        }
+        else
+        {
+            Debug.LogWarning($"Missing translation for key: {_textKey}");
+        }
     }
     
     public void ShowTextFromKey(string text, int time)
@@ -56,7 +81,6 @@ public class InstructionsTextBehavior : MonoBehaviour
         yield return new WaitForSeconds(time);
         ShowInstructionText(false);       
     }
-
     
     #endregion
 }

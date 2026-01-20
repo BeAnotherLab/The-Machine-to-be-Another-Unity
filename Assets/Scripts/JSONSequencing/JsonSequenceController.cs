@@ -1,5 +1,5 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using DG.Tweening;
 using Newtonsoft.Json;
@@ -45,21 +45,19 @@ public class JsonSequenceController : MonoBehaviour
     [Header("Sequence Source")]
     [SerializeField] private SequenceData _sequenceData;
 
-    [Header("Settings")]
-    [SerializeField] private string _languageCode; //this gets initialized by the Data Loader
-
     [Header("Audio")]
     [SerializeField] private AudioSource _audioSource;
 
     [Header("Events")]
     [SerializeField] private BoolVariable _experienceRunning;
-    [SerializeField] private StringGameEvent _setInstructionsTextGameEvent;
+    [SerializeField] private StringGameEvent _setInstructionsTextFromKeyGameEvent;
 
-    [SerializeField] private StatusManager _statusManager;
+     private StatusManager _statusManager;
 
     private Sequence _dotweenSequence;
-    private Dictionary<string, string> _translations;
-
+    [SerializeField] private Translations translations;
+    [SerializeField] private StringVariable _currentLanguage;
+        
     private void OnEnable()
     {
         UserStateManager.BothUsersReady += StartSequence;
@@ -76,30 +74,6 @@ public class JsonSequenceController : MonoBehaviour
         OscManager.ReceiveSerialFailure -= StopSequence;
         UserStateManager.OtherLeft -= StopSequence;
         UserStateManager.ThisUserLeft -= StopSequence;
-    }
-
-    public void SwitchLanguageTrack(string language) 
-    {
-        _languageCode = language;
-        string path = ContentPath.Translation(_languageCode);
-
-        if (!File.Exists(path))
-        {
-            Debug.LogWarning($"Translation file not found at: {path}");
-            _translations = new Dictionary<string, string>();
-            return;
-        }
-
-        try
-        {
-            string json = File.ReadAllText(path);
-            _translations = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError($"Error reading translations from {path}: {e.Message}");
-            _translations = new Dictionary<string, string>();
-        }
     }
 
     private void StartSequence()
@@ -143,20 +117,9 @@ public class JsonSequenceController : MonoBehaviour
     {
         PrintStep(step);
 
-        if (!string.IsNullOrEmpty(step.textKey))
-        {
-            if (_translations != null && _translations.TryGetValue(step.textKey, out string translatedText))
-            {
-                _setInstructionsTextGameEvent.Raise(translatedText);
-            }
-            else
-            {
-                Debug.LogWarning($"Missing translation for key: {step.textKey}");
-                _setInstructionsTextGameEvent.Raise(step.textKey); // fallback
-            }
-        }
+        if (!string.IsNullOrEmpty(step.textKey)) _setInstructionsTextFromKeyGameEvent.Raise(step.textKey);
 
-        if (!string.IsNullOrEmpty(step.audio)) StartCoroutine(LoadAndPlayAudio(ContentPath.Audio(_languageCode, step.audio)));
+        if (!string.IsNullOrEmpty(step.audio)) StartCoroutine(LoadAndPlayAudio(ContentPath.Audio(_currentLanguage.Value, step.audio)));
 
         if (!string.IsNullOrEmpty(step.visual)) LoadVisual(step.visual);
 
