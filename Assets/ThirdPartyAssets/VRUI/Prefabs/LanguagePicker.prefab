@@ -722,9 +722,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7887563294754073688}
   - component: {fileID: 1009749182767539985}
-  - component: {fileID: 3558521071122145114}
-  - component: {fileID: 3715694892761416943}
   - component: {fileID: 5554035640576995696}
+  - component: {fileID: 3715694892761416943}
+  - component: {fileID: 3558521071122145114}
   m_Layer: 0
   m_Name: LanguagePicker
   m_TagString: Untagged
@@ -763,7 +763,7 @@ MonoBehaviour:
   _buttons: {fileID: 9093416450617003840}
   _languageChangeGameEvent: {fileID: 11400000, guid: 3186148365f83442090e1a09b70837e4,
     type: 2}
---- !u!114 &3558521071122145114
+--- !u!114 &5554035640576995696
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -772,30 +772,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7887563294754073691}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbf3049867acf4e98b57a68ca8ffdf10, type: 3}
+  m_Script: {fileID: 11500000, guid: a848e252a9c02874cabb423e888c2b83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _showDebugFields: 0
-  _enableGizmoDebugging: 1
-  _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 0}
-  _event: {fileID: 11400000, guid: ca8fd7f8d546d4a209ab5b1348851dba, type: 2}
-  _response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1009749182767539985}
-        m_TargetAssemblyTypeName: BodySwapLanguageButtons, Assembly-CSharp
-        m_MethodName: SelfUserStateChanged
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _debugValue: 0
+  _languageButtons:
+  - {fileID: 5580290043042394914}
+  - {fileID: 7887563294285158703}
+  - {fileID: 7887563293851489202}
+  - {fileID: 3942607943825310401}
 --- !u!114 &3715694892761416943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -829,7 +813,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
---- !u!114 &5554035640576995696
+--- !u!114 &3558521071122145114
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -838,14 +822,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 7887563294754073691}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a848e252a9c02874cabb423e888c2b83, type: 3}
+  m_Script: {fileID: 11500000, guid: cbf3049867acf4e98b57a68ca8ffdf10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _languageButtons:
-  - {fileID: 5580290043042394914}
-  - {fileID: 7887563294285158703}
-  - {fileID: 7887563293851489202}
-  - {fileID: 3942607943825310401}
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: ca8fd7f8d546d4a209ab5b1348851dba, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1009749182767539985}
+        m_TargetAssemblyTypeName: BodySwapLanguageButtons, Assembly-CSharp
+        m_MethodName: SelfUserStateChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _debugValue: 0
 --- !u!1 &9093416450617003840
 GameObject:
   m_ObjectHideFlags: 0
