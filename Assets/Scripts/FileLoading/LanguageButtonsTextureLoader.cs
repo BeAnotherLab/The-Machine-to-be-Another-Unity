@@ -20,8 +20,11 @@ public class LanguageButtonsTextureLoader : MonoBehaviour
 
     private void LoadFlagTexture(string language)
     {
-        LoadFlagTexture(_languageButtons[_loadedFlags], language);
-        _loadedFlags++;
+        if (_loadedFlags < 4)
+        {
+            LoadFlagTexture(_languageButtons[_loadedFlags], language);
+            _loadedFlags++;    
+        }
     }
     
     private void LoadFlagTexture(GameObject buttonObj, string languageCode)

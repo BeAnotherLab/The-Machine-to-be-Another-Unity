@@ -12,9 +12,7 @@ public class DataLoader : MonoBehaviour
     [Header("Target ScriptableObject")]
     [SerializeField] private SequenceData sequenceData;
 
-    private List<string> _availableLanguages = new List<string>(); //TODO use fixed length array?
-    private List<string> _selectedLanguages = new List<string>();
-    
+    [SerializeField] private List<string> _availableLanguages = new List<string>(); //the languages detected in the folder structure
     
     [System.Serializable]
     private class SequenceStepList
@@ -27,9 +25,6 @@ public class DataLoader : MonoBehaviour
         LoadSequenceFromJson();
         DiscoverLanguages();
         LoadSelectedLanguages();
-        //TODO discover languages available
-        //TODO load languages selected in config.json
-        //TODO notify flags loaders
     }
 
     private void LoadSequenceFromJson()
@@ -61,7 +56,6 @@ public class DataLoader : MonoBehaviour
         }
     }
 
-    
     private void DiscoverLanguages()
     {
         string flagsPath = ContentPath.Static("");
@@ -74,41 +68,31 @@ public class DataLoader : MonoBehaviour
         foreach (string file in Directory.GetFiles(flagsPath, "flag_*.png"))
         {
             string lang = Path.GetFileNameWithoutExtension(file).Replace("flag_", "");
-            if (!_availableLanguages.Contains(lang))
-                _availableLanguages.Add(lang);
+         
+            if (!_availableLanguages.Contains(lang)) _availableLanguages.Add(lang);
         }
 
         Debug.Log($"[DataLoader] Discovered languages: {string.Join(", ", _availableLanguages)}");
     }
     
-    
     private void LoadSelectedLanguages()
     {
         string configPath = ContentPath.RootFolder("config.json");
-        _selectedLanguages = GetVisibleLanguages(configPath);
-
-        // Keep only languages that actually exist
-        _selectedLanguages.RemoveAll(lang => !_availableLanguages.Contains(lang));
-
-        Debug.Log($"[DataLoader] Selected languages: {string.Join(", ", _selectedLanguages)}");
         
-        foreach (string language in _selectedLanguages)
-            LoadLanguageButtonTexture(language);
-    }
-    
-    public List<string> GetVisibleLanguages(string configPath)
-    {
         if (!File.Exists(configPath))
         {
             Debug.LogWarning($"Config file not found: {configPath}");
-            return new List<string>();
+            return;
         }
 
-        string json = File.ReadAllText(configPath);
-        JObject obj = JObject.Parse(json);
-        JArray langs = (JArray)obj["visible_languages"];
-        List<string> result = langs.ToObject<List<string>>();
-        return result;
+        JArray selectedLanguagesArray = (JArray) JObject.Parse(File.ReadAllText(configPath))["selected_languages"];
+        
+        List<string> selectedLanguages = selectedLanguagesArray.ToObject<List<string>>();
+        selectedLanguages.RemoveAll(language => !_availableLanguages.Contains(language)); // Keep only languages that actually exist
+
+        Debug.Log($"[DataLoader] Selected languages: {string.Join(", ", selectedLanguages)}");
+        
+        foreach (string language in selectedLanguages) LoadLanguageButtonTexture(language);
     }
-    
+ 
 }
