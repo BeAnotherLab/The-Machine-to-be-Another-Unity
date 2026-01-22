@@ -9,7 +9,7 @@ using ScriptableObjectArchitecture;
 public class DataLoader : MonoBehaviour
 {
     public delegate void OnLoadLanguageButtonTexture(string language);
-    public static OnLoadLanguageButtonTexture LoadLanguage;
+    public static OnLoadLanguageButtonTexture LoadLanguage; //TODO this is redundant with the language change game event
     
     [Header("Target ScriptableObject")]
     [SerializeField] private SequenceData sequenceData;

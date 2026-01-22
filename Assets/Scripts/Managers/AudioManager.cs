@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour //Only for Manual modes. Not present in Auto Body Swap 
+public class AudioManager : MonoBehaviour //TODO remove?
 {
     public delegate void OnPlayingInstruction();
     public static OnPlayingInstruction PlayingInstruction;

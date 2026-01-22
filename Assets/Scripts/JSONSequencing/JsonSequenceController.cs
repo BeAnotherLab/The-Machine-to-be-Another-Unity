@@ -46,13 +46,13 @@ public class JsonSequenceController : MonoBehaviour
     [SerializeField] private SequenceData _sequenceData;
 
     [Header("Audio")]
-    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioSource _audioSource; //TODO should go to AudioManager?
 
     [Header("Events")]
     [SerializeField] private BoolVariable _experienceRunning;
     [SerializeField] private StringGameEvent _setInstructionsTextFromKeyGameEvent;
 
-     private StatusManager _statusManager;
+    private StatusManager _statusManager;
 
     private Sequence _dotweenSequence;
     [SerializeField] private Translations translations;
@@ -164,7 +164,7 @@ public class JsonSequenceController : MonoBehaviour
         }
     }
     
-    private IEnumerator LoadAndPlayAudio(string fullPath)
+    private IEnumerator LoadAndPlayAudio(string fullPath) //TODO should be loading from data loader
     {
         if (!File.Exists(fullPath))
         {
