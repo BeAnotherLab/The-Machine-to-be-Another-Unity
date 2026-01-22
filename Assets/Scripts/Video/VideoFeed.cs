@@ -23,14 +23,12 @@ public class VideoFeed : MonoBehaviour //TODO turn to manager
 
     private void OnEnable()
     {
-        SwapControlGUI.DimButtonOn += Dim;
         SettingsGUI.ToggleDim += ToggleDim;
         CustomPlayer.SignalingSelf += GetPlayerTransform;
     }
 
     private void OnDisable()
     {
-        SwapControlGUI.DimButtonOn -= Dim;
         SettingsGUI.ToggleDim -= ToggleDim;
         CustomPlayer.SignalingSelf -= GetPlayerTransform;
     }

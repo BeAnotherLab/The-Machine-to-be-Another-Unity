@@ -10,14 +10,12 @@ public class RecenterYawOnly : MonoBehaviour
     private void OnEnable()
     {
         SettingsGUI.RecenterPose += RecenterYaw;
-        SwapControlGUI.RecenterPoserButtonPressed += RecenterYaw;
         OscManager.ReceiveRecenterPose += RecenterYaw;
     }
 
     private void OnDisable()
     {
         SettingsGUI.RecenterPose -= RecenterYaw;
-        SwapControlGUI.RecenterPoserButtonPressed -= RecenterYaw;
         OscManager.ReceiveRecenterPose -= RecenterYaw;
     }
 
