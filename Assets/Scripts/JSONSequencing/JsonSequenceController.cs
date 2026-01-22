@@ -35,19 +35,13 @@ public class JsonSequenceController : MonoBehaviour
     
     public delegate void OnHideVisual();
     public static OnHideVisual HideVisual;
-
-    public delegate void OnInstructionPlaying();
-    public static OnInstructionPlaying InstructionPlaying;
     
-    public delegate void OnInstructionFinished();
-    public static OnInstructionFinished InstructionFinished;
+    public delegate void OnPlayAudio(string key);
+    public static OnPlayAudio PlayAudio;
     
     [Header("Sequence Source")]
     [SerializeField] private SequenceData _sequenceData;
-
-    [Header("Audio")]
-    [SerializeField] private AudioSource _audioSource; //TODO should go to AudioManager?
-
+    
     [Header("Events")]
     [SerializeField] private BoolVariable _experienceRunning;
     [SerializeField] private StringGameEvent _setInstructionsTextFromKeyGameEvent;
@@ -55,8 +49,8 @@ public class JsonSequenceController : MonoBehaviour
     private StatusManager _statusManager;
 
     private Sequence _dotweenSequence;
-    [SerializeField] private Translations translations;
-    [SerializeField] private StringVariable _currentLanguage;
+    
+    [SerializeField] private Translations _translations;
         
     private void OnEnable()
     {
@@ -102,7 +96,7 @@ public class JsonSequenceController : MonoBehaviour
     {
         if (_dotweenSequence != null && _dotweenSequence.IsActive()) _dotweenSequence.Kill();
 
-        _audioSource.Stop();
+        //TODO notify sequence stopped?
         HideVisual();
 
         _experienceRunning.Value = false;
@@ -119,7 +113,7 @@ public class JsonSequenceController : MonoBehaviour
 
         if (!string.IsNullOrEmpty(step.textKey)) _setInstructionsTextFromKeyGameEvent.Raise(step.textKey);
 
-        if (!string.IsNullOrEmpty(step.audio)) StartCoroutine(LoadAndPlayAudio(ContentPath.Audio(_currentLanguage.Value, step.audio)));
+        if (!string.IsNullOrEmpty(step.audio)) PlayAudio(step.audio); 
 
         if (!string.IsNullOrEmpty(step.visual)) LoadVisual(step.visual);
 
@@ -164,55 +158,6 @@ public class JsonSequenceController : MonoBehaviour
         }
     }
     
-    private IEnumerator LoadAndPlayAudio(string fullPath) //TODO should be loading from data loader
-    {
-        if (!File.Exists(fullPath))
-        {
-            Debug.LogWarning($"Audio file not found: {fullPath}");
-            yield break;
-        }
-
-        string extension = Path.GetExtension(fullPath).ToLower();
-        AudioType audioType = extension switch
-        {
-            ".wav" => AudioType.WAV,
-            ".ogg" => AudioType.OGGVORBIS,
-            _ => AudioType.UNKNOWN
-        };
-
-        if (audioType == AudioType.UNKNOWN)
-        {
-            Debug.LogError($"Unsupported audio format: {extension}");
-            yield break;
-        }
-
-        string url = "file://" + fullPath;
-        Debug.Log($"Loading audio: {url} as {audioType}");
-
-        using UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, audioType);
-        yield return www.SendWebRequest();
-
-#if UNITY_2020_1_OR_NEWER
-        if (www.result != UnityWebRequest.Result.Success)
-#else
-    if (www.isNetworkError || www.isHttpError)
-#endif
-        {
-            Debug.LogError($"Failed to load audio: {www.error}");
-            yield break;
-        }
-
-        AudioClip clip = DownloadHandlerAudioClip.GetContent(www);
-        if (clip == null)
-        {
-            Debug.LogError("AudioClip is null after loading.");
-            yield break;
-        }
-
-        _audioSource.clip = clip;
-        _audioSource.Play();
-        StartCoroutine(WaitForAudioEnd());
-    }
     
     private void PrintStep(SequenceStep step)
     {
@@ -223,11 +168,5 @@ public class JsonSequenceController : MonoBehaviour
                   $"Actions: <color=#E91E63>[{(step.actions != null && step.actions.Count > 0 ? string.Join(", ", step.actions) : "-")}]</color>");
     }
     
-    private IEnumerator WaitForAudioEnd()
-    {
-        InstructionPlaying();
-        yield return new WaitWhile(() => _audioSource.isPlaying);
-        InstructionFinished();
-    }
     
 }

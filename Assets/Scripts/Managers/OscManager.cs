@@ -6,7 +6,7 @@ using Debug = DebugFile;
 
 public class OscManager : MonoBehaviour {
 
-    public delegate void OnReceivedAudioButtonPressed(int i);
+    public delegate void OnReceivedAudioButtonPressed(string key); //TODO we need a string not an id anymore. 
     public static OnReceivedAudioButtonPressed ReceivedAudioButtonPressed;
 
     public delegate void OnReceiveRecenterPose();
@@ -127,14 +127,14 @@ public class OscManager : MonoBehaviour {
         if (_repeater) _oscTransmitter.Send(message);
     } //TODO collapse into one dim
 
-    private void ReceiveBtn(OSCMessage message)
+    private void ReceiveBtn(OSCMessage message) //TODO must support string messages for audio instructions 
     {
         float value;
         if (message.ToFloat(out value))
         {
             if (value == 1f) {
                 for (int i = 0; i < 11; i++)
-                    if (message.Address == "/btn" + i) ReceivedAudioButtonPressed(i);
+                    if (message.Address == "/btn" + i) ReceivedAudioButtonPressed("not implemented");
             }
         }
         

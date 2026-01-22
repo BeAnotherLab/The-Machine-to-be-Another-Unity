@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -5,6 +7,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ScriptableObjectArchitecture;
+using UnityEngine.Networking;
 
 public class DataLoader : MonoBehaviour
 {
@@ -19,12 +22,36 @@ public class DataLoader : MonoBehaviour
     [SerializeField] private Translations _translations;
     [SerializeField] private StringGameEvent _setInstructionsTextFromKeyGameEvent;
     
+    public delegate void OnInstructionPlaying();
+    public static OnInstructionPlaying InstructionPlaying;
+    
+    public delegate void OnInstructionFinished();
+    public static OnInstructionFinished InstructionFinished;
+    
+    public delegate void OnPlayInstruction(AudioClip clip);
+    public static OnPlayInstruction PlayInstruction;
+    
     [System.Serializable]
     private class SequenceStepList
     {
         public List<SequenceStep> steps;
     }
-    
+
+    private void OnEnable()
+    {
+        JsonSequenceController.PlayAudio += LoadAudio;
+        OscManager.ReceivedAudioButtonPressed += LoadAudio;
+        SwapControlGUI.AudioButtonPressed += LoadAudio;
+        //TODO on sequence stop, stop audio
+    }
+
+    private void OnDisable()
+    {
+        JsonSequenceController.PlayAudio -= LoadAudio;
+        OscManager.ReceivedAudioButtonPressed -= LoadAudio;
+        SwapControlGUI.AudioButtonPressed -= LoadAudio;
+    }
+
     private void Start()
     {
         LoadSequenceFromJson(); //load the instructions sequence
@@ -54,6 +81,7 @@ public class DataLoader : MonoBehaviour
         }
 
     }
+   
     private void LoadSequenceFromJson()
     {
         string fullPath = ContentPath.Sequence("sequence.json");
@@ -125,7 +153,61 @@ public class DataLoader : MonoBehaviour
         _languageChangeGameEvent.Raise(selectedLanguages.First()); //set the language to the first one in the list
         _setInstructionsTextFromKeyGameEvent.Raise("idle");
     }
- 
+
+    private void LoadAudio(string key)
+    {
+        StartCoroutine(LoadAndPlayAudio(key));
+    }
+    
+    private IEnumerator LoadAndPlayAudio(string key)
+    {
+        var fullPath = ContentPath.Audio(_currentLanguage.Value, key);
+        
+        if (!File.Exists(fullPath))
+        {
+            Debug.LogWarning($"Audio file not found: {fullPath}");
+            yield break;
+        }
+
+        string extension = Path.GetExtension(fullPath).ToLower();
+        AudioType audioType = extension switch
+        {
+            ".wav" => AudioType.WAV,
+            ".ogg" => AudioType.OGGVORBIS,
+            _ => AudioType.UNKNOWN
+        };
+
+        if (audioType == AudioType.UNKNOWN)
+        {
+            Debug.LogError($"Unsupported audio format: {extension}");
+            yield break;
+        }
+
+        string url = "file://" + fullPath;
+        Debug.Log($"Loading audio: {url} as {audioType}");
+
+        using UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, audioType);
+        yield return www.SendWebRequest();
+
+#if UNITY_2020_1_OR_NEWER
+        if (www.result != UnityWebRequest.Result.Success)
+#else
+    if (www.isNetworkError || www.isHttpError)
+#endif
+        {
+            Debug.LogError($"Failed to load audio: {www.error}");
+            yield break;
+        }
+
+        AudioClip clip = DownloadHandlerAudioClip.GetContent(www);
+        if (clip == null)
+        {
+            Debug.LogError("AudioClip is null after loading.");
+            yield break;
+        }
+
+        PlayInstruction(clip);
+    }
     
     
 }

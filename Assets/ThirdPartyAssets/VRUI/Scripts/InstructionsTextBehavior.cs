@@ -32,7 +32,8 @@ public class InstructionsTextBehavior : MonoBehaviour
         
         GetComponent<PanelDimmer>().Show();
 
-        if (_translations.Value != null && _translations.Value.TryGetValue(key, out string translatedText))
+        //TODO shouldn't modify library
+        if (_translations.Value != null && _translations.Value.TryGetValue(key, out string translatedText)) 
         {
             _textGameObject.GetComponent<TMP_Text>().text = translatedText; //give feedback
         }
@@ -44,6 +45,7 @@ public class InstructionsTextBehavior : MonoBehaviour
 
     public void LanguageChange(string languageCode)
     {
+        //TODO shouldn't modify library
         if (_translations.Value != null && _translations.Value.TryGetValue(_textKey, out string translatedText))
         {
             _textGameObject.GetComponent<TMP_Text>().text = translatedText; //give feedback

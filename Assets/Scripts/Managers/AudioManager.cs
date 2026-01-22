@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour //TODO remove?
@@ -9,9 +10,8 @@ public class AudioManager : MonoBehaviour //TODO remove?
     public delegate void OnInstructionFinished();
     public static OnInstructionFinished FinishedInstruction;
     
-    [SerializeField] private AudioSource[] _audioClips;
-    [SerializeField] private AudioSource[] _autoModeInstructions; //the audio file played when in automatic mode
-
+    [SerializeField] private AudioSource _audioSource; //the audio source we will play audio through
+    
     [SerializeField] private bool _isAnyPlaying;
     
     private bool _wasAnyInstructionPlaying;
@@ -21,32 +21,29 @@ public class AudioManager : MonoBehaviour //TODO remove?
     
     private void OnEnable()
     {
-        OscManager.ReceivedAudioButtonPressed += PlaySound;
-        SwapControlGUI.AudioButtonPressed += PlaySound;
+        DataLoader.PlayInstruction += PlaySound;
+        //TODO on sequence stop, stop audio
+        //TODO ie use the user event that triggered that or a sequence event?
     }
 
     private void OnDisable()
     {
-        OscManager.ReceivedAudioButtonPressed -= PlaySound;
-        SwapControlGUI.AudioButtonPressed -= PlaySound;
-    }
-
-    private void Awake()
-    {
-        _audioClips = GameObject.Find("AudioInstructions").GetComponentsInChildren<AudioSource>();
+        DataLoader.PlayInstruction -= PlaySound;
     }
 
     private void Update()
     {
-       HandlePlayInput();
+       //HandlePlayInput();
        MonitorInstructionAudio();
     }
 
-    public void PlaySound(int id)
+    public void PlaySound(AudioClip clip)
     {
-        if (id < 0 || id >= _audioClips.Length) return;
-
-        if (!_isAnyPlaying) _audioClips[id].Play();
+        if (!_isAnyPlaying)
+        {
+            _audioSource.clip = clip; 
+            _audioSource.Play();
+        }
     }
     
     private void MonitorInstructionAudio()
@@ -56,23 +53,14 @@ public class AudioManager : MonoBehaviour //TODO remove?
         _checkTimer = 0f;
 
 
-        foreach (var clip in _audioClips)
-        {
-            if (clip != null && clip.isPlaying)
-            {
-                _isAnyPlaying = true;
-                break;
-            }
-
-            _isAnyPlaying = false;
-        }
-
+        _isAnyPlaying = _audioSource.isPlaying;
+        
         if (!_wasAnyInstructionPlaying && _isAnyPlaying) PlayingInstruction();
         else if (_wasAnyInstructionPlaying && !_isAnyPlaying) FinishedInstruction();
         
         _wasAnyInstructionPlaying = _isAnyPlaying;
     }
-    
+    /*
     private void HandlePlayInput()
     {
         foreach (KeyCode vKey in Enum.GetValues(typeof(KeyCode))) //TODO remove keys?
@@ -104,5 +92,13 @@ public class AudioManager : MonoBehaviour //TODO remove?
             }
         }
     }
+    */
     
+    
+    private IEnumerator WaitForAudioEnd()
+    {
+        PlayingInstruction();
+        yield return new WaitWhile(() => _audioSource.isPlaying);
+        FinishedInstruction();
+    }
 }
