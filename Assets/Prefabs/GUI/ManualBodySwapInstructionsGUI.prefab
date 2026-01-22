@@ -454,7 +454,6 @@ GameObject:
   - component: {fileID: 7220712239764454277}
   - component: {fileID: 604608053}
   - component: {fileID: 6682680424015201866}
-  - component: {fileID: 6425600870244668438}
   - component: {fileID: 332290940960440211}
   - component: {fileID: 8026045684658783648}
   - component: {fileID: 7826131997396378675}
@@ -584,39 +583,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de05442fa049c4a24890186cb42d0881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6425600870244668438
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 702575981237749515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 636b72f8fc644b4418a9e8ad0f4f804f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _showDebugFields: 0
-  _enableGizmoDebugging: 1
-  _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 0}
-  _event: {fileID: 11400000, guid: 95d2eb5adc44a4d989404c5c716c05d7, type: 2}
-  _response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7220712239764454277}
-        m_TargetAssemblyTypeName: InstructionsTextBehavior, Assembly-CSharp
-        m_MethodName: ShowInstructionsText
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _debugValue: 
 --- !u!114 &332290940960440211
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,8 +1,9 @@
 using System;
 using System.IO;
 using UnityEngine;
+using VRStandardAssets.Menu;
 
-public class LanguageButtonsTextureLoader : MonoBehaviour
+public class LanguageButtonsLoader : MonoBehaviour //TODO better move that so buttons self manage
 {
     [SerializeField] private GameObject[] _languageButtons;
 
@@ -10,24 +11,24 @@ public class LanguageButtonsTextureLoader : MonoBehaviour
 
     private void OnEnable()
     {
-        DataLoader.LoadLanguageButtonTexture += LoadFlagTexture;
+        DataLoader.LoadLanguage += LoadLanguageOnButton;
     }
 
     private void OnDisable()
     {
-        DataLoader.LoadLanguageButtonTexture -= LoadFlagTexture;
+        DataLoader.LoadLanguage -= LoadLanguageOnButton;
     }
 
-    private void LoadFlagTexture(string language)
+    private void LoadLanguageOnButton(string language)
     {
         if (_loadedFlags < 4)
         {
-            LoadFlagTexture(_languageButtons[_loadedFlags], language);
+            LoadLanguageOnButton(_languageButtons[_loadedFlags], language);
             _loadedFlags++;    
         }
     }
     
-    private void LoadFlagTexture(GameObject buttonObj, string languageCode)
+    private void LoadLanguageOnButton(GameObject buttonObj, string languageCode)
     {
         string filename = $"flag_{languageCode}.png";
         string path = ContentPath.Static(filename);
@@ -46,6 +47,7 @@ public class LanguageButtonsTextureLoader : MonoBehaviour
         MeshRenderer renderer = buttonObj.GetComponent<MeshRenderer>();
         if (renderer != null) renderer.material.mainTexture = tex;
         else Debug.LogWarning($"MeshRenderer not found on: {buttonObj.name}");
+        buttonObj.GetComponent<LanguageButton>().SetLanguage(languageCode);
         buttonObj.SetActive(true);
     }
 }

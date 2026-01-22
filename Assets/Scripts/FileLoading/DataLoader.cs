@@ -9,7 +9,7 @@ using ScriptableObjectArchitecture;
 public class DataLoader : MonoBehaviour
 {
     public delegate void OnLoadLanguageButtonTexture(string language);
-    public static OnLoadLanguageButtonTexture LoadLanguageButtonTexture;
+    public static OnLoadLanguageButtonTexture LoadLanguage;
     
     [Header("Target ScriptableObject")]
     [SerializeField] private SequenceData sequenceData;
@@ -119,7 +119,7 @@ public class DataLoader : MonoBehaviour
 
         Debug.Log($"[DataLoader] Selected languages: {string.Join(", ", selectedLanguages)}");
         
-        foreach (string language in selectedLanguages) LoadLanguageButtonTexture(language); //let buttons know which languages to display
+        foreach (string language in selectedLanguages) LoadLanguage(language); //let buttons know which languages to display
         
         LoadTranslations(selectedLanguages.First());
         _languageChangeGameEvent.Raise(selectedLanguages.First()); //set the language to the first one in the list

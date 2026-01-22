@@ -43,6 +43,11 @@ namespace VRStandardAssets.Menu
             CustomSelectionRadial.SelectionComplete -= HandleSelectionComplete;
         }
 
+        public void SetLanguage(string language)
+        {
+            _language = language;
+        }
+        
         public void HandleSelectionComplete()
         {
             if (m_GazeOver) _languageChangeEvent.Raise(_language);
