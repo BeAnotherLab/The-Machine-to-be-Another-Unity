@@ -5,10 +5,10 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour //TODO remove?
 {
     public delegate void OnPlayingInstruction();
-    public static OnPlayingInstruction PlayingInstruction;
+    public static OnPlayingInstruction PlayingInstruction = delegate { };
     
     public delegate void OnInstructionFinished();
-    public static OnInstructionFinished FinishedInstruction;
+    public static OnInstructionFinished FinishedInstruction = delegate { };
     
     [SerializeField] private AudioSource _audioSource; //the audio source we will play audio through
     
@@ -51,7 +51,6 @@ public class AudioManager : MonoBehaviour //TODO remove?
         _checkTimer += Time.deltaTime;
         if (_checkTimer < _checkInterval) return;
         _checkTimer = 0f;
-
 
         _isAnyPlaying = _audioSource.isPlaying;
         

@@ -207,13 +207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6df80cb6862b9a64ebf5c325a0c0de01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _languagechangedEvent: {fileID: 11400000, guid: 3186148365f83442090e1a09b70837e4,
-    type: 2}
-  _buttonPressedEvent: {fileID: 11400000, guid: c914d11254aa8a04eba464dfc883fcf6,
-    type: 2}
-  _dimButtonPressedEvent: {fileID: 11400000, guid: 8d66fd5e6124cbd4f97c6ebf30e46e6c,
-    type: 2}
-  _calibratebuttonPressedEvent: {fileID: 0}
   _controlPanel: {fileID: 4444910669047489771}
 --- !u!1 &2108213984344608118
 GameObject:
@@ -574,15 +567,15 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3963577484033289777}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: SwapControlGUI, Assembly-CSharp
         m_MethodName: ButtonPressed
-        m_Mode: 3
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 5
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: lookAtHands.ogg
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &4444910669047489771
@@ -798,15 +791,15 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3963577484033289777}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: SwapControlGUI, Assembly-CSharp
         m_MethodName: ButtonPressed
-        m_Mode: 3
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 2
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: shakeHands.ogg
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &5314911256262264641
@@ -1005,15 +998,15 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3963577484033289777}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: SwapControlGUI, Assembly-CSharp
         m_MethodName: ButtonPressed
-        m_Mode: 3
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 6
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: calibrate.ogg
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &6064276346302175369
@@ -1138,15 +1131,15 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3963577484033289777}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: SwapControlGUI, Assembly-CSharp
         m_MethodName: ButtonPressed
-        m_Mode: 3
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: goodbye.ogg
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &6435336575441558367
@@ -1350,14 +1343,14 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3963577484033289777}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: SwapControlGUI, Assembly-CSharp
         m_MethodName: ButtonPressed
-        m_Mode: 3
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 4
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: slowly.ogg
           m_BoolArgument: 0
         m_CallState: 2

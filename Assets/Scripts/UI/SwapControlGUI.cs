@@ -11,14 +11,13 @@ public class SwapControlGUI : MonoBehaviour
     public delegate void OnAudioButtonPressed(string key);
     public static OnAudioButtonPressed AudioButtonPressed;
     
-    [SerializeField] private IntGameEvent _buttonPressedEvent;
     [SerializeField] private GameObject _controlPanel;
 
     private Button _audioButtons;
 
-    public void ButtonPressed(string key) //TODO make this repeat on the other side if repeater? or regardless?
+    public void ButtonPressed(string audioFile) //TODO make this repeat on the other side if repeater? or regardless?
     {
-        AudioButtonPressed(key); 
+        AudioButtonPressed(audioFile); 
     }
     
 }
