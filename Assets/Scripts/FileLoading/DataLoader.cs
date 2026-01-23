@@ -21,13 +21,7 @@ public class DataLoader : MonoBehaviour
     [SerializeField] private StringGameEvent _languageChangeGameEvent;
     [SerializeField] private Translations _translations;
     [SerializeField] private StringGameEvent _setInstructionsTextFromKeyGameEvent;
-    
-    public delegate void OnInstructionPlaying();
-    public static OnInstructionPlaying InstructionPlaying;
-    
-    public delegate void OnInstructionFinished();
-    public static OnInstructionFinished InstructionFinished;
-    
+ 
     public delegate void OnPlayInstruction(AudioClip clip);
     public static OnPlayInstruction PlayInstruction;
     
