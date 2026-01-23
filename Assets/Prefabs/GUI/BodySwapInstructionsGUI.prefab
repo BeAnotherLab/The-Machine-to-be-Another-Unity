@@ -89,7 +89,6 @@ GameObject:
   - component: {fileID: 3012988812001852990}
   - component: {fileID: 6320599682205995483}
   - component: {fileID: 5376602736153009068}
-  - component: {fileID: 6282138017718233865}
   m_Layer: 5
   m_Name: InstructionsText
   m_TagString: Untagged
@@ -288,20 +287,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 6320599682205995483}
   m_maskType: 0
---- !u!114 &6282138017718233865
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 702575979674410138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f04f7c71f4c5b349b1804f575f7d054, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  translationName: waitForSerial
-  FallbackText: Wait for serial...
 --- !u!1 &702575979756376961
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,6 +397,7 @@ GameObject:
   - component: {fileID: 332290940960440211}
   - component: {fileID: 2039392850324519036}
   - component: {fileID: 5900880278047926232}
+  - component: {fileID: 8979280762832097232}
   m_Layer: 5
   m_Name: BodySwapInstructionsGUI
   m_TagString: Untagged
@@ -510,6 +496,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _textGameObject: {fileID: 702575979674410138}
+  _translations: {fileID: 11400000, guid: 9a434add458f245a0bd6a2bf0e4d136f, type: 2}
+  _textKey: 
 --- !u!114 &604608053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -657,6 +645,39 @@ MonoBehaviour:
       - m_Target: {fileID: 7220712239764454277}
         m_TargetAssemblyTypeName: InstructionsTextBehavior, Assembly-CSharp
         m_MethodName: ShowInstructionsText
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _debugValue: 
+--- !u!114 &8979280762832097232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702575981237749515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636b72f8fc644b4418a9e8ad0f4f804f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: 3186148365f83442090e1a09b70837e4, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7220712239764454277}
+        m_TargetAssemblyTypeName: InstructionsTextBehavior, Assembly-CSharp
+        m_MethodName: LanguageChange
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
