@@ -22,6 +22,7 @@ public class AudioManager : MonoBehaviour //TODO remove?
     private void OnEnable()
     {
         DataLoader.PlayInstruction += PlaySound;
+        
         //TODO on sequence stop, stop audio
         //TODO ie use the user event that triggered that or a sequence event?
     }
@@ -33,7 +34,6 @@ public class AudioManager : MonoBehaviour //TODO remove?
 
     private void Update()
     {
-       //HandlePlayInput();
        MonitorInstructionAudio();
     }
 
@@ -59,40 +59,6 @@ public class AudioManager : MonoBehaviour //TODO remove?
         
         _wasAnyInstructionPlaying = _isAnyPlaying;
     }
-    /*
-    private void HandlePlayInput()
-    {
-        foreach (KeyCode vKey in Enum.GetValues(typeof(KeyCode))) //TODO remove keys?
-        {
-            if (Input.GetKey(vKey))
-            {
-                if (vKey == KeyCode.Q)
-                    PlaySound(0);
-                else if (vKey == KeyCode.W)
-                    PlaySound(5);
-                else if (vKey == KeyCode.E)
-                    PlaySound(4);
-                else if (vKey == KeyCode.R)
-                    PlaySound(6);
-                else if (vKey == KeyCode.T)
-                    PlaySound(7);
-                else if (vKey == KeyCode.Y)
-                    PlaySound(1);
-                else if (vKey == KeyCode.U)
-                    PlaySound(2);
-                else if (vKey == KeyCode.I)
-                    PlaySound(3);
-                else if (vKey == KeyCode.J)
-                    PlaySound(8);
-                else if (vKey == KeyCode.K)
-                    PlaySound(9);
-                else if (vKey == KeyCode.L)
-                    PlaySound(10);
-            }
-        }
-    }
-    */
-    
     
     private IEnumerator WaitForAudioEnd()
     {

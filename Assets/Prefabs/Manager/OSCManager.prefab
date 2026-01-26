@@ -57,6 +57,17 @@ MonoBehaviour:
   _dimGameEvent: {fileID: 11400000, guid: 9bdc42909d8a4734eb9fe01bfd1f558d, type: 2}
   _curtainOnGameEvent: {fileID: 11400000, guid: 78f4ccaea5624406cb8bcf19436f86c4,
     type: 2}
+  _mappingData:
+  - id: 1
+    audioFile: lookAHands.ogg
+  - id: 2
+    audioFile: slowly.ogg
+  - id: 3
+    audioFile: calibrate.ogg
+  - id: 4
+    audioFile: shakeHands.ogg
+  - id: 5
+    audioFile: goodbye.ogg
 --- !u!114 &243077806299512245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,11 +80,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbba286dc10e549b2bdec947ef8dbd3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  autoConnect: 1
-  closeOnPause: 0
-  mapBundle: {fileID: 0}
-  workInEditor: 0
-  localPort: 8015
+  _autoConnect: 1
+  _closeOnPause: 0
+  _mapBundle: {fileID: 0}
+  _workInEditor: 0
+  _localHostMode: 0
+  _localHost: 192.168.1.48
+  _localPort: 8015
 --- !u!114 &7400548617223281092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,16 +99,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464088183d2a1484ab8fb64e356c9f5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  autoConnect: 1
-  closeOnPause: 0
-  mapBundle: {fileID: 0}
-  workInEditor: 0
-  localPortMode: 2
-  localReceiver: {fileID: 0}
-  localPort: 7000
-  remoteHost: 172.24.0.45
-  remotePort: 8015
-  useBundle: 0
+  _autoConnect: 1
+  _closeOnPause: 0
+  _mapBundle: {fileID: 0}
+  _workInEditor: 0
+  _localHostMode: 0
+  _localPortMode: 2
+  _localReceiver: {fileID: 0}
+  _localHost: 192.168.1.48
+  _localPort: 7000
+  _remoteHost: 172.24.0.45
+  _remotePort: 8015
+  _useBundle: 0
 --- !u!114 &2768426945808083327
 MonoBehaviour:
   m_ObjectHideFlags: 0

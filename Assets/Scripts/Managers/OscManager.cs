@@ -1,12 +1,20 @@
+using System.Collections.Generic;
 using UnityEngine;
 using extOSC;
 using Mirror.Examples.Pong;
 using ScriptableObjectArchitecture; 
 using Debug = DebugFile;
 
+[System.Serializable]
+
+public class ButtonMapping
+{
+    public int id;
+    public string audioFile;
+}
 public class OscManager : MonoBehaviour {
 
-    public delegate void OnReceivedAudioButtonPressed(string key); //TODO we need a string not an id anymore. 
+    public delegate void OnReceivedAudioButtonPressed(string key); 
     public static OnReceivedAudioButtonPressed ReceivedAudioButtonPressed;
 
     public delegate void OnReceiveRecenterPose();
@@ -24,6 +32,8 @@ public class OscManager : MonoBehaviour {
     
     [SerializeField] private BoolGameEvent _dimGameEvent;
     [SerializeField] private BoolGameEvent _curtainOnGameEvent;
+    
+    [SerializeField] private  List<ButtonMapping> _mappingData = new  List<ButtonMapping>();
     
     private bool _repeater;
     private bool _connectionEstablished;
@@ -63,7 +73,10 @@ public class OscManager : MonoBehaviour {
         _oscReceiver.Bind("/dimon", ReceiveDimOn);
         _oscReceiver.Bind("/dimoff", ReceiveDimOff);
         _oscReceiver.Bind("/ht", ReceiveCalibrate);
-        for (int i = 0; i < 11; i++) _oscReceiver.Bind("/btn" + i.ToString(), ReceiveBtn);
+
+        foreach (var mapping in _mappingData) _oscReceiver.Bind("/btn" + mapping.id, ReceiveBtn);
+        
+        for (int i = 0; i < _mappingData.Count; i++)
 
         _oscReceiver.Bind("/serialStatus", ReceiveSerialStatus);
         
@@ -127,14 +140,15 @@ public class OscManager : MonoBehaviour {
         if (_repeater) _oscTransmitter.Send(message);
     } //TODO collapse into one dim
 
-    private void ReceiveBtn(OSCMessage message) //TODO must support string messages for audio instructions 
+    private void ReceiveBtn(OSCMessage message) 
     {
         float value;
         if (message.ToFloat(out value))
         {
             if (value == 1f) {
-                for (int i = 0; i < 11; i++)
-                    if (message.Address == "/btn" + i) ReceivedAudioButtonPressed("not implemented");
+                
+                foreach (var mapping in _mappingData)
+                    if (message.Address == "/btn" + mapping.id) ReceivedAudioButtonPressed(mapping.audioFile);
             }
         }
         
