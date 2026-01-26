@@ -34,7 +34,7 @@ public static class ContentPath
 
     public static string Audio(string languageCode, string filename)
     {
-        return Path.Combine(Root, "Sequence", "Audio", languageCode, filename);
+        return Path.Combine(Root, "Audio", languageCode, filename);
     }
 
     public static string Image(string filename)
