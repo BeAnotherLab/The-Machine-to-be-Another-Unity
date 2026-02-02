@@ -31,7 +31,7 @@ public class LanguageButtonsLoader : MonoBehaviour //TODO better move that so bu
     private void LoadLanguageOnButton(GameObject buttonObj, string languageCode)
     {
         string filename = $"flag_{languageCode}.png";
-        string path = ContentPath.Static(filename);
+        string path = ContentPath.Image(filename);
 
         if (!File.Exists(path))
         {

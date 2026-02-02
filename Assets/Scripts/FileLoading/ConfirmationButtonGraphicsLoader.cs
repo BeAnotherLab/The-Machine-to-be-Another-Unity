@@ -24,7 +24,7 @@ public class ConfirmationButtonGraphicsLoader : MonoBehaviour
             return;
         }
 
-        string path = ContentPath.Static(filename);
+        string path = ContentPath.Image(filename);
         if (!File.Exists(path))
         {
             Debug.LogWarning($"Texture file not found: {path}");

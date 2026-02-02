@@ -15,7 +15,7 @@ public class PanelBackgroundLoader : MonoBehaviour
             return;
         }
 
-        string path = ContentPath.Static(_filename);
+        string path = ContentPath.Image(_filename);
         if (!File.Exists(path))
         {
             Debug.LogWarning($"Panel background file not found at path: {path}");

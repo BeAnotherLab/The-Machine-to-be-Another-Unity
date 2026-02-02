@@ -16,7 +16,7 @@ public class FontColorLoader : MonoBehaviour
             return;
         }
 
-        string path = ContentPath.Static(_fontColorFile);
+        string path = ContentPath.Font(_fontColorFile);
         if (!File.Exists(path))
         {
             Debug.LogWarning($"Font color file not found: {path}");

@@ -78,7 +78,7 @@ public class DataLoader : MonoBehaviour
    
     private void LoadSequenceFromJson()
     {
-        string fullPath = ContentPath.Sequence("sequence.json");
+        string fullPath = ContentPath.Config("sequence.json");
 
         if (!File.Exists(fullPath))
         {
@@ -107,7 +107,7 @@ public class DataLoader : MonoBehaviour
 
     private void DiscoverLanguages()
     {
-        string flagsPath = ContentPath.Static("");
+        string flagsPath = ContentPath.Image("");
         if (!Directory.Exists(flagsPath))
         {
             Debug.LogWarning($"[DataLoader] Static folder not found: {flagsPath}");
@@ -126,7 +126,7 @@ public class DataLoader : MonoBehaviour
     
     private void LoadSelectedLanguages()
     {
-        string configPath = ContentPath.RootFolder("config.json");
+        string configPath = ContentPath.Config("config.json");
         
         if (!File.Exists(configPath))
         {
