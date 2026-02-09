@@ -22,7 +22,7 @@ public class AudioManager : MonoBehaviour //TODO remove?
     private void OnEnable()
     {
         DataLoader.PlayInstruction += PlaySound;
-        
+        JsonSequenceController.StopAudio += StopSound;
         //TODO on sequence stop, stop audio
         //TODO ie use the user event that triggered that or a sequence event?
     }
@@ -30,6 +30,8 @@ public class AudioManager : MonoBehaviour //TODO remove?
     private void OnDisable()
     {
         DataLoader.PlayInstruction -= PlaySound;
+        JsonSequenceController.StopAudio -= StopSound;
+        
     }
 
     private void Update()
@@ -37,13 +39,18 @@ public class AudioManager : MonoBehaviour //TODO remove?
        MonitorInstructionAudio();
     }
 
-    public void PlaySound(AudioClip clip)
+    private void PlaySound(AudioClip clip)
     {
         if (!_isAnyPlaying)
         {
             _audioSource.clip = clip; 
             _audioSource.Play();
         }
+    }
+
+    private void StopSound()
+    {
+        _audioSource.Stop();
     }
     
     private void MonitorInstructionAudio()

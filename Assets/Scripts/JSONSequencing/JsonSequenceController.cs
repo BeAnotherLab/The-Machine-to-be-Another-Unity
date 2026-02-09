@@ -38,7 +38,9 @@ public class JsonSequenceController : MonoBehaviour
     
     public delegate void OnPlayAudio(string key);
     public static OnPlayAudio PlayAudio;
-    
+    public delegate void OnStopAudio();
+    public static OnStopAudio StopAudio;
+
     [Header("Sequence Source")]
     [SerializeField] private SequenceData _sequenceData;
     
@@ -96,7 +98,7 @@ public class JsonSequenceController : MonoBehaviour
     {
         if (_dotweenSequence != null && _dotweenSequence.IsActive()) _dotweenSequence.Kill();
 
-        //TODO notify sequence stopped?
+        StopAudio();
         HideVisual();
 
         _experienceRunning.Value = false;
