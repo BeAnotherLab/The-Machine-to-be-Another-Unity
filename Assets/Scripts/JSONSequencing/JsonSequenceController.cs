@@ -91,7 +91,8 @@ public class JsonSequenceController : MonoBehaviour
                             .AppendCallback(() => ExecuteStep(capturedStep));
         }
 
-        _dotweenSequence.OnComplete(EndSequence);
+       
+        //_dotweenSequence.OnComplete(EndSequence); //TODO this might work for autonatic swap and not manual
     }
 
     private void StopSequence()
@@ -134,7 +135,7 @@ public class JsonSequenceController : MonoBehaviour
                     case "StartExperience":
                         _statusManager.StartExperience();
                         break;
-                    case "EndExperience":
+                    case "EndExperience": //TODO use this for sequence end in auto mode instead of DOtween sequence end?
                         _statusManager.EndExperience();
                         break;
                     case "MirrorOn":
