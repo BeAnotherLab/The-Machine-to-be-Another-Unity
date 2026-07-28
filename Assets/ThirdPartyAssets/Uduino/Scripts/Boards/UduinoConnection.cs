@@ -14,7 +14,6 @@ namespace Uduino
         public static UduinoConnection GetFinder(UduinoManager manager, Platform p, ConnectionMethod m)
         {
             UduinoConnection connection = null;
-#if UNITY_EDITOR || UNITY_STANDALONE //IF it's on the editor
             if (manager.activeExtentionsMap.ContainsValue(true))
             {
                 if (manager.ExtensionIsPresentAndActive("UduinoDevice_DesktopBluetoothLE"))
@@ -28,15 +27,6 @@ namespace Uduino
                 return null;
             }
 
-#elif UNITY_ANDROID //Get the  Android Serial Plugin
-            if(manager.ExtensionIsPresentAndActive("UduinoDevice_AndroidBluetoothLE")) {
-              connection = new UduinoConnection_AndroidBluetoothLE();
-            } else if(manager.ExtensionIsPresentAndActive("UduinoDevice_AndroidSerial")){
-              connection = new UduinoConnection_AndroidSerial();
-            } else if (manager.ExtensionIsPresentAndActive("UduinoDevice_Wifi"))
-              connection = new UduinoConnection_Wifi();
-            else { Log.Error("Uduino for Android is not active ! Activate it in the Inspector Panel.");  }
-#endif
             Log.Debug("Starting Uduino with type: " + connection.GetType());
 
             return connection;
