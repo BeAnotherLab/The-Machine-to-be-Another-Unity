@@ -11,11 +11,10 @@ using UnityEditor.Build;
 
 #if UNITY_EDITOR
 [OpenXRFeature(UiName = "Session State Tracker",
-    BuildTargetGroups = new[] { BuildTargetGroup.Standalone },
+    BuildTargetGroups = new[] { BuildTargetGroup.Standalone, BuildTargetGroup.Android },
     Company = "BeAnotherLab",
     Desc = "Tracks XrSessionState to determine user presence.",
     FeatureId = "com.beanotherlab.presence",
-    OpenxrExtensionStrings = "XR_test",
     Version = "1.0.0")]
 #endif
 
@@ -37,7 +36,7 @@ public class SessionStateFeature : OpenXRFeature
         _currentState = newState;
         //if (newState == (int) XrSessionState.Focused) UserPresent();
         //else if (newState == (int)XrSessionState.Idle) UserLeft();
-        //Debug.Log($"[SessionStateFeature] Session state changed: {((XrSessionState) oldState).ToString()} → { ((XrSessionState) newState).ToString()}");
+        Debug.Log($"[SessionStateFeature] Session state changed: {((XrSessionState) oldState).ToString()} → { ((XrSessionState) newState).ToString()}");
     }
     
     public static int GetCurrentState()
