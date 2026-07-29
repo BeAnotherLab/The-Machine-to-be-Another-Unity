@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 3681862671656310826}
   - component: {fileID: 7977408457492620035}
   - component: {fileID: 2779388159228120871}
-  - component: {fileID: 7242883200743632471}
+  - component: {fileID: 6910659444714781483}
+  - component: {fileID: 5402746044604389525}
   m_Layer: 0
   m_Name: UVCUIController
   m_TagString: Untagged
@@ -75,30 +76,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _manager: {fileID: 0}
-  _document: {fileID: 7242883200743632471}
+  _document: {fileID: 0}
   _cameraDropdown: {fileID: 8426631233254513035}
   _resolutionDropdown: {fileID: 4008508705454709132}
   _exposureText: {fileID: 3391358367953807449}
---- !u!114 &7242883200743632471
+--- !u!114 &6910659444714781483
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 325798821679841}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PanelSettings: {fileID: 11400000, guid: ca0a3ea2fbcce4b66804097b7e63a455, type: 2}
-  m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: ba0d74a5a27444ffbe898c983c8f6eab,
-    type: 3}
-  m_SortingOrder: 0
-  m_WorldSpaceSizeMode: 1
-  m_WorldSpaceWidth: 1920
-  m_WorldSpaceHeight: 1080
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &5402746044604389525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 325798821679841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c64acb0fa62458bf30a60089fe2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 0
+  m_CheckFor2DOcclusion: 0
+  m_CheckFor3DOcclusion: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RaycastTriggerInteraction: 1
 --- !u!1 &1095630198658199820
 GameObject:
   m_ObjectHideFlags: 0
