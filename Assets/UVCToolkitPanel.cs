@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,10 +11,11 @@ namespace Serenegiant.UVC
         [SerializeField] private UVCManager _manager;
         [SerializeField] private UIDocument _document;
         
-        private Button _showConsoleButton;
-        private DropdownField _cameraDropdown;
-        private DropdownField _resolutionDropdown;
-        private ScrollView _controlsContainer;
+        [SerializeField] private Button _showConsoleButton;
+        [SerializeField] private TMP_Dropdown _cameraDropdown;
+        [SerializeField] private TMP_Dropdown _resolutionDropdown;
+        [SerializeField] private TMP_Text _exposureText;
+        [SerializeField] private Slider _exposureSlider;
 
         private List<UVCManager.CameraInfo> _cameras = new();
         private UVCManager.CameraInfo _currentCamera;
@@ -32,12 +34,9 @@ namespace Serenegiant.UVC
 
             _showConsoleButton = root.Q<Button>("show-console-button");
             
-            //showConsoleButton.clicked += () => LunarConsole.Show();
-            _cameraDropdown = root.Q<DropdownField>("cameraDropdown");
-            _resolutionDropdown = root.Q<DropdownField>("resolutionDropdown");
-            _controlsContainer = root.Q<ScrollView>("controlsContainer");
-            _cameraDropdown.RegisterValueChangedCallback(OnCameraChanged);
-            _resolutionDropdown.RegisterValueChangedCallback(OnResolutionChanged);
+            //_showConsoleButton.clicked += () => LunarConsole.Show();
+            _cameraDropdown.onValueChanged.AddListener(OnCameraChanged);
+            _resolutionDropdown.onValueChanged.AddListener(OnResolutionChanged);
 
             Refresh();
         }
@@ -57,58 +56,55 @@ namespace Serenegiant.UVC
         {
             _cameras = _manager.GetAttachedDevices();
             Debug.Log($"Refresh: found {_cameras.Count} cameras");
-            _cameraDropdown.choices.Clear();
-            foreach (var camera in _cameras) _cameraDropdown.choices.Add(camera.DeviceName);
+            
+            _cameraDropdown.ClearOptions();
+            
+            foreach (var camera in _cameras) 
+                _cameraDropdown.options.Add(new TMP_Dropdown.OptionData(camera.DeviceName));
+            
+            
+            
             if (_cameras.Count > 0)
             {
-                _cameraDropdown.index = 0;
+                _cameraDropdown.SetValueWithoutNotify(0);
                 SelectCamera(0);
             }
         }
 
-        private void OnCameraChanged(ChangeEvent<string> evt)
+        private void OnCameraChanged(int newValue)
         {
-            SelectCamera(_cameraDropdown.index);
+            SelectCamera(newValue);
         }
 
         private void SelectCamera(int index)
         {
             if (index < 0 || index >= _cameras.Count) return;
             _currentCamera = _cameras[index];
-            _resolutionDropdown.choices.Clear();
+            _resolutionDropdown.ClearOptions();
 ;
             int selectedIndex = 0;
             for (int i = 0; i < _currentCamera.SupportedSizes.Length; i++)
             {
                 var size = _currentCamera.SupportedSizes[i];
-                _resolutionDropdown.choices.Add($"{size.Width}x{size.Height}");
+                _resolutionDropdown.options.Add(new TMP_Dropdown.OptionData($"{size.Width}x{size.Height}"));
                 if (size.Width == PlayerPrefs.GetInt(PREF_WIDTH, -1) && size.Height == PlayerPrefs.GetInt(PREF_HEIGHT, -1)) 
                     selectedIndex = i;
             }
 
-            _resolutionDropdown.index = selectedIndex;        
+            _resolutionDropdown.value = selectedIndex;        
             _currentCamera.UpdateCtrls();
            
-            _controlsContainer.Clear();
-
-            try
+            
+            var info = _currentCamera.GetInfo(EXPOSURE);
+            int current = _currentCamera.GetValue(EXPOSURE);
+            var slider = new SliderInt(info.min, info.max) { value = current };
+            slider.label = "Exposure";
+            slider.RegisterValueChangedCallback(evt =>
             {
-                var info = _currentCamera.GetInfo(EXPOSURE);
-                int current = _currentCamera.GetValue(EXPOSURE);
-                var slider = new SliderInt(info.min, info.max) { value = current };
-                slider.label = "Exposure";
-                slider.RegisterValueChangedCallback(evt =>
-                {
-                    _currentCamera.SetValue(EXPOSURE, evt.newValue);
-                    Debug.Log($"Exposure = {evt.newValue}");
-                });
-                _controlsContainer.Add(slider);
-            }
-            catch (Exception e)
-            {
-                Debug.Log($"Exposure not available: {e.Message}");
-            }
-
+                _currentCamera.SetValue(EXPOSURE, evt.newValue);
+                Debug.Log($"Exposure = {evt.newValue}");
+            });
+            
             if (_currentCamera != null)
             {
                 _currentCamera.SetValue(AUTO_EXPOSURE_PRIORITY, 0); //set auto exposure priority before setting value. not sure if this is the right value
@@ -116,14 +112,12 @@ namespace Serenegiant.UVC
             }
         }
 
-        private void OnResolutionChanged(ChangeEvent<string> evt)
+        private void OnResolutionChanged(int newValue)
         {
-            if (_currentCamera == null) return;
-            int index = _resolutionDropdown.index;
-            if (index < 0) return;
-            var size = _currentCamera.SupportedSizes[index];
-            PlayerPrefs.SetInt(PREF_WIDTH, (int)size.Width);
-            PlayerPrefs.SetInt(PREF_HEIGHT, (int)size.Height);
+            var size = _currentCamera.SupportedSizes[newValue];
+            
+            PlayerPrefs.SetInt(PREF_WIDTH, (int) size.Width);
+            PlayerPrefs.SetInt(PREF_HEIGHT, (int) size.Height);
             PlayerPrefs.Save();
             Debug.Log($"Saved default resolution: {size.Width}x{size.Height}");
         }

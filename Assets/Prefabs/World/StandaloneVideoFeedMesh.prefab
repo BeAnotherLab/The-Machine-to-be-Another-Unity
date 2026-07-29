@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6114524555445263981}
   - component: {fileID: 7294512947136117200}
   - component: {fileID: 5020368988078916877}
+  - component: {fileID: 7561623056256410591}
   m_Layer: 0
   m_Name: StandaloneVideoFeedMesh
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227047079650416445}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: -1}
   m_ConstrainProportionsScale: 0
@@ -48,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 2578706597
+  _assetId: 610787277
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
@@ -103,6 +104,32 @@ MonoBehaviour:
   syncInterval: 0
   _dimGameEvent: {fileID: 11400000, guid: 9bdc42909d8a4734eb9fe01bfd1f558d, type: 2}
   _pano: {fileID: 7153128878521489236}
+  _loadTiltFromPlayerPrefs: 1
+  _tiltAngle: 0
+--- !u!114 &7561623056256410591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227047079650416445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efb1bc18f15fa0546b998062ea4861a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultWidth: 0
+  DefaultHeight: 0
+  UACEnabled: 0
+  UVCFilters:
+  - Description: 
+    Vid: 0
+    Pid: 0
+    DeviceName: 
+    IsExclude: 0
+  RenderTargets:
+  - {fileID: 0}
+  AudioTarget: {fileID: 7153128878521489236}
 --- !u!1 &7153128878521489236
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +194,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 42d3233844697f34eb8ed0b217a7222c, type: 2}
+  - {fileID: 2100000, guid: 9cf910c94e5aa4a168fe4e4ed7175653, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
