@@ -75,65 +75,27 @@ namespace Serenegiant.UVC
         {
             if (index < 0 || index >= _cameras.Count) return;
             _currentCamera = _cameras[index];
-            BuildResolutionList();
-            _currentCamera.UpdateCtrls();
-            BuildControls();
-
-            if (_currentCamera != null)
-            {
-                _currentCamera.SetValue(AUTO_EXPOSURE_PRIORITY, 0); //set auto exposure priority before setting value. not sure if this is the right value
-                _currentCamera.SetValue(AUTO_EXPOSURE, 1); //this value allows us to set the exposure manually on the fhd01m
-            }
-        }
-
-        private void BuildResolutionList()
-        {
             _resolutionDropdown.choices.Clear();
-
-            int savedWidth = PlayerPrefs.GetInt(PREF_WIDTH, -1);
-            int savedHeight = PlayerPrefs.GetInt(PREF_HEIGHT, -1);
+;
             int selectedIndex = 0;
             for (int i = 0; i < _currentCamera.SupportedSizes.Length; i++)
             {
                 var size = _currentCamera.SupportedSizes[i];
                 _resolutionDropdown.choices.Add($"{size.Width}x{size.Height}");
-                if (size.Width == savedWidth && size.Height == savedHeight) selectedIndex = i;
+                if (size.Width == PlayerPrefs.GetInt(PREF_WIDTH, -1) && size.Height == PlayerPrefs.GetInt(PREF_HEIGHT, -1)) 
+                    selectedIndex = i;
             }
 
-            _resolutionDropdown.index = selectedIndex;
-        }
-        private void OnResolutionChanged(ChangeEvent<string> evt)
-        {
-            if (_currentCamera == null) return;
-            int index = _resolutionDropdown.index;
-            if (index < 0) return;
-            var size = _currentCamera.SupportedSizes[index];
-            PlayerPrefs.SetInt(PREF_WIDTH, (int)size.Width);
-            PlayerPrefs.SetInt(PREF_HEIGHT, (int)size.Height);
-            PlayerPrefs.Save();
-            Debug.Log($"Saved default resolution: {size.Width}x{size.Height}");
-        }
-
-        private void BuildControls()
-        {
+            _resolutionDropdown.index = selectedIndex;        
+            _currentCamera.UpdateCtrls();
+           
             _controlsContainer.Clear();
 
-            if (_currentCamera == null)
-            {
-                Debug.Log("No camera selected");
-                return;
-            }
-
-            CreateExposure();
-        }
-
-        private void CreateExposure()
-        {
             try
             {
                 var info = _currentCamera.GetInfo(EXPOSURE);
                 int current = _currentCamera.GetValue(EXPOSURE);
-                var slider = new SliderInt((int)info.min, (int)info.max) { value = current };
+                var slider = new SliderInt(info.min, info.max) { value = current };
                 slider.label = "Exposure";
                 slider.RegisterValueChangedCallback(evt =>
                 {
@@ -146,6 +108,25 @@ namespace Serenegiant.UVC
             {
                 Debug.Log($"Exposure not available: {e.Message}");
             }
+
+            if (_currentCamera != null)
+            {
+                _currentCamera.SetValue(AUTO_EXPOSURE_PRIORITY, 0); //set auto exposure priority before setting value. not sure if this is the right value
+                _currentCamera.SetValue(AUTO_EXPOSURE, 1); //this value allows us to set the exposure manually on the fhd01m
+            }
         }
+
+        private void OnResolutionChanged(ChangeEvent<string> evt)
+        {
+            if (_currentCamera == null) return;
+            int index = _resolutionDropdown.index;
+            if (index < 0) return;
+            var size = _currentCamera.SupportedSizes[index];
+            PlayerPrefs.SetInt(PREF_WIDTH, (int)size.Width);
+            PlayerPrefs.SetInt(PREF_HEIGHT, (int)size.Height);
+            PlayerPrefs.Save();
+            Debug.Log($"Saved default resolution: {size.Width}x{size.Height}");
+        }
+
     }
 }
