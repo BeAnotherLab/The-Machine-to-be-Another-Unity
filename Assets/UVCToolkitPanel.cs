@@ -7,19 +7,17 @@ namespace Serenegiant.UVC
 {
     public class UVCToolkitPanel : MonoBehaviour
     {
-        [SerializeField] private UVCManager manager;
-        [SerializeField] private UIDocument document;
+        [SerializeField] private UVCManager _manager;
+        [SerializeField] private UIDocument _document;
         
-        private Button showConsoleButton;
-        private DropdownField cameraDropdown;
-        private DropdownField resolutionDropdown;
-        private ScrollView controlsContainer;
+        private Button _showConsoleButton;
+        private DropdownField _cameraDropdown;
+        private DropdownField _resolutionDropdown;
+        private ScrollView _controlsContainer;
 
-        private List<UVCManager.CameraInfo> cameras = new();
-
-        private UVCManager.CameraInfo currentCamera;
-        
-        private List<UVCManager.CameraInfo> lastCameras = new();
+        private List<UVCManager.CameraInfo> _cameras = new();
+        private UVCManager.CameraInfo _currentCamera;
+        private List<UVCManager.CameraInfo> _lastCameras = new();
         
         private const string PREF_WIDTH = "uvc_width";
         private const string PREF_HEIGHT = "uvc_height";
@@ -30,97 +28,97 @@ namespace Serenegiant.UVC
         
         private void Start()
         {
-            var root = document.rootVisualElement;
+            var root = _document.rootVisualElement;
 
-            showConsoleButton = root.Q<Button>("show-console-button");
+            _showConsoleButton = root.Q<Button>("show-console-button");
             
             //showConsoleButton.clicked += () => LunarConsole.Show();
-            cameraDropdown = root.Q<DropdownField>("cameraDropdown");
-            resolutionDropdown = root.Q<DropdownField>("resolutionDropdown");
-            controlsContainer = root.Q<ScrollView>("controlsContainer");
-            cameraDropdown.RegisterValueChangedCallback(OnCameraChanged);
-            resolutionDropdown.RegisterValueChangedCallback(OnResolutionChanged);
+            _cameraDropdown = root.Q<DropdownField>("cameraDropdown");
+            _resolutionDropdown = root.Q<DropdownField>("resolutionDropdown");
+            _controlsContainer = root.Q<ScrollView>("controlsContainer");
+            _cameraDropdown.RegisterValueChangedCallback(OnCameraChanged);
+            _resolutionDropdown.RegisterValueChangedCallback(OnResolutionChanged);
 
             Refresh();
         }
 
         private void Update()
         {
-            var current = manager.GetAttachedDevices();
+            var current = _manager.GetAttachedDevices();
 
-            if (current.Count != lastCameras.Count)
+            if (current.Count != _lastCameras.Count)
             {
                 Refresh();
-                lastCameras = current;
+                _lastCameras = current;
             }
         }
         
-        public void Refresh()
+        private void Refresh()
         {
-            cameras = manager.GetAttachedDevices();
-            Debug.Log($"Refresh: found {cameras.Count} cameras");
-            cameraDropdown.choices.Clear();
-            foreach (var camera in cameras) cameraDropdown.choices.Add(camera.DeviceName);
-            if (cameras.Count > 0)
+            _cameras = _manager.GetAttachedDevices();
+            Debug.Log($"Refresh: found {_cameras.Count} cameras");
+            _cameraDropdown.choices.Clear();
+            foreach (var camera in _cameras) _cameraDropdown.choices.Add(camera.DeviceName);
+            if (_cameras.Count > 0)
             {
-                cameraDropdown.index = 0;
+                _cameraDropdown.index = 0;
                 SelectCamera(0);
             }
         }
 
-        void OnCameraChanged(ChangeEvent<string> evt)
+        private void OnCameraChanged(ChangeEvent<string> evt)
         {
-            SelectCamera(cameraDropdown.index);
+            SelectCamera(_cameraDropdown.index);
         }
 
-        void SelectCamera(int index)
+        private void SelectCamera(int index)
         {
-            if (index < 0 || index >= cameras.Count) return;
-            currentCamera = cameras[index];
+            if (index < 0 || index >= _cameras.Count) return;
+            _currentCamera = _cameras[index];
             BuildResolutionList();
-            currentCamera.UpdateCtrls();
+            _currentCamera.UpdateCtrls();
             BuildControls();
 
-            if (currentCamera != null)
+            if (_currentCamera != null)
             {
-                currentCamera.SetValue(AUTO_EXPOSURE_PRIORITY, 0); //set auto exposure priority before setting value. not sure if this is the right value
-                currentCamera.SetValue(AUTO_EXPOSURE, 1); //this value allows us to set the exposure manually on the fhd01m
+                _currentCamera.SetValue(AUTO_EXPOSURE_PRIORITY, 0); //set auto exposure priority before setting value. not sure if this is the right value
+                _currentCamera.SetValue(AUTO_EXPOSURE, 1); //this value allows us to set the exposure manually on the fhd01m
             }
         }
 
-        void BuildResolutionList()
+        private void BuildResolutionList()
         {
-            resolutionDropdown.choices.Clear();
+            _resolutionDropdown.choices.Clear();
 
             int savedWidth = PlayerPrefs.GetInt(PREF_WIDTH, -1);
             int savedHeight = PlayerPrefs.GetInt(PREF_HEIGHT, -1);
             int selectedIndex = 0;
-            for (int i = 0; i < currentCamera.SupportedSizes.Length; i++)
+            for (int i = 0; i < _currentCamera.SupportedSizes.Length; i++)
             {
-                var size = currentCamera.SupportedSizes[i];
-                resolutionDropdown.choices.Add($"{size.Width}x{size.Height}");
+                var size = _currentCamera.SupportedSizes[i];
+                _resolutionDropdown.choices.Add($"{size.Width}x{size.Height}");
                 if (size.Width == savedWidth && size.Height == savedHeight) selectedIndex = i;
             }
 
-            resolutionDropdown.index = selectedIndex;
+            _resolutionDropdown.index = selectedIndex;
         }
-        void OnResolutionChanged(ChangeEvent<string> evt)
+        private void OnResolutionChanged(ChangeEvent<string> evt)
         {
-            if (currentCamera == null) return;
-            int index = resolutionDropdown.index;
+            if (_currentCamera == null) return;
+            int index = _resolutionDropdown.index;
             if (index < 0) return;
-            var size = currentCamera.SupportedSizes[index];
+            var size = _currentCamera.SupportedSizes[index];
             PlayerPrefs.SetInt(PREF_WIDTH, (int)size.Width);
             PlayerPrefs.SetInt(PREF_HEIGHT, (int)size.Height);
             PlayerPrefs.Save();
             Debug.Log($"Saved default resolution: {size.Width}x{size.Height}");
         }
 
-        void BuildControls()
+        private void BuildControls()
         {
-            controlsContainer.Clear();
+            _controlsContainer.Clear();
 
-            if (currentCamera == null)
+            if (_currentCamera == null)
             {
                 Debug.Log("No camera selected");
                 return;
@@ -129,20 +127,20 @@ namespace Serenegiant.UVC
             CreateExposure();
         }
 
-        void CreateExposure()
+        private void CreateExposure()
         {
             try
             {
-                var info = currentCamera.GetInfo(EXPOSURE);
-                int current = currentCamera.GetValue(EXPOSURE);
+                var info = _currentCamera.GetInfo(EXPOSURE);
+                int current = _currentCamera.GetValue(EXPOSURE);
                 var slider = new SliderInt((int)info.min, (int)info.max) { value = current };
                 slider.label = "Exposure";
                 slider.RegisterValueChangedCallback(evt =>
                 {
-                    currentCamera.SetValue(EXPOSURE, evt.newValue);
+                    _currentCamera.SetValue(EXPOSURE, evt.newValue);
                     Debug.Log($"Exposure = {evt.newValue}");
                 });
-                controlsContainer.Add(slider);
+                _controlsContainer.Add(slider);
             }
             catch (Exception e)
             {
