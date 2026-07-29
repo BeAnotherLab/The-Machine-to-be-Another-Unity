@@ -1,0 +1,26 @@
+<ui:UXML
+    xmlns:ui="UnityEngine.UIElements">
+
+    <ui:VisualElement
+        name="root"
+        class="root">
+
+        <ui:Button name="show-console-button" text="Console" />
+        
+        <ui:Label text="Camera"/>
+
+        <ui:DropdownField name="cameraDropdown"/>
+
+        <ui:Label text="Stream Mode"/>
+
+        <ui:DropdownField name="resolutionDropdown"/>
+
+        <ui:Label
+            text="Controls"
+            class="section-title"/>
+
+        <ui:ScrollView
+            name="controlsContainer"/>
+    </ui:VisualElement>
+
+</ui:UXML>
