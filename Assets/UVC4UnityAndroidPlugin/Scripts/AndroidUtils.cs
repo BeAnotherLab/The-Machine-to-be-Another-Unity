@@ -1,4 +1,4 @@
-﻿#define ENABLE_LOG
+﻿//#define ENABLE_LOG
 /*
  * Copyright (c) 2014 - 2022 t_saki@serenegiant.com 
  */
@@ -21,7 +21,7 @@ namespace Serenegiant
 	public class AndroidUtils : MonoBehaviour
 	{
 		public const string FQCN_UNITY_PLAYER = "com.unity3d.player.UnityPlayer";
-		public const string PERMISSION_CAMERA = "horizonos.permission.USB_CAMERA";
+		public const string PERMISSION_CAMERA = "android.permission.CAMERA";
 
 		public enum PermissionGrantResult
 		{
@@ -60,7 +60,6 @@ namespace Serenegiant
 
 		void Awake()
 		{
-			Debug.Log("beetch");
 #if (!NDEBUG && DEBUG && ENABLE_LOG)
 			Console.WriteLine($"{TAG}Awake:");
 #endif

@@ -75,9 +75,9 @@ public class UVCToolkitPanel : MonoBehaviour
         _resolutionDropdown.ClearOptions();
 ;
         int selectedIndex = 0;
-        for (int i = 0; i < _currentCamera.SupportedSizes.Length; i++)
+        for (int i = 0; i < _currentCamera.SupportedSize.Length; i++)
         {
-            var size = _currentCamera.SupportedSizes[i];
+            var size = _currentCamera.SupportedSize[i];
             _resolutionDropdown.options.Add(new TMP_Dropdown.OptionData($"{size.Width}x{size.Height}"));
             if (size.Width == PlayerPrefs.GetInt(PREF_WIDTH, -1) && size.Height == PlayerPrefs.GetInt(PREF_HEIGHT, -1)) 
                 selectedIndex = i;
@@ -105,7 +105,7 @@ public class UVCToolkitPanel : MonoBehaviour
 
     private void OnResolutionChanged(int newValue)
     {
-        var size = _currentCamera.SupportedSizes[newValue];
+        var size = _currentCamera.SupportedSize[newValue];
         
         PlayerPrefs.SetInt(PREF_WIDTH, (int) size.Width);
         PlayerPrefs.SetInt(PREF_HEIGHT, (int) size.Height);

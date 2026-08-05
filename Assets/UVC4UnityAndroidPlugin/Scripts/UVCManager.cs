@@ -1,4 +1,4 @@
-﻿#define ENABLE_LOG
+﻿//#define ENABLE_LOG
 /*
  * Copyright (c) 2014 - 2022 t_saki@serenegiant.com 
  */
@@ -15,14 +15,6 @@ using UnityEngine;
 using UnityEngine.Android;
 #endif
 
-
-public static class Console
-{
-	public static void WriteLine(object message)
-	{
-		Debug.Log(message);
-	}
-}
 namespace Serenegiant.UVC
 {
     [RequireComponent(typeof(AndroidUtils))]
@@ -143,13 +135,6 @@ namespace Serenegiant.UVC
 		 */
 		public class CameraInfo
 		{
-			public UVCDevice Device => device;
-
-			public UVCVideoSize[] SupportedSizes
-			{
-				get { return SupportedSize; }
-			}
-			
 			internal readonly UVCDevice device;
 			internal readonly UVCVideoSize[] SupportedSize;
 			internal Texture previewTexture;
@@ -294,7 +279,7 @@ namespace Serenegiant.UVC
 			}
 
 			/**
-			 * Get a list of supported UVC control/processing function types.
+			 * 対応しているUVCコントロール/プロセッシング機能のtype一覧を取得
 			 */
 			public List<UInt64> GetCtrls()
 			{
@@ -625,10 +610,8 @@ namespace Serenegiant.UVC
 		//--------------------------------------------------------------------------------
 		// Start is called before the first frame update
 		IEnumerator Start()
-		{			
+		{
 #if (!NDEBUG && DEBUG && ENABLE_LOG)
-			Debug.Log("beetch debug	");
-			
 			Console.WriteLine($"{TAG}Start:");
 #endif
 			mainContext = SynchronizationContext.Current;
@@ -702,6 +685,7 @@ namespace Serenegiant.UVC
                 {
                     HandleOnDetachEvent(found);
                     StopPreview(found);
+					StopAudio(found);
 					RemoveCamera(found);
 					RemoveAudio(found);
                     attachedDevices.Remove(found);
@@ -757,10 +741,7 @@ namespace Serenegiant.UVC
 				}
 				if (!size.IsValid)
 				{	// CameraInfoからの解像度設定も無効なら対応解像度から探す
-					int savedWidth = PlayerPrefs.GetInt("uvc_width", (int)DefaultWidth);
-					int savedHeight = PlayerPrefs.GetInt("uvc_height", (int)DefaultHeight);
-					size = info.FindNearest(PreferH264, (uint)savedWidth, (uint)savedHeight);
-					Debug.Log($"Using startup resolution {savedWidth}x{savedHeight}");
+					size = info.FindNearest(PreferH264, DefaultWidth, DefaultHeight);
 				}
 				if (!size.IsValid)
 				{	// ここには来ないはずだけど念のためにチェック
