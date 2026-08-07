@@ -106,11 +106,17 @@ public class UVCToolkitPanel : MonoBehaviour
     private void OnResolutionChanged(int newValue)
     {
         var size = _currentCamera.SupportedSize[newValue];
-        
-        PlayerPrefs.SetInt(PREF_WIDTH, (int) size.Width);
-        PlayerPrefs.SetInt(PREF_HEIGHT, (int) size.Height);
+
+        PlayerPrefs.SetInt(PREF_WIDTH, (int)size.Width);
+        PlayerPrefs.SetInt(PREF_HEIGHT, (int)size.Height);
         PlayerPrefs.Save();
-        Debug.Log($"Saved default resolution: {size.Width}x{size.Height}");
+
+        Debug.Log($"Changing to {size.Width}x{size.Height}");
+
+        bool changed = _manager.SetVideoSize(_currentCamera.device, size);
+
+        Debug.Log($"SetVideoSize returned {changed}");
     }
+
 
 }

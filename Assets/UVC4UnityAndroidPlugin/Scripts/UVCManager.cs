@@ -704,18 +704,18 @@ namespace Serenegiant.UVC
 
 
 		/**
-		 * 解像度を変更
-		 * @param 解像度を変更するUVC機器を指定
-		 * @param 変更する解像度を指定
-		 * @param 解像度が変更されたかどうか
-		 */
+		* Change resolution
+		* @param Specifies the UVC device for which to change the resolution
+		* @param Specifies the resolution to set
+		* @param Indicates whether the resolution was changed
+		*/
 		public bool SetVideoSize(UVCDevice device, UVCVideoSize size)
 		{
 			var info = GetCamera(device);
 			if (info != null)
 			{
 				if (size.IsValid && info.IsPreviewing && !size.IsSameValue(info.CurrentSize))
-				{   // 解像度が変更になるとき
+				{   // When the resolution changes
 					StopPreview(device);
 					StartPreview(device, size);
 					return true;
@@ -732,33 +732,41 @@ namespace Serenegiant.UVC
 		 */
 		private void StartPreview(UVCDevice device, UVCVideoSize size)
 		{
+			Debug.Log("trying to start preview");
 			var info = CreateCameraIfNotExist(device);
 			if (info != null && !info.IsPreviewing) {
 				if (!size.IsValid)
 				{	// If the resolution setting is invalid, try retrieving it from CameraInfo.
+					Debug.Log("size is invalid " + size.Width + ", " + size.Height);
 					size = info.CurrentSize;
 				}
-				if (!size.IsValid)
-				{	// CameraInfoからの解像度設定も無効なら対応解像度から探す
+				else if (!size.IsValid)
+				{	// If the resolution setting from CameraInfo is also invalid, search through the supported resolutions.
+					Debug.Log("Camera Info size is invalid, will find nearest " + size.Width + ", " + size.Height);
 					size = info.FindNearest(PreferH264, DefaultWidth, DefaultHeight);
+					Debug.Log("found nearest" + size.Width + ", " + size.Height);
+					
+					int savedWidth = PlayerPrefs.GetInt("uvc_width", (int) DefaultWidth);
+					int savedHeight = PlayerPrefs.GetInt("uvc_height", (int) DefaultHeight);
+					size = info.FindNearest(PreferH264, (uint)savedWidth, (uint)savedHeight);
+					Debug.Log($"Using startup resolution {savedWidth}x{savedHeight}");
 				}
-				if (!size.IsValid)
+				else if (!size.IsValid)
 				{	// ここには来ないはずだけど念のためにチェック
 					throw new ArgumentException("Video size not found");
 				}
-#if (!NDEBUG && DEBUG && ENABLE_LOG)
-				Console.WriteLine($"{TAG}StartPreview:id={device.id},sz={size}");
-#endif
+
+				Debug.Log($"{TAG}StartPreview:id={device.id},sz={size.Width},sz={size.Height}");
+
 				if (Resize(device.id, size.FrameType, size.Width, size.Height) == 0)
                 {
 					info.SetSize(size);
 					info.activeId = device.id;
 					info.UpdateCtrls();
 					mainContext.Post(__ =>
-					{   // テクスチャの生成はメインスレッドで行わないといけない
-#if (!NDEBUG && DEBUG && ENABLE_LOG)
-						Console.WriteLine($"{TAG}映像受け取り用テクスチャ生成:({size.Width}x{size.Height})");
-#endif
+					{   // Texture generation must be performed on the main thread.
+						
+						Debug.Log($"{TAG}Generate texture for video reception:({size.Width}x{size.Height})");
 						var tex = new Texture2D(
 							Convert.ToInt32(size.Width), Convert.ToInt32(size.Height),
 							TextureFormat.ARGB32,
