@@ -1082,8 +1082,6 @@ namespace Serenegiant.UVC
 #if (!NDEBUG && DEBUG && ENABLE_LOG)
 			Console.WriteLine($"{TAG}Initialize:");
 #endif
-			if (AndroidUtils.CheckAndroidVersion(28))
-			{
 				yield return AndroidUtils.GrantCameraPermission((string permission, AndroidUtils.PermissionGrantResult result) =>
 				{
 #if (!NDEBUG && DEBUG && ENABLE_LOG)
@@ -1105,11 +1103,6 @@ namespace Serenegiant.UVC
 							break;
 					}
 				});
-			}
-			else
-			{
-				InitPlugin();
-			}
 
 			yield break;
 		}

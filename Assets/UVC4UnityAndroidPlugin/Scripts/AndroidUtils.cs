@@ -286,16 +286,8 @@ namespace Serenegiant
 #if (!NDEBUG && DEBUG && ENABLE_LOG)
 			Console.WriteLine($"{TAG}GrantCameraPermission:");
 #endif
-			if (CheckAndroidVersion(23))
-			{
 				// Android9以降ではUVC機器アクセスにもCAMERAパーミッションが必要
 				yield return GrantPermission(PERMISSION_CAMERA, callback);
-			}
-			else
-			{
-				// Android 6 未満ではパーミッション要求処理は不要
-				callback(PERMISSION_CAMERA, PermissionGrantResult.PERMISSION_GRANT);
-			}
 
 			yield break;
 		}
