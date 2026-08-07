@@ -244,11 +244,11 @@ namespace Serenegiant
 		 */
 		public static IEnumerator GrantPermission(string permission, OnPermission callback)
 		{
-#if (!NDEBUG && DEBUG && ENABLE_LOG)
-			Console.WriteLine($"{TAG}GrantPermission:{permission}");
-#endif
+			Debug.Log("Inside Android utils Grant Permission");
 			if (!HasPermission(permission))
 			{
+				Debug.Log("Requesting Permission");
+
 				grantResult = PermissionGrantResult.PERMISSION_DENY;
 				isPermissionRequesting = true;
 				using (AndroidJavaClass clazz = new AndroidJavaClass(FQCN_PLUGIN))
@@ -262,16 +262,22 @@ namespace Serenegiant
 					if ((PermissionTimeoutSecs > 0) && (timeElapsed > PermissionTimeoutSecs))
 					{
 						isPermissionRequesting = false;
+						Debug.Log("Requesting Permission timeout");
+						
 						yield break;
 					}
 					timeElapsed += Time.deltaTime;
 						yield return null;
 				}
+				Debug.Log("calling back grant result");
 				callback(permission, grantResult);
 			}
 			else
 			{
+				Debug.Log("calling back permision grant ");
+				
 				callback(permission, PermissionGrantResult.PERMISSION_GRANT);
+				
 			}
 	
 			yield break;

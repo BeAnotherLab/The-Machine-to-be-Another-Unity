@@ -1,6 +1,4 @@
-﻿/*
- * Copyright (c) 2014 - 2022 t_saki@serenegiant.com 
- */
+﻿
 #if NDEBUG
 
 /*

@@ -120,12 +120,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &7141787 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7153128878521489236, guid: 7f7a3118801675343a0e1a27f9603309,
-    type: 3}
-  m_PrefabInstance: {fileID: 1124859045}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &160902275
 GameObject:
   m_ObjectHideFlags: 0
@@ -1009,16 +1003,12 @@ PrefabInstance:
     - target: {fileID: 6230540683976655183, guid: 0f4d7971fd5b44ccb81eaae7f8b04d74,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6230540683976655183, guid: 0f4d7971fd5b44ccb81eaae7f8b04d74,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 498689807}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f4d7971fd5b44ccb81eaae7f8b04d74, type: 3}
 --- !u!4 &498689803 stripped
 Transform:
@@ -1032,7 +1022,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 498689802}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 498689806}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7e3fa0f7bdc68444abad301469f7cf7, type: 3}
@@ -1044,31 +1034,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 498689802}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &498689806 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6230540683976655183, guid: 0f4d7971fd5b44ccb81eaae7f8b04d74,
-    type: 3}
-  m_PrefabInstance: {fileID: 498689802}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &498689807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 498689806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efb1bc18f15fa0546b998062ea4861a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DefaultWidth: 1280
-  DefaultHeight: 720
-  UACEnabled: 0
-  UVCFilters: []
-  RenderTargets:
-  - {fileID: 7141787}
-  AudioTarget: {fileID: 0}
 --- !u!224 &681938854 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5936390273710098496, guid: f9a733d632da18b458897105120dced8,
@@ -1784,10 +1749,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: StandaloneVideoFeedMesh
       objectReference: {fileID: 0}
+    - target: {fileID: 5020368988078916877, guid: 7f7a3118801675343a0e1a27f9603309,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6114524555445263981, guid: 7f7a3118801675343a0e1a27f9603309,
         type: 3}
       propertyPath: sceneId
       value: 3918183902
+      objectReference: {fileID: 0}
+    - target: {fileID: 6114524555445263981, guid: 7f7a3118801675343a0e1a27f9603309,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7294512947136117200, guid: 7f7a3118801675343a0e1a27f9603309,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561623056256410591, guid: 7f7a3118801675343a0e1a27f9603309,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7561623056256410591, guid: 7f7a3118801675343a0e1a27f9603309,
         type: 3}
@@ -4822,6 +4807,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StatusManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 3197596539171407807, guid: fb9ada0912a7cd341970bc57cadeacea,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

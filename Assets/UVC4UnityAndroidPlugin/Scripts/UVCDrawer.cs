@@ -14,27 +14,11 @@ namespace Serenegiant.UVC
 
 	public class UVCDrawer : MonoBehaviour, IUVCDrawer
 	{
-		/**
-		 * IUVCSelectorがセットされていないとき
-		 * またはIUVCSelectorが解像度選択時にnullを
-		 * 返したときのデフォルトの解像度(幅)
-		 */
-		public int DefaultWidth = 1280;
-		/**
-		 * IUVCSelectorがセットされていないとき
-		 * またはIUVCSelectorが解像度選択時にnullを
-		 * 返したときのデフォルトの解像度(高さ)
-		 */
-		public int DefaultHeight = 720;
-		/**
-		 * 可能な場合にUACから音声取得を行うかどうか
-		 */
 		public bool UACEnabled = false;
 		/**
 		 * 接続時及び描画時のフィルタ用
 		 */
 		public UVCFilter[] UVCFilters;
-
 		/**
 		 * UVC機器からの映像の描画先Materialを保持しているGameObject
 		 * 設定していない場合はこのスクリプトを割当てたのと同じGameObjecを使う。
@@ -50,15 +34,15 @@ namespace Serenegiant.UVC
 		private const string TAG = "UVCDrawer#";
 
 		/**
-		 * UVC機器からの映像の描画先Material
-		 * TargetGameObjectから取得する
-		 * 優先順位：
-		 *	 TargetGameObjectのSkybox
-		 *	 > TargetGameObjectのRenderer
-		 *	 > TargetGameObjectのRawImage
-		 *	 > TargetGameObjectのMaterial
-		 * いずれの方法でも取得できなければStartでUnityExceptionを投げる
-		 */
+		* The Material used to render the video feed from the UVC device.
+		* Retrieved from the TargetGameObject.
+		* Priority order:
+		*	 Skybox on TargetGameObject
+		*	 > Renderer on TargetGameObject
+		*	 > RawImage on TargetGameObject
+		*	 > Material on TargetGameObject
+		* If it cannot be retrieved via any of these methods, a UnityException is thrown in Start().
+		*/
 		private UnityEngine.Object[] TargetMaterials;
 		/**
 		 * オリジナルのテクスチャ
@@ -74,20 +58,8 @@ namespace Serenegiant.UVC
 		// Start is called before the first frame update
 		void Start()
 		{
-#if (!NDEBUG && DEBUG && ENABLE_LOG)
-			Console.WriteLine($"{TAG}Start:");
-#endif
 			UpdateRenderTarget();
-
 		}
-
-//		// Update is called once per frame
-//		void Update()
-//		{
-//
-//		}
-
-		//================================================================================
 
 		/**
 		 * UVC機器が接続された
@@ -136,12 +108,12 @@ namespace Serenegiant.UVC
 		}
 
 		/**
-		 * 映像取得を開始した
-		 * IUVCDrawerの実装
-		 * @param manager 呼び出し元のUVCManager
-		 * @param device 対象となるUVC機器の情報
-		 * @param tex UVC機器からの映像を受け取るTextureインスタンス
-		 */
+		* Video capture has started
+		* IUVCDrawer implementation
+		* @param manager The calling UVCManager
+		* @param device Information about the target UVC device
+		* @param tex Texture instance to receive video from the UVC device
+		*/
 		public void OnUVCStartEvent(UVCManager manager, UVCDevice device, Texture tex)
 		{
 #if (!NDEBUG && DEBUG && ENABLE_LOG)
@@ -205,8 +177,8 @@ namespace Serenegiant.UVC
 
 		//================================================================================
 		/**
-		 * 描画先を更新
-		 */
+		* Update the rendering target
+		*/
 		private void UpdateRenderTarget()
 		{
 			bool found = false;
@@ -250,14 +222,14 @@ namespace Serenegiant.UVC
 		}
 
 		/**
-		 * テクスチャとして映像を描画するMaterialを取得する
-		 * 指定したGameObjectにSkybox/Renderer/RawImage/MaterialがあればそれからMaterialを取得する
-		 * それぞれが複数割り当てられている場合最初に見つかった使用可能ものを返す
-		 * 優先度: Skybox > Renderer > RawImage > Material
-		 * @param target
-		 * @return 見つからなければnullを返す
-		 */
-		UnityEngine.Object GetTargetMaterial(GameObject target/*NonNull*/)
+		* Gets a Material that renders the video as a texture.
+		* Retrieves the Material from the specified GameObject if it has a Skybox, Renderer, RawImage, or Material component.
+		* If multiple instances of a component type are assigned, returns the first usable one found.
+		* Priority: Skybox > Renderer > RawImage > Material
+		* @param target
+		* @return Returns null if not found.
+		*/
+		private UnityEngine.Object GetTargetMaterial(GameObject target/*NonNull*/)
 		{
 			// Skyboxの取得を試みる
 			var skyboxs = target.GetComponents<Skybox>();
@@ -341,30 +313,26 @@ namespace Serenegiant.UVC
 		}
 
 		/**
-		 * 映像取得開始時の処理
-		 * @param tex 映像を受け取るテクスチャ
-		 */
+		* Processing when video capture starts
+		* @param tex The texture that receives the video
+		*/
 		private void HandleOnStartPreview(Texture tex)
 		{
-#if (!NDEBUG && DEBUG && ENABLE_LOG)
-			Console.WriteLine($"{TAG}HandleOnStartPreview:({tex})");
-#endif
+			Debug.Log($"UVC texture: {tex.width} x {tex.height}");
 			int i = 0;
 			foreach (var target in TargetMaterials)
 			{
 				if (target is Material)
 				{
-#if (!NDEBUG && DEBUG && ENABLE_LOG)
-					Console.WriteLine($"{TAG}HandleOnStartPreview:assign Texture to Material({target})");
-#endif
+
+					Debug.Log($"Assigning texture {tex} to Material {target}");
+
 					SavedTextures[i++] = (target as Material).mainTexture;
 					(target as Material).mainTexture = tex;
 				}
 				else if (target is RawImage)
 				{
-#if (!NDEBUG && DEBUG && ENABLE_LOG)
-					Console.WriteLine($"{TAG}HandleOnStartPreview:assign Texture to RawImage({target})");
-#endif
+					Debug.Log($"Assigning texture {tex} to RawImage {target}");
 					SavedTextures[i++] = (target as RawImage).texture;
 					(target as RawImage).texture = tex;
 				}
@@ -372,8 +340,8 @@ namespace Serenegiant.UVC
 		}
 
 		/**
-		 * 映像取得が終了したときのUnity側の処理
-		 */
+		* Processing on the Unity side when video capture finishes
+		*/
 		private void HandleOnStopPreview()
 		{
 #if (!NDEBUG && DEBUG && ENABLE_LOG)

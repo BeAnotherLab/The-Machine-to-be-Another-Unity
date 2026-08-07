@@ -96,9 +96,8 @@ namespace Serenegiant.UVC
     
         //--------------------------------------------------------------------------------
         /**
-		 * IUVCSelectorがセットされていないとき
-		 * またはIUVCSelectorが解像度選択時にnullを
-		 * 返したときのデフォルトの解像度(幅)
+		* Default resolution (width) used when IUVCSelector is not set,
+		* or when IUVCSelector returns null during resolution selection.
 		*/
         public UInt32 DefaultWidth = 1280;
 		/**
@@ -734,9 +733,9 @@ namespace Serenegiant.UVC
 		private void StartPreview(UVCDevice device, UVCVideoSize size)
 		{
 			var info = CreateCameraIfNotExist(device);
-			if ((info != null) && !info.IsPreviewing) {
+			if (info != null && !info.IsPreviewing) {
 				if (!size.IsValid)
-				{	// 無効な解像度設定の時はCameraInfoから取得してみる
+				{	// If the resolution setting is invalid, try retrieving it from CameraInfo.
 					size = info.CurrentSize;
 				}
 				if (!size.IsValid)
@@ -1079,30 +1078,30 @@ namespace Serenegiant.UVC
 		 */
 		private IEnumerator Initialize()
 		{
-#if (!NDEBUG && DEBUG && ENABLE_LOG)
-			Console.WriteLine($"{TAG}Initialize:");
-#endif
+			yield return new WaitForSeconds(3);
+			Debug.Log("[UVC DEBUG] Initialize() entered, before grant permission");
+
 				yield return AndroidUtils.GrantCameraPermission((string permission, AndroidUtils.PermissionGrantResult result) =>
 				{
-#if (!NDEBUG && DEBUG && ENABLE_LOG)
-					Console.WriteLine($"{TAG}OnPermission:{permission}={result}");
-#endif
+					Debug.Log("[UVC DEBUG] Initialize() entered, after grant permission");
 					switch (result)
 					{
 						case AndroidUtils.PermissionGrantResult.PERMISSION_GRANT:
+							Debug.Log("[UVC DEBUG] PermissionGranted");
 							InitPlugin();
 							break;
 						case AndroidUtils.PermissionGrantResult.PERMISSION_DENY:
 							if (AndroidUtils.ShouldShowRequestPermissionRationale(AndroidUtils.PERMISSION_CAMERA))
 							{
-								// パーミッションを取得できなかった
-								// FIXME 説明用のダイアログ等を表示しないといけない
+								Console.WriteLine($"{TAG}Permission Denied");
+									
 							}
 							break;
 						case AndroidUtils.PermissionGrantResult.PERMISSION_DENY_AND_NEVER_ASK_AGAIN:
 							break;
 					}
 				});
+				Debug.Log("[UVC DEBUG] GrantCameraPermission coroutine FINISHED");
 
 			yield break;
 		}
@@ -1113,10 +1112,8 @@ namespace Serenegiant.UVC
 		 */
 		private void InitPlugin()
 		{
-#if (!NDEBUG && DEBUG && ENABLE_LOG)
-			Console.WriteLine($"{TAG}InitPlugin:");
-#endif
-			// IUVCDrawersが割り当てられているかどうかをチェック
+			Debug.Log("Initializing plugin");
+			// Check if IUVCDrawers is assigned
 			var hasDrawer = false;
 			if ((UVCDrawers != null) && (UVCDrawers.Length > 0))
 			{
@@ -1130,11 +1127,10 @@ namespace Serenegiant.UVC
 				}
 			}
 			if (!hasDrawer)
-			{   // インスペクタでIUVCDrawerが設定されていないときは
-				// このスクリプトがaddされているゲームオブジェクトからの取得を試みる
-#if (!NDEBUG && DEBUG && ENABLE_LOG)
-				Console.WriteLine($"{TAG}InitPlugin:has no IUVCDrawer, try to get from gameObject");
-#endif
+			{   // If IUVCDrawer is not set in the Inspector,
+				// attempt to retrieve it from the GameObject to which this script is attached.
+				Debug.Log("InitPlugin:has no IUVCDrawer, try to get from gameObject");
+				
 				var drawers = GetComponents(typeof(IUVCDrawer));
 				if ((drawers != null) && (drawers.Length > 0))
 				{
@@ -1146,14 +1142,13 @@ namespace Serenegiant.UVC
 					}
 				}
 			}
-#if (!NDEBUG && DEBUG && ENABLE_LOG)
 			Console.WriteLine($"{TAG}InitPlugin:num drawers={UVCDrawers.Length}");
-#endif
-			// aandusbのDeviceDetectorを読み込み要求
+			Debug.Log("got " + UVCDrawers.Length + " drawers from the gameobject");
+			
+			// Request to load aandusb's DeviceDetector
 			using (AndroidJavaClass clazz = new AndroidJavaClass(FQCN_DETECTOR))
 			{
-				clazz.CallStatic("initUVCDeviceDetector",
-					AndroidUtils.GetCurrentActivity());
+				clazz.CallStatic("initUVCDeviceDetector", AndroidUtils.GetCurrentActivity());
 			}
 		}
 
